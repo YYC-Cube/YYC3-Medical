@@ -5,8 +5,8 @@ export const siteConfig = {
   title: "YYC³-Med | AI-Powered Intelligent Medical System",
   description:
     "AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities",
-  url: "https://yyc-med.vercel.app",
-  ogImage: "https://yyc-med.vercel.app/logo-512.png",
+  url: "https://medical.yyc3.vip",
+  ogImage: "https://medical.yyc3.vip/favicon-512x512.png",
   links: {
     twitter: "https://twitter.com/yyc_med",
     github: "https://github.com/yyc-med",
@@ -22,7 +22,7 @@ export const siteConfig = {
   authors: [
     {
       name: "YYC³-Med",
-      url: "https://yyc-med.vercel.app",
+      url: "https://medical.yyc3.vip",
     },
   ],
   creator: "YYC³-Med",
@@ -34,7 +34,7 @@ export function constructMetadata({
   title = siteConfig.title,
   description = siteConfig.description,
   image = siteConfig.ogImage,
-  icons = "/favicon.ico",
+  icons = "/yyc3-icons/favicon/favicon.ico",
   noIndex = false,
 }: {
   title?: string
@@ -92,8 +92,8 @@ export const jsonLd = {
   name: "YYC³-Med",
   description:
     "AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities",
-  url: "https://yyc-med.vercel.app",
-  logo: "https://yyc-med.vercel.app/logo-512.png",
+  url: "https://medical.yyc3.vip",
+  logo: "https://medical.yyc3.vip/favicon-512x512.png",
   applicationCategory: "HealthApplication",
   operatingSystem: "Web",
   offers: {

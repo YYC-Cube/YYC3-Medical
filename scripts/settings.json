@@ -1,0 +1,44 @@
+{
+	"sqltools.connections": [
+		{
+				"name": "YYC3-Med",
+				"driver": "MySQL",
+				"server": "192.168.3.45",
+				"port": 3306,
+				"database": "yyc3_med",
+				"username": "yyc3_admin",
+				"password": "My151001",
+				"authProtocol": "default",
+				"ssl": false
+		},
+		{
+				"mysqlOptions": {
+						"authProtocol": "default",
+						"enableSsl": "Disabled"
+				},
+				"ssh": "Disabled",
+				"previewLimit": 50,
+				"server": "192.168.3.45",
+				"port": 3306,
+				"driver": "MariaDB",
+				"name": "YYC3-Med",
+				"group": "Medical AI",
+				"database": "yyc3_med",
+				"username": "yyc3_admin"
+		}
+	],
+	"sqltools.useNodeRuntime": true,
+	"sqltools.languageServerProtocol": "sql-language-server",
+	"sqltools.format.dialect": "mysql",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true,
+		"source.fixAll.eslint": true
+	},
+	"eslint.validate": ["typescript", "typescriptreact"],
+	"prettier.requireConfig": true,
+	"python.analysis.extraPaths": [
+		"./venv/lib/python3.*/site-packages",
+		"./.venv/lib/python3.*/site-packages"
+	]
+}

@@ -9,39 +9,60 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "48x48",
-      "type": "image/x-icon"
+      "src": "/yyc3-icons/pwa/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
     },
     {
-      "src": "/logo-192.png",
+      "src": "/yyc3-icons/pwa/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/yyc3-icons/pwa/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/yyc3-icons/pwa/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/yyc3-icons/pwa/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/yyc3-icons/pwa/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
     },
     {
-      "src": "/logo-512.png",
+      "src": "/yyc3-icons/pwa/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/yyc3-icons/pwa/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/yyc3-icons/webp/icon-192x192.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/yyc3-icons/webp/icon-512x512.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
     }
   ],
   "categories": ["health", "medical", "productivity"],
   "lang": "zh-CN",
   "dir": "ltr",
-  "scope": "/",
-  "screenshots": [
-    {
-      "src": "/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshot-narrow.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+  "scope": "/"
 }

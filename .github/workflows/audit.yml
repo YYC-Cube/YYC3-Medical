@@ -1,0 +1,22 @@
+name: Project Audit & DB Migrate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run lint
+      - run: npm run type-check
+      - run: ts-node scripts/audit-project.ts
+      - run: npm run generate:dbml
+      - run: npm run generate:migration

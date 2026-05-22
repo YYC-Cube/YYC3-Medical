@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  password   String
+  role       Role
+  created_at DateTime @default(now())
+  patients   Patient[]
+  records    MedicalRecord[]
+}
+
+model Patient {
+  id           Int      @id @default(autoincrement())
+  name         String
+  gender       Gender
+  birth_date   DateTime
+  contact_info String?
+  created_by   Int
+  created_at   DateTime @default(now())
+  creator      User     @relation(fields: [created_by], references: [id])
+  records      MedicalRecord[]
+}
+
+model MedicalRecord {
+  id          Int      @id @default(autoincrement())
+  patient_id  Int
+  diagnosis   String
+  confidence  Float
+  created_by  Int
+  created_at  DateTime @default(now())
+  patient     Patient  @relation(fields: [patient_id], references: [id])
+  creator     User     @relation(fields: [created_by], references: [id])
+}
+
+model ModelVariant {
+  id        Int    @id @default(autoincrement())
+  name      String
+  version   String
+  path      String
+  status    ModelStatus @default(archived)
+  updated_at DateTime @default(now())
+}
+
+model DiagnosisABTest {
+  id           Int    @id @default(autoincrement())
+  user_id      Int
+  patient_id   Int
+  model_variant String
+  test_group   TestGroup
+  result       String
+  created_at   DateTime @default(now())
+}
+
+model ModelRegistry {
+  id        Int    @id @default(autoincrement())
+  model_name String
+  version   String
+  path      String
+  status    ModelStatus @default(archived)
+  updated_at DateTime @default(now())
+}
+
+model AuditLog {
+  id        Int    @id @default(autoincrement())
+  user_id   Int
+  action    String
+  detail    String?
+  created_at DateTime @default(now())
+}
+
+enum ModelStatus {
+  active
+  archived
+}
+
+enum TestGroup {
+  A
+  B
+}
+
+enum Role {
+  admin
+  doctor
+  researcher
+}
+
+enum Gender {
+  male
+  female
+  other
+}

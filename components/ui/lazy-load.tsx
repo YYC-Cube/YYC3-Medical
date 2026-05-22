@@ -29,9 +29,9 @@ export function LazyComponent({
 
     const loadComponent = async () => {
       try {
-        const module = await component()
+        const mod = await component()
         if (isMounted) {
-          setComponent(() => module.default)
+          setComponent(() => mod.default)
           onLoad?.()
         }
       } catch (error) {

@@ -262,7 +262,7 @@ export function ModelDeployment() {
       case "in_progress":
         return (
           <Badge variant="warning" className="flex items-center gap-1">
-            <RefreshCw className="h-3 w-3" className="animate-spin" /> 进行中
+            <RefreshCw className="h-3 w-3 animate-spin" /> 进行中
           </Badge>
         )
       default:

@@ -1,32 +1,32 @@
-const nextJest = require("next/jest")
+const nextJest = require('next/jest');
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files
-  dir: "./",
-})
+  dir: './',
+});
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  moduleNameMapping: {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapper: {
     // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
-    "^@/components/(.*)$": "<rootDir>/components/$1",
-    "^@/pages/(.*)$": "<rootDir>/pages/$1",
-    "^@/lib/(.*)$": "<rootDir>/lib/$1",
-    "^@/hooks/(.*)$": "<rootDir>/hooks/$1",
-    "^@/services/(.*)$": "<rootDir>/services/$1",
-    "^@/types/(.*)$": "<rootDir>/types/$1",
-    "^@/store/(.*)$": "<rootDir>/store/$1",
+    '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/lib/(.*)$': '<rootDir>/lib/$1',
+    '^@/hooks/(.*)$': '<rootDir>/hooks/$1',
+    '^@/services/(.*)$': '<rootDir>/services/$1',
+    '^@/types/(.*)$': '<rootDir>/types/$1',
+    '^@/store/(.*)$': '<rootDir>/store/$1',
   },
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: 'node',
   collectCoverageFrom: [
-    "components/**/*.{js,jsx,ts,tsx}",
-    "pages/**/*.{js,jsx,ts,tsx}",
-    "lib/**/*.{js,jsx,ts,tsx}",
-    "hooks/**/*.{js,jsx,ts,tsx}",
-    "services/**/*.{js,jsx,ts,tsx}",
-    "!**/*.d.ts",
-    "!**/node_modules/**",
+    'components/**/*.{js,jsx,ts,tsx}',
+    'pages/**/*.{js,jsx,ts,tsx}',
+    'lib/**/*.{js,jsx,ts,tsx}',
+    'hooks/**/*.{js,jsx,ts,tsx}',
+    'services/**/*.{js,jsx,ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**',
   ],
   coverageThreshold: {
     global: {
@@ -36,7 +36,54 @@ const customJestConfig = {
       statements: 70,
     },
   },
-}
+  roots: ['<rootDir>/app', '<rootDir>/tests'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/utils/'],
+};
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-module.exports = createJestConfig(customJestConfig)
+module.exports = createJestConfig({
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapper: {
+    '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/pages/(.*)$': '<rootDir>/pages/$1',
+    '^@/lib/(.*)$': '<rootDir>/lib/$1',
+    '^@/hooks/(.*)$': '<rootDir>/hooks/$1',
+    '^@/services/(.*)$': '<rootDir>/services/$1',
+    '^@/types/(.*)$': '<rootDir>/types/$1',
+    '^@/store/(.*)$': '<rootDir>/store/$1',
+  },
+  testEnvironment: 'jsdom',
+  collectCoverageFrom: [
+    'components/**/*.{js,jsx,ts,tsx}',
+    'pages/**/*.{js,jsx,ts,tsx}',
+    'lib/**/*.{js,jsx,ts,tsx}',
+    'hooks/**/*.{js,jsx,ts,tsx}',
+    'services/**/*.{js,jsx,ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**',
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
+  roots: ['<rootDir>/app', '<rootDir>/tests'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/tests/utils/'],
+});

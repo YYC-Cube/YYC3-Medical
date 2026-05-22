@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import { BrandLogo } from "@/components/brand/logo"
+import { Logo as BrandLogo } from "@/components/brand/logo"
 import { BrandFormula } from "@/components/brand/formula"
-import { BrandSlogan } from "@/components/brand/slogan"
+import { Slogan as BrandSlogan } from "@/components/brand/slogan"
 import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
 
 export const metadata: Metadata = {

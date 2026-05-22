@@ -1,0 +1,24 @@
+name: Turbo Remote Cache
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  turbo-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+      - name: Setup Turbo Remote Cache
+        run: npx turbo login && npx turbo link
+      - name: Build with Turbo
+        run: npx turbo run build

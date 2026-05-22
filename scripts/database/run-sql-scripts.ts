@@ -1,18 +1,10 @@
 #!/usr/bin/env node
 
-/**
- * 言语云³医疗AI系统 - 数据库脚本执行工具
- * YYC³-Med Database Script Runner
- * 创建时间: 2024-01-15
- * 版本: v1.0.0
- */
-
 import { readFileSync, existsSync } from "fs"
 import { join, resolve } from "path"
-import { Client } from "pg"
 import * as dotenv from "dotenv"
+import mysql from "mysql2/promise"
 
-// 加载环境变量
 dotenv.config()
 
 interface DatabaseConfig {
@@ -21,7 +13,6 @@ interface DatabaseConfig {
   database: string
   user: string
   password: string
-  ssl?: boolean
 }
 
 interface ScriptResult {
@@ -32,54 +23,38 @@ interface ScriptResult {
   rowsAffected?: number
 }
 
-class DatabaseScriptRunner {
-  private client: Client
+class MySQLScriptRunner {
   private config: DatabaseConfig
+  private connection!: mysql.Connection
 
   constructor(config: DatabaseConfig) {
     this.config = config
-    this.client = new Client({
-      host: config.host,
-      port: config.port,
-      database: config.database,
-      user: config.user,
-      password: config.password,
-      ssl: config.ssl ? { rejectUnauthorized: false } : false,
-    })
   }
 
-  /**
-   * 连接到数据库
-   */
   async connect(): Promise<void> {
     try {
-      await this.client.connect()
+      this.connection = await mysql.createConnection({
+        host: this.config.host,
+        port: this.config.port,
+        user: this.config.user,
+        password: this.config.password,
+        database: this.config.database,
+        multipleStatements: true,
+      })
       console.log("✅ 数据库连接成功")
-
-      // 测试连接
-      const result = await this.client.query("SELECT version()")
-      console.log(`📊 PostgreSQL版本: ${result.rows[0].version.split(" ")[1]}`)
     } catch (error) {
       console.error("❌ 数据库连接失败:", error)
       throw error
     }
   }
 
-  /**
-   * 断开数据库连接
-   */
   async disconnect(): Promise<void> {
-    try {
-      await this.client.end()
+    if (this.connection) {
+      await this.connection.end()
       console.log("✅ 数据库连接已关闭")
-    } catch (error) {
-      console.error("❌ 关闭数据库连接失败:", error)
     }
   }
 
-  /**
-   * 执行单个SQL脚本
-   */
   async executeScript(scriptPath: string): Promise<ScriptResult> {
     const filename = scriptPath.split("/").pop() || scriptPath
     const startTime = Date.now()
@@ -92,8 +67,6 @@ class DatabaseScriptRunner {
       }
 
       const sqlContent = readFileSync(scriptPath, "utf-8")
-
-      // 分割SQL语句（简单的分割，基于分号）
       const statements = sqlContent
         .split(";")
         .map((stmt) => stmt.trim())
@@ -101,33 +74,21 @@ class DatabaseScriptRunner {
 
       let totalRowsAffected = 0
 
-      // 开始事务
-      await this.client.query("BEGIN")
-
-      try {
-        for (const statement of statements) {
-          if (statement.trim()) {
-            const result = await this.client.query(statement)
-            totalRowsAffected += result.rowCount || 0
-          }
+      for (const statement of statements) {
+        const [result] = await this.connection.execute(statement)
+        if ("affectedRows" in result) {
+          totalRowsAffected += result.affectedRows
         }
+      }
 
-        // 提交事务
-        await this.client.query("COMMIT")
+      const duration = Date.now() - startTime
+      console.log(`✅ 脚本执行成功: ${filename} (${duration}ms, 影响行数: ${totalRowsAffected})`)
 
-        const duration = Date.now() - startTime
-        console.log(`✅ 脚本执行成功: ${filename} (${duration}ms, 影响行数: ${totalRowsAffected})`)
-
-        return {
-          filename,
-          success: true,
-          duration,
-          rowsAffected: totalRowsAffected,
-        }
-      } catch (error) {
-        // 回滚事务
-        await this.client.query("ROLLBACK")
-        throw error
+      return {
+        filename,
+        success: true,
+        duration,
+        rowsAffected: totalRowsAffected,
       }
     } catch (error) {
       const duration = Date.now() - startTime
@@ -145,123 +106,19 @@ class DatabaseScriptRunner {
     }
   }
 
-  /**
-   * 批量执行SQL脚本
-   */
-  async executeScripts(scriptPaths: string[]): Promise<ScriptResult[]> {
-    const results: ScriptResult[] = []
-
-    console.log(`📋 准备执行 ${scriptPaths.length} 个脚本`)
-
-    for (const scriptPath of scriptPaths) {
-      const result = await this.executeScript(scriptPath)
-      results.push(result)
-
-      // 如果脚本执行失败，询问是否继续
-      if (!result.success) {
-        console.log("⚠️  脚本执行失败，是否继续执行剩余脚本？")
-        // 在实际使用中，可以添加用户输入处理
-        // 这里默认继续执行
-      }
-    }
-
-    return results
-  }
-
-  /**
-   * 检查数据库是否存在
-   */
-  async checkDatabaseExists(): Promise<boolean> {
-    try {
-      const result = await this.client.query("SELECT 1 FROM pg_database WHERE datname = $1", [this.config.database])
-      return result.rows.length > 0
-    } catch (error) {
-      return false
-    }
-  }
-
-  /**
-   * 创建数据库（如果不存在）
-   */
-  async createDatabaseIfNotExists(): Promise<void> {
-    // 连接到默认数据库来创建新数据库
-    const defaultClient = new Client({
-      ...this.config,
-      database: "postgres",
-    })
-
-    try {
-      await defaultClient.connect()
-
-      const exists = await defaultClient.query("SELECT 1 FROM pg_database WHERE datname = $1", [this.config.database])
-
-      if (exists.rows.length === 0) {
-        console.log(`🔨 创建数据库: ${this.config.database}`)
-        await defaultClient.query(`CREATE DATABASE "${this.config.database}"`)
-        console.log(`✅ 数据库创建成功: ${this.config.database}`)
-      } else {
-        console.log(`📊 数据库已存在: ${this.config.database}`)
-      }
-    } catch (error) {
-      console.error("❌ 创建数据库失败:", error)
-      throw error
-    } finally {
-      await defaultClient.end()
-    }
-  }
-
-  /**
-   * 获取数据库表列表
-   */
   async getTables(): Promise<string[]> {
-    try {
-      const result = await this.client.query(`
-        SELECT tablename 
-        FROM pg_tables 
-        WHERE schemaname = 'public'
-        ORDER BY tablename
-      `)
-      return result.rows.map((row) => row.tablename)
-    } catch (error) {
-      console.error("❌ 获取表列表失败:", error)
-      return []
-    }
+    const [rows] = await this.connection.query(
+      `SELECT table_name FROM information_schema.tables WHERE table_schema = ?`,
+      [this.config.database],
+    )
+    return (rows as any[]).map((row) => row.table_name)
   }
 
-  /**
-   * 检查表是否存在
-   */
-  async tableExists(tableName: string): Promise<boolean> {
-    try {
-      const result = await this.client.query(
-        `
-        SELECT 1 FROM information_schema.tables 
-        WHERE table_schema = 'public' 
-        AND table_name = $1
-      `,
-        [tableName],
-      )
-      return result.rows.length > 0
-    } catch (error) {
-      return false
-    }
-  }
-
-  /**
-   * 获取表的行数
-   */
   async getTableRowCount(tableName: string): Promise<number> {
-    try {
-      const result = await this.client.query(`SELECT COUNT(*) as count FROM "${tableName}"`)
-      return Number.parseInt(result.rows[0].count)
-    } catch (error) {
-      return 0
-    }
+    const [rows] = await this.connection.query(`SELECT COUNT(*) AS count FROM \`${tableName}\``)
+    return Number((rows as any[])[0].count)
   }
 
-  /**
-   * 生成执行报告
-   */
   generateReport(results: ScriptResult[]): void {
     console.log("\n📊 执行报告")
     console.log("=".repeat(50))
@@ -289,36 +146,27 @@ class DatabaseScriptRunner {
   }
 }
 
-/**
- * 主执行函数
- */
 async function main() {
-  console.log("🏥 言语云³医疗AI系统 - 数据库初始化工具")
+  console.log("🏥 言语云³医疗AI系统 - MySQL数据库初始化工具")
   console.log("=".repeat(60))
 
-  // 从环境变量或默认值获取数据库配置
   const config: DatabaseConfig = {
     host: process.env.DB_HOST || "localhost",
-    port: Number.parseInt(process.env.DB_PORT || "5432"),
+    port: Number(process.env.DB_PORT || "3306"),
     database: process.env.DB_NAME || "yyc3_med",
-    user: process.env.DB_USER || "postgres",
+    user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "password",
-    ssl: process.env.DB_SSL === "true",
   }
 
   console.log(`🔗 连接配置: ${config.user}@${config.host}:${config.port}/${config.database}`)
 
-  const runner = new DatabaseScriptRunner(config)
+  const runner = new MySQLScriptRunner(config)
 
   try {
-    // 连接数据库
     await runner.connect()
 
-    // 获取脚本目录
     const scriptsDir = resolve(__dirname)
     const scriptFiles = ["create-tables.sql", "insert-initial-data.sql", "maintenance-procedures.sql"]
-
-    // 检查脚本文件是否存在
     const existingScripts = scriptFiles.filter((file) => existsSync(join(scriptsDir, file)))
 
     if (existingScripts.length === 0) {
@@ -326,22 +174,21 @@ async function main() {
       return
     }
 
-    console.log(`📁 找到 ${existingScripts.length} 个脚本文件`)
-
-    // 执行脚本
     const scriptPaths = existingScripts.map((file) => join(scriptsDir, file))
-    const results = await runner.executeScripts(scriptPaths)
+    const results = []
 
-    // 生成报告
+    for (const path of scriptPaths) {
+      const result = await runner.executeScript(path)
+      results.push(result)
+    }
+
     runner.generateReport(results)
 
-    // 显示数据库状态
     console.log("\n📊 数据库状态:")
     const tables = await runner.getTables()
     console.log(`📋 表数量: ${tables.length}`)
 
     for (const table of tables.slice(0, 10)) {
-      // 只显示前10个表
       const count = await runner.getTableRowCount(table)
       console.log(`   - ${table}: ${count} 行`)
     }
@@ -357,45 +204,27 @@ async function main() {
   }
 }
 
+main()run-sql-scripts.ts
+
 /**
  * 命令行参数处理
  */
 function parseArguments() {
   const args = process.argv.slice(2)
-  const options = {
-    help: false,
-    createDb: false,
-    skipData: false,
-    force: false,
+  return {
+    help: args.includes("--help") || args.includes("-h"),
+    createDb: args.includes("--create-db"),
+    skipData: args.includes("--skip-data"),
+    force: args.includes("--force"),
   }
-
-  for (const arg of args) {
-    switch (arg) {
-      case "--help":
-      case "-h":
-        options.help = true
-        break
-      case "--create-db":
-        options.createDb = true
-        break
-      case "--skip-data":
-        options.skipData = true
-        break
-      case "--force":
-        options.force = true
-        break
-    }
-  }
-
-  return options
 }
 
 /**
  * 显示帮助信息
  */
-function showHelp() {
+ function showHelp() {
   console.log(`
-🏥 言语云³医疗AI系统 - 数据库脚本执行工具
+🏥 言语云³医疗AI系统 - MySQL数据库脚本执行工具
 
 用法: node run-sql-scripts.ts [选项]
 
@@ -407,29 +236,49 @@ function showHelp() {
 
 环境变量:
   DB_HOST           数据库主机 (默认: localhost)
-  DB_PORT           数据库端口 (默认: 5432)
+  DB_PORT           数据库端口 (默认: 3306)
   DB_NAME           数据库名称 (默认: yyc3_med)
-  DB_USER           数据库用户 (默认: postgres)
+  DB_USER           数据库用户 (默认: root)
   DB_PASSWORD       数据库密码 (默认: password)
-  DB_SSL            是否使用SSL (默认: false)
 
 示例:
-  # 基本执行
-  npm run db:init
-  
-  # 创建数据库并初始化
-  npm run db:init -- --create-db
-  
-  # 只创建表结构，跳过数据
-  npm run db:init -- --skip-data
-  
-  # 强制执行所有脚本
-  npm run db:init -- --force
+  npm run init
+  npm run init:create-db
+  npm run init:schema-only
 `)
 }
 
-// 如果直接运行此脚本
-if (require.main === module) {
+/**
+ * 创建数据库
+ */
+async function createDatabaseIfNotExists(config: DatabaseConfig): Promise<void> {
+  const connection = await mysql.createConnection({
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    password: config.password,
+  })
+
+  const [rows] = await connection.query(
+    `SELECT SCHEMA_NAME FROM information_schema.schemata WHERE SCHEMA_NAME = ?`,
+    [config.database],
+  )
+
+  if ((rows as any[]).length === 0) {
+    console.log(`🔨 创建数据库: ${config.database}`)
+    await connection.query(`CREATE DATABASE \`${config.database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`)
+    console.log(`✅ 数据库创建成功`)
+  } else {
+    console.log(`📊 数据库已存在: ${config.database}`)
+  }
+
+  await connection.end()
+}
+
+/**
+ * 主入口逻辑更新
+ */
+ if (require.main === module) {
   const options = parseArguments()
 
   if (options.help) {
@@ -437,10 +286,45 @@ if (require.main === module) {
     process.exit(0)
   }
 
-  main().catch((error) => {
+  const config: DatabaseConfig = {
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || "3306"),
+    database: process.env.DB_NAME || "yyc3_med",
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "password",
+  }
+
+  ;(async () => {
+    if (options.createDb) {
+      await createDatabaseIfNotExists(config)
+    }
+
+    const runner = new MySQLScriptRunner(config)
+    await runner.connect()
+
+    const scriptsDir = resolve(__dirname)
+    const scriptFiles = ["create-tables.sql"]
+    if (!options.skipData) {
+      scriptFiles.push("insert-initial-data.sql")
+    }
+    scriptFiles.push("maintenance-procedures.sql")
+
+    const existingScripts = scriptFiles.filter((file) => existsSync(join(scriptsDir, file)))
+    const scriptPaths = existingScripts.map((file) => join(scriptsDir, file))
+    const results = await runner.executeScripts(scriptPaths)
+
+    runner.generateReport(results)
+
+    const tables = await runner.getTables()
+    console.log(`📋 表数量: ${tables.length}`)
+    for (const table of tables.slice(0, 10)) {
+      const count = await runner.getTableRowCount(table)
+      console.log(`   - ${table}: ${count} 行`)
+    }
+
+    await runner.disconnect()
+  })().catch((error) => {
     console.error("💥 程序异常退出:", error)
     process.exit(1)
   })
 }
-
-export { DatabaseScriptRunner, type DatabaseConfig, type ScriptResult }

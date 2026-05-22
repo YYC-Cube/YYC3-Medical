@@ -1,7 +1,14 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileQuestion, Home, Search } from "lucide-react"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { FileQuestion, Home, Search } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -35,5 +42,5 @@ export default function NotFound() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

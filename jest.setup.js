@@ -1,19 +1,19 @@
-"use client"
+// Polyfill for TextEncoder in Node.js
+global.TextEncoder = require('util').TextEncoder;
 
-import "@testing-library/jest-dom"
-import jest from "jest"
+import '@testing-library/jest-dom';
+// jest is already mocked below, no need to require it again
 
 // Mock Next.js router
-jest.mock("next/router", () => ({
+jest.mock('next/router', () => ({
   useRouter() {
     return {
-      route: "/",
-      pathname: "/",
+      route: '/',
+      pathname: '/',
       query: {},
-      asPath: "/",
+      asPath: '/',
       push: jest.fn(),
       pop: jest.fn(),
-      reload: jest.fn(),
       back: jest.fn(),
       prefetch: jest.fn().mockResolvedValue(undefined),
       beforePopState: jest.fn(),
@@ -22,12 +22,12 @@ jest.mock("next/router", () => ({
         off: jest.fn(),
         emit: jest.fn(),
       },
-    }
+    };
   },
-}))
+}));
 
 // Mock Next.js navigation
-jest.mock("next/navigation", () => ({
+jest.mock('next/navigation', () => ({
   useRouter() {
     return {
       push: jest.fn(),
@@ -36,24 +36,24 @@ jest.mock("next/navigation", () => ({
       back: jest.fn(),
       forward: jest.fn(),
       refresh: jest.fn(),
-    }
+    };
   },
   useSearchParams() {
-    return new URLSearchParams()
+    return new URLSearchParams();
   },
   usePathname() {
-    return "/"
+    return '/';
   },
-}))
+}));
 
 // Mock Next.js Image component
-jest.mock("next/image", () => ({
+jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props) => {
+  default: props => {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img {...props} />
+    return <img {...props} />;
   },
-}))
+}));
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -61,7 +61,7 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
@@ -69,12 +69,12 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock matchMedia
-Object.defineProperty(window, "matchMedia", {
+Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation((query) => ({
+  value: jest.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -84,4 +84,4 @@ Object.defineProperty(window, "matchMedia", {
     removeEventListener: jest.fn(),
     dispatchEvent: jest.fn(),
   })),
-})
+});

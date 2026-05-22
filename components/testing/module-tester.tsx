@@ -81,12 +81,10 @@ export function ModuleTester() {
 
   // 模拟测试单个模块
   const testModule = async (index: number): Promise<TestResult> => {
-    const module = medicalModules[index]
+    const mod = medicalModules[index]
 
-    // 模拟测试延迟
     await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
 
-    // 模拟测试结果
     const testScenarios = [
       { status: "success", message: "模块运行正常", probability: 0.7 },
       { status: "warning", message: "模块运行但有警告", probability: 0.2 },
@@ -106,10 +104,10 @@ export function ModuleTester() {
     }
 
     return {
-      ...module,
-      status: result.status as any,
+      ...mod,
+      status: result.status as TestResult["status"],
       message: result.message,
-      details: generateTestDetails(module.module, result.status),
+      details: generateTestDetails(mod.module, result.status),
     }
   }
 

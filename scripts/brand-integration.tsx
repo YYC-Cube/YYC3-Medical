@@ -111,7 +111,7 @@ export class BrandIntegration {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://yyc-med.vercel.app"),
+  metadataBase: new URL("https://medical.yyc3.vip"),
   alternates: {
     canonical: "/",
     languages: {
@@ -122,13 +122,13 @@ export class BrandIntegration {
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    url: "https://yyc-med.vercel.app",
+    url: "https://medical.yyc3.vip",
     title: "${this.brandConfig.title.en}",
     description: "${this.brandConfig.description.en}",
     siteName: "${this.brandConfig.name.en}",
     images: [
       {
-        url: "/logo-512.png",
+        url: "/yyc3-icons/pwa/icon-512x512.png",
         width: 512,
         height: 512,
         alt: "${this.brandConfig.name.en} Logo",
@@ -139,7 +139,7 @@ export class BrandIntegration {
     card: "summary_large_image",
     title: "${this.brandConfig.title.en}",
     description: "${this.brandConfig.description.en}",
-    images: ["/logo-512.png"],
+    images: ["/yyc3-icons/pwa/icon-512x512.png"],
     creator: "@yyc_med",
   },
   robots: {
@@ -154,12 +154,12 @@ export class BrandIntegration {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo-192.png",
+    icon: "/yyc3-icons/favicon/favicon.ico",
+    shortcut: "/yyc3-icons/favicon/favicon.ico",
+    apple: "/yyc3-icons/pwa/icon-192x192.png",
     other: {
       rel: "apple-touch-icon-precomposed",
-      url: "/logo-192.png",
+      url: "/yyc3-icons/pwa/icon-192x192.png",
     },
   },
   manifest: "/manifest.json",
@@ -217,7 +217,7 @@ export function Logo({
         animated && "animate-pulse"
       )}>
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/YYC%C2%B3-%E5%BE%BD%E6%A0%87-D4DNFGgyeOlUR8oO0JVSSVwfJBa92N.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="YYC³-Med Logo"
           width={width}
           height={height}
@@ -322,8 +322,8 @@ export const siteConfig = {
   name: "${this.brandConfig.name.en}",
   title: "${this.brandConfig.title.en}",
   description: "${this.brandConfig.description.en}",
-  url: "https://yyc-med.vercel.app",
-  ogImage: "https://yyc-med.vercel.app/logo-512.png",
+  url: "https://medical.yyc3.vip",
+  ogImage: "https://medical.yyc3.vip/favicon-512x512.png",
   links: {
     twitter: "https://twitter.com/yyc_med",
     github: "https://github.com/yyc-med",
@@ -332,7 +332,7 @@ export const siteConfig = {
   authors: [
     {
       name: "${this.brandConfig.name.en}",
-      url: "https://yyc-med.vercel.app",
+      url: "https://medical.yyc3.vip",
     },
   ],
   creator: "${this.brandConfig.name.en}",
@@ -344,7 +344,7 @@ export function constructMetadata({
   title = siteConfig.title,
   description = siteConfig.description,
   image = siteConfig.ogImage,
-  icons = "/favicon.ico",
+  icons = "/yyc3-icons/favicon/favicon.ico",
   noIndex = false,
 }: {
   title?: string
@@ -401,8 +401,8 @@ export const jsonLd = {
   "@type": "SoftwareApplication",
   "name": "${this.brandConfig.name.en}",
   "description": "${this.brandConfig.description.en}",
-  "url": "https://yyc-med.vercel.app",
-  "logo": "https://yyc-med.vercel.app/logo-512.png",
+  "url": "https://medical.yyc3.vip",
+  "logo": "https://medical.yyc3.vip/favicon-512x512.png",
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Web",
   "offers": {
@@ -487,18 +487,18 @@ export function getBrandKeywords(language: Language = "zh") {
       orientation: "portrait-primary",
       icons: [
         {
-          src: "/favicon.ico",
+          src: "/yyc3-icons/favicon/favicon.ico",
           sizes: "48x48",
           type: "image/x-icon",
         },
         {
-          src: "/logo-192.png",
+          src: "/yyc3-icons/pwa/icon-192x192.png",
           sizes: "192x192",
           type: "image/png",
           purpose: "maskable any",
         },
         {
-          src: "/logo-512.png",
+          src: "/yyc3-icons/pwa/icon-512x512.png",
           sizes: "512x512",
           type: "image/png",
           purpose: "maskable any",

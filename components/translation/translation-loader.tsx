@@ -66,7 +66,7 @@ export function TranslationLoader({
         className="mb-4"
       >
         <Image
-          src="/yanyu-shield-logo.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
           width={logoSize}
           height={logoSize}

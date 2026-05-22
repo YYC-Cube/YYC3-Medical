@@ -33,7 +33,7 @@ export function CloudLogo({ size = "md", animated = true, className = "" }: Clou
     return (
       <div className={`relative ${className}`} style={{ width, height }}>
         <Image
-          src="/yanyu-shield-logo.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
           width={width}
           height={height}
@@ -59,7 +59,7 @@ export function CloudLogo({ size = "md", animated = true, className = "" }: Clou
         transition={{ duration: 0.3 }}
       >
         <Image
-          src="/yanyu-shield-logo.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
           width={width}
           height={height}

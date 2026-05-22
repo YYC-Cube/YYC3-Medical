@@ -36,7 +36,7 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
     return (
       <div className={cn("relative flex items-center", className)}>
         <Image
-          src="/yanyu-shield-logo.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
           width={width}
           height={height}
@@ -66,7 +66,7 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
         transition={{ duration: 0.3 }}
       >
         <Image
-          src="/yanyu-shield-logo.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
           width={width}
           height={height}

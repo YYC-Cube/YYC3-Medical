@@ -1,7 +1,15 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import AccessControlClient from "@/components/security/access-control-client"
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '访问控制 | YYC³-Med',
+  description:
+    'YYC³-Med AI-Powered Intelligent Medical System. 言启立方于万象，语枢智云守健康. Words Initiate Cube Amid Vast Scenarios, Language Serves as Core, Smart Cloud Guards Health',
+};
+
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import AccessControlClient from '@/components/security/access-control-client';
 
 export default function AccessControlPage() {
   return (
@@ -14,5 +22,5 @@ export default function AccessControlPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

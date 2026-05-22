@@ -117,7 +117,7 @@ export function TranslationProgress({
                 className="relative z-10"
               >
                 <Image
-                  src="/yanyu-shield-logo.png"
+                  src="/yyc3-icons/pwa/icon-512x512.png"
                   alt="言语云³ Logo"
                   width={isMobile ? 120 : 160}
                   height={isMobile ? 120 : 160}

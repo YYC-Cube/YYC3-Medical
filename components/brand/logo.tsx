@@ -24,7 +24,7 @@ export function Logo({ size = "md", className, showText = false, animated = fals
     <div className={cn("flex items-center gap-2", className)}>
       <div className={cn("relative", animated && "animate-pulse")}>
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/YYC%C2%B3-%E5%BE%BD%E6%A0%87-D4DNFGgyeOlUR8oO0JVSSVwfJBa92N.png"
+          src="/yyc3-icons/pwa/icon-512x512.png"
           alt="YYC³-Med Logo"
           width={width}
           height={height}

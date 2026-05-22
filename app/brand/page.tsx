@@ -7,7 +7,7 @@ import { VoiceSystem } from "@/components/brand/voice-system"
 import { StorySystem } from "@/components/brand/story-system"
 import { UXConsistency } from "@/components/brand/ux-consistency"
 import { AssetManagement } from "@/components/brand/asset-management"
-import { BrandLogo } from "@/components/brand/logo"
+import { Logo as BrandLogo } from "@/components/brand/logo"
 
 export const metadata: Metadata = {
   title: "品牌系统 | 言语医枢³智能诊疗系统",

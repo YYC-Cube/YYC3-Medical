@@ -66,11 +66,13 @@ export const breakpoints = {
 
 // 便捷的断点 hooks
 export const useIsMobile = () => {
-  return useMediaQuery(breakpoints.md) === false
+  return !useMediaQuery(breakpoints.md)
 }
 
 export const useIsTablet = () => {
-  return useMediaQuery(breakpoints.md) && useMediaQuery(breakpoints.lg) === false
+  const isMd = useMediaQuery(breakpoints.md)
+  const isLg = useMediaQuery(breakpoints.lg)
+  return isMd && !isLg
 }
 
 export const useIsDesktop = () => {
