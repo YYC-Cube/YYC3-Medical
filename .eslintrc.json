@@ -11,36 +11,32 @@
       "warn",
       {
         "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_"
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
       }
     ],
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-var-requires": "error",
-    "@typescript-eslint/no-inferrable-types": "warn",
+    "@typescript-eslint/no-inferrable-types": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "react/display-name": "warn",
+    "react/display-name": "off",
     "react/jsx-key": "error",
     "react/jsx-no-duplicate-props": "error",
     "react/jsx-no-undef": "error",
     "react/no-unescaped-entities": "off",
+    "@next/next/no-img-element": "off",
     "prefer-const": "error",
     "no-var": "error",
-    "no-console": [
-      "warn",
-      {
-        "allow": [
-          "warn",
-          "error"
-        ]
-      }
-    ],
+    "no-console": "off",
     "no-debugger": "error",
     "no-duplicate-imports": "off",
-    "no-unused-expressions": "off"
+    "no-unused-expressions": "off",
+    "import/no-anonymous-default-export": "off",
+    "react-hooks/exhaustive-deps": "off"
   },
   "ignorePatterns": [
     "node_modules/",
