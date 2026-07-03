@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { Save, Clock, Shield, Copy, RefreshCw, AlertTriangle, Plus, X } from 'lucide-react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
+import { AlertTriangle, Clock, Copy, Plus, RefreshCw, Save, Shield } from 'lucide-react'
+import { useState } from "react"
 
 export function ApiSettings() {
   const [generalSettings, setGeneralSettings] = useState({
@@ -116,7 +116,7 @@ export function ApiSettings() {
     setNewKeyName("")
   }
 
-  const handleRevokeKey = (id) => {
+  const handleRevokeKey = (id: number) => {
     setApiKeys(
       apiKeys.map((key) =>
         key.id === id ? { ...key, status: "revoked" } : key
@@ -128,7 +128,7 @@ export function ApiSettings() {
     })
   }
 
-  const handleRegenerateKey = (id) => {
+  const handleRegenerateKey = (id: number) => {
     const mockKey = `api_key_${Math.random().toString(36).substring(2, 15)}`
     setApiKeys(
       apiKeys.map((key) =>
@@ -141,7 +141,7 @@ export function ApiSettings() {
     })
   }
 
-  const handleCopyKey = (key) => {
+  const handleCopyKey = (key: string) => {
     navigator.clipboard.writeText(key)
     toast({
       title: "已复制到剪贴板",
@@ -732,7 +732,7 @@ export function ApiSettings() {
               创建一个新的API密钥以访问系统API。请妥善保管您的密钥。
             </DialogDescription>
           </DialogHeader>
-          
+
           {!generatedKey ? (
             <div className="space-y-4 py-4">
               <div className="space-y-2">

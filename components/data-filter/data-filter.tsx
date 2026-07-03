@@ -1,16 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
-import { format } from "date-fns"
-import { zhCN } from "date-fns/locale"
-import { Filter, X, CalendarIcon } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTranslation } from "@/hooks/use-translation"
+import { zhCN } from "date-fns/locale"
+import { CalendarIcon, Filter, X } from "lucide-react"
+import { useState } from "react"
 
 export interface FilterField {
   id: string
@@ -36,9 +35,9 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
   const [currentField, setCurrentField] = useState<string>("")
   const [currentValue, setCurrentValue] = useState<any>("")
   const [currentOperator, setCurrentOperator] = useState<string>("eq")
-  const { t } = useTranslation()
+  const { tSync } = useTranslation()
 
-  useEffect(() => {
+  useEffectSync(() => {
     onFilterChange(filters)
   }, [filters, onFilterChange])
 
@@ -72,28 +71,28 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
     switch (fieldType) {
       case "text":
         return [
-          { value: "eq", label: t("equals") },
-          { value: "contains", label: t("contains") },
-          { value: "startsWith", label: t("startsWith") },
-          { value: "endsWith", label: t("endsWith") },
+          { value: "eq", label: tSync("equals") },
+          { value: "contains", label: tSync("contains") },
+          { value: "startsWith", label: tSync("startsWith") },
+          { value: "endsWith", label: tSync("endsWith") },
         ]
       case "number":
         return [
-          { value: "eq", label: t("equals") },
-          { value: "gt", label: t("greaterThan") },
-          { value: "lt", label: t("lessThan") },
-          { value: "gte", label: t("greaterThanOrEqual") },
-          { value: "lte", label: t("lessThanOrEqual") },
+          { value: "eq", label: tSync("equals") },
+          { value: "gt", label: tSync("greaterThan") },
+          { value: "lt", label: tSync("lessThan") },
+          { value: "gte", label: tSync("greaterThanOrEqual") },
+          { value: "lte", label: tSync("lessThanOrEqual") },
         ]
       case "date":
         return [
-          { value: "eq", label: t("equals") },
-          { value: "gt", label: t("after") },
-          { value: "lt", label: t("before") },
-          { value: "between", label: t("between") },
+          { value: "eq", label: tSync("equals") },
+          { value: "gt", label: tSync("after") },
+          { value: "lt", label: tSync("before") },
+          { value: "between", label: tSync("between") },
         ]
       default:
-        return [{ value: "eq", label: t("equals") }]
+        return [{ value: "eq", label: tSync("equals") }]
     }
   }
 
@@ -106,7 +105,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
         return (
           <Select value={currentValue} onValueChange={setCurrentValue}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={t("selectValue")} />
+              <SelectValue placeholder={tSync("selectValue")} />
             </SelectTrigger>
             <SelectContent>
               {field.options?.map((option) => (
@@ -123,7 +122,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {currentValue ? format(currentValue, "PPP", { locale: zhCN }) : t("selectDate")}
+                {currentValue ? formatSync(currentValue, "PPP", { locale: zhCN }) : tSync("selectDate")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -137,18 +136,18 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
             type="number"
             value={currentValue}
             onChange={(e) => setCurrentValue(e.target.value)}
-            placeholder={t("enterValue")}
+            placeholder={tSync("enterValue")}
           />
         )
       case "boolean":
         return (
           <Select value={currentValue} onValueChange={setCurrentValue}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={t("selectValue")} />
+              <SelectValue placeholder={tSync("selectValue")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="true">{t("yes")}</SelectItem>
-              <SelectItem value="false">{t("no")}</SelectItem>
+              <SelectItem value="true">{tSync("yes")}</SelectItem>
+              <SelectItem value="false">{tSync("no")}</SelectItem>
             </SelectContent>
           </Select>
         )
@@ -158,7 +157,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
             type="text"
             value={currentValue}
             onChange={(e) => setCurrentValue(e.target.value)}
-            placeholder={t("enterValue")}
+            placeholder={tSync("enterValue")}
           />
         )
     }
@@ -175,11 +174,11 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
 
           let valueDisplay = filter.value
           if (field.type === "date" && filter.value instanceof Date) {
-            valueDisplay = format(filter.value, "yyyy-MM-dd")
+            valueDisplay = formatSync(filter.value, "yyyy-MM-dd")
           } else if (field.type === "select") {
             valueDisplay = field.options?.find((opt) => opt.value === filter.value)?.label || filter.value
           } else if (field.type === "boolean") {
-            valueDisplay = filter.value === "true" ? t("yes") : t("no")
+            valueDisplay = filter.value === "true" ? tSync("yes") : tSync("no")
           }
 
           return (
@@ -202,10 +201,10 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
 
       <div className="flex flex-wrap gap-4">
         <div className="w-full sm:w-auto">
-          <Label htmlFor="filter-field">{t("field")}</Label>
+          <Label htmlFor="filter-field">{tSync("field")}</Label>
           <Select value={currentField} onValueChange={setCurrentField}>
             <SelectTrigger id="filter-field" className="w-full sm:w-[180px]">
-              <SelectValue placeholder={t("selectField")} />
+              <SelectValue placeholder={tSync("selectField")} />
             </SelectTrigger>
             <SelectContent>
               {fields.map((field) => (
@@ -220,7 +219,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
         {currentField && (
           <>
             <div className="w-full sm:w-auto">
-              <Label htmlFor="filter-operator">{t("operator")}</Label>
+              <Label htmlFor="filter-operator">{tSync("operator")}</Label>
               <Select value={currentOperator} onValueChange={setCurrentOperator}>
                 <SelectTrigger id="filter-operator" className="w-full sm:w-[180px]">
                   <SelectValue />
@@ -236,14 +235,14 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
             </div>
 
             <div className="w-full sm:w-auto">
-              <Label htmlFor="filter-value">{t("value")}</Label>
-              <div className="mt-2">{renderValueInput()}</div>
+              <Label htmlFor="filter-value">{tSync("value")}</Label>
+              <div className="mt-2">{renderValueInputSync()}</div>
             </div>
 
             <div className="flex items-end">
               <Button onClick={addFilter} className="flex items-center gap-2">
                 <Filter className="h-4 w-4" />
-                <span>{t("addFilter")}</span>
+                <span>{tSync("addFilter")}</span>
               </Button>
             </div>
           </>

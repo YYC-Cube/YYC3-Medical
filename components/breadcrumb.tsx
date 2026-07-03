@@ -22,7 +22,7 @@ export function Breadcrumb({ className }: BreadcrumbProps) {
   // 解析路径，生成面包屑项
   const generateBreadcrumbs = () => {
     const paths = pathname.split("/").filter(Boolean)
-    const breadcrumbs = [{ href: "/", label: "首页", icon: Home }]
+    const breadcrumbs: { href: string; label: string; icon?: React.ComponentType<{ className?: string }> }[] = [{ href: "/", label: "首页", icon: Home }]
 
     let currentPath = ""
 

@@ -1,4 +1,4 @@
-import type { KnowledgeGraph, NodeType, RelationType, GraphFilterOptions } from "../types/knowledge-graph"
+import type { GraphFilterOptions, KnowledgeGraph, NodeType, RelationType } from "../types/knowledge-graph"
 
 // 模拟肺结节相关知识图谱数据
 const lungNoduleGraph: KnowledgeGraph = {
@@ -800,5 +800,12 @@ export const knowledgeGraphService = {
       lastUpdated: graph.updatedAt,
       version: graph.version,
     }
+  },
+
+  // 根据ID获取图谱中的特定节点
+  getNodeById: (graphId: string, nodeId: string) => {
+    const graph = knowledgeGraphs.find((g) => g.id === graphId)
+    if (!graph) return undefined
+    return graph.nodes.find((node) => node.id === nodeId)
   },
 }

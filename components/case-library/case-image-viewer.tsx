@@ -1,36 +1,36 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Slider } from "@/components/ui/slider"
 import { Textarea } from "@/components/ui/textarea"
-import { InteractiveImageAnnotation } from "../medical-records/interactive-image-annotation"
-import type { CaseImage } from "../../types/case-library"
 import {
-  ZoomIn,
-  ZoomOut,
-  RotateCw,
-  RotateCcw,
-  Maximize,
   Contrast,
-  Move,
-  Ruler,
-  Pencil,
   Download,
-  Info,
-  Layers,
-  Plus,
   Edit,
-  Save,
   Eye,
   EyeOff,
   ImageIcon,
+  Info,
+  Layers,
   Lightbulb,
+  Maximize,
+  Move,
+  Pencil,
+  Plus,
+  RotateCcw,
+  RotateCw,
+  Ruler,
+  Save,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react"
+import { useState } from "react"
+import type { CaseImage } from "../../types/case-library"
+import { InteractiveImageAnnotation } from "../medical-records/interactive-image-annotation"
 
 interface CaseImageViewerProps {
   images: CaseImage[]
@@ -95,9 +95,8 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
         {images.map((image, index) => (
           <div
             key={index}
-            className={`relative border rounded-md overflow-hidden cursor-pointer hover:shadow-md transition-shadow ${
-              index === selectedImageIndex ? "ring-2 ring-blue-500" : ""
-            }`}
+            className={`relative border rounded-md overflow-hidden cursor-pointer hover:shadow-md transition-shadow ${index === selectedImageIndex ? "ring-2 ring-blue-500" : ""
+              }`}
             onClick={() => setSelectedImageIndex(index)}
           >
             <img src={image.url || "/placeholder.svg"} alt={image.description} className="w-full h-40 object-cover" />
@@ -132,7 +131,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
                 filter: `brightness(${brightness}%) contrast(${contrast}%)`,
               }}
             />
-            {showAnnotations && <InteractiveImageAnnotation imageId={selectedImage.id} readOnly={!editMode} />}
+            {showAnnotations && <InteractiveImageAnnotation selectedImage={selectedImage.url} modality={selectedImage.type as import("../../types/imaging-features").ModalityType} anatomicalRegion="肺部" />}
           </div>
         </div>
         <div className="border rounded-md overflow-hidden">
@@ -149,7 +148,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
                 filter: `brightness(${brightness}%) contrast(${contrast}%)`,
               }}
             />
-            {showAnnotations && <InteractiveImageAnnotation imageId={compareImage.id} readOnly={!editMode} />}
+            {showAnnotations && <InteractiveImageAnnotation selectedImage={compareImage.url} modality={compareImage.type as import("../../types/imaging-features").ModalityType} anatomicalRegion="肺部" />}
           </div>
         </div>
       </div>
@@ -169,7 +168,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
             filter: `brightness(${brightness}%) contrast(${contrast}%)`,
           }}
         />
-        {showAnnotations && <InteractiveImageAnnotation imageId={selectedImage.id} readOnly={!editMode} />}
+        {showAnnotations && <InteractiveImageAnnotation selectedImage={selectedImage.url} modality={selectedImage.type as import("../../types/imaging-features").ModalityType} anatomicalRegion="肺部" />}
       </div>
     )
   }
@@ -221,9 +220,8 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
               {images.map((image, index) => (
                 <div
                   key={index}
-                  className={`relative border rounded-md overflow-hidden cursor-pointer hover:shadow-md transition-shadow ${
-                    index === selectedImageIndex ? "ring-2 ring-blue-500" : ""
-                  }`}
+                  className={`relative border rounded-md overflow-hidden cursor-pointer hover:shadow-md transition-shadow ${index === selectedImageIndex ? "ring-2 ring-blue-500" : ""
+                    }`}
                   onClick={() => {
                     if (viewMode === "compare" && index !== selectedImageIndex) {
                       setCompareImageIndex(index)

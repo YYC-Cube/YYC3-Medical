@@ -1,14 +1,10 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { PageHeader } from "@/components/page-header"
-import { CheckCircle, Search, Filter, Download, Clock, AlertTriangle } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { DatePicker } from "@/components/ui/date-picker"
 import {
   Dialog,
   DialogContent,
@@ -17,11 +13,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { CertificationDetailView } from "./certification-detail-view"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { DatePicker } from "@/components/ui/date-picker"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AlertTriangle, CheckCircle, Clock, Download, Filter, Search } from "lucide-react"
+import { useState } from "react"
+import { CertificationDetailView } from "./certification-detail-view"
 
 // 模拟资质数据
 const mockCertifications = [
@@ -246,9 +246,8 @@ export function CertificationStatusClient() {
                             开始日期
                           </Label>
                           <DatePicker
-                            id="filter-start-date"
-                            date={filters.startDate}
-                            setDate={(date) => setFilters({ ...filters, startDate: date })}
+                            value={filters.startDate ?? undefined}
+                            onChange={(date) => setFilters({ ...filters, startDate: date ?? null })}
                             placeholder="开始日期"
                           />
                         </div>
@@ -257,9 +256,8 @@ export function CertificationStatusClient() {
                             结束日期
                           </Label>
                           <DatePicker
-                            id="filter-end-date"
-                            date={filters.endDate}
-                            setDate={(date) => setFilters({ ...filters, endDate: date })}
+                            value={filters.endDate ?? undefined}
+                            onChange={(date: Date | undefined) => setFilters({ ...filters, endDate: date ?? null })}
                             placeholder="结束日期"
                           />
                         </div>

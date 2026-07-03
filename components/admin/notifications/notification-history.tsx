@@ -1,17 +1,27 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Search, Filter, Eye, RefreshCw, Download } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Download, Eye, Filter, RefreshCw, Search } from "lucide-react"
+import { useState } from "react"
+
+type NotificationHistoryItem = {
+  id: number
+  recipient: string
+  subject: string
+  channel: string
+  status: string
+  sentAt: string
+  readAt: string | null
+}
 
 // 模拟通知历史数据
-const notificationHistory = [
+const notificationHistory: NotificationHistoryItem[] = [
   {
     id: 1,
     recipient: "张医生",
@@ -90,7 +100,7 @@ export function NotificationHistory() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [channelFilter, setChannelFilter] = useState("all")
-  const [selectedNotification, setSelectedNotification] = useState(null)
+  const [selectedNotification, setSelectedNotification] = useState<NotificationHistoryItem | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const filteredNotifications = notificationHistory.filter((notification) => {
@@ -105,18 +115,18 @@ export function NotificationHistory() {
     return matchesSearch && matchesStatus && matchesChannel
   })
 
-  const handleViewDetails = (notification) => {
+  const handleViewDetails = (notification: NotificationHistoryItem) => {
     setSelectedNotification(notification)
     setIsDialogOpen(true)
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | null) => {
     if (!dateString) return "未读"
     const date = new Date(dateString)
     return date.toLocaleString("zh-CN")
   }
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "delivered":
         return <Badge variant="default">已送达</Badge>
@@ -129,7 +139,7 @@ export function NotificationHistory() {
     }
   }
 
-  const getChannelBadge = (channel) => {
+  const getChannelBadge = (channel: string) => {
     switch (channel) {
       case "email":
         return <Badge variant="outline">邮件</Badge>

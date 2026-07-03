@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 
+type ArchiveItem = {
+  version: string
+  filename: string
+  timestamp: string
+  verified: boolean
+  url: string
+}
+
 export default function ArchiveList() {
-  const [archives, setArchives] = useState([]);
+  const [archives, setArchives] = useState<ArchiveItem[]>([]);
 
   useEffect(() => {
     fetch('/api/archive-list')

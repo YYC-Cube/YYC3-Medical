@@ -62,6 +62,8 @@ const historicalData = [
 
 interface PredictionToolProps {
   className?: string
+  category?: string
+  modelType?: string
 }
 
 export function PredictionTool({ className = "" }: PredictionToolProps) {
@@ -111,7 +113,7 @@ export function PredictionTool({ className = "" }: PredictionToolProps) {
                       strokeWidth={2}
                       dot={{ r: 4 }}
                       activeDot={{ r: 6 }}
-                      name={t("value")}
+                      name="value"
                     />
                   </LineChart>
                 </ResponsiveContainer>

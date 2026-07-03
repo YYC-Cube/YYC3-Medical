@@ -9,10 +9,10 @@ import { Badge } from "@/components/ui/badge"
 import { AlertTriangle, Calendar } from "lucide-react"
 
 interface ExpirationReminderProps {
-  expiryDate: string
+  expiryDate?: string
 }
 
-export function ExpirationReminder({ expiryDate }: ExpirationReminderProps) {
+export function ExpirationReminder({ expiryDate = "2028-06-30" }: ExpirationReminderProps) {
   const [daysRemaining, setDaysRemaining] = useState(0)
 
   useEffect(() => {

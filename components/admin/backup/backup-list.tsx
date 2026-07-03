@@ -179,7 +179,7 @@ export function BackupList() {
                       <Badge variant={backup.type === "自动" ? "outline" : "secondary"}>{backup.type}</Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="success" className="bg-green-100 text-green-800">
+                      <Badge variant="outline" className="bg-green-100 text-green-800">
                         {backup.status}
                       </Badge>
                     </TableCell>

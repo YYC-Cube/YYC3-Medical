@@ -1,13 +1,14 @@
 "use client"
 
-import Image from "next/image"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 interface LogoProps {
   size?: "sm" | "md" | "lg" | "xl"
   className?: string
   showText?: boolean
   animated?: boolean
+  variant?: "default" | "compact"
 }
 
 const sizeMap = {
@@ -17,11 +18,12 @@ const sizeMap = {
   xl: { width: 80, height: 80, textSize: "text-xl" },
 }
 
-export function Logo({ size = "md", className, showText = false, animated = false }: LogoProps) {
+export function Logo({ size = "md", className, showText = false, animated = false, variant = "default" }: LogoProps) {
   const { width, height, textSize } = sizeMap[size]
+  const isCompact = variant === "compact"
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2", isCompact && "gap-1", className)}>
       <div className={cn("relative", animated && "animate-pulse")}>
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"

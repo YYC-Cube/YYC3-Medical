@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Search, Plus, Edit, Trash, UserPlus, ShieldCheck, Eye, EyeOff, Lock } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Edit, Eye, EyeOff, Lock, Plus, Search, ShieldCheck, Trash, UserPlus } from "lucide-react"
+import { useState } from "react"
 
 // 模拟角色数据
 const roles = [
@@ -107,11 +107,11 @@ const users = [
 
 export function AccessControlPanel() {
   const [activeTab, setActiveTab] = useState("roles")
-  const [selectedRole, setSelectedRole] = useState(null)
+  const [selectedRole, setSelectedRole] = useState<(typeof roles)[number] | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
   // 处理角色选择
-  const handleRoleSelect = (role) => {
+  const handleRoleSelect = (role: (typeof roles)[number]) => {
     setSelectedRole(role)
   }
 
@@ -148,9 +148,8 @@ export function AccessControlPanel() {
               {roles.map((role) => (
                 <div
                   key={role.id}
-                  className={`p-3 border rounded-lg cursor-pointer hover:border-emerald-500 transition-colors ${
-                    selectedRole?.id === role.id ? "border-emerald-500 bg-emerald-50" : ""
-                  }`}
+                  className={`p-3 border rounded-lg cursor-pointer hover:border-emerald-500 transition-colors ${selectedRole?.id === role.id ? "border-emerald-500 bg-emerald-50" : ""
+                    }`}
                   onClick={() => handleRoleSelect(role)}
                 >
                   <div className="flex items-center justify-between">

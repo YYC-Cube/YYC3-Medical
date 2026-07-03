@@ -46,7 +46,12 @@ export default function TrendReportsClient() {
         </Tabs>
 
         <div className="flex flex-col sm:flex-row gap-2">
-          <DateRangePicker date={dateRange} onDateChange={setDateRange} />
+          <DateRangePicker
+            startDate={dateRange.from}
+            endDate={dateRange.to}
+            onStartDateChange={(d) => d && setDateRange(prev => ({ ...prev, from: d }))}
+            onEndDateChange={(d) => d && setDateRange(prev => ({ ...prev, to: d }))}
+          />
 
           <Select value={interval} onValueChange={setInterval}>
             <SelectTrigger className="w-[120px]">

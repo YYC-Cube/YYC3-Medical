@@ -1,15 +1,16 @@
 "use client"
 
-import { CalendarIcon, Search, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 import { Card } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
 import { zhCN } from "date-fns/locale"
+import { CalendarIcon, Search, X } from "lucide-react"
+import React from "react"
 
 interface LogsFilterProps {
   searchQuery: string
@@ -17,11 +18,11 @@ interface LogsFilterProps {
   dateRange: { from: Date | undefined; to: Date | undefined }
   setDateRange: (range: { from: Date | undefined; to: Date | undefined }) => void
   logLevel: string[]
-  setLogLevel: (levels: string[]) => void
+  setLogLevel: React.Dispatch<React.SetStateAction<string[]>>
   userFilter: string[]
-  setUserFilter: (users: string[]) => void
+  setUserFilter: React.Dispatch<React.SetStateAction<string[]>>
   moduleFilter: string[]
-  setModuleFilter: (modules: string[]) => void
+  setModuleFilter: React.Dispatch<React.SetStateAction<string[]>>
 }
 
 export function LogsFilter({

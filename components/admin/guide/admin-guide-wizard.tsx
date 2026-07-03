@@ -1,19 +1,19 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, Circle, Clock, ArrowRight, BookOpen, Settings, Shield, Monitor } from "lucide-react"
 import { AdminGuideService } from "@/services/admin-guide-service"
-import type { AdminGuideStep } from "@/types/admin-guide"
+import type { GuideStep } from "@/types/admin-guide"
+import { ArrowRight, BookOpen, CheckCircle, Circle, Clock, Monitor, Settings, Shield } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 export function AdminGuideWizard() {
   const [completedSteps, setCompletedSteps] = useState<string[]>([])
-  const [currentCategory, setCurrentCategory] = useState<AdminGuideStep["category"]>("setup")
+  const [currentCategory, setCurrentCategory] = useState<GuideStep["category"]>("setup")
 
   const allSteps = AdminGuideService.getGuideSteps()
   const nextSteps = AdminGuideService.getNextSteps(completedSteps)
@@ -27,7 +27,7 @@ export function AdminGuideWizard() {
     { id: "troubleshooting", label: "故障排除", icon: Shield, color: "bg-red-500" },
   ] as const
 
-  const getDifficultyColor = (difficulty: AdminGuideStep["difficulty"]) => {
+  const getDifficultyColor = (difficulty: GuideStep["difficulty"]) => {
     switch (difficulty) {
       case "beginner":
         return "bg-green-100 text-green-800"
@@ -74,7 +74,7 @@ export function AdminGuideWizard() {
       </Card>
 
       {/* 分类步骤 */}
-      <Tabs value={currentCategory} onValueChange={(value) => setCurrentCategory(value as AdminGuideStep["category"])}>
+      <Tabs value={currentCategory} onValueChange={(value) => setCurrentCategory(value as GuideStep["category"])}>
         <TabsList className="grid w-full grid-cols-5">
           {categories.map((category) => {
             const categorySteps = AdminGuideService.getStepsByCategory(category.id)
@@ -104,9 +104,8 @@ export function AdminGuideWizard() {
                 return (
                   <Card
                     key={step.id}
-                    className={`transition-all ${
-                      isCompleted ? "bg-green-50 border-green-200" : canStart ? "hover:shadow-md" : "opacity-60"
-                    }`}
+                    className={`transition-all ${isCompleted ? "bg-green-50 border-green-200" : canStart ? "hover:shadow-md" : "opacity-60"
+                      }`}
                   >
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between">

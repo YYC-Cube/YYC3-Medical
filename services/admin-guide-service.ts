@@ -1,12 +1,13 @@
-import type { GuideStep, ChatMessage, KnowledgeItem, QuickQuestion } from "@/types/admin-guide"
+import type { ChatMessage, GuideStep, KnowledgeItem, QuickQuestion } from "@/types/admin-guide"
 
 export class AdminGuideService {
-  private guideSteps: GuideStep[] = [
+  private static guideSteps: GuideStep[] = [
     {
       id: "system-overview",
       title: "系统概览",
       description: "了解言语云³医疗AI系统的整体架构和核心功能",
       duration: "5分钟",
+      estimatedTime: 5,
       difficulty: "beginner",
       category: "初始设置",
       completed: false,
@@ -30,6 +31,7 @@ export class AdminGuideService {
       title: "环境检查",
       description: "验证系统运行环境和依赖服务状态",
       duration: "5分钟",
+      estimatedTime: 5,
       difficulty: "beginner",
       category: "初始设置",
       completed: false,
@@ -52,6 +54,7 @@ export class AdminGuideService {
       title: "用户管理",
       description: "配置用户角色、权限和访问控制",
       duration: "10分钟",
+      estimatedTime: 10,
       difficulty: "beginner",
       category: "初始设置",
       completed: false,
@@ -76,6 +79,7 @@ export class AdminGuideService {
       title: "AI模型配置",
       description: "接入和配置多个AI模型提供商",
       duration: "20分钟",
+      estimatedTime: 20,
       difficulty: "intermediate",
       category: "核心配置",
       completed: false,
@@ -100,6 +104,7 @@ export class AdminGuideService {
       title: "API接口配置",
       description: "配置外部服务API密钥和接口参数",
       duration: "15分钟",
+      estimatedTime: 15,
       difficulty: "intermediate",
       category: "核心配置",
       completed: false,
@@ -123,6 +128,7 @@ export class AdminGuideService {
       title: "安全策略配置",
       description: "设置访问控制、审计日志和安全策略",
       duration: "25分钟",
+      estimatedTime: 25,
       difficulty: "intermediate",
       category: "核心配置",
       completed: false,
@@ -147,6 +153,7 @@ export class AdminGuideService {
       title: "备份策略",
       description: "配置数据备份和恢复策略",
       duration: "15分钟",
+      estimatedTime: 15,
       difficulty: "intermediate",
       category: "运维管理",
       completed: false,
@@ -170,6 +177,7 @@ export class AdminGuideService {
       title: "监控告警",
       description: "设置系统监控和告警通知",
       duration: "20分钟",
+      estimatedTime: 20,
       difficulty: "advanced",
       category: "运维管理",
       completed: false,
@@ -194,6 +202,7 @@ export class AdminGuideService {
       title: "日常运维",
       description: "学习系统日常维护和管理操作",
       duration: "10分钟",
+      estimatedTime: 10,
       difficulty: "intermediate",
       category: "运维管理",
       completed: false,
@@ -218,6 +227,7 @@ export class AdminGuideService {
       title: "故障排除",
       description: "掌握常见问题的诊断和解决方法",
       duration: "25分钟",
+      estimatedTime: 25,
       difficulty: "advanced",
       category: "故障处理",
       completed: false,
@@ -239,7 +249,7 @@ export class AdminGuideService {
     },
   ]
 
-  private quickQuestions: QuickQuestion[] = [
+  private static quickQuestions: QuickQuestion[] = [
     {
       id: "what-is-medical-ai",
       question: "什么是医疗AI？",
@@ -282,7 +292,7 @@ export class AdminGuideService {
     },
   ]
 
-  private knowledgeBase: KnowledgeItem[] = [
+  private static knowledgeBase: KnowledgeItem[] = [
     {
       id: "medical-ai-overview",
       title: "医疗AI技术概述",
@@ -400,8 +410,8 @@ export class AdminGuideService {
    * 获取所有引导步骤
    * @returns 引导步骤数组
    */
-  getGuideSteps(): GuideStep[] {
-    return this.guideSteps
+  static getGuideSteps(): GuideStep[] {
+    return AdminGuideService.guideSteps
   }
 
   /**
@@ -409,28 +419,60 @@ export class AdminGuideService {
    * @param category 步骤分类
    * @returns 符合分类的引导步骤数组
    */
-  getStepsByCategory(category: string): GuideStep[] {
+  static getStepsByCategory(category: string): GuideStep[] {
     if (!category) {
-      console.warn("getStepsByCategory: category参数不能为空")
+      console.warn("static getStepsByCategory: category参数不能为空")
       return []
     }
-    return this.guideSteps.filter((step) => step.category === category)
+    return AdminGuideService.guideSteps.filter((step) => step.category === category)
+  }
+
+  /**
+   * 获取下一步建议步骤
+   * @param completedSteps 已完成的步骤ID数组
+   * @returns 下一步建议的步骤数组
+   */
+  static getNextSteps(completedSteps: string[]): GuideStep[] {
+    return AdminGuideService.guideSteps.filter(
+      (step) =>
+        !completedSteps.includes(step.id) &&
+        (!step.prerequisites || step.prerequisites.every((p) => completedSteps.includes(p)))
+    )
   }
 
   /**
    * 获取快捷问题列表
    * @returns 快捷问题数组
    */
-  getQuickQuestions(): QuickQuestion[] {
-    return this.quickQuestions
+  static getQuickQuestions(): QuickQuestion[] {
+    return AdminGuideService.quickQuestions
   }
 
   /**
    * 获取知识库内容
    * @returns 知识库项目数组
    */
-  getKnowledgeBase(): KnowledgeItem[] {
-    return this.knowledgeBase
+  static getKnowledgeBase(): KnowledgeItem[] {
+    return AdminGuideService.knowledgeBase
+  }
+
+  /**
+   * 获取知识库分类
+   * @returns 分类名称数组
+   */
+  static getKnowledgeCategories(): string[] {
+    const categories = AdminGuideService.knowledgeBase.map((item) => item.category)
+    return [...new Set(categories)]
+  }
+
+  /**
+   * 根据分类获取知识库内容
+   * @param category 分类名称
+   * @returns 符合分类的知识库项目数组
+   */
+  static getKnowledgeByCategory(category: string): KnowledgeItem[] {
+    if (!category) return []
+    return AdminGuideService.knowledgeBase.filter((item) => item.category === category)
   }
 
   /**
@@ -438,13 +480,13 @@ export class AdminGuideService {
    * @param query 搜索关键词
    * @returns 匹配的知识库项目数组
    */
-  searchKnowledge(query: string): KnowledgeItem[] {
+  static searchKnowledge(query: string): KnowledgeItem[] {
     if (!query || query.trim().length === 0) {
-      return this.knowledgeBase
+      return AdminGuideService.knowledgeBase
     }
-    
+
     const lowercaseQuery = query.toLowerCase().trim()
-    return this.knowledgeBase.filter(
+    return AdminGuideService.knowledgeBase.filter(
       (item) =>
         item.title.toLowerCase().includes(lowercaseQuery) ||
         item.content.toLowerCase().includes(lowercaseQuery) ||
@@ -461,6 +503,8 @@ export class AdminGuideService {
     if (!question || question.trim().length === 0) {
       return {
         id: `msg-${Date.now()}`,
+        role: "assistant",
+        type: "text",
         content: "请输入您想要了解的问题。",
         isUser: false,
         timestamp: new Date(),
@@ -497,6 +541,8 @@ export class AdminGuideService {
 
     return {
       id: `msg-${Date.now()}`,
+      role: "assistant",
+      type: "text",
       content: response,
       isUser: false,
       timestamp: new Date(),
@@ -509,7 +555,7 @@ export class AdminGuideService {
    * @param stepId 步骤ID
    */
   markStepCompleted(stepId: string): void {
-    const step = this.guideSteps.find((s) => s.id === stepId)
+    const step = AdminGuideService.guideSteps.find((s) => s.id === stepId)
     if (step) {
       step.completed = true
     }
@@ -520,8 +566,8 @@ export class AdminGuideService {
    * @returns 包含已完成数量、总数和百分比的对象
    */
   getProgress(): { completed: number; total: number; percentage: number } {
-    const completed = this.guideSteps.filter((step) => step.completed).length
-    const total = this.guideSteps.length
+    const completed = AdminGuideService.guideSteps.filter((step) => step.completed).length
+    const total = AdminGuideService.guideSteps.length
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0
     return { completed, total, percentage }
   }

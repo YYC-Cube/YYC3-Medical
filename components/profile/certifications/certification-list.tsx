@@ -16,12 +16,12 @@ import { Table } from "@/components/ui/table"
 
 import { CardDescription } from "@/components/ui/card"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Download, Eye, Trash2, MoreHorizontal } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Download, Eye, MoreHorizontal, Trash2 } from "lucide-react"
+import { useState } from "react"
 import { CertificationStatusBadge } from "./certification-status-badge"
 
 // 模拟资质数据
@@ -71,11 +71,24 @@ const mockCertifications = [
 ]
 
 interface CertificationListProps {
-  onViewDetail: (certificationId: string) => void
+  onViewDetail?: (certificationId: string) => void
+  isManagement?: boolean
+  limit?: number
+  filter?: string
+  status?: string
 }
 
-export function CertificationList({ onViewDetail }: CertificationListProps) {
+export function CertificationList({ onViewDetail, limit, filter: filterProp, status: statusProp }: CertificationListProps) {
   const [certifications, setCertifications] = useState(mockCertifications)
+  const displayedCertifications = certifications
+    .filter((cert) => {
+      if (statusProp) return cert.status === statusProp
+      if (!filterProp || filterProp === "all") return true
+      if (filterProp === "expiring") return cert.status === "pending" || cert.status === "active"
+      if (filterProp === "archived") return cert.status === "expired"
+      return true
+    })
+    .slice(0, limit ?? certifications.length)
 
   // 删除资质
   const handleDeleteCertification = (id: string) => {
@@ -104,7 +117,7 @@ export function CertificationList({ onViewDetail }: CertificationListProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {certifications.map((cert) => (
+                {displayedCertifications.map((cert) => (
                   <TableRow key={cert.id}>
                     <TableCell className="font-medium">{cert.type}</TableCell>
                     <TableCell>{cert.licenseNumber}</TableCell>
@@ -116,7 +129,7 @@ export function CertificationList({ onViewDetail }: CertificationListProps) {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-1">
-                        <Button variant="ghost" size="icon" onClick={() => onViewDetail(cert.id)}>
+                        <Button variant="ghost" size="icon" onClick={() => onViewDetail?.(cert.id)}>
                           <Eye className="h-4 w-4" />
                         </Button>
                         <DropdownMenu>

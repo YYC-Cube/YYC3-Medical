@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -12,15 +12,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Plus } from "lucide-react"
+import { useState } from "react"
 
-export function CreateTaskDialog() {
-  const [open, setOpen] = useState(false)
+interface CreateTaskDialogProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  onTaskCreated: () => void
+}
+
+export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTaskDialogProps) {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -32,12 +37,13 @@ export function CreateTaskDialog() {
     e.preventDefault()
     // 处理任务创建逻辑
     console.log("创建任务:", formData)
-    setOpen(false)
+    onTaskCreated()
+    onOpenChange(false)
     setFormData({ name: "", type: "", schedule: "", description: "" })
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
@@ -112,7 +118,7 @@ export function CreateTaskDialog() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               取消
             </Button>
             <Button type="submit">创建任务</Button>

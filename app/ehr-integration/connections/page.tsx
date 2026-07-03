@@ -11,9 +11,9 @@ export default function EHRConnectionsPage() {
         title="电子病历系统连接"
         description="管理与外部电子病历系统的连接配置和状态"
         breadcrumbs={[
-          { title: "首页", href: "/" },
-          { title: "电子病历集成", href: "/ehr-integration" },
-          { title: "系统连接", href: "/ehr-integration/connections" },
+          { label: "首页", href: "/" },
+          { label: "电子病历集成", href: "/ehr-integration" },
+          { label: "系统连接", href: "/ehr-integration/connections" },
         ]}
       />
 

@@ -1,24 +1,24 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { verificationStatisticsService } from "@/services/verification-statistics-service"
+import type { VerificationStatistics } from "@/types/verification-statistics"
 import { format } from "date-fns"
 import { zhCN } from "date-fns/locale"
 import { CalendarIcon, Download, Loader2 } from "lucide-react"
-import { verificationStatisticsService } from "@/services/verification-statistics-service"
-import type { VerificationStatistics } from "@/types/verification-statistics"
+import { useEffect, useState } from "react"
+import { ApiUsageChart } from "./api-usage-chart"
+import { CertificationTypesChart } from "./certification-types-chart"
+import { FailureReasonsChart } from "./failure-reasons-chart"
 import { OverviewStats } from "./overview-stats"
 import { ProviderComparisonChart } from "./provider-comparison-chart"
 import { ResultDistributionChart } from "./result-distribution-chart"
-import { FailureReasonsChart } from "./failure-reasons-chart"
-import { CertificationTypesChart } from "./certification-types-chart"
 import { TimeRangeStatsChart } from "./time-range-stats-chart"
-import { ApiUsageChart } from "./api-usage-chart"
 
 export function VerificationStatisticsClient() {
   const [loading, setLoading] = useState(true)
@@ -209,7 +209,7 @@ export function VerificationStatisticsClient() {
             </div>
           ) : statistics ? (
             <div className="space-y-8">
-              <OverviewStats statistics={statistics} />
+              <OverviewStats />
 
               <Tabs defaultValue="comparison" className="space-y-4">
                 <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
@@ -222,27 +222,27 @@ export function VerificationStatisticsClient() {
                 </TabsList>
 
                 <TabsContent value="comparison" className="space-y-4">
-                  <ProviderComparisonChart providerStats={statistics.providerStats} />
+                  <ProviderComparisonChart />
                 </TabsContent>
 
                 <TabsContent value="results" className="space-y-4">
-                  <ResultDistributionChart resultDistribution={statistics.resultDistribution} />
+                  <ResultDistributionChart />
                 </TabsContent>
 
                 <TabsContent value="failures" className="space-y-4">
-                  <FailureReasonsChart failureReasons={statistics.failureReasons} />
+                  <FailureReasonsChart />
                 </TabsContent>
 
                 <TabsContent value="types" className="space-y-4">
-                  <CertificationTypesChart certificationTypes={statistics.certificationTypes} />
+                  <CertificationTypesChart />
                 </TabsContent>
 
                 <TabsContent value="trends" className="space-y-4">
-                  <TimeRangeStatsChart timeRangeStats={statistics.timeRangeStats} />
+                  <TimeRangeStatsChart />
                 </TabsContent>
 
                 <TabsContent value="api-usage" className="space-y-4">
-                  <ApiUsageChart apiUsageData={statistics.apiUsageTrend} />
+                  <ApiUsageChart />
                 </TabsContent>
               </Tabs>
             </div>

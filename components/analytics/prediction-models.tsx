@@ -1,12 +1,12 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Download, RefreshCw, AlertTriangle, CheckCircle } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AlertTriangle, CheckCircle, Download, RefreshCw } from "lucide-react"
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
 // 模拟预测数据
 const admissionPredictionData = [
@@ -27,7 +27,12 @@ const resourcePredictionData = [
   { resource: "急诊室", 预计需求: 35, 实际需求: 32 },
 ]
 
-export function PredictionModels() {
+interface PredictionModelsProps {
+  category?: string
+  modelType?: string
+}
+
+export function PredictionModels({ category, modelType }: PredictionModelsProps) {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -294,5 +299,7 @@ export function PredictionModels() {
     </Card>
   )
 }
+
+export default PredictionModels
 
 // 添加PredictionModels作为命名导出

@@ -290,7 +290,7 @@ export const updateSystemAlertStatus = (
       alert.acknowledgedBy = user
       alert.acknowledgedAt = new Date().toISOString()
     } else if (status === "resolved") {
-      alert.resolvedAt = new Date().toISOString()
+      alert.resolvedAt = new Date().toISOString().toISOString()
     }
     mockSystemAlerts[alertIndex] = alert
     return alert
@@ -308,7 +308,41 @@ export const getPerformanceBaselineByMetric = (metric: string): PerformanceBasel
   return mockPerformanceBaselines.find((baseline) => baseline.metric === metric)
 }
 
-// 创建systemMonitoringService对象
+// 服务：确认告警
+export const acknowledgeAlert = (id: string, userId: string): SystemAlert | undefined => {
+  const alert = mockSystemAlerts.find((a) => a.id === id)
+  if (alert) {
+    alert.status = "acknowledged"
+    alert.acknowledgedBy = userId
+  }
+  return alert
+}
+
+// 服务：解决告警
+export const resolveAlert = (id: string): SystemAlert | undefined => {
+  const alert = mockSystemAlerts.find((a) => a.id === id)
+  if (alert) {
+    alert.status = "resolved"
+    alert.resolvedAt = new Date().toISOString()
+  }
+  return alert
+}
+
+// 服务：生成系统健康报告
+export const generateSystemHealthReport = () => {
+  const metrics = getSystemMetrics()
+  const alerts = getAllSystemAlerts()
+  const criticalAlerts = alerts.filter((a) => a.status === "active")
+  return {
+    timestamp: new Date(),
+    overallStatus: criticalAlerts.length > 0 ? "warning" : "healthy",
+    metrics,
+    activeAlerts: criticalAlerts.length,
+    totalAlerts: alerts.length,
+    recommendations: criticalAlerts.map((a) => a.message),
+  }
+}
+
 export const systemMonitoringService = {
   getSystemMetrics,
   getAllAlertRules,
@@ -321,4 +355,7 @@ export const systemMonitoringService = {
   updateSystemAlertStatus,
   getPerformanceBaselines,
   getPerformanceBaselineByMetric,
+  generateSystemHealthReport,
+  acknowledgeAlert,
+  resolveAlert,
 }

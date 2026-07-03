@@ -11,9 +11,9 @@ export default function EHRMappingPage() {
         title="电子病历数据映射"
         description="配置和管理电子病历系统与平台之间的数据字段映射关系"
         breadcrumbs={[
-          { title: "首页", href: "/" },
-          { title: "电子病历集成", href: "/ehr-integration" },
-          { title: "数据映射", href: "/ehr-integration/mapping" },
+          { label: "首页", href: "/" },
+          { label: "电子病历集成", href: "/ehr-integration" },
+          { label: "数据映射", href: "/ehr-integration/mapping" },
         ]}
       />
 

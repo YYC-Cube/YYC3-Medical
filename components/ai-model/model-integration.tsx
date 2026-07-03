@@ -307,7 +307,7 @@ export function ModelIntegration() {
                     <Switch id="secure-transfer" defaultChecked />
                   </div>
 
-                  <Button variant="primary" className="w-full">
+                  <Button variant="default" className="w-full">
                     保存设置
                   </Button>
                 </CardContent>

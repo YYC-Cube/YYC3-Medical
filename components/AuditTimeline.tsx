@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 
+type AuditRecord = {
+  status: string
+  timestamp: string
+  entity_name: string
+  column_name: string
+}
+
 export default function AuditTimeline() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<AuditRecord[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {

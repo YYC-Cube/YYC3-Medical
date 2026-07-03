@@ -11,10 +11,19 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Lock, Mail, AlertCircle, Shield, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import { useAuthStore } from "@/store/useAuthStore"
 
 interface LoginFormProps {
   onSuccess?: () => void
 }
+
+// 静态导出演示模式下的本地演示账户。
+// 真实环境请接入后端 /auth/login 接口并移除此清单。
+const DEMO_ACCOUNTS = [
+  { email: "admin@yanyucloud.com", password: "admin123", name: "系统管理员", role: "admin" },
+  { email: "doctor@yanyucloud.com", password: "doctor123", name: "张医生", role: "doctor" },
+  { email: "nurse@yanyucloud.com", password: "nurse123", name: "李护士", role: "nurse" },
+] as const
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const [formData, setFormData] = useState({
@@ -26,13 +35,8 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   const [error, setError] = useState("")
   const [success, setSuccess] = useState("")
   const router = useRouter()
-
-  // 模拟用户数据库（实际应用中应该在后端）
-  const validUsers = [
-    { email: "admin@yanyucloud.com", password: "admin123", name: "系统管理员", role: "admin" },
-    { email: "doctor@yanyucloud.com", password: "doctor123", name: "张医生", role: "doctor" },
-    { email: "nurse@yanyucloud.com", password: "nurse123", name: "李护士", role: "nurse" },
-  ]
+  const login = useAuthStore((state) => state.login)
+  const setErrorState = useAuthStore((state) => state.setError)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -57,17 +61,17 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     await new Promise((resolve) => setTimeout(resolve, 1000))
 
     try {
-      // 查找用户
-      const user = validUsers.find((u) => u.email === formData.email)
+      // 查找演示账户
+      const account = DEMO_ACCOUNTS.find((u) => u.email === formData.email)
 
-      if (!user) {
+      if (!account) {
         setError("邮箱地址不存在，请检查邮箱是否正确或先注册账户")
         setIsLoading(false)
         return
       }
 
       // 验证密码
-      if (user.password !== formData.password) {
+      if (account.password !== formData.password) {
         setError("密码错误，请检查密码是否正确")
         setIsLoading(false)
         return
@@ -76,27 +80,31 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       // 登录成功
       setSuccess("登录成功！正在跳转...")
 
-      // 存储用户信息
-      const userData = {
-        id: Date.now(),
-        email: user.email,
-        name: user.name,
-        role: user.role,
-        loginTime: new Date().toISOString(),
+      const now = new Date().toISOString()
+      const user = {
+        id: `${Date.now()}`,
+        email: account.email,
+        name: account.name,
+        phone: "",
+        role: account.role,
+        createdAt: now,
       }
+      // 静态演示模式：使用时间戳作为本地会话令牌
+      const token = `demo-token-${Date.now()}`
 
-      localStorage.setItem("user", JSON.stringify(userData))
-      localStorage.setItem("isLoggedIn", "true")
+      // 写入全局认证状态（持久化到 localStorage）
+      login(token, user)
 
       // 触发成功回调
       onSuccess?.()
 
-      // 延迟跳转以显示成功消息
+      // 延迟跳转以显示成功消息，跳转至实际存在的控制台路由
       setTimeout(() => {
-        router.push("/dashboard")
+        router.push("/admin")
       }, 1500)
     } catch (err) {
       setError("系统错误，请稍后重试")
+      setErrorState(err instanceof Error ? err.message : "登录失败")
     } finally {
       setIsLoading(false)
     }
@@ -199,9 +207,9 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             </Link>
           </div>
 
-          {/* 测试账户提示 */}
+          {/* 演示账户提示（仅静态演示模式展示） */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="text-xs text-blue-700 font-medium mb-1">测试账户：</p>
+            <p className="text-xs text-blue-700 font-medium mb-1">演示账户（静态导出模式）：</p>
             <div className="text-xs text-blue-600 space-y-1">
               <div>管理员: admin@yanyucloud.com / admin123</div>
               <div>医生: doctor@yanyucloud.com / doctor123</div>

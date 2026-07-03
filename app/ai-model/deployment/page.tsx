@@ -10,9 +10,9 @@ export default function ModelDeploymentPage() {
         title="模型部署"
         description="管理AI模型的部署环境和版本"
         breadcrumbs={[
-          { title: "首页", href: "/" },
-          { title: "AI模型", href: "/ai-model" },
-          { title: "模型部署", href: "/ai-model/deployment" },
+          { label: "首页", href: "/" },
+          { label: "AI模型", href: "/ai-model" },
+          { label: "模型部署", href: "/ai-model/deployment" },
         ]}
       />
 

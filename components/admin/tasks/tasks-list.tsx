@@ -156,7 +156,6 @@ export function TasksList() {
               <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 <Checkbox
                   checked={selectedTasks.length === tasks.length && tasks.length > 0}
-                  indeterminate={selectedTasks.length > 0 && selectedTasks.length < tasks.length}
                   onCheckedChange={toggleAllTasks}
                 />
               </th>

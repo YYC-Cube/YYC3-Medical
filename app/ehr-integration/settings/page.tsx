@@ -11,9 +11,9 @@ export default function EHRSettingsPage() {
         title="电子病历集成设置"
         description="配置电子病历集成的全局设置和参数"
         breadcrumbs={[
-          { title: "首页", href: "/" },
-          { title: "电子病历集成", href: "/ehr-integration" },
-          { title: "集成设置", href: "/ehr-integration/settings" },
+          { label: "首页", href: "/" },
+          { label: "电子病历集成", href: "/ehr-integration" },
+          { label: "集成设置", href: "/ehr-integration/settings" },
         ]}
       />
 

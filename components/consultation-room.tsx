@@ -128,7 +128,7 @@ export function ConsultationRoom() {
   }
 
   // 处理按键事件
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
       sendMessage()

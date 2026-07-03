@@ -321,7 +321,7 @@ export default function UIShowcasePage() {
                   onChange={handleInputChange}
                   placeholder="请输入邮箱"
                   icon={<Mail className="h-4 w-4" />}
-                  error={formData.email && !formData.email.includes("@")}
+                  error={!!(formData.email && !formData.email.includes("@"))}
                 />
               </FormField>
 

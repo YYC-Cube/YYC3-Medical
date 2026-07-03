@@ -1,24 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, BookOpen, Tag, Clock, ArrowRight } from "lucide-react"
 import { AdminGuideService } from "@/services/admin-guide-service"
-import type { KnowledgeBase } from "@/types/admin-guide"
+import type { KnowledgeItem } from "@/types/admin-guide"
+import { ArrowRight, BookOpen, Clock, Search, Tag } from "lucide-react"
+import { useState } from "react"
 
 export function KnowledgeBaseBrowser() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [searchResults, setSearchResults] = useState<KnowledgeBase[]>([])
+  const [searchResults, setSearchResults] = useState<KnowledgeItem[]>([])
 
   const categories = AdminGuideService.getKnowledgeCategories()
   const allKnowledge = categories.reduce((acc, category) => {
     return [...acc, ...AdminGuideService.getKnowledgeByCategory(category)]
-  }, [] as KnowledgeBase[])
+  }, [] as KnowledgeItem[])
 
   // 搜索知识库
   const handleSearch = (query: string) => {
@@ -32,7 +32,7 @@ export function KnowledgeBaseBrowser() {
   }
 
   // 获取显示的知识条目
-  const getDisplayedKnowledge = (): KnowledgeBase[] => {
+  const getDisplayedKnowledge = (): KnowledgeItem[] => {
     if (searchQuery.trim()) {
       return searchResults
     }
@@ -44,7 +44,7 @@ export function KnowledgeBaseBrowser() {
     return AdminGuideService.getKnowledgeByCategory(selectedCategory)
   }
 
-  const getDifficultyColor = (difficulty: KnowledgeBase["difficulty"]) => {
+  const getDifficultyColor = (difficulty: KnowledgeItem["difficulty"]) => {
     switch (difficulty) {
       case "basic":
         return "bg-green-100 text-green-800"
@@ -121,7 +121,7 @@ export function KnowledgeBaseBrowser() {
                     <p className="text-gray-700 leading-relaxed">{item.answer}</p>
 
                     {/* 关键词 */}
-                    {item.keywords.length > 0 && (
+                    {item.keywords && item.keywords.length > 0 && (
                       <div className="space-y-2">
                         <div className="text-sm font-medium text-gray-600">关键词：</div>
                         <div className="flex flex-wrap gap-1">
@@ -136,7 +136,7 @@ export function KnowledgeBaseBrowser() {
                     )}
 
                     {/* 相关主题 */}
-                    {item.relatedTopics.length > 0 && (
+                    {item.relatedTopics && item.relatedTopics.length > 0 && (
                       <div className="space-y-2">
                         <div className="text-sm font-medium text-gray-600">相关主题：</div>
                         <div className="flex flex-wrap gap-2">

@@ -1,26 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   AlertCircle,
   AlertTriangle,
-  Info,
-  CheckCircle,
   Bug,
-  User,
-  Shield,
-  Database,
-  Globe,
-  Server,
-  FileText,
-  EyeOff,
+  CheckCircle,
   Clock,
+  Database,
+  EyeOff,
+  FileText,
+  Globe,
+  Info,
+  Server,
+  Shield,
+  User,
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card } from "@/components/ui/card"
+import { useEffect, useState } from "react"
 
 interface LogsListProps {
   type: string
@@ -29,11 +29,11 @@ interface LogsListProps {
   logLevel: string[]
   userFilter: string[]
   moduleFilter: string[]
-  setSearchQuery: (query: string) => void
-  setDateRange: (range: { from: Date | undefined; to: Date | undefined }) => void
-  setLogLevel: (levels: string[]) => void
-  setUserFilter: (users: string[]) => void
-  setModuleFilter: (modules: string[]) => void
+  setSearchQuery?: (query: string) => void
+  setDateRange?: (range: { from: Date | undefined; to: Date | undefined }) => void
+  setLogLevel?: (levels: string[]) => void
+  setUserFilter?: (users: string[]) => void
+  setModuleFilter?: (modules: string[]) => void
 }
 
 // 模拟的日志数据
@@ -189,11 +189,11 @@ export function LogsList({
 
       // 根据日期范围筛选
       if (dateRange.from) {
-        filteredLogs = filteredLogs.filter((log) => log.timestamp >= dateRange.from)
+        filteredLogs = filteredLogs.filter((log) => log.timestamp >= dateRange.from!)
       }
 
       if (dateRange.to) {
-        filteredLogs = filteredLogs.filter((log) => log.timestamp <= dateRange.to)
+        filteredLogs = filteredLogs.filter((log) => log.timestamp <= dateRange.to!)
       }
 
       // 根据日志级别筛选
@@ -297,11 +297,11 @@ export function LogsList({
           <p className="text-gray-500 mb-4">根据您的筛选条件未找到任何日志记录</p>
           <Button
             onClick={() => {
-              setSearchQuery("")
-              setDateRange({ from: undefined, to: undefined })
-              setLogLevel([])
-              setUserFilter([])
-              setModuleFilter([])
+              setSearchQuery?.("")
+              setDateRange?.({ from: undefined, to: undefined })
+              setLogLevel?.([])
+              setUserFilter?.([])
+              setModuleFilter?.([])
             }}
           >
             清除筛选条件

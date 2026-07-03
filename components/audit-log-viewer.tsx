@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Search, Download, Filter, User, FileText, Lock, Settings, Clock } from "lucide-react"
+import { Clock, Download, FileText, Filter, Lock, Search, Settings, User } from "lucide-react"
+import { useState } from "react"
 
 // 模拟审计日志数据
 const auditLogs = [
@@ -96,7 +96,7 @@ export function AuditLogViewer() {
   const [searchQuery, setSearchQuery] = useState("")
   const [actionFilter, setActionFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")
-  const [expandedLog, setExpandedLog] = useState(null)
+  const [expandedLog, setExpandedLog] = useState<string | null>(null)
 
   // 过滤日志
   const filteredLogs = auditLogs.filter((log) => {
@@ -117,7 +117,7 @@ export function AuditLogViewer() {
   })
 
   // 切换日志详情展开/折叠
-  const toggleLogDetails = (logId) => {
+  const toggleLogDetails = (logId: string) => {
     if (expandedLog === logId) {
       setExpandedLog(null)
     } else {
@@ -126,7 +126,7 @@ export function AuditLogViewer() {
   }
 
   // 获取������图标
-  const getActionIcon = (action) => {
+  const getActionIcon = (action: string) => {
     switch (action) {
       case "查看患者记录":
       case "查看个人记录":

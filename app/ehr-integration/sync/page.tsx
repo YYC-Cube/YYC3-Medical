@@ -11,9 +11,9 @@ export default function EHRSyncPage() {
         title="电子病历同步状态"
         description="监控和管理电子病历系统与平台之间的数据同步状态和历史记录"
         breadcrumbs={[
-          { title: "首页", href: "/" },
-          { title: "电子病历集成", href: "/ehr-integration" },
-          { title: "同步状态", href: "/ehr-integration/sync" },
+          { label: "首页", href: "/" },
+          { label: "电子病历集成", href: "/ehr-integration" },
+          { label: "同步状态", href: "/ehr-integration/sync" },
         ]}
       />
 

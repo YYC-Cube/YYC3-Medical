@@ -1,11 +1,9 @@
 "use client"
 
-import { useState } from "react"
-import { useToast } from "@/hooks/use-toast"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   Dialog,
   DialogContent,
@@ -14,12 +12,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CheckCircle, Clock, User, Search, Tag, Calendar, FileText } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { Calendar, CheckCircle, Clock, FileText, Search, Tag, User } from "lucide-react"
+import { useState } from "react"
 
 // 模拟待审核诊断数据
 const mockPendingDiagnoses = [
@@ -267,9 +267,8 @@ export function DiagnosisReview() {
 
     toast({
       title: "已更改优先级",
-      description: `已将患者 ${diagnosis?.patientName} 的诊断优先级更改为 ${
-        priority === "high" ? "高" : priority === "medium" ? "中" : "低"
-      }`,
+      description: `已将患者 ${diagnosis?.patientName} 的诊断优先级更改为 ${priority === "high" ? "高" : priority === "medium" ? "中" : "低"
+        }`,
     })
   }
 
@@ -416,13 +415,12 @@ export function DiagnosisReview() {
                                 </TableCell>
                                 <TableCell>
                                   <div
-                                    className={`font-medium ${
-                                      diagnosis.confidence > 0.9
-                                        ? "text-green-600"
-                                        : diagnosis.confidence > 0.8
-                                          ? "text-amber-600"
-                                          : "text-red-600"
-                                    }`}
+                                    className={`font-medium ${diagnosis.confidence > 0.9
+                                      ? "text-green-600"
+                                      : diagnosis.confidence > 0.8
+                                        ? "text-amber-600"
+                                        : "text-red-600"
+                                      }`}
                                   >
                                     {Math.round(diagnosis.confidence * 100)}%
                                   </div>
@@ -431,7 +429,6 @@ export function DiagnosisReview() {
                                   <Select
                                     defaultValue={diagnosis.priority}
                                     onValueChange={(value) => handleChangePriority(diagnosis.id, value)}
-                                    onClick={(e) => e.stopPropagation()}
                                   >
                                     <SelectTrigger className="w-[80px]">
                                       <SelectValue>{renderPriorityBadge(diagnosis.priority)}</SelectValue>
@@ -605,13 +602,12 @@ export function DiagnosisReview() {
                                   <div className="flex justify-between">
                                     <span className="text-muted-foreground">置信度:</span>
                                     <span
-                                      className={`font-medium ${
-                                        diagnosis.confidence > 0.9
-                                          ? "text-green-600"
-                                          : diagnosis.confidence > 0.8
-                                            ? "text-amber-600"
-                                            : "text-red-600"
-                                      }`}
+                                      className={`font-medium ${diagnosis.confidence > 0.9
+                                        ? "text-green-600"
+                                        : diagnosis.confidence > 0.8
+                                          ? "text-amber-600"
+                                          : "text-red-600"
+                                        }`}
                                     >
                                       {Math.round(diagnosis.confidence * 100)}%
                                     </span>
@@ -718,7 +714,7 @@ export function DiagnosisReview() {
 
                       {activeTab === "pending" && (
                         <div className="flex gap-2">
-                          {!getSelectedDiagnosis()?.assignedTo && (
+                          {getSelectedDiagnosis() && "assignedTo" in getSelectedDiagnosis()! && !(getSelectedDiagnosis() as any).assignedTo && (
                             <Button variant="outline" onClick={() => setAssignDialogOpen(true)}>
                               分配医生
                             </Button>
@@ -795,13 +791,12 @@ export function DiagnosisReview() {
               <div className="flex items-center gap-2">
                 <span className="text-lg font-medium">{getSelectedDiagnosis()?.diagnosis}</span>
                 <span
-                  className={`text-sm font-medium px-2 py-0.5 rounded-full ${
-                    (getSelectedDiagnosis()?.confidence || 0) > 0.9
-                      ? "bg-green-100 text-green-800"
-                      : (getSelectedDiagnosis()?.confidence || 0) > 0.8
-                        ? "bg-amber-100 text-amber-800"
-                        : "bg-red-100 text-red-800"
-                  }`}
+                  className={`text-sm font-medium px-2 py-0.5 rounded-full ${(getSelectedDiagnosis()?.confidence || 0) > 0.9
+                    ? "bg-green-100 text-green-800"
+                    : (getSelectedDiagnosis()?.confidence || 0) > 0.8
+                      ? "bg-amber-100 text-amber-800"
+                      : "bg-red-100 text-red-800"
+                    }`}
                 >
                   {Math.round((getSelectedDiagnosis()?.confidence || 0) * 100)}%
                 </span>

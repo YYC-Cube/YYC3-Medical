@@ -1,9 +1,9 @@
 import { Logo } from "@/components/brand/logo"
 import { Slogan } from "@/components/brand/slogan"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Brain, Shield, Zap, Users, Globe, Heart } from "lucide-react"
+import { ArrowRight, Brain, Globe, Heart, Shield, Users, Zap } from "lucide-react"
 import Link from "next/link"
 
 export default function HomePage() {
@@ -15,7 +15,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <Logo size="lg" showText animated />
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/dashboard" className="text-sm font-medium hover:text-blue-600 transition-colors">
+              <Link href="/admin" className="text-sm font-medium hover:text-blue-600 transition-colors">
                 控制台
               </Link>
               <Link href="/patients" className="text-sm font-medium hover:text-blue-600 transition-colors">
@@ -55,12 +55,12 @@ export default function HomePage() {
             <Slogan size="lg" className="mb-8 max-w-3xl mx-auto" />
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button size="lg" className="text-lg px-8" asChild>
-                <Link href="/dashboard">
+                <Link href="/admin">
                   开始使用 <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="text-lg px-8 bg-transparent" asChild>
-                <Link href="/demo">观看演示</Link>
+                <Link href="/ui-showcase">查看演示</Link>
               </Button>
             </div>
             <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -204,7 +204,7 @@ export default function HomePage() {
               className="text-lg px-8 border-white text-white hover:bg-white hover:text-blue-600 bg-transparent"
               asChild
             >
-              <Link href="/contact">联系我们</Link>
+              <Link href="/help">联系我们</Link>
             </Button>
           </div>
         </div>
@@ -248,23 +248,23 @@ export default function HomePage() {
               <h3 className="font-semibold mb-4">解决方案</h3>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
-                  <Link href="/solutions/hospital" className="hover:text-white transition-colors">
-                    医院解决方案
+                  <Link href="/clinical-decision" className="hover:text-white transition-colors">
+                    临床决策支持
                   </Link>
                 </li>
                 <li>
-                  <Link href="/solutions/clinic" className="hover:text-white transition-colors">
-                    诊所解决方案
+                  <Link href="/teleconsultation" className="hover:text-white transition-colors">
+                    远程会诊
                   </Link>
                 </li>
                 <li>
-                  <Link href="/solutions/research" className="hover:text-white transition-colors">
-                    科研机构
+                  <Link href="/research" className="hover:text-white transition-colors">
+                    科研协作
                   </Link>
                 </li>
                 <li>
-                  <Link href="/solutions/enterprise" className="hover:text-white transition-colors">
-                    企业服务
+                  <Link href="/ehr-integration" className="hover:text-white transition-colors">
+                    EHR 集成
                   </Link>
                 </li>
               </ul>
@@ -278,12 +278,12 @@ export default function HomePage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/docs" className="hover:text-white transition-colors">
-                    开发文档
+                  <Link href="/knowledge-base" className="hover:text-white transition-colors">
+                    知识库
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/help" className="hover:text-white transition-colors">
                     联系我们
                   </Link>
                 </li>

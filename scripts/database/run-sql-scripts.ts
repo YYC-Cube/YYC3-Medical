@@ -204,7 +204,7 @@ async function main() {
   }
 }
 
-main()run-sql-scripts.ts
+main()
 
 /**
  * 命令行参数处理

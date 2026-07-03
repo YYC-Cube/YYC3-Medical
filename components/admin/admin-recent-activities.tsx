@@ -264,7 +264,7 @@ export function AdminRecentActivities({ limit }: AdminRecentActivitiesProps) {
   }
 
   // 过滤活动
-  const filteredActivities = mockActivities
+  const filtered = mockActivities
     .filter((activity) => {
       if (filter === "all") return true
       return activity.type === filter
@@ -277,7 +277,8 @@ export function AdminRecentActivities({ limit }: AdminRecentActivitiesProps) {
         activity.timestamp.includes(searchTerm)
       )
     })
-    .slice(0, limit || filteredActivities.length)
+
+  const filteredActivities = limit ? filtered.slice(0, limit) : filtered
 
   return (
     <div className="space-y-4">

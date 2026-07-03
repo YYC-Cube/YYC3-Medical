@@ -1,16 +1,16 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { useToast } from "@/components/ui/use-toast"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
+import { useToast } from "@/components/ui/use-toast"
 import { Clock, Edit, Trash2 } from "lucide-react"
+import { useState } from "react"
 
 // 模拟备份计划数据
 const scheduleData = [
@@ -244,7 +244,7 @@ export function BackupSchedule() {
                       <TableCell>
                         <div className="flex items-center">
                           <Badge
-                            variant={schedule.status === "启用" ? "success" : "secondary"}
+                            variant={schedule.status === "启用" ? "outline" : "secondary"}
                             className={
                               schedule.status === "启用" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
                             }
@@ -253,7 +253,6 @@ export function BackupSchedule() {
                           </Badge>
                           <Switch
                             className="ml-2"
-                            size="sm"
                             checked={schedule.status === "启用"}
                             onCheckedChange={() => handleToggleStatus(schedule.id)}
                           />

@@ -194,7 +194,7 @@ export function ApiConfigClient() {
       const updatedProvider = {
         ...selectedProvider,
         lastTested: result.timestamp,
-        testStatus: result.success ? "success" : "failed",
+        testStatus: (result.success ? "success" : "failed") as "success" | "failed",
         testMessage: result.message,
       }
 

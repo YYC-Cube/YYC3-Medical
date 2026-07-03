@@ -28,7 +28,14 @@ export function ExportButton({ data, fileName, disabled = false }: ExportButtonP
 
     setIsExporting(true)
     try {
-      await DataExportService.exportData(data, {
+      // 从数据中自动推断列定义
+      const columns = data.length > 0
+        ? Object.keys(data[0]).map((key) => ({
+            key,
+            label: key,
+          }))
+        : []
+      await DataExportService.exportData(data, columns, {
         fileName,
         format,
         sheetName: fileName,

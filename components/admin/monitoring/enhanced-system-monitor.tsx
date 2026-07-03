@@ -1,31 +1,31 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
+  systemMonitoringService,
+  type AlertRule,
+  type SystemAlert,
+  type SystemMetrics,
+} from "@/services/enhanced-system-monitoring"
+import {
   Activity,
+  AlertTriangle,
+  BarChart3,
+  CheckCircle,
   Cpu,
+  Database,
   HardDrive,
   MemoryStick,
   Network,
-  Database,
-  Users,
-  AlertTriangle,
-  CheckCircle,
-  Settings,
-  BarChart3,
   RefreshCw,
+  Settings,
+  Users,
 } from "lucide-react"
-import {
-  systemMonitoringService,
-  type SystemMetrics,
-  type SystemAlert,
-  type AlertRule,
-} from "@/services/enhanced-system-monitoring"
+import { useEffect, useState } from "react"
 
 export function EnhancedSystemMonitor() {
   const [metrics, setMetrics] = useState<SystemMetrics | null>(null)
@@ -48,8 +48,8 @@ export function EnhancedSystemMonitor() {
     try {
       const [metricsData, alertsData, rulesData, reportData] = await Promise.all([
         systemMonitoringService.getSystemMetrics(),
-        systemMonitoringService.getSystemAlerts("active"),
-        systemMonitoringService.getAlertRules(),
+        systemMonitoringService.getAllSystemAlerts(),
+        systemMonitoringService.getAllAlertRules(),
         systemMonitoringService.generateSystemHealthReport(),
       ])
 

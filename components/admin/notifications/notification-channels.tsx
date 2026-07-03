@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -15,10 +13,20 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Plus, Edit, Trash2, Settings } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Edit, Plus, Settings, Trash2 } from "lucide-react"
+import { useState } from "react"
+
+type NotificationChannel = {
+  id: number
+  name: string
+  type: string
+  config: Record<string, string | number>
+  active: boolean
+}
 
 // 模拟通知渠道数据
-const initialChannels = [
+const initialChannels: NotificationChannel[] = [
   {
     id: 1,
     name: "系统邮件服务",
@@ -73,11 +81,11 @@ const initialChannels = [
 export function NotificationChannels() {
   const [channels, setChannels] = useState(initialChannels)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [currentChannel, setCurrentChannel] = useState(null)
+  const [currentChannel, setCurrentChannel] = useState<NotificationChannel | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)
 
-  const handleToggleActive = (id) => {
+  const handleToggleActive = (id: number) => {
     setChannels(channels.map((channel) => (channel.id === id ? { ...channel, active: !channel.active } : channel)))
   }
 
@@ -93,17 +101,18 @@ export function NotificationChannels() {
     setIsDialogOpen(true)
   }
 
-  const handleEditChannel = (channel) => {
+  const handleEditChannel = (channel: NotificationChannel) => {
     setCurrentChannel(channel)
     setIsEditing(true)
     setIsDialogOpen(true)
   }
 
-  const handleDeleteChannel = (id) => {
+  const handleDeleteChannel = (id: number) => {
     setChannels(channels.filter((channel) => channel.id !== id))
   }
 
   const handleSaveChannel = () => {
+    if (!currentChannel) return
     if (isEditing) {
       setChannels(channels.map((channel) => (channel.id === currentChannel.id ? currentChannel : channel)))
     } else {
@@ -112,12 +121,13 @@ export function NotificationChannels() {
     setIsDialogOpen(false)
   }
 
-  const handleConfigureChannel = (channel) => {
+  const handleConfigureChannel = (channel: NotificationChannel) => {
     setCurrentChannel(channel)
     setIsConfigDialogOpen(true)
   }
 
   const handleSaveConfig = () => {
+    if (!currentChannel) return
     setChannels(channels.map((channel) => (channel.id === currentChannel.id ? currentChannel : channel)))
     setIsConfigDialogOpen(false)
   }

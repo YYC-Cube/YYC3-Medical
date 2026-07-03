@@ -1,19 +1,20 @@
 import {
-  Brain,
-  Users,
-  Stethoscope,
-  Pill,
-  HeartPulse,
-  Microscope,
-  Lock,
-  Smartphone,
-  FileText,
-  Video,
-  BarChart3,
-  Server,
-  Globe,
   Activity,
+  BarChart3,
+  Brain,
+  FileText,
+  Globe,
+  HeartPulse,
+  Lock,
+  Microscope,
+  Pill,
+  Server,
+  Smartphone,
+  Stethoscope,
+  Users,
+  Video,
 } from "lucide-react"
+import type { ReactNode } from "react"
 
 type IconName =
   | "brain"
@@ -34,7 +35,7 @@ type IconName =
 interface PageHeaderProps {
   title: string
   description: string
-  icon?: IconName
+  icon?: IconName | ReactNode
   breadcrumbs?: Array<{ label: string; href: string }>
 }
 
@@ -56,7 +57,9 @@ const iconComponents = {
 }
 
 export function PageHeader({ title, description, icon, breadcrumbs }: PageHeaderProps) {
-  const IconComponent = icon ? iconComponents[icon] : null
+  const isIconName = typeof icon === "string"
+  const IconComponent = isIconName ? iconComponents[icon as IconName] : null
+  const iconElement = isIconName ? null : icon
 
   return (
     <div className="flex flex-col space-y-2 mb-6">
@@ -74,6 +77,7 @@ export function PageHeader({ title, description, icon, breadcrumbs }: PageHeader
       )}
       <div className="flex items-center gap-2">
         {IconComponent && <IconComponent className="h-8 w-8 text-medical-600" />}
+        {iconElement && <span className="text-medical-600">{iconElement}</span>}
         <h1 className="text-3xl font-bold text-medical-900">{title}</h1>
       </div>
       <p className="text-lg text-medical-600">{description}</p>

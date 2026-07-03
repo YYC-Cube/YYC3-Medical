@@ -1,9 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -16,10 +14,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { Plus, Edit, Trash2, Copy } from "lucide-react"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Copy, Edit, Plus, Trash2 } from "lucide-react"
+import { useState } from "react"
+
+type NotificationRule = {
+  id: number
+  name: string
+  event: string
+  condition: string
+  channel: string
+  template: string
+  active: boolean
+}
 
 // 模拟通知规则数据
-const initialRules = [
+const initialRules: NotificationRule[] = [
   {
     id: 1,
     name: "新患者注册",
@@ -70,10 +80,10 @@ const initialRules = [
 export function NotificationRules() {
   const [rules, setRules] = useState(initialRules)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [currentRule, setCurrentRule] = useState(null)
+  const [currentRule, setCurrentRule] = useState<NotificationRule | null>(null)
   const [isEditing, setIsEditing] = useState(false)
 
-  const handleToggleActive = (id) => {
+  const handleToggleActive = (id: number) => {
     setRules(rules.map((rule) => (rule.id === id ? { ...rule, active: !rule.active } : rule)))
   }
 
@@ -91,13 +101,13 @@ export function NotificationRules() {
     setIsDialogOpen(true)
   }
 
-  const handleEditRule = (rule) => {
+  const handleEditRule = (rule: NotificationRule) => {
     setCurrentRule(rule)
     setIsEditing(true)
     setIsDialogOpen(true)
   }
 
-  const handleDuplicateRule = (rule) => {
+  const handleDuplicateRule = (rule: NotificationRule) => {
     const newRule = {
       ...rule,
       id: rules.length + 1,
@@ -106,11 +116,12 @@ export function NotificationRules() {
     setRules([...rules, newRule])
   }
 
-  const handleDeleteRule = (id) => {
+  const handleDeleteRule = (id: number) => {
     setRules(rules.filter((rule) => rule.id !== id))
   }
 
   const handleSaveRule = () => {
+    if (!currentRule) return
     if (isEditing) {
       setRules(rules.map((rule) => (rule.id === currentRule.id ? currentRule : rule)))
     } else {

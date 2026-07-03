@@ -6,19 +6,19 @@ import { createLazyComponent } from "@/components/ui/lazy-load"
 import { preloadComponents } from "@/utils/dependency-optimizer"
 
 // 懒加载大型组件
-const LazyHealthDataDashboard = createLazyComponent(() =>
+const LazyHealthDataDashboard = createLazyComponent<{}>(() =>
   import("@/components/health-data/dashboard").then((mod) => ({ default: mod.HealthDataDashboard })),
 )
 
-const LazyDataTrendsAnalysis = createLazyComponent(() =>
+const LazyDataTrendsAnalysis = createLazyComponent<{}>(() =>
   import("@/components/health-data/data-trends-analysis").then((mod) => ({ default: mod.DataTrendsAnalysis })),
 )
 
-const LazyClinicalDashboard = createLazyComponent(() =>
+const LazyClinicalDashboard = createLazyComponent<{}>(() =>
   import("@/components/clinical-decision/dashboard").then((mod) => ({ default: mod.ClinicalDashboard })),
 )
 
-const LazyTreatmentRecommendations = createLazyComponent(() =>
+const LazyTreatmentRecommendations = createLazyComponent<{}>(() =>
   import("@/components/clinical-decision/treatment-recommendations").then((mod) => ({
     default: mod.TreatmentRecommendations,
   })),

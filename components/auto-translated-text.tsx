@@ -15,22 +15,22 @@ interface AutoTranslatedTextProps {
 
 export function AutoTranslatedText({ text, fallback, className = "", showOriginal = false }: AutoTranslatedTextProps) {
   const { locale } = useLanguage()
-  const { translateMissing, translationCache, isTranslating } = useAutoTranslation()
+  const { translate, cache } = useAutoTranslation()
   const [translated, setTranslated] = useState<string>(
-    translationCache[locale as SupportedLanguage]?.[text] || fallback || text,
+    cache[locale as SupportedLanguage]?.[text] || fallback || text,
   )
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     // 如果已经有缓存的翻译，直接使用
-    if (translationCache[locale as SupportedLanguage]?.[text]) {
-      setTranslated(translationCache[locale as SupportedLanguage][text])
+    if (cache[locale as SupportedLanguage]?.[text]) {
+      setTranslated(cache[locale as SupportedLanguage][text])
       return
     }
 
     // 否则，异步翻译
     setLoading(true)
-    translateMissing(text, locale as SupportedLanguage)
+    translate(text, locale as SupportedLanguage)
       .then((result) => {
         setTranslated(result)
       })
@@ -41,7 +41,7 @@ export function AutoTranslatedText({ text, fallback, className = "", showOrigina
       .finally(() => {
         setLoading(false)
       })
-  }, [text, locale, fallback, translateMissing, translationCache])
+  }, [text, locale, fallback, translate, cache])
 
   return (
     <span className={`${className} ${loading ? "opacity-70" : ""}`}>
@@ -59,20 +59,20 @@ interface AutoTranslatedListProps {
 
 export function AutoTranslatedList({ texts, render }: AutoTranslatedListProps) {
   const { locale } = useLanguage()
-  const { batchTranslateMissing, translationCache } = useAutoTranslation()
+  const { translate, cache } = useAutoTranslation()
   const [translations, setTranslations] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     // 检查是否所有文本都已经在缓存中
-    const allInCache = texts.every((text) => translationCache[locale as SupportedLanguage]?.[text])
+    const allInCache = texts.every((text) => cache[locale as SupportedLanguage]?.[text])
 
     if (allInCache) {
       // 从缓存构建翻译映射
       const cachedTranslations = texts.reduce(
         (acc, text) => ({
           ...acc,
-          [text]: translationCache[locale as SupportedLanguage][text],
+          [text]: cache[locale as SupportedLanguage][text],
         }),
         {},
       )
@@ -83,8 +83,9 @@ export function AutoTranslatedList({ texts, render }: AutoTranslatedListProps) {
 
     // 否则，批量翻译
     setLoading(true)
-    batchTranslateMissing(texts, locale as SupportedLanguage)
-      .then((result) => {
+    Promise.all(texts.map((text) => translate(text, locale as SupportedLanguage)))
+      .then((results) => {
+        const result = texts.reduce((acc, text, i) => ({ ...acc, [text]: results[i] }), {})
         setTranslations(result)
       })
       .catch((error) => {
@@ -96,7 +97,7 @@ export function AutoTranslatedList({ texts, render }: AutoTranslatedListProps) {
       .finally(() => {
         setLoading(false)
       })
-  }, [texts, locale, batchTranslateMissing, translationCache])
+  }, [texts, locale, translate, cache])
 
   return <>{render(translations, loading)}</>
 }

@@ -1,0 +1,17 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "save": "저장",
+    "cancel": "취소",
+    "confirm": "확인",
+    "delete": "삭제",
+    "edit": "편집",
+    "add": "추가"
+  },
+  "_meta": {
+    "language": "한국어",
+    "_status": "stub - 待补全翻译，运行时回退到 zh-CN"
+  }
+}

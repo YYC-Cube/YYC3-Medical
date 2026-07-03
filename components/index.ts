@@ -29,19 +29,18 @@ export * from "./ui/loading-fallback"
 export * from "./ui/chart"
 
 // 布局组件
-export * from "./layout/page-header"
-export * from "./layout/sidebar"
-export * from "./layout/main-nav"
-export * from "./layout/mobile-nav"
-export * from "./layout/breadcrumb"
-export * from "./layout/global-navigation"
+export * from "./layout/app-header"
+export * from "./layout/app-shell"
+export * from "./layout/keyboard-shortcuts-dialog"
+export * from "./layout/page-breadcrumb"
+export * from "./layout/sidebar-nav"
 
 // 认证组件
-export * from "./auth/login-form"
-export * from "./auth/register-form"
-export * from "./auth/auth-guard"
-export * from "./auth/forgot-password-form"
-export * from "./auth/reset-password-form"
+export * from "./auth/AuthGuard"
+export * from "./auth/LoginForm"
+export * from "./auth/RegisterForm"
+export * from "./auth/ForgotPasswordForm"
+export * from "./auth/ResetPasswordForm"
 
 // 患者相关组件
 export * from "./patients/patient-list"
@@ -80,7 +79,7 @@ export * from "./ai-model/model-deployment"
 export * from "./ai-model/model-monitoring"
 export * from "./ai-model/model-navigation"
 
-// 导出 ModelDeployment 组件 (默认导出需要单独处理)
-export { default as ModelDeployment } from "./model-deployment/ModelDeployment"
+// ModelDeployment 为具名导出
+export { ModelDeployment } from "./model-deployment/ModelDeployment"
 
 // 其他组件...

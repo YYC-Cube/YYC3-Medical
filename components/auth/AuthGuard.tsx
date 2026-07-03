@@ -2,20 +2,21 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuthStore } from "@/store/useAuthStore"
 import { Skeleton } from "@/components/ui/skeleton"
+import { useAuthStore } from "@/store/useAuthStore"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 interface AuthGuardProps {
   children: React.ReactNode
   requireAuth?: boolean
   requiredRole?: string
+  requiredRoles?: string[]
   fallback?: React.ReactNode
 }
 
-export function AuthGuard({ children, requireAuth = true, requiredRole, fallback }: AuthGuardProps) {
-  const { isAuthenticated, user, token, setLoading } = useAuthStore()
+export function AuthGuard({ children, requireAuth = true, requiredRole, requiredRoles, fallback }: AuthGuardProps) {
+  const { isAuthenticated, user, setLoading } = useAuthStore()
   const [isChecking, setIsChecking] = useState(true)
   const router = useRouter()
 
@@ -62,12 +63,13 @@ export function AuthGuard({ children, requireAuth = true, requiredRole, fallback
         return
       }
 
-      if (requiredRole && user?.role !== requiredRole) {
+      const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
+      if (allRoles.length > 0 && user?.role && !allRoles.includes(user.role)) {
         router.push("/unauthorized")
         return
       }
     }
-  }, [isChecking, requireAuth, isAuthenticated, requiredRole, user, router])
+  }, [isChecking, requireAuth, isAuthenticated, requiredRole, requiredRoles, user, router])
 
   if (isChecking) {
     return (
@@ -87,7 +89,8 @@ export function AuthGuard({ children, requireAuth = true, requiredRole, fallback
     return null
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
+  const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
+  if (allRoles.length > 0 && user?.role && !allRoles.includes(user.role)) {
     return null
   }
 

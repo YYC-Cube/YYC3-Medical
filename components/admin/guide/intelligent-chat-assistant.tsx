@@ -84,7 +84,7 @@ export function IntelligentChatAssistant() {
       return {
         id: Date.now().toString(),
         role: "assistant",
-        content: bestMatch.answer,
+        content: bestMatch.answer || bestMatch.content,
         timestamp: new Date(),
         type: "text",
         metadata: {
