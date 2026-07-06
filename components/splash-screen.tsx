@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -243,9 +243,27 @@ function Particles({ isMobile }: { isMobile: boolean }) {
   // 移动设备上减少粒子数量
   const particleCount = isMobile ? 6 : 12
 
+  // 预计算粒子随机参数(避免渲染期调用 Math.random 触发 purity 警告)
+  const particles = React.useMemo(
+    () =>
+      Array.from({ length: particleCount }, (_, i) => ({
+        xDir: i % 2 ? -1 : 1,
+        xOffset: 30 + Math.random() * (isMobile ? 60 : 100),
+        useX: Math.random() > 0.5,
+        useY: Math.random() > 0.5,
+        yDir: i % 2 ? -1 : 1,
+        yOffset: 30 + Math.random() * (isMobile ? 60 : 100),
+        duration: 1.5 + Math.random() * (isMobile ? 1 : 2),
+        delay: i * (isMobile ? 0.3 : 0.2),
+        leftPct: 50 + (Math.random() - 0.5) * (isMobile ? 15 : 20),
+        topPct: 50 + (Math.random() - 0.5) * (isMobile ? 15 : 20),
+      })),
+    [particleCount, isMobile],
+  )
+
   return (
     <div className="absolute inset-0 z-0">
-      {[...Array(particleCount)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={i}
           className={`absolute ${isMobile ? "w-1.5 h-1.5" : "w-2 h-2"} rounded-full bg-blue-200`}
@@ -255,20 +273,20 @@ function Particles({ isMobile }: { isMobile: boolean }) {
             opacity: 0,
           }}
           animate={{
-            x: Math.random() > 0.5 ? [0, (i % 2 ? -1 : 1) * (30 + Math.random() * (isMobile ? 60 : 100))] : 0,
-            y: Math.random() > 0.5 ? 0 : [0, (i % 2 ? -1 : 1) * (30 + Math.random() * (isMobile ? 60 : 100))],
+            x: p.useX ? [0, p.xDir * p.xOffset] : 0,
+            y: p.useY ? 0 : [0, p.yDir * p.yOffset],
             opacity: [0, 0.8, 0],
             scale: [0, 1, 0],
           }}
           transition={{
-            duration: 1.5 + Math.random() * (isMobile ? 1 : 2),
+            duration: p.duration,
             repeat: Number.POSITIVE_INFINITY,
-            delay: i * (isMobile ? 0.3 : 0.2),
+            delay: p.delay,
             repeatType: "loop",
           }}
           style={{
-            left: `${50 + (Math.random() - 0.5) * (isMobile ? 15 : 20)}%`,
-            top: `${50 + (Math.random() - 0.5) * (isMobile ? 15 : 20)}%`,
+            left: `${p.leftPct}%`,
+            top: `${p.topPct}%`,
           }}
         />
       ))}

@@ -76,48 +76,52 @@ export function ImagingFeatureClient() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
-              <label className="text-sm font-medium mb-2 block">影像模态</label>
-              <Select value={selectedModality} onValueChange={(value) => setSelectedModality(value as ModalityType)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择影像模态" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="CT">CT (计算机断层扫描)</SelectItem>
-                  <SelectItem value="MRI">MRI (磁共振成像)</SelectItem>
-                  <SelectItem value="X光">X光 (X射线)</SelectItem>
-                  <SelectItem value="超声">超声 (超声波)</SelectItem>
-                  <SelectItem value="PET">PET (正电子发射断层扫描)</SelectItem>
-                  <SelectItem value="内窥镜">内窥镜</SelectItem>
-                  <SelectItem value="病理">病理</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-2 block">
+                影像模态
+                <Select value={selectedModality} onValueChange={(value) => setSelectedModality(value as ModalityType)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择影像模态" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="CT">CT (计算机断层扫描)</SelectItem>
+                    <SelectItem value="MRI">MRI (磁共振成像)</SelectItem>
+                    <SelectItem value="X光">X光 (X射线)</SelectItem>
+                    <SelectItem value="超声">超声 (超声波)</SelectItem>
+                    <SelectItem value="PET">PET (正电子发射断层扫描)</SelectItem>
+                    <SelectItem value="内窥镜">内窥镜</SelectItem>
+                    <SelectItem value="病理">病理</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">解剖区域</label>
-              <Select value={selectedRegion} onValueChange={(value) => setSelectedRegion(value as AnatomicalRegion)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择解剖区域" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="头部">头部</SelectItem>
-                  <SelectItem value="胸部">胸部</SelectItem>
-                  <SelectItem value="腹部">腹部</SelectItem>
-                  <SelectItem value="骨骼">骨骼</SelectItem>
-                  <SelectItem value="心脏">心脏</SelectItem>
-                  <SelectItem value="肺部">肺部</SelectItem>
-                  <SelectItem value="肝脏">肝脏</SelectItem>
-                  <SelectItem value="肾脏">肾脏</SelectItem>
-                  <SelectItem value="脑部">脑部</SelectItem>
-                  <SelectItem value="脊柱">脊柱</SelectItem>
-                  <SelectItem value="关节">关节</SelectItem>
-                  <SelectItem value="血管">血管</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-2 block">
+                解剖区域
+                <Select value={selectedRegion} onValueChange={(value) => setSelectedRegion(value as AnatomicalRegion)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择解剖区域" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="头部">头部</SelectItem>
+                    <SelectItem value="胸部">胸部</SelectItem>
+                    <SelectItem value="腹部">腹部</SelectItem>
+                    <SelectItem value="骨骼">骨骼</SelectItem>
+                    <SelectItem value="心脏">心脏</SelectItem>
+                    <SelectItem value="肺部">肺部</SelectItem>
+                    <SelectItem value="肝脏">肝脏</SelectItem>
+                    <SelectItem value="肾脏">肾脏</SelectItem>
+                    <SelectItem value="脑部">脑部</SelectItem>
+                    <SelectItem value="脊柱">脊柱</SelectItem>
+                    <SelectItem value="关节">关节</SelectItem>
+                    <SelectItem value="血管">血管</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">搜索特征</label>
+              <span className="text-sm font-medium mb-2 block">搜索特征</span>
               <div className="flex gap-2">
                 <Input
                   placeholder="输入特征关键词..."

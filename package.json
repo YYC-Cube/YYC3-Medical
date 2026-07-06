@@ -1,6 +1,6 @@
 {
   "name": "yyc3-medical",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "YYC³-Med 言语云³医疗AI智能诊疗系统",
   "private": true,
   "packageManager": "pnpm@9.15.4",

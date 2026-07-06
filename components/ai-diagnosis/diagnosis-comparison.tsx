@@ -53,34 +53,38 @@ export function DiagnosisComparison() {
         <CardContent>
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="w-full md:w-1/3">
-              <label className="text-sm font-medium mb-1 block">AI模型</label>
-              <Select value={selectedModel} onValueChange={setSelectedModel}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择AI模型" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="model-1">肺部疾病诊断模型 v3.2</SelectItem>
-                  <SelectItem value="model-2">综合诊断模型 v2.1</SelectItem>
-                  <SelectItem value="model-3">专科诊断模型 v1.5</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-1 block">
+                AI模型
+                <Select value={selectedModel} onValueChange={setSelectedModel}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择AI模型" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="model-1">肺部疾病诊断模型 v3.2</SelectItem>
+                    <SelectItem value="model-2">综合诊断模型 v2.1</SelectItem>
+                    <SelectItem value="model-3">专科诊断模型 v1.5</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
             <div className="w-full md:w-1/3">
-              <label className="text-sm font-medium mb-1 block">时间范围</label>
-              <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择时间范围" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1-month">最近1个月</SelectItem>
-                  <SelectItem value="3-months">最近3个月</SelectItem>
-                  <SelectItem value="6-months">最近6个月</SelectItem>
-                  <SelectItem value="1-year">最近1年</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="text-sm font-medium mb-1 block">
+                时间范围
+                <Select value={selectedTimeframe} onValueChange={setSelectedTimeframe}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择时间范围" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1-month">最近1个月</SelectItem>
+                    <SelectItem value="3-months">最近3个月</SelectItem>
+                    <SelectItem value="6-months">最近6个月</SelectItem>
+                    <SelectItem value="1-year">最近1年</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
             <div className="w-full md:w-1/3">
-              <label className="text-sm font-medium mb-1 block">图表类型</label>
+              <span className="text-sm font-medium mb-1 block">图表类型</span>
               <div className="flex space-x-2">
                 <Button
                   variant={chartType === "bar" ? "default" : "outline"}

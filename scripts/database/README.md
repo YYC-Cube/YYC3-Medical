@@ -1,11 +1,16 @@
-# 言语云³医疗AI系统 - 数据库脚本（MySQL）
+# YYC³-Med 数据库脚本（MySQL）
+
+> ⚠️ **重要**：本目录包含**未来后端**的数据库脚本，当前 YYC³-Med 为纯前端静态导出项目（`output: 'export'`），这些脚本**不在构建链路中**。后端接入时使用。
+>
+> 本目录已从 `tsconfig.json` 和 ESLint 配置中排除，不参与前端类型检查或 lint。
 
 ## 概述
 
-本目录包含言语云³医疗AI系统的数据库初始化和维护脚本，用于创建数据库表结构、插入初始数据、执行维护任务、验证结构一致性以及清空或备份数据。
+本目录包含言语云³医疗AI系统（YYC³-Med）的数据库初始化和维护脚本，用于创建数据库表结构、插入初始数据、执行维护任务、验证结构一致性以及清空或备份数据。
 
 ## 文件结构
 
+```
 scripts/database/
 ├── create-tables.sql           # 数据库表结构创建脚本
 ├── insert-initial-data.sql     # 初始数据插入脚本
@@ -15,8 +20,9 @@ scripts/database/
 ├── verify-schema.ts            # 验证数据库结构一致性
 ├── run-sql-scripts.ts          # TypeScript脚本执行工具（MySQL）
 ├── init-database.sh            # Bash初始化脚本（MySQL）
-├── package.json                # Node.js依赖配置
+├── package.json                # Node.js依赖配置（独立于项目根）
 └── README.md                   # 本文档
+```
 
 ## 快速开始
 
@@ -24,10 +30,12 @@ scripts/database/
 
 确保系统已安装以下软件：
 
-- Node.js (v16+)
-- MySQL (v8.0+)
-- npm 或 yarn
-- ts-node（用于运行 TypeScript 脚本）
+| 依赖 | 版本要求 | 说明 |
+|------|---------|------|
+| **Node.js** | `>= 18.17.0` | 与项目根目录一致 |
+| **pnpm** | `>= 9.0.0` | 项目统一包管理器 |
+| **MySQL** | `>= 8.0` | 数据库服务 |
+| **ts-node** | latest | 用于运行 TypeScript 脚本 |
 
 ### 2. 配置环境变量
 
@@ -63,17 +71,19 @@ DB_PASSWORD=your_password
 #### 方法二：使用 Node.js 脚本
 
 ```bash
-# 安装依赖
-npm install
+# 安装依赖（注意：如遇 workspace 冲突，使用 --ignore-workspace）
+pnpm install
+# 或
+pnpm install --ignore-workspace
 
 # 执行初始化
-npm run init
+pnpm run db:init
 
 # 创建数据库
-npm run init:create-db
+pnpm run db:init:create
 
-# 跳过数据插入
-npm run init:schema-only
+# 仅创建表结构
+pnpm run db:init:schema
 ```
 
 ## 脚本命令（package.json）
@@ -164,7 +174,7 @@ mysql -u root -p yyc3_med < backup_20240115.sql
 - **连接失败**：确认 MySQL 服务已启动，端口正确，用户密码无误
 - **权限不足**：使用具有权限的用户执行
 - **表已存在**：使用 `--force` 或手动清理旧表
-- **依赖缺失**：运行 `npm install` 或安装 `ts-node`
+- **依赖缺失**：运行 `pnpm install --ignore-workspace` 或安装 `ts-node`
 
 ## 安全建议
 

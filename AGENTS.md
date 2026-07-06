@@ -1,27 +1,23 @@
 # AGENTS.md
 
-Guide for AI agents working in the YYC³-Med (YYC3-Medical) repository. Distilled from observed config, source, and docs — not invented.
+Guide for AI agents working in the YYC³-Med (YYC3-Medical) repository. Distilled from actual config, source, and tooling — not invented.
 
 ## Project At-a-Glance
 
 - **What**: YYC³-Med — AI-powered medical intelligent diagnosis platform (智能诊疗系统). UI is bilingual (primarily zh-CN, with en-US/ja-JP/ko-KR i18n).
-- **Framework**: Next.js 16 (App Router) + React 18.3 + TypeScript (strict).
+- **Framework**: Next.js 16.2 (App Router) + React 18.3 + TypeScript 5.8 (strict).
 - **Deployment target**: **Static export** (`output: 'export'` in `next.config.mjs`) → GitHub Pages at `medical.yyc3.vip`. Build emits to `out/`. **Offline-buildable** (uses GeistSans self-hosted font).
 - **Package manager**: **pnpm 9** locally (declared in `packageManager`). Node `>=18.17.0`. All CI workflows unified on pnpm.
 - **Status**: Frontend-only / mock-data. `lib/db.ts` is a placeholder; `prisma/schema.prisma` describes a future MySQL backend but is **not wired into the build**.
-- **Gates (as of 2026-07-06, post phase-0 止血)**: `tsc --noEmit` clean (0 errors) / `eslint .` = 0 errors, **225 warnings** / `jest` = **141 tests passing across 8 suites** / `next build` = green offline.
-  - 覆盖率基线(实测): statements **29.51%** / branches **63.25%** / functions **28.2%** / lines **29.84%**;`jest.config.js` 阈值已上调至 26–60 区间防回退。
-  - store 已收敛为 3 个文件(`index.ts` + `useAuthStore` + `useSettingsStore`);`useNotificationStore` / `usePatientStore` 已在阶段零删除。
+- **Gates (as of 2026-07-06)**: `tsc --noEmit` clean / `eslint .` = 0 errors, 237 warnings / `jest` = **311 tests passing across 16 suites** / `next build` = green (~25 MB static export).
 
 ## Essential Commands
 
 ```bash
 pnpm install              # install deps (frozen lockfile in CI)
-                          # ⚠️ 历史坑(2026-07-06 已修复):
-                          # 全局 pnpm 配置 ~/Library/Preferences/pnpm/{rc,config.yaml}
-                          # 曾硬编码 storeDir=/Volumes/Development/.pnpm-store (失效卷),
-                          # 导致所有 pnpm 命令报 EACCES mkdir /Volumes/Development。
-                          # 已统一改为 /Users/yanyu/.pnpm-store。如复现请检查这两个文件。
+                          # ⚠️ if "No projects found in /Users/yanyu", use:
+                          #    pnpm install --ignore-workspace
+                          # (parent /Users/yanyu/pnpm-workspace.yaml hijacks workspace root)
 pnpm dev                  # dev server with Turbopack (next dev --turbo)
 pnpm build                # static export → out/
 pnpm start                # preview production build
@@ -70,11 +66,9 @@ app/                       Next.js App Router pages (112 routes)
   layout.tsx               root layout — wires Theme/Language/Loading/
                            UserAvatar/AutoTranslation/AutomaticExecution
                            providers + Toaster
-  providers.tsx, RootLayoutClient.tsx, dashboard-layout.tsx
-                           ⚠️ 以上 3 个文件已在阶段零(2026-07-06)删除,根 layout 直接挂载 provider 树
-components/                ~439 components, feature-grouped
+components/                441 components, feature-grouped
   ui/                      shadcn/ui primitives (Radix-based)
-  layout/                  page-breadcrumb(原 app-shell/app-header/sidebar-nav/keyboard-shortcuts-dialog 已删除)
+  layout/                  app-shell, app-header, sidebar-nav, breadcrumb
   auth/, admin/, ai-diagnosis/, patients/, analytics/, ...
   brand/                   logos, slogan, identity system
   index.ts                 BARREL file re-exporting many components
@@ -84,23 +78,20 @@ hooks/                     19 custom hooks + index.ts barrel
 lib/                       utils.ts (cn, formatDate, debounce, etc.),
                            api/, auth/jwt.ts, i18n/, storage/, offline/,
                            env.ts, db.ts (placeholder), seo-config.ts
-services/                  domain service modules (case-library, ai-annotation,
-                           pharmacogenomics, etc.) + index.ts barrel
-store/                     Zustand stores (阶段零后): useAuthStore, useSettingsStore + index.ts barrel
-                           ⚠️ useNotificationStore / usePatientStore 已删除
+services/                  31 domain service modules + index.ts barrel
+store/                     Zustand stores: useAuthStore, useNotificationStore,
+                           useSettingsStore + index.ts barrel
 types/                     TS type definitions + index.ts barrel
 i18n/                      medical-terms.ts, translations.ts
-messages/                  en.json, zh.json (next-intl message catalogs)
 prisma/                    schema.prisma (MySQL — future backend) + *.sql
 scripts/                   build/check/audit scripts + SQL migrations.
                            EXCLUDED from tsconfig + ESLint (see gotchas).
 public/                    static assets, yyc3-icons/, manifest.json, CNAME
-packages/web, packages/mobile   placeholder sub-packages (own package.json)
-docs/                      developer-guide.md, naming-conventions.md,
-                           feature-manifest.ts, plus YYC3 team specs (zh)
+docs/                      developer documentation + team specs
 tests/, __tests__/         Jest test files (mirror source layout:
                            __tests__/lib/, __tests__/hooks/,
-                           __tests__/store/, __tests__/components/)
+                           __tests__/store/, __tests__/components/,
+                           __tests__/services/)
 .github/workflows/         ci.yml, deploy.yml, test.yml, lint.yml,
                            audit.yml, codeql.yml, njsscan.yml,
                            turbo-cache.yml
@@ -140,6 +131,7 @@ The repo is **inconsistent** with `docs/naming-conventions.md`. What's actually 
 - `cn()` helper from `@/lib/utils` (clsx + tailwind-merge) for conditional classes.
 - shadcn/ui primitives in `components/ui/` — Radix-based, customized via `components.json`.
 - Dark mode: class strategy (`darkMode: ["class"]`), wired through `next-themes` `ThemeProvider`.
+- **Medical-grade color system**: primary blue (#2563eb), secondary teal (#06b6d4), accent green. Dark mode uses deep navy (`222 47% 11%`), **never pure black**. Semantic tokens: `--success`, `--warning`, `--info`.
 
 ### State Management
 
@@ -149,25 +141,23 @@ The repo is **inconsistent** with `docs/naming-conventions.md`. What's actually 
 
 ## Testing
 
-- **Runner**: Jest via `next/jest` (`jest.config.js`), jsdom environment.
+- **Runner**: Jest 29 via `next/jest` (`jest.config.js`), jsdom environment.
 - **Setup**: `jest.setup.js` provides:
   - `@testing-library/jest-dom` matchers
   - Mocks for `next/router`, `next/navigation`, `next/image`
   - Polyfills for `IntersectionObserver`, `ResizeObserver`, `window.matchMedia`
 - **Library**: `@testing-library/react` + `@testing-library/user-event`.
 - **Test roots**: `<rootDir>/app` and `<rootDir>/__tests__`.
-- **Coverage**: collected from `components/`, `app/`, `lib/`, `hooks/`, `services/`. Threshold raised in phase-0 (2026-07-06) from 1% to current baseline (statements 27% / branches 60% / functions 26% / lines 28%) to prevent regression. 实测(2026-07-06): statements 29.51% / branches 63.25% / functions 28.2% / lines 29.84%. Per-module highlights: lib/utils 94%, lib/array 96%, lib/validation 87%, hooks/useDebounce 100%, hooks/usePagination 92%, store/useAuthStore fully covered. Plan: 阶段一出口 ≥40%, 阶段二出口 ≥60%, 终态 70%. Update `jest.config.js` threshold comment when raising.
+- **Coverage**: statements 41.8%, branches 64.6%, functions 42.5%, lines 42.4%. Threshold set in `jest.config.js` with a documented plan to ramp toward 70%.
 - Test files use the `*.test.tsx` / `*.test.ts` suffix.
-- Test count (2026-07-06): **141 passing** across 8 suites.
+- Test count (2026-07-06): **311 passing** across 16 suites.
 
 Run a single test: `pnpm test -- <path-or-pattern>`.
 
 ## i18n
 
 - Supported locales: `zh-CN` (default), `en-US`, `ja-JP`, `ko-KR` — see `lib/i18n/config.ts`.
-- Two parallel systems exist:
-  1. `contexts/language-context.tsx` + `hooks/use-translation.ts` (custom inline dictionaries).
-  2. `lib/i18n/dictionaries/*.json` + `messages/{en,zh}.json` (next-intl catalogs).
+- System: `contexts/language-context.tsx` + `hooks/use-translation.ts` (custom inline dictionaries in `lib/i18n/dictionaries/*.json`).
 - Medical terminology in `i18n/medical-terms.ts`. Auto-translation via `use-auto-translation` hook + `auto-translation-context`.
 - Default `<html lang="zh-CN">` in root layout.
 
@@ -183,7 +173,7 @@ Run a single test: `pnpm test -- <path-or-pattern>`.
 | `codeql.yml`, `njsscan.yml` | security scans | |
 | `turbo-cache.yml` | turbo cache management | |
 
-**Note**: As of 2026-07-04, **all CI workflows have been migrated to pnpm** (no more npm/`--legacy-peer-deps` inconsistency). Node 20 is pinned across all workflows. The `pnpm build` step in `ci.yml` is the only strict gate; format-check in `ci.yml` uses `\|\| true` (non-blocking).
+**Note**: All CI workflows use pnpm + Node 20. The `pnpm build` step in `ci.yml` is the only strict gate; format-check in `ci.yml` uses `\|\| true` (non-blocking).
 
 ## Gotchas & Non-Obvious Patterns
 
@@ -191,35 +181,31 @@ Run a single test: `pnpm test -- <path-or-pattern>`.
 
 2. **`scripts/` is excluded** from both `tsconfig.json` `include` paths (via `exclude`) and ESLint (configured in `eslint.config.js` `ignores`). It contains a mix of TS/JS/SQL/Python/TSX — treat it as standalone tooling, not part of the app build. Don't import from it into `app/`/`components/`.
 
-3. **ESLint 9 flat config** (phase-7): config lives in `eslint.config.js`, not `.eslintrc.json`. Stack: `eslint@9` + `eslint-config-next@16` + `typescript-eslint@8`. Next 16 ships native flat config arrays; no `@eslint/eslintrc` FlatCompat shim needed. New `react-hooks` v7 rules (`set-state-in-effect`, `purity`, `immutability`, `preserve-manual-memoization`, `static-components`) are downgraded to `warn` — tracked but not blocking; cleanup is future work. ESLint also ignores `_pages/`, `_api_routes/`, `_entities/`, `_middleware_dir/` (legacy directories that were renamed/removed during the static-export migration — the underscore prefix is the convention to "park" them).
+3. **ESLint 9 flat config**: config lives in `eslint.config.js`, not `.eslintrc.json`. Stack: `eslint@9` + `eslint-config-next@16` + `typescript-eslint@8` + `eslint-plugin-jsx-a11y@6`. Next 16 ships native flat config arrays; no `@eslint/eslintrc` FlatCompat shim needed. New `react-hooks` v7 rules (`set-state-in-effect`, `purity`, `immutability`, `preserve-manual-memoization`, `static-components`) are downgraded to `warn` — tracked but not blocking.
 
-4. **`docs/developer-guide.md`** — rewritten in phase-6 to match current stack (Next 16, pnpm, static export, GeistSans font).
+4. **Barrel re-export collisions**: `components/index.ts` intentionally skips some modules (e.g. `medical-button`) to avoid `ButtonProps`/`buttonVariants` collisions with `ui/button`. Read the comments in barrel files before adding new re-exports.
 
-5. **`docs/naming-conventions.md`** — rewritten in phase-6 to reflect actual kebab-case dominance; new code MUST use kebab-case.
+5. **Environment variables** (`lib/env.ts`): `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_APP_VERSION`. `NEXT_PUBLIC_SHOW_PERFORMANCE_MONITOR=true` enables the floating perf monitor.
 
-6. **Next.js version**: `package.json` resolves to Next 16.x; README/AGENTS synchronized. No drift.
+6. **Provider stacking** in `app/layout.tsx` is fixed: Theme → Language → Loading → UserAvatar → AutoTranslation → AutomaticExecution → children + Toaster. Adding a new global provider means editing this tree.
 
-7. **`app/(auth)` and `app/(medical)` are route groups** (parens) — they organize without affecting the URL. `(auth)/login/page.tsx` serves `/login`.
+7. **`tsconfig.json` `target: "es2017"`, `lib: ["dom","dom.iterable","es6"]`** — deliberately conservative. Don't bump without testing the static export.
 
-8. **Barrel re-export collisions**: `components/index.ts` intentionally skips some modules (e.g. `medical-button`) to avoid `ButtonProps`/`buttonVariants` collisions with `ui/button`. Read the comments in barrel files before adding new re-exports.
+8. **`turbo.json`** declares lint/build/test pipeline but this is effectively a single-package repo (the `packages/web` + `packages/mobile` subpackages are placeholders with only `package.json`). Turborepo caching still applies.
 
-9. **Environment variables** (`lib/env.ts`): `DEEPSEEK_API_KEY`, `DEEPSEEK_BASE_URL`, `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_APP_VERSION`. `NEXT_PUBLIC_SHOW_PERFORMANCE_MONITOR=true` enables the floating perf monitor in `RootLayoutClient`.
+9. **`prisma/schema.prisma`** uses MySQL and is not part of the build. SQL migrations live in both `prisma/*.sql` and `scripts/*.sql`.
 
-10. **Provider stacking** in `app/layout.tsx` is fixed: Theme → Language → Loading → UserAvatar → AutoTranslation → AutomaticExecution → children + Toaster. Adding a new global provider means editing this tree.
+10. **Husky v9** pre-commit uses `.husky/_/husky.sh` via the legacy shim. If hooks misbehave after dependency updates, check `lint-staged` config in `package.json` (`*.{ts,tsx}` → eslint --fix + prettier --write).
 
-11. **`tsconfig.json` `target: "es2017"`, `lib: ["dom","dom.iterable","es6"]`** — deliberately conservative. Don't bump without testing the static export.
+11. **`lib/logger.ts`** provides `debug()` helper — always use this instead of `console.log()` in `app/`/`components/`/`services/`. `console.error`/`console.warn` are allowed everywhere.
 
-12. **`turbo.json`** declares lint/build/test pipeline but this is effectively a single-package repo (the `packages/web` + `packages/mobile` subpackages are placeholders with only `package.json`). Turborepo caching still applies.
+12. **`any` audit**: see `docs/tech-debt/any-audit.md` for the full list of `any` occurrences. Do not add new `any` without justification; prefer `unknown` + type guard.
 
-13. **`prisma/schema.prisma`** uses MySQL and is not part of the build. SQL migrations live in both `prisma/*.sql` and `scripts/*.sql`.
+13. **Same-name cross-directory components** (9 pairs) are legitimate domain variants (e.g. `admin/settings/settings-client.tsx` for admin UI vs `settings/settings-client.tsx` for user UI). Don't try to merge them.
 
-14. **Husky v9** pre-commit uses `.husky/_/husky.sh` via the legacy shim. If hooks misbehave after dependency updates, check `lint-staged` config in `package.json` (`*.{ts,tsx}` → eslint --fix + prettier --write).
+14. **pnpm config hijacking**: `~/Library/Preferences/pnpm/{rc,config.yaml}` can hijack the store directory. If `pnpm install` hangs or fails, verify `store-dir` is set to a local path, not a stale mount point.
 
-15. **`lib/logger.ts`** provides `debug()` helper — always use this instead of `console.log()` in `app/`/`components/`/`services/`. `console.error`/`console.warn` are allowed everywhere.
-
-16. **`any` audit**: see `docs/tech-debt/any-audit.md` for the full list of `any` occurrences. Do not add new `any` without justification; prefer `unknown` + type guard.
-
-17. **Same-name cross-directory components** (9 pairs as of phase-4) are legitimate domain variants (e.g. `admin/settings/settings-client.tsx` for admin UI vs `settings/settings-client.tsx` for user UI). Don't try to merge them. See `docs/naming-conventions.md` for the policy.
+15. **`tailwind.config.ts`** defines `xs: 425px` breakpoint in addition to standard sm/md/lg/xl/2xl. Semantic colors (`success`, `warning`, `info`) reference CSS variables from `globals.css`. Animation keyframes include `heartbeat`, `breathe`, `fade-in`, `slide-up`, `scale-in`, `shimmer`.
 
 ## Commit Conventions
 
@@ -234,7 +220,7 @@ chore:    build/tooling
 test:     test additions/changes
 ```
 
-Recent commit style example: `fix(qa): 阶段一基线止血 — lint/test 全绿，type errors -62% (719→274)`. Scoped conventional commits with zh-CN descriptions are common.
+Scoped conventional commits with zh-CN descriptions are common (e.g. `fix(qa): 阶段一基线止血 — lint/test 全绿，type errors -62%`).
 
 ## When You're Asked to Make Changes
 

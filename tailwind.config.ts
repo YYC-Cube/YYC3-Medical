@@ -18,6 +18,15 @@ const config = {
         "2xl": "1400px",
       },
     },
+    // 多端响应式断点 — 覆盖移动 / 平板 / 桌面 / 宽屏
+    screens: {
+      xs: "425px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -36,6 +45,19 @@ const config = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        // 语义功能色 — 医疗状态指示（成功/警告/信息）
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -127,6 +149,39 @@ const config = {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)" },
         },
+        // 心率波形 — 医疗体征意象
+        heartbeat: {
+          "0%, 100%": { transform: "scale(1)" },
+          "15%": { transform: "scale(1.15)" },
+          "30%": { transform: "scale(1)" },
+          "45%": { transform: "scale(1.1)" },
+          "60%": { transform: "scale(1)" },
+        },
+        // 呼吸动画
+        breathe: {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.03)", opacity: "0.85" },
+        },
+        // 渐入
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        // 上滑渐入
+        "slide-up": {
+          from: { opacity: "0", transform: "translateY(16px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        // 缩放渐入
+        "scale-in": {
+          from: { opacity: "0", transform: "scale(0.95)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        // 微光闪烁 — 加载占位
+        shimmer: {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -134,6 +189,12 @@ const config = {
         "neural-pulse": "neural-pulse 2s ease-in-out infinite",
         "quantum-float": "quantum-float 3s ease-in-out infinite",
         "data-flow": "data-flow 2s linear infinite",
+        "fade-in": "fade-in 0.4s ease-out",
+        "slide-up": "slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        "scale-in": "scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        heartbeat: "heartbeat 1.5s ease-in-out infinite",
+        breathe: "breathe 3s ease-in-out infinite",
+        shimmer: "shimmer 2s infinite linear",
       },
       fontFamily: {
         // 与 app/layout.tsx 加载的 GeistSans 对齐（GeistSans.variable = "--font-geist-sans"）

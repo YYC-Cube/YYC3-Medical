@@ -19,7 +19,7 @@ export function LogoShowcase() {
   const bgOptions = [
     { value: "bg-white", label: "白色" },
     { value: "bg-gray-100", label: "浅灰" },
-    { value: "bg-gray-900", label: "深色" },
+    { value: "bg-medical-900", label: "深色" },
     { value: "bg-blue-50", label: "浅蓝" },
     { value: "bg-gradient-to-br from-blue-50 to-cyan-100", label: "渐变" },
   ]
@@ -110,7 +110,7 @@ export function LogoShowcase() {
                   {copied ? "已复制" : "复制"}
                 </Button>
               </div>
-              <pre className="bg-gray-900 text-gray-100 p-4 rounded text-sm overflow-x-auto">
+              <pre className="bg-medical-900 text-medical-100 p-4 rounded text-sm overflow-x-auto">
                 <code>{`import { CloudLogo } from "@/components/brand/cloud-logo"
 
 // 在您的组件中使用

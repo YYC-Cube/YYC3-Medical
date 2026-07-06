@@ -131,37 +131,43 @@ export function EHRIntegrationStatus() {
             <h3 className="text-lg font-medium mb-3">添加新连接</h3>
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium mb-1">系统名称</label>
-                <Input
-                  value={newConnection.name}
-                  onChange={(e) => setNewConnection({ ...newConnection, name: e.target.value })}
-                  placeholder="输入系统名称"
-                />
+                <label className="block text-sm font-medium mb-1">
+                  系统名称
+                  <Input
+                    value={newConnection.name}
+                    onChange={(e) => setNewConnection({ ...newConnection, name: e.target.value })}
+                    placeholder="输入系统名称"
+                  />
+                </label>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">连接类型</label>
-                <Select
-                  value={newConnection.type}
-                  onValueChange={(value) => setNewConnection({ ...newConnection, type: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="选择连接类型" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="FHIR">FHIR</SelectItem>
-                    <SelectItem value="HL7">HL7</SelectItem>
-                    <SelectItem value="API">API</SelectItem>
-                    <SelectItem value="DICOM">DICOM</SelectItem>
-                  </SelectContent>
-                </Select>
+                <label className="block text-sm font-medium mb-1">
+                  连接类型
+                  <Select
+                    value={newConnection.type}
+                    onValueChange={(value) => setNewConnection({ ...newConnection, type: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="选择连接类型" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FHIR">FHIR</SelectItem>
+                      <SelectItem value="HL7">HL7</SelectItem>
+                      <SelectItem value="API">API</SelectItem>
+                      <SelectItem value="DICOM">DICOM</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </label>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">端点URL</label>
-                <Input
-                  value={newConnection.endpoint}
-                  onChange={(e) => setNewConnection({ ...newConnection, endpoint: e.target.value })}
-                  placeholder="https://example.com/api"
-                />
+                <label className="block text-sm font-medium mb-1">
+                  端点URL
+                  <Input
+                    value={newConnection.endpoint}
+                    onChange={(e) => setNewConnection({ ...newConnection, endpoint: e.target.value })}
+                    placeholder="https://example.com/api"
+                  />
+                </label>
               </div>
               <div className="flex gap-2 pt-2">
                 <Button onClick={addNewConnection}>保存</Button>

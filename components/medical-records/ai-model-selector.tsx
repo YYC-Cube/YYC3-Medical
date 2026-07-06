@@ -99,22 +99,24 @@ export function AIModelSelector({ selectedModalities, selectedModels, onModelSel
               <CardContent className="pt-4">
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium mb-1 block">选择AI模型</label>
-                    <Select
-                      value={selectedModels[modalityId] || ""}
-                      onValueChange={(value) => handleModelChange(modalityId, value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="选择AI模型" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableModels.map((model) => (
-                          <SelectItem key={model.id} value={model.id}>
-                            {model.name} (v{model.version})
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <label className="text-sm font-medium mb-1 block">
+                      选择AI模型
+                      <Select
+                        value={selectedModels[modalityId] || ""}
+                        onValueChange={(value) => handleModelChange(modalityId, value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="选择AI模型" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {availableModels.map((model) => (
+                            <SelectItem key={model.id} value={model.id}>
+                              {model.name} (v{model.version})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </label>
                   </div>
 
                   {selectedModel && (

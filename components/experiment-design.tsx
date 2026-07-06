@@ -1,7 +1,8 @@
 "use client"
 import { debug } from "@/lib/logger"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useExperimentFilters } from "./use-experiment-filters"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -306,113 +307,30 @@ const designTemplates = [
 ]
 
 export function ExperimentDesign() {
-  const [activeTab, setActiveTab] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filters, setFilters] = useState<ExperimentFilters>(defaultFilters)
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [showDesignDetails, setShowDesignDetails] = useState(false)
   const [selectedDesign, setSelectedDesign] = useState<(typeof experimentDesigns)[0] | null>(null)
-  const [viewMode, setViewMode] = useState<"grid" | "list">("list")
   const [showTemplateManager, setShowTemplateManager] = useState(false)
   const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false)
   const [currentDesignData, setCurrentDesignData] = useState<any>(defaultNewDesign)
   const [isFromTemplate, setIsFromTemplate] = useState(false)
-  const [showFilterDrawer, setShowFilterDrawer] = useState(false)
 
-  // 更新搜索词到筛选器
-  useEffect(() => {
-    setFilters((prev) => ({
-      ...prev,
-      searchTerm,
-    }))
-  }, [searchTerm])
-
-  // 过滤试验设计数据
-  const filteredDesigns = experimentDesigns.filter((design) => {
-    // 基本搜索
-    if (
-      filters.searchTerm &&
-      !design.id.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
-      !design.title.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
-      !design.principalInvestigator.toLowerCase().includes(filters.searchTerm.toLowerCase())
-    ) {
-      return false
-    }
-
-    // 研究类型筛选
-    if (filters.types.length > 0 && !filters.types.includes(design.type)) {
-      return false
-    }
-
-    // 设计类型筛选
-    if (filters.designTypes.length > 0 && !filters.designTypes.includes(design.designType)) {
-      return false
-    }
-
-    // 状态筛选
-    if (filters.statuses.length > 0 && !filters.statuses.includes(design.status)) {
-      return false
-    }
-
-    // 部门筛选
-    if (filters.departments.length > 0 && !filters.departments.includes(design.department)) {
-      return false
-    }
-
-    // 日期范围筛选
-    if (filters.dateRange.from) {
-      const startDate = new Date(design.createdDate)
-      if (startDate < filters.dateRange.from) {
-        return false
-      }
-    }
-
-    if (filters.dateRange.to) {
-      const startDate = new Date(design.createdDate)
-      if (startDate > filters.dateRange.to) {
-        return false
-      }
-    }
-
-    // 标签筛选
-    if (filters.tags.length > 0 && !filters.tags.some((tag) => design.tags.includes(tag))) {
-      return false
-    }
-
-    // 预算范围筛选
-    if (design.budget < filters.budgetRange[0] || design.budget > filters.budgetRange[1]) {
-      return false
-    }
-
-    // 样本类型筛选
-    if (filters.sampleTypes.length > 0) {
-      // 这里需要实际数据中有样本类型字段，这里简化处理
-      const hasSampleType = design.methods.some(
-        (method) =>
-          method.name.includes("样本") && filters.sampleTypes.some((type) => method.description.includes(type)),
-      )
-      if (!hasSampleType) {
-        return false
-      }
-    }
-
-    // 伦理批准筛选
-    if (filters.hasEthicalApproval !== null && design.hasEthicalApproval !== filters.hasEthicalApproval) {
-      return false
-    }
-
-    // 标签页筛选
-    if (activeTab !== "all") {
-      if (activeTab === "clinical" && design.type !== "临床研究") return false
-      if (activeTab === "animal" && design.type !== "动物实验") return false
-      if (activeTab === "method" && design.type !== "方法学研究") return false
-      if (activeTab === "approved" && design.status !== "已批准") return false
-      if (activeTab === "ongoing" && design.status !== "进行中") return false
-      if (activeTab === "planned" && design.status !== "计划中") return false
-    }
-
-    return true
-  })
+  const {
+    activeTab,
+    setActiveTab,
+    searchTerm,
+    setSearchTerm,
+    filters,
+    setFilters,
+    viewMode,
+    setViewMode,
+    showFilterDrawer,
+    setShowFilterDrawer,
+    filteredDesigns,
+    applyFilters,
+    clearFilters,
+    removeFilter,
+  } = useExperimentFilters(experimentDesigns, defaultFilters)
 
   // 查看设计详情
   const viewDesignDetails = (design: (typeof experimentDesigns)[0]) => {
@@ -458,43 +376,6 @@ export function ExperimentDesign() {
       default:
         return <Microscope className="h-4 w-4 text-gray-500" />
     }
-  }
-
-  // 应用筛选器
-  const applyFilters = (newFilters: ExperimentFilters) => {
-    setFilters(newFilters)
-    setShowFilterDrawer(false)
-  }
-
-  // 清除所有筛选器
-  const clearFilters = () => {
-    setFilters(defaultFilters)
-    setSearchTerm("")
-  }
-
-  // 移除���个筛选条件
-  const removeFilter = (key: keyof ExperimentFilters, value?: string) => {
-    setFilters((prev) => {
-      const newFilters = { ...prev }
-
-      if (key === "searchTerm") {
-        newFilters.searchTerm = ""
-        setSearchTerm("")
-      } else if (key === "dateRange") {
-        newFilters.dateRange = { from: undefined, to: undefined }
-      } else if (key === "budgetRange") {
-        newFilters.budgetRange = [0, 1000000]
-      } else if (key === "hasEthicalApproval") {
-        newFilters.hasEthicalApproval = null
-      } else if (key === "createdByMe") {
-        newFilters.createdByMe = false
-      } else if (value && Array.isArray(newFilters[key])) {
-        // @ts-ignore
-        newFilters[key] = newFilters[key].filter((item) => item !== value)
-      }
-
-      return newFilters
-    })
   }
 
   // 打开模板管理器

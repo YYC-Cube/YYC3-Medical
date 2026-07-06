@@ -35,6 +35,7 @@ import {
   AlertTriangle,
 } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { useEthicsForm } from "./use-ethics-form"
 
 interface EthicsApplicationFormProps {
   experimentId: string
@@ -51,218 +52,27 @@ export function EthicsApplicationForm({
   onSaveDraft,
   onCancel,
 }: EthicsApplicationFormProps) {
-  const [activeTab, setActiveTab] = useState("basic-info")
-  const [showPreviewDialog, setShowPreviewDialog] = useState(false)
-  const [showSubmitDialog, setShowSubmitDialog] = useState(false)
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
-
-  // 初始化表单数据，如果有实验数据则预填充
-  const [formData, setFormData] = useState({
-    // 基本信息
-    projectTitle: experimentData?.title || "",
-    principalInvestigator: experimentData?.principalInvestigator || "",
-    department: experimentData?.department || "",
-    applicationDate: new Date().toISOString().split("T")[0],
-    contactEmail: "",
-    contactPhone: "",
-
-    // 研究设计
-    researchObjective: experimentData?.objective || "",
-    researchBackground: "",
-    methodology: experimentData?.methods?.map((m: any) => m.description).join("\n\n") || "",
-    participantSelection:
-      experimentData?.groups?.map((g: any) => `${g.name}: ${g.description} (n=${g.size})`).join("\n") || "",
-    sampleSize: experimentData?.groups?.reduce((sum: number, g: any) => sum + g.size, 0) || 0,
-    studyDuration:
-      experimentData?.startDate && experimentData?.endDate
-        ? `${experimentData.startDate} 至 ${experimentData.endDate}`
-        : "",
-
-    // 伦理考虑
-    potentialRisks: "",
-    riskManagement: "",
-    anticipatedBenefits: "",
-    informedConsent: "yes",
-    consentProcess: "",
-    dataProtection: "",
-    confidentiality: "",
-    compensationDetails: "",
-    conflictOfInterest: "no",
-    conflictDetails: "",
-
-    // 声明与确认
-    declarationAccuracy: false,
-    declarationCompliance: false,
-    declarationReporting: false,
-    declarationResponsibility: false,
-
-    // 元数据
-    status: "draft",
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    experimentId: experimentId,
-  })
-
-  // 处理表单字段变化
-  const handleChange = (field: string, value: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }))
-
-    // 清除该字段的错误
-    if (formErrors[field]) {
-      setFormErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors[field]
-        return newErrors
-      })
-    }
-  }
-
-  // 验证表单
-  const validateForm = () => {
-    const errors: Record<string, string> = {}
-
-    // 基本信息验证
-    if (!formData.projectTitle.trim()) errors.projectTitle = "请输入项目标题"
-    if (!formData.principalInvestigator.trim()) errors.principalInvestigator = "请输入主要研究者姓名"
-    if (!formData.department.trim()) errors.department = "请输入部门"
-    if (!formData.contactEmail.trim()) errors.contactEmail = "请输入联系邮箱"
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail)) errors.contactEmail = "请输入有效的邮箱地址"
-
-    // 研究设计验证
-    if (!formData.researchObjective.trim()) errors.researchObjective = "请输入研究目标"
-    if (!formData.methodology.trim()) errors.methodology = "请描述研究方法"
-    if (!formData.participantSelection.trim()) errors.participantSelection = "请描述参与者选择标准"
-
-    // 伦理考虑验证
-    if (!formData.potentialRisks.trim()) errors.potentialRisks = "请描述潜在风险"
-    if (!formData.riskManagement.trim()) errors.riskManagement = "请描述风险管理措施"
-    if (formData.informedConsent === "yes" && !formData.consentProcess.trim())
-      errors.consentProcess = "请描述知情同意过程"
-    if (!formData.dataProtection.trim()) errors.dataProtection = "请描述数据保护措施"
-    if (formData.conflictOfInterest === "yes" && !formData.conflictDetails.trim())
-      errors.conflictDetails = "请描述利益冲突详情"
-
-    // 声明与确认验证
-    if (!formData.declarationAccuracy) errors.declarationAccuracy = "请确认此声明"
-    if (!formData.declarationCompliance) errors.declarationCompliance = "请确认此声明"
-    if (!formData.declarationReporting) errors.declarationReporting = "请确认此声明"
-    if (!formData.declarationResponsibility) errors.declarationResponsibility = "请确认此声明"
-
-    setFormErrors(errors)
-    return Object.keys(errors).length === 0
-  }
-
-  // 处理文件上传
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setUploadedFiles((prev) => [...prev, ...Array.from(e.target.files as FileList)])
-    }
-  }
-
-  // 删除上传的文件
-  const handleDeleteFile = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
-  }
-
-  // 保存草稿
-  const handleSaveDraft = () => {
-    const draftData = {
-      ...formData,
-      status: "draft",
-      updatedAt: new Date().toISOString(),
-      files: uploadedFiles.map((file) => file.name),
-    }
-    onSaveDraft(draftData)
-  }
-
-  // 预览申请
-  const handlePreview = () => {
-    if (validateForm()) {
-      setShowPreviewDialog(true)
-    } else {
-      // 滚动到第一个错误字段
-      const firstErrorField = Object.keys(formErrors)[0]
-      const element = document.getElementById(firstErrorField)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" })
-        element.focus()
-      }
-    }
-  }
-
-  // 提交申请
-  const handleSubmit = () => {
-    if (validateForm()) {
-      setShowSubmitDialog(true)
-    } else {
-      // 滚动到第一个错误字段
-      const firstErrorField = Object.keys(formErrors)[0]
-      const element = document.getElementById(firstErrorField)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "center" })
-        element.focus()
-      }
-    }
-  }
-
-  // 确认提交
-  const confirmSubmit = () => {
-    const submissionData = {
-      ...formData,
-      status: "submitted",
-      updatedAt: new Date().toISOString(),
-      submittedAt: new Date().toISOString(),
-      files: uploadedFiles.map((file) => file.name),
-    }
-    onSubmit(submissionData)
-    setShowSubmitDialog(false)
-  }
-
-  // 导航到下一个标签页
-  const goToNextTab = () => {
-    switch (activeTab) {
-      case "basic-info":
-        setActiveTab("research-design")
-        break
-      case "research-design":
-        setActiveTab("ethical-considerations")
-        break
-      case "ethical-considerations":
-        setActiveTab("file-upload")
-        break
-      case "file-upload":
-        setActiveTab("declaration")
-        break
-    }
-  }
-
-  // 导航到上一个标签页
-  const goToPrevTab = () => {
-    switch (activeTab) {
-      case "research-design":
-        setActiveTab("basic-info")
-        break
-      case "ethical-considerations":
-        setActiveTab("research-design")
-        break
-      case "file-upload":
-        setActiveTab("ethical-considerations")
-        break
-      case "declaration":
-        setActiveTab("file-upload")
-        break
-    }
-  }
-
-  // 渲染表单字段错误信息
-  const renderError = (field: string) => {
-    if (!formErrors[field]) return null
-    return <div className="text-red-500 text-sm mt-1">{formErrors[field]}</div>
-  }
+  const {
+    activeTab,
+    setActiveTab,
+    showPreviewDialog,
+    setShowPreviewDialog,
+    showSubmitDialog,
+    setShowSubmitDialog,
+    formErrors,
+    uploadedFiles,
+    formData,
+    handleChange,
+    handleFileUpload,
+    handleDeleteFile,
+    handleSaveDraft,
+    handlePreview,
+    handleSubmit,
+    confirmSubmit,
+    goToNextTab,
+    goToPrevTab,
+    renderError,
+  } = useEthicsForm({ experimentId, experimentData, onSubmit, onSaveDraft })
 
   return (
     <div className="flex flex-col h-full">

@@ -119,7 +119,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
     return (
       <div className="grid grid-cols-2 gap-4">
         <div className="border rounded-md overflow-hidden">
-          <div className="bg-gray-800 text-white text-sm p-2">
+          <div className="bg-medical-800 text-white text-sm p-2">
             当前图像: {selectedImage.type} - {new Date(selectedImage.date).toLocaleDateString()}
           </div>
           <div className="relative">
@@ -136,7 +136,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
           </div>
         </div>
         <div className="border rounded-md overflow-hidden">
-          <div className="bg-gray-800 text-white text-sm p-2">
+          <div className="bg-medical-800 text-white text-sm p-2">
             比较图像: {compareImage.type} - {new Date(compareImage.date).toLocaleDateString()}
           </div>
           <div className="relative">
@@ -239,7 +239,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
                     alt={image.description}
                     className="w-20 h-20 object-cover"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-1 text-xs truncate">
+                  <div className="absolute bottom-0 left-0 right-0 bg-medical-900 bg-opacity-70 text-white p-1 text-xs truncate">
                     {image.type}
                   </div>
                   {viewMode === "compare" && index === compareImageIndex && (

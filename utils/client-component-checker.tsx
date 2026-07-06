@@ -60,6 +60,7 @@ export function withClientCheck<P extends object>(Component: React.ComponentType
     const [isClient, setIsClient] = useState(false)
 
     useEffect(() => {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- 标准 SSR 水合检测模式
       setIsClient(true)
     }, [])
 

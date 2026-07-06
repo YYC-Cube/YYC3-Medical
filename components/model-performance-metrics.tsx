@@ -83,21 +83,23 @@ export function ModelPerformanceMetrics() {
 
           <TabsContent value="metrics" className="pt-4">
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">选择疾病类别</label>
-              <Select value={selectedDisease} onValueChange={setSelectedDisease}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择疾病类别" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">所有疾病</SelectItem>
-                  <SelectItem value="heart">心脏病</SelectItem>
-                  <SelectItem value="diabetes">糖尿病</SelectItem>
-                  <SelectItem value="pneumonia">肺炎</SelectItem>
-                  <SelectItem value="hypertension">高血压</SelectItem>
-                  <SelectItem value="fracture">骨折</SelectItem>
-                  <SelectItem value="skin">皮肤病</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="block text-sm font-medium mb-1">
+                选择疾病类别
+                <Select value={selectedDisease} onValueChange={setSelectedDisease}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择疾病类别" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">所有疾病</SelectItem>
+                    <SelectItem value="heart">心脏病</SelectItem>
+                    <SelectItem value="diabetes">糖尿病</SelectItem>
+                    <SelectItem value="pneumonia">肺炎</SelectItem>
+                    <SelectItem value="hypertension">高血压</SelectItem>
+                    <SelectItem value="fracture">骨折</SelectItem>
+                    <SelectItem value="skin">皮肤病</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
 
             <div className="h-80">

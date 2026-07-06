@@ -49,7 +49,7 @@ export function MobileAppPreview() {
           <TabsContent value="home" className="pt-4">
             <div className="mx-auto w-full max-w-sm border-2 rounded-3xl overflow-hidden shadow-lg bg-white">
               {/* 手机状态栏 */}
-              <div className="bg-gray-800 text-white p-2 text-xs flex justify-between items-center">
+              <div className="bg-medical-800 text-white p-2 text-xs flex justify-between items-center">
                 <span>9:41</span>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-full bg-white"></div>
@@ -254,7 +254,7 @@ export function MobileAppPreview() {
           <TabsContent value="records" className="pt-4">
             <div className="mx-auto w-full max-w-sm border-2 rounded-3xl overflow-hidden shadow-lg bg-white">
               {/* 手机状态栏 */}
-              <div className="bg-gray-800 text-white p-2 text-xs flex justify-between items-center">
+              <div className="bg-medical-800 text-white p-2 text-xs flex justify-between items-center">
                 <span>9:41</span>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-full bg-white"></div>
@@ -396,7 +396,7 @@ export function MobileAppPreview() {
           <TabsContent value="chat" className="pt-4">
             <div className="mx-auto w-full max-w-sm border-2 rounded-3xl overflow-hidden shadow-lg bg-white">
               {/* 手机状态栏 */}
-              <div className="bg-gray-800 text-white p-2 text-xs flex justify-between items-center">
+              <div className="bg-medical-800 text-white p-2 text-xs flex justify-between items-center">
                 <span>9:41</span>
                 <div className="flex items-center gap-1">
                   <div className="w-3 h-3 rounded-full bg-white"></div>

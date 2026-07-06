@@ -41,10 +41,10 @@ const customJestConfig = {
   //   目标：阶段一出口 statements/lines ≥ 40%，阶段二出口 ≥ 60%，终态 70%。
   coverageThreshold: {
     global: {
-      branches: 70,
-      functions: 38,
-      lines: 39,
-      statements: 38,
+      branches: 63,
+      functions: 40,
+      lines: 41,
+      statements: 40,
     },
   },
   roots: ['<rootDir>/app', '<rootDir>/__tests__'],

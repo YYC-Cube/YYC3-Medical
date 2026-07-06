@@ -98,38 +98,42 @@ export function ModelTrainingDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">选择模型架构</label>
-                  <Select value={selectedModel} onValueChange={setSelectedModel}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="选择模型架构" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cnn">卷积神经网络 (CNN)</SelectItem>
-                      <SelectItem value="transformer">Transformer</SelectItem>
-                      <SelectItem value="resnet">ResNet-50</SelectItem>
-                      <SelectItem value="densenet">DenseNet-121</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="block text-sm font-medium mb-1">
+                    选择模型架构
+                    <Select value={selectedModel} onValueChange={setSelectedModel}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="选择模型架构" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="cnn">卷积神经网络 (CNN)</SelectItem>
+                        <SelectItem value="transformer">Transformer</SelectItem>
+                        <SelectItem value="resnet">ResNet-50</SelectItem>
+                        <SelectItem value="densenet">DenseNet-121</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </label>
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">选择疾病类别</label>
-                  <Select value={selectedDisease} onValueChange={setSelectedDisease}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="选择疾病类别" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">所有疾病</SelectItem>
-                      <SelectItem value="heart">心脏病</SelectItem>
-                      <SelectItem value="diabetes">糖尿病</SelectItem>
-                      <SelectItem value="pneumonia">肺炎</SelectItem>
-                      <SelectItem value="hypertension">高血压</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="block text-sm font-medium mb-1">
+                    选择疾病类别
+                    <Select value={selectedDisease} onValueChange={setSelectedDisease}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="选择疾病类别" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">所有疾病</SelectItem>
+                        <SelectItem value="heart">心脏病</SelectItem>
+                        <SelectItem value="diabetes">糖尿病</SelectItem>
+                        <SelectItem value="pneumonia">肺炎</SelectItem>
+                        <SelectItem value="hypertension">高血压</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </label>
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">训练进度</label>
+                  <span className="block text-sm font-medium mb-1">训练进度</span>
                   <Progress value={trainingProgress} className="h-2" />
                   <div className="flex justify-between mt-1 text-xs text-muted-foreground">
                     <span>Epoch: {Math.floor(trainingProgress / 10)} / 10</span>

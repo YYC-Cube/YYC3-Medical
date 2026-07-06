@@ -385,7 +385,7 @@ function StockStatusBadge({ status }: { status: string }) {
       case "ordered":
         return { text: "已订购", color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300" }
       default:
-        return { text: status, color: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300" }
+        return { text: status, color: "bg-gray-100 text-gray-800 dark:bg-medical-800 dark:text-medical-100" }
     }
   }
 

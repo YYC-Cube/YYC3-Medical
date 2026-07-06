@@ -48,13 +48,15 @@ export default function TranslationLoaderDemo() {
               </div>
 
               <div className="w-full mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">自定义消息</label>
-                <input
-                  type="text"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  自定义消息
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </label>
               </div>
 
               {completed && <div className="text-green-600 font-medium mt-2">加载完成！</div>}

@@ -143,7 +143,7 @@ export function ModelIntegration() {
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2">HTTP请求示例</h4>
-                    <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                    <div className="bg-medical-900 text-medical-100 p-4 rounded-md overflow-x-auto">
                       <pre className="text-sm">
                         {`curl -X POST https://api.medinexus.com/v1/diagnose \\
   -H "Authorization: Bearer ${apiKey}" \\
@@ -158,7 +158,7 @@ export function ModelIntegration() {
 
                   <div>
                     <h4 className="font-medium mb-2">JavaScript示例</h4>
-                    <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                    <div className="bg-medical-900 text-medical-100 p-4 rounded-md overflow-x-auto">
                       <pre className="text-sm">
                         {`async function diagnoseImage(imageUrl) {
   const response = await fetch('https://api.medinexus.com/v1/diagnose', {

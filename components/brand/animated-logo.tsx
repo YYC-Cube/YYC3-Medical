@@ -26,6 +26,7 @@ export function AnimatedLogo({
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 标准 SSR 水合检测模式
     setIsMounted(true)
     // 添加初始加载动画
     const timer = setTimeout(() => setIsLoaded(true), 300)

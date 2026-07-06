@@ -172,7 +172,7 @@ export function DicomViewer({ studyId, seriesId, imagePath, patientId, className
                           alt={`DICOM Slice ${index + 1}`}
                           className="w-full h-full object-contain"
                         />
-                        <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                        <div className="absolute bottom-1 left-1 bg-medical-900/80 text-white text-xs px-2 py-1 rounded">
                           {index + 1}/{mockDicomImages.length}
                         </div>
                       </div>

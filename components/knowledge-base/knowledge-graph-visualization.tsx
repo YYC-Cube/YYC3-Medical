@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { RelatedCasesPanel } from "../knowledge-graph/related-cases-panel"
+import { useKnowledgeGraph } from "./use-knowledge-graph"
 import {
   Network,
   Share2,
@@ -62,88 +63,37 @@ export function KnowledgeGraphVisualization({
   const router = useRouter()
   const svgRef = useRef<SVGSVGElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const [graph, setGraph] = useState<KnowledgeGraph | null>(null)
-  const [filteredGraph, setFilteredGraph] = useState<KnowledgeGraph | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null)
   const [selectedRelation, setSelectedRelation] = useState<GraphRelation | null>(null)
   const [showFilterPanel, setShowFilterPanel] = useState(false)
   const [showInfoPanel, setShowInfoPanel] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [focusNodeId, setFocusNodeId] = useState<string | undefined>(initialFocusNodeId)
-  const [maxDistance, setMaxDistance] = useState(2)
-  const [minImportance, setMinImportance] = useState(0)
-  const [minStrength, setMinStrength] = useState(0)
-  const [selectedNodeTypes, setSelectedNodeTypes] = useState<NodeType[]>([])
-  const [selectedRelationTypes, setSelectedRelationTypes] = useState<RelationType[]>([])
-  const [layoutOptions, setLayoutOptions] = useState<GraphLayoutOptions>({
-    layout: "force",
-    nodeSize: "importance",
-    nodeSizeRange: [5, 20],
-    linkWidth: "strength",
-    linkWidthRange: [1, 5],
-    nodeSpacing: 100,
-    groupClusters: true,
-    showLabels: true,
-    colorScheme: "category10",
-  })
-  const [zoomLevel, setZoomLevel] = useState(1)
   const [fullscreen, setFullscreen] = useState(false)
 
-  // 获取图谱数据
-  useEffect(() => {
-    setLoading(true)
-    setError(null)
-
-    try {
-      const graphData = knowledgeGraphService.getGraphById(graphId)
-      if (graphData) {
-        setGraph(graphData)
-        applyFilters(graphData)
-      } else {
-        setError("未找到指定的知识图谱")
-      }
-    } catch (err) {
-      console.error("获取知识图谱失败:", err)
-      setError("获取知识图谱数据失败")
-    } finally {
-      setLoading(false)
-    }
-  }, [graphId])
-
-  // 应用过滤器
-  function applyFilters(sourceGraph: KnowledgeGraph) {
-    const filterOptions: GraphFilterOptions = {
-      nodeTypes: selectedNodeTypes.length > 0 ? selectedNodeTypes : undefined,
-      relationTypes: selectedRelationTypes.length > 0 ? selectedRelationTypes : undefined,
-      minImportance: minImportance > 0 ? minImportance : undefined,
-      minStrength: minStrength > 0 ? minStrength : undefined,
-      searchQuery: searchQuery || undefined,
-      focusNodeId: focusNodeId,
-      maxDistance: maxDistance,
-    }
-
-    const filtered = knowledgeGraphService.getFilteredGraph(sourceGraph.id, filterOptions)
-    setFilteredGraph(filtered)
-  }
-
-  // 当过滤条件变化时重新应用过滤器
-  useEffect(() => {
-    if (graph) {
-      applyFilters(graph)
-    }
-  }, [
+  const {
     graph,
+    filteredGraph,
+    loading,
+    error,
+    searchQuery,
+    setSearchQuery,
+    focusNodeId,
+    setFocusNodeId,
+    maxDistance,
+    setMaxDistance,
+    minImportance,
+    setMinImportance,
+    minStrength,
+    setMinStrength,
     selectedNodeTypes,
     selectedRelationTypes,
-    minImportance,
-    minStrength,
-    searchQuery,
-    focusNodeId,
-    maxDistance,
-    applyFilters,
-  ])
+    layoutOptions,
+    setLayoutOptions,
+    zoomLevel,
+    setZoomLevel,
+    resetFilters,
+    handleNodeTypeChange,
+    handleRelationTypeChange,
+  } = useKnowledgeGraph(graphId, initialFocusNodeId)
 
   // 渲染图谱
   useEffect(() => {
@@ -478,16 +428,6 @@ export function KnowledgeGraphVisualization({
     // 搜索逻辑已经在过滤器中实现
   }
 
-  // 重置过滤器
-  const resetFilters = () => {
-    setSelectedNodeTypes([])
-    setSelectedRelationTypes([])
-    setMinImportance(0)
-    setMinStrength(0)
-    setSearchQuery("")
-    setFocusNodeId(undefined)
-    setMaxDistance(2)
-  }
 
   // 导出图谱为PNG
   const exportAsPNG = () => {
@@ -531,23 +471,6 @@ export function KnowledgeGraphVisualization({
   // 获取所有可用的关系类型
   const availableRelationTypes = graph ? Array.from(new Set(graph.relations.map((relation) => relation.type))) : []
 
-  // 处理节点类型选择变化
-  const handleNodeTypeChange = (type: NodeType, checked: boolean) => {
-    if (checked) {
-      setSelectedNodeTypes([...selectedNodeTypes, type])
-    } else {
-      setSelectedNodeTypes(selectedNodeTypes.filter((t) => t !== type))
-    }
-  }
-
-  // 处理关系类型选择变化
-  const handleRelationTypeChange = (type: RelationType, checked: boolean) => {
-    if (checked) {
-      setSelectedRelationTypes([...selectedRelationTypes, type])
-    } else {
-      setSelectedRelationTypes(selectedRelationTypes.filter((t) => t !== type))
-    }
-  }
 
   // 渲染加载状态
   if (loading) {

@@ -171,7 +171,7 @@ export function ConsultationRoom() {
           <TabsContent value="video" className="pt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="md:col-span-2">
-                <div className="bg-gray-900 rounded-lg aspect-video relative overflow-hidden">
+                <div className="bg-medical-900 rounded-lg aspect-video relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-white text-center">
                       <Video className="w-16 h-16 mx-auto mb-2 opacity-20" />
@@ -212,7 +212,7 @@ export function ConsultationRoom() {
                   {participants.slice(0, 4).map((participant) => (
                     <div key={participant.id} className="relative">
                       <div
-                        className={`bg-gray-800 rounded-lg aspect-video flex items-center justify-center ${
+                        className={`bg-medical-800 rounded-lg aspect-video flex items-center justify-center ${
                           participant.status === "offline" ? "opacity-50" : ""
                         }`}
                       >

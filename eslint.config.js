@@ -69,7 +69,12 @@ const eslintConfig = [
       "jsx-a11y/aria-unsupported-elements": "error",
       "jsx-a11y/click-events-have-key-events": "warn",
       "jsx-a11y/interactive-supports-focus": "warn",
-      "jsx-a11y/label-has-associated-control": "warn",
+      "jsx-a11y/label-has-associated-control": [
+        "warn",
+        {
+          controlComponents: ["Input", "Select", "SelectTrigger", "Textarea", "Checkbox", "Switch", "RadioGroup"],
+        },
+      ],
       "jsx-a11y/no-autofocus": "warn",
       "jsx-a11y/tabindex-no-positive": "warn",
     },

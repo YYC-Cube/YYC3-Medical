@@ -17,6 +17,7 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 标准 SSR 水合检测模式
     setIsMounted(true)
   }, [])
 

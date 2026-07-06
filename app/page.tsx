@@ -211,17 +211,17 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4">
+      <footer className="bg-medical-900 text-white py-12 px-4">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <Logo size="md" showText className="mb-4" />
-              <Slogan className="text-gray-400 mb-4" />
-              <p className="text-sm text-gray-400">致力于通过AI技术推动医疗行业的数字化转型</p>
+              <Slogan className="text-medical-200 mb-4" />
+              <p className="text-sm text-medical-200">致力于通过AI技术推动医疗行业的数字化转型</p>
             </div>
             <div>
               <h3 className="font-semibold mb-4">产品功能</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-medical-200">
                 <li>
                   <Link href="/ai-diagnosis" className="hover:text-white transition-colors">
                     AI诊断
@@ -246,7 +246,7 @@ export default function HomePage() {
             </div>
             <div>
               <h3 className="font-semibold mb-4">解决方案</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-medical-200">
                 <li>
                   <Link href="/clinical-decision" className="hover:text-white transition-colors">
                     临床决策支持
@@ -271,7 +271,7 @@ export default function HomePage() {
             </div>
             <div>
               <h3 className="font-semibold mb-4">支持与服务</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
+              <ul className="space-y-2 text-sm text-medical-200">
                 <li>
                   <Link href="/help" className="hover:text-white transition-colors">
                     帮助中心
@@ -295,7 +295,7 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+          <div className="border-t border-medical-700 mt-8 pt-8 text-center text-sm text-medical-200">
             <p>&copy; 2024 言语云³ (YYC³-Med). All rights reserved.</p>
           </div>
         </div>

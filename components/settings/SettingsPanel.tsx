@@ -75,7 +75,7 @@ export function SettingsPanel() {
                     htmlFor="theme-dark"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground cursor-pointer [&:has([data-state=checked])]:border-primary"
                   >
-                    <div className="mb-2 rounded-md bg-slate-950 p-2 shadow-sm">
+                    <div className="mb-2 rounded-md bg-medical-900 p-2 shadow-sm">
                       <div className="h-8 w-8 rounded-md bg-blue-500" />
                     </div>
                     <span className="block w-full text-center">{t("settings.theme.dark", "深色")}</span>
@@ -87,7 +87,7 @@ export function SettingsPanel() {
                     htmlFor="theme-system"
                     className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground cursor-pointer [&:has([data-state=checked])]:border-primary"
                   >
-                    <div className="mb-2 rounded-md bg-slate-900 p-2 shadow-sm">
+                    <div className="mb-2 rounded-md bg-medical-800 p-2 shadow-sm">
                       <div className="h-4 w-8 rounded-md bg-blue-500" />
                       <div className="mt-1 h-4 w-8 rounded-md bg-white" />
                     </div>

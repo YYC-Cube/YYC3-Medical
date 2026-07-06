@@ -255,15 +255,15 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
   return (
     <div
       ref={containerRef}
-      className={`relative ${isFullscreen ? "w-screen h-screen" : "w-full h-[700px]"} border rounded-md overflow-hidden bg-gray-900`}
+      className={`relative ${isFullscreen ? "w-screen h-screen" : "w-full h-[700px]"} border rounded-md overflow-hidden bg-medical-900`}
     >
       {/* 顶部工具栏 */}
-      <div className="absolute top-0 left-0 right-0 z-10 bg-gray-800 bg-opacity-80 p-2 flex justify-between items-center">
+      <div className="absolute top-0 left-0 right-0 z-10 bg-medical-800/80 p-2 flex justify-between items-center">
         <div className="flex items-center">
           <h3 className="text-white font-medium mr-4">{volume.name}</h3>
           <div className="flex items-center space-x-2">
             <Select value={renderMode} onValueChange={handleRenderModeChange}>
-              <SelectTrigger className="w-[140px] h-8 bg-gray-700 text-white border-gray-600">
+              <SelectTrigger className="w-[140px] h-8 bg-medical-700 text-white border-medical-600">
                 <SelectValue placeholder="渲染模式" />
               </SelectTrigger>
               <SelectContent>
@@ -276,7 +276,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
             </Select>
 
             <Select value={colorMap} onValueChange={handleColorMapChange}>
-              <SelectTrigger className="w-[120px] h-8 bg-gray-700 text-white border-gray-600">
+              <SelectTrigger className="w-[120px] h-8 bg-medical-700 text-white border-medical-600">
                 <SelectValue placeholder="颜色映射" />
               </SelectTrigger>
               <SelectContent>
@@ -294,7 +294,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white hover:bg-gray-700"
+            className="h-8 w-8 text-white hover:bg-medical-700"
             onClick={() => handleToolSelect("none")}
             data-active={activeTool === "none"}
           >
@@ -303,7 +303,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white hover:bg-gray-700"
+            className="h-8 w-8 text-white hover:bg-medical-700"
             onClick={() => handleToolSelect("measure")}
             data-active={activeTool === "measure"}
           >
@@ -312,7 +312,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white hover:bg-gray-700"
+            className="h-8 w-8 text-white hover:bg-medical-700"
             onClick={() => handleToolSelect("annotate")}
             data-active={activeTool === "annotate"}
           >
@@ -321,23 +321,23 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white hover:bg-gray-700"
+            className="h-8 w-8 text-white hover:bg-medical-700"
             onClick={() => handleToolSelect("crop")}
             data-active={activeTool === "crop"}
           >
             <Scissors className="h-4 w-4" />
           </Button>
-          <div className="h-4 w-px bg-gray-600 mx-1"></div>
+          <div className="h-4 w-px bg-medical-600 mx-1"></div>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8 text-white hover:bg-gray-700"
+            className="h-8 w-8 text-white hover:bg-medical-700"
             onClick={toggleFullscreen}
           >
             {isFullscreen ? <Minimize className="h-4 w-4" /> : <Maximize className="h-4 w-4" />}
           </Button>
           {onClose && (
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-gray-700" onClick={onClose}>
+            <Button variant="ghost" size="icon" className="h-8 w-8 text-white hover:bg-medical-700" onClick={onClose}>
               <Crosshair className="h-4 w-4" />
             </Button>
           )}
@@ -345,9 +345,9 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
       </div>
 
       {/* 左侧控制面板 */}
-      <div className="absolute left-0 top-12 bottom-0 z-10 w-64 bg-gray-800 bg-opacity-80 p-3 overflow-y-auto">
+      <div className="absolute left-0 top-12 bottom-0 z-10 w-64 bg-medical-800/80 p-3 overflow-y-auto">
         <Tabs defaultValue="render" className="w-full">
-          <TabsList className="grid grid-cols-3 mb-4 bg-gray-700">
+          <TabsList className="grid grid-cols-3 mb-4 bg-medical-700">
             <TabsTrigger value="render" className="text-xs">
               渲染
             </TabsTrigger>
@@ -479,7 +479,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
               </div>
 
               {/* 显示选项 */}
-              <div className="space-y-2 pt-2 border-t border-gray-700">
+              <div className="space-y-2 pt-2 border-t border-medical-700">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="show-grid" className="text-sm text-gray-300">
                     显示网格
@@ -524,7 +524,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${selectedOrgan === "lung" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${selectedOrgan === "lung" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleOrganSelect("lung")}
                   >
                     <Lung className="h-3 w-3 mr-1" />
@@ -533,7 +533,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${selectedOrgan === "heart" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${selectedOrgan === "heart" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleOrganSelect("heart")}
                   >
                     <Heart className="h-3 w-3 mr-1" />
@@ -542,7 +542,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${selectedOrgan === "brain" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${selectedOrgan === "brain" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleOrganSelect("brain")}
                   >
                     <Brain className="h-3 w-3 mr-1" />
@@ -551,7 +551,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${selectedOrgan === "bone" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${selectedOrgan === "bone" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleOrganSelect("bone")}
                   >
                     <Bone className="h-3 w-3 mr-1" />
@@ -565,15 +565,15 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                 <div>
                   <h4 className="text-sm text-gray-300 mb-2">测量工具</h4>
                   <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Ruler className="h-3 w-3 mr-1" />
                       测量距离
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Sliders className="h-3 w-3 mr-1" />
                       测量角度
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Box className="h-3 w-3 mr-1" />
                       测量体积
                     </Button>
@@ -591,15 +591,15 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                 <div>
                   <h4 className="text-sm text-gray-300 mb-2">标注工具</h4>
                   <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Pencil className="h-3 w-3 mr-1" />
                       添加标记
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Crosshair className="h-3 w-3 mr-1" />
                       添加标注点
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Boxes className="h-3 w-3 mr-1" />
                       添加边界框
                     </Button>
@@ -617,14 +617,14 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                 <div>
                   <h4 className="text-sm text-gray-300 mb-2">裁剪工具</h4>
                   <div className="space-y-2">
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       <Scissors className="h-3 w-3 mr-1" />
                       设置裁剪区域
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       应用裁剪
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+                    <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                       重置裁剪
                     </Button>
                   </div>
@@ -632,13 +632,13 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
               )}
 
               {/* 视图控制 */}
-              <div className="pt-2 border-t border-gray-700">
+              <div className="pt-2 border-t border-medical-700">
                 <h4 className="text-sm text-gray-300 mb-2">视图控制</h4>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([0, 0, 5])}
                   >
                     前视图
@@ -646,7 +646,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([0, 0, -5])}
                   >
                     后视图
@@ -654,7 +654,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([5, 0, 0])}
                   >
                     右视图
@@ -662,7 +662,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([-5, 0, 0])}
                   >
                     左视图
@@ -670,7 +670,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([0, 5, 0])}
                   >
                     顶视图
@@ -678,7 +678,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className="h-8 text-xs bg-gray-700 border-gray-600"
+                    className="h-8 text-xs bg-medical-700 border-medical-600"
                     onClick={() => setCameraPosition([0, -5, 0])}
                   >
                     底视图
@@ -730,7 +730,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                       variant="outline"
                       size="sm"
                       className={`w-full h-auto py-2 text-xs text-left justify-start ${
-                        selectedVolumes.includes(vol.id) ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"
+                        selectedVolumes.includes(vol.id) ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"
                       }`}
                       onClick={() => handleVolumeSelect(vol.id)}
                     >
@@ -754,7 +754,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${viewMode === "single" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${viewMode === "single" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleViewModeChange("single")}
                   >
                     单视图
@@ -762,7 +762,7 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                   <Button
                     variant="outline"
                     size="sm"
-                    className={`h-8 text-xs ${viewMode === "multi" ? "bg-blue-900 border-blue-500" : "bg-gray-700 border-gray-600"}`}
+                    className={`h-8 text-xs ${viewMode === "multi" ? "bg-medical-900 border-medical-400" : "bg-medical-700 border-medical-600"}`}
                     onClick={() => handleViewModeChange("multi")}
                   >
                     多视图
@@ -770,8 +770,8 @@ export function MedicalViewer3D({ volumeId = "volume-1", onClose }: MedicalViewe
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-gray-700">
-                <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-gray-700 border-gray-600">
+              <div className="pt-2 border-t border-medical-700">
+                <Button variant="outline" size="sm" className="w-full h-8 text-xs bg-medical-700 border-medical-600">
                   <Download className="h-3 w-3 mr-1" />
                   导出当前视图
                 </Button>

@@ -175,28 +175,34 @@ export function EHRDataMapping() {
               <h3 className="text-lg font-medium mb-3">添加新映射</h3>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1">源字段</label>
-                  <Input
-                    value={newMapping.source}
-                    onChange={(e) => setNewMapping({ ...newMapping, source: e.target.value })}
-                    placeholder="输入源字段名"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    源字段
+                    <Input
+                      value={newMapping.source}
+                      onChange={(e) => setNewMapping({ ...newMapping, source: e.target.value })}
+                      placeholder="输入源字段名"
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">目标字段</label>
-                  <Input
-                    value={newMapping.target}
-                    onChange={(e) => setNewMapping({ ...newMapping, target: e.target.value })}
-                    placeholder="输入目标字段名"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    目标字段
+                    <Input
+                      value={newMapping.target}
+                      onChange={(e) => setNewMapping({ ...newMapping, target: e.target.value })}
+                      placeholder="输入目标字段名"
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">描述</label>
-                  <Input
-                    value={newMapping.description}
-                    onChange={(e) => setNewMapping({ ...newMapping, description: e.target.value })}
-                    placeholder="输入字段描述"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    描述
+                    <Input
+                      value={newMapping.description}
+                      onChange={(e) => setNewMapping({ ...newMapping, description: e.target.value })}
+                      placeholder="输入字段描述"
+                    />
+                  </label>
                 </div>
                 <div className="flex gap-2 pt-2">
                   <Button onClick={addNewMapping}>保存</Button>

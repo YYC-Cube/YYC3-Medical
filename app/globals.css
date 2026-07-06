@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   YYC³-Med 医疗级色彩系统 — Medical-Grade Color System
+   设计理念：临床洁净 (Clinical Cleanliness) · 信任蓝 (Trust Blue) · 生命绿 (Vital Green)
+   绝不使用纯黑 (#000) 作为容器/卡片/按钮/进度条背景 — 暗色模式采用深海蓝 (Deep Navy)
+   ========================================================================== */
+
 :root {
-  /* 医疗蓝色主题色彩系统 */
+  /* 医疗蓝色主题色彩系统 — Medical Blue Theme */
   --medical-primary: #2563eb;
   --medical-primary-dark: #1d4ed8;
   --medical-primary-light: #3b82f6;
@@ -13,6 +19,7 @@
   /* 医疗蓝色渐变 */
   --medical-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
   --medical-gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
+  --medical-gradient-soft: linear-gradient(135deg, #dbeafe 0%, #cffafe 100%);
 
   /* 医疗蓝色色阶 */
   --medical-50: #eff6ff;
@@ -26,8 +33,16 @@
   --medical-800: #1e40af;
   --medical-900: #1e3a8a;
 
-  /* 系统色彩 — 蓝白医疗主题 */
-  --background: 0 0% 100%;
+  /* 语义功能色 — Semantic Status Colors */
+  --success: 142.1 76.2% 36.3%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 0 0% 100%;
+  --info: 189 94% 43%;
+  --info-foreground: 0 0% 100%;
+
+  /* 系统色彩 — 蓝白医疗主题 (Light Mode) */
+  --background: 210 40% 99%;
   --foreground: 222.2 84% 16%;
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 16%;
@@ -66,25 +81,26 @@
   --sidebar-ring: 221.2 83.2% 53.3%;
 }
 
+/* 暗色模式 — Deep Navy 深海蓝主题（非纯黑，保持医疗专业感） */
 .dark {
-  --background: 222.2 70% 8%;
+  --background: 222 47% 11%;
   --foreground: 210 40% 98%;
-  --card: 222.2 70% 10%;
+  --card: 222 47% 14%;
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 70% 10%;
+  --popover: 222 47% 14%;
   --popover-foreground: 210 40% 98%;
   --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 84% 8%;
-  --secondary: 222.2 50% 14%;
+  --primary-foreground: 222.2 84% 11%;
+  --secondary: 222 40% 18%;
   --secondary-foreground: 210 40% 98%;
-  --muted: 222.2 50% 14%;
+  --muted: 222 40% 18%;
   --muted-foreground: 215 20.2% 65.1%;
-  --accent: 222.2 50% 14%;
+  --accent: 222 40% 18%;
   --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 62.8% 40%;
   --destructive-foreground: 210 40% 98%;
-  --border: 222.2 40% 20%;
-  --input: 222.2 40% 20%;
+  --border: 222 34% 24%;
+  --input: 222 34% 24%;
   --ring: 224.3 76.3% 94.1%;
   --radius: 0.5rem;
 
@@ -95,14 +111,14 @@
   --chart-4: 47 95% 55%;
   --chart-5: 0 84.2% 65%;
 
-  /* 侧边栏令牌（暗色模式） */
-  --sidebar: 222.2 70% 8%;
+  /* 侧边栏令牌（暗色模式 — 深海蓝） */
+  --sidebar: 222 47% 11%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-primary: 217.2 91.2% 59.8%;
-  --sidebar-primary-foreground: 222.2 84% 8%;
-  --sidebar-accent: 222.2 50% 14%;
+  --sidebar-primary-foreground: 222.2 84% 11%;
+  --sidebar-accent: 222 40% 18%;
   --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-border: 222.2 40% 20%;
+  --sidebar-border: 222 34% 24%;
   --sidebar-ring: 224.3 76.3% 94.1%;
 
   /* 医疗主题色（暗色模式适配：提亮以保持对比度） */
@@ -114,6 +130,7 @@
 
   --medical-gradient: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
   --medical-gradient-hover: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  --medical-gradient-soft: linear-gradient(135deg, #1e3a8a 0%, #155e63 100%);
 
   --medical-50: #172554;
   --medical-100: #1e3a8a;
@@ -125,6 +142,14 @@
   --medical-700: #93c5fd;
   --medical-800: #bfdbfe;
   --medical-900: #dbeafe;
+
+  /* 语义功能色（暗色模式提亮） */
+  --success: 142.1 70% 45.3%;
+  --success-foreground: 0 0% 100%;
+  --warning: 47 95% 55%;
+  --warning-foreground: 0 0% 100%;
+  --info: 189 94% 50%;
+  --info-foreground: 0 0% 100%;
 }
 
 * {
@@ -137,15 +162,37 @@ body {
   font-feature-settings:
     'rlig' 1,
     'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 医疗蓝色工具类 */
+/* 文本选中高亮 — 医疗蓝 */
+::selection {
+  background-color: hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+}
+
+/* 键盘焦点可见性增强 — 无障碍 */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   医疗蓝色工具类 — Medical Blue Utilities
+   ========================================================================== */
+
 .medical-gradient {
   background: var(--medical-gradient);
 }
 
 .medical-gradient-hover:hover {
   background: var(--medical-gradient-hover);
+}
+
+.medical-gradient-soft {
+  background: var(--medical-gradient-soft);
 }
 
 .medical-text {
@@ -159,6 +206,34 @@ body {
 .medical-bg {
   background-color: var(--medical-primary);
 }
+
+/* 渐变文字 */
+.medical-text-gradient {
+  background: var(--medical-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 玻璃拟态 (Glassmorphism) — 医疗卡片高级感 */
+.glass {
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+.glass-dark {
+  background: hsl(222 47% 14% / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+/* ==========================================================================
+   动画系统 — Medical Animation Library
+   ========================================================================== */
 
 /* 动画折射线效果 */
 @keyframes refraction {
@@ -192,7 +267,7 @@ body {
   z-index: 1;
 }
 
-/* 脉冲动画 */
+/* 脉冲动画 — 医疗心率意象 */
 @keyframes pulse-medical {
   0%,
   100% {
@@ -207,7 +282,118 @@ body {
   animation: pulse-medical 2s infinite;
 }
 
-/* 医疗专业滚动条 */
+/* 呼吸动画 — 生命体征意象 */
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.85;
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* 心跳动画 */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* 微光闪烁 — 加载占位 */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* 渐入动画 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* 上滑渐入 */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 缩放渐入 */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   医疗专业滚动条 — Medical Scrollbar
+   ========================================================================== */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -227,7 +413,16 @@ body {
   background: var(--medical-gradient-hover);
 }
 
-/* 无障碍访问增强 */
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--medical-primary) var(--medical-50);
+}
+
+/* ==========================================================================
+   无障碍访问增强 — Accessibility
+   ========================================================================== */
+
 .sr-only {
   position: absolute;
   width: 1px;
