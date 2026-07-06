@@ -49,7 +49,7 @@ const modelsList = [
 export function ModelSelectionPanel() {
   const [activeModel, setActiveModel] = useState("model-001")
 
-  const activateModel = (modelId) => {
+  const activateModel = (modelId: string) => {
     setActiveModel(modelId)
   }
 

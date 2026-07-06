@@ -1,10 +1,10 @@
 "use client"
 
 import type * as React from "react"
-import { motion } from "framer-motion"
+import { motion, type HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
 
-interface PageTransitionProps extends React.HTMLAttributes<HTMLDivElement> {
+interface PageTransitionProps extends Omit<HTMLMotionProps<"div">, "children"> {
   children: React.ReactNode
   animation?: "fade" | "slide-up" | "slide-down" | "slide-left" | "slide-right" | "scale" | "rotate"
   duration?: number

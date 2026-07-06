@@ -16,20 +16,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { User, Settings, LogOut, Shield, Bell, HelpCircle } from "lucide-react"
 
 export function UserMenu() {
-  const { user, logout } = useAuthStore()
+  const { user, token, logout } = useAuthStore()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const router = useRouter()
 
   const handleLogout = async () => {
     setIsLoggingOut(true)
+    // 静态导出无后端：直接清理本地状态。接入真实后端时在此插入 /auth/logout 请求。
     try {
-      // 调用登出API
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      if (token) {
+        // 预留：接入后端时改为 await api.post("/auth/logout", null, { requiresAuth: true })
+      }
     } catch (error) {
       console.error("Logout error:", error)
     } finally {

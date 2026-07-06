@@ -426,7 +426,7 @@ export const clinicalDecisionService = {
 
       // 构建决策支持结果
       const result: DecisionSupportResult = {
-        patientId: caseData.patientInfo.patientId || caseData.id,
+        patientId: caseData.id,
         caseId: caseData.id,
         timestamp: new Date().toISOString(),
         primaryDiagnosis: caseData.diagnosis.primary,
@@ -465,7 +465,7 @@ export const clinicalDecisionService = {
 
       // 从实验室检查中提取信息
       const hasElevatedMarkers = caseData.labTests.some(
-        (test) => (test.name.includes("CEA") || test.name.includes("CYFRA21-1")) && test.result.includes("升高"),
+        (test) => (test.name.includes("CEA") || test.name.includes("CYFRA21-1")) && test.value.includes("升高"),
       )
       if (hasElevatedMarkers) findings.push("肿瘤标志物升高")
     } else if (diagnosis.includes("肺结核")) {
@@ -484,7 +484,7 @@ export const clinicalDecisionService = {
 
       // 从实验室检查中提取信息
       const hasTBTest = caseData.labTests.some(
-        (test) => (test.name.includes("结核菌素试验") || test.name.includes("T-SPOT")) && test.result.includes("阳性"),
+        (test) => (test.name.includes("结核菌素试验") || test.name.includes("T-SPOT")) && test.value.includes("阳性"),
       )
       if (hasTBTest) findings.push("结核菌素试验/T-SPOT阳性")
     } else if (diagnosis.includes("肺炎")) {
@@ -502,7 +502,7 @@ export const clinicalDecisionService = {
 
       // 从实验室检查中提取信息
       const hasElevatedWBC = caseData.labTests.some(
-        (test) => test.name.includes("白细胞") && test.result.includes("升高"),
+        (test) => test.name.includes("白细胞") && test.value.includes("升高"),
       )
       if (hasElevatedWBC) findings.push("白细胞计数升高")
     }
@@ -525,7 +525,12 @@ export const clinicalDecisionService = {
     const riskFactors: { factor: string; level: "低" | "中" | "高"; description: string }[] = []
 
     // 从病史中提取风险因素
-    const history = caseData.pastHistory + " " + caseData.familyHistory + " " + caseData.personalHistory
+    const history = [
+      ...(caseData.patientInfo.medicalHistory || []),
+      ...(caseData.patientInfo.familyHistory || []),
+      ...(caseData.patientInfo.lifestyle || []),
+      ...(caseData.patientInfo.allergies || []),
+    ].join(" ")
 
     // 吸烟史
     if (history.includes("吸烟")) {
@@ -585,16 +590,13 @@ export const clinicalDecisionService = {
     }
 
     // 年龄因素
-    const ageMatch = caseData.patientInfo.age.match(/(\d+)/)
-    if (ageMatch) {
-      const age = Number.parseInt(ageMatch[1])
-      if (age > 65) {
-        riskFactors.push({
-          factor: "高龄",
-          level: "中",
-          description: "年龄>65岁，可能影响治疗耐受性和预后",
-        })
-      }
+    const age = caseData.patientInfo.age
+    if (age > 65) {
+      riskFactors.push({
+        factor: "高龄",
+        level: "中",
+        description: "年龄>65岁，可能影响治疗耐受性和预后",
+      })
     }
 
     // 如果没有找到特定风险因素，添加一个基于诊断的通用风险因素

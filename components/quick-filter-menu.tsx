@@ -14,10 +14,12 @@ import { Filter, Clock, CheckCircle, AlertTriangle, Users, Beaker, FlaskConical,
 import type { ExperimentFilters } from "./experiment-filter-drawer"
 
 interface QuickFilterMenuProps {
-  onApplyFilter: (partialFilters: Partial<ExperimentFilters>) => void
+  onApplyFilter?: (partialFilters: Partial<ExperimentFilters>) => void
+  onFilterSelect?: (partialFilters: Partial<ExperimentFilters>) => void
 }
 
-export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
+export function QuickFilterMenu({ onApplyFilter, onFilterSelect }: QuickFilterMenuProps) {
+  const handleApply = onApplyFilter || onFilterSelect || (() => {})
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,15 +32,15 @@ export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
         <DropdownMenuLabel>常用筛选</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => onApplyFilter({ statuses: ["进行中"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ statuses: ["进行中"] })}>
             <Clock className="h-4 w-4 mr-2 text-blue-500" />
             <span>进行中的研究</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onApplyFilter({ statuses: ["已批准"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ statuses: ["已批准"] })}>
             <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
             <span>已批准的研究</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onApplyFilter({ statuses: ["计划中"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ statuses: ["计划中"] })}>
             <AlertTriangle className="h-4 w-4 mr-2 text-yellow-500" />
             <span>计划中的研究</span>
           </DropdownMenuItem>
@@ -47,15 +49,15 @@ export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
         <DropdownMenuLabel>研究类型</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => onApplyFilter({ types: ["临床研究"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ types: ["临床研究"] })}>
             <Users className="h-4 w-4 mr-2 text-blue-500" />
             <span>临床研究</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onApplyFilter({ types: ["动物实验"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ types: ["动物实验"] })}>
             <Beaker className="h-4 w-4 mr-2 text-orange-500" />
             <span>动物实验</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onApplyFilter({ types: ["方法学研究"] })}>
+          <DropdownMenuItem onClick={() => handleApply({ types: ["方法学研究"] })}>
             <FlaskConical className="h-4 w-4 mr-2 text-purple-500" />
             <span>方法学研究</span>
           </DropdownMenuItem>
@@ -70,7 +72,7 @@ export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
               const threeMonthsAgo = new Date()
               threeMonthsAgo.setMonth(today.getMonth() - 3)
 
-              onApplyFilter({
+              handleApply({
                 dateRange: {
                   from: threeMonthsAgo,
                   to: today,
@@ -87,7 +89,7 @@ export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
               const sixMonthsAgo = new Date()
               sixMonthsAgo.setMonth(today.getMonth() - 6)
 
-              onApplyFilter({
+              handleApply({
                 dateRange: {
                   from: sixMonthsAgo,
                   to: today,
@@ -104,7 +106,7 @@ export function QuickFilterMenu({ onApplyFilter }: QuickFilterMenuProps) {
               const oneYearAgo = new Date()
               oneYearAgo.setFullYear(today.getFullYear() - 1)
 
-              onApplyFilter({
+              handleApply({
                 dateRange: {
                   from: oneYearAgo,
                   to: today,

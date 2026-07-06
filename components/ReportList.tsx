@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 
+interface TosReport {
+  filename: string
+  timestamp?: string
+  verified: boolean
+  url: string
+}
+
 export default function ReportList() {
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<TosReport[]>([]);
 
   useEffect(() => {
-    fetch('/api/tos-report-list')
-      .then(res => res.json())
-      .then(setReports);
+    // STATIC-EXPORT-NOTE: /api/tos-report-list 不存在于静态导出，这里保留接口契约。
+    setReports([])
   }, []);
 
   return (

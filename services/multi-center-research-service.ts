@@ -366,7 +366,7 @@ export const multiCenterResearchService = {
       actualDate?: string
       status: "completed" | "pending" | "delayed"
     }[]
-  }> => {
+  } | null> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const study = mockMultiCenterStudies.find((s) => s.id === studyId)

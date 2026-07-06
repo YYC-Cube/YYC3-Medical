@@ -10,6 +10,8 @@ const knowledgeBaseUpdatesDatabase: KnowledgeBaseUpdate[] = [
     contentName: "心力衰竭标准药物治疗",
     updateSummary: "更新了心力衰竭治疗指南，加入SGLT2抑制剂作为一线治疗药物",
     updateDetails: "根据2023年欧洲心脏病学会(ESC)心力衰竭指南更新，SGLT2抑制剂（达格列净、恩格列）",
+    updatedAt: new Date().toISOString(),
+    importance: "高",
   },
 ]
 

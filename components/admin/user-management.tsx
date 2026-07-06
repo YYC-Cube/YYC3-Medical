@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -210,7 +211,7 @@ export function UserManagement() {
   // 确认删除用户
   const confirmDeleteUser = () => {
     // 在实际应用中，这里会调用API删除用户
-    console.log(`删除用户: ${userToDelete}`)
+    debug(`删除用户: ${userToDelete}`)
     setIsDeleteDialogOpen(false)
     setUserToDelete(null)
   }
@@ -218,7 +219,7 @@ export function UserManagement() {
   // 批量删除用户
   const handleBulkDelete = () => {
     // 在实际应用中，这里会调用API批量删除用户
-    console.log(`批量删除用户: ${selectedUsers.join(", ")}`)
+    debug(`批量删除用户: ${selectedUsers.join(", ")}`)
     setSelectedUsers([])
   }
 

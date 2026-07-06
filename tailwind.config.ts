@@ -53,18 +53,40 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // 医疗主题色彩
+        // 医疗主题色彩 — 引用 globals.css 的 --medical-* CSS 变量（保持单一来源）
         medical: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#0ea5e9",
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
+          50: "var(--medical-50)",
+          100: "var(--medical-100)",
+          200: "var(--medical-200)",
+          300: "var(--medical-300)",
+          400: "var(--medical-400)",
+          500: "var(--medical-500)",
+          600: "var(--medical-600)",
+          700: "var(--medical-700)",
+          800: "var(--medical-800)",
+          900: "var(--medical-900)",
+          primary: "var(--medical-primary)",
+          secondary: "var(--medical-secondary)",
+          accent: "var(--medical-accent)",
+        },
+        // 图表色板 — 引用 globals.css 的 --chart-* CSS 变量
+        chart: {
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
+        },
+        // 侧边栏 — 引用 globals.css 的 --sidebar-* CSS 变量
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
         },
         // 言语云³品牌色
         brand: {
@@ -114,8 +136,9 @@ const config = {
         "data-flow": "data-flow 2s linear infinite",
       },
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        // 与 app/layout.tsx 加载的 GeistSans 对齐（GeistSans.variable = "--font-geist-sans"）
+        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "monospace"],
       },
       spacing: {
         "18": "4.5rem",

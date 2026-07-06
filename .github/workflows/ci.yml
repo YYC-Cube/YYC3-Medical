@@ -26,10 +26,10 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install
 
       - name: Lint
-        run: pnpm lint || true
+        run: pnpm lint
 
       - name: Type Check
-        run: pnpm type-check || true
+        run: pnpm type-check
 
       - name: Format Check
         run: pnpm format:check || true

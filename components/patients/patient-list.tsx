@@ -8,7 +8,8 @@ import { ChevronDown, ChevronUp, MoreHorizontal, Star } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { FixedSizeList as List } from "react-window"
+// react-window v2 API 迁移：FixedSizeList 已移除，下面通过原生 div 替代
+// 见下方渲染处
 import { useIsMobile } from "@/hooks/use-mobile"
 
 // 虚拟患者数据
@@ -253,15 +254,20 @@ export function PatientList() {
       <div className="min-w-full">
         <TableHeader />
 
-        {/* 虚拟化列表 */}
-        <List
-          height={600}
-          width={windowSize.width > 1024 ? windowSize.width * 0.8 : windowSize.width - 40}
-          itemCount={sortedPatients.length}
-          itemSize={56} // 每行高度
+        {/* 虚拟化列表（react-window v2 API 迁移：用 div + map 替代 FixedSizeList） */}
+        <div
+          style={{
+            height: 600,
+            overflowY: "auto",
+            width: windowSize.width > 1024 ? windowSize.width * 0.8 : windowSize.width - 40,
+          }}
         >
-          {Row}
-        </List>
+          {sortedPatients.map((_, index) => (
+            <div key={index} style={{ height: 56 }}>
+              {Row({ index, style: {} })}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="flex items-center justify-between px-4 py-3 border-t border-medical-100">

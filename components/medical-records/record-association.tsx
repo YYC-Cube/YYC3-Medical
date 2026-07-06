@@ -18,6 +18,9 @@ import {
 interface RecordAssociationProps {
   patientId?: string
   recordId?: string
+  selectedImage?: string
+  selectedPrescription?: string
+  onPatientIdSelected?: (id: string | number) => void
   className?: string
 }
 
@@ -30,7 +33,7 @@ interface Record {
   associated: boolean
 }
 
-export function RecordAssociation({ patientId, recordId, className = "" }: RecordAssociationProps) {
+export function RecordAssociation({ patientId, recordId, selectedImage: _selectedImage, selectedPrescription: _selectedPrescription, onPatientIdSelected: _onPatientIdSelected, className = "" }: RecordAssociationProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [recordType, setRecordType] = useState<string>("all")
   const [records, setRecords] = useState<Record[]>([

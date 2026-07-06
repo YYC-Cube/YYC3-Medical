@@ -1,6 +1,11 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
-export default function PerformanceChart({ data }) {
+interface PerformanceData {
+  metric_name: string
+  [key: string]: string | number
+}
+
+export default function PerformanceChart({ data }: { data: PerformanceData[] }) {
   return (
     <LineChart width={600} height={300} data={data}>
       <XAxis dataKey="metric_name" />

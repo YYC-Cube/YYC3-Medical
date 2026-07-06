@@ -92,7 +92,7 @@ describe("YYC³-Med Static Site", () => {
     const layoutPath = path.join(__dirname, "../app/layout.tsx")
     const content = fs.readFileSync(layoutPath, "utf-8")
     const iconRefs = content.match(/url:\s*"[^"]*icon[^"]*"/g) || []
-    iconRefs.forEach((ref) => {
+    iconRefs.forEach((ref: string) => {
       expect(ref).toContain("/yyc3-icons/")
     })
   })

@@ -18,9 +18,9 @@ export type AnatomicalRegion =
 
 export type DensityType = "高密度" | "低密度" | "等密度" | "混合密度"
 export type EnhancementPattern = "均匀强化" | "不均匀强化" | "环形强化" | "无强化" | "延迟强化"
-export type MRISignalIntensity = "T1高信号" | "T1低信号" | "T2高信号" | "T2低信号" | "弥散受限" | "弥散不受限"
-export type BorderType = "光滑" | "分叶" | "毛刺" | "浸润" | "模糊" | "清晰"
-export type ShapeType = "圆形" | "椭圆形" | "不规则" | "分叶状" | "结节状" | "片状" | "条带状"
+export type MRISignalIntensity = "T1高信号" | "T1低信号" | "T1等信号" | "T2高信号" | "T2低信号" | "T2等信号" | "弥散受限" | "弥散不受限"
+export type BorderType = "光滑" | "分叶" | "毛刺" | "浸润" | "模糊" | "清晰" | "不规则"
+export type ShapeType = "圆形" | "椭圆形" | "不规则" | "分叶状" | "结节状" | "片状" | "条带状" | "网格状"
 export type CalcificationType = "点状钙化" | "斑状钙化" | "弧形钙化" | "爆米花样钙化" | "无钙化"
 export type VascularityType = "高血供" | "低血供" | "无血供" | "异常血管"
 export type TextureType = "均质" | "不均质" | "囊性" | "实性" | "混合性" | "蜂窝状" | "磨玻璃样"

@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import type React from "react"
 
@@ -28,7 +29,7 @@ export function CaseComments({ comments, caseId }: CaseCommentsProps) {
   const handleAddComment = () => {
     if (newComment.trim() === "") return
     // 在实际应用中，这里应该调用API来保存新的评论
-    console.log("添加评论:", newComment)
+    debug("添加评论:", newComment)
     setNewComment("")
   }
 
@@ -36,7 +37,7 @@ export function CaseComments({ comments, caseId }: CaseCommentsProps) {
   const handleAddReply = (commentId: string) => {
     if (replyContent.trim() === "") return
     // 在实际应用中，这里应该调用API来保存新的回复
-    console.log("添加回复:", { commentId, content: replyContent })
+    debug("添加回复:", { commentId, content: replyContent })
     setReplyTo(null)
     setReplyContent("")
   }

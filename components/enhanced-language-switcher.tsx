@@ -1,6 +1,7 @@
 "use client"
 
 import { useTranslation } from "@/hooks/use-translation"
+import { useAutoTranslation } from "@/contexts/auto-translation-context"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Globe, Check, Loader2 } from "lucide-react"
@@ -15,10 +16,10 @@ export function EnhancedLanguageSwitcher() {
     availableLocales,
     localeName,
     isTranslating,
-    isAutoTranslateEnabled,
+    autoTranslateEnabled: isAutoTranslateEnabled,
     setAutoTranslateEnabled,
-    clearTranslatedTexts,
   } = useTranslation()
+  const { clearCache: clearTranslatedTexts } = useAutoTranslation()
 
   const [isOpen, setIsOpen] = useState(false)
 

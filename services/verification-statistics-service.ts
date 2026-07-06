@@ -1,3 +1,4 @@
+import { debug } from "@/lib/logger"
 import type {
   VerificationStatistics,
   ProviderUsageStats,
@@ -289,7 +290,7 @@ export const verificationStatisticsService = {
     await new Promise((resolve) => setTimeout(resolve, 600))
 
     // 模拟保存操作
-    console.log("保存API使用量警报配置:", alert)
+    debug("保存API使用量警报配置:", alert)
 
     // 返回保存的配置（添加ID如果是新配置）
     if (!alert.id) {
@@ -305,7 +306,7 @@ export const verificationStatisticsService = {
     await new Promise((resolve) => setTimeout(resolve, 400))
 
     // 模拟删除操作
-    console.log("删除API使用量警报配置:", alertId)
+    debug("删除API使用量警报配置:", alertId)
 
     return true
   },

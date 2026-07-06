@@ -12,10 +12,11 @@ export function deepMerge<T extends object = object, U extends object = T>(targe
         if (!(key in target)) {
           Object.assign(output, { [key]: source[key as keyof U] })
         } else {
-          output[key as keyof T & U] = deepMerge(
-            target[key as keyof T] as object,
-            source[key as keyof U] as object,
-          ) as any
+           
+          (output as any)[key] = deepMerge(
+            (target as any)[key],
+            (source as any)[key],
+          )
         }
       } else {
         Object.assign(output, { [key]: source[key as keyof U] })

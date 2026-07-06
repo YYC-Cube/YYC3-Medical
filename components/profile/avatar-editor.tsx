@@ -83,7 +83,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
   }, [isOpen, imageUrl])
 
   // 加载图像
-  const loadImage = useCallback(() => {
+  function loadImage() {
     const img = new Image()
     img.crossOrigin = "anonymous"
     img.onload = () => {
@@ -104,10 +104,10 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
       setHistoryIndex(0)
     }
     img.src = imageUrl
-  }, [imageUrl])
+  }
 
   // 重置编辑器
-  const resetEditor = useCallback(() => {
+  function resetEditor() {
     setBrightness(100)
     setContrast(100)
     setSaturation(100)
@@ -117,10 +117,10 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
     setFilterId("none")
     setHistory([])
     setHistoryIndex(-1)
-  }, [])
+  }
 
   // 渲染图像
-  const renderImage = useCallback(() => {
+  function renderImage() {
     if (!canvasRef.current || !imageRef.current) return
 
     const canvas = canvasRef.current
@@ -178,12 +178,12 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
 
     // 重置滤镜
     ctx.filter = "none"
-  }, [brightness, contrast, saturation, blur, hueRotate, sepia])
+  }
 
   // 当编辑参数变化时重新渲染
   useEffect(() => {
     renderImage()
-  }, [renderImage])
+  }, [brightness, contrast, saturation, blur, hueRotate, sepia])
 
   // 添加历史记录
   const addHistory = useCallback(() => {
@@ -234,10 +234,10 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
   }, [history, historyIndex])
 
   // 重置
-  const handleReset = useCallback(() => {
+  function handleReset() {
     resetEditor()
     loadImage()
-  }, [resetEditor, loadImage])
+  }
 
   // 应用滤镜预设
   const applyFilter = useCallback(

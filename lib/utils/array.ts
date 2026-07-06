@@ -136,7 +136,7 @@ export function union<T>(a: T[], b: T[]): T[] {
  * 将数组平铺一层
  */
 export function flatten<T>(array: (T | T[])[]): T[] {
-  return array.reduce((result, item) => {
+  return array.reduce((result: T[], item) => {
     return result.concat(Array.isArray(item) ? item : [item])
   }, [] as T[])
 }

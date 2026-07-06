@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function SecureDownload({ filename }) {
+export default function SecureDownload({ filename }: { filename: string }) {
   const [status, setStatus] = useState<'idle' | 'valid' | 'invalid' | 'error'>('idle');
 
   const handleDownload = async () => {

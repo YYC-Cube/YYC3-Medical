@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 
-type DataUpdateCallback<T> = (data: T) => void
+type DataUpdateCallback<T> = (data: T) => T
 type DataFetchFunction<T> = () => Promise<T>
 
 interface UseRealTimeDataOptions {

@@ -44,7 +44,7 @@ export function EnhancedSystemMonitor() {
     }
   }, [autoRefresh])
 
-  const loadData = async () => {
+  async function loadData() {
     try {
       const [metricsData, alertsData, rulesData, reportData] = await Promise.all([
         systemMonitoringService.getSystemMetrics(),

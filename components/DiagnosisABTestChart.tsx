@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-export default function DiagnosisABTestChart({ data }) {
+export default function DiagnosisABTestChart({ data }: { data: Array<Record<string, string | number>> }) {
   // data: [{ test_group: 'A', accuracy: 0.91, recall: 0.87 }, { test_group: 'B', accuracy: 0.93, recall: 0.89 }]
   return (
     <ResponsiveContainer width="100%" height={300}>

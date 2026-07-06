@@ -58,7 +58,7 @@ export function LazyComponent({
  * @param importFunc 组件导入函数
  * @param fallback 加载中显示的内容
  */
-export function createLazyComponent<T>(
+export function createLazyComponent<T extends Record<string, unknown>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
   fallback?: React.ReactNode,
 ) {
@@ -75,7 +75,8 @@ export function createLazyComponent<T>(
           )
         }
       >
-        <LazyLoadedComponent {...props} />
+        { }
+        <LazyLoadedComponent {...(props as any)} />
       </Suspense>
     )
   }

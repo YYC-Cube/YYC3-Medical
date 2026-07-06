@@ -158,11 +158,11 @@ export function MobileAppFeedback() {
   }
 
   // 计算平均评分
-  const totalRating = Object.keys(ratingStats).reduce((sum, key) => sum + Number(key) * ratingStats[key], 0)
+  const totalRating = Object.keys(ratingStats).reduce((sum, key) => sum + Number(key) * (ratingStats as Record<string, number>)[key], 0)
   const averageRating = (totalRating / feedbackData.length).toFixed(1)
 
   // 获取状态徽章
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "published":
         return <Badge className="bg-green-500">已发布</Badge>
@@ -176,7 +176,7 @@ export function MobileAppFeedback() {
   }
 
   // 获取类型徽章
-  const getTypeBadge = (type) => {
+  const getTypeBadge = (type: string) => {
     switch (type) {
       case "feature":
         return <Badge className="bg-emerald-500">功能体验</Badge>
@@ -192,7 +192,7 @@ export function MobileAppFeedback() {
   }
 
   // 获取评分星级
-  const getRatingStars = (rating) => {
+  const getRatingStars = (rating: number) => {
     return (
       <div className="flex items-center">
         {[...Array(5)].map((_, i) => (
@@ -234,8 +234,8 @@ export function MobileAppFeedback() {
                 {[5, 4, 3, 2, 1].map((rating) => (
                   <div key={rating} className="flex items-center">
                     <div className="w-8">{rating}星</div>
-                    <Progress value={(ratingStats[rating] / feedbackData.length) * 100} className="h-2 flex-1 mx-2" />
-                    <div className="w-8 text-right text-sm">{ratingStats[rating]}</div>
+                    <Progress value={((ratingStats as Record<number, number>)[rating] / feedbackData.length) * 100} className="h-2 flex-1 mx-2" />
+                    <div className="w-8 text-right text-sm">{(ratingStats as Record<number, number>)[rating]}</div>
                   </div>
                 ))}
               </div>

@@ -50,7 +50,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="gender">性别</Label>
-                <Select id="gender">
+                <Select>
                   <option value="">请选择</option>
                   <option value="male">男</option>
                   <option value="female">女</option>
@@ -74,7 +74,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="id-type">证件类型</Label>
-                <Select id="id-type">
+                <Select>
                   <option value="">请选择</option>
                   <option value="id-card">身份证</option>
                   <option value="passport">护照</option>
@@ -89,7 +89,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="blood-type">血型</Label>
-                <Select id="blood-type">
+                <Select>
                   <option value="">请选择</option>
                   <option value="A">A型</option>
                   <option value="B">B型</option>

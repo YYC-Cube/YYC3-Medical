@@ -19,7 +19,22 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Search, Download, Calendar, Clock, FileText, Video, FileDown, Printer } from "lucide-react"
 
 // 模拟会诊记录数据
-const consultationRecords = [
+interface ConsultationRecord {
+  id: number
+  title: string
+  date: string
+  time: string
+  department: string
+  status: string
+  result: string
+  participants: { id: number; name: string; role: string; hospital: string; avatar: string }[]
+  patient: { id: number; name: string; age: number; diagnosis: string }
+  summary: string
+  documents: { id: number; name: string; type: string; size: string; date: string }[]
+  recording: boolean
+}
+
+const consultationRecords: ConsultationRecord[] = [
   {
     id: 1,
     title: "心脏病例远程会诊",
@@ -201,7 +216,7 @@ const consultationRecords = [
 ]
 
 // 获取状态对应的样式
-const getStatusStyle = (status) => {
+const getStatusStyle = (status: string) => {
   switch (status) {
     case "已完成":
       return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
@@ -215,7 +230,7 @@ const getStatusStyle = (status) => {
 }
 
 // 获取结果对应的样式
-const getResultStyle = (result) => {
+const getResultStyle = (result: string) => {
   switch (result) {
     case "诊断确认":
       return "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300"
@@ -237,11 +252,11 @@ export default function RecordsClient() {
   const [selectedDepartment, setSelectedDepartment] = useState("")
   const [selectedResult, setSelectedResult] = useState("")
   const [dateRange, setDateRange] = useState("all")
-  const [selectedRecord, setSelectedRecord] = useState(null)
+  const [selectedRecord, setSelectedRecord] = useState<ConsultationRecord | null>(null)
   const [activeTab, setActiveTab] = useState("all")
 
   // 过滤会诊记录
-  const filteredRecords = consultationRecords.filter((record) => {
+  const filteredRecords = consultationRecords.filter((record: ConsultationRecord) => {
     // 搜索过滤
     if (
       searchQuery &&
@@ -278,7 +293,7 @@ export default function RecordsClient() {
   })
 
   // 打开记录详情
-  const openRecordDetails = (record) => {
+  const openRecordDetails = (record: ConsultationRecord) => {
     setSelectedRecord(record)
   }
 

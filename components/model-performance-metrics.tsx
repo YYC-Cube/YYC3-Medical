@@ -174,11 +174,11 @@ export function ModelPerformanceMetrics() {
                           style={{
                             backgroundColor:
                               row.name === disease.name
-                                ? `rgba(16, 185, 129, ${row[disease.name] / 500})`
-                                : `rgba(239, 68, 68, ${row[disease.name] / 100})`,
+                                ? `rgba(16, 185, 129, ${(row as Record<string, number | string>)[disease.name] as number / 500})`
+                                : `rgba(239, 68, 68, ${(row as Record<string, number | string>)[disease.name] as number / 100})`,
                           }}
                         >
-                          {row[disease.name]}
+                          {(row as Record<string, number | string>)[disease.name]}
                         </td>
                       ))}
                     </tr>

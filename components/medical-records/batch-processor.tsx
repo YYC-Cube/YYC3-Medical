@@ -292,15 +292,15 @@ export function BatchProcessor() {
         })
 
         // 更新文件状态
-        setBatchFiles((prev) =>
+        setBatchFiles((prev: typeof batchFiles) =>
           prev.map((file, i) => {
             const isFailure = i % 10 === 9 // 10% 失败率
             return {
               ...file,
-              status: "已处理",
-              result: isFailure ? "失败" : "成功",
-              patientName: isFailure ? null : `患者${i + 1}`,
-              patientId: isFailure ? null : `P-${10000 + i}`,
+              status: "已处理" as const,
+              result: (isFailure ? "失败" : "成功") as any,
+              patientName: (isFailure ? null : `患者${i + 1}`) as any,
+              patientId: (isFailure ? null : `P-${10000 + i}`) as any,
             }
           }),
         )
@@ -335,10 +335,10 @@ export function BatchProcessor() {
           const isFailure = fileIndex % 10 === 9 // 10% 失败率
           newFiles[fileIndex] = {
             ...newFiles[fileIndex],
-            status: "已处理",
-            result: isFailure ? "失败" : "成功",
-            patientName: isFailure ? null : `患者${processed}`,
-            patientId: isFailure ? null : `P-${10000 + fileIndex}`,
+            status: "已处理" as const,
+            result: (isFailure ? "失败" : "成功") as any,
+            patientName: (isFailure ? null : `患者${processed}`) as any,
+            patientId: (isFailure ? null : `P-${10000 + fileIndex}`) as any,
           }
         }
         return newFiles

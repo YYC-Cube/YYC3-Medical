@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -19,14 +20,14 @@ export function EthicsApplicationIntegration({ experimentId, experimentData }: E
 
   // 处理表单提交
   const handleSubmit = (data: any) => {
-    console.log("提交伦理申请:", data)
+    debug("提交伦理申请:", data)
     // 这里可以添加提交到后端的逻辑
     setShowForm(false)
   }
 
   // 处理保存草稿
   const handleSaveDraft = (data: any) => {
-    console.log("保存草稿:", data)
+    debug("保存草稿:", data)
     // 这里可以添加保存草稿到后端的逻辑
   }
 

@@ -8,22 +8,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Loader2, Search, Trash2, Download, Upload, RefreshCw } from "lucide-react"
+import { Search, Trash2, Download, Upload, RefreshCw } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 export function TranslationManagement() {
-  const { translationCache, clearCache, isTranslating } = useAutoTranslation()
+  const { cache: translationCache, clearCache } = useAutoTranslation()
   const { locale, availableLocales, localeName, tSync } = useTranslation()
-  const [activeTab, setActiveTab] = useState(locale)
+  const [activeTab, setActiveTab] = useState<string>(locale)
   const [searchTerm, setSearchTerm] = useState("")
   const [filteredEntries, setFilteredEntries] = useState<[string, string][]>([])
 
   // 当前语言的翻译缓存
-  const currentCache = translationCache[activeTab as keyof typeof translationCache] || {}
+  const currentCache: Record<string, string> =
+    (translationCache[activeTab as keyof typeof translationCache] as Record<string, string>) || {}
 
   // 过滤翻译条目
   useEffect(() => {
-    const entries = Object.entries(currentCache)
+    const entries = Object.entries(currentCache) as [string, string][]
     if (!searchTerm) {
       setFilteredEntries(entries)
       return
@@ -31,7 +32,8 @@ export function TranslationManagement() {
 
     const filtered = entries.filter(
       ([key, value]) =>
-        key.toLowerCase().includes(searchTerm.toLowerCase()) || value.toLowerCase().includes(searchTerm.toLowerCase()),
+        key.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        value.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     setFilteredEntries(filtered)
   }, [currentCache, searchTerm])
@@ -82,7 +84,6 @@ export function TranslationManagement() {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <span>{tSync("common.translation_management", "翻译管理")}</span>
-          {isTranslating && <Loader2 className="h-4 w-4 animate-spin" />}
         </CardTitle>
         <CardDescription>
           {tSync("common.translation_management_description", "管理自动翻译的缓存，导出或导入翻译数据")}
@@ -161,7 +162,10 @@ export function TranslationManagement() {
       <CardFooter className="flex justify-between text-sm text-muted-foreground">
         <div>
           {tSync("common.total_translations", "总翻译数")}:{" "}
-          {Object.values(translationCache).reduce((sum, langCache) => sum + Object.keys(langCache || {}).length, 0)}
+          {Object.values(translationCache).reduce(
+            (sum: number, langCache) => sum + Object.keys(langCache || {}).length,
+            0,
+          )}
         </div>
         <div>
           {tSync("common.cache_size", "缓存大小")}: {(JSON.stringify(translationCache).length / 1024).toFixed(2)} KB

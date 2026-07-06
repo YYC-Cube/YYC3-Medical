@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import type React from "react"
 
@@ -36,7 +37,7 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // 处理任务创建逻辑
-    console.log("创建任务:", formData)
+    debug("创建任务:", formData)
     onTaskCreated()
     onOpenChange(false)
     setFormData({ name: "", type: "", schedule: "", description: "" })

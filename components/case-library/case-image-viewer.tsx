@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -84,7 +85,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
   const handleAddFinding = () => {
     if (newFinding.trim() === "") return
     // 在实际应用中，这里应该调用API来保存新的发现
-    console.log("添加新发现:", newFinding)
+    debug("添加新发现:", newFinding)
     setNewFinding("")
   }
 
@@ -100,7 +101,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
             onClick={() => setSelectedImageIndex(index)}
           >
             <img src={image.url || "/placeholder.svg"} alt={image.description} className="w-full h-40 object-cover" />
-            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm truncate">
+            <div className="absolute bottom-0 left-0 right-0 bg-medical-900/50 text-white p-2 text-sm truncate">
               {image.type} - {new Date(image.date).toLocaleDateString()}
             </div>
           </div>
@@ -158,7 +159,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
   // 渲染单图像视图
   const renderSingleView = () => {
     return (
-      <div className="relative border rounded-md overflow-hidden bg-black">
+      <div className="relative border rounded-md overflow-hidden bg-medical-900">
         <img
           src={selectedImage.url || "/placeholder.svg"}
           alt={selectedImage.description}

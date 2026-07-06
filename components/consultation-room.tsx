@@ -222,7 +222,7 @@ export function ConsultationRoom() {
                         </Avatar>
                       </div>
                       <div className="absolute bottom-1 left-1 right-1 text-center">
-                        <div className="bg-black bg-opacity-50 text-white text-xs rounded px-1 py-0.5 truncate">
+                        <div className="bg-medical-900/50 text-white text-xs rounded px-1 py-0.5 truncate">
                           {participant.name}
                         </div>
                       </div>

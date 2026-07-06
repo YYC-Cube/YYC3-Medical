@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -61,7 +62,7 @@ export function ImagingFeatureClient() {
 
   // 处理搜索
   const handleSearch = () => {
-    console.log("搜索:", searchQuery)
+    debug("搜索:", searchQuery)
     // 实际应用中这里会调用搜索API
   }
 

@@ -326,7 +326,7 @@ export function MedicalRecordsClient() {
               <RecordAssociation
                 selectedImage={selectedImage}
                 selectedPrescription={selectedPrescription}
-                onPatientIdSelected={(id) => setPatientId(id)}
+                onPatientIdSelected={(id: string | number) => setPatientId(String(id))}
               />
             </div>
           )}

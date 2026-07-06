@@ -58,6 +58,27 @@ export function CaseBrowser({ initialNodeIds, onCaseSelect }: CaseBrowserProps) 
   const [relatedNodeIds, setRelatedNodeIds] = useState<string[]>(initialNodeIds || [])
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
+  // 应用过滤器
+  function applyFilters(casesToFilter: ClinicalCase[]) {
+    try {
+      const filterOptions: CaseLibraryFilterOptions = {
+        searchQuery: searchQuery || undefined,
+        tags: selectedTags.length > 0 ? selectedTags : undefined,
+        type: selectedTypes.length > 0 ? selectedTypes : undefined,
+        severity: selectedSeverities.length > 0 ? selectedSeverities : undefined,
+        status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
+        relatedNodeIds: relatedNodeIds.length > 0 ? relatedNodeIds : undefined,
+      }
+
+      let filtered = caseLibraryService.getFilteredCases(filterOptions)
+      filtered = caseLibraryService.sortCases(filtered, sortOption)
+      setFilteredCases(filtered)
+    } catch (err) {
+      console.error("应用过滤器失败:", err)
+      setError("应用过滤器失败")
+    }
+  }
+
   // 加载病例数据
   useEffect(() => {
     setLoading(true)
@@ -97,27 +118,6 @@ export function CaseBrowser({ initialNodeIds, onCaseSelect }: CaseBrowserProps) 
     relatedNodeIds,
     cases,
   ])
-
-  // 应用过滤器
-  const applyFilters = (casesToFilter: ClinicalCase[]) => {
-    try {
-      const filterOptions: CaseLibraryFilterOptions = {
-        searchQuery: searchQuery || undefined,
-        tags: selectedTags.length > 0 ? selectedTags : undefined,
-        type: selectedTypes.length > 0 ? selectedTypes : undefined,
-        severity: selectedSeverities.length > 0 ? selectedSeverities : undefined,
-        status: selectedStatuses.length > 0 ? selectedStatuses : undefined,
-        relatedNodeIds: relatedNodeIds.length > 0 ? relatedNodeIds : undefined,
-      }
-
-      let filtered = caseLibraryService.getFilteredCases(filterOptions)
-      filtered = caseLibraryService.sortCases(filtered, sortOption)
-      setFilteredCases(filtered)
-    } catch (err) {
-      console.error("应用过滤器失败:", err)
-      setError("应用过滤器失败")
-    }
-  }
 
   // 重置过滤器
   const resetFilters = () => {

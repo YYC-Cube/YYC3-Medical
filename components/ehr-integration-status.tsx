@@ -63,7 +63,7 @@ export function EHRIntegrationStatus() {
   })
 
   // 切换连接状态
-  const toggleConnectionStatus = (id) => {
+  const toggleConnectionStatus = (id: string | number) => {
     setConnections(
       connections.map((conn) => {
         if (conn.id === id) {
@@ -78,7 +78,7 @@ export function EHRIntegrationStatus() {
   }
 
   // 切换自动同步
-  const toggleAutoSync = (id) => {
+  const toggleAutoSync = (id: string | number) => {
     setConnections(
       connections.map((conn) => {
         if (conn.id === id) {

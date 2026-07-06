@@ -1,3 +1,4 @@
+import { debug } from "@/lib/logger"
 import type { ApiKeyConfig, ProviderApiConfig } from "@/types/api-config"
 
 // 模拟API配置数据
@@ -18,7 +19,7 @@ const mockApiConfigs: ProviderApiConfig[] = [
         id: "nhc-prod-key",
         name: "生产环境密钥",
         key: "nhc_prod_xxxxxxxxxxxxx",
-        secret: "sk_nhc_yyyyyyyyyyyyy",
+        secret: "<NHC_API_SECRET>",
         isActive: true,
         createdAt: "2025-01-15T00:00:00Z",
         expiresAt: "2026-01-15T00:00:00Z",
@@ -28,7 +29,7 @@ const mockApiConfigs: ProviderApiConfig[] = [
         id: "nhc-test-key",
         name: "测试环境密钥",
         key: "nhc_test_xxxxxxxxxxxxx",
-        secret: "sk_nhc_test_yyyyyyyyy",
+        secret: "<NHC_API_TEST_SECRET>",
         isActive: true,
         createdAt: "2025-01-15T00:00:00Z",
         environment: "testing",
@@ -146,7 +147,7 @@ export const apiConfigService = {
     await new Promise((resolve) => setTimeout(resolve, 800))
 
     // 在实际应用中，这里会调用后端API保存配置
-    console.log("保存API配置:", config)
+    debug("保存API配置:", config)
 
     return { ...config }
   },
@@ -162,7 +163,7 @@ export const apiConfigService = {
       id: `key-${Date.now()}`,
     }
 
-    console.log("添加API密钥:", providerId, newKey)
+    debug("添加API密钥:", providerId, newKey)
 
     return newKey
   },
@@ -172,7 +173,7 @@ export const apiConfigService = {
     // 模拟API调用延迟
     await new Promise((resolve) => setTimeout(resolve, 500))
 
-    console.log("删除API密钥:", providerId, keyId)
+    debug("删除API密钥:", providerId, keyId)
 
     return true
   },

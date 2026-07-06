@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,7 +29,7 @@ export function VerificationProviderSettings() {
   }
 
   const handleSaveSettings = () => {
-    console.log("保存设置:", { defaultProvider, ...settings })
+    debug("保存设置:", { defaultProvider, ...settings })
     toast({
       title: "设置已保存",
       description: "您的资质验证设置已成功更新",

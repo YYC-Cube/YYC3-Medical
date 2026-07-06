@@ -10,6 +10,8 @@ import type { Locale } from "date-fns"
 
 interface DatePickerProps {
   value?: Date
+  date?: Date
+  setDate?: (date: Date | undefined) => void
   onChange?: (date: Date | undefined) => void
   placeholder?: string
   className?: string
@@ -19,25 +21,29 @@ interface DatePickerProps {
 
 export function DatePicker({
   value,
+  date,
+  setDate,
   onChange,
   placeholder = "选择日期",
   className,
   locale = zhCN,
   dateFormat = "yyyy-MM-dd",
 }: DatePickerProps) {
+  const selectedDate = date ?? value
+  const handleChange = setDate ?? onChange
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
-          className={cn("w-full justify-start text-left font-normal h-8", !value && "text-muted-foreground", className)}
+          className={cn("w-full justify-start text-left font-normal h-8", !selectedDate && "text-muted-foreground", className)}
         >
           <CalendarIcon className="mr-2 h-3 w-3" />
-          {value ? format(value, dateFormat, { locale }) : <span>{placeholder}</span>}
+          {selectedDate ? format(selectedDate, dateFormat, { locale }) : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={value} onSelect={onChange} initialFocus locale={locale} />
+        <Calendar mode="single" selected={selectedDate} onSelect={handleChange} initialFocus locale={locale} />
       </PopoverContent>
     </Popover>
   )

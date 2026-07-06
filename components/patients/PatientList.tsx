@@ -15,16 +15,16 @@ export function PatientList() {
   const [searchQuery, setSearchQuery] = useState("")
   const { data: patients, isLoading, error, get } = useApi<Patient[]>()
 
-  useEffect(() => {
-    // 初始加载患者列表
-    fetchPatients()
-  }, [])
-
-  const fetchPatients = async (search?: string) => {
+  async function fetchPatients(search?: string) {
     await get(API_ENDPOINTS.PATIENTS.LIST, {
       params: { search },
     })
   }
+
+  useEffect(() => {
+    // 初始加载患者列表
+    fetchPatients()
+  }, [])
 
   const handleSearch = () => {
     fetchPatients(searchQuery)

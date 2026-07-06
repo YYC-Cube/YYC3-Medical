@@ -21,7 +21,7 @@ export * from "./ui/progress"
 export * from "./ui/calendar"
 export * from "./ui/date-picker"
 export * from "./ui/popover"
-export * from "./ui/medical-button"
+// medical-button 的 ButtonProps/buttonVariants 已由 ui/button 导出，此处省略避免冲突
 export * from "./ui/medical-card"
 export * from "./ui/responsive-medical-card"
 export * from "./ui/advanced-search"
@@ -29,11 +29,7 @@ export * from "./ui/loading-fallback"
 export * from "./ui/chart"
 
 // 布局组件
-export * from "./layout/app-header"
-export * from "./layout/app-shell"
-export * from "./layout/keyboard-shortcuts-dialog"
 export * from "./layout/page-breadcrumb"
-export * from "./layout/sidebar-nav"
 
 // 认证组件
 export * from "./auth/AuthGuard"
@@ -54,7 +50,7 @@ export * from "./patients/medical-records-client"
 export * from "./medical-records/medical-imaging-uploader"
 export * from "./medical-records/prescription-uploader"
 export * from "./medical-records/batch-processor"
-export * from "./medical-records/medical-records-client"
+// medical-records/medical-records-client 的 MedicalRecordsClient 已由 patients/medical-records-client 导出，此处省略避免冲突
 export * from "./medical-records/ai-model-selector"
 export * from "./medical-records/multi-modal-ai-diagnosis"
 export * from "./medical-records/modality-specific-analysis"

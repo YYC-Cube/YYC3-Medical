@@ -360,7 +360,7 @@ export function PrescriptionManagement() {
                       ) : (
                         <>
                           {processingResult === "approved" ? (
-                            <Button variant="success" className="gap-1">
+                            <Button variant="default" className="gap-1">
                               <CheckCircle className="h-4 w-4" />
                               已批准
                             </Button>

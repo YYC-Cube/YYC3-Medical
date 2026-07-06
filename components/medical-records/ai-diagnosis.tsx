@@ -13,6 +13,7 @@ import { useTranslation } from "@/hooks/use-translation"
 interface AIDiagnosisProps {
   patientId?: string
   recordId?: string
+  selectedImage?: string
   className?: string
 }
 
@@ -31,7 +32,7 @@ export function AIDiagnosis({ patientId, recordId, className = "" }: AIDiagnosis
   const [activeTab, setActiveTab] = useState("text")
   const [userInput, setUserInput] = useState("")
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const { t } = useTranslation()
+  const { tSync: t } = useTranslation()
 
   // 模拟图像列表
   const availableImages = [
@@ -222,7 +223,7 @@ export function AIDiagnosis({ patientId, recordId, className = "" }: AIDiagnosis
                   onClick={() => setSelectedImage(image.fullSize)}
                 >
                   <img src={image.thumbnail || "/placeholder.svg"} alt={image.type} className="w-full h-auto" />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-xs p-1">
+                  <div className="absolute bottom-0 left-0 right-0 bg-medical-900/70 text-white text-xs p-1">
                     <div>{image.type}</div>
                     <div>{image.date}</div>
                   </div>

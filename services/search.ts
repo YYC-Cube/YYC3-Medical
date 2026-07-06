@@ -9,13 +9,11 @@ export async function searchMedicalRecords(query: string, lang: 'zh' | 'en') {
   // 构建全文搜索请求
   const result = await esClient.search({
     index,
-    body: {
-      query: {
-        multi_match: {
-          query,
-          fields: ['title', 'diagnosis'],
-          fuzziness: 'AUTO',
-        },
+    query: {
+      multi_match: {
+        query,
+        fields: ['title', 'diagnosis'],
+        fuzziness: 'AUTO',
       },
     },
   });

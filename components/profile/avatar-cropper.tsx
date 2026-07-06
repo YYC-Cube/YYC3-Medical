@@ -19,25 +19,7 @@ export function AvatarCropper({ isOpen, onClose, imageUrl, onCropComplete }: Ava
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imageRef = useRef<HTMLImageElement | null>(null)
 
-  // 加载图片
-  useEffect(() => {
-    if (!imageUrl) return
-
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-    img.onload = () => {
-      imageRef.current = img
-      drawImage()
-    }
-    img.src = imageUrl
-  }, [imageUrl])
-
-  // 当缩放或旋转变化时重绘
-  useEffect(() => {
-    drawImage()
-  }, [scale, rotation])
-
-  const drawImage = () => {
+  function drawImage() {
     if (!canvasRef.current || !imageRef.current) return
 
     const canvas = canvasRef.current
@@ -86,6 +68,24 @@ export function AvatarCropper({ isOpen, onClose, imageUrl, onCropComplete }: Ava
     // 恢复状态
     ctx.restore()
   }
+
+  // 加载图片
+  useEffect(() => {
+    if (!imageUrl) return
+
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => {
+      imageRef.current = img
+      drawImage()
+    }
+    img.src = imageUrl
+  }, [imageUrl])
+
+  // 当缩放或旋转变化时重绘
+  useEffect(() => {
+    drawImage()
+  }, [scale, rotation])
 
   const handleCrop = () => {
     if (!canvasRef.current) return

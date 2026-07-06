@@ -36,11 +36,7 @@ export function MultiCenterCollaboration() {
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
+  async function loadData() {
     try {
       setLoading(true)
       const [centersData, studiesData] = await Promise.all([
@@ -55,6 +51,10 @@ export function MultiCenterCollaboration() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const filteredCenters = centers.filter((center) => {
     if (statusFilter !== "all" && center.status !== statusFilter) return false
@@ -98,7 +98,7 @@ export function MultiCenterCollaboration() {
       III: "bg-green-500",
       IV: "bg-orange-500",
     }
-    return <Badge className={colors[phase] || "bg-gray-500"}>Phase {phase}</Badge>
+    return <Badge className={(colors as Record<string, string>)[phase] || "bg-gray-500"}>Phase {phase}</Badge>
   }
 
   if (loading) {

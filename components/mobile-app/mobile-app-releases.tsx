@@ -148,7 +148,7 @@ export function MobileAppReleases() {
   ]
 
   // 获取状态徽章
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "released":
         return <Badge className="bg-green-500">已发布</Badge>
@@ -168,7 +168,7 @@ export function MobileAppReleases() {
   }
 
   // 获取功能类型徽章和图标
-  const getFeatureTypeInfo = (type) => {
+  const getFeatureTypeInfo = (type: string) => {
     switch (type) {
       case "new":
         return {
@@ -396,27 +396,27 @@ export function MobileAppReleases() {
                             <Card className="bg-gray-50">
                               <CardContent className="p-3">
                                 <div className="text-xs text-muted-foreground">下载量</div>
-                                <div className="text-lg font-medium">{version.metrics.downloads.toLocaleString()}</div>
+                                <div className="text-lg font-medium">{version.metrics?.downloads.toLocaleString()}</div>
                               </CardContent>
                             </Card>
                             <Card className="bg-gray-50">
                               <CardContent className="p-3">
                                 <div className="text-xs text-muted-foreground">活跃用户</div>
                                 <div className="text-lg font-medium">
-                                  {version.metrics.activeUsers.toLocaleString()}
+                                  {version.metrics?.activeUsers.toLocaleString()}
                                 </div>
                               </CardContent>
                             </Card>
                             <Card className="bg-gray-50">
                               <CardContent className="p-3">
                                 <div className="text-xs text-muted-foreground">崩溃率</div>
-                                <div className="text-lg font-medium">{version.metrics.crashRate}%</div>
+                                <div className="text-lg font-medium">{version.metrics?.crashRate}%</div>
                               </CardContent>
                             </Card>
                             <Card className="bg-gray-50">
                               <CardContent className="p-3">
                                 <div className="text-xs text-muted-foreground">评分</div>
-                                <div className="text-lg font-medium">{version.metrics.rating}</div>
+                                <div className="text-lg font-medium">{version.metrics?.rating}</div>
                               </CardContent>
                             </Card>
                           </div>
@@ -427,7 +427,7 @@ export function MobileAppReleases() {
                               return (
                                 <div key={index} className="group relative">
                                   {badge}
-                                  <div className="absolute z-10 invisible group-hover:visible bg-black text-white text-xs p-2 rounded shadow-lg -top-1 left-full ml-2 w-60">
+                                  <div className="absolute z-10 invisible group-hover:visible bg-medical-900 text-white text-xs p-2 rounded shadow-lg -top-1 left-full ml-2 w-60">
                                     {feature.description}
                                   </div>
                                 </div>

@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -27,7 +28,7 @@ export function BackupSettings() {
     localPath: "/var/backups/yanyu",
     s3Bucket: "yanyu-backups",
     s3Region: "ap-east-1",
-    s3AccessKey: "AKIAXXXXXXXX",
+    s3AccessKey: "<S3_ACCESS_KEY>",
     s3SecretKey: "********",
     ftpHost: "",
     ftpUsername: "",
@@ -43,7 +44,7 @@ export function BackupSettings() {
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    console.log("保存备份设置", {
+    debug("保存备份设置", {
       autoBackup: autoBackupSettings,
       storage: storageSettings,
       notification: notificationSettings,
@@ -52,12 +53,12 @@ export function BackupSettings() {
 
   const handleManualBackup = () => {
     // 在实际应用中，这里会调用API执行手动备份
-    console.log("执行手动备份")
+    debug("执行手动备份")
   }
 
   const handleRestoreBackup = () => {
     // 在实际应用中，这里会打开一个对话框选择要恢复的备份
-    console.log("恢复备份")
+    debug("恢复备份")
   }
 
   return (

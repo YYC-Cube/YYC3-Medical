@@ -1,25 +1,29 @@
 'use client';
 
-import { useRouter } from 'next-intl/client';
-import { usePathname, useLocale } from 'next-intl';
+import { useLanguage } from "@/contexts/language-context"
+import type { Locale } from "@/contexts/language-context"
 
 export default function LanguageSwitcher() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const locale = useLocale();
+  const { locale, setLocale, availableLocales, localeName } = useLanguage()
 
   const switchLocale = (newLocale: string) => {
-    router.replace(pathname, { locale: newLocale });
-  };
+    if (availableLocales.includes(newLocale as Locale)) {
+      setLocale(newLocale as Locale)
+    }
+  }
 
   return (
-    <div>
-      <button onClick={() => switchLocale('zh')} disabled={locale === 'zh'}>
-        中文
-      </button>
-      <button onClick={() => switchLocale('en')} disabled={locale === 'en'}>
-        English
-      </button>
+    <div className="flex items-center gap-2">
+      {availableLocales.map((loc) => (
+        <button
+          key={loc}
+          onClick={() => switchLocale(loc)}
+          disabled={locale === loc}
+          className="text-sm"
+        >
+          {localeName[loc]}
+        </button>
+      ))}
     </div>
   );
 }

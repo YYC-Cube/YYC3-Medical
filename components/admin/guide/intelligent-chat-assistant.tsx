@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState, useRef, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -134,7 +135,7 @@ export function IntelligentChatAssistant() {
 
   // 消息反馈
   const handleFeedback = (messageId: string, isPositive: boolean) => {
-    console.log(`Message ${messageId} feedback: ${isPositive ? "positive" : "negative"}`)
+    debug(`Message ${messageId} feedback: ${isPositive ? "positive" : "negative"}`)
   }
 
   return (

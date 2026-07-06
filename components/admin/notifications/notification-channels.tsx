@@ -46,7 +46,7 @@ const initialChannels: NotificationChannel[] = [
     type: "sms",
     config: {
       provider: "阿里云",
-      accessKey: "AKIAXXXXXXXX",
+      accessKey: "<ALIYUN_ACCESS_KEY>",
       secretKey: "********",
       signName: "言语医枢",
     },
@@ -58,7 +58,7 @@ const initialChannels: NotificationChannel[] = [
     type: "push",
     config: {
       provider: "极光推送",
-      appKey: "JPUSHXXXXXXXX",
+      appKey: "<JIGUANG_APP_KEY>",
       masterSecret: "********",
     },
     active: true,

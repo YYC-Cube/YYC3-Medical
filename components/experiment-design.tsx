@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState, useEffect } from "react"
 import { Badge } from "@/components/ui/badge"
@@ -512,7 +513,7 @@ export function ExperimentDesign() {
   // 从模板创建
   const createFromTemplate = (templateId: string) => {
     // 这里可以实现从模板加载数据的逻辑
-    console.log("从模板创建", templateId)
+    debug("从模板创建", templateId)
 
     // 模拟从模板加载数据
     const template = designTemplates.find((t) => t.id === templateId)
@@ -531,7 +532,7 @@ export function ExperimentDesign() {
 
   // 处理模板保存
   const handleTemplateSave = (templateData: any) => {
-    console.log("保存模板", templateData)
+    debug("保存模板", templateData)
     // 这里可以添加保存模板到后端的逻辑
     setShowSaveAsTemplate(false)
   }
@@ -875,7 +876,7 @@ export function ExperimentDesign() {
             <Button
               onClick={() => {
                 // 这里可以添加保存新设计的逻辑
-                console.log("保存新设计", currentDesignData)
+                debug("保存新设计", currentDesignData)
                 setShowAddDialog(false)
                 setIsFromTemplate(false)
                 setCurrentDesignData(defaultNewDesign)

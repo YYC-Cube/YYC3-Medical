@@ -21,10 +21,10 @@ export function useTranslation() {
   const t = useCallback(
     async (key: string, fallback?: string): Promise<string> => {
       // 首先尝试使用预定义翻译
-      const baseTranslation = tBase(key, null)
+      const baseTranslation = tBase(key)
 
       // 如果找到预定义翻译，直接返回
-      if (baseTranslation !== null && baseTranslation !== key) {
+      if (baseTranslation !== key) {
         return baseTranslation
       }
 

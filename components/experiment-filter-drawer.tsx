@@ -155,12 +155,22 @@ const defaultFilters: ExperimentFilters = {
 }
 
 interface ExperimentFilterDrawerProps {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
   filters: ExperimentFilters
-  onFiltersChange: (filters: ExperimentFilters) => void
+  onFiltersChange?: (filters: ExperimentFilters) => void
+  onApplyFilters?: (filters: ExperimentFilters) => void
   onClearFilters: () => void
 }
 
-export function ExperimentFilterDrawer({ filters, onFiltersChange, onClearFilters }: ExperimentFilterDrawerProps) {
+export function ExperimentFilterDrawer({
+  open,
+  onOpenChange,
+  filters,
+  onFiltersChange,
+  onApplyFilters,
+  onClearFilters,
+}: ExperimentFilterDrawerProps) {
   const [localFilters, setLocalFilters] = useState<ExperimentFilters>(filters)
   const [searchValue, setSearchValue] = useState("")
 
@@ -194,7 +204,8 @@ export function ExperimentFilterDrawer({ filters, onFiltersChange, onClearFilter
 
   // 应用筛选器
   const applyFilters = () => {
-    onFiltersChange(localFilters)
+    if (onFiltersChange) onFiltersChange(localFilters)
+    if (onApplyFilters) onApplyFilters(localFilters)
   }
 
   // 重置筛选器

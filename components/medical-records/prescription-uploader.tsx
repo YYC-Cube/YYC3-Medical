@@ -94,7 +94,12 @@ const statusMap = {
   已拒绝: { color: "destructive" },
 }
 
-export function PrescriptionUploader() {
+interface PrescriptionUploaderProps {
+  onPrescriptionSelect?: (prescriptionPath: string) => void
+  selectedPrescription?: string
+}
+
+export function PrescriptionUploader({ onPrescriptionSelect, selectedPrescription: _selectedPrescription }: PrescriptionUploaderProps = {}) {
   const [prescriptions, setPrescriptions] = useState(mockPrescriptions)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedStatus, setSelectedStatus] = useState("全部")

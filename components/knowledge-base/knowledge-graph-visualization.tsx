@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
+import { useRef, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -113,23 +113,20 @@ export function KnowledgeGraphVisualization({
   }, [graphId])
 
   // 应用过滤器
-  const applyFilters = useCallback(
-    (sourceGraph: KnowledgeGraph) => {
-      const filterOptions: GraphFilterOptions = {
-        nodeTypes: selectedNodeTypes.length > 0 ? selectedNodeTypes : undefined,
-        relationTypes: selectedRelationTypes.length > 0 ? selectedRelationTypes : undefined,
-        minImportance: minImportance > 0 ? minImportance : undefined,
-        minStrength: minStrength > 0 ? minStrength : undefined,
-        searchQuery: searchQuery || undefined,
-        focusNodeId: focusNodeId,
-        maxDistance: maxDistance,
-      }
+  function applyFilters(sourceGraph: KnowledgeGraph) {
+    const filterOptions: GraphFilterOptions = {
+      nodeTypes: selectedNodeTypes.length > 0 ? selectedNodeTypes : undefined,
+      relationTypes: selectedRelationTypes.length > 0 ? selectedRelationTypes : undefined,
+      minImportance: minImportance > 0 ? minImportance : undefined,
+      minStrength: minStrength > 0 ? minStrength : undefined,
+      searchQuery: searchQuery || undefined,
+      focusNodeId: focusNodeId,
+      maxDistance: maxDistance,
+    }
 
-      const filtered = knowledgeGraphService.getFilteredGraph(sourceGraph.id, filterOptions)
-      setFilteredGraph(filtered)
-    },
-    [selectedNodeTypes, selectedRelationTypes, minImportance, minStrength, searchQuery, focusNodeId, maxDistance],
-  )
+    const filtered = knowledgeGraphService.getFilteredGraph(sourceGraph.id, filterOptions)
+    setFilteredGraph(filtered)
+  }
 
   // 当过滤条件变化时重新应用过滤器
   useEffect(() => {

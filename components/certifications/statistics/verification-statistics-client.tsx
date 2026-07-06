@@ -34,7 +34,7 @@ export function VerificationStatisticsClient() {
     loadStatistics()
   }, [timeRange, providerId])
 
-  const loadStatistics = async () => {
+  async function loadStatistics() {
     setLoading(true)
     try {
       let start: string

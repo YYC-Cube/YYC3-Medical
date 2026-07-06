@@ -7,13 +7,14 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { AlertTriangle } from "lucide-react"
 
 interface OcrServiceProps {
-  imageUrl: string
-  onComplete: (result: any) => void
-  onCancel: () => void
+  imageUrl?: string
+  prescriptionPath?: string
+  onComplete?: (result: any) => void
+  onCancel?: () => void
 }
 
 // 原始组件保持不变
-export function OcrService({ imageUrl, onComplete, onCancel }: OcrServiceProps) {
+export function OcrService({ imageUrl, prescriptionPath, onComplete, onCancel }: OcrServiceProps) {
   const [isProcessing, setIsProcessing] = useState(false)
 
   const handleStartOcr = () => {
@@ -37,7 +38,7 @@ export function OcrService({ imageUrl, onComplete, onCancel }: OcrServiceProps) 
         warnings: [],
         rawText: "模拟OCR文本",
       }
-      onComplete(mockResult)
+      onComplete?.(mockResult)
       setIsProcessing(false)
     }, 2000)
   }

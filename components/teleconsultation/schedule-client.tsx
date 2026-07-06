@@ -159,7 +159,7 @@ const consultations = [
 ]
 
 // 获取状态对应的样式
-const getStatusStyle = (status) => {
+const getStatusStyle = (status: string) => {
   switch (status) {
     case "已确认":
       return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
@@ -198,25 +198,12 @@ export default function ScheduleClient() {
   })
 
   // 根据日期获取当天的会诊
-  const getDayConsultations = (day) => {
+  const getDayConsultations = (day: Date) => {
     const formattedDate = day.toISOString().split("T")[0]
     return consultations.filter((consultation) => consultation.date === formattedDate)
   }
 
   // 自定义日期渲染
-  const renderDay = (day) => {
-    const dayConsultations = getDayConsultations(day)
-    return (
-      <div className="relative">
-        <div>{day.getDate()}</div>
-        {dayConsultations.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center">
-            <div className="h-1.5 w-1.5 rounded-full bg-blue-500"></div>
-          </div>
-        )}
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
@@ -352,9 +339,8 @@ export default function ScheduleClient() {
             <Calendar
               mode="single"
               selected={date}
-              onSelect={setDate}
+              onSelect={(d: Date | undefined) => d && setDate(d)}
               className="rounded-md border"
-              renderDay={renderDay}
             />
 
             <div className="mt-6">

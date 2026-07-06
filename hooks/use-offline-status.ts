@@ -14,10 +14,12 @@ export function useOfflineStatus() {
       setIsOnline(true)
       if (wasOffline) {
         // Trigger sync when coming back online
-        if ("serviceWorker" in navigator && "sync" in window.ServiceWorkerRegistration.prototype) {
+        if ("serviceWorker" in navigator && "SyncManager" in window) {
           navigator.serviceWorker.ready
             .then((registration) => {
-              return registration.sync.register("background-sync")
+              return (registration as ServiceWorkerRegistration & {
+                sync: { register: (tag: string) => Promise<void> }
+              }).sync.register("background-sync")
             })
             .catch(console.error)
         }

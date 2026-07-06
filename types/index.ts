@@ -1,6 +1,6 @@
 // 类型定义统一导出文件
 export * from "./admin-guide"
-export * from "./ai-models"
+export type { AIModel } from "./ai-models"
 export * from "./api-config"
 export * from "./avatar-presets"
 export * from "./case-library"

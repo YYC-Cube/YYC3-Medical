@@ -9,7 +9,15 @@ import { Input } from "@/components/ui/input"
 import { Search, ArrowRight, Edit, Save, X, Plus } from "lucide-react"
 
 // 模拟数据映射配置
-const dataMappings = {
+interface DataMapping {
+  id: number
+  source: string
+  target: string
+  description: string
+  status: "active" | "inactive"
+}
+
+const dataMappings: Record<string, DataMapping[]> = {
   patient: [
     { id: 1, source: "MRN", target: "patientId", description: "患者医疗记录号", status: "active" },
     { id: 2, source: "FirstName", target: "firstName", description: "患者名", status: "active" },
@@ -51,7 +59,7 @@ const dataMappings = {
 export function EHRDataMapping() {
   const [activeTab, setActiveTab] = useState("patient")
   const [searchQuery, setSearchQuery] = useState("")
-  const [editingMapping, setEditingMapping] = useState(null)
+  const [editingMapping, setEditingMapping] = useState<DataMapping | null>(null)
   const [mappings, setMappings] = useState(dataMappings)
   const [isAddingNew, setIsAddingNew] = useState(false)
   const [newMapping, setNewMapping] = useState({
@@ -69,7 +77,7 @@ export function EHRDataMapping() {
   )
 
   // 开始编辑
-  const startEditing = (mapping) => {
+  const startEditing = (mapping: DataMapping) => {
     setEditingMapping({ ...mapping })
   }
 
@@ -92,10 +100,10 @@ export function EHRDataMapping() {
   }
 
   // 切换映射状态
-  const toggleMappingStatus = (id) => {
+  const toggleMappingStatus = (id: number) => {
     setMappings({
       ...mappings,
-      [activeTab]: mappings[activeTab].map((mapping) => {
+      [activeTab]: mappings[activeTab].map((mapping: DataMapping) => {
         if (mapping.id === id) {
           return {
             ...mapping,

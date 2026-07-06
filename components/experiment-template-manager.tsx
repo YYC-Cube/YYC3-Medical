@@ -427,7 +427,7 @@ export function ExperimentTemplateManager({ onSelectTemplate, onClose }: Experim
                   <div className="space-y-2 mb-6">
                     <h3 className="font-medium">标签</h3>
                     <div className="flex flex-wrap gap-2">
-                      {selectedTemplate.tags.map((tag, index) => (
+                      {selectedTemplate.tags.map((tag: string, index: number) => (
                         <Badge key={index} variant="outline">
                           {tag}
                         </Badge>
@@ -439,7 +439,7 @@ export function ExperimentTemplateManager({ onSelectTemplate, onClose }: Experim
                     <div>
                       <h3 className="font-medium mb-3">研究组</h3>
                       <div className="space-y-3">
-                        {selectedTemplate.content.groups.map((group, index) => (
+                        {selectedTemplate.content.groups.map((group: { name: string; description: string }, index: number) => (
                           <div key={index} className="border rounded-md p-3">
                             <div className="font-medium mb-1">{group.name}</div>
                             <p className="text-sm text-muted-foreground">{group.description}</p>
@@ -461,7 +461,7 @@ export function ExperimentTemplateManager({ onSelectTemplate, onClose }: Experim
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {selectedTemplate.content.variables.map((variable, index) => (
+                            {selectedTemplate.content.variables.map((variable: { name: string; type: string; unit: string; method: string }, index: number) => (
                               <TableRow key={index}>
                                 <TableCell className="font-medium">{variable.name}</TableCell>
                                 <TableCell>{variable.type}</TableCell>
@@ -477,7 +477,7 @@ export function ExperimentTemplateManager({ onSelectTemplate, onClose }: Experim
                     <div>
                       <h3 className="font-medium mb-3">研究方法</h3>
                       <div className="space-y-3">
-                        {selectedTemplate.content.methods.map((method, index) => (
+                        {selectedTemplate.content.methods.map((method: { name: string; description: string }, index: number) => (
                           <div key={index} className="border rounded-md p-3">
                             <div className="font-medium mb-1">{method.name}</div>
                             <p className="text-sm text-muted-foreground">{method.description}</p>

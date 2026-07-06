@@ -1,6 +1,12 @@
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts';
 
-export default function ModelCompareChart({ versions }) {
+interface ModelCompareData {
+  version: string
+  accuracy: number
+  recall: number
+}
+
+export default function ModelCompareChart({ versions }: { versions: ModelCompareData[] }) {
   return (
     <RadarChart data={versions} outerRadius={120} width={400} height={300}>
       <PolarGrid />

@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import type React from "react"
 
@@ -40,7 +41,7 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // 处理任务编辑逻辑
-    console.log("编辑任务:", { id: task?.id, ...formData })
+    debug("编辑任务:", { id: task?.id, ...formData })
     onOpenChange(false)
   }
 

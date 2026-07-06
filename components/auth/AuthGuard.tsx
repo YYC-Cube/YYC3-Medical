@@ -5,7 +5,7 @@ import type React from "react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuthStore } from "@/store/useAuthStore"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 interface AuthGuardProps {
   children: React.ReactNode
@@ -16,62 +16,27 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children, requireAuth = true, requiredRole, requiredRoles, fallback }: AuthGuardProps) {
-  const { isAuthenticated, user, setLoading } = useAuthStore()
-  const [isChecking, setIsChecking] = useState(true)
+  // 直接读取持久化的鉴权状态；useAuthStore 已经通过 zustand persist
+  // 在 hydrate 后自动还原 token / user / isAuthenticated，
+  // 不再需要手动读取 localStorage 或调用 /api/auth/verify（静态导出无后端）。
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+  const user = useAuthStore((s) => s.user)
   const router = useRouter()
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      setLoading(true)
-
-      // 检查本地存储的token
-      const storedToken = localStorage.getItem("token")
-      const storedUser = localStorage.getItem("user")
-
-      if (storedToken && storedUser) {
-        try {
-          // 验证token是否有效
-          const response = await fetch("/api/auth/verify", {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-            },
-          })
-
-          if (!response.ok) {
-            // Token无效，清除存储
-            localStorage.removeItem("token")
-            localStorage.removeItem("user")
-            useAuthStore.getState().logout()
-          }
-        } catch (error) {
-          console.error("Token verification failed:", error)
-          useAuthStore.getState().logout()
-        }
-      }
-
-      setIsChecking(false)
-      setLoading(false)
-    }
-
-    checkAuth()
-  }, [setLoading])
+  const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
+  const hasRequiredRole = allRoles.length === 0 || (user?.role != null && allRoles.includes(user.role))
 
   useEffect(() => {
-    if (!isChecking) {
-      if (requireAuth && !isAuthenticated) {
-        router.push("/login")
-        return
-      }
-
-      const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
-      if (allRoles.length > 0 && user?.role && !allRoles.includes(user.role)) {
-        router.push("/unauthorized")
-        return
-      }
+    if (requireAuth && !isAuthenticated) {
+      router.push("/login")
+      return
     }
-  }, [isChecking, requireAuth, isAuthenticated, requiredRole, requiredRoles, user, router])
+    if (isAuthenticated && !hasRequiredRole) {
+      router.push("/unauthorized")
+    }
+  }, [requireAuth, isAuthenticated, hasRequiredRole, router])
 
-  if (isChecking) {
+  if (requireAuth && !isAuthenticated) {
     return (
       fallback || (
         <div className="flex items-center justify-center min-h-screen">
@@ -85,12 +50,7 @@ export function AuthGuard({ children, requireAuth = true, requiredRole, required
     )
   }
 
-  if (requireAuth && !isAuthenticated) {
-    return null
-  }
-
-  const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
-  if (allRoles.length > 0 && user?.role && !allRoles.includes(user.role)) {
+  if (isAuthenticated && !hasRequiredRole) {
     return null
   }
 

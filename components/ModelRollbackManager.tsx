@@ -1,6 +1,17 @@
 import React from 'react';
 
-export default function ModelRollbackManager({ models, onRollback }) {
+interface RollbackModel {
+  model_name: string
+  version: string
+  status: string
+}
+
+interface ModelRollbackManagerProps {
+  models: RollbackModel[]
+  onRollback: (modelName: string, version: string) => void
+}
+
+export default function ModelRollbackManager({ models, onRollback }: ModelRollbackManagerProps) {
   // models: [{ model_name, version, status }]
   return (
     <div>
@@ -15,7 +26,7 @@ export default function ModelRollbackManager({ models, onRollback }) {
           </tr>
         </thead>
         <tbody>
-          {models.map(m => (
+          {models.map((m: RollbackModel) => (
             <tr key={m.model_name + m.version}>
               <td>{m.model_name}</td>
               <td>{m.version}</td>

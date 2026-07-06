@@ -58,11 +58,7 @@ export function AIProviderManager() {
     isActive: true,
   })
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
+  async function loadData() {
     try {
       setLoading(true)
       const [providersData, modelsData, statsData] = await Promise.all([
@@ -85,6 +81,10 @@ export function AIProviderManager() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   const handleConfigProvider = (provider: AIProvider) => {
     setSelectedProvider(provider)

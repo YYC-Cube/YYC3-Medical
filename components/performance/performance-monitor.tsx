@@ -55,10 +55,11 @@ export function PerformanceMonitor() {
       }))
 
       // 获取JS堆大小（如果可用）
-      if (performance.memory) {
+      if ((performance as Performance & { memory?: { usedJSHeapSize: number } }).memory) {
+        const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory!
         setMetrics((prev) => ({
           ...prev,
-          jsHeapSize: Math.round((performance as any).memory.usedJSHeapSize / (1024 * 1024)),
+          jsHeapSize: Math.round(memory.usedJSHeapSize / (1024 * 1024)),
         }))
       }
     }
@@ -121,7 +122,7 @@ export function PerformanceMonitor() {
           new PerformanceObserver((entryList) => {
             const entries = entryList.getEntries()
             if (entries.length > 0) {
-              const fid = entries[0].processingStart - entries[0].startTime
+              const fid = (entries[0] as unknown as { processingStart: number }).processingStart - entries[0].startTime
               setMetrics((prev) => ({
                 ...prev,
                 fid: Math.round(fid),

@@ -1,21 +1,22 @@
-import { useLocale } from 'next-intl';
 import { useState } from 'react';
 
-export default function SearchBar() {
-  const locale = useLocale();
-  const [results, setResults] = useState([]);
+interface SearchDoc {
+  title: string
+}
 
-  const handleSearch = async query => {
-    const res = await fetch(`/api/search?lang=${locale}&q=${query}`);
-    const data = await res.json();
-    setResults(data);
+export default function SearchBar() {
+  const [results, setResults] = useState<SearchDoc[]>([]);
+
+  const handleSearch = async (query: string) => {
+    // STATIC-EXPORT-NOTE: /api/search 不存在于静态导出，这里保留接口契约。
+    setResults([])
   };
 
   return (
     <div>
       <input type="text" onChange={e => handleSearch(e.target.value)} />
       <ul>
-        {results.map(doc => (
+        {results.map((doc: SearchDoc) => (
           <li key={doc.title}>{doc.title}</li>
         ))}
       </ul>

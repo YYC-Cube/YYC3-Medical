@@ -53,6 +53,7 @@ export interface DiagnosticFinding {
   severity: "critical" | "severe" | "moderate" | "mild" | "normal"
   recommendation: string
   details?: string
+  relatedDiseaseIds?: string[]
   coordinates?: {
     x: number
     y: number

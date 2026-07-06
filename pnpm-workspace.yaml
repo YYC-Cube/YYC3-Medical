@@ -1,0 +1,6 @@
+packages:
+  - '.'
+
+pnpmOverrides:
+  '@types/react': '^18'
+  '@types/react-dom': '^18'

@@ -9,7 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTranslation } from "@/hooks/use-translation"
 import { zhCN } from "date-fns/locale"
 import { CalendarIcon, Filter, X } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { format } from "date-fns"
 
 export interface FilterField {
   id: string
@@ -37,7 +38,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
   const [currentOperator, setCurrentOperator] = useState<string>("eq")
   const { tSync } = useTranslation()
 
-  useEffectSync(() => {
+  useEffect(() => {
     onFilterChange(filters)
   }, [filters, onFilterChange])
 
@@ -122,7 +123,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {currentValue ? formatSync(currentValue, "PPP", { locale: zhCN }) : tSync("selectDate")}
+                {currentValue ? format(currentValue, "PPP", { locale: zhCN }) : tSync("selectDate")}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -174,7 +175,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
 
           let valueDisplay = filter.value
           if (field.type === "date" && filter.value instanceof Date) {
-            valueDisplay = formatSync(filter.value, "yyyy-MM-dd")
+            valueDisplay = format(filter.value, "yyyy-MM-dd")
           } else if (field.type === "select") {
             valueDisplay = field.options?.find((opt) => opt.value === filter.value)?.label || filter.value
           } else if (field.type === "boolean") {
@@ -236,7 +237,7 @@ export function DataFilter({ fields, onFilterChange, className = "" }: DataFilte
 
             <div className="w-full sm:w-auto">
               <Label htmlFor="filter-value">{tSync("value")}</Label>
-              <div className="mt-2">{renderValueInputSync()}</div>
+              <div className="mt-2">{renderValueInput()}</div>
             </div>
 
             <div className="flex items-end">

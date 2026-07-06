@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -80,9 +81,9 @@ export function CertificationUploadForm({ onSave, onCancel }: CertificationUploa
 
     try {
       // 模拟文件上传
-      console.log("上传证书文件:", certificateFile.name)
+      debug("上传证书文件:", certificateFile.name)
       if (additionalFile) {
-        console.log("上传附加文件:", additionalFile.name)
+        debug("上传附加文件:", additionalFile.name)
       }
 
       // 调用验证服务

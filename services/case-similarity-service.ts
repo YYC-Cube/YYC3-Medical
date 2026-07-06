@@ -436,7 +436,7 @@ export const caseSimilarityService = {
             // 检查名称是否相似
             const words1 = name1.split(/\s+/)
             const words2 = name2.split(/\s+/)
-            const commonWords = words1.filter((w) => words2.includes(w))
+            const commonWords = words1.filter((w: string) => words2.includes(w))
 
             if (commonWords.length > 0) {
               nameMatches += commonWords.length / Math.max(words1.length, words2.length)

@@ -66,26 +66,7 @@ export function InteractiveImageAnnotation({
     }
   }, [modality, anatomicalRegion])
 
-  // 加载图像
-  useEffect(() => {
-    if (!selectedImage) return
-
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-    img.src = selectedImage
-    img.onload = () => {
-      imageRef.current = img
-      drawImage()
-    }
-  }, [selectedImage])
-
-  // 重绘画布
-  useEffect(() => {
-    drawImage()
-  }, [zoomLevel, brightness, contrast, markers, selectedMarker])
-
-  // 绘制图像和标记
-  const drawImage = () => {
+  function drawImage() {
     const canvas = canvasRef.current
     if (!canvas || !imageRef.current) return
 
@@ -169,6 +150,25 @@ export function InteractiveImageAnnotation({
       ctx.strokeRect(drawX, drawY, drawWidth, drawHeight)
     }
   }
+  // 加载图像
+  useEffect(() => {
+    if (!selectedImage) return
+
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.src = selectedImage
+    img.onload = () => {
+      imageRef.current = img
+      drawImage()
+    }
+  }, [selectedImage])
+
+  // 重绘画布
+  useEffect(() => {
+    drawImage()
+  }, [zoomLevel, brightness, contrast, markers, selectedMarker])
+
+  // 绘制图像和标记
 
   // 处理鼠标按下事件
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {

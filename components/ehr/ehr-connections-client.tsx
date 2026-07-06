@@ -109,7 +109,7 @@ export default function EHRConnectionsClient() {
   const [testResult, setTestResult] = useState({ success: true, message: "连接测试成功！服务器响应时间: 230ms" })
 
   // 切换连接状态
-  const toggleConnectionStatus = (id) => {
+  const toggleConnectionStatus = (id: string | number) => {
     setConnections(
       connections.map((conn) => {
         if (conn.id === id) {
@@ -124,7 +124,7 @@ export default function EHRConnectionsClient() {
   }
 
   // 切换自动同步
-  const toggleAutoSync = (id) => {
+  const toggleAutoSync = (id: string | number) => {
     setConnections(
       connections.map((conn) => {
         if (conn.id === id) {
@@ -149,8 +149,8 @@ export default function EHRConnectionsClient() {
           ...newConnection,
           status: "disconnected",
           autoSync: false,
-          lastSync: null,
-          nextSync: null,
+          lastSync: "—",
+          nextSync: "—",
         },
       ])
       setNewConnection({

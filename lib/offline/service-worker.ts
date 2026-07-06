@@ -1,4 +1,8 @@
+/// <reference lib="webworker" />
 // Service Worker for offline functionality
+// 使用 SW 类型断言绕过 DOM lib 的 self 类型冲突
+const sw = self as unknown as ServiceWorkerGlobalScope
+
 const CACHE_NAME = "yanyu-cloud-v1"
 const STATIC_CACHE = "yanyu-static-v1"
 const DYNAMIC_CACHE = "yanyu-dynamic-v1"
@@ -18,18 +22,18 @@ const STATIC_FILES = [
 // API endpoints to cache
 const API_CACHE_PATTERNS = [/^\/api\/auth\//, /^\/api\/patients\//, /^\/api\/diagnoses\//]
 
-self.addEventListener("install", (event: ExtendableEvent) => {
+sw.addEventListener("install", (event: ExtendableEvent) => {
   event.waitUntil(
     Promise.all([
       caches.open(STATIC_CACHE).then((cache) => {
         return cache.addAll(STATIC_FILES)
       }),
-      self.skipWaiting(),
+      sw.skipWaiting(),
     ]),
   )
 })
 
-self.addEventListener("activate", (event: ExtendableEvent) => {
+sw.addEventListener("activate", (event: ExtendableEvent) => {
   event.waitUntil(
     Promise.all([
       // Clean up old caches
@@ -42,12 +46,12 @@ self.addEventListener("activate", (event: ExtendableEvent) => {
               .map((cacheName) => caches.delete(cacheName)),
           )
         }),
-      self.clients.claim(),
+      sw.clients.claim(),
     ]),
   )
 })
 
-self.addEventListener("fetch", (event: FetchEvent) => {
+sw.addEventListener("fetch", (event: FetchEvent) => {
   const { request } = event
   const url = new URL(request.url)
 
@@ -72,7 +76,7 @@ self.addEventListener("fetch", (event: FetchEvent) => {
               return cachedResponse
             }
             // Return offline page for navigation requests
-            return caches.match("/offline")
+            return caches.match("/offline") as Promise<Response>
           })
         }),
     )
@@ -96,7 +100,7 @@ self.addEventListener("fetch", (event: FetchEvent) => {
         .catch(() => {
           // Serve from cache for GET requests
           if (request.method === "GET") {
-            return caches.match(request)
+            return caches.match(request) as Promise<Response>
           }
           // Return error response for non-GET requests
           return new Response(
@@ -136,40 +140,40 @@ self.addEventListener("fetch", (event: FetchEvent) => {
 })
 
 // Handle background sync for offline actions
-self.addEventListener("sync", (event) => {
+sw.addEventListener("sync", ((event: ExtendableEvent & { tag: string }) => {
   if (event.tag === "background-sync") {
     event.waitUntil(
       // Process queued offline actions
       processOfflineActions(),
     )
   }
-})
+}) as EventListener)
 
 async function processOfflineActions() {
   // Implementation for processing offline actions
   // This would sync with IndexedDB and send queued requests
-  console.log("Processing offline actions...")
+   
+  console.debug("[sw] Processing offline actions...")
 }
 
 // Handle push notifications
-self.addEventListener("push", (event: PushEvent) => {
+sw.addEventListener("push", (event: PushEvent) => {
   if (event.data) {
-    const data = event.data.json()
+    const data = event.data.json() as { title: string; body: string; data?: unknown; actions?: unknown[] }
 
     event.waitUntil(
-      self.registration.showNotification(data.title, {
+      sw.registration.showNotification(data.title, {
         body: data.body,
         icon: "/images/yanyu-cloud-logo.png",
         badge: "/images/yanyu-cloud-logo.png",
         data: data.data,
-        actions: data.actions || [],
-      }),
+      } as NotificationOptions) as Promise<unknown> as Promise<void>,
     )
   }
 })
 
 // Handle notification clicks
-self.addEventListener("notificationclick", (event: NotificationEvent) => {
+sw.addEventListener("notificationclick", (event: NotificationEvent) => {
   event.notification.close()
 
   if (event.action) {
@@ -177,19 +181,19 @@ self.addEventListener("notificationclick", (event: NotificationEvent) => {
     handleNotificationAction(event.action, event.notification.data)
   } else {
     // Handle notification click
-    event.waitUntil(self.clients.openWindow(event.notification.data?.url || "/"))
+    event.waitUntil(sw.clients.openWindow((event.notification.data as { url?: string })?.url || "/") as Promise<unknown> as Promise<void>)
   }
 })
 
-function handleNotificationAction(action: string, data: any) {
+function handleNotificationAction(action: string, data: { url?: string } | undefined) {
   switch (action) {
     case "view":
-      self.clients.openWindow(data?.url || "/")
+      sw.clients.openWindow(data?.url || "/")
       break
     case "dismiss":
       // Just close the notification
       break
     default:
-      self.clients.openWindow("/")
+      sw.clients.openWindow("/")
   }
 }

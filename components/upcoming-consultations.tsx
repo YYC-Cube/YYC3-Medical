@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -89,9 +90,9 @@ export function UpcomingConsultations() {
   const [consultations, setConsultations] = useState(upcomingConsultations)
 
   // 加入会诊
-  const joinConsultation = (id) => {
+  const joinConsultation = (id: string | number) => {
     // 实际应用中，这里会导航到会诊室
-    console.log(`加入会诊: ${id}`)
+    debug(`加入会诊: ${id}`)
   }
 
   return (

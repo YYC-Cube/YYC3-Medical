@@ -26,49 +26,105 @@
   --medical-800: #1e40af;
   --medical-900: #1e3a8a;
 
-  /* 系统色彩 */
+  /* 系统色彩 — 蓝白医疗主题 */
   --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --foreground: 222.2 84% 16%;
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 222.2 84% 16%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover-foreground: 222.2 84% 16%;
   --primary: 221.2 83.2% 53.3%;
   --primary-foreground: 210 40% 98%;
   --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
+  --secondary-foreground: 222.2 84% 16%;
   --muted: 210 40% 96%;
   --muted-foreground: 215.4 16.3% 46.9%;
   --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
+  --accent-foreground: 222.2 84% 16%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
   --ring: 221.2 83.2% 53.3%;
   --radius: 0.5rem;
+
+  /* 图表色板（recharts / chart.tsx 引用） */
+  --chart-1: 221.2 83.2% 53.3%;
+  --chart-2: 189 94% 43%;
+  --chart-3: 142.1 76.2% 36.3%;
+  --chart-4: 38 92% 50%;
+  --chart-5: 0 84.2% 60.2%;
+
+  /* 侧边栏令牌（components/ui/sidebar.tsx 引用） */
+  --sidebar: 210 40% 96%;
+  --sidebar-foreground: 222.2 84% 16%;
+  --sidebar-primary: 221.2 83.2% 53.3%;
+  --sidebar-primary-foreground: 210 40% 98%;
+  --sidebar-accent: 210 40% 96%;
+  --sidebar-accent-foreground: 222.2 84% 16%;
+  --sidebar-border: 214.3 31.8% 91.4%;
+  --sidebar-ring: 221.2 83.2% 53.3%;
 }
 
 .dark {
-  --background: 222.2 84% 4.9%;
+  --background: 222.2 70% 8%;
   --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
+  --card: 222.2 70% 10%;
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
+  --popover: 222.2 70% 10%;
   --popover-foreground: 210 40% 98%;
   --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
+  --primary-foreground: 222.2 84% 8%;
+  --secondary: 222.2 50% 14%;
   --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
+  --muted: 222.2 50% 14%;
   --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
+  --accent: 222.2 50% 14%;
   --accent-foreground: 210 40% 98%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
+  --border: 222.2 40% 20%;
+  --input: 222.2 40% 20%;
   --ring: 224.3 76.3% 94.1%;
+  --radius: 0.5rem;
+
+  /* 图表色板（暗色模式：提高饱和度以适配深底） */
+  --chart-1: 217.2 91.2% 59.8%;
+  --chart-2: 189 94% 50%;
+  --chart-3: 142.1 70% 45.3%;
+  --chart-4: 47 95% 55%;
+  --chart-5: 0 84.2% 65%;
+
+  /* 侧边栏令牌（暗色模式） */
+  --sidebar: 222.2 70% 8%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 217.2 91.2% 59.8%;
+  --sidebar-primary-foreground: 222.2 84% 8%;
+  --sidebar-accent: 222.2 50% 14%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 222.2 40% 20%;
+  --sidebar-ring: 224.3 76.3% 94.1%;
+
+  /* 医疗主题色（暗色模式适配：提亮以保持对比度） */
+  --medical-primary: #3b82f6;
+  --medical-primary-dark: #2563eb;
+  --medical-primary-light: #60a5fa;
+  --medical-secondary: #22d3ee;
+  --medical-accent: #a78bfa;
+
+  --medical-gradient: linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%);
+  --medical-gradient-hover: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+
+  --medical-50: #172554;
+  --medical-100: #1e3a8a;
+  --medical-200: #1e40af;
+  --medical-300: #1d4ed8;
+  --medical-400: #2563eb;
+  --medical-500: #3b82f6;
+  --medical-600: #60a5fa;
+  --medical-700: #93c5fd;
+  --medical-800: #bfdbfe;
+  --medical-900: #dbeafe;
 }
 
 * {
@@ -78,7 +134,9 @@
 body {
   color: hsl(var(--foreground));
   background: hsl(var(--background));
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
 }
 
 /* 医疗蓝色工具类 */
@@ -123,7 +181,7 @@ body {
 }
 
 .refraction-line::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;

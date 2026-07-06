@@ -374,7 +374,7 @@ export const imagingFeatureService = {
       const disease = medicalKnowledgeService.getDiseaseById(diseaseId)
       predictions.push({
         diseaseId,
-        disease,
+        disease: disease ?? null,
         probability: totalScore > 0 ? score / totalScore : 0,
       })
     })

@@ -29,7 +29,7 @@ export function MobileAppPreview() {
   const [activePage, setActivePage] = useState("dashboard")
 
   // 模拟页面切换
-  const navigateTo = (page) => {
+  const navigateTo = (page: string) => {
     setActivePage(page)
   }
 

@@ -242,7 +242,7 @@ export type MedicalTermKey =
   | "ai_model.gemini"
   | "ai_model.claude"
 
-export const medicalTerms: Record<Locale, Record<MedicalTermKey, string>> = {
+export const medicalTerms: Partial<Record<Locale, Record<MedicalTermKey, string>>> = {
   "zh-CN": {
     // 诊断
     "diagnosis.diabetes": "糖尿病",

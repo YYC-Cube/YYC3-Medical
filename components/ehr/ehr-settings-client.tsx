@@ -32,7 +32,7 @@ export default function EHRSettingsClient() {
     defaultTimeFormat: "HH:mm:ss",
   })
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string | number | boolean) => {
     setSettings({
       ...settings,
       [field]: value,

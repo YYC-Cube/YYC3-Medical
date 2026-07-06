@@ -81,7 +81,12 @@ const mockImages = [
   },
 ]
 
-export function MedicalImagingUploader() {
+interface MedicalImagingUploaderProps {
+  onImageSelect?: (imagePath: string) => void
+  selectedImage?: string
+}
+
+export function MedicalImagingUploader({ onImageSelect, selectedImage: _selectedImage }: MedicalImagingUploaderProps = {}) {
   const [images, setImages] = useState(mockImages)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedModality, setSelectedModality] = useState("全部")
@@ -327,7 +332,7 @@ export function MedicalImagingUploader() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="bg-black rounded-md overflow-hidden relative">
+          <div className="bg-medical-900 rounded-md overflow-hidden relative">
             <div className="flex justify-center items-center h-[60vh]">
               {selectedImage && (
                 <img

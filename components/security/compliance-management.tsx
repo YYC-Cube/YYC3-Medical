@@ -140,7 +140,7 @@ export function ComplianceManagement() {
   ]
 
   // 获取状态徽章
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: string) => {
     switch (status) {
       case "compliant":
         return <Badge className="bg-green-500">合规</Badge>
@@ -156,7 +156,7 @@ export function ComplianceManagement() {
   }
 
   // 获取状态图标
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case "compliant":
         return <CheckCircle className="h-5 w-5 text-green-500" />
@@ -172,7 +172,7 @@ export function ComplianceManagement() {
   }
 
   // 获取分类图标
-  const getCategoryIcon = (category) => {
+  const getCategoryIcon = (category: string) => {
     switch (category) {
       case "数据隐私":
         return <Shield className="h-5 w-5 text-purple-500" />

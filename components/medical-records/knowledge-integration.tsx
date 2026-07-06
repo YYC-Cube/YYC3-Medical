@@ -20,9 +20,10 @@ import type { DiagnosticFinding } from "../../types/medical-records"
 interface KnowledgeIntegrationProps {
   findings: DiagnosticFinding[]
   patientId?: string
+  onError?: (message: string) => void
 }
 
-export function KnowledgeIntegration({ findings, patientId }: KnowledgeIntegrationProps) {
+export function KnowledgeIntegration({ findings, patientId, onError: _onError }: KnowledgeIntegrationProps) {
   const [relatedDiseases, setRelatedDiseases] = useState<{ disease: DiseaseReference; relevanceScore: number }[]>([])
   const [selectedDisease, setSelectedDisease] = useState<DiseaseReference | null>(null)
   const [treatmentGuidelines, setTreatmentGuidelines] = useState<TreatmentGuideline[]>([])
@@ -32,17 +33,8 @@ export function KnowledgeIntegration({ findings, patientId }: KnowledgeIntegrati
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
-  // 从诊断结果中提取疾病名称并加载相关数据
-  useEffect(() => {
-    if (findings.length > 0) {
-      loadRelatedDiseases()
-    } else {
-      setIsLoading(false)
-    }
-  }, [findings])
-
   // 加载相关疾病数据
-  const loadRelatedDiseases = async () => {
+  async function loadRelatedDiseases() {
     try {
       setIsLoading(true)
       setError(null)
@@ -68,8 +60,17 @@ export function KnowledgeIntegration({ findings, patientId }: KnowledgeIntegrati
     }
   }
 
+  // 从诊断结果中提取疾病名称并加载相关数据
+  useEffect(() => {
+    if (findings.length > 0) {
+      loadRelatedDiseases()
+    } else {
+      setIsLoading(false)
+    }
+  }, [findings])
+
   // 加载疾病详细信息
-  const loadDiseaseDetails = (diseaseId: string) => {
+  function loadDiseaseDetails(diseaseId: string) {
     try {
       // 获取相关的治疗指南和参考文献
       const guidelines = medicalKnowledgeService.getTreatmentGuidelinesForDisease(diseaseId)

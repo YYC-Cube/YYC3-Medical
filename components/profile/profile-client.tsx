@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -55,10 +56,10 @@ export function ProfileClient() {
     // 如果有新头像文件，这里会处理上传
     if (avatarFile) {
       // 实际项目中，这里会调用API上传头像
-      console.log("上传头像文件:", avatarFile)
+      debug("上传头像文件:", avatarFile)
       // 模拟上传成功
       setTimeout(() => {
-        console.log("头像上传成功")
+        debug("头像上传成功")
       }, 1000)
     }
 

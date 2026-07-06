@@ -64,23 +64,7 @@ export function ImagingFeatureReference({
   const [showSideBySide, setShowSideBySide] = useState(false)
 
   // 加载特征数据
-  useEffect(() => {
-    if (modality && anatomicalRegion) {
-      loadFeatures()
-    }
-  }, [modality, anatomicalRegion])
-
-  // 从诊断结果中提取特征
-  useEffect(() => {
-    if (findings.length > 0) {
-      // 这里可以根据诊断结果中的特征描述匹配相应的影像特征
-      // 简化实现，仅根据模态和解剖区域加载特征
-      loadFeatures()
-    }
-  }, [findings])
-
-  // 加载特征数据
-  const loadFeatures = async () => {
+  async function loadFeatures() {
     try {
       setIsLoading(true)
       setError(null)
@@ -102,8 +86,24 @@ export function ImagingFeatureReference({
     }
   }
 
+  // 加载特征数据
+  useEffect(() => {
+    if (modality && anatomicalRegion) {
+      loadFeatures()
+    }
+  }, [modality, anatomicalRegion])
+
+  // 从诊断结果中提取特征
+  useEffect(() => {
+    if (findings.length > 0) {
+      // 这里可以根据诊断结果中的特征描述匹配相应的影像特征
+      // 简化实现，仅根据模态和解剖区域加载特征
+      loadFeatures()
+    }
+  }, [findings])
+
   // 加载相关疾病
-  const loadRelatedDiseases = (featureId: string) => {
+  function loadRelatedDiseases(featureId: string) {
     try {
       const diseases = imagingFeatureService.getAssociatedDiseasesByFeatureId(featureId)
       setRelatedDiseases(diseases)
@@ -392,7 +392,7 @@ export function ImagingFeatureReference({
           </Button>
         </div>
         <div
-          className="overflow-hidden bg-black rounded-md"
+          className="overflow-hidden bg-medical-900 rounded-md"
           style={{ height: "400px", display: "flex", justifyContent: "center", alignItems: "center" }}
         >
           <img
@@ -581,7 +581,7 @@ export function ImagingFeatureReference({
                                   典型症状
                                 </h4>
                                 <ul className="list-disc pl-5 space-y-1">
-                                  {disease.symptoms.slice(0, 3).map((symptom, index) => (
+                                  {disease.symptoms.slice(0, 3).map((symptom: string, index: number) => (
                                     <li key={index} className="text-gray-700">
                                       {symptom}
                                     </li>
@@ -598,7 +598,7 @@ export function ImagingFeatureReference({
                                   鉴别诊断
                                 </h4>
                                 <ul className="list-disc pl-5 space-y-1">
-                                  {disease.differentialDiagnosis.slice(0, 3).map((diagnosis, index) => (
+                                  {disease.differentialDiagnosis.slice(0, 3).map((diagnosis: string, index: number) => (
                                     <li key={index} className="text-gray-700">
                                       {diagnosis}
                                     </li>

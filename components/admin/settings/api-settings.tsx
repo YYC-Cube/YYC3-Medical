@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -88,7 +89,7 @@ export function ApiSettings() {
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    console.log("保存API设置", {
+    debug("保存API设置", {
       general: generalSettings,
       security: securitySettings,
     })

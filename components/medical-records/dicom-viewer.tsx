@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ZoomIn, ZoomOut, RotateCw, RotateCcw, Maximize, Contrast, Grid2X2 } from "lucide-react"
 import { useTranslation } from "@/hooks/use-translation"
+import { Contrast, Grid2X2, Maximize, RotateCcw, RotateCw, ZoomIn, ZoomOut } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 // 模拟DICOM图像数据
 const mockDicomImages = [
@@ -26,10 +26,12 @@ const mockDicomImages = [
 interface DicomViewerProps {
   studyId?: string
   seriesId?: string
+  imagePath?: string
+  patientId?: string
   className?: string
 }
 
-export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerProps) {
+export function DicomViewer({ studyId, seriesId, imagePath, patientId, className = "" }: DicomViewerProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [zoom, setZoom] = useState(100)
   const [rotation, setRotation] = useState(0)
@@ -41,33 +43,8 @@ export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerPr
   const imageRef = useRef<HTMLImageElement | null>(null)
   const { t } = useTranslation()
 
-  // 加载图像
-  useEffect(() => {
-    setIsLoading(true)
-
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-    img.src = mockDicomImages[currentImageIndex]
-
-    img.onload = () => {
-      imageRef.current = img
-      drawImage()
-      setIsLoading(false)
-    }
-
-    img.onerror = () => {
-      console.error("图像加载失败")
-      setIsLoading(false)
-    }
-
-    return () => {
-      img.onload = null
-      img.onerror = null
-    }
-  }, [currentImageIndex])
-
   // 绘制图像
-  const drawImage = () => {
+  function drawImage() {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext("2d")
     const img = imageRef.current
@@ -99,6 +76,31 @@ export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerPr
     // 恢复状态
     ctx.restore()
   }
+
+  // 加载图像
+  useEffect(() => {
+    setIsLoading(true)
+
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.src = mockDicomImages[currentImageIndex]
+
+    img.onload = () => {
+      imageRef.current = img
+      drawImage()
+      setIsLoading(false)
+    }
+
+    img.onerror = () => {
+      console.error("图像加载失败")
+      setIsLoading(false)
+    }
+
+    return () => {
+      img.onload = null
+      img.onerror = null
+    }
+  }, [currentImageIndex])
 
   // 当参数变化时重新绘制
   useEffect(() => {
@@ -152,7 +154,7 @@ export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerPr
           </TabsList>
 
           <TabsContent value="viewer" className="space-y-4">
-            <div className="relative aspect-square w-full bg-black rounded-md overflow-hidden">
+            <div className="relative aspect-square w-full bg-medical-900 rounded-md overflow-hidden">
               {isLoading ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <LoadingSpinner />
@@ -164,7 +166,7 @@ export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerPr
                   {[0, 1, 2, 3].map((offset) => {
                     const index = (currentImageIndex + offset) % mockDicomImages.length
                     return (
-                      <div key={index} className="relative bg-black">
+                      <div key={index} className="relative bg-medical-900">
                         <img
                           src={mockDicomImages[index] || "/placeholder.svg"}
                           alt={`DICOM Slice ${index + 1}`}
@@ -180,7 +182,7 @@ export function DicomViewer({ studyId, seriesId, className = "" }: DicomViewerPr
               )}
 
               {!isLoading && viewMode === "single" && (
-                <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                <div className="absolute bottom-2 left-2 bg-medical-900/70 text-white text-xs px-2 py-1 rounded">
                   {currentImageIndex + 1}/{mockDicomImages.length}
                 </div>
               )}

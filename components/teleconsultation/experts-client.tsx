@@ -35,7 +35,25 @@ import {
 } from "lucide-react"
 
 // 模拟专家数据
-const experts = [
+interface Expert {
+  id: number
+  name: string
+  avatar: string
+  title: string
+  department: string
+  hospital: string
+  city: string
+  rating: number
+  consultations: number
+  specialties: string[]
+  availability: string
+  bio: string
+  contact: { email: string; phone: string }
+  isVerified: boolean
+  isFeatured: boolean
+}
+
+const experts: Expert[] = [
   {
     id: 1,
     name: "王建国",
@@ -216,10 +234,10 @@ export default function ExpertsClient() {
   const [selectedDepartment, setSelectedDepartment] = useState("all")
   const [selectedCity, setSelectedCity] = useState("all")
   const [showInviteDialog, setShowInviteDialog] = useState(false)
-  const [selectedExpert, setSelectedExpert] = useState(null)
+  const [selectedExpert, setSelectedExpert] = useState<Expert | null>(null)
 
   // 过滤专家列表
-  const filteredExperts = experts.filter((expert) => {
+  const filteredExperts = experts.filter((expert: Expert) => {
     // 搜索过滤
     if (
       searchQuery &&
@@ -242,7 +260,7 @@ export default function ExpertsClient() {
   })
 
   // 打开专家详情
-  const openExpertDetails = (expert) => {
+  const openExpertDetails = (expert: Expert) => {
     setSelectedExpert(expert)
   }
 

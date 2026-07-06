@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useTranslation } from '@/hooks/use-translation';
 import { PatientCard } from '@/components/patient-card';
@@ -8,7 +9,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 export function PatientsClientPage() {
-  const { t } = useTranslation();
+  const { tSync: t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
   const patients = [
@@ -39,15 +40,15 @@ export function PatientsClientPage() {
   ];
 
   const handleViewPatient = (id: string) => {
-    console.log(`查看患者 ID: ${id}`);
+    debug(`查看患者 ID: ${id}`);
   };
 
   const handleEditPatient = (id: string) => {
-    console.log(`编辑患者 ID: ${id}`);
+    debug(`编辑患者 ID: ${id}`);
   };
 
   const handleDeletePatient = (id: string) => {
-    console.log(`删除患者 ID: ${id}`);
+    debug(`删除患者 ID: ${id}`);
   };
 
   const filteredPatients = patients.filter(patient =>

@@ -444,14 +444,13 @@ export function AIAssistedAnnotation({
                   </div>
                   <Progress
                     value={consistencyResult.score * 100}
-                    className="h-2"
-                    indicatorClassName={
+                    className={`h-2 ${
                       consistencyResult.score >= 0.8
-                        ? "bg-green-500"
+                        ? "[&_[data-state=complete]]:bg-green-500"
                         : consistencyResult.score >= 0.5
-                          ? "bg-amber-500"
-                          : "bg-red-500"
-                    }
+                          ? "[&_[data-state=complete]]:bg-amber-500"
+                          : "[&_[data-state=complete]]:bg-red-500"
+                    }`}
                   />
                 </div>
 

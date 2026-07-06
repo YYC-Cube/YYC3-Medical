@@ -29,8 +29,8 @@ export function PrescriptionManagementClient() {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <PageHeader
-        heading="处方管理"
-        subheading="创建、审核和管理患者处方"
+        title="处方管理"
+        description="创建、审核和管理患者处方"
         icon={<ClipboardList className="h-6 w-6 text-medical-600" />}
       />
 

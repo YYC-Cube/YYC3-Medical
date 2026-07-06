@@ -35,36 +35,7 @@ export function CertificationUploadForm({ stepId, onProgressUpdate }: Certificat
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
   const [uploadProgress, setUploadProgress] = useState(0)
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    acceptedFiles.forEach((file) => {
-      const fileId = Date.now().toString() + Math.random().toString(36).substr(2, 9)
-      const newFile: UploadedFile = {
-        id: fileId,
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        url: URL.createObjectURL(file),
-        status: "uploading",
-      }
-
-      setUploadedFiles((prev) => [...prev, newFile])
-
-      // 模拟上传过程
-      simulateUpload(fileId)
-    })
-  }, [])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".jpeg", ".jpg", ".png"],
-      "application/pdf": [".pdf"],
-    },
-    maxSize: 10 * 1024 * 1024, // 10MB
-    multiple: true,
-  })
-
-  const simulateUpload = async (fileId: string) => {
+  async function simulateUpload(fileId: string) {
     // 模拟上传进度
     for (let progress = 0; progress <= 100; progress += 10) {
       await new Promise((resolve) => setTimeout(resolve, 200))
@@ -96,6 +67,35 @@ export function CertificationUploadForm({ stepId, onProgressUpdate }: Certificat
     const newProgress = Math.round((completedFiles / totalFiles) * 100)
     onProgressUpdate(newProgress)
   }
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    acceptedFiles.forEach((file) => {
+      const fileId = Date.now().toString() + Math.random().toString(36).substr(2, 9)
+      const newFile: UploadedFile = {
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        url: URL.createObjectURL(file),
+        status: "uploading",
+      }
+
+      setUploadedFiles((prev) => [...prev, newFile])
+
+      // 模拟上传过程
+      simulateUpload(fileId)
+    })
+  }, [])
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png"],
+      "application/pdf": [".pdf"],
+    },
+    maxSize: 10 * 1024 * 1024, // 10MB
+    multiple: true,
+  })
 
   const removeFile = (fileId: string) => {
     setUploadedFiles((prev) => prev.filter((file) => file.id !== fileId))

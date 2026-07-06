@@ -345,21 +345,24 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 <CardDescription>最近5次检测数据</CardDescription>
               </CardHeader>
               <CardContent className="h-80">
+                { }
                 <LineChart
-                  data={vitalSigns}
-                  categories={[
-                    {
-                      name: "收缩压",
-                      key: "systolic",
-                      stroke: "#ef4444",
-                    },
-                    {
-                      name: "舒张压",
-                      key: "diastolic",
-                      stroke: "#3b82f6",
-                    },
-                  ]}
-                  xAxisKey="date"
+                  {...({
+                    data: vitalSigns,
+                    categories: [
+                      {
+                        name: "收缩压",
+                        key: "systolic",
+                        stroke: "#ef4444",
+                      },
+                      {
+                        name: "舒张压",
+                        key: "diastolic",
+                        stroke: "#3b82f6",
+                      },
+                    ],
+                    xAxisKey: "date",
+                  } as any)}
                 />
               </CardContent>
             </Card>
@@ -527,26 +530,29 @@ export function PatientDetails({ patientId }: { patientId: string }) {
               <div className="mt-6">
                 <div className="font-medium mb-3 text-medical-700">用药依从性分析</div>
                 <div className="h-64">
+                  { }
                   <BarChart
-                    data={[
-                      { month: "1月", adherence: 90 },
-                      { month: "2月", adherence: 95 },
-                      { month: "3月", adherence: 88 },
-                      { month: "4月", adherence: 92 },
-                    ]}
-                    categories={[
-                      {
-                        name: "依从性",
-                        key: "adherence",
-                        color: "hsl(var(--chart-1))",
+                    {...({
+                      data: [
+                        { month: "1月", adherence: 90 },
+                        { month: "2月", adherence: 95 },
+                        { month: "3月", adherence: 88 },
+                        { month: "4月", adherence: 92 },
+                      ],
+                      categories: [
+                        {
+                          name: "依从性",
+                          key: "adherence",
+                          color: "hsl(var(--chart-1))",
+                        },
+                      ],
+                      xAxisKey: "month",
+                      yAxisConfig: {
+                        min: 0,
+                        max: 100,
+                        unit: "%",
                       },
-                    ]}
-                    xAxisKey="month"
-                    yAxisConfig={{
-                      min: 0,
-                      max: 100,
-                      unit: "%",
-                    }}
+                    } as any)}
                   />
                 </div>
               </div>

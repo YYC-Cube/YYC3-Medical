@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { PageHeader } from "@/components/page-header"
@@ -26,7 +27,7 @@ export function CertificationManagementClient() {
   const [showBulkImportDialog, setShowBulkImportDialog] = useState(false)
 
   const handleSaveCertification = (data: any) => {
-    console.log("保存资质:", data)
+    debug("保存资质:", data)
     setShowUploadDialog(false)
   }
 

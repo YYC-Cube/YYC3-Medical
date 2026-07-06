@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
@@ -93,7 +94,7 @@ export function DecisionSupportPanel({ caseId, onRecommendationSelect }: Decisio
     }))
 
     // 这里可以添加实际的反馈提交逻辑
-    console.log(`为建议 ${id} 提供了${type === "positive" ? "正面" : "负面"}反馈`)
+    debug(`为建议 ${id} 提供了${type === "positive" ? "正面" : "负面"}反馈`)
   }
 
   // 获取证据级别标签颜色

@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { createElement, useEffect, useState } from "react"
 
 // 性能指标类型
 export type PerformanceMetric = {
@@ -34,7 +34,7 @@ class PerformanceMonitoringService {
   private observers: Array<(report: PerformanceReport) => void> = []
   private isMonitoring = false
   private intervalId: NodeJS.Timeout | null = null
-  private config = {
+  config = {
     collectInterval: 5000, // 收集间隔，默认5秒
     maxMetrics: 100, // 最大指标数量
     maxEvents: 100, // 最大事件数量
@@ -442,6 +442,6 @@ export function withPerformanceTracking<P extends object>(
       }
     }, [])
 
-    return React.createElement(Component, props)
+    return createElement(Component, props)
   }
 }

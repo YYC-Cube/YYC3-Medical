@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -57,7 +58,7 @@ export function NotificationSettings() {
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    console.log("保存设置", {
+    debug("保存设置", {
       email: emailSettings,
       sms: smsSettings,
       push: pushSettings,

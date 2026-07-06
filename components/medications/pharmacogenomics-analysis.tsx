@@ -18,11 +18,7 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
 
-  useEffect(() => {
-    loadPatientProfile()
-  }, [patientId])
-
-  const loadPatientProfile = async () => {
+  async function loadPatientProfile() {
     try {
       setLoading(true)
       const data = await pharmacogenomicsService.getPatientProfile(patientId)
@@ -33,6 +29,10 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadPatientProfile()
+  }, [patientId])
 
   const getMetabolizerIcon = (type: string) => {
     switch (type) {

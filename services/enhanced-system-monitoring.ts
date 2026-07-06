@@ -290,7 +290,7 @@ export const updateSystemAlertStatus = (
       alert.acknowledgedBy = user
       alert.acknowledgedAt = new Date().toISOString()
     } else if (status === "resolved") {
-      alert.resolvedAt = new Date().toISOString().toISOString()
+      alert.resolvedAt = new Date().toISOString()
     }
     mockSystemAlerts[alertIndex] = alert
     return alert

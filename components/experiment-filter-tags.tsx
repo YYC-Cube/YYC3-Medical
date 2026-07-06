@@ -9,11 +9,21 @@ import { zhCN } from "date-fns/locale"
 
 interface ExperimentFilterTagsProps {
   filters: ExperimentFilters
-  onRemoveFilter: (key: keyof ExperimentFilters, value?: string) => void
-  onClearFilters: () => void
+  onRemoveFilter?: (key: keyof ExperimentFilters, value?: string) => void
+  onRemove?: (key: keyof ExperimentFilters, value?: string) => void
+  onClearFilters?: () => void
+  onClear?: () => void
 }
 
-export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }: ExperimentFilterTagsProps) {
+export function ExperimentFilterTags({
+  filters,
+  onRemoveFilter,
+  onRemove,
+  onClearFilters,
+  onClear,
+}: ExperimentFilterTagsProps) {
+  const handleRemove = onRemove || onRemoveFilter || (() => {})
+  const handleClear = onClear || onClearFilters || (() => {})
   // 计算活跃筛选器数量
   const getActiveFilterCount = () => {
     let count = 0
@@ -45,7 +55,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
       {filters.searchTerm && (
         <Badge variant="secondary" className="flex items-center gap-1">
           搜索: {filters.searchTerm}
-          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => onRemoveFilter("searchTerm")}>
+          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => handleRemove("searchTerm")}>
             <X className="h-3 w-3" />
           </Button>
         </Badge>
@@ -58,7 +68,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("types", type)}
+            onClick={() => handleRemove("types", type)}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -72,7 +82,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("designTypes", type)}
+            onClick={() => handleRemove("designTypes", type)}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -86,7 +96,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("statuses", status)}
+            onClick={() => handleRemove("statuses", status)}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -100,7 +110,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("departments", dept)}
+            onClick={() => handleRemove("departments", dept)}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -112,7 +122,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
           日期:
           {filters.dateRange.from ? format(filters.dateRange.from, "yyyy-MM-dd", { locale: zhCN }) : "开始"} 至
           {filters.dateRange.to ? format(filters.dateRange.to, "yyyy-MM-dd", { locale: zhCN }) : "结束"}
-          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => onRemoveFilter("dateRange")}>
+          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => handleRemove("dateRange")}>
             <X className="h-3 w-3" />
           </Button>
         </Badge>
@@ -121,7 +131,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
       {filters.tags.map((tag) => (
         <Badge key={tag} variant="secondary" className="flex items-center gap-1">
           标签: {tag}
-          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => onRemoveFilter("tags", tag)}>
+          <Button variant="ghost" size="icon" className="h-4 w-4 p-0 ml-1" onClick={() => handleRemove("tags", tag)}>
             <X className="h-3 w-3" />
           </Button>
         </Badge>
@@ -134,7 +144,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("budgetRange")}
+            onClick={() => handleRemove("budgetRange")}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -148,7 +158,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("sampleTypes", type)}
+            onClick={() => handleRemove("sampleTypes", type)}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -162,7 +172,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("hasEthicalApproval")}
+            onClick={() => handleRemove("hasEthicalApproval")}
           >
             <X className="h-3 w-3" />
           </Button>
@@ -176,7 +186,7 @@ export function ExperimentFilterTags({ filters, onRemoveFilter, onClearFilters }
             variant="ghost"
             size="icon"
             className="h-4 w-4 p-0 ml-1"
-            onClick={() => onRemoveFilter("createdByMe")}
+            onClick={() => handleRemove("createdByMe")}
           >
             <X className="h-3 w-3" />
           </Button>

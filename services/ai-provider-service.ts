@@ -1,3 +1,4 @@
+import { debug } from "@/lib/logger"
 import type { AIProvider, AIProviderConfig, AIModel, AIRequest, AIUsageStats } from "@/types/ai-models"
 
 // 预定义的AI提供商配置
@@ -299,7 +300,7 @@ export const aiProviderService = {
       updatedAt: new Date().toISOString(),
     }
 
-    console.log("保存AI提供商配置:", newConfig)
+    debug("保存AI提供商配置:", newConfig)
     return newConfig
   },
 

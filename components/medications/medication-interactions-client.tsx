@@ -27,8 +27,8 @@ export function MedicationInteractionsClient() {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <PageHeader
-        heading="药物互作分析"
-        subheading="检查和分析药物之间的相互作用"
+        title="药物互作分析"
+        description="检查和分析药物之间的相互作用"
         icon={<Workflow className="h-6 w-6 text-medical-600" />}
       />
 

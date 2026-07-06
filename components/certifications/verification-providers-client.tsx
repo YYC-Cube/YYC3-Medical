@@ -1,4 +1,5 @@
 "use client"
+import { debug } from "@/lib/logger"
 
 import { useState } from "react"
 import { PageHeader } from "@/components/page-header"
@@ -32,7 +33,7 @@ export function VerificationProvidersClient() {
 
   // 模拟添加验证机构
   const handleAddProvider = (data: any) => {
-    console.log("添加验证机构:", data)
+    debug("添加验证机构:", data)
     setShowAddProviderDialog(false)
     toast({
       title: "验证机构已添加",
