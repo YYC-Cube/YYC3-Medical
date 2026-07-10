@@ -89,7 +89,7 @@ pnpm build        # Static export → out/
 ## Commands
 
 ```bash
-pnpm dev            # Dev server (Turbopack)
+到时候            # Dev server (Turbopack)
 pnpm build          # Production build (static export → out/)
 pnpm start          # Preview production build
 pnpm test           # Jest test suite

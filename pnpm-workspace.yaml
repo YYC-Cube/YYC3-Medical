@@ -1,7 +1,0 @@
-packages:
-  - '.'
-  - 'packages/*'
-
-overrides:
-  '@types/react': '^18'
-  '@types/react-dom': '^18'
