@@ -53,7 +53,7 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-primary/5 via-background to-primary/5">
+      <section className="py-16 md:py-20 px-4" style={{ background: 'var(--hero-bg)' }}>
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto">
             <Logo size="xl" className="mx-auto mb-8" animated />
@@ -97,7 +97,7 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 md:py-20 px-4 bg-card">
+      <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-white to-primary/5">
         <div className="container mx-auto">
           <div className="text-center mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">核心功能特性</h2>
@@ -106,7 +106,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
                 <Brain className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>AI智能诊断</CardTitle>
@@ -121,9 +121,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
-                <Shield className="h-12 w-12 text-success mb-4" />
+                <Shield className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>安全可靠</CardTitle>
                 <CardDescription>符合医疗行业标准的数据安全和隐私保护</CardDescription>
               </CardHeader>
@@ -136,9 +136,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
-                <Zap className="h-12 w-12 text-warning mb-4" />
+                <Zap className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>高效处理</CardTitle>
                 <CardDescription>快速响应的云端计算和实时数据处理能力</CardDescription>
               </CardHeader>
@@ -151,9 +151,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
-                <Users className="h-12 w-12 text-accent mb-4" />
+                <Users className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>协作平台</CardTitle>
                 <CardDescription>支持多科室协作的医疗团队管理系统</CardDescription>
               </CardHeader>
@@ -166,9 +166,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
-                <Globe className="h-12 w-12 text-info mb-4" />
+                <Globe className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>全球部署</CardTitle>
                 <CardDescription>支持多语言和多地区的全球化医疗服务</CardDescription>
               </CardHeader>
@@ -181,9 +181,9 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow border-primary/20">
               <CardHeader>
-                <Heart className="h-12 w-12 text-destructive mb-4" />
+                <Heart className="h-12 w-12 text-primary mb-4" />
                 <CardTitle>患者关怀</CardTitle>
                 <CardDescription>以患者为中心的个性化医疗服务体验</CardDescription>
               </CardHeader>
@@ -200,7 +200,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 px-4 bg-primary text-primary-foreground">
+      <section className="py-16 md:py-20 px-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
         <div className="container mx-auto text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">准备开始您的智能医疗之旅？</h2>
           <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
@@ -223,7 +223,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-foreground text-primary-foreground py-12 px-4">
+      <footer className="text-primary-foreground py-12 px-4" style={{ background: 'var(--footer-bg)' }}>
         <div className="container mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             <div>

@@ -39,6 +39,12 @@
   --medical-gradient-hover: linear-gradient(135deg, #1a4d7a 0%, #f1f5f9 100%);
   --medical-gradient-soft: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
 
+  /* Hero 区域渐变背景 — 医疗蓝白 */
+  --hero-bg: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #ecfeff 100%);
+
+  /* Footer 深蓝背景 */
+  --footer-bg: #1a4d7a;
+
   /* 医疗蓝色色阶 v3.0 — 统一蓝色系 */
   --medical-50: #eef3f9;
   --medical-100: #dce8f3;
@@ -161,6 +167,12 @@
   --medical-gradient: linear-gradient(135deg, #4a8dc7 0%, #ffffff 100%);
   --medical-gradient-hover: linear-gradient(135deg, #2b6cb0 0%, #f1f5f9 100%);
   --medical-gradient-soft: linear-gradient(135deg, #163a5c 0%, #1e3a5f 100%);
+
+  /* Hero 区域渐变背景（暗色模式） */
+  --hero-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0c4a6e 100%);
+
+  /* Footer 深蓝背景（暗色模式） */
+  --footer-bg: #0c1e2e;
 
   --medical-50: #0f2338;
   --medical-100: #163a5c;
