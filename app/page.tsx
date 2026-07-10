@@ -114,14 +114,14 @@ export default function HomePage() {
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto">
             <Logo size="xl" className="mx-auto mb-8" animated />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-6" style={{ color: '#0964ff' }}>
               YanYuCloud
               <br />
-              <span className="text-xl sm:text-2xl md:text-3xl font-medium text-primary/70">
+              <span className="text-xl sm:text-2xl md:text-3xl font-medium" style={{ color: '#0964ff' }}>
                 AI-Powered Intelligent Medical System
               </span>
             </h1>
-            <Slogan size="lg" className="mb-8 max-w-3xl mx-auto" />
+            <Slogan size="lg" className="mb-8 max-w-3xl mx-auto" style={{ color: '#0964ff' }} />
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <Button size="lg" className="text-lg px-8" asChild>
                 <Link href="/admin">

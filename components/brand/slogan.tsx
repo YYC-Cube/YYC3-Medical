@@ -2,12 +2,14 @@
 
 import { useLanguage } from '@/contexts/language-context';
 import { cn } from '@/lib/utils';
+import type React from 'react';
 
 interface SloganProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg';
   align?: 'left' | 'center' | 'right';
   variant?: 'default' | 'technical' | 'patient';
+  style?: React.CSSProperties;
 }
 
 const slogans: Record<string, Record<string, string>> = {
@@ -43,6 +45,7 @@ export function Slogan({
   size = 'md',
   align = 'center',
   variant = 'default',
+  style,
 }: SloganProps) {
   const { locale } = useLanguage();
   const langSlogans = slogans[locale] || slogans['zh-CN'];
@@ -51,6 +54,7 @@ export function Slogan({
   return (
     <p
       className={cn('text-muted-foreground font-medium', sizeMap[size], alignMap[align], className)}
+      style={style}
     >
       {slogan}
     </p>
