@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const siteConfig = {
-  name: 'YYC³-Med',
-  title: 'YYC³-Med | AI-Powered Intelligent Medical System',
+  name: 'YanYuCloud',
+  title: 'YanYuCloud | AI-Powered Intelligent Medical System',
   description:
     'AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities',
   url: 'https://medical.yyc3.vip',
@@ -21,11 +21,11 @@ export const siteConfig = {
   ],
   authors: [
     {
-      name: 'YYC³-Med',
+      name: 'YanYuCloud',
       url: 'https://medical.yyc3.vip',
     },
   ],
-  creator: 'YYC³-Med',
+  creator: 'YanYuCloud',
   themeColor: '#2563eb',
   manifest: '/manifest.json',
 };
@@ -89,7 +89,7 @@ export function constructMetadata({
 export const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'YYC³-Med',
+  name: 'YanYuCloud',
   description:
     'AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities',
   url: 'https://medical.yyc3.vip',
@@ -103,6 +103,6 @@ export const jsonLd = {
   },
   author: {
     '@type': 'Organization',
-    name: 'YYC³-Med',
+    name: 'YanYuCloud',
   },
 };

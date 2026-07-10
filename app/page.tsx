@@ -189,7 +189,7 @@ export default function HomePage() {
             <Button
               size="lg"
               variant="outline"
-              className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary bg-transparent"
+              className="text-lg px-8 bg-white text-primary shadow-md hover:bg-primary/5 border-white"
               asChild
             >
               <Link href="/help">联系我们</Link>

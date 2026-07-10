@@ -1,20 +1,20 @@
-import type React from 'react';
-import type { Metadata } from 'next';
-import { GeistSans } from 'geist/font/sans';
-import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { AutoTranslationProvider } from '@/contexts/auto-translation-context';
+import { AutomaticExecutionProvider } from '@/contexts/automatic-execution-context';
 import { LanguageProvider } from '@/contexts/language-context';
 import { LoadingProvider } from '@/contexts/loading-context';
 import { UserAvatarProvider } from '@/contexts/user-avatar-context';
-import { AutoTranslationProvider } from '@/contexts/auto-translation-context';
-import { AutomaticExecutionProvider } from '@/contexts/automatic-execution-context';
-import { Toaster } from '@/components/ui/toaster';
 import { jsonLd } from '@/lib/seo-config';
+import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
+import type React from 'react';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'YYC³-Med | AI-Powered Intelligent Medical System',
-    template: '%s | YYC³-Med',
+    default: 'YanYuCloud | AI-Powered Intelligent Medical System',
+    template: '%s | YanYuCloud',
   },
   description:
     'AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities',
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
     'Medical System',
     'Artificial Intelligence',
   ],
-  authors: [{ name: 'YYC³-Med' }],
-  creator: 'YYC³-Med',
-  publisher: 'YYC³-Med',
+  authors: [{ name: 'YanYuCloud' }],
+  creator: 'YanYuCloud',
+  publisher: 'YanYuCloud',
   formatDetection: {
     email: false,
     address: false,
@@ -42,22 +42,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'zh_CN',
     url: 'https://medical.yyc3.vip',
-    title: 'YYC³-Med | AI-Powered Intelligent Medical System',
+    title: 'YanYuCloud | AI-Powered Intelligent Medical System',
     description:
       'AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities',
-    siteName: 'YYC³-Med',
+    siteName: 'YanYuCloud',
     images: [
       {
         url: '/yyc3-icons/pwa/icon-512x512.png',
         width: 512,
         height: 512,
-        alt: 'YYC³-Med Logo',
+        alt: 'YanYuCloud Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'YYC³-Med | AI-Powered Intelligent Medical System',
+    title: 'YanYuCloud | AI-Powered Intelligent Medical System',
     description:
       'AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities',
     images: ['/yyc3-icons/pwa/icon-512x512.png'],
@@ -90,18 +90,14 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   generator: 'v0.app',
+  other: {
+    'application/ld+json': JSON.stringify(jsonLd),
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-CN" suppressHydrationWarning>
-      <head>
-        {/* JSON-LD 结构化数据 — 内容受控（jsonLd 为编译期常量），安全使用 */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
       <body className={`${GeistSans.variable} ${GeistSans.className}`}>
         <ThemeProvider
           attribute="class"

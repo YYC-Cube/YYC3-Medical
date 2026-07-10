@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard requiredRoles={['admin', 'super_admin']}>
-      <div className="flex h-screen overflow-hidden bg-medical-50/40">
+      <div className="flex h-screen overflow-hidden bg-white">
         <AdminSidebar />
         <div className="flex flex-col flex-1 overflow-hidden">
           <AdminHeader />
-          <main className="flex-1 overflow-y-auto bg-medical-50/40 p-4">{children}</main>
+          <main className="flex-1 overflow-y-auto bg-white p-4">{children}</main>
         </div>
       </div>
     </AuthGuard>
