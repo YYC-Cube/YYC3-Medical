@@ -1,9 +1,10 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { PageHeader } from "@/components/page-header"
-import { UserCheck, Plus, Download, Upload } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { UserCheck, Plus, Download, Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,28 +12,38 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CertificationUploadForm } from "@/components/profile/certifications/certification-upload-form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { BulkImportDialog } from "./bulk-import-dialog"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CertificationList } from "@/components/profile/certifications/certification-list"
+} from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CertificationUploadForm } from '@/components/profile/certifications/certification-upload-form';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { BulkImportDialog } from './bulk-import-dialog';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { CertificationList } from '@/components/profile/certifications/certification-list';
 
 export function CertificationManagementClient() {
-  const [bulkAction, setBulkAction] = useState("")
-  const [showUploadDialog, setShowUploadDialog] = useState(false)
-  const [showBulkImportDialog, setShowBulkImportDialog] = useState(false)
+  const [bulkAction, setBulkAction] = useState('');
+  const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [showBulkImportDialog, setShowBulkImportDialog] = useState(false);
 
   const handleSaveCertification = (data: any) => {
-    console.log("保存资质:", data)
-    setShowUploadDialog(false)
-  }
+    debug('保存资质:', data);
+    setShowUploadDialog(false);
+  };
 
   return (
     <div className="container mx-auto py-6 space-y-8">
-      <PageHeader title="资质管理" description="管理医疗专业人员资质证书" icon={<UserCheck className="h-6 w-6" />} />
+      <PageHeader
+        title="资质管理"
+        description="管理医疗专业人员资质证书"
+        icon={<UserCheck className="h-6 w-6" />}
+      />
 
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
@@ -65,7 +76,10 @@ export function CertificationManagementClient() {
                 <DialogTitle>添加新资质</DialogTitle>
                 <DialogDescription>上传新的资质证书进行验证</DialogDescription>
               </DialogHeader>
-              <CertificationUploadForm onSave={handleSaveCertification} onCancel={() => setShowUploadDialog(false)} />
+              <CertificationUploadForm
+                onSave={handleSaveCertification}
+                onCancel={() => setShowUploadDialog(false)}
+              />
             </DialogContent>
           </Dialog>
 
@@ -136,5 +150,5 @@ export function CertificationManagementClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

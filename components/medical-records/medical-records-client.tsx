@@ -1,121 +1,121 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MedicalImagingUploader } from "./medical-imaging-uploader"
-import { PrescriptionUploader } from "./prescription-uploader"
-import { OCRService } from "./ocr-service"
-import { DicomViewer } from "./dicom-viewer"
-import { AIDiagnosis } from "./ai-diagnosis"
-import { RecordAssociation } from "./record-association"
-import { BatchProcessor } from "./batch-processor"
-import { MultiModalAIDiagnosis } from "./multi-modal-ai-diagnosis"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MedicalImagingUploader } from './medical-imaging-uploader';
+import { PrescriptionUploader } from './prescription-uploader';
+import { OCRService } from './ocr-service';
+import { DicomViewer } from './dicom-viewer';
+import { AIDiagnosis } from './ai-diagnosis';
+import { RecordAssociation } from './record-association';
+import { BatchProcessor } from './batch-processor';
+import { MultiModalAIDiagnosis } from './multi-modal-ai-diagnosis';
 
 export function MedicalRecordsClient() {
-  const [activeTab, setActiveTab] = useState("imaging")
-  const [selectedImage, setSelectedImage] = useState<string | undefined>()
-  const [selectedPrescription, setSelectedPrescription] = useState<string | undefined>()
-  const [patientId, setPatientId] = useState<string | undefined>()
-  const [showDicomViewer, setShowDicomViewer] = useState(false)
-  const [showAIDiagnosis, setShowAIDiagnosis] = useState(false)
-  const [showMultiModalAI, setShowMultiModalAI] = useState(false)
-  const [showOCR, setShowOCR] = useState(false)
-  const [showAssociation, setShowAssociation] = useState(false)
-  const [showBatchProcessor, setShowBatchProcessor] = useState(false)
+  const [activeTab, setActiveTab] = useState('imaging');
+  const [selectedImage, setSelectedImage] = useState<string | undefined>();
+  const [selectedPrescription, setSelectedPrescription] = useState<string | undefined>();
+  const [patientId, setPatientId] = useState<string | undefined>();
+  const [showDicomViewer, setShowDicomViewer] = useState(false);
+  const [showAIDiagnosis, setShowAIDiagnosis] = useState(false);
+  const [showMultiModalAI, setShowMultiModalAI] = useState(false);
+  const [showOCR, setShowOCR] = useState(false);
+  const [showAssociation, setShowAssociation] = useState(false);
+  const [showBatchProcessor, setShowBatchProcessor] = useState(false);
 
   // 处理影像选择
   const handleImageSelect = (imagePath: string) => {
-    setSelectedImage(imagePath)
-    setShowDicomViewer(false)
-    setShowAIDiagnosis(false)
-    setShowMultiModalAI(false)
-  }
+    setSelectedImage(imagePath);
+    setShowDicomViewer(false);
+    setShowAIDiagnosis(false);
+    setShowMultiModalAI(false);
+  };
 
   // 处理处方选择
   const handlePrescriptionSelect = (prescriptionPath: string) => {
-    setSelectedPrescription(prescriptionPath)
-    setShowOCR(false)
-  }
+    setSelectedPrescription(prescriptionPath);
+    setShowOCR(false);
+  };
 
   // 打开DICOM查看器
   const openDicomViewer = () => {
     if (selectedImage) {
-      setShowDicomViewer(true)
-      setShowAIDiagnosis(false)
-      setShowMultiModalAI(false)
-      setShowOCR(false)
-      setShowAssociation(false)
-      setShowBatchProcessor(false)
+      setShowDicomViewer(true);
+      setShowAIDiagnosis(false);
+      setShowMultiModalAI(false);
+      setShowOCR(false);
+      setShowAssociation(false);
+      setShowBatchProcessor(false);
     }
-  }
+  };
 
   // 打开AI诊断
   const openAIDiagnosis = () => {
     if (selectedImage) {
-      setShowAIDiagnosis(true)
-      setShowDicomViewer(false)
-      setShowMultiModalAI(false)
-      setShowOCR(false)
-      setShowAssociation(false)
-      setShowBatchProcessor(false)
+      setShowAIDiagnosis(true);
+      setShowDicomViewer(false);
+      setShowMultiModalAI(false);
+      setShowOCR(false);
+      setShowAssociation(false);
+      setShowBatchProcessor(false);
     }
-  }
+  };
 
   // 打开多模态AI诊断
   const openMultiModalAI = () => {
-    setShowMultiModalAI(true)
-    setShowDicomViewer(false)
-    setShowAIDiagnosis(false)
-    setShowOCR(false)
-    setShowAssociation(false)
-    setShowBatchProcessor(false)
-  }
+    setShowMultiModalAI(true);
+    setShowDicomViewer(false);
+    setShowAIDiagnosis(false);
+    setShowOCR(false);
+    setShowAssociation(false);
+    setShowBatchProcessor(false);
+  };
 
   // 打开OCR服务
   const openOCR = () => {
     if (selectedPrescription) {
-      setShowOCR(true)
-      setShowDicomViewer(false)
-      setShowAIDiagnosis(false)
-      setShowMultiModalAI(false)
-      setShowAssociation(false)
-      setShowBatchProcessor(false)
+      setShowOCR(true);
+      setShowDicomViewer(false);
+      setShowAIDiagnosis(false);
+      setShowMultiModalAI(false);
+      setShowAssociation(false);
+      setShowBatchProcessor(false);
     }
-  }
+  };
 
   // 打开病历关联
   const openAssociation = () => {
-    setShowAssociation(true)
-    setShowDicomViewer(false)
-    setShowAIDiagnosis(false)
-    setShowMultiModalAI(false)
-    setShowOCR(false)
-    setShowBatchProcessor(false)
-  }
+    setShowAssociation(true);
+    setShowDicomViewer(false);
+    setShowAIDiagnosis(false);
+    setShowMultiModalAI(false);
+    setShowOCR(false);
+    setShowBatchProcessor(false);
+  };
 
   // 打开批量处理
   const openBatchProcessor = () => {
-    setShowBatchProcessor(true)
-    setShowDicomViewer(false)
-    setShowAIDiagnosis(false)
-    setShowMultiModalAI(false)
-    setShowOCR(false)
-    setShowAssociation(false)
-  }
+    setShowBatchProcessor(true);
+    setShowDicomViewer(false);
+    setShowAIDiagnosis(false);
+    setShowMultiModalAI(false);
+    setShowOCR(false);
+    setShowAssociation(false);
+  };
 
   // 关闭所有工具面板
   const closeAllPanels = () => {
-    setShowDicomViewer(false)
-    setShowAIDiagnosis(false)
-    setShowMultiModalAI(false)
-    setShowOCR(false)
-    setShowAssociation(false)
-    setShowBatchProcessor(false)
-  }
+    setShowDicomViewer(false);
+    setShowAIDiagnosis(false);
+    setShowMultiModalAI(false);
+    setShowOCR(false);
+    setShowAssociation(false);
+    setShowBatchProcessor(false);
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold text-blue-800 mb-6">医疗记录管理中心</h1>
+      <h1 className="text-3xl font-bold text-primary mb-6">医疗记录管理中心</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
@@ -126,27 +126,30 @@ export function MedicalRecordsClient() {
             </TabsList>
 
             <TabsContent value="imaging" className="mt-4">
-              <MedicalImagingUploader onImageSelect={handleImageSelect} selectedImage={selectedImage} />
+              <MedicalImagingUploader
+                onImageSelect={handleImageSelect}
+                selectedImage={selectedImage}
+              />
 
               {selectedImage && (
                 <div className="mt-4 space-y-2">
                   <button
                     onClick={openDicomViewer}
-                    className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-primary/80 transition flex items-center justify-center gap-2"
                   >
                     <span>打开DICOM查看器</span>
                   </button>
 
                   <button
                     onClick={openAIDiagnosis}
-                    className="w-full py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-primary transition flex items-center justify-center gap-2"
                   >
                     <span>AI辅助诊断</span>
                   </button>
 
                   <button
                     onClick={openAssociation}
-                    className="w-full py-2 px-4 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 bg-success text-white rounded-md hover:bg-success transition flex items-center justify-center gap-2"
                   >
                     <span>关联到病历</span>
                   </button>
@@ -164,14 +167,14 @@ export function MedicalRecordsClient() {
                 <div className="mt-4 space-y-2">
                   <button
                     onClick={openOCR}
-                    className="w-full py-2 px-4 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 bg-primary text-white rounded-md hover:bg-primary transition flex items-center justify-center gap-2"
                   >
                     <span>OCR文字识别</span>
                   </button>
 
                   <button
                     onClick={openAssociation}
-                    className="w-full py-2 px-4 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition flex items-center justify-center gap-2"
+                    className="w-full py-2 px-4 bg-success text-white rounded-md hover:bg-success transition flex items-center justify-center gap-2"
                   >
                     <span>关联到病历</span>
                   </button>
@@ -183,14 +186,14 @@ export function MedicalRecordsClient() {
           <div className="mt-6 space-y-2">
             <button
               onClick={openMultiModalAI}
-              className="w-full py-2 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-md hover:from-blue-700 hover:to-indigo-700 transition flex items-center justify-center gap-2"
+              className="w-full py-2 px-4 bg-gradient-to-r from-medical-600 to-medical-500 text-white rounded-md hover:from-medical-700 hover:to-medical-600 transition flex items-center justify-center gap-2"
             >
               <span>多模态AI诊断</span>
             </button>
 
             <button
               onClick={openBatchProcessor}
-              className="w-full py-2 px-4 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition flex items-center justify-center gap-2"
+              className="w-full py-2 px-4 bg-warning text-white rounded-md hover:bg-warning transition flex items-center justify-center gap-2"
             >
               <span>批量处理工具</span>
             </button>
@@ -204,10 +207,10 @@ export function MedicalRecordsClient() {
             !showOCR &&
             !showAssociation &&
             !showBatchProcessor && (
-              <div className="h-full flex items-center justify-center bg-gray-50 rounded-lg p-12 border-2 border-dashed border-gray-300">
+              <div className="h-full flex items-center justify-center bg-muted rounded-lg p-12 border-2 border-dashed border-border">
                 <div className="text-center">
-                  <h3 className="text-xl font-medium text-gray-700 mb-2">选择操作</h3>
-                  <p className="text-gray-500">请从左侧选择医学影像或处方，然后选择要执行的操作</p>
+                  <h3 className="text-xl font-medium text-foreground mb-2">选择操作</h3>
+                  <p className="text-muted-foreground">请从左侧选择医学影像或处方，然后选择要执行的操作</p>
                 </div>
               </div>
             )}
@@ -220,7 +223,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -243,7 +246,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -266,7 +269,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -289,7 +292,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -312,7 +315,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -326,7 +329,7 @@ export function MedicalRecordsClient() {
               <RecordAssociation
                 selectedImage={selectedImage}
                 selectedPrescription={selectedPrescription}
-                onPatientIdSelected={(id) => setPatientId(id)}
+                onPatientIdSelected={(id: string | number) => setPatientId(String(id))}
               />
             </div>
           )}
@@ -339,7 +342,7 @@ export function MedicalRecordsClient() {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
+                  className="h-5 w-5 text-muted-foreground"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -356,5 +359,5 @@ export function MedicalRecordsClient() {
         </div>
       </div>
     </div>
-  )
+  );
 }

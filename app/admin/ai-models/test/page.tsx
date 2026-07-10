@@ -1,6 +1,6 @@
-import { PageHeader } from "@/components/page-header"
-import { MessageSquare } from "lucide-react"
-import { AIChatTester } from "@/components/admin/ai-models/ai-chat-tester"
+import { PageHeader } from '@/components/page-header';
+import { MessageSquare } from 'lucide-react';
+import { AIChatTester } from '@/components/admin/ai-models/ai-chat-tester';
 
 export default function AITestPage() {
   return (
@@ -13,5 +13,5 @@ export default function AITestPage() {
 
       <AIChatTester />
     </div>
-  )
+  );
 }

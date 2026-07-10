@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import EHRIntegrationClient from "@/components/ehr/ehr-integration-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import EHRIntegrationClient from '@/components/ehr/ehr-integration-client';
 
 export default function EHRIntegrationPage() {
   return (
@@ -14,5 +14,5 @@ export default function EHRIntegrationPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

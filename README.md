@@ -1,28 +1,29 @@
 <div align="center">
 
-<img src="./public/Family-001.png" alt="YYC³-Med Banner" width="100%" />
+<img src="./public/Family-001.jpg" alt="YYC³-Med Banner" width="100%" />
 
 <br />
 
-# YYC³-Med 言语云³医疗AI智能诊疗系统
+# YYC³-Med · 言语云³医疗AI智能诊疗系统
 
 **言启立方于万象，语枢智云守健康**
 
-*AI-Powered Intelligent Medical System — Diagnostic Assistance · Case Analysis · Knowledge Graph*
+_AI-Powered Intelligent Medical Diagnosis Platform — Diagnostic Assistance · Case Analysis · Clinical Decision Support_
 
 <br />
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5-000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2-000?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18.3-61dafb?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![pnpm](https://img.shields.io/badge/pnpm-9-f69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-[![Deploy](https://img.shields.io/badge/Deploy-GitHub_Pages-181717?logo=github&logoColor=white)](https://medical.yyc3.vip)
-[![License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
-[![Pages](https://img.shields.io/badge/Status-Live-brightgreen)](https://medical.yyc3.vip)
+[![Tests](https://img.shields.io/badge/Tests-311_passed-brightgreen)](./__tests__)
+[![Lint](https://img.shields.io/badge/Lint-0_errors-green)](./eslint.config.js)
+[![License](https://img.shields.io/badge/License-MIT-blue)](./LICENSE)
+[![Deploy](https://img.shields.io/badge/Deploy-Live-brightgreen?logo=github&logoColor=white)](https://medical.yyc3.vip)
 
-[🌐 Live Demo](https://medical.yyc3.vip) · [📖 Documentation](./CONTRIBUTING.md) · [🐛 Report Bug](https://github.com/YYC-Cube/YYC3-Medical/issues) · [✨ Request Feature](https://github.com/YYC-Cube/YYC3-Medical/issues)
+[🌐 Live Demo](https://medical.yyc3.vip) · [📖 Documentation](./docs/) · [🐛 Report Bug](https://github.com/YYC-Cube/YYC3-Medical/issues) · [✨ Request Feature](https://github.com/YYC-Cube/YYC3-Medical/issues)
 
 </div>
 
@@ -30,145 +31,175 @@
 
 ## Overview
 
-YYC³-Med is a full-stack medical AI platform built with modern web technologies. It provides intelligent diagnostic assistance, case library management, knowledge graph visualization, and comprehensive clinical decision support — all delivered as a static site via GitHub Pages.
+YYC³-Med is a bilingual (zh-CN / en-US / ja-JP / ko-KR) medical AI platform frontend, delivered as a fully static site via GitHub Pages. It provides intelligent diagnostic assistance, patient management, case libraries, clinical decision support, knowledge graphs, and research tools — all built with a medical-grade blue/teal design system.
 
-| Metric | Value |
-|--------|-------|
-| Pages | 112 routes |
-| Components | 446 React components |
-| Build Output | 13 MB static site |
-| Framework | Next.js 15 (App Router, Static Export) |
-| UI System | shadcn/ui + Radix UI + Tailwind CSS |
+| Metric       | Value                                  |
+| ------------ | -------------------------------------- |
+| Routes       | 112 App Router pages                   |
+| Components   | 441 React components                   |
+| Custom Hooks | 19                                     |
+| Services     | 31 domain service modules              |
+| Tests        | 311 passing (16 suites)                |
+| Loc          | ~121,000 lines of TypeScript/TSX       |
+| Bundle       | ~25 MB static export                   |
+| i18n         | 4 locales (zh-CN, en-US, ja-JP, ko-KR) |
 
 ## Tech Stack
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    YYC³-Med Architecture                 │
-├──────────────┬──────────────────────────────────────────┤
-│   Frontend   │ Next.js 15 · React 18 · TypeScript 5.9  │
-│   Styling    │ Tailwind CSS 3 · shadcn/ui · Radix UI    │
-│   State      │ Zustand · React Context · React Hook Form│
-│   Charts     │ Recharts · D3.js                         │
-│   3D         │ Three.js · React Three Fiber             │
-│   i18n       │ Custom (zh-CN / en-US)                   │
-│   Package     │ pnpm 9 · Turbopack                       │
-│   CI/CD      │ GitHub Actions · GitHub Pages             │
-│   Domain     │ medical.yyc3.vip (Custom + HTTPS)         │
-└──────────────┴──────────────────────────────────────────┘
-```
+| Layer               | Technology                                          |
+| ------------------- | --------------------------------------------------- |
+| **Framework**       | Next.js 16.2 (App Router, Turbopack, Static Export) |
+| **Runtime**         | React 18.3                                          |
+| **Language**        | TypeScript 5.8 (strict mode)                        |
+| **Styling**         | Tailwind CSS 3.4 + shadcn/ui (Radix-based)          |
+| **State**           | Zustand 5 + React Context + React Hook Form 7       |
+| **Validation**      | Zod 4                                               |
+| **Charts**          | Recharts 2.15 + D3.js 7.9                           |
+| **3D / Viz**        | Three.js 0.176 + @react-three/fiber 8.18            |
+| **Animation**       | Framer Motion 12 + tailwindcss-animate              |
+| **Icons**           | lucide-react                                        |
+| **Fonts**           | GeistSans (self-hosted, offline-buildable)          |
+| **Testing**         | Jest 29 + Testing Library + jsdom                   |
+| **Package Manager** | pnpm 9.15                                           |
+| **CI/CD**           | GitHub Actions → GitHub Pages                       |
+| **Domain**          | `medical.yyc3.vip` (HTTPS enforced)                 |
 
 ## Quick Start
 
 ### Prerequisites
 
-- Node.js >= 18.17.0
-- pnpm >= 9.0.0
-
-### Install & Run
+- **Node.js** ≥ 18.17.0
+- **pnpm** ≥ 9.0.0
 
 ```bash
 git clone https://github.com/YYC-Cube/YYC3-Medical.git
 cd YYC3-Medical
 pnpm install
-pnpm dev
+pnpm dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+> **pnpm workspace note**: If `pnpm install` fails with "No projects found", run `pnpm install --ignore-workspace` — a parent `pnpm-workspace.yaml` may hijack the workspace root.
 
 ### Build
 
 ```bash
-pnpm build        # Static export to out/
+pnpm build        # Static export → out/
+```
+
+## Commands
+
+```bash
+pnpm dev            # Dev server (Turbopack)
+pnpm build          # Production build (static export → out/)
+pnpm start          # Preview production build
+pnpm test           # Jest test suite
+pnpm test:watch     # Jest watch mode
+pnpm type-check     # tsc --noEmit (strict)
+pnpm lint           # ESLint (flat config)
+pnpm lint:fix       # ESLint --fix
+pnpm format         # Prettier write
+pnpm format:check   # Prettier check
+pnpm clean          # Clear .next + node_modules/.cache
+pnpm clean:all      # rm node_modules + .next, reinstall
 ```
 
 ## Project Structure
 
 ```
 YYC3-Medical/
-├── app/                     # Next.js App Router (112 pages)
-│   ├── (auth)/              #   Auth pages (login/register/reset)
-│   ├── admin/               #   Admin dashboard
-│   ├── ai-diagnosis/        #   AI diagnosis module
-│   ├── patients/            #   Patient management
-│   ├── analytics/           #   Data analytics
-│   ├── case-library/        #   Case library (SSG)
-│   ├── clinical-decision/   #   Clinical decision support
-│   ├── medications/         #   Medication management
-│   ├── research/            #   Research module
-│   ├── security/            #   Security & compliance
-│   └── teleconsultation/   #   Teleconsultation
-├── components/              # 446 React components
-│   ├── ui/                  #   shadcn/ui primitives
-│   ├── admin/               #   Admin components
-│   ├── ai-diagnosis/        #   AI diagnosis components
-│   ├── brand/               #   Brand identity
-│   └── ...                  #   Feature-based groups
-├── contexts/                # React Context providers
-├── hooks/                   # 19 custom hooks
-├── lib/                     # Utilities, API client, i18n
-├── public/                  # Static assets + icons + CNAME
-├── scripts/                 # Build & database scripts
-├── .github/workflows/       # CI/CD pipelines
-├── next.config.mjs          # Next.js config (static export)
-├── tailwind.config.ts       # Tailwind + medical theme
-├── tsconfig.json            # TypeScript strict mode
-└── package.json             # pnpm workspace
+├── app/                       # Next.js App Router (112 routes)
+│   ├── (auth)/                #   Route group: login / register / reset
+│   ├── (medical)/             #   Route group: medical module layouts
+│   ├── admin/                 #   Admin dashboard + submodules
+│   ├── ai-diagnosis/          #   AI diagnostic assistance
+│   ├── patients/              #   Patient management ([id] SSG)
+│   ├── case-library/          #   Medical case repository ([id] SSG)
+│   ├── clinical-decision/     #   Clinical decision support
+│   ├── analytics/             #   Data analytics & prediction
+│   ├── medications/           #   Medication management
+│   ├── research/              #   Research tools
+│   ├── teleconsultation/      #   Remote consultation
+│   ├── security/              #   Security & compliance
+│   └── layout.tsx             #   Root layout (providers wired)
+├── components/                # 441 React components
+│   ├── ui/                    #   shadcn/ui primitives
+│   ├── layout/                #   App shell, header, sidebar, breadcrumb
+│   ├── admin/                 #   Admin feature components
+│   ├── ai-diagnosis/          #   AI diagnosis components
+│   ├── brand/                 #   Logo & identity system
+│   └── …                      #   Feature-grouped directories
+├── contexts/                  # React Context providers
+├── hooks/                     # 19 custom hooks
+├── lib/                       # Utils, i18n, API client, env, offline
+├── services/                  # 31 domain service modules
+├── store/                     # Zustand stores (Auth, Settings, Notification)
+├── types/                     # TypeScript type definitions
+├── i18n/                      # Medical terminology translations
+├── prisma/                    # Prisma schema (MySQL — future backend)
+├── public/                    # Static assets, icons, manifest, CNAME
+├── docs/                      # Developer documentation
+├── .github/workflows/         # CI/CD pipelines (8 workflows)
+├── next.config.mjs            # Next.js config (static export)
+├── tailwind.config.ts         # Tailwind + medical theme + animations
+├── eslint.config.js           # ESLint 9 flat config
+├── jest.config.js             # Jest + coverage thresholds
+└── tsconfig.json              # TypeScript strict mode
 ```
 
-## Modules
+## Feature Modules
 
-| Module | Route | Description |
-|--------|-------|-------------|
-| 🏠 Dashboard | `/admin` | System overview, resource monitoring |
-| 🧠 AI Diagnosis | `/ai-diagnosis` | AI-assisted diagnostic support |
-| 👥 Patients | `/patients` | Patient management with dynamic routes |
-| 📊 Analytics | `/analytics` | Prediction models, trend analysis |
-| 📚 Case Library | `/case-library` | Medical case repository |
-| 💊 Medications | `/medications` | Drug interactions, prescriptions, inventory |
-| 🔬 Research | `/research` | Analysis, samples, clinical trials |
-| 🏥 Clinical Decision | `/clinical-decision` | Drug reference, guidelines, treatments |
-| 📡 Teleconsultation | `/teleconsultation` | Remote consultation scheduling |
-| 🔒 Security | `/security` | Access control, audit, compliance |
-| 🔗 EHR Integration | `/ehr-integration` | Connections, mapping, sync |
+| Module            | Route                | Description                                 |
+| ----------------- | -------------------- | ------------------------------------------- |
+| Dashboard         | `/admin`             | System overview, resource monitoring        |
+| AI Diagnosis      | `/ai-diagnosis`      | AI-assisted diagnostic support              |
+| Patients          | `/patients`          | Patient management with dynamic routes      |
+| Analytics         | `/analytics`         | Prediction models, trend analysis           |
+| Case Library      | `/case-library`      | Medical case repository                     |
+| Medications       | `/medications`       | Drug interactions, prescriptions, inventory |
+| Research          | `/research`          | Analysis, samples, clinical trials          |
+| Clinical Decision | `/clinical-decision` | Drug reference, guidelines, treatments      |
+| Teleconsultation  | `/teleconsultation`  | Remote consultation scheduling              |
+| Security          | `/security`          | Access control, audit, compliance           |
+| EHR Integration   | `/ehr-integration`   | Connections, mapping, sync                  |
+| Knowledge Graph   | `/knowledge-graph`   | Medical knowledge visualization             |
+
+## Architecture Constraints
+
+This is a **static export site** (`output: 'export'`). The following are **not available**:
+
+- ❌ API Routes (`app/api/...`)
+- ❌ Middleware (`middleware.ts`)
+- ❌ Server Actions, `cookies()`, `headers()` in render
+- ❌ ISR / dynamic server rendering
+
+Interactive features use **client components** (`"use client"`) with browser APIs. Pages default to server components with static metadata.
 
 ## Deployment
 
-Push to `main` → GitHub Actions auto-builds → Deploys to GitHub Pages.
+Push to `main` → GitHub Actions builds → Deploys to GitHub Pages.
 
-| Setting | Value |
-|---------|-------|
-| Platform | GitHub Pages |
-| Domain | `medical.yyc3.vip` |
-| HTTPS | Enforced |
+| Setting  | Value                          |
+| -------- | ------------------------------ |
+| Platform | GitHub Pages                   |
+| Domain   | `medical.yyc3.vip`             |
+| HTTPS    | Enforced                       |
 | Workflow | `.github/workflows/deploy.yml` |
-| Source | GitHub Actions (not branch) |
+| Source   | GitHub Actions (not branch)    |
 
-> ⚠️ **Setup**: Go to **Settings → Pages → Source → GitHub Actions**
-
-## Commands
-
-```bash
-pnpm dev            # Dev server (Turbopack)
-pnpm build          # Production build (static export)
-pnpm start          # Preview production build
-pnpm lint           # ESLint check
-pnpm type-check     # TypeScript strict check
-pnpm format         # Prettier format
-pnpm format:check   # Prettier verify
-pnpm test           # Jest tests
-pnpm clean          # Clear .next cache
-pnpm clean:all      # Full reinstall
-```
+> **Setup**: Settings → Pages → Source → GitHub Actions
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Contributing](./CONTRIBUTING.md) | Development setup, code standards, workflow |
-| [Changelog](./CHANGELOG.md) | Version history and release notes |
-| [Security](./SECURITY.md) | Security policy and vulnerability reporting |
-| [Code of Conduct](./CODE_OF_CONDUCT.md) | Community guidelines |
+| Document                                           | Description                                    |
+| -------------------------------------------------- | ---------------------------------------------- |
+| [Contributing](./CONTRIBUTING.md)                  | Development setup, code standards, PR workflow |
+| [Changelog](./CHANGELOG.md)                        | Version history and release notes              |
+| [AI Agent Guide](./AGENTS.md)                      | Comprehensive guide for AI coding assistants   |
+| [Security](./SECURITY.md)                          | Security policy and vulnerability reporting    |
+| [Code of Conduct](./CODE_OF_CONDUCT.md)            | Community guidelines                           |
+| [Naming Conventions](./docs/naming-conventions.md) | File and component naming rules                |
+| [Architecture](./docs/architecture.md)             | System architecture and design decisions       |
+| [Developer Guide](./docs/developer-guide.md)       | Technical onboarding and conventions           |
 
 ## Contributors
 
@@ -178,4 +209,4 @@ pnpm clean:all      # Full reinstall
 
 ## License
 
-[MIT](./LICENSE) © 2024-2026 YYC³-Cube
+[MIT](./LICENSE) © 2024-2026 YYC³-Cube. All rights reserved.

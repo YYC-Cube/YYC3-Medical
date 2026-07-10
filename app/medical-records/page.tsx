@@ -1,4 +1,4 @@
-import { MedicalRecordsClient } from "@/components/medical-records/medical-records-client"
+import { MedicalRecordsClient } from '@/components/medical-records/medical-records-client';
 
 export default function MedicalRecordsPage() {
   return (
@@ -10,5 +10,5 @@ export default function MedicalRecordsPage() {
 
       <MedicalRecordsClient />
     </div>
-  )
+  );
 }

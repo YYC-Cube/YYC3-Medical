@@ -1,55 +1,73 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useEffect } from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from '@/components/ui/recharts-dynamic';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 // 模拟数据生成
 const generateTimeSeriesData = (hours = 24, interval = 1) => {
-  const data = []
-  const now = new Date()
+  const data = [];
+  const now = new Date();
 
   for (let i = hours; i >= 0; i -= interval) {
-    const time = new Date(now.getTime() - i * 60 * 60 * 1000)
+    const time = new Date(now.getTime() - i * 60 * 60 * 1000);
     data.push({
-      time: time.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" }),
+      time: time.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }),
       cpu: Math.floor(Math.random() * 30) + 20,
       memory: Math.floor(Math.random() * 40) + 30,
       disk: Math.floor(Math.random() * 20) + 10,
       network: Math.floor(Math.random() * 50) + 30,
       requests: Math.floor(Math.random() * 100) + 50,
-    })
+    });
   }
 
-  return data
-}
+  return data;
+};
 
 export function AdminSystemStatus() {
-  const [data, setData] = useState(generateTimeSeriesData())
-  const [timeRange, setTimeRange] = useState("24h")
-  const [refreshInterval, setRefreshInterval] = useState<number | null>(null)
+  const [data, setData] = useState(generateTimeSeriesData());
+  const [timeRange, setTimeRange] = useState('24h');
+  const [refreshInterval, setRefreshInterval] = useState<number | null>(null);
 
   useEffect(() => {
     // 根据选择的时间范围更新数据
-    const hours = timeRange === "24h" ? 24 : timeRange === "12h" ? 12 : timeRange === "6h" ? 6 : 1
-    const interval = timeRange === "24h" ? 1 : timeRange === "12h" ? 0.5 : timeRange === "6h" ? 0.25 : 0.1
-    setData(generateTimeSeriesData(hours, interval))
-  }, [timeRange])
+    const hours = timeRange === '24h' ? 24 : timeRange === '12h' ? 12 : timeRange === '6h' ? 6 : 1;
+    const interval =
+      timeRange === '24h' ? 1 : timeRange === '12h' ? 0.5 : timeRange === '6h' ? 0.25 : 0.1;
+    setData(generateTimeSeriesData(hours, interval));
+  }, [timeRange]);
 
   useEffect(() => {
     // 设置自动刷新
     if (refreshInterval) {
       const timer = setInterval(() => {
-        const hours = timeRange === "24h" ? 24 : timeRange === "12h" ? 12 : timeRange === "6h" ? 6 : 1
-        const interval = timeRange === "24h" ? 1 : timeRange === "12h" ? 0.5 : timeRange === "6h" ? 0.25 : 0.1
-        setData(generateTimeSeriesData(hours, interval))
-      }, refreshInterval * 1000)
+        const hours =
+          timeRange === '24h' ? 24 : timeRange === '12h' ? 12 : timeRange === '6h' ? 6 : 1;
+        const interval =
+          timeRange === '24h' ? 1 : timeRange === '12h' ? 0.5 : timeRange === '6h' ? 0.25 : 0.1;
+        setData(generateTimeSeriesData(hours, interval));
+      }, refreshInterval * 1000);
 
-      return () => clearInterval(timer)
+      return () => clearInterval(timer);
     }
-  }, [refreshInterval, timeRange])
+  }, [refreshInterval, timeRange]);
 
   return (
     <div className="space-y-4">
@@ -76,8 +94,8 @@ export function AdminSystemStatus() {
           </Select>
 
           <Select
-            value={refreshInterval?.toString() || "0"}
-            onValueChange={(val) => setRefreshInterval(val === "0" ? null : Number.parseInt(val))}
+            value={refreshInterval?.toString() || '0'}
+            onValueChange={val => setRefreshInterval(val === '0' ? null : Number.parseInt(val))}
           >
             <SelectTrigger className="w-[120px]">
               <SelectValue placeholder="刷新间隔" />
@@ -94,9 +112,17 @@ export function AdminSystemStatus() {
             variant="outline"
             size="sm"
             onClick={() => {
-              const hours = timeRange === "24h" ? 24 : timeRange === "12h" ? 12 : timeRange === "6h" ? 6 : 1
-              const interval = timeRange === "24h" ? 1 : timeRange === "12h" ? 0.5 : timeRange === "6h" ? 0.25 : 0.1
-              setData(generateTimeSeriesData(hours, interval))
+              const hours =
+                timeRange === '24h' ? 24 : timeRange === '12h' ? 12 : timeRange === '6h' ? 6 : 1;
+              const interval =
+                timeRange === '24h'
+                  ? 1
+                  : timeRange === '12h'
+                    ? 0.5
+                    : timeRange === '6h'
+                      ? 0.25
+                      : 0.1;
+              setData(generateTimeSeriesData(hours, interval));
             }}
           >
             刷新
@@ -120,13 +146,13 @@ export function AdminSystemStatus() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="cpu" stroke="#8884d8" name="CPU使用率 (%)" />
-            <Line type="monotone" dataKey="memory" stroke="#82ca9d" name="内存使用率 (%)" />
-            <Line type="monotone" dataKey="disk" stroke="#ffc658" name="磁盘I/O (MB/s)" />
-            <Line type="monotone" dataKey="network" stroke="#ff8042" name="网络流量 (Mbps)" />
+            <Line type="monotone" dataKey="cpu" stroke="var(--primary)" name="CPU使用率 (%)" />
+            <Line type="monotone" dataKey="memory" stroke="var(--success)" name="内存使用率 (%)" />
+            <Line type="monotone" dataKey="disk" stroke="var(--warning)" name="磁盘I/O (MB/s)" />
+            <Line type="monotone" dataKey="network" stroke="var(--warning)" name="网络流量 (Mbps)" />
           </LineChart>
         </ResponsiveContainer>
       </div>
     </div>
-  )
+  );
 }

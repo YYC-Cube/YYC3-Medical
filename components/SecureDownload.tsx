@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function SecureDownload({ filename }) {
+export default function SecureDownload({ filename }: { filename: string }) {
   const [status, setStatus] = useState<'idle' | 'valid' | 'invalid' | 'error'>('idle');
 
   const handleDownload = async () => {
@@ -36,12 +36,12 @@ export default function SecureDownload({ filename }) {
 
   return (
     <div>
-      <button onClick={handleDownload} className="px-4 py-2 bg-blue-600 text-white rounded">
+      <button onClick={handleDownload} className="px-4 py-2 bg-primary text-white rounded">
         📥 下载并校验报告
       </button>
-      {status === 'valid' && <p className="text-green-600 mt-2">✅ 签名校验通过</p>}
-      {status === 'invalid' && <p className="text-red-600 mt-2">❌ 签名校验失败</p>}
-      {status === 'error' && <p className="text-yellow-600 mt-2">⚠️ 校验出错，请稍后重试</p>}
+      {status === 'valid' && <p className="text-success mt-2">✅ 签名校验通过</p>}
+      {status === 'invalid' && <p className="text-destructive mt-2">❌ 签名校验失败</p>}
+      {status === 'error' && <p className="text-warning mt-2">⚠️ 校验出错，请稍后重试</p>}
     </div>
   );
 }

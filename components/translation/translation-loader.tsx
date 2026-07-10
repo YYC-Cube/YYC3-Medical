@@ -1,50 +1,50 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { Progress } from "@/components/ui/progress"
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { Progress } from '@/components/ui/progress';
 
 interface TranslationLoaderProps {
-  onComplete?: () => void
-  message?: string
-  duration?: number
-  size?: "sm" | "md" | "lg"
+  onComplete?: () => void;
+  message?: string;
+  duration?: number;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function TranslationLoader({
   onComplete,
-  message = "正在加载翻译资源...",
+  message = '正在加载翻译资源...',
   duration = 2000,
-  size = "md",
+  size = 'md',
 }: TranslationLoaderProps) {
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
 
   // 尺寸映射
   const sizeMap = {
-    sm: { logoSize: 40, height: "h-20", width: "w-64" },
-    md: { logoSize: 60, height: "h-28", width: "w-80" },
-    lg: { logoSize: 80, height: "h-36", width: "w-96" },
-  }
+    sm: { logoSize: 40, height: 'h-20', width: 'w-64' },
+    md: { logoSize: 60, height: 'h-28', width: 'w-80' },
+    lg: { logoSize: 80, height: 'h-36', width: 'w-96' },
+  };
 
-  const { logoSize, height, width } = sizeMap[size]
+  const { logoSize, height, width } = sizeMap[size];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((prev) => {
+      setProgress(prev => {
         if (prev >= 100) {
-          clearInterval(interval)
+          clearInterval(interval);
           if (onComplete) {
-            setTimeout(onComplete, 300)
+            setTimeout(onComplete, 300);
           }
-          return 100
+          return 100;
         }
-        return prev + 1
-      })
-    }, duration / 100)
+        return prev + 1;
+      });
+    }, duration / 100);
 
-    return () => clearInterval(interval)
-  }, [duration, onComplete])
+    return () => clearInterval(interval);
+  }, [duration, onComplete]);
 
   return (
     <motion.div
@@ -61,7 +61,7 @@ export function TranslationLoader({
         transition={{
           duration: 2,
           repeat: Number.POSITIVE_INFINITY,
-          repeatType: "loop",
+          repeatType: 'loop',
         }}
         className="mb-4"
       >
@@ -81,5 +81,5 @@ export function TranslationLoader({
         <p className="text-xs text-right mt-1 text-medical-500">{progress}%</p>
       </div>
     </motion.div>
-  )
+  );
 }

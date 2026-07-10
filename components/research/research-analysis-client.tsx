@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Download, RefreshCw } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Download, RefreshCw } from 'lucide-react';
 
 const mockAnalysisData = [
-  { category: "基因组学", projects: 15, completed: 12 },
-  { category: "蛋白质组学", projects: 8, completed: 6 },
-  { category: "代谢组学", projects: 12, completed: 10 },
-  { category: "临床试验", projects: 20, completed: 18 },
-]
+  { category: '基因组学', projects: 15, completed: 12 },
+  { category: '蛋白质组学', projects: 8, completed: 6 },
+  { category: '代谢组学', projects: 12, completed: 10 },
+  { category: '临床试验', projects: 20, completed: 18 },
+];
 
 export function ResearchAnalysisClient() {
   return (
@@ -42,12 +42,12 @@ export function ResearchAnalysisClient() {
             <ChartContainer
               config={{
                 projects: {
-                  label: "总项目数",
-                  color: "hsl(var(--chart-1))",
+                  label: '总项目数',
+                  color: 'hsl(var(--chart-1))',
                 },
                 completed: {
-                  label: "已完成",
-                  color: "hsl(var(--chart-2))",
+                  label: '已完成',
+                  color: 'hsl(var(--chart-2))',
                 },
               }}
             >
@@ -66,5 +66,5 @@ export function ResearchAnalysisClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

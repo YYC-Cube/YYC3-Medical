@@ -1,17 +1,17 @@
-import { Suspense } from "react"
-import { DoctorCertificationMain } from "@/components/certifications/doctor-certification-main"
-import { Card, CardContent } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Suspense } from 'react';
+import { DoctorCertificationMain } from '@/components/certifications/doctor-certification-main';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 function CertificationSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50">
+    <div className="min-h-screen bg-gradient-to-br from-medical-50 via-medical-100 to-white">
       <div className="flex h-screen">
         {/* 左侧骨架 */}
-        <div className="w-80 border-r border-blue-200 bg-white/80 p-4">
+        <div className="w-80 border-r border-primary/20 bg-white/80 p-4">
           <Skeleton className="h-8 w-full mb-4" />
           <div className="space-y-3">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4].map(i => (
               <Skeleton key={i} className="h-12 w-full" />
             ))}
           </div>
@@ -32,17 +32,17 @@ function CertificationSkeleton() {
         </div>
 
         {/* 右侧骨架 */}
-        <div className="w-64 border-l border-blue-200 bg-white/80 p-4">
+        <div className="w-64 border-l border-primary/20 bg-white/80 p-4">
           <Skeleton className="h-6 w-full mb-4" />
           <div className="space-y-2">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3, 4, 5].map(i => (
               <Skeleton key={i} className="h-16 w-full" />
             ))}
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default function DoctorCertificationPage() {
@@ -50,5 +50,5 @@ export default function DoctorCertificationPage() {
     <Suspense fallback={<CertificationSkeleton />}>
       <DoctorCertificationMain />
     </Suspense>
-  )
+  );
 }

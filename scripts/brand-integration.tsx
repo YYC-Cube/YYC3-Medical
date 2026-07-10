@@ -1,35 +1,35 @@
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 
 interface BrandConfig {
   name: {
-    zh: string
-    en: string
-  }
+    zh: string;
+    en: string;
+  };
   slogan: {
-    zh: string
-    en: string
-  }
+    zh: string;
+    en: string;
+  };
   title: {
-    zh: string
-    en: string
-  }
+    zh: string;
+    en: string;
+  };
   description: {
-    zh: string
-    en: string
-  }
+    zh: string;
+    en: string;
+  };
   keywords: {
-    zh: string[]
-    en: string[]
-  }
+    zh: string[];
+    en: string[];
+  };
 }
 
 export class BrandIntegration {
-  private projectRoot: string
-  private brandConfig: BrandConfig
+  private projectRoot: string;
+  private brandConfig: BrandConfig;
 
   constructor(projectRoot = process.cwd()) {
-    this.projectRoot = projectRoot
+    this.projectRoot = projectRoot;
     this.brandConfig = {
       name: {
         zh: "言语云³",
@@ -48,7 +48,14 @@ export class BrandIntegration {
         en: "AI-powered intelligent medical system providing diagnostic assistance, case analysis, and knowledge graph capabilities",
       },
       keywords: {
-        zh: ["医疗AI", "智能诊断", "病例分析", "知识图谱", "医疗系统", "人工智能"],
+        zh: [
+          "医疗AI",
+          "智能诊断",
+          "病例分析",
+          "知识图谱",
+          "医疗系统",
+          "人工智能",
+        ],
         en: [
           "Medical AI",
           "Smart Diagnosis",
@@ -58,44 +65,44 @@ export class BrandIntegration {
           "Artificial Intelligence",
         ],
       },
-    }
+    };
   }
 
   async integrate(): Promise<void> {
-    console.log("🎨 开始品牌集成...")
+    console.log("🎨 开始品牌集成...");
 
     try {
       // 1. 更新应用元数据
-      await this.updateAppMetadata()
+      await this.updateAppMetadata();
 
       // 2. 创建品牌组件
-      await this.createBrandComponents()
+      await this.createBrandComponents();
 
       // 3. 更新SEO配置
-      await this.updateSEOConfig()
+      await this.updateSEOConfig();
 
       // 4. 创建多语言配置
-      await this.createI18nConfig()
+      await this.createI18nConfig();
 
       // 5. 更新manifest文件
-      await this.updateManifest()
+      await this.updateManifest();
 
-      console.log("✅ 品牌集成完成！")
+      console.log("✅ 品牌集成完成！");
     } catch (error) {
-      console.error("❌ 品牌集成失败:", error)
-      throw error
+      console.error("❌ 品牌集成失败:", error);
+      throw error;
     }
   }
 
   private async updateAppMetadata(): Promise<void> {
-    console.log("📝 更新应用元数据...")
+    console.log("📝 更新应用元数据...");
 
-    const layoutPath = path.join(this.projectRoot, "app/layout.tsx")
+    const layoutPath = path.join(this.projectRoot, "app/layout.tsx");
     if (fs.existsSync(layoutPath)) {
-      let content = fs.readFileSync(layoutPath, "utf-8")
+      let content = fs.readFileSync(layoutPath, "utf-8");
 
       // 更新metadata
-      const metadataRegex = /export const metadata: Metadata = \{[\s\S]*?\}/
+      const metadataRegex = /export const metadata: Metadata = \{[\s\S]*?\}/;
       const newMetadata = `export const metadata: Metadata = {
   title: {
     default: "${this.brandConfig.title.en}",
@@ -163,24 +170,29 @@ export class BrandIntegration {
     },
   },
   manifest: "/manifest.json",
-}`
+}`;
 
       if (metadataRegex.test(content)) {
-        content = content.replace(metadataRegex, newMetadata)
+        content = content.replace(metadataRegex, newMetadata);
       } else {
         // 如果没有找到metadata，在import后添加
-        const importIndex = content.lastIndexOf("import")
-        const nextLineIndex = content.indexOf("\n", importIndex)
-        content = content.slice(0, nextLineIndex + 1) + "\n" + newMetadata + "\n" + content.slice(nextLineIndex + 1)
+        const importIndex = content.lastIndexOf("import");
+        const nextLineIndex = content.indexOf("\n", importIndex);
+        content =
+          content.slice(0, nextLineIndex + 1) +
+          "\n" +
+          newMetadata +
+          "\n" +
+          content.slice(nextLineIndex + 1);
       }
 
-      fs.writeFileSync(layoutPath, content, "utf-8")
-      console.log("✅ 更新app/layout.tsx元数据")
+      fs.writeFileSync(layoutPath, content, "utf-8");
+      console.log("✅ 更新app/layout.tsx元数据");
     }
   }
 
   private async createBrandComponents(): Promise<void> {
-    console.log("🎨 创建品牌组件...")
+    console.log("🎨 创建品牌组件...");
 
     // 创建Logo组件
     const logoComponent = `"use client"
@@ -228,12 +240,12 @@ export function Logo({
           priority
         />
         {animated && (
-          <div className="absolute inset-0 rounded-full bg-blue-500/20 animate-ping" />
+          <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
         )}
       </div>
       {showText && (
         <div className="flex flex-col">
-          <span className={cn("font-bold text-blue-600", textSize)}>
+          <span className={cn("font-bold text-primary", textSize)}>
             言语云³
           </span>
           <span className={cn("text-xs text-muted-foreground")}>
@@ -246,7 +258,7 @@ export function Logo({
 }
 
 export default Logo
-`
+`;
 
     // 创建品牌标语组件
     const sloganComponent = `"use client"
@@ -298,23 +310,27 @@ export function Slogan({
 }
 
 export default Slogan
-`
+`;
 
     // 确保目录存在
-    const brandDir = path.join(this.projectRoot, "components/brand")
+    const brandDir = path.join(this.projectRoot, "components/brand");
     if (!fs.existsSync(brandDir)) {
-      fs.mkdirSync(brandDir, { recursive: true })
+      fs.mkdirSync(brandDir, { recursive: true });
     }
 
     // 写入组件文件
-    fs.writeFileSync(path.join(brandDir, "logo.tsx"), logoComponent, "utf-8")
-    fs.writeFileSync(path.join(brandDir, "slogan.tsx"), sloganComponent, "utf-8")
+    fs.writeFileSync(path.join(brandDir, "logo.tsx"), logoComponent, "utf-8");
+    fs.writeFileSync(
+      path.join(brandDir, "slogan.tsx"),
+      sloganComponent,
+      "utf-8",
+    );
 
-    console.log("✅ 创建品牌组件")
+    console.log("✅ 创建品牌组件");
   }
 
   private async updateSEOConfig(): Promise<void> {
-    console.log("🔍 更新SEO配置...")
+    console.log("🔍 更新SEO配置...");
 
     const seoConfig = `import type { Metadata } from "next"
 
@@ -415,19 +431,19 @@ export const jsonLd = {
     "name": "${this.brandConfig.name.en}"
   }
 }
-`
+`;
 
-    const libDir = path.join(this.projectRoot, "lib")
+    const libDir = path.join(this.projectRoot, "lib");
     if (!fs.existsSync(libDir)) {
-      fs.mkdirSync(libDir, { recursive: true })
+      fs.mkdirSync(libDir, { recursive: true });
     }
 
-    fs.writeFileSync(path.join(libDir, "seo-config.ts"), seoConfig, "utf-8")
-    console.log("✅ 创建SEO配置")
+    fs.writeFileSync(path.join(libDir, "seo-config.ts"), seoConfig, "utf-8");
+    console.log("✅ 创建SEO配置");
   }
 
   private async createI18nConfig(): Promise<void> {
-    console.log("🌐 创建多语言配置...")
+    console.log("🌐 创建多语言配置...");
 
     const brandConstants = `export const BRAND_CONFIG = {
   name: {
@@ -462,19 +478,23 @@ export function getBrandText(key: BrandKey, language: Language = "zh") {
 export function getBrandKeywords(language: Language = "zh") {
   return BRAND_CONFIG.keywords[language] || BRAND_CONFIG.keywords.zh
 }
-`
+`;
 
-    const libDir = path.join(this.projectRoot, "lib")
+    const libDir = path.join(this.projectRoot, "lib");
     if (!fs.existsSync(libDir)) {
-      fs.mkdirSync(libDir, { recursive: true })
+      fs.mkdirSync(libDir, { recursive: true });
     }
 
-    fs.writeFileSync(path.join(libDir, "brand-constants.ts"), brandConstants, "utf-8")
-    console.log("✅ 创建品牌常量配置")
+    fs.writeFileSync(
+      path.join(libDir, "brand-constants.ts"),
+      brandConstants,
+      "utf-8",
+    );
+    console.log("✅ 创建品牌常量配置");
   }
 
   private async updateManifest(): Promise<void> {
-    console.log("📱 更新Manifest文件...")
+    console.log("📱 更新Manifest文件...");
 
     const manifest = {
       name: this.brandConfig.title.en,
@@ -522,16 +542,20 @@ export function getBrandKeywords(language: Language = "zh") {
           form_factor: "narrow",
         },
       ],
-    }
+    };
 
-    const publicDir = path.join(this.projectRoot, "public")
+    const publicDir = path.join(this.projectRoot, "public");
     if (!fs.existsSync(publicDir)) {
-      fs.mkdirSync(publicDir, { recursive: true })
+      fs.mkdirSync(publicDir, { recursive: true });
     }
 
-    fs.writeFileSync(path.join(publicDir, "manifest.json"), JSON.stringify(manifest, null, 2), "utf-8")
+    fs.writeFileSync(
+      path.join(publicDir, "manifest.json"),
+      JSON.stringify(manifest, null, 2),
+      "utf-8",
+    );
 
-    console.log("✅ 更新manifest.json")
+    console.log("✅ 更新manifest.json");
   }
 
   generateReport(): string {
@@ -604,7 +628,7 @@ import { Slogan } from "@/components/brand/slogan"
 <Slogan />
 
 // 自定义样式
-<Slogan size="lg" align="center" className="text-blue-600" />
+<Slogan size="lg" align="center" className="text-primary" />
 \`\`\`
 
 ### 品牌常量
@@ -625,6 +649,6 @@ const keywords = getBrandKeywords("zh")
 - 🎨 UI组件展示
 
 品牌集成已完成，项目现在具备完整的品牌形象！
-`
+`;
   }
 }

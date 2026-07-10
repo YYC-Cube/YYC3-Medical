@@ -1,22 +1,28 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function ApiUsageChart() {
-  const [timeRange, setTimeRange] = useState("week")
+  const [timeRange, setTimeRange] = useState('week');
 
   // 模拟数据
   const endpoints = [
-    { name: "/api/certifications/verify", calls: 12450, percentage: 42 },
-    { name: "/api/certifications/status", calls: 8320, percentage: 28 },
-    { name: "/api/certifications/list", calls: 4680, percentage: 16 },
-    { name: "/api/certifications/update", calls: 2340, percentage: 8 },
-    { name: "/api/certifications/delete", calls: 1170, percentage: 4 },
-    { name: "其他API端点", calls: 590, percentage: 2 },
-  ]
+    { name: '/api/certifications/verify', calls: 12450, percentage: 42 },
+    { name: '/api/certifications/status', calls: 8320, percentage: 28 },
+    { name: '/api/certifications/list', calls: 4680, percentage: 16 },
+    { name: '/api/certifications/update', calls: 2340, percentage: 8 },
+    { name: '/api/certifications/delete', calls: 1170, percentage: 4 },
+    { name: '其他API端点', calls: 590, percentage: 2 },
+  ];
 
   return (
     <Card className="w-full">
@@ -47,7 +53,10 @@ export function ApiUsageChart() {
               {endpoints.map((endpoint, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium truncate max-w-[70%]" title={endpoint.name}>
+                    <span
+                      className="text-sm font-medium truncate max-w-[70%]"
+                      title={endpoint.name}
+                    >
                       {endpoint.name}
                     </span>
                     <span className="text-sm text-muted-foreground">
@@ -55,7 +64,10 @@ export function ApiUsageChart() {
                     </span>
                   </div>
                   <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 rounded-full" style={{ width: `${endpoint.percentage}%` }}></div>
+                    <div
+                      className="h-full bg-primary/50 rounded-full"
+                      style={{ width: `${endpoint.percentage}%` }}
+                    ></div>
                   </div>
                 </div>
               ))}
@@ -86,5 +98,5 @@ export function ApiUsageChart() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
-import { DrugReferenceClient } from "@/components/clinical-decision/drug-reference-client"
+import type { Metadata } from 'next';
+import { DrugReferenceClient } from '@/components/clinical-decision/drug-reference-client';
 
 export const metadata: Metadata = {
-  title: "药物参考 | 言语医枢³智能诊疗系统",
-  description: "查询药物信息、相互作用和用药指导",
-}
+  title: '药物参考 | 言语医枢³智能诊疗系统',
+  description: '查询药物信息、相互作用和用药指导',
+};
 
 export default function DrugReferencePage() {
   return (
@@ -16,5 +16,5 @@ export default function DrugReferencePage() {
 
       <DrugReferenceClient />
     </div>
-  )
+  );
 }

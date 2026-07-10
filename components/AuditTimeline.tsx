@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 
+type AuditRecord = {
+  status: string;
+  timestamp: string;
+  entity_name: string;
+  column_name: string;
+};
+
 export default function AuditTimeline() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<AuditRecord[]>([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -20,17 +27,17 @@ export default function AuditTimeline() {
             className="border-l-4 pl-4"
             style={{ borderColor: r.status === '一致' ? 'green' : 'red' }}
           >
-            <div className="text-sm text-gray-500">{new Date(r.timestamp).toLocaleString()}</div>
+            <div className="text-sm text-muted-foreground">{new Date(r.timestamp).toLocaleString()}</div>
             <div className="font-semibold">
               {r.entity_name}.{r.column_name}
             </div>
-            <div className="text-xs text-gray-600">状态: {r.status}</div>
+            <div className="text-xs text-muted-foreground">状态: {r.status}</div>
           </li>
         ))}
       </ul>
       <button
         onClick={() => setPage(p => p + 1)}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+        className="mt-4 px-4 py-2 bg-primary/50 text-white rounded"
       >
         加载更多
       </button>

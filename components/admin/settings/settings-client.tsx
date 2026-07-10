@@ -1,18 +1,18 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { GeneralSettings } from "./general-settings"
-import { SecuritySettings } from "./security-settings"
-import { IntegrationSettings } from "./integration-settings"
-import { NotificationSettings } from "./notification-settings"
-import { BackupSettings } from "./backup-settings"
-import { ApiSettings } from "./api-settings"
-import { StorageSettings } from "./storage-settings"
-import { PerformanceSettings } from "./performance-settings"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { GeneralSettings } from './general-settings';
+import { SecuritySettings } from './security-settings';
+import { IntegrationSettings } from './integration-settings';
+import { NotificationSettings } from './notification-settings';
+import { BackupSettings } from './backup-settings';
+import { ApiSettings } from './api-settings';
+import { StorageSettings } from './storage-settings';
+import { PerformanceSettings } from './performance-settings';
 
 export function SettingsClient() {
-  const [activeTab, setActiveTab] = useState("general")
+  const [activeTab, setActiveTab] = useState('general');
 
   return (
     <div className="space-y-4">
@@ -61,5 +61,5 @@ export function SettingsClient() {
         <PerformanceSettings />
       </TabsContent>
     </div>
-  )
+  );
 }

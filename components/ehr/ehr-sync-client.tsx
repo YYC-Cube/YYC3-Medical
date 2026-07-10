@@ -1,13 +1,19 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   LineChart,
   Line,
@@ -20,7 +26,7 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
+} from '@/components/ui/recharts-dynamic';
 import {
   RefreshCw,
   Calendar,
@@ -32,106 +38,109 @@ import {
   Play,
   Pause,
   RotateCcw,
-} from "lucide-react"
+} from 'lucide-react';
 
 // 模拟同步数据
 const syncHistory = [
   {
     id: 1,
-    startTime: "2025-05-19 08:00:00",
-    endTime: "2025-05-19 08:15:23",
-    status: "success",
+    startTime: '2025-05-19 08:00:00',
+    endTime: '2025-05-19 08:15:23',
+    status: 'success',
     records: 1250,
     errors: 0,
-    system: "中心医院HIS系统",
+    system: '中心医院HIS系统',
   },
   {
     id: 2,
-    startTime: "2025-05-19 04:00:00",
-    endTime: "2025-05-19 04:12:45",
-    status: "success",
+    startTime: '2025-05-19 04:00:00',
+    endTime: '2025-05-19 04:12:45',
+    status: 'success',
     records: 980,
     errors: 0,
-    system: "中心医院HIS系统",
+    system: '中心医院HIS系统',
   },
   {
     id: 3,
-    startTime: "2025-05-19 00:00:00",
-    endTime: "2025-05-19 00:18:12",
-    status: "warning",
+    startTime: '2025-05-19 00:00:00',
+    endTime: '2025-05-19 00:18:12',
+    status: 'warning',
     records: 1120,
     errors: 23,
-    system: "中心医院HIS系统",
+    system: '中心医院HIS系统',
   },
   {
     id: 4,
-    startTime: "2025-05-18 20:00:00",
-    endTime: "2025-05-18 20:14:56",
-    status: "success",
+    startTime: '2025-05-18 20:00:00',
+    endTime: '2025-05-18 20:14:56',
+    status: 'success',
     records: 1050,
     errors: 0,
-    system: "中心医院HIS系统",
+    system: '中心医院HIS系统',
   },
   {
     id: 5,
-    startTime: "2025-05-18 16:00:00",
-    endTime: "2025-05-18 16:22:31",
-    status: "error",
+    startTime: '2025-05-18 16:00:00',
+    endTime: '2025-05-18 16:22:31',
+    status: 'error',
     records: 850,
     errors: 142,
-    system: "中心医院HIS系统",
+    system: '中心医院HIS系统',
   },
-]
+];
 
 // 模拟同步统计数据
 const syncStats = [
-  { date: "05-13", records: 4250, errors: 23 },
-  { date: "05-14", records: 3980, errors: 15 },
-  { date: "05-15", records: 4120, errors: 18 },
-  { date: "05-16", records: 4350, errors: 12 },
-  { date: "05-17", records: 3850, errors: 8 },
-  { date: "05-18", records: 4050, errors: 165 },
-  { date: "05-19", records: 2230, errors: 23 },
-]
+  { date: '05-13', records: 4250, errors: 23 },
+  { date: '05-14', records: 3980, errors: 15 },
+  { date: '05-15', records: 4120, errors: 18 },
+  { date: '05-16', records: 4350, errors: 12 },
+  { date: '05-17', records: 3850, errors: 8 },
+  { date: '05-18', records: 4050, errors: 165 },
+  { date: '05-19', records: 2230, errors: 23 },
+];
 
 // 模拟错误类型分布
 const errorTypes = [
-  { name: "字段映射错误", value: 45, color: "#ff4d4f" },
-  { name: "网络连接超时", value: 25, color: "#faad14" },
-  { name: "数据格式不兼容", value: 18, color: "#1890ff" },
-  { name: "权限验证失败", value: 12, color: "#722ed1" },
-]
+  { name: '字段映射错误', value: 45, color: 'var(--destructive)' },
+  { name: '网络连接超时', value: 25, color: 'var(--warning)' },
+  { name: '数据格式不兼容', value: 18, color: 'var(--primary)' },
+  { name: '权限验证失败', value: 12, color: 'var(--primary)' },
+];
 
 // 模拟当前同步任务
 const currentSync = {
-  system: "中心医院HIS系统",
-  startTime: "2025-05-19 12:00:00",
-  elapsed: "00:08:45",
+  system: '中心医院HIS系统',
+  startTime: '2025-05-19 12:00:00',
+  elapsed: '00:08:45',
   progress: 65,
   processed: 820,
   total: 1250,
   errors: 2,
-  status: "running", // running, paused, completed, error
-}
+  status: 'running', // running, paused, completed, error
+};
 
 export default function EHRSyncClient() {
-  const router = useRouter()
-  const [activeSystem, setActiveSystem] = useState("all")
+  const router = useRouter();
+  const [activeSystem, setActiveSystem] = useState('all');
 
   return (
     <div className="space-y-6">
       <Tabs defaultValue="sync" className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" onClick={() => router.push("/ehr-integration")}>
+          <TabsTrigger value="overview" onClick={() => router.push('/ehr-integration')}>
             集成概览
           </TabsTrigger>
-          <TabsTrigger value="mapping" onClick={() => router.push("/ehr-integration/mapping")}>
+          <TabsTrigger value="mapping" onClick={() => router.push('/ehr-integration/mapping')}>
             数据映射
           </TabsTrigger>
-          <TabsTrigger value="sync" onClick={() => router.push("/ehr-integration/sync")}>
+          <TabsTrigger value="sync" onClick={() => router.push('/ehr-integration/sync')}>
             同步状态
           </TabsTrigger>
-          <TabsTrigger value="connections" onClick={() => router.push("/ehr-integration/connections")}>
+          <TabsTrigger
+            value="connections"
+            onClick={() => router.push('/ehr-integration/connections')}
+          >
             系统连接
           </TabsTrigger>
         </TabsList>
@@ -160,7 +169,7 @@ export default function EHRSyncClient() {
           <CardTitle>当前同步任务</CardTitle>
         </CardHeader>
         <CardContent>
-          {currentSync.status === "running" || currentSync.status === "paused" ? (
+          {currentSync.status === 'running' || currentSync.status === 'paused' ? (
             <div className="space-y-4">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -173,7 +182,7 @@ export default function EHRSyncClient() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  {currentSync.status === "running" ? (
+                  {currentSync.status === 'running' ? (
                     <Button variant="outline" size="sm">
                       <Pause className="w-4 h-4 mr-2" />
                       暂停
@@ -212,13 +221,13 @@ export default function EHRSyncClient() {
                 </div>
                 <div className="bg-muted rounded-lg p-3 flex items-center justify-between">
                   <span className="text-sm">错误数</span>
-                  <span className="font-medium text-red-500">{currentSync.errors}</span>
+                  <span className="font-medium text-destructive">{currentSync.errors}</span>
                 </div>
               </div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8">
-              <CheckCircle className="w-12 h-12 text-green-500 mb-4" />
+              <CheckCircle className="w-12 h-12 text-success mb-4" />
               <h3 className="text-lg font-medium mb-2">没有正在进行的同步任务</h3>
               <p className="text-muted-foreground mb-4">上次同步完成于 2025-05-19 08:15:23</p>
               <Button>
@@ -283,7 +292,7 @@ export default function EHRSyncClient() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {syncHistory.map((item) => (
+                {syncHistory.map(item => (
                   <tr key={item.id}>
                     <td className="px-4 py-3 whitespace-nowrap">{item.startTime}</td>
                     <td className="px-4 py-3 whitespace-nowrap">{item.endTime}</td>
@@ -291,20 +300,20 @@ export default function EHRSyncClient() {
                     <td className="px-4 py-3 whitespace-nowrap text-center">{item.records}</td>
                     <td className="px-4 py-3 whitespace-nowrap text-center">
                       {item.errors > 0 ? (
-                        <span className="text-red-500">{item.errors}</span>
+                        <span className="text-destructive">{item.errors}</span>
                       ) : (
                         <span>{item.errors}</span>
                       )}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-center">
-                      {item.status === "success" ? (
-                        <Badge className="bg-green-500">成功</Badge>
-                      ) : item.status === "warning" ? (
-                        <Badge variant="outline" className="text-amber-500 border-amber-500">
+                      {item.status === 'success' ? (
+                        <Badge className="bg-success/50">成功</Badge>
+                      ) : item.status === 'warning' ? (
+                        <Badge variant="outline" className="text-warning border-warning">
                           警告
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="text-red-500 border-red-500">
+                        <Badge variant="outline" className="text-destructive border-destructive">
                           错误
                         </Badge>
                       )}
@@ -340,8 +349,8 @@ export default function EHRSyncClient() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="records" stroke="#10b981" name="同步记录数" />
-                  <Line type="monotone" dataKey="errors" stroke="#ef4444" name="错误数" />
+                  <Line type="monotone" dataKey="records" stroke="var(--success)" name="同步记录数" />
+                  <Line type="monotone" dataKey="errors" stroke="var(--destructive)" name="错误数" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -363,7 +372,7 @@ export default function EHRSyncClient() {
                     labelLine={false}
                     label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="var(--primary)"
                     dataKey="value"
                   >
                     {errorTypes.map((entry, index) => (
@@ -379,7 +388,7 @@ export default function EHRSyncClient() {
       </div>
 
       <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={() => router.push("/ehr-integration")}>
+        <Button variant="outline" onClick={() => router.push('/ehr-integration')}>
           返回概览
         </Button>
         <Button>
@@ -388,5 +397,5 @@ export default function EHRSyncClient() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

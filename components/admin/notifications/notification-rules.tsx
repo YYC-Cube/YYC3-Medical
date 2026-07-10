@@ -1,9 +1,7 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -11,113 +9,139 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Plus, Edit, Trash2, Copy } from "lucide-react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Copy, Edit, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+
+type NotificationRule = {
+  id: number;
+  name: string;
+  event: string;
+  condition: string;
+  channel: string;
+  template: string;
+  active: boolean;
+};
 
 // 模拟通知规则数据
-const initialRules = [
+const initialRules: NotificationRule[] = [
   {
     id: 1,
-    name: "新患者注册",
-    event: "patient.registered",
+    name: '新患者注册',
+    event: 'patient.registered',
     condition: "user.role === 'doctor'",
-    channel: "email,sms",
-    template: "patient-registered",
+    channel: 'email,sms',
+    template: 'patient-registered',
     active: true,
   },
   {
     id: 2,
-    name: "资质验证失败",
-    event: "certification.failed",
-    condition: "always",
-    channel: "email,push",
-    template: "certification-failed",
+    name: '资质验证失败',
+    event: 'certification.failed',
+    condition: 'always',
+    channel: 'email,push',
+    template: 'certification-failed',
     active: true,
   },
   {
     id: 3,
-    name: "系统性能警告",
-    event: "system.performance.warning",
+    name: '系统性能警告',
+    event: 'system.performance.warning',
     condition: "user.role === 'admin'",
-    channel: "email",
-    template: "system-warning",
+    channel: 'email',
+    template: 'system-warning',
     active: false,
   },
   {
     id: 4,
-    name: "数据备份完成",
-    event: "backup.completed",
+    name: '数据备份完成',
+    event: 'backup.completed',
     condition: "user.role === 'admin'",
-    channel: "email",
-    template: "backup-completed",
+    channel: 'email',
+    template: 'backup-completed',
     active: true,
   },
   {
     id: 5,
-    name: "患者预约提醒",
-    event: "appointment.reminder",
-    condition: "always",
-    channel: "email,sms,push",
-    template: "appointment-reminder",
+    name: '患者预约提醒',
+    event: 'appointment.reminder',
+    condition: 'always',
+    channel: 'email,sms,push',
+    template: 'appointment-reminder',
     active: true,
   },
-]
+];
 
 export function NotificationRules() {
-  const [rules, setRules] = useState(initialRules)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [currentRule, setCurrentRule] = useState(null)
-  const [isEditing, setIsEditing] = useState(false)
+  const [rules, setRules] = useState(initialRules);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentRule, setCurrentRule] = useState<NotificationRule | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleToggleActive = (id) => {
-    setRules(rules.map((rule) => (rule.id === id ? { ...rule, active: !rule.active } : rule)))
-  }
+  const handleToggleActive = (id: number) => {
+    setRules(rules.map(rule => (rule.id === id ? { ...rule, active: !rule.active } : rule)));
+  };
 
   const handleAddRule = () => {
     setCurrentRule({
       id: rules.length + 1,
-      name: "",
-      event: "",
-      condition: "",
-      channel: "",
-      template: "",
+      name: '',
+      event: '',
+      condition: '',
+      channel: '',
+      template: '',
       active: true,
-    })
-    setIsEditing(false)
-    setIsDialogOpen(true)
-  }
+    });
+    setIsEditing(false);
+    setIsDialogOpen(true);
+  };
 
-  const handleEditRule = (rule) => {
-    setCurrentRule(rule)
-    setIsEditing(true)
-    setIsDialogOpen(true)
-  }
+  const handleEditRule = (rule: NotificationRule) => {
+    setCurrentRule(rule);
+    setIsEditing(true);
+    setIsDialogOpen(true);
+  };
 
-  const handleDuplicateRule = (rule) => {
+  const handleDuplicateRule = (rule: NotificationRule) => {
     const newRule = {
       ...rule,
       id: rules.length + 1,
       name: `${rule.name} (复制)`,
-    }
-    setRules([...rules, newRule])
-  }
+    };
+    setRules([...rules, newRule]);
+  };
 
-  const handleDeleteRule = (id) => {
-    setRules(rules.filter((rule) => rule.id !== id))
-  }
+  const handleDeleteRule = (id: number) => {
+    setRules(rules.filter(rule => rule.id !== id));
+  };
 
   const handleSaveRule = () => {
+    if (!currentRule) return;
     if (isEditing) {
-      setRules(rules.map((rule) => (rule.id === currentRule.id ? currentRule : rule)))
+      setRules(rules.map(rule => (rule.id === currentRule.id ? currentRule : rule)));
     } else {
-      setRules([...rules, currentRule])
+      setRules([...rules, currentRule]);
     }
-    setIsDialogOpen(false)
-  }
+    setIsDialogOpen(false);
+  };
 
   return (
     <Card>
@@ -144,14 +168,17 @@ export function NotificationRules() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rules.map((rule) => (
+            {rules.map(rule => (
               <TableRow key={rule.id}>
                 <TableCell className="font-medium">{rule.name}</TableCell>
                 <TableCell>{rule.event}</TableCell>
                 <TableCell>{rule.channel}</TableCell>
                 <TableCell>{rule.template}</TableCell>
                 <TableCell>
-                  <Switch checked={rule.active} onCheckedChange={() => handleToggleActive(rule.id)} />
+                  <Switch
+                    checked={rule.active}
+                    onCheckedChange={() => handleToggleActive(rule.id)}
+                  />
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
@@ -174,7 +201,7 @@ export function NotificationRules() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{isEditing ? "编辑通知规则" : "添加通知规则"}</DialogTitle>
+              <DialogTitle>{isEditing ? '编辑通知规则' : '添加通知规则'}</DialogTitle>
               <DialogDescription>配置触发条件和通知内容</DialogDescription>
             </DialogHeader>
             {currentRule && (
@@ -186,7 +213,7 @@ export function NotificationRules() {
                   <Input
                     id="name"
                     value={currentRule.name}
-                    onChange={(e) => setCurrentRule({ ...currentRule, name: e.target.value })}
+                    onChange={e => setCurrentRule({ ...currentRule, name: e.target.value })}
                     className="col-span-3"
                   />
                 </div>
@@ -197,7 +224,7 @@ export function NotificationRules() {
                   <Input
                     id="event"
                     value={currentRule.event}
-                    onChange={(e) => setCurrentRule({ ...currentRule, event: e.target.value })}
+                    onChange={e => setCurrentRule({ ...currentRule, event: e.target.value })}
                     className="col-span-3"
                   />
                 </div>
@@ -208,7 +235,7 @@ export function NotificationRules() {
                   <Input
                     id="condition"
                     value={currentRule.condition}
-                    onChange={(e) =>
+                    onChange={e =>
                       setCurrentRule({
                         ...currentRule,
                         condition: e.target.value,
@@ -223,7 +250,7 @@ export function NotificationRules() {
                   </Label>
                   <Select
                     value={currentRule.channel}
-                    onValueChange={(value) => setCurrentRule({ ...currentRule, channel: value })}
+                    onValueChange={value => setCurrentRule({ ...currentRule, channel: value })}
                   >
                     <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="选择通知渠道" />
@@ -244,7 +271,7 @@ export function NotificationRules() {
                   </Label>
                   <Select
                     value={currentRule.template}
-                    onValueChange={(value) => setCurrentRule({ ...currentRule, template: value })}
+                    onValueChange={value => setCurrentRule({ ...currentRule, template: value })}
                   >
                     <SelectTrigger className="col-span-3">
                       <SelectValue placeholder="选择通知模板" />
@@ -266,9 +293,11 @@ export function NotificationRules() {
                     <Switch
                       id="active"
                       checked={currentRule.active}
-                      onCheckedChange={(checked) => setCurrentRule({ ...currentRule, active: checked })}
+                      onCheckedChange={checked =>
+                        setCurrentRule({ ...currentRule, active: checked })
+                      }
                     />
-                    <Label htmlFor="active">{currentRule.active ? "已启用" : "已禁用"}</Label>
+                    <Label htmlFor="active">{currentRule.active ? '已启用' : '已禁用'}</Label>
                   </div>
                 </div>
               </div>
@@ -283,5 +312,5 @@ export function NotificationRules() {
         </Dialog>
       </CardContent>
     </Card>
-  )
+  );
 }

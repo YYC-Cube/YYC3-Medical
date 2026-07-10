@@ -1,11 +1,11 @@
-import { PageHeader } from "@/components/page-header"
-import Link from "next/link"
-import type { Metadata } from "next"
+import { PageHeader } from '@/components/page-header';
+import Link from 'next/link';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "隐私政策 - MediNexus³",
-  description: "MediNexus³ 智能诊疗系统隐私政策",
-}
+  title: '隐私政策 - MediNexus³',
+  description: 'MediNexus³ 智能诊疗系统隐私政策',
+};
 
 export default function PrivacyPage() {
   return (
@@ -21,7 +21,8 @@ export default function PrivacyPage() {
 
           <h2>2. 我们收集的信息</h2>
           <p>
-            2.1 <strong>您提供的信息</strong>：当您注册账户、使用我们的服务或与我们联系时，我们可能会收集以下信息：
+            2.1 <strong>您提供的信息</strong>
+            ：当您注册账户、使用我们的服务或与我们联系时，我们可能会收集以下信息：
           </p>
           <ul>
             <li>个人识别信息：姓名、电子邮件地址、电话号码、职业信息等</li>
@@ -71,7 +72,9 @@ export default function PrivacyPage() {
           <p>然而，请注意，尽管我们努力保护您的信息，但互联网或电子存储方法并非100%安全。</p>
 
           <h2>6. 数据保留</h2>
-          <p>我们将在实现本隐私政策中所述目的所需的时间内保留您的个人信息，除非法律要求或允许更长的保留期。</p>
+          <p>
+            我们将在实现本隐私政策中所述目的所需的时间内保留您的个人信息，除非法律要求或允许更长的保留期。
+          </p>
 
           <h2>7. 您的权利</h2>
           <p>根据适用的数据保护法，您可能拥有以下权利：</p>
@@ -106,15 +109,15 @@ export default function PrivacyPage() {
           <p>地址：中国北京市海淀区科技园区88号言语云大厦</p>
           <p>电话：+86-10-12345678</p>
 
-          <p className="text-sm text-gray-500 mt-8">最后更新日期：2025年5月15日</p>
+          <p className="text-sm text-muted-foreground mt-8">最后更新日期：2025年5月15日</p>
         </div>
       </div>
 
       <div className="mt-6 text-center">
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-primary hover:underline">
           返回登录
         </Link>
       </div>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import { PageHeader } from "@/components/page-header"
-import { Settings } from "lucide-react"
-import { ApiConfigClient } from "@/components/admin/api-config/api-config-client"
+import { PageHeader } from '@/components/page-header';
+import { Settings } from 'lucide-react';
+import { ApiConfigClient } from '@/components/admin/api-config/api-config-client';
 
 export default function ApiConfigPage() {
   return (
@@ -13,5 +13,5 @@ export default function ApiConfigPage() {
 
       <ApiConfigClient />
     </div>
-  )
+  );
 }

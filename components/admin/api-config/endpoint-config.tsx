@@ -1,14 +1,27 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import type { ApiEndpointConfig } from "@/types/api-config"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Trash2, Plus, Globe, Clock, RefreshCw } from "lucide-react"
+import { useState } from 'react';
+import type { ApiEndpointConfig } from '@/types/api-config';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Trash2, Plus, Globe, Clock, RefreshCw } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -17,130 +30,141 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { useToast } from "@/hooks/use-toast"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+} from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface EndpointConfigProps {
-  endpoints: ApiEndpointConfig[]
-  onAddEndpoint: (endpoint: Omit<ApiEndpointConfig, "id">) => Promise<void>
-  onDeleteEndpoint: (endpointId: string) => Promise<void>
-  onUpdateEndpoint: (endpoint: ApiEndpointConfig) => Promise<void>
+  endpoints: ApiEndpointConfig[];
+  onAddEndpoint: (endpoint: Omit<ApiEndpointConfig, 'id'>) => Promise<void>;
+  onDeleteEndpoint: (endpointId: string) => Promise<void>;
+  onUpdateEndpoint: (endpoint: ApiEndpointConfig) => Promise<void>;
 }
 
-export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onUpdateEndpoint }: EndpointConfigProps) {
-  const { toast } = useToast()
-  const [showAddDialog, setShowAddDialog] = useState(false)
-  const [newEndpoint, setNewEndpoint] = useState<Omit<ApiEndpointConfig, "id">>({
-    name: "",
-    url: "",
-    method: "GET",
+export function EndpointConfig({
+  endpoints,
+  onAddEndpoint,
+  onDeleteEndpoint,
+  onUpdateEndpoint,
+}: EndpointConfigProps) {
+  const { toast } = useToast();
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newEndpoint, setNewEndpoint] = useState<Omit<ApiEndpointConfig, 'id'>>({
+    name: '',
+    url: '',
+    method: 'GET',
     requiresAuth: true,
     timeout: 30000,
     retryCount: 2,
-  })
-  const [editingHeaders, setEditingHeaders] = useState<Record<string, string>>({})
-  const [editingParameters, setEditingParameters] = useState<Record<string, string>>({})
-  const [newHeaderKey, setNewHeaderKey] = useState("")
-  const [newHeaderValue, setNewHeaderValue] = useState("")
-  const [newParamKey, setNewParamKey] = useState("")
-  const [newParamValue, setNewParamValue] = useState("")
+  });
+  const [editingHeaders, setEditingHeaders] = useState<Record<string, string>>({});
+  const [editingParameters, setEditingParameters] = useState<Record<string, string>>({});
+  const [newHeaderKey, setNewHeaderKey] = useState('');
+  const [newHeaderValue, setNewHeaderValue] = useState('');
+  const [newParamKey, setNewParamKey] = useState('');
+  const [newParamValue, setNewParamValue] = useState('');
 
   const handleAddEndpoint = async () => {
     if (!newEndpoint.name || !newEndpoint.url) {
       toast({
-        title: "无法添加端点",
-        description: "请填写必要的端点信息",
-        variant: "destructive",
-      })
-      return
+        title: '无法添加端点',
+        description: '请填写必要的端点信息',
+        variant: 'destructive',
+      });
+      return;
     }
 
     try {
       const endpointToAdd = {
         ...newEndpoint,
         headers: Object.keys(editingHeaders).length > 0 ? { ...editingHeaders } : undefined,
-        parameters: Object.keys(editingParameters).length > 0 ? { ...editingParameters } : undefined,
-      }
+        parameters:
+          Object.keys(editingParameters).length > 0 ? { ...editingParameters } : undefined,
+      };
 
-      await onAddEndpoint(endpointToAdd)
+      await onAddEndpoint(endpointToAdd);
       setNewEndpoint({
-        name: "",
-        url: "",
-        method: "GET",
+        name: '',
+        url: '',
+        method: 'GET',
         requiresAuth: true,
         timeout: 30000,
         retryCount: 2,
-      })
-      setEditingHeaders({})
-      setEditingParameters({})
-      setShowAddDialog(false)
+      });
+      setEditingHeaders({});
+      setEditingParameters({});
+      setShowAddDialog(false);
       toast({
-        title: "添加成功",
-        description: "API端点已成功添加",
-      })
+        title: '添加成功',
+        description: 'API端点已成功添加',
+      });
     } catch (error) {
       toast({
-        title: "添加失败",
-        description: "无法添加API端点，请重试",
-        variant: "destructive",
-      })
+        title: '添加失败',
+        description: '无法添加API端点，请重试',
+        variant: 'destructive',
+      });
     }
-  }
+  };
 
   const handleDeleteEndpoint = async (endpointId: string) => {
-    if (confirm("确定要删除此API端点吗？此操作无法撤销。")) {
+    if (confirm('确定要删除此API端点吗？此操作无法撤销。')) {
       try {
-        await onDeleteEndpoint(endpointId)
+        await onDeleteEndpoint(endpointId);
         toast({
-          title: "删除成功",
-          description: "API端点已成功删除",
-        })
+          title: '删除成功',
+          description: 'API端点已成功删除',
+        });
       } catch (error) {
         toast({
-          title: "删除失败",
-          description: "无法删除API端点，请重试",
-          variant: "destructive",
-        })
+          title: '删除失败',
+          description: '无法删除API端点，请重试',
+          variant: 'destructive',
+        });
       }
     }
-  }
+  };
 
   const addHeader = () => {
-    if (!newHeaderKey.trim()) return
+    if (!newHeaderKey.trim()) return;
 
-    setEditingHeaders((prev) => ({
+    setEditingHeaders(prev => ({
       ...prev,
       [newHeaderKey]: newHeaderValue,
-    }))
+    }));
 
-    setNewHeaderKey("")
-    setNewHeaderValue("")
-  }
+    setNewHeaderKey('');
+    setNewHeaderValue('');
+  };
 
   const removeHeader = (key: string) => {
-    const newHeaders = { ...editingHeaders }
-    delete newHeaders[key]
-    setEditingHeaders(newHeaders)
-  }
+    const newHeaders = { ...editingHeaders };
+    delete newHeaders[key];
+    setEditingHeaders(newHeaders);
+  };
 
   const addParameter = () => {
-    if (!newParamKey.trim()) return
+    if (!newParamKey.trim()) return;
 
-    setEditingParameters((prev) => ({
+    setEditingParameters(prev => ({
       ...prev,
       [newParamKey]: newParamValue,
-    }))
+    }));
 
-    setNewParamKey("")
-    setNewParamValue("")
-  }
+    setNewParamKey('');
+    setNewParamValue('');
+  };
 
   const removeParameter = (key: string) => {
-    const newParams = { ...editingParameters }
-    delete newParams[key]
-    setEditingParameters(newParams)
-  }
+    const newParams = { ...editingParameters };
+    delete newParams[key];
+    setEditingParameters(newParams);
+  };
 
   return (
     <div className="space-y-6">
@@ -166,14 +190,14 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                     id="endpoint-name"
                     placeholder="例如：资质验证"
                     value={newEndpoint.name}
-                    onChange={(e) => setNewEndpoint({ ...newEndpoint, name: e.target.value })}
+                    onChange={e => setNewEndpoint({ ...newEndpoint, name: e.target.value })}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="endpoint-method">请求方法</Label>
                   <Select
                     value={newEndpoint.method}
-                    onValueChange={(value: "GET" | "POST" | "PUT" | "DELETE") =>
+                    onValueChange={(value: 'GET' | 'POST' | 'PUT' | 'DELETE') =>
                       setNewEndpoint({ ...newEndpoint, method: value })
                     }
                   >
@@ -196,7 +220,7 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                   id="endpoint-url"
                   placeholder="例如：/api/v1/certifications/verify"
                   value={newEndpoint.url}
-                  onChange={(e) => setNewEndpoint({ ...newEndpoint, url: e.target.value })}
+                  onChange={e => setNewEndpoint({ ...newEndpoint, url: e.target.value })}
                 />
               </div>
 
@@ -208,8 +232,11 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                     type="number"
                     placeholder="30000"
                     value={newEndpoint.timeout}
-                    onChange={(e) =>
-                      setNewEndpoint({ ...newEndpoint, timeout: Number.parseInt(e.target.value) || 30000 })
+                    onChange={e =>
+                      setNewEndpoint({
+                        ...newEndpoint,
+                        timeout: Number.parseInt(e.target.value) || 30000,
+                      })
                     }
                   />
                 </div>
@@ -220,8 +247,11 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                     type="number"
                     placeholder="2"
                     value={newEndpoint.retryCount}
-                    onChange={(e) =>
-                      setNewEndpoint({ ...newEndpoint, retryCount: Number.parseInt(e.target.value) || 2 })
+                    onChange={e =>
+                      setNewEndpoint({
+                        ...newEndpoint,
+                        retryCount: Number.parseInt(e.target.value) || 2,
+                      })
                     }
                   />
                 </div>
@@ -231,7 +261,9 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                 <Switch
                   id="endpoint-auth"
                   checked={newEndpoint.requiresAuth}
-                  onCheckedChange={(checked) => setNewEndpoint({ ...newEndpoint, requiresAuth: checked })}
+                  onCheckedChange={checked =>
+                    setNewEndpoint({ ...newEndpoint, requiresAuth: checked })
+                  }
                 />
                 <Label htmlFor="endpoint-auth">需要认证</Label>
               </div>
@@ -246,13 +278,13 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                           className="col-span-2"
                           placeholder="头部名称"
                           value={newHeaderKey}
-                          onChange={(e) => setNewHeaderKey(e.target.value)}
+                          onChange={e => setNewHeaderKey(e.target.value)}
                         />
                         <Input
                           className="col-span-2"
                           placeholder="头部值"
                           value={newHeaderValue}
-                          onChange={(e) => setNewHeaderValue(e.target.value)}
+                          onChange={e => setNewHeaderValue(e.target.value)}
                         />
                         <Button onClick={addHeader} className="col-span-1">
                           添加
@@ -264,7 +296,10 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                           <div className="text-sm font-medium mb-2">已配置的头部</div>
                           <div className="space-y-2">
                             {Object.entries(editingHeaders).map(([key, value]) => (
-                              <div key={key} className="flex justify-between items-center bg-muted p-2 rounded-md">
+                              <div
+                                key={key}
+                                className="flex justify-between items-center bg-muted p-2 rounded-md"
+                              >
                                 <div>
                                   <span className="font-medium">{key}</span>
                                   <span className="mx-2">:</span>
@@ -276,7 +311,7 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                                   onClick={() => removeHeader(key)}
                                   className="h-6 w-6 p-0"
                                 >
-                                  <Trash2 className="h-4 w-4 text-red-500" />
+                                  <Trash2 className="h-4 w-4 text-destructive" />
                                 </Button>
                               </div>
                             ))}
@@ -296,13 +331,13 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                           className="col-span-2"
                           placeholder="参数名称"
                           value={newParamKey}
-                          onChange={(e) => setNewParamKey(e.target.value)}
+                          onChange={e => setNewParamKey(e.target.value)}
                         />
                         <Input
                           className="col-span-2"
                           placeholder="参数值"
                           value={newParamValue}
-                          onChange={(e) => setNewParamValue(e.target.value)}
+                          onChange={e => setNewParamValue(e.target.value)}
                         />
                         <Button onClick={addParameter} className="col-span-1">
                           添加
@@ -314,7 +349,10 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                           <div className="text-sm font-medium mb-2">已配置的参数</div>
                           <div className="space-y-2">
                             {Object.entries(editingParameters).map(([key, value]) => (
-                              <div key={key} className="flex justify-between items-center bg-muted p-2 rounded-md">
+                              <div
+                                key={key}
+                                className="flex justify-between items-center bg-muted p-2 rounded-md"
+                              >
                                 <div>
                                   <span className="font-medium">{key}</span>
                                   <span className="mx-2">=</span>
@@ -326,7 +364,7 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                                   onClick={() => removeParameter(key)}
                                   className="h-6 w-6 p-0"
                                 >
-                                  <Trash2 className="h-4 w-4 text-red-500" />
+                                  <Trash2 className="h-4 w-4 text-destructive" />
                                 </Button>
                               </div>
                             ))}
@@ -358,7 +396,7 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
         </Card>
       ) : (
         <div className="space-y-4">
-          {endpoints.map((endpoint) => (
+          {endpoints.map(endpoint => (
             <Card key={endpoint.id}>
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-center">
@@ -366,13 +404,13 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                   <div className="flex items-center">
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        endpoint.method === "GET"
-                          ? "bg-blue-100 text-blue-800"
-                          : endpoint.method === "POST"
-                            ? "bg-green-100 text-green-800"
-                            : endpoint.method === "PUT"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
+                        endpoint.method === 'GET'
+                          ? 'bg-primary/10 text-primary'
+                          : endpoint.method === 'POST'
+                            ? 'bg-success/10 text-success'
+                            : endpoint.method === 'PUT'
+                              ? 'bg-warning text-warning'
+                              : 'bg-destructive text-destructive'
                       }`}
                     >
                       {endpoint.method}
@@ -397,12 +435,14 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                   <div className="mt-4 space-y-3">
                     {endpoint.headers && Object.keys(endpoint.headers).length > 0 && (
                       <div>
-                        <div className="text-xs font-medium text-muted-foreground mb-1">HTTP头部</div>
+                        <div className="text-xs font-medium text-muted-foreground mb-1">
+                          HTTP头部
+                        </div>
                         <div className="bg-muted p-2 rounded-md text-xs font-mono">
                           {Object.entries(endpoint.headers).map(([key, value]) => (
                             <div key={key}>
-                              <span className="text-blue-600">{key}</span>
-                              <span className="text-gray-500">: </span>
+                              <span className="text-primary">{key}</span>
+                              <span className="text-muted-foreground">: </span>
                               <span>{value}</span>
                             </div>
                           ))}
@@ -412,12 +452,14 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
 
                     {endpoint.parameters && Object.keys(endpoint.parameters).length > 0 && (
                       <div>
-                        <div className="text-xs font-medium text-muted-foreground mb-1">请求参数</div>
+                        <div className="text-xs font-medium text-muted-foreground mb-1">
+                          请求参数
+                        </div>
                         <div className="bg-muted p-2 rounded-md text-xs font-mono">
                           {Object.entries(endpoint.parameters).map(([key, value]) => (
                             <div key={key}>
-                              <span className="text-green-600">{key}</span>
-                              <span className="text-gray-500"> = </span>
+                              <span className="text-success">{key}</span>
+                              <span className="text-muted-foreground"> = </span>
                               <span>{value}</span>
                             </div>
                           ))}
@@ -432,7 +474,9 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                   <Switch
                     id={`auth-${endpoint.id}`}
                     checked={endpoint.requiresAuth}
-                    onCheckedChange={(checked) => onUpdateEndpoint({ ...endpoint, requiresAuth: checked })}
+                    onCheckedChange={checked =>
+                      onUpdateEndpoint({ ...endpoint, requiresAuth: checked })
+                    }
                   />
                   <Label htmlFor={`auth-${endpoint.id}`} className="text-sm">
                     需要认证
@@ -442,7 +486,7 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                  className="text-destructive hover:text-destructive hover:bg-destructive"
                   onClick={() => handleDeleteEndpoint(endpoint.id)}
                 >
                   <Trash2 className="h-4 w-4 mr-1" />
@@ -454,5 +498,5 @@ export function EndpointConfig({ endpoints, onAddEndpoint, onDeleteEndpoint, onU
         </div>
       )}
     </div>
-  )
+  );
 }

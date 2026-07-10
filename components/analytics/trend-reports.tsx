@@ -1,29 +1,49 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Download, Calendar } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Download, Calendar } from 'lucide-react';
 
 // 模拟趋势数据
 const trendData = [
-  { date: "2023-01", 患者满意度: 85, 医生效率: 72, 治疗成功率: 78 },
-  { date: "2023-02", 患者满意度: 83, 医生效率: 74, 治疗成功率: 76 },
-  { date: "2023-03", 患者满意度: 86, 医生效率: 76, 治疗成功率: 79 },
-  { date: "2023-04", 患者满意度: 88, 医生效率: 78, 治疗成功率: 81 },
-  { date: "2023-05", 患者满意度: 87, 医生效率: 80, 治疗成功率: 82 },
-  { date: "2023-06", 患者满意度: 90, 医生效率: 82, 治疗成功率: 84 },
-  { date: "2023-07", 患者满意度: 92, 医生效率: 83, 治疗成功率: 85 },
-  { date: "2023-08", 患者满意度: 91, 医生效率: 85, 治疗成功率: 86 },
-  { date: "2023-09", 患者满意度: 93, 医生效率: 86, 治疗成功率: 87 },
-  { date: "2023-10", 患者满意度: 94, 医生效率: 87, 治疗成功率: 88 },
-  { date: "2023-11", 患者满意度: 95, 医生效率: 88, 治疗成功率: 89 },
-  { date: "2023-12", 患者满意度: 96, 医生效率: 90, 治疗成功率: 91 },
-]
+  { date: '2023-01', 患者满意度: 85, 医生效率: 72, 治疗成功率: 78 },
+  { date: '2023-02', 患者满意度: 83, 医生效率: 74, 治疗成功率: 76 },
+  { date: '2023-03', 患者满意度: 86, 医生效率: 76, 治疗成功率: 79 },
+  { date: '2023-04', 患者满意度: 88, 医生效率: 78, 治疗成功率: 81 },
+  { date: '2023-05', 患者满意度: 87, 医生效率: 80, 治疗成功率: 82 },
+  { date: '2023-06', 患者满意度: 90, 医生效率: 82, 治疗成功率: 84 },
+  { date: '2023-07', 患者满意度: 92, 医生效率: 83, 治疗成功率: 85 },
+  { date: '2023-08', 患者满意度: 91, 医生效率: 85, 治疗成功率: 86 },
+  { date: '2023-09', 患者满意度: 93, 医生效率: 86, 治疗成功率: 87 },
+  { date: '2023-10', 患者满意度: 94, 医生效率: 87, 治疗成功率: 88 },
+  { date: '2023-11', 患者满意度: 95, 医生效率: 88, 治疗成功率: 89 },
+  { date: '2023-12', 患者满意度: 96, 医生效率: 90, 治疗成功率: 91 },
+];
 
-export function TrendReports() {
+interface TrendReportsProps {
+  category?: string;
+  dateRange?: { from: Date; to: Date };
+  interval?: string;
+}
+
+export function TrendReports({ category, dateRange, interval }: TrendReportsProps) {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -59,16 +79,16 @@ export function TrendReports() {
           <ChartContainer
             config={{
               患者满意度: {
-                label: "患者满意度",
-                color: "hsl(var(--chart-1))",
+                label: '患者满意度',
+                color: 'hsl(var(--chart-1))',
               },
               医生效率: {
-                label: "医生效率",
-                color: "hsl(var(--chart-2))",
+                label: '医生效率',
+                color: 'hsl(var(--chart-2))',
               },
               治疗成功率: {
-                label: "治疗成功率",
-                color: "hsl(var(--chart-3))",
+                label: '治疗成功率',
+                color: 'hsl(var(--chart-3))',
               },
             }}
           >
@@ -94,8 +114,18 @@ export function TrendReports() {
                   name="患者满意度"
                   activeDot={{ r: 8 }}
                 />
-                <Line type="monotone" dataKey="医生效率" stroke="var(--color-医生效率)" name="医生效率" />
-                <Line type="monotone" dataKey="治疗成功率" stroke="var(--color-治疗成功率)" name="治疗成功率" />
+                <Line
+                  type="monotone"
+                  dataKey="医生效率"
+                  stroke="var(--color-医生效率)"
+                  name="医生效率"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="治疗成功率"
+                  stroke="var(--color-治疗成功率)"
+                  name="治疗成功率"
+                />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -109,7 +139,7 @@ export function TrendReports() {
             <CardContent>
               <div className="text-2xl font-bold">96%</div>
               <p className="text-xs text-muted-foreground">
-                较上年 <span className="text-green-500">↑ 8%</span>
+                较上年 <span className="text-success">↑ 8%</span>
               </p>
             </CardContent>
           </Card>
@@ -120,7 +150,7 @@ export function TrendReports() {
             <CardContent>
               <div className="text-2xl font-bold">90%</div>
               <p className="text-xs text-muted-foreground">
-                较上年 <span className="text-green-500">↑ 12%</span>
+                较上年 <span className="text-success">↑ 12%</span>
               </p>
             </CardContent>
           </Card>
@@ -131,15 +161,15 @@ export function TrendReports() {
             <CardContent>
               <div className="text-2xl font-bold">91%</div>
               <p className="text-xs text-muted-foreground">
-                较上年 <span className="text-green-500">↑ 10%</span>
+                较上年 <span className="text-success">↑ 10%</span>
               </p>
             </CardContent>
           </Card>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 // 添加TrendReports作为命名导出
-export { TrendReports as default }
+export { TrendReports as default };

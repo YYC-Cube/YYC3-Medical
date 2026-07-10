@@ -1,8 +1,8 @@
-import { AppDataSource } from '@/lib/db';
-import { LessThan } from 'typeorm';
-import { AuditReport } from '@/entities/AuditReport';
-import { CiAuditStatus } from '@/entities/CiAuditStatus';
-import { ReportSignature } from '@/entities/ReportSignature';
+import { AppDataSource } from "@/lib/db";
+import { LessThan } from "typeorm";
+import { AuditReport } from "@/entities/AuditReport";
+import { CiAuditStatus } from "@/entities/CiAuditStatus";
+import { ReportSignature } from "@/entities/ReportSignature";
 
 async function cleanup() {
   await AppDataSource.initialize();
@@ -17,7 +17,7 @@ async function cleanup() {
   const auditRepo = AppDataSource.getRepository(AuditReport);
   const auditDeleted = await auditRepo.delete({
     timestamp: LessThan(sixMonthsAgo),
-    status: '一致',
+    status: "一致",
   });
   console.log(`✅ 清理 audit_reports: ${auditDeleted.affected} 条`);
 

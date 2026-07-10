@@ -1,52 +1,53 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface AnimatedLogoProps {
-  size?: "xs" | "sm" | "md" | "lg" | "xl"
-  variant?: "default" | "minimal" | "text-only"
-  className?: string
-  textClassName?: string
-  showText?: boolean
-  animated?: boolean
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'default' | 'minimal' | 'text-only';
+  className?: string;
+  textClassName?: string;
+  showText?: boolean;
+  animated?: boolean;
 }
 
 export function AnimatedLogo({
-  size = "md",
-  variant = "default",
-  className = "",
-  textClassName = "",
+  size = 'md',
+  variant = 'default',
+  className = '',
+  textClassName = '',
   showText = true,
   animated = true,
 }: AnimatedLogoProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
+     
+    setIsMounted(true);
     // 添加初始加载动画
-    const timer = setTimeout(() => setIsLoaded(true), 300)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setIsLoaded(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   // 根据尺寸确定宽高
   const dimensions = {
-    xs: { width: 32, height: 32, textSize: "text-sm", iconSize: 20 },
-    sm: { width: 40, height: 40, textSize: "text-base", iconSize: 24 },
-    md: { width: 48, height: 48, textSize: "text-lg", iconSize: 28 },
-    lg: { width: 64, height: 64, textSize: "text-xl", iconSize: 36 },
-    xl: { width: 96, height: 96, textSize: "text-2xl", iconSize: 48 },
-  }
+    xs: { width: 32, height: 32, textSize: 'text-sm', iconSize: 20 },
+    sm: { width: 40, height: 40, textSize: 'text-base', iconSize: 24 },
+    md: { width: 48, height: 48, textSize: 'text-lg', iconSize: 28 },
+    lg: { width: 64, height: 64, textSize: 'text-xl', iconSize: 36 },
+    xl: { width: 96, height: 96, textSize: 'text-2xl', iconSize: 48 },
+  };
 
-  const { width, height, textSize, iconSize } = dimensions[size]
+  const { width, height, textSize, iconSize } = dimensions[size];
 
   // 如果不支持客户端动画，则返回静态版本
   if (!isMounted) {
     return (
-      <div className={cn("flex items-center", className)}>
+      <div className={cn('flex items-center', className)}>
         <div className="relative" style={{ width, height }}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="h-full w-full rounded-full bg-medical-gradient flex items-center justify-center">
@@ -54,16 +55,20 @@ export function AnimatedLogo({
             </div>
           </div>
         </div>
-        {showText && <span className={cn("ml-2 font-bold text-medical-800", textSize, textClassName)}>医枢³</span>}
+        {showText && (
+          <span className={cn('ml-2 font-bold text-medical-800', textSize, textClassName)}>
+            医枢³
+          </span>
+        )}
       </div>
-    )
+    );
   }
 
   // 最小化版本只显示图标
-  if (variant === "minimal") {
+  if (variant === 'minimal') {
     return (
       <motion.div
-        className={cn("relative", className)}
+        className={cn('relative', className)}
         style={{ width, height }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -87,27 +92,27 @@ export function AnimatedLogo({
           </motion.span>
         </div>
       </motion.div>
-    )
+    );
   }
 
   // 仅文字版本
-  if (variant === "text-only") {
+  if (variant === 'text-only') {
     return (
       <motion.span
-        className={cn("font-bold text-medical-800", textSize, textClassName, className)}
+        className={cn('font-bold text-medical-800', textSize, textClassName, className)}
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
         医枢³
       </motion.span>
-    )
+    );
   }
 
   // 默认完整版本
   return (
     <div
-      className={cn("flex items-center", className)}
+      className={cn('flex items-center', className)}
       onMouseEnter={() => animated && setIsHovered(true)}
       onMouseLeave={() => animated && setIsHovered(false)}
     >
@@ -120,7 +125,7 @@ export function AnimatedLogo({
           opacity: isLoaded ? 1 : 0,
           rotate: isLoaded ? 0 : -10,
         }}
-        transition={{ duration: 0.4, type: "spring" }}
+        transition={{ duration: 0.4, type: 'spring' }}
       >
         <div className="h-full w-full rounded-full bg-medical-gradient flex items-center justify-center shadow-lg">
           <motion.div
@@ -132,19 +137,24 @@ export function AnimatedLogo({
             className="flex items-center justify-center"
           >
             {/* 云形状和数字3 */}
-            <svg viewBox="0 0 100 100" width={iconSize} height={iconSize} xmlns="http://www.w3.org/2000/svg">
+            <svg
+              viewBox="0 0 100 100"
+              width={iconSize}
+              height={iconSize}
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <defs>
                 <linearGradient id="cloudGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#e0f2fe" />
-                  <stop offset="100%" stopColor="#bfdbfe" />
+                  <stop offset="0%" stopColor="var(--primary)/10" />
+                  <stop offset="100%" stopColor="var(--primary)/20" />
                 </linearGradient>
                 <linearGradient id="cloudGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#93c5fd" />
-                  <stop offset="100%" stopColor="#60a5fa" />
+                  <stop offset="0%" stopColor="var(--primary)/30" />
+                  <stop offset="100%" stopColor="var(--primary)/40" />
                 </linearGradient>
                 <linearGradient id="cloudGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#7dd3fc" />
-                  <stop offset="100%" stopColor="#38bdf8" />
+                  <stop offset="0%" stopColor="var(--primary)/50" />
+                  <stop offset="100%" stopColor="var(--primary)/60" />
                 </linearGradient>
               </defs>
 
@@ -189,7 +199,7 @@ export function AnimatedLogo({
       {showText && (
         <AnimatePresence>
           <motion.span
-            className={cn("ml-2 font-bold text-medical-800", textSize, textClassName)}
+            className={cn('ml-2 font-bold text-medical-800', textSize, textClassName)}
             initial={{ opacity: 0, x: -10 }}
             animate={{
               opacity: isLoaded ? 1 : 0,
@@ -203,5 +213,5 @@ export function AnimatedLogo({
         </AnimatePresence>
       )}
     </div>
-  )
+  );
 }

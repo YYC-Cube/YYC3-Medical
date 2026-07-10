@@ -1,4 +1,4 @@
-import PerformanceDashboard from "@/components/dev/performance-dashboard"
+import PerformanceDashboard from '@/components/dev/performance-dashboard';
 
 export default function PerformanceTestPage() {
   return (
@@ -6,5 +6,5 @@ export default function PerformanceTestPage() {
       <h1 className="text-3xl font-bold mb-6">性能监控测试</h1>
       <PerformanceDashboard />
     </div>
-  )
+  );
 }

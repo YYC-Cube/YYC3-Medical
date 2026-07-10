@@ -1,9 +1,15 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   BarChart,
   Bar,
@@ -15,30 +21,30 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
-} from "recharts"
+} from '@/components/ui/recharts-dynamic';
 
 // 模拟API使用数据
 const apiUsageData = [
-  { date: "2023-01-01", calls: 1200, errors: 23, latency: 120 },
-  { date: "2023-01-02", calls: 1300, errors: 18, latency: 115 },
-  { date: "2023-01-03", calls: 1400, errors: 28, latency: 130 },
-  { date: "2023-01-04", calls: 1100, errors: 15, latency: 110 },
-  { date: "2023-01-05", calls: 1500, errors: 30, latency: 125 },
-  { date: "2023-01-06", calls: 1700, errors: 25, latency: 118 },
-  { date: "2023-01-07", calls: 1600, errors: 20, latency: 122 },
-]
+  { date: '2023-01-01', calls: 1200, errors: 23, latency: 120 },
+  { date: '2023-01-02', calls: 1300, errors: 18, latency: 115 },
+  { date: '2023-01-03', calls: 1400, errors: 28, latency: 130 },
+  { date: '2023-01-04', calls: 1100, errors: 15, latency: 110 },
+  { date: '2023-01-05', calls: 1500, errors: 30, latency: 125 },
+  { date: '2023-01-06', calls: 1700, errors: 25, latency: 118 },
+  { date: '2023-01-07', calls: 1600, errors: 20, latency: 122 },
+];
 
 // 模拟端点数据
 const endpointData = [
-  { name: "/api/patients", calls: 450, errors: 12, latency: 135 },
-  { name: "/api/diagnoses", calls: 380, errors: 8, latency: 142 },
-  { name: "/api/auth", calls: 320, errors: 5, latency: 95 },
-  { name: "/api/records", calls: 280, errors: 10, latency: 128 },
-  { name: "/api/analytics", calls: 170, errors: 3, latency: 150 },
-]
+  { name: '/api/patients', calls: 450, errors: 12, latency: 135 },
+  { name: '/api/diagnoses', calls: 380, errors: 8, latency: 142 },
+  { name: '/api/auth', calls: 320, errors: 5, latency: 95 },
+  { name: '/api/records', calls: 280, errors: 10, latency: 128 },
+  { name: '/api/analytics', calls: 170, errors: 3, latency: 150 },
+];
 
 export function ApiUsageMonitorClient() {
-  const [timeRange, setTimeRange] = useState("7d")
+  const [timeRange, setTimeRange] = useState('7d');
 
   return (
     <div className="space-y-6">
@@ -108,7 +114,7 @@ export function ApiUsageMonitorClient() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="calls" stroke="#8884d8" name="API调用数" />
+                    <Line type="monotone" dataKey="calls" stroke="var(--primary)" name="API调用数" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -129,7 +135,7 @@ export function ApiUsageMonitorClient() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="calls" fill="#8884d8" name="调用次数" />
+                    <Bar dataKey="calls" fill="var(--primary)" name="调用次数" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -150,7 +156,7 @@ export function ApiUsageMonitorClient() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="errors" stroke="#ff0000" name="错误数" />
+                    <Line type="monotone" dataKey="errors" stroke="var(--destructive)" name="错误数" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -171,7 +177,7 @@ export function ApiUsageMonitorClient() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="latency" stroke="#82ca9d" name="响应时间(ms)" />
+                    <Line type="monotone" dataKey="latency" stroke="var(--success)" name="响应时间(ms)" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -180,5 +186,5 @@ export function ApiUsageMonitorClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

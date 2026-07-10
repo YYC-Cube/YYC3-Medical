@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { RolesList } from "./roles-list"
-import { PermissionsList } from "./permissions-list"
-import { RolePermissionMatrix } from "./role-permission-matrix"
-import { CreateRoleDialog } from "./create-role-dialog"
-import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { RolesList } from './roles-list';
+import { PermissionsList } from './permissions-list';
+import { RolePermissionMatrix } from './role-permission-matrix';
+import { CreateRoleDialog } from './create-role-dialog';
+import { Button } from '@/components/ui/button';
+import { PlusCircle } from 'lucide-react';
 
 export function RolesClient() {
-  const [activeTab, setActiveTab] = useState("roles")
-  const [openCreateDialog, setOpenCreateDialog] = useState(false)
+  const [activeTab, setActiveTab] = useState('roles');
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
 
   return (
     <div className="space-y-4">
@@ -44,5 +44,5 @@ export function RolesClient() {
 
       <CreateRoleDialog open={openCreateDialog} onOpenChange={setOpenCreateDialog} />
     </div>
-  )
+  );
 }

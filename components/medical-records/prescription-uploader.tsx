@@ -1,216 +1,262 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState, useRef } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Upload, FileText, Search, Download, Trash2, FilePlus2, Eye, Printer, ScanText } from "lucide-react"
-import { OcrService } from "./ocr-service"
+import { useState, useRef } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Upload,
+  FileText,
+  Search,
+  Download,
+  Trash2,
+  FilePlus2,
+  Eye,
+  Printer,
+  ScanText,
+} from 'lucide-react';
+import { OcrService } from './ocr-service';
 
 // 模拟药方数据
 const mockPrescriptions = [
   {
-    id: "rx-001",
-    fileName: "处方-张三-20230512.pdf",
-    thumbnailUrl: "/placeholder.svg?key=qa6un",
-    fileUrl: "/placeholder.svg?key=8wa81",
-    patientName: "张三",
-    patientId: "P-10045",
-    issueDate: "2023-05-12",
-    doctor: "李医生",
-    department: "内科",
-    diagnosis: "2型糖尿病，高脂血症",
+    id: 'rx-001',
+    fileName: '处方-张三-20230512.pdf',
+    thumbnailUrl: '/placeholder.svg?key=qa6un',
+    fileUrl: '/placeholder.svg?key=8wa81',
+    patientName: '张三',
+    patientId: 'P-10045',
+    issueDate: '2023-05-12',
+    doctor: '李医生',
+    department: '内科',
+    diagnosis: '2型糖尿病，高脂血症',
     medications: [
-      { name: "二甲双胍", dosage: "0.5g", frequency: "每日三次", duration: "30天" },
-      { name: "阿托伐他汀", dosage: "20mg", frequency: "每晚一次", duration: "30天" },
+      { name: '二甲双胍', dosage: '0.5g', frequency: '每日三次', duration: '30天' },
+      { name: '阿托伐他汀', dosage: '20mg', frequency: '每晚一次', duration: '30天' },
     ],
-    notes: "饭后服用二甲双胍，睡前服用阿托伐他汀",
-    status: "已发药",
-    uploadedBy: "李医生",
-    uploadedAt: "2023-05-12 14:30",
-    tags: ["慢性病", "长期用药"],
-    size: "1.2 MB",
+    notes: '饭后服用二甲双胍，睡前服用阿托伐他汀',
+    status: '已发药',
+    uploadedBy: '李医生',
+    uploadedAt: '2023-05-12 14:30',
+    tags: ['慢性病', '长期用药'],
+    size: '1.2 MB',
   },
   {
-    id: "rx-002",
-    fileName: "处方-李四-20230510.pdf",
-    thumbnailUrl: "/placeholder.svg?key=xanon",
-    fileUrl: "/placeholder.svg?key=bstu6",
-    patientName: "李四",
-    patientId: "P-10078",
-    issueDate: "2023-05-10",
-    doctor: "王医生",
-    department: "心内科",
-    diagnosis: "高血压，冠心病",
+    id: 'rx-002',
+    fileName: '处方-李四-20230510.pdf',
+    thumbnailUrl: '/placeholder.svg?key=xanon',
+    fileUrl: '/placeholder.svg?key=bstu6',
+    patientName: '李四',
+    patientId: 'P-10078',
+    issueDate: '2023-05-10',
+    doctor: '王医生',
+    department: '心内科',
+    diagnosis: '高血压，冠心病',
     medications: [
-      { name: "氯沙坦", dosage: "50mg", frequency: "每日一次", duration: "30天" },
-      { name: "阿司匹林", dosage: "100mg", frequency: "每日一次", duration: "30天" },
+      { name: '氯沙坦', dosage: '50mg', frequency: '每日一次', duration: '30天' },
+      { name: '阿司匹林', dosage: '100mg', frequency: '每日一次', duration: '30天' },
     ],
-    notes: "监测血压，如收缩压低于100mmHg，停用氯沙坦",
-    status: "已完成",
-    uploadedBy: "王医生",
-    uploadedAt: "2023-05-10 09:45",
-    tags: ["心血管", "长期用药"],
-    size: "0.9 MB",
+    notes: '监测血压，如收缩压低于100mmHg，停用氯沙坦',
+    status: '已完成',
+    uploadedBy: '王医生',
+    uploadedAt: '2023-05-10 09:45',
+    tags: ['心血管', '长期用药'],
+    size: '0.9 MB',
   },
   {
-    id: "rx-003",
-    fileName: "处方-王五-20230508.pdf",
-    thumbnailUrl: "/placeholder.svg?key=5gqho",
-    fileUrl: "/placeholder.svg?key=t86qe",
-    patientName: "王五",
-    patientId: "P-10103",
-    issueDate: "2023-05-08",
-    doctor: "张医生",
-    department: "呼吸科",
-    diagnosis: "社区获得性肺炎",
+    id: 'rx-003',
+    fileName: '处方-王五-20230508.pdf',
+    thumbnailUrl: '/placeholder.svg?key=5gqho',
+    fileUrl: '/placeholder.svg?key=t86qe',
+    patientName: '王五',
+    patientId: 'P-10103',
+    issueDate: '2023-05-08',
+    doctor: '张医生',
+    department: '呼吸科',
+    diagnosis: '社区获得性肺炎',
     medications: [
-      { name: "左氧氟沙星", dosage: "0.5g", frequency: "每日一次", duration: "7天" },
-      { name: "布洛芬", dosage: "0.4g", frequency: "需要时", duration: "按需" },
+      { name: '左氧氟沙星', dosage: '0.5g', frequency: '每日一次', duration: '7天' },
+      { name: '布洛芬', dosage: '0.4g', frequency: '需要时', duration: '按需' },
     ],
-    notes: "完成抗生素疗程，即使症状改善也不要提前停药",
-    status: "已发药",
-    uploadedBy: "张医生",
-    uploadedAt: "2023-05-08 16:15",
-    tags: ["抗生素", "急性感染"],
-    size: "1.0 MB",
+    notes: '完成抗生素疗程，即使症状改善也不要提前停药',
+    status: '已发药',
+    uploadedBy: '张医生',
+    uploadedAt: '2023-05-08 16:15',
+    tags: ['抗生素', '急性感染'],
+    size: '1.0 MB',
   },
-]
+];
 
 // 处方状态映射
 const statusMap = {
-  已完成: { color: "default" },
-  待审核: { color: "warning" },
-  已发药: { color: "success" },
-  已拒绝: { color: "destructive" },
+  已完成: { color: 'default' },
+  待审核: { color: 'warning' },
+  已发药: { color: 'success' },
+  已拒绝: { color: 'destructive' },
+};
+
+interface PrescriptionUploaderProps {
+  onPrescriptionSelect?: (prescriptionPath: string) => void;
+  selectedPrescription?: string;
 }
 
-export function PrescriptionUploader() {
-  const [prescriptions, setPrescriptions] = useState(mockPrescriptions)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedStatus, setSelectedStatus] = useState("全部")
-  const [selectedPrescription, setSelectedPrescription] = useState<(typeof mockPrescriptions)[0] | null>(null)
-  const [isViewerOpen, setIsViewerOpen] = useState(false)
-  const [isUploading, setIsUploading] = useState(false)
-  const [isOcrDialogOpen, setIsOcrDialogOpen] = useState(false)
-  const [ocrImageUrl, setOcrImageUrl] = useState("")
+export function PrescriptionUploader({
+  onPrescriptionSelect,
+  selectedPrescription: _selectedPrescription,
+}: PrescriptionUploaderProps = {}) {
+  const [prescriptions, setPrescriptions] = useState(mockPrescriptions);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('全部');
+  const [selectedPrescription, setSelectedPrescription] = useState<
+    (typeof mockPrescriptions)[0] | null
+  >(null);
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isOcrDialogOpen, setIsOcrDialogOpen] = useState(false);
+  const [ocrImageUrl, setOcrImageUrl] = useState('');
 
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const ocrFileInputRef = useRef<HTMLInputElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const ocrFileInputRef = useRef<HTMLInputElement>(null);
 
   // 过滤处方
-  const filteredPrescriptions = prescriptions.filter((rx) => {
+  const filteredPrescriptions = prescriptions.filter(rx => {
     const matchesSearch =
       rx.fileName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       rx.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      rx.diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
+      rx.diagnosis.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus = selectedStatus === "全部" || rx.status === selectedStatus
+    const matchesStatus = selectedStatus === '全部' || rx.status === selectedStatus;
 
-    return matchesSearch && matchesStatus
-  })
+    return matchesSearch && matchesStatus;
+  });
 
   // 触发文件选择
   const handleUploadClick = () => {
     if (fileInputRef.current) {
-      fileInputRef.current.click()
+      fileInputRef.current.click();
     }
-  }
+  };
 
   // 触发OCR文件选择
   const handleOcrUploadClick = () => {
     if (ocrFileInputRef.current) {
-      ocrFileInputRef.current.click()
+      ocrFileInputRef.current.click();
     }
-  }
+  };
 
   // 处理文件上传
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (!files || files.length === 0) return
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    setIsUploading(true)
+    setIsUploading(true);
 
     // 模拟上传过程
     setTimeout(() => {
       const newPrescriptions = Array.from(files).map((file, index) => {
-        const now = new Date()
-        const dateStr = now.toISOString().split("T")[0]
-        const timeStr = now.toTimeString().split(" ")[0]
+        const now = new Date();
+        const dateStr = now.toISOString().split('T')[0];
+        const timeStr = now.toTimeString().split(' ')[0];
 
         return {
           id: `rx-new-${Date.now()}-${index}`,
           fileName: file.name,
-          thumbnailUrl: "/placeholder.svg?key=522uw",
-          fileUrl: "/placeholder.svg?key=kxhzd",
-          patientName: "待关联",
-          patientId: "待关联",
+          thumbnailUrl: '/placeholder.svg?key=522uw',
+          fileUrl: '/placeholder.svg?key=kxhzd',
+          patientName: '待关联',
+          patientId: '待关联',
           issueDate: dateStr,
-          doctor: "当前用户",
-          department: "待填写",
-          diagnosis: "待填写",
+          doctor: '当前用户',
+          department: '待填写',
+          diagnosis: '待填写',
           medications: [],
-          notes: "新上传的处方，等待描述",
-          status: "待审核",
-          uploadedBy: "当前用户",
+          notes: '新上传的处方，等待描述',
+          status: '待审核',
+          uploadedBy: '当前用户',
           uploadedAt: `${dateStr} ${timeStr}`,
-          tags: ["新上传"],
+          tags: ['新上传'],
           size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
-        }
-      })
+        };
+      });
 
-      setPrescriptions([...newPrescriptions, ...prescriptions])
-      setIsUploading(false)
+      setPrescriptions([...newPrescriptions, ...prescriptions]);
+      setIsUploading(false);
 
       // 重置文件输入
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""
+        fileInputRef.current.value = '';
       }
-    }, 1500)
-  }
+    }, 1500);
+  };
 
   // 处理OCR文件上传
   const handleOcrFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (!files || files.length === 0) return
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    const file = files[0]
-    const reader = new FileReader()
+    const file = files[0];
+    const reader = new FileReader();
 
-    reader.onload = (event) => {
-      if (event.target && typeof event.target.result === "string") {
-        setOcrImageUrl(event.target.result)
-        setIsOcrDialogOpen(true)
+    reader.onload = event => {
+      if (event.target && typeof event.target.result === 'string') {
+        setOcrImageUrl(event.target.result);
+        setIsOcrDialogOpen(true);
       }
-    }
+    };
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
 
     // 重置文件输入
     if (ocrFileInputRef.current) {
-      ocrFileInputRef.current.value = ""
+      ocrFileInputRef.current.value = '';
     }
-  }
+  };
 
   // 处理OCR结果
   const handleOcrComplete = (result: any) => {
-    const now = new Date()
-    const dateStr = now.toISOString().split("T")[0]
-    const timeStr = now.toTimeString().split(" ")[0]
+    const now = new Date();
+    const dateStr = now.toISOString().split('T')[0];
+    const timeStr = now.toTimeString().split(' ')[0];
 
     const newPrescription = {
       id: `rx-ocr-${Date.now()}`,
       fileName: `处方-${result.patientInfo.name}-${result.prescriptionInfo.date}.pdf`,
-      thumbnailUrl: "/placeholder.svg?key=ce9uh",
+      thumbnailUrl: '/placeholder.svg?key=ce9uh',
       fileUrl: ocrImageUrl,
       patientName: result.patientInfo.name,
       patientId: result.patientInfo.id,
@@ -225,27 +271,27 @@ export function PrescriptionUploader() {
         duration: med.duration,
       })),
       notes: result.additionalNotes,
-      status: "待审核",
-      uploadedBy: "当前用户(OCR)",
+      status: '待审核',
+      uploadedBy: '当前用户(OCR)',
       uploadedAt: `${dateStr} ${timeStr}`,
-      tags: ["OCR识别", "待审核"],
-      size: "1.0 MB",
-    }
+      tags: ['OCR识别', '待审核'],
+      size: '1.0 MB',
+    };
 
-    setPrescriptions([newPrescription, ...prescriptions])
-    setIsOcrDialogOpen(false)
-  }
+    setPrescriptions([newPrescription, ...prescriptions]);
+    setIsOcrDialogOpen(false);
+  };
 
   // 查看处方
   const viewPrescription = (prescription: (typeof mockPrescriptions)[0]) => {
-    setSelectedPrescription(prescription)
-    setIsViewerOpen(true)
-  }
+    setSelectedPrescription(prescription);
+    setIsViewerOpen(true);
+  };
 
   // 删除处方
   const deletePrescription = (id: string) => {
-    setPrescriptions(prescriptions.filter((rx) => rx.id !== id))
-  }
+    setPrescriptions(prescriptions.filter(rx => rx.id !== id));
+  };
 
   return (
     <div className="space-y-6">
@@ -269,7 +315,7 @@ export function PrescriptionUploader() {
                     placeholder="搜索患者姓名、文件名或诊断..."
                     className="pl-8"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                   />
                 </div>
                 <Select value={selectedStatus} onValueChange={setSelectedStatus}>
@@ -299,30 +345,47 @@ export function PrescriptionUploader() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredPrescriptions.map((prescription) => (
+                    {filteredPrescriptions.map(prescription => (
                       <TableRow key={prescription.id}>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-gray-400" />
-                            <div className="font-medium truncate max-w-[200px]" title={prescription.fileName}>
+                            <FileText className="h-5 w-5 text-muted-foreground/50" />
+                            <div
+                              className="font-medium truncate max-w-[200px]"
+                              title={prescription.fileName}
+                            >
                               {prescription.fileName}
                             </div>
                           </div>
                         </TableCell>
                         <TableCell>
                           {prescription.patientName}
-                          <div className="text-xs text-muted-foreground">{prescription.patientId}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {prescription.patientId}
+                          </div>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">{prescription.doctor}</TableCell>
-                        <TableCell className="hidden md:table-cell">{prescription.issueDate}</TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {prescription.doctor}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {prescription.issueDate}
+                        </TableCell>
                         <TableCell>
-                          <Badge variant={statusMap[prescription.status as keyof typeof statusMap]?.color as any}>
+                          <Badge
+                            variant={
+                              statusMap[prescription.status as keyof typeof statusMap]?.color as any
+                            }
+                          >
                             {prescription.status}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="sm" onClick={() => viewPrescription(prescription)}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => viewPrescription(prescription)}
+                            >
                               <Eye className="h-4 w-4" />
                               <span className="sr-only">查看</span>
                             </Button>
@@ -349,9 +412,9 @@ export function PrescriptionUploader() {
 
               {filteredPrescriptions.length === 0 && (
                 <div className="text-center py-10">
-                  <FileText className="h-12 w-12 mx-auto text-gray-400" />
+                  <FileText className="h-12 w-12 mx-auto text-muted-foreground/50" />
                   <h3 className="mt-2 text-lg font-medium">没有找到匹配的处方</h3>
-                  <p className="mt-1 text-gray-500">尝试调整搜索条件或上传新的处方</p>
+                  <p className="mt-1 text-muted-foreground">尝试调整搜索条件或上传新的处方</p>
                 </div>
               )}
             </TabsContent>
@@ -369,10 +432,12 @@ export function PrescriptionUploader() {
                         <CardTitle className="text-base">标准上传</CardTitle>
                         <CardDescription>上传处方文件，手动填写信息</CardDescription>
                       </CardHeader>
-                      <CardContent className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                        <Upload className="h-10 w-10 text-gray-400 mb-4" />
+                      <CardContent className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-8 text-center">
+                        <Upload className="h-10 w-10 text-muted-foreground/50 mb-4" />
                         <h3 className="text-base font-medium mb-2">拖放文件到此处或点击上传</h3>
-                        <p className="text-xs text-gray-500 mb-4">支持PDF、JPG、PNG等格式，单个文件最大10MB</p>
+                        <p className="text-xs text-muted-foreground mb-4">
+                          支持PDF、JPG、PNG等格式，单个文件最大10MB
+                        </p>
                         <input
                           type="file"
                           ref={fileInputRef}
@@ -402,10 +467,12 @@ export function PrescriptionUploader() {
                         <CardTitle className="text-base">OCR智能识别</CardTitle>
                         <CardDescription>上传处方图片，自动识别内容</CardDescription>
                       </CardHeader>
-                      <CardContent className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                        <ScanText className="h-10 w-10 text-blue-500 mb-4" />
+                      <CardContent className="flex flex-col items-center justify-center border-2 border-dashed border-border rounded-lg p-8 text-center">
+                        <ScanText className="h-10 w-10 text-primary mb-4" />
                         <h3 className="text-base font-medium mb-2">OCR处方识别</h3>
-                        <p className="text-xs text-gray-500 mb-4">上传处方图片，系统将自动识别文字内容并提取关键信息</p>
+                        <p className="text-xs text-muted-foreground mb-4">
+                          上传处方图片，系统将自动识别文字内容并提取关键信息
+                        </p>
                         <input
                           type="file"
                           ref={ocrFileInputRef}
@@ -440,8 +507,8 @@ export function PrescriptionUploader() {
           <DialogHeader>
             <DialogTitle>{selectedPrescription?.fileName}</DialogTitle>
             <DialogDescription>
-              患者: {selectedPrescription?.patientName} | 开具日期: {selectedPrescription?.issueDate} | 医生:{" "}
-              {selectedPrescription?.doctor}
+              患者: {selectedPrescription?.patientName} | 开具日期:{' '}
+              {selectedPrescription?.issueDate} | 医生: {selectedPrescription?.doctor}
             </DialogDescription>
           </DialogHeader>
 
@@ -453,7 +520,7 @@ export function PrescriptionUploader() {
                 </CardHeader>
                 <CardContent className="flex justify-center p-4">
                   <img
-                    src={selectedPrescription?.fileUrl || "/placeholder.svg"}
+                    src={selectedPrescription?.fileUrl || '/placeholder.svg'}
                     alt="处方预览"
                     className="max-w-full border rounded-md"
                   />
@@ -526,7 +593,9 @@ export function PrescriptionUploader() {
 
                   <div>
                     <Label className="text-xs text-muted-foreground">医嘱</Label>
-                    <div className="p-2 border rounded-md text-sm">{selectedPrescription?.notes}</div>
+                    <div className="p-2 border rounded-md text-sm">
+                      {selectedPrescription?.notes}
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap gap-1">
@@ -559,5 +628,5 @@ export function PrescriptionUploader() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

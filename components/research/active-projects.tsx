@@ -1,117 +1,117 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Progress } from "@/components/ui/progress"
-import { Calendar, Users, FileText, Clock, ChevronRight } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Calendar, ChevronRight, Clock, FileText, Users } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟活跃项目数据
 const activeProjects = [
   {
-    id: "proj-001",
-    title: "2型糖尿病早期干预研究",
-    type: "临床试验",
-    status: "进行中",
+    id: 'proj-001',
+    title: '2型糖尿病早期干预研究',
+    type: '临床试验',
+    status: '进行中',
     progress: 65,
-    startDate: "2025-01-15",
-    endDate: "2025-12-31",
+    startDate: '2025-01-15',
+    endDate: '2025-12-31',
     participants: 120,
     leadResearcher: {
-      name: "王教授",
-      avatar: "/compassionate-doctor-consultation.png",
+      name: '王教授',
+      avatar: '/compassionate-doctor-consultation.png',
     },
     team: [
-      { name: "李医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "张医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "赵医生", avatar: "/compassionate-doctor-consultation.png" },
+      { name: '李医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '张医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '赵医生', avatar: '/compassionate-doctor-consultation.png' },
     ],
   },
   {
-    id: "proj-002",
-    title: "高血压患者生活方式干预效果研究",
-    type: "观察性研究",
-    status: "进行中",
+    id: 'proj-002',
+    title: '高血压患者生活方式干预效果研究',
+    type: '观察性研究',
+    status: '进行中',
     progress: 42,
-    startDate: "2025-02-10",
-    endDate: "2025-10-15",
+    startDate: '2025-02-10',
+    endDate: '2025-10-15',
     participants: 85,
     leadResearcher: {
-      name: "李教授",
-      avatar: "/compassionate-doctor-consultation.png",
+      name: '李教授',
+      avatar: '/compassionate-doctor-consultation.png',
     },
     team: [
-      { name: "王医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "刘医生", avatar: "/compassionate-doctor-consultation.png" },
+      { name: '王医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '刘医生', avatar: '/compassionate-doctor-consultation.png' },
     ],
   },
   {
-    id: "proj-003",
-    title: "AI辅助诊断系统在心血管疾病中的应用",
-    type: "转化医学",
-    status: "进行中",
+    id: 'proj-003',
+    title: 'AI辅助诊断系统在心血管疾病中的应用',
+    type: '转化医学',
+    status: '进行中',
     progress: 78,
-    startDate: "2024-11-05",
-    endDate: "2025-08-20",
+    startDate: '2024-11-05',
+    endDate: '2025-08-20',
     participants: 150,
     leadResearcher: {
-      name: "张教授",
-      avatar: "/compassionate-doctor-consultation.png",
+      name: '张教授',
+      avatar: '/compassionate-doctor-consultation.png',
     },
     team: [
-      { name: "王医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "李医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "钱医生", avatar: "/compassionate-doctor-consultation.png" },
+      { name: '王医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '李医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '钱医生', avatar: '/compassionate-doctor-consultation.png' },
     ],
   },
   {
-    id: "proj-004",
-    title: "慢性肾病患者生物标志物研究",
-    type: "基础研究",
-    status: "进行中",
+    id: 'proj-004',
+    title: '慢性肾病患者生物标志物研究',
+    type: '基础研究',
+    status: '进行中',
     progress: 35,
-    startDate: "2025-03-01",
-    endDate: "2026-02-28",
+    startDate: '2025-03-01',
+    endDate: '2026-02-28',
     participants: 60,
     leadResearcher: {
-      name: "刘教授",
-      avatar: "/compassionate-doctor-consultation.png",
+      name: '刘教授',
+      avatar: '/compassionate-doctor-consultation.png',
     },
     team: [
-      { name: "张医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "孙医生", avatar: "/compassionate-doctor-consultation.png" },
+      { name: '张医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '孙医生', avatar: '/compassionate-doctor-consultation.png' },
     ],
   },
   {
-    id: "proj-005",
-    title: "老年人群跌倒风险预测模型研究",
-    type: "流行病学",
-    status: "进行中",
+    id: 'proj-005',
+    title: '老年人群跌倒风险预测模型研究',
+    type: '流行病学',
+    status: '进行中',
     progress: 22,
-    startDate: "2025-03-15",
-    endDate: "2026-03-14",
+    startDate: '2025-03-15',
+    endDate: '2026-03-14',
     participants: 200,
     leadResearcher: {
-      name: "赵教授",
-      avatar: "/compassionate-doctor-consultation.png",
+      name: '赵教授',
+      avatar: '/compassionate-doctor-consultation.png',
     },
     team: [
-      { name: "王医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "钱医生", avatar: "/compassionate-doctor-consultation.png" },
-      { name: "孙医生", avatar: "/compassionate-doctor-consultation.png" },
+      { name: '王医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '钱医生', avatar: '/compassionate-doctor-consultation.png' },
+      { name: '孙医生', avatar: '/compassionate-doctor-consultation.png' },
     ],
   },
-]
+];
 
 export function ActiveProjects() {
-  const [expandedProject, setExpandedProject] = useState<string | null>(null)
+  const [expandedProject, setExpandedProject] = useState<string | null>(null);
 
   // 切换展开/折叠
   const toggleExpand = (id: string) => {
-    setExpandedProject(expandedProject === id ? null : id)
-  }
+    setExpandedProject(expandedProject === id ? null : id);
+  };
 
   return (
     <Card className="shadow-md">
@@ -120,9 +120,14 @@ export function ActiveProjects() {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {activeProjects.map((project) => (
+          {activeProjects.map(project => (
             <div key={project.id} className="border rounded-lg overflow-hidden">
-              <div className="p-3 cursor-pointer hover:bg-muted/50" onClick={() => toggleExpand(project.id)}>
+              <div
+                className="p-3 cursor-pointer hover:bg-muted/50"
+                onClick={() => toggleExpand(project.id)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(project.id); } }}
+                role="button" tabIndex={0}
+              >
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="font-medium">{project.title}</div>
@@ -172,7 +177,7 @@ export function ActiveProjects() {
                     <div className="flex items-center gap-2">
                       <Avatar className="h-8 w-8 border-2 border-medical-500">
                         <AvatarImage
-                          src={project.leadResearcher.avatar || "/placeholder.svg"}
+                          src={project.leadResearcher.avatar || '/placeholder.svg'}
                           alt={project.leadResearcher.name}
                         />
                         <AvatarFallback>{project.leadResearcher.name[0]}</AvatarFallback>
@@ -184,8 +189,14 @@ export function ActiveProjects() {
                     </div>
                     <div className="flex mt-2">
                       {project.team.map((member, index) => (
-                        <Avatar key={index} className="h-6 w-6 border border-white -ml-1 first:ml-0">
-                          <AvatarImage src={member.avatar || "/placeholder.svg"} alt={member.name} />
+                        <Avatar
+                          key={index}
+                          className="h-6 w-6 border border-white -ml-1 first:ml-0"
+                        >
+                          <AvatarImage
+                            src={member.avatar || '/placeholder.svg'}
+                            alt={member.name}
+                          />
                           <AvatarFallback>{member.name[0]}</AvatarFallback>
                         </Avatar>
                       ))}
@@ -204,8 +215,9 @@ export function ActiveProjects() {
                       <Clock className="w-4 h-4" />
                       <span>
                         {Math.round(
-                          (new Date(project.endDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-                        )}{" "}
+                          (new Date(project.endDate).getTime() - new Date().getTime()) /
+                          (1000 * 60 * 60 * 24)
+                        )}{' '}
                         天剩余
                       </span>
                     </div>
@@ -222,5 +234,5 @@ export function ActiveProjects() {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

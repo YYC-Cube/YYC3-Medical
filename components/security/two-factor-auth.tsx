@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function TwoFactorAuth() {
   return (
@@ -10,8 +10,8 @@ export function TwoFactorAuth() {
         <CardDescription>设置两步验证以增强账号安全性</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-500">两步验证功能即将推出，敬请期待。</p>
+        <p className="text-muted-foreground">两步验证功能即将推出，敬请期待。</p>
       </CardContent>
     </Card>
-  )
+  );
 }

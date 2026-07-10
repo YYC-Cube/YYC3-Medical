@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { HealthDataImport } from "./data-import"
+import { HealthDataImport } from './data-import';
 
 export function DataImportClient() {
-  return <HealthDataImport />
+  return <HealthDataImport />;
 }

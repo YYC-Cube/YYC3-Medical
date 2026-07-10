@@ -1,11 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   LineChart,
   Line,
@@ -17,8 +23,8 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-} from "recharts"
-import { Brain, Database, BarChart, Play, Pause, RefreshCw } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { Brain, Database, BarChart, Play, Pause, RefreshCw } from 'lucide-react';
 
 // 模拟训练数据
 const trainingData = [
@@ -32,7 +38,7 @@ const trainingData = [
   { epoch: 8, loss: 0.35, accuracy: 0.92, valLoss: 0.45, valAccuracy: 0.88 },
   { epoch: 9, loss: 0.32, accuracy: 0.93, valLoss: 0.43, valAccuracy: 0.89 },
   { epoch: 10, loss: 0.3, accuracy: 0.94, valLoss: 0.42, valAccuracy: 0.9 },
-]
+];
 
 // 模拟数据集信息
 const datasetInfo = {
@@ -41,45 +47,45 @@ const datasetInfo = {
   validation: 3000,
   test: 2000,
   categories: [
-    { name: "心脏病", count: 5000 },
-    { name: "糖尿病", count: 4500 },
-    { name: "肺炎", count: 4000 },
-    { name: "高血压", count: 3500 },
-    { name: "骨折", count: 3000 },
-    { name: "皮肤病", count: 2500 },
-    { name: "其他", count: 2500 },
+    { name: '心脏病', count: 5000 },
+    { name: '糖尿病', count: 4500 },
+    { name: '肺炎', count: 4000 },
+    { name: '高血压', count: 3500 },
+    { name: '骨折', count: 3000 },
+    { name: '皮肤病', count: 2500 },
+    { name: '其他', count: 2500 },
   ],
-}
+};
 
 export function ModelTrainingDashboard() {
-  const [activeTab, setActiveTab] = useState("training")
-  const [isTraining, setIsTraining] = useState(false)
-  const [trainingProgress, setTrainingProgress] = useState(0)
-  const [selectedModel, setSelectedModel] = useState("cnn")
-  const [selectedDisease, setSelectedDisease] = useState("all")
+  const [activeTab, setActiveTab] = useState('training');
+  const [isTraining, setIsTraining] = useState(false);
+  const [trainingProgress, setTrainingProgress] = useState(0);
+  const [selectedModel, setSelectedModel] = useState('cnn');
+  const [selectedDisease, setSelectedDisease] = useState('all');
 
   // 模拟开始训练
   const startTraining = () => {
-    setIsTraining(true)
-    setTrainingProgress(0)
+    setIsTraining(true);
+    setTrainingProgress(0);
 
     // 模拟训练进度
     const interval = setInterval(() => {
-      setTrainingProgress((prev) => {
+      setTrainingProgress(prev => {
         if (prev >= 100) {
-          clearInterval(interval)
-          setIsTraining(false)
-          return 100
+          clearInterval(interval);
+          setIsTraining(false);
+          return 100;
         }
-        return prev + 1
-      })
-    }, 100)
-  }
+        return prev + 1;
+      });
+    }, 100);
+  };
 
   // 模拟暂停训练
   const pauseTraining = () => {
-    setIsTraining(false)
-  }
+    setIsTraining(false);
+  };
 
   return (
     <Card className="shadow-md">
@@ -98,38 +104,42 @@ export function ModelTrainingDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">选择模型架构</label>
-                  <Select value={selectedModel} onValueChange={setSelectedModel}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="选择模型架构" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cnn">卷积神经网络 (CNN)</SelectItem>
-                      <SelectItem value="transformer">Transformer</SelectItem>
-                      <SelectItem value="resnet">ResNet-50</SelectItem>
-                      <SelectItem value="densenet">DenseNet-121</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="block text-sm font-medium mb-1">
+                    选择模型架构
+                    <Select value={selectedModel} onValueChange={setSelectedModel}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="选择模型架构" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="cnn">卷积神经网络 (CNN)</SelectItem>
+                        <SelectItem value="transformer">Transformer</SelectItem>
+                        <SelectItem value="resnet">ResNet-50</SelectItem>
+                        <SelectItem value="densenet">DenseNet-121</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </label>
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">选择疾病类别</label>
-                  <Select value={selectedDisease} onValueChange={setSelectedDisease}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="选择疾病类别" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">所有疾病</SelectItem>
-                      <SelectItem value="heart">心脏病</SelectItem>
-                      <SelectItem value="diabetes">糖尿病</SelectItem>
-                      <SelectItem value="pneumonia">肺炎</SelectItem>
-                      <SelectItem value="hypertension">高血压</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="block text-sm font-medium mb-1">
+                    选择疾病类别
+                    <Select value={selectedDisease} onValueChange={setSelectedDisease}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="选择疾病类别" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">所有疾病</SelectItem>
+                        <SelectItem value="heart">心脏病</SelectItem>
+                        <SelectItem value="diabetes">糖尿病</SelectItem>
+                        <SelectItem value="pneumonia">肺炎</SelectItem>
+                        <SelectItem value="hypertension">高血压</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </label>
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">训练进度</label>
+                  <span className="block text-sm font-medium mb-1">训练进度</span>
                   <Progress value={trainingProgress} className="h-2" />
                   <div className="flex justify-between mt-1 text-xs text-muted-foreground">
                     <span>Epoch: {Math.floor(trainingProgress / 10)} / 10</span>
@@ -158,20 +168,20 @@ export function ModelTrainingDashboard() {
 
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                  <Brain className="w-5 h-5 text-emerald-500" />
+                  <Brain className="w-5 h-5 text-success" />
                   <div>
                     <div className="font-medium">模型架构</div>
                     <div className="text-sm text-muted-foreground">
-                      {selectedModel === "cnn" && "卷积神经网络 (CNN)"}
-                      {selectedModel === "transformer" && "Transformer"}
-                      {selectedModel === "resnet" && "ResNet-50"}
-                      {selectedModel === "densenet" && "DenseNet-121"}
+                      {selectedModel === 'cnn' && '卷积神经网络 (CNN)'}
+                      {selectedModel === 'transformer' && 'Transformer'}
+                      {selectedModel === 'resnet' && 'ResNet-50'}
+                      {selectedModel === 'densenet' && 'DenseNet-121'}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                  <Database className="w-5 h-5 text-blue-500" />
+                  <Database className="w-5 h-5 text-primary" />
                   <div>
                     <div className="font-medium">数据集大小</div>
                     <div className="text-sm text-muted-foreground">
@@ -181,12 +191,14 @@ export function ModelTrainingDashboard() {
                 </div>
 
                 <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                  <BarChart className="w-5 h-5 text-purple-500" />
+                  <BarChart className="w-5 h-5 text-primary" />
                   <div>
                     <div className="font-medium">当前性能</div>
                     <div className="text-sm text-muted-foreground">
-                      准确率:{" "}
-                      {trainingData[Math.min(Math.floor(trainingProgress / 10), 9)]?.accuracy.toFixed(2) || "0.00"}
+                      准确率:{' '}
+                      {trainingData[
+                        Math.min(Math.floor(trainingProgress / 10), 9)
+                      ]?.accuracy.toFixed(2) || '0.00'}
                     </div>
                   </div>
                 </div>
@@ -204,10 +216,10 @@ export function ModelTrainingDashboard() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="accuracy" name="训练准确率" stroke="#10b981" />
-                  <Line type="monotone" dataKey="valAccuracy" name="验证准确率" stroke="#3b82f6" />
-                  <Line type="monotone" dataKey="loss" name="训练损失" stroke="#ef4444" />
-                  <Line type="monotone" dataKey="valLoss" name="验证损失" stroke="#f97316" />
+                  <Line type="monotone" dataKey="accuracy" name="训练准确率" stroke="var(--success)" />
+                  <Line type="monotone" dataKey="valAccuracy" name="验证准确率" stroke="var(--primary)" />
+                  <Line type="monotone" dataKey="loss" name="训练损失" stroke="var(--destructive)" />
+                  <Line type="monotone" dataKey="valLoss" name="验证损失" stroke="var(--warning)" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -219,12 +231,21 @@ export function ModelTrainingDashboard() {
                 <h3 className="text-lg font-medium mb-2">数据集分布</h3>
                 <div className="h-60">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={datasetInfo.categories} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <AreaChart
+                      data={datasetInfo.categories}
+                      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
                       <Tooltip />
-                      <Area type="monotone" dataKey="count" name="样本数量" stroke="#8884d8" fill="#8884d8" />
+                      <Area
+                        type="monotone"
+                        dataKey="count"
+                        name="样本数量"
+                        stroke="var(--primary)"
+                        fill="var(--primary)"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -236,9 +257,9 @@ export function ModelTrainingDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={[
-                        { name: "训练集", value: datasetInfo.training },
-                        { name: "验证集", value: datasetInfo.validation },
-                        { name: "测试集", value: datasetInfo.test },
+                        { name: '训练集', value: datasetInfo.training },
+                        { name: '验证集', value: datasetInfo.validation },
+                        { name: '测试集', value: datasetInfo.test },
                       ]}
                       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
@@ -247,7 +268,7 @@ export function ModelTrainingDashboard() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Line type="monotone" dataKey="value" name="样本数量" stroke="#10b981" />
+                      <Line type="monotone" dataKey="value" name="样本数量" stroke="var(--success)" />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -343,5 +364,5 @@ export function ModelTrainingDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

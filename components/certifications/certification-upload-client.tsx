@@ -1,37 +1,37 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PageHeader } from "@/components/page-header"
-import { FileCheck, Info } from "lucide-react"
-import { CertificationUploadForm } from "@/components/profile/certifications/certification-upload-form"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { useState } from "react"
-import { useToast } from "@/hooks/use-toast"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PageHeader } from '@/components/page-header';
+import { FileCheck, Info } from 'lucide-react';
+import { CertificationUploadForm } from '@/components/profile/certifications/certification-upload-form';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export function CertificationUploadClient() {
-  const { toast } = useToast()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSave = (data: any) => {
-    setIsSubmitting(true)
+    setIsSubmitting(true);
     // 模拟保存操作
     setTimeout(() => {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
       toast({
-        title: "资质已提交",
-        description: "您的资质信息已成功提交，我们将尽快进行审核。",
-      })
-    }, 1000)
-  }
+        title: '资质已提交',
+        description: '您的资质信息已成功提交，我们将尽快进行审核。',
+      });
+    }, 1000);
+  };
 
   const handleCancel = () => {
     // 处理取消操作
     toast({
-      title: "操作已取消",
-      description: "您已取消资质上传。",
-      variant: "destructive",
-    })
-  }
+      title: '操作已取消',
+      description: '您已取消资质上传。',
+      variant: 'destructive',
+    });
+  };
 
   return (
     <div className="container mx-auto py-6 space-y-8">
@@ -59,5 +59,5 @@ export function CertificationUploadClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

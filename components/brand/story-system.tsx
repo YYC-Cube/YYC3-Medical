@@ -1,19 +1,24 @@
-import { cn } from "@/lib/utils"
-import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
-import Image from "next/image"
+import { cn } from '@/lib/utils';
+import {
+  MedicalCard,
+  MedicalCardContent,
+  MedicalCardHeader,
+  MedicalCardTitle,
+} from '@/components/ui/medical-card';
+import Image from 'next/image';
 
 interface StoryScenarioProps {
-  title: string
-  description: string
-  image: string
-  className?: string
+  title: string;
+  description: string;
+  image: string;
+  className?: string;
 }
 
 function StoryScenario({ title, description, image, className }: StoryScenarioProps) {
   return (
-    <MedicalCard className={cn("overflow-hidden", className)}>
+    <MedicalCard className={cn('overflow-hidden', className)}>
       <div className="h-48 relative">
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || '/placeholder.svg'} alt={title} fill className="object-cover" />
       </div>
       <MedicalCardHeader>
         <MedicalCardTitle className="text-base">{title}</MedicalCardTitle>
@@ -22,16 +27,16 @@ function StoryScenario({ title, description, image, className }: StoryScenarioPr
         <p className="text-sm text-medical-600">{description}</p>
       </MedicalCardContent>
     </MedicalCard>
-  )
+  );
 }
 
 interface StorySystemProps {
-  className?: string
+  className?: string;
 }
 
 export function StorySystem({ className }: StorySystemProps) {
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       <div>
         <h3 className="text-lg font-medium mb-3">品牌故事</h3>
         <MedicalCard>
@@ -145,5 +150,5 @@ export function StorySystem({ className }: StorySystemProps) {
         </MedicalCard>
       </div>
     </div>
-  )
+  );
 }

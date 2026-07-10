@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { useTranslation } from "@/hooks/use-translation"
-import { Button } from "@/components/ui/button"
-import { Globe } from "lucide-react"
+import { useTranslation } from '@/hooks/use-translation';
+import { Button } from '@/components/ui/button';
+import { Globe } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,13 +10,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Switch } from "@/components/ui/switch"
-import { useAutoTranslation } from "@/contexts/auto-translation-context"
+} from '@/components/ui/dropdown-menu';
+import { Switch } from '@/components/ui/switch';
+import { useAutoTranslation } from '@/contexts/auto-translation-context';
 
 export function LanguageSwitcher() {
-  const { locale, setLocale, availableLocales, localeName } = useTranslation()
-  const { isEnabled, setIsEnabled, clearCache } = useAutoTranslation()
+  const { locale, setLocale, availableLocales, localeName } = useTranslation();
+  const { isEnabled, setIsEnabled, clearCache } = useAutoTranslation();
 
   return (
     <DropdownMenu>
@@ -29,8 +29,12 @@ export function LanguageSwitcher() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>选择语言</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {availableLocales.map((lang) => (
-          <DropdownMenuItem key={lang} onClick={() => setLocale(lang)} className={locale === lang ? "bg-accent" : ""}>
+        {availableLocales.map(lang => (
+          <DropdownMenuItem
+            key={lang}
+            onClick={() => setLocale(lang)}
+            className={locale === lang ? 'bg-accent' : ''}
+          >
             {localeName[lang]}
             {locale === lang && <span className="ml-2">✓</span>}
           </DropdownMenuItem>
@@ -43,5 +47,5 @@ export function LanguageSwitcher() {
         <DropdownMenuItem onClick={clearCache}>清除翻译缓存</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

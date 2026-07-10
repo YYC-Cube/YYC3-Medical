@@ -1,6 +1,6 @@
-import { NavigationTester } from "@/components/navigation-tester"
-import { Card3d, Card3dContent, Card3dHeader, Card3dTitle } from "@/components/ui/3d-card"
-import { PageTransition } from "@/components/ui/page-transition"
+import { NavigationTester } from '@/components/navigation-tester';
+import { Card3d, Card3dContent, Card3dHeader, Card3dTitle } from '@/components/ui/3d-card';
+import { PageTransition } from '@/components/ui/page-transition';
 
 export default function NavigationTestPage() {
   return (
@@ -24,5 +24,5 @@ export default function NavigationTestPage() {
         </div>
       </div>
     </PageTransition>
-  )
+  );
 }

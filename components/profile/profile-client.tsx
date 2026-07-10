@@ -1,81 +1,95 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { User, Mail, Phone, Building, Award, Shield, Bell } from "lucide-react"
-import { AvatarUpload } from "./avatar-upload"
-import { DEFAULT_AVATAR, getAvatarByRole } from "@/types/avatar-presets"
-import { useToast } from "@/components/ui/use-toast"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { User, Mail, Phone, Building, Award, Shield, Bell } from 'lucide-react';
+import { AvatarUpload } from './avatar-upload';
+import { DEFAULT_AVATAR, getAvatarByRole } from '@/types/avatar-presets';
+import { useToast } from '@/components/ui/use-toast';
 
 export function ProfileClient() {
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   // 模拟用户数据
   const [user, setUser] = useState({
-    name: "张医生",
-    role: "主治医师",
-    email: "zhang.doctor@medinexus.com",
-    phone: "138****5678",
-    department: "内科",
-    title: "主治医师",
-    hospital: "协和医院",
-    bio: "从事内科临床工作10年，专注于心血管疾病的诊断与治疗。",
-    avatar: getAvatarByRole("医生"), // 使用基于角色的默认头像
-    specialties: ["心血管疾病", "高血压", "冠心病"],
+    name: '张医生',
+    role: '主治医师',
+    email: 'zhang.doctor@medinexus.com',
+    phone: '138****5678',
+    department: '内科',
+    title: '主治医师',
+    hospital: '协和医院',
+    bio: '从事内科临床工作10年，专注于心血管疾病的诊断与治疗。',
+    avatar: getAvatarByRole('医生'), // 使用基于角色的默认头像
+    specialties: ['心血管疾病', '高血压', '冠心病'],
     certifications: [
-      { name: "医师资格证", status: "已验证", expiry: "2030-12-31" },
-      { name: "专科医师证书", status: "已验证", expiry: "2028-06-30" },
+      { name: '医师资格证', status: '已验证', expiry: '2030-12-31' },
+      { name: '专科医师证书', status: '已验证', expiry: '2028-06-30' },
     ],
-  })
+  });
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({ ...user })
-  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({ ...user });
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleAvatarChange = (file: File | null, preview: string | null) => {
-    setAvatarFile(file)
+    setAvatarFile(file);
     if (preview) {
-      setFormData((prev) => ({ ...prev, avatar: preview }))
+      setFormData(prev => ({ ...prev, avatar: preview }));
     } else {
-      setFormData((prev) => ({ ...prev, avatar: DEFAULT_AVATAR }))
+      setFormData(prev => ({ ...prev, avatar: DEFAULT_AVATAR }));
     }
-  }
+  };
 
   const handleSave = () => {
     // 如果有新头像文件，这里会处理上传
     if (avatarFile) {
       // 实际项目中，这里会调用API上传头像
-      console.log("上传头像文件:", avatarFile)
+      debug('上传头像文件:', avatarFile);
       // 模拟上传成功
       setTimeout(() => {
-        console.log("头像上传成功")
-      }, 1000)
+        debug('头像上传成功');
+      }, 1000);
     }
 
-    setUser(formData)
-    setIsEditing(false)
-    setAvatarFile(null)
+    setUser(formData);
+    setIsEditing(false);
+    setAvatarFile(null);
 
     toast({
-      title: "保存成功",
-      description: "您的个人资料已更新",
-    })
-  }
+      title: '保存成功',
+      description: '您的个人资料已更新',
+    });
+  };
 
   const handleCancel = () => {
-    setFormData(user)
-    setIsEditing(false)
-  }
+    setFormData(user);
+    setIsEditing(false);
+  };
 
   return (
     <Tabs defaultValue="basic" className="space-y-4">
@@ -94,7 +108,11 @@ export function ProfileClient() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex flex-col items-center sm:flex-row sm:items-start gap-6">
-              <AvatarUpload currentAvatar={formData.avatar} onAvatarChange={handleAvatarChange} size="large" />
+              <AvatarUpload
+                currentAvatar={formData.avatar}
+                onAvatarChange={handleAvatarChange}
+                size="large"
+              />
               <div className="flex-1 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -104,7 +122,7 @@ export function ProfileClient() {
                       <Input
                         id="name"
                         value={formData.name}
-                        onChange={(e) => handleChange("name", e.target.value)}
+                        onChange={e => handleChange('name', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -117,7 +135,7 @@ export function ProfileClient() {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => handleChange("email", e.target.value)}
+                        onChange={e => handleChange('email', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -129,7 +147,7 @@ export function ProfileClient() {
                       <Input
                         id="phone"
                         value={formData.phone}
-                        onChange={(e) => handleChange("phone", e.target.value)}
+                        onChange={e => handleChange('phone', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -141,7 +159,7 @@ export function ProfileClient() {
                       <Input
                         id="department"
                         value={formData.department}
-                        onChange={(e) => handleChange("department", e.target.value)}
+                        onChange={e => handleChange('department', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -153,7 +171,7 @@ export function ProfileClient() {
                       <Input
                         id="title"
                         value={formData.title}
-                        onChange={(e) => handleChange("title", e.target.value)}
+                        onChange={e => handleChange('title', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -165,7 +183,7 @@ export function ProfileClient() {
                       <Input
                         id="hospital"
                         value={formData.hospital}
-                        onChange={(e) => handleChange("hospital", e.target.value)}
+                        onChange={e => handleChange('hospital', e.target.value)}
                         disabled={!isEditing}
                       />
                     </div>
@@ -177,7 +195,7 @@ export function ProfileClient() {
                     id="bio"
                     rows={4}
                     value={formData.bio}
-                    onChange={(e) => handleChange("bio", e.target.value)}
+                    onChange={e => handleChange('bio', e.target.value)}
                     disabled={!isEditing}
                   />
                 </div>
@@ -217,7 +235,10 @@ export function ProfileClient() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {user.specialties.map((specialty, index) => (
-                  <div key={index} className="bg-medical-50 text-medical-700 px-3 py-1 rounded-full text-sm">
+                  <div
+                    key={index}
+                    className="bg-medical-50 text-medical-700 px-3 py-1 rounded-full text-sm"
+                  >
                     {specialty}
                   </div>
                 ))}
@@ -233,7 +254,10 @@ export function ProfileClient() {
               </div>
               <div className="space-y-3">
                 {user.certifications.map((cert, index) => (
-                  <div key={index} className="flex justify-between items-center p-3 border rounded-md">
+                  <div
+                    key={index}
+                    className="flex justify-between items-center p-3 border rounded-md"
+                  >
                     <div className="flex items-center">
                       <Shield className="h-5 w-5 mr-3 text-medical-500" />
                       <div>
@@ -242,7 +266,7 @@ export function ProfileClient() {
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded-full mr-2">
+                      <span className="text-sm text-success bg-success/5 px-2 py-1 rounded-full mr-2">
                         {cert.status}
                       </span>
                       <Button variant="ghost" size="sm">
@@ -381,5 +405,5 @@ export function ProfileClient() {
         </Card>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

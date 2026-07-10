@@ -1,16 +1,17 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { PageHeader } from "@/components/page-header"
-import { ShieldCheck, Plus, ExternalLink, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { VerificationProvidersList } from "@/components/certifications/verification-providers-list"
-import { VerificationProcessGuide } from "@/components/certifications/verification-process-guide"
-import { VerificationProviderSettings } from "@/components/certifications/verification-provider-settings"
+import { useState } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { ShieldCheck, Plus, ExternalLink, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { VerificationProvidersList } from '@/components/certifications/verification-providers-list';
+import { VerificationProcessGuide } from '@/components/certifications/verification-process-guide';
+import { VerificationProviderSettings } from '@/components/certifications/verification-provider-settings';
 import {
   Dialog,
   DialogContent,
@@ -19,26 +20,32 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { useToast } from "@/hooks/use-toast"
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 
 export function VerificationProvidersClient() {
-  const [activeTab, setActiveTab] = useState("providers")
-  const [showAddProviderDialog, setShowAddProviderDialog] = useState(false)
-  const { toast } = useToast()
+  const [activeTab, setActiveTab] = useState('providers');
+  const [showAddProviderDialog, setShowAddProviderDialog] = useState(false);
+  const { toast } = useToast();
 
   // 模拟添加验证机构
   const handleAddProvider = (data: any) => {
-    console.log("添加验证机构:", data)
-    setShowAddProviderDialog(false)
+    debug('添加验证机构:', data);
+    setShowAddProviderDialog(false);
     toast({
-      title: "验证机构已添加",
-      description: "新的验证机构已成功添加到系统中。",
-    })
-  }
+      title: '验证机构已添加',
+      description: '新的验证机构已成功添加到系统中。',
+    });
+  };
 
   return (
     <div className="container mx-auto py-6 space-y-8">
@@ -94,13 +101,22 @@ export function VerificationProvidersClient() {
                   <Label htmlFor="provider-url" className="text-right">
                     API 地址
                   </Label>
-                  <Input id="provider-url" placeholder="https://api.example.com/verify" className="col-span-3" />
+                  <Input
+                    id="provider-url"
+                    placeholder="https://api.example.com/verify"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="provider-key" className="text-right">
                     API 密钥
                   </Label>
-                  <Input id="provider-key" type="password" placeholder="输入API密钥" className="col-span-3" />
+                  <Input
+                    id="provider-key"
+                    type="password"
+                    placeholder="输入API密钥"
+                    className="col-span-3"
+                  />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="provider-desc" className="text-right">
@@ -134,7 +150,12 @@ export function VerificationProvidersClient() {
         </div>
       </div>
 
-      <Tabs defaultValue="providers" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      <Tabs
+        defaultValue="providers"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-4"
+      >
         <TabsList>
           <TabsTrigger value="providers">验证机构</TabsTrigger>
           <TabsTrigger value="process">验证流程</TabsTrigger>
@@ -191,7 +212,9 @@ export function VerificationProvidersClient() {
                   <CardTitle className="text-base">API 集成指南</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-sm text-muted-foreground mb-4">了解如何将验证机构的API集成到您的系统中</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    了解如何将验证机构的API集成到您的系统中
+                  </p>
                   <Button variant="outline" size="sm" className="w-full">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     查看文档
@@ -203,7 +226,9 @@ export function VerificationProvidersClient() {
                   <CardTitle className="text-base">验证流程最佳实践</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-sm text-muted-foreground mb-4">了解资质验证流程的最佳实践和推荐配置</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    了解资质验证流程的最佳实践和推荐配置
+                  </p>
                   <Button variant="outline" size="sm" className="w-full">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     查看文档
@@ -215,7 +240,9 @@ export function VerificationProvidersClient() {
                   <CardTitle className="text-base">故障排除指南</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-sm text-muted-foreground mb-4">解决验证机构集成和使用过程中的常见问题</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    解决验证机构集成和使用过程中的常见问题
+                  </p>
                   <Button variant="outline" size="sm" className="w-full">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     查看文档
@@ -227,5 +254,5 @@ export function VerificationProvidersClient() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

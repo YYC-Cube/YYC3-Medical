@@ -1,11 +1,11 @@
 interface ProjectStats {
-  totalFiles: number
-  pages: number
-  components: number
-  services: number
-  hooks: number
-  types: number
-  configs: number
+  totalFiles: number;
+  pages: number;
+  components: number;
+  services: number;
+  hooks: number;
+  types: number;
+  configs: number;
 }
 
 export function analyzeProject(): ProjectStats {
@@ -17,7 +17,7 @@ export function analyzeProject(): ProjectStats {
     hooks: 0,
     types: 0,
     configs: 0,
-  }
+  };
 
   // 统计各类文件
   const fileCategories = {
@@ -28,9 +28,9 @@ export function analyzeProject(): ProjectStats {
     "hooks/**/*.ts": "hooks",
     "types/**/*.ts": "types",
     "*.config.*": "configs",
-  }
+  };
 
-  return stats
+  return stats;
 }
 
 // 项目文件清单
@@ -144,4 +144,4 @@ export const PROJECT_MANIFEST = {
     "types/medical.ts",
     // ... 更多类型
   ],
-}
+};

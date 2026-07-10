@@ -1,28 +1,24 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { AuthGuard } from "@/components/auth/AuthGuard"
-import { AdminSidebar } from "@/components/admin/admin-sidebar"
-import { AdminHeader } from "@/components/admin/admin-header"
+import { AdminHeader } from '@/components/admin/admin-header';
+import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { AuthGuard } from '@/components/auth/AuthGuard';
+import type { Metadata } from 'next';
+import type React from 'react';
 
 export const metadata: Metadata = {
-  title: "管理平台 | 言语云³",
-  description: "医疗系统管理平台",
-}
+  title: '管理平台 | 言语云³',
+  description: '医疗系统管理平台',
+};
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AuthGuard requiredRoles={["admin", "super_admin"]}>
-      <div className="flex h-screen overflow-hidden">
+    <AuthGuard requiredRoles={['admin', 'super_admin']}>
+      <div className="flex h-screen overflow-hidden bg-medical-50/40">
         <AdminSidebar />
         <div className="flex flex-col flex-1 overflow-hidden">
           <AdminHeader />
-          <main className="flex-1 overflow-y-auto bg-gray-50 p-4">{children}</main>
+          <main className="flex-1 overflow-y-auto bg-medical-50/40 p-4">{children}</main>
         </div>
       </div>
     </AuthGuard>
-  )
+  );
 }

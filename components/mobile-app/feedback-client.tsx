@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import { MobileAppFeedback } from "@/components/mobile-app/mobile-app-feedback"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { MobileAppFeedback } from '@/components/mobile-app/mobile-app-feedback';
 
 export default function MobileAppFeedbackClient() {
   return (
@@ -14,5 +14,5 @@ export default function MobileAppFeedbackClient() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

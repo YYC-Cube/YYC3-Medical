@@ -1,122 +1,122 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  systemMonitoringService,
+  type AlertRule,
+  type SystemAlert,
+  type SystemMetrics,
+} from '@/services/enhanced-system-monitoring';
 import {
   Activity,
+  AlertTriangle,
+  BarChart3,
+  CheckCircle,
   Cpu,
+  Database,
   HardDrive,
   MemoryStick,
   Network,
-  Database,
-  Users,
-  AlertTriangle,
-  CheckCircle,
-  Settings,
-  BarChart3,
   RefreshCw,
-} from "lucide-react"
-import {
-  systemMonitoringService,
-  type SystemMetrics,
-  type SystemAlert,
-  type AlertRule,
-} from "@/services/enhanced-system-monitoring"
+  Settings,
+  Users,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export function EnhancedSystemMonitor() {
-  const [metrics, setMetrics] = useState<SystemMetrics | null>(null)
-  const [alerts, setAlerts] = useState<SystemAlert[]>([])
-  const [alertRules, setAlertRules] = useState<AlertRule[]>([])
-  const [healthReport, setHealthReport] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [autoRefresh, setAutoRefresh] = useState(true)
+  const [metrics, setMetrics] = useState<SystemMetrics | null>(null);
+  const [alerts, setAlerts] = useState<SystemAlert[]>([]);
+  const [alertRules, setAlertRules] = useState<AlertRule[]>([]);
+  const [healthReport, setHealthReport] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [autoRefresh, setAutoRefresh] = useState(true);
 
   useEffect(() => {
-    loadData()
+    loadData();
 
     if (autoRefresh) {
-      const interval = setInterval(loadData, 30000) // 30秒刷新
-      return () => clearInterval(interval)
+      const interval = setInterval(loadData, 30000); // 30秒刷新
+      return () => clearInterval(interval);
     }
-  }, [autoRefresh])
+  }, [autoRefresh]);
 
-  const loadData = async () => {
+  async function loadData() {
     try {
       const [metricsData, alertsData, rulesData, reportData] = await Promise.all([
         systemMonitoringService.getSystemMetrics(),
-        systemMonitoringService.getSystemAlerts("active"),
-        systemMonitoringService.getAlertRules(),
+        systemMonitoringService.getAllSystemAlerts(),
+        systemMonitoringService.getAllAlertRules(),
         systemMonitoringService.generateSystemHealthReport(),
-      ])
+      ]);
 
-      setMetrics(metricsData)
-      setAlerts(alertsData)
-      setAlertRules(rulesData)
-      setHealthReport(reportData)
+      setMetrics(metricsData);
+      setAlerts(alertsData);
+      setAlertRules(rulesData);
+      setHealthReport(reportData);
     } catch (error) {
-      console.error("加载监控数据失败:", error)
+      console.error('加载监控数据失败:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
   const handleAcknowledgeAlert = async (alertId: string) => {
     try {
-      await systemMonitoringService.acknowledgeAlert(alertId, "current-user")
-      loadData()
+      await systemMonitoringService.acknowledgeAlert(alertId, 'current-user');
+      loadData();
     } catch (error) {
-      console.error("确认告警失败:", error)
+      console.error('确认告警失败:', error);
     }
-  }
+  };
 
   const handleResolveAlert = async (alertId: string) => {
     try {
-      await systemMonitoringService.resolveAlert(alertId)
-      loadData()
+      await systemMonitoringService.resolveAlert(alertId);
+      loadData();
     } catch (error) {
-      console.error("解决告警失败:", error)
+      console.error('解决告警失败:', error);
     }
-  }
+  };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "low":
-        return "default"
-      case "medium":
-        return "secondary"
-      case "high":
-        return "destructive"
-      case "critical":
-        return "destructive"
+      case 'low':
+        return 'default';
+      case 'medium':
+        return 'secondary';
+      case 'high':
+        return 'destructive';
+      case 'critical':
+        return 'destructive';
       default:
-        return "default"
+        return 'default';
     }
-  }
+  };
 
   const getHealthStatusColor = (status: string) => {
     switch (status) {
-      case "good":
-        return "text-green-500"
-      case "warning":
-        return "text-yellow-500"
-      case "critical":
-        return "text-red-500"
+      case 'good':
+        return 'text-success';
+      case 'warning':
+        return 'text-warning';
+      case 'critical':
+        return 'text-destructive';
       default:
-        return "text-gray-500"
+        return 'text-muted-foreground';
     }
-  }
+  };
 
   const formatBytes = (bytes: number) => {
-    if (bytes === 0) return "0 B"
-    const k = 1024
-    const sizes = ["B", "KB", "MB", "GB", "TB"]
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
-  }
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
 
   if (isLoading || !metrics) {
     return (
@@ -126,7 +126,7 @@ export function EnhancedSystemMonitor() {
           <span>加载监控数据中...</span>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -137,9 +137,13 @@ export function EnhancedSystemMonitor() {
           <p className="text-muted-foreground">实时系统性能监控和告警管理</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant={autoRefresh ? "default" : "outline"} size="sm" onClick={() => setAutoRefresh(!autoRefresh)}>
+          <Button
+            variant={autoRefresh ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setAutoRefresh(!autoRefresh)}
+          >
             <Activity className="h-4 w-4 mr-2" />
-            {autoRefresh ? "自动刷新" : "手动刷新"}
+            {autoRefresh ? '自动刷新' : '手动刷新'}
           </Button>
           <Button size="sm" onClick={loadData}>
             <RefreshCw className="h-4 w-4 mr-2" />
@@ -160,23 +164,29 @@ export function EnhancedSystemMonitor() {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <div className={`text-3xl font-bold ${getHealthStatusColor(healthReport.overallHealth)}`}>
-                  {healthReport.overallHealth === "good" && "良好"}
-                  {healthReport.overallHealth === "warning" && "警告"}
-                  {healthReport.overallHealth === "critical" && "严重"}
+                <div
+                  className={`text-3xl font-bold ${getHealthStatusColor(healthReport.overallHealth)}`}
+                >
+                  {healthReport.overallHealth === 'good' && '良好'}
+                  {healthReport.overallHealth === 'warning' && '警告'}
+                  {healthReport.overallHealth === 'critical' && '严重'}
                 </div>
                 <p className="text-sm text-muted-foreground">整体状态</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-red-500">{healthReport.activeAlerts.length}</div>
+                <div className="text-3xl font-bold text-destructive">
+                  {healthReport.activeAlerts.length}
+                </div>
                 <p className="text-sm text-muted-foreground">活跃告警</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-500">{healthReport.metrics.application.activeUsers}</div>
+                <div className="text-3xl font-bold text-primary">
+                  {healthReport.metrics.application.activeUsers}
+                </div>
                 <p className="text-sm text-muted-foreground">在线用户</p>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-green-500">
+                <div className="text-3xl font-bold text-success">
                   {healthReport.metrics.application.requestsPerSecond}
                 </div>
                 <p className="text-sm text-muted-foreground">请求/秒</p>
@@ -307,7 +317,9 @@ export function EnhancedSystemMonitor() {
                   </div>
                   <div>
                     <span className="text-muted-foreground">包数</span>
-                    <p className="font-medium">{metrics.network.packetsIn + metrics.network.packetsOut}</p>
+                    <p className="font-medium">
+                      {metrics.network.packetsIn + metrics.network.packetsOut}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -329,7 +341,9 @@ export function EnhancedSystemMonitor() {
                       {metrics.database.connections}/{metrics.database.maxConnections}
                     </span>
                   </div>
-                  <Progress value={(metrics.database.connections / metrics.database.maxConnections) * 100} />
+                  <Progress
+                    value={(metrics.database.connections / metrics.database.maxConnections) * 100}
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div>
@@ -386,7 +400,7 @@ export function EnhancedSystemMonitor() {
             <Card>
               <CardContent className="flex items-center justify-center py-8">
                 <div className="text-center">
-                  <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-4" />
+                  <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">系统运行正常</h3>
                   <p className="text-muted-foreground">当前没有活跃的告警</p>
                 </div>
@@ -394,19 +408,19 @@ export function EnhancedSystemMonitor() {
             </Card>
           ) : (
             <div className="space-y-4">
-              {alerts.map((alert) => (
+              {alerts.map(alert => (
                 <Card key={alert.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <AlertTriangle className="h-4 w-4 text-red-500" />
+                          <AlertTriangle className="h-4 w-4 text-destructive" />
                           <h4 className="font-medium">{alert.ruleName}</h4>
                           <Badge variant={getSeverityColor(alert.severity)}>
-                            {alert.severity === "low" && "低"}
-                            {alert.severity === "medium" && "中"}
-                            {alert.severity === "high" && "高"}
-                            {alert.severity === "critical" && "严重"}
+                            {alert.severity === 'low' && '低'}
+                            {alert.severity === 'medium' && '中'}
+                            {alert.severity === 'high' && '高'}
+                            {alert.severity === 'critical' && '严重'}
                           </Badge>
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">{alert.message}</p>
@@ -417,20 +431,28 @@ export function EnhancedSystemMonitor() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {alert.status === "active" && (
+                        {alert.status === 'active' && (
                           <>
-                            <Button size="sm" variant="outline" onClick={() => handleAcknowledgeAlert(alert.id)}>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleAcknowledgeAlert(alert.id)}
+                            >
                               确认
                             </Button>
-                            <Button size="sm" variant="outline" onClick={() => handleResolveAlert(alert.id)}>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleResolveAlert(alert.id)}
+                            >
                               解决
                             </Button>
                           </>
                         )}
                         <Badge variant="outline">
-                          {alert.status === "active" && "活跃"}
-                          {alert.status === "acknowledged" && "已确认"}
-                          {alert.status === "resolved" && "已解决"}
+                          {alert.status === 'active' && '活跃'}
+                          {alert.status === 'acknowledged' && '已确认'}
+                          {alert.status === 'resolved' && '已解决'}
                         </Badge>
                       </div>
                     </div>
@@ -451,19 +473,21 @@ export function EnhancedSystemMonitor() {
           </div>
 
           <div className="space-y-4">
-            {alertRules.map((rule) => (
+            {alertRules.map(rule => (
               <Card key={rule.id}>
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <h4 className="font-medium">{rule.name}</h4>
-                        <Badge variant={rule.enabled ? "default" : "secondary"}>{rule.enabled ? "启用" : "禁用"}</Badge>
+                        <Badge variant={rule.enabled ? 'default' : 'secondary'}>
+                          {rule.enabled ? '启用' : '禁用'}
+                        </Badge>
                         <Badge variant={getSeverityColor(rule.severity)}>
-                          {rule.severity === "low" && "低"}
-                          {rule.severity === "medium" && "中"}
-                          {rule.severity === "high" && "高"}
-                          {rule.severity === "critical" && "严重"}
+                          {rule.severity === 'low' && '低'}
+                          {rule.severity === 'medium' && '中'}
+                          {rule.severity === 'high' && '高'}
+                          {rule.severity === 'critical' && '严重'}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-2">{rule.description}</p>
@@ -497,7 +521,7 @@ export function EnhancedSystemMonitor() {
                         编辑
                       </Button>
                       <Button size="sm" variant="outline">
-                        {rule.enabled ? "禁用" : "启用"}
+                        {rule.enabled ? '禁用' : '启用'}
                       </Button>
                     </div>
                   </div>
@@ -524,16 +548,25 @@ export function EnhancedSystemMonitor() {
                         <h4 className="font-medium">{item.metric}</h4>
                         <div className="flex items-center gap-2">
                           <span className="text-sm">当前: {item.current.toFixed(2)}</span>
-                          <span className="text-sm text-muted-foreground">基线: {item.baseline.toFixed(2)}</span>
-                          <Badge variant={Math.abs(item.deviation) > 30 ? "destructive" : "default"}>
-                            {item.deviation > 0 ? "+" : ""}
+                          <span className="text-sm text-muted-foreground">
+                            基线: {item.baseline.toFixed(2)}
+                          </span>
+                          <Badge
+                            variant={Math.abs(item.deviation) > 30 ? 'destructive' : 'default'}
+                          >
+                            {item.deviation > 0 ? '+' : ''}
                             {item.deviation.toFixed(1)}%
                           </Badge>
                         </div>
                       </div>
-                      <Progress value={Math.min(100, (item.current / (item.baseline * 2)) * 100)} className="mb-2" />
+                      <Progress
+                        value={Math.min(100, (item.current / (item.baseline * 2)) * 100)}
+                        className="mb-2"
+                      />
                       <p className="text-xs text-muted-foreground">
-                        {Math.abs(item.deviation) > 30 ? "性能偏离基线较大，建议关注" : "性能表现正常"}
+                        {Math.abs(item.deviation) > 30
+                          ? '性能偏离基线较大，建议关注'
+                          : '性能表现正常'}
                       </p>
                     </div>
                   ))}
@@ -544,5 +577,5 @@ export function EnhancedSystemMonitor() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

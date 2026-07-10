@@ -1,14 +1,20 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 
 export function TimeRangeStatsChart() {
-  const [metricType, setMetricType] = useState("volume")
-  const [chartType, setChartType] = useState("line")
+  const [metricType, setMetricType] = useState('volume');
+  const [chartType, setChartType] = useState('line');
 
   return (
     <Card className="w-full">
@@ -47,12 +53,13 @@ export function TimeRangeStatsChart() {
           <div className="text-center">
             <p className="text-muted-foreground">时间趋势分析图表</p>
             <p className="text-xs text-muted-foreground mt-1">
-              {metricType === "volume" && "显示不同时间段的认证请求量"}
-              {metricType === "success-rate" && "显示不同时间段的认证成功率"}
-              {metricType === "processing-time" && "显示不同时间段的平均处理时间"}
+              {metricType === 'volume' && '显示不同时间段的认证请求量'}
+              {metricType === 'success-rate' && '显示不同时间段的认证成功率'}
+              {metricType === 'processing-time' && '显示不同时间段的平均处理时间'}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              图表类型: {chartType === "line" ? "折线图" : chartType === "bar" ? "柱状图" : "面积图"}
+              图表类型:{' '}
+              {chartType === 'line' ? '折线图' : chartType === 'bar' ? '柱状图' : '面积图'}
             </p>
           </div>
         </div>
@@ -82,9 +89,11 @@ export function TimeRangeStatsChart() {
         </div>
 
         <div className="mt-4 text-sm text-muted-foreground">
-          <p>图表说明：此图表显示认证相关指标随时间的变化趋势，帮助您了解系统性能和使用情况的变化。</p>
+          <p>
+            图表说明：此图表显示认证相关指标随时间的变化趋势，帮助您了解系统性能和使用情况的变化。
+          </p>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

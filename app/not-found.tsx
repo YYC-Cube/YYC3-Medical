@@ -28,7 +28,7 @@ export default function NotFound() {
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline" asChild>
-            <Link href="/search">
+            <Link href="/knowledge-base">
               <Search className="mr-2 h-4 w-4" />
               搜索
             </Link>

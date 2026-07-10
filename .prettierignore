@@ -1,0 +1,30 @@
+# Build outputs
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Standalone tooling (excluded from tsconfig + ESLint)
+scripts/
+
+# Static assets
+public/
+*.min.js
+*.min.css
+
+# Generated / cache
+.swc/
+*.tsbuildinfo
+next-env.d.ts
+
+# Lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Data / config
+prisma/migrations/

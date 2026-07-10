@@ -1,33 +1,44 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Download, RefreshCw, AlertTriangle, CheckCircle } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AlertTriangle, CheckCircle, Download, RefreshCw } from 'lucide-react';
+import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from '@/components/ui/recharts-dynamic';
 
 // 模拟预测数据
 const admissionPredictionData = [
-  { department: "心脏科", 预计入院: 120, 实际入院: 115 },
-  { department: "神经科", 预计入院: 85, 实际入院: 90 },
-  { department: "骨科", 预计入院: 95, 实际入院: 92 },
-  { department: "儿科", 预计入院: 70, 实际入院: 68 },
-  { department: "内科", 预计入院: 110, 实际入院: 105 },
-  { department: "外科", 预计入院: 100, 实际入院: 98 },
-]
+  { department: '心脏科', 预计入院: 120, 实际入院: 115 },
+  { department: '神经科', 预计入院: 85, 实际入院: 90 },
+  { department: '骨科', 预计入院: 95, 实际入院: 92 },
+  { department: '儿科', 预计入院: 70, 实际入院: 68 },
+  { department: '内科', 预计入院: 110, 实际入院: 105 },
+  { department: '外科', 预计入院: 100, 实际入院: 98 },
+];
 
 const resourcePredictionData = [
-  { resource: "医生", 预计需求: 45, 实际需求: 48 },
-  { resource: "护士", 预计需求: 120, 实际需求: 125 },
-  { resource: "病床", 预计需求: 200, 实际需求: 195 },
-  { resource: "手术室", 预计需求: 15, 实际需求: 16 },
-  { resource: "ICU床位", 预计需求: 25, 实际需求: 28 },
-  { resource: "急诊室", 预计需求: 35, 实际需求: 32 },
-]
+  { resource: '医生', 预计需求: 45, 实际需求: 48 },
+  { resource: '护士', 预计需求: 120, 实际需求: 125 },
+  { resource: '病床', 预计需求: 200, 实际需求: 195 },
+  { resource: '手术室', 预计需求: 15, 实际需求: 16 },
+  { resource: 'ICU床位', 预计需求: 25, 实际需求: 28 },
+  { resource: '急诊室', 预计需求: 35, 实际需求: 32 },
+];
 
-export function PredictionModels() {
+interface PredictionModelsProps {
+  category?: string;
+  modelType?: string;
+}
+
+export function PredictionModels({ category, modelType }: PredictionModelsProps) {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -70,12 +81,12 @@ export function PredictionModels() {
               <ChartContainer
                 config={{
                   预计入院: {
-                    label: "预计入院",
-                    color: "hsl(var(--chart-1))",
+                    label: '预计入院',
+                    color: 'hsl(var(--chart-1))',
                   },
                   实际入院: {
-                    label: "实际入院",
-                    color: "hsl(var(--chart-2))",
+                    label: '实际入院',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -102,31 +113,31 @@ export function PredictionModels() {
             </div>
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-green-50 border-green-200">
+              <Card className="bg-success/5 border-success/30">
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <CheckCircle className="h-5 w-5 text-success" />
                     <CardTitle className="text-sm">预测准确率</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">96.4%</div>
                   <p className="text-xs text-muted-foreground">
-                    较上月 <span className="text-green-500">↑ 1.2%</span>
+                    较上月 <span className="text-success">↑ 1.2%</span>
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-amber-50 border-amber-200">
+              <Card className="bg-warning border-warning">
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-amber-500" />
+                    <AlertTriangle className="h-5 w-5 text-warning" />
                     <CardTitle className="text-sm">需要关注的科室</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-lg font-medium">神经科</div>
                   <p className="text-xs text-muted-foreground">
-                    实际入院比预测高出 <span className="text-amber-500">5.9%</span>
+                    实际入院比预测高出 <span className="text-warning">5.9%</span>
                   </p>
                 </CardContent>
               </Card>
@@ -138,12 +149,12 @@ export function PredictionModels() {
               <ChartContainer
                 config={{
                   预计需求: {
-                    label: "预计需求",
-                    color: "hsl(var(--chart-1))",
+                    label: '预计需求',
+                    color: 'hsl(var(--chart-1))',
                   },
                   实际需求: {
-                    label: "实际需求",
-                    color: "hsl(var(--chart-2))",
+                    label: '实际需求',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -170,31 +181,31 @@ export function PredictionModels() {
             </div>
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-green-50 border-green-200">
+              <Card className="bg-success/5 border-success/30">
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <CheckCircle className="h-5 w-5 text-success" />
                     <CardTitle className="text-sm">预测准确率</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">94.8%</div>
                   <p className="text-xs text-muted-foreground">
-                    较上月 <span className="text-green-500">↑ 0.8%</span>
+                    较上月 <span className="text-success">↑ 0.8%</span>
                   </p>
                 </CardContent>
               </Card>
-              <Card className="bg-amber-50 border-amber-200">
+              <Card className="bg-warning border-warning">
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
-                    <AlertTriangle className="h-5 w-5 text-amber-500" />
+                    <AlertTriangle className="h-5 w-5 text-warning" />
                     <CardTitle className="text-sm">需要关注的资源</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-lg font-medium">ICU床位</div>
                   <p className="text-xs text-muted-foreground">
-                    实际需求比预测高出 <span className="text-amber-500">12%</span>
+                    实际需求比预测高出 <span className="text-warning">12%</span>
                   </p>
                 </CardContent>
               </Card>
@@ -213,20 +224,24 @@ export function PredictionModels() {
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="font-medium">入院预测模型</div>
-                        <div className="text-sm text-muted-foreground">基于历史数据和季节性分析</div>
+                        <div className="text-sm text-muted-foreground">
+                          基于历史数据和季节性分析
+                        </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-green-600">96.4%</div>
+                        <div className="font-medium text-success">96.4%</div>
                         <div className="text-sm text-muted-foreground">准确率</div>
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="font-medium">资源需求预测</div>
-                        <div className="text-sm text-muted-foreground">基于入院预测和资源使用率</div>
+                        <div className="text-sm text-muted-foreground">
+                          基于入院预测和资源使用率
+                        </div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-green-600">94.8%</div>
+                        <div className="font-medium text-success">94.8%</div>
                         <div className="text-sm text-muted-foreground">准确率</div>
                       </div>
                     </div>
@@ -236,7 +251,7 @@ export function PredictionModels() {
                         <div className="text-sm text-muted-foreground">基于疾病类型和患者特征</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-amber-600">92.1%</div>
+                        <div className="font-medium text-warning">92.1%</div>
                         <div className="text-sm text-muted-foreground">准确率</div>
                       </div>
                     </div>
@@ -246,7 +261,7 @@ export function PredictionModels() {
                         <div className="text-sm text-muted-foreground">基于时间序列和外部因素</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-medium text-amber-600">91.5%</div>
+                        <div className="font-medium text-warning">91.5%</div>
                         <div className="text-sm text-muted-foreground">准确率</div>
                       </div>
                     </div>
@@ -292,7 +307,9 @@ export function PredictionModels() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }
+
+export default PredictionModels;
 
 // 添加PredictionModels作为命名导出

@@ -1,123 +1,129 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Pill, TrendingUp, Clock, AlertCircle } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Pill, TrendingUp, Clock, AlertCircle } from 'lucide-react';
 
 // 模拟常用药物数据
 const popularMedications = [
   {
-    id: "med-001",
-    name: "二甲双胍",
-    genericName: "盐酸二甲双胍片",
-    category: "口服降糖药",
+    id: 'med-001',
+    name: '二甲双胍',
+    genericName: '盐酸二甲双胍片',
+    category: '口服降糖药',
     usageCount: 1250,
-    trend: "上升",
+    trend: '上升',
     price: 35.8,
-    stock: "充足",
+    stock: '充足',
   },
   {
-    id: "med-002",
-    name: "阿托伐他汀",
-    genericName: "阿托伐他汀钙片",
-    category: "调脂药",
+    id: 'med-002',
+    name: '阿托伐他汀',
+    genericName: '阿托伐他汀钙片',
+    category: '调脂药',
     usageCount: 980,
-    trend: "稳定",
+    trend: '稳定',
     price: 89.5,
-    stock: "充足",
+    stock: '充足',
   },
   {
-    id: "med-003",
-    name: "氯沙坦",
-    genericName: "氯沙坦钾片",
-    category: "降压药",
+    id: 'med-003',
+    name: '氯沙坦',
+    genericName: '氯沙坦钾片',
+    category: '降压药',
     usageCount: 850,
-    trend: "上升",
+    trend: '上升',
     price: 68.2,
-    stock: "充足",
+    stock: '充足',
   },
   {
-    id: "med-004",
-    name: "布洛芬",
-    genericName: "布洛芬片",
-    category: "非甾体抗炎药",
+    id: 'med-004',
+    name: '布洛芬',
+    genericName: '布洛芬片',
+    category: '非甾体抗炎药',
     usageCount: 720,
-    trend: "下降",
+    trend: '下降',
     price: 15.6,
-    stock: "低",
+    stock: '低',
   },
   {
-    id: "med-005",
-    name: "左氧氟沙星",
-    genericName: "左氧氟沙星片",
-    category: "抗生素",
+    id: 'med-005',
+    name: '左氧氟沙星',
+    genericName: '左氧氟沙星片',
+    category: '抗生素',
     usageCount: 680,
-    trend: "稳定",
+    trend: '稳定',
     price: 48.9,
-    stock: "充足",
+    stock: '充足',
   },
-]
+];
 
 // 模拟最近处方药物数据
 const recentPrescriptions = [
   {
-    id: "rx-001",
-    medication: "二甲双胍",
-    doctor: "李医生",
-    department: "内科",
-    date: "2023-05-15",
-    patient: "张三",
+    id: 'rx-001',
+    medication: '二甲双胍',
+    doctor: '李医生',
+    department: '内科',
+    date: '2023-05-15',
+    patient: '张三',
   },
   {
-    id: "rx-002",
-    medication: "阿托伐他汀",
-    doctor: "王医生",
-    department: "心内科",
-    date: "2023-05-16",
-    patient: "李四",
+    id: 'rx-002',
+    medication: '阿托伐他汀',
+    doctor: '王医生',
+    department: '心内科',
+    date: '2023-05-16',
+    patient: '李四',
   },
   {
-    id: "rx-003",
-    medication: "氯沙坦",
-    doctor: "张医生",
-    department: "心内科",
-    date: "2023-05-17",
-    patient: "王五",
+    id: 'rx-003',
+    medication: '氯沙坦',
+    doctor: '张医生',
+    department: '心内科',
+    date: '2023-05-17',
+    patient: '王五',
   },
-]
+];
 
 export function PopularMedications() {
-  const [activeTab, setActiveTab] = useState("popular")
+  const [activeTab, setActiveTab] = useState('popular');
 
   // 获取趋势对应的图标和颜色
   const getTrendBadge = (trend: string) => {
     switch (trend) {
-      case "上升":
-        return { icon: <TrendingUp className="h-3 w-3" />, color: "bg-green-100 text-green-800 hover:bg-green-100" }
-      case "下降":
+      case '上升':
+        return {
+          icon: <TrendingUp className="h-3 w-3" />,
+          color: 'bg-success/10 text-success hover:bg-success/10',
+        };
+      case '下降':
         return {
           icon: <TrendingUp className="h-3 w-3 rotate-180" />,
-          color: "bg-red-100 text-red-800 hover:bg-red-100",
-        }
+          color: 'bg-destructive text-destructive hover:bg-destructive',
+        };
       default:
-        return { icon: <Clock className="h-3 w-3" />, color: "bg-blue-100 text-blue-800 hover:bg-blue-100" }
+        return {
+          icon: <Clock className="h-3 w-3" />,
+          color: 'bg-primary/10 text-primary hover:bg-primary/10',
+        };
     }
-  }
+  };
 
   // 获取库存状态对应的图标和颜色
   const getStockBadge = (stock: string) => {
     switch (stock) {
-      case "充足":
-        return { color: "bg-green-100 text-green-800 hover:bg-green-100" }
-      case "低":
-        return { color: "bg-amber-100 text-amber-800 hover:bg-amber-100" }
+      case '充足':
+        return { color: 'bg-success/10 text-success hover:bg-success/10' };
+      case '低':
+        return { color: 'bg-warning text-warning hover:bg-warning' };
       default:
-        return { color: "bg-red-100 text-red-800 hover:bg-red-100" }
+        return { color: 'bg-destructive text-destructive hover:bg-destructive' };
     }
-  }
+  };
 
   return (
     <Card>
@@ -133,9 +139,9 @@ export function PopularMedications() {
           </TabsList>
 
           <TabsContent value="popular" className="space-y-4">
-            {popularMedications.map((med) => {
-              const trendBadge = getTrendBadge(med.trend)
-              const stockBadge = getStockBadge(med.stock)
+            {popularMedications.map(med => {
+              const trendBadge = getTrendBadge(med.trend);
+              const stockBadge = getStockBadge(med.stock);
 
               return (
                 <div key={med.id} className="flex flex-col space-y-2 rounded-md border p-3">
@@ -163,19 +169,19 @@ export function PopularMedications() {
                     </Badge>
                   </div>
                 </div>
-              )
+              );
             })}
           </TabsContent>
 
           <TabsContent value="recent" className="space-y-4">
-            {recentPrescriptions.map((rx) => (
+            {recentPrescriptions.map(rx => (
               <div key={rx.id} className="flex flex-col space-y-2 rounded-md border p-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Pill className="h-4 w-4 text-medical-500" />
                     <span className="font-medium">{rx.medication}</span>
                   </div>
-                  <Badge variant="outline" className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                  <Badge variant="outline" className="bg-primary/10 text-primary hover:bg-primary/10">
                     {rx.date}
                   </Badge>
                 </div>
@@ -197,5 +203,5 @@ export function PopularMedications() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

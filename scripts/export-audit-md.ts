@@ -1,10 +1,10 @@
-import fs from 'fs';
-import { AppDataSource } from '@/lib/db';
+import fs from "fs";
+import { AppDataSource } from "@/lib/db";
 
 async function exportAuditMarkdown() {
   await AppDataSource.initialize();
-  const repo = AppDataSource.getRepository('audit_reports');
-  const records = await repo.find({ order: { timestamp: 'DESC' }, take: 50 });
+  const repo = AppDataSource.getRepository("audit_reports");
+  const records = await repo.find({ order: { timestamp: "DESC" }, take: 50 });
 
   let md = `# 🧪 审查报告\n\n`;
   md += `> 最近 ${records.length} 条记录\n\n`;
@@ -17,8 +17,8 @@ async function exportAuditMarkdown() {
     md += `- ✅ 状态: ${r.status}\n\n`;
   }
 
-  fs.writeFileSync('audit-report.md', md);
-  console.log('✅ Markdown 审查报告已生成');
+  fs.writeFileSync("audit-report.md", md);
+  console.log("✅ Markdown 审查报告已生成");
   await AppDataSource.destroy();
 }
 

@@ -1,12 +1,18 @@
-"use client"
+'use client';
 
-import { useState, useRef, useEffect, useCallback } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useState, useRef, useEffect, useCallback } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   SunMedium,
   Contrast,
@@ -20,75 +26,79 @@ import {
   Layers,
   Sliders,
   ImageIcon,
-} from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useToast } from "@/components/ui/use-toast"
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/components/ui/use-toast';
 
 interface AvatarEditorProps {
-  isOpen: boolean
-  onClose: () => void
-  imageUrl: string
-  onEditComplete: (editedImageUrl: string) => void
+  isOpen: boolean;
+  onClose: () => void;
+  imageUrl: string;
+  onEditComplete: (editedImageUrl: string) => void;
 }
 
 // 滤镜预设
 const FILTERS = [
-  { id: "none", name: "原始", class: "" },
-  { id: "clinical", name: "临床", class: "brightness-105 contrast-110 saturate-90" },
-  { id: "professional", name: "专业", class: "brightness-100 contrast-120 saturate-80 hue-rotate-355" },
-  { id: "warm", name: "温暖", class: "brightness-105 contrast-105 saturate-110 sepia-20" },
-  { id: "cool", name: "冷静", class: "brightness-100 contrast-110 saturate-90 hue-rotate-180" },
-  { id: "sharp", name: "锐利", class: "brightness-110 contrast-130 saturate-100" },
-  { id: "soft", name: "柔和", class: "brightness-105 contrast-95 saturate-95 blur-[0.5px]" },
-  { id: "vintage", name: "复古", class: "brightness-100 contrast-105 saturate-85 sepia-30" },
-  { id: "bw", name: "黑白", class: "grayscale-100" },
-]
+  { id: 'none', name: '原始', class: '' },
+  { id: 'clinical', name: '临床', class: 'brightness-105 contrast-110 saturate-90' },
+  {
+    id: 'professional',
+    name: '专业',
+    class: 'brightness-100 contrast-120 saturate-80 hue-rotate-355',
+  },
+  { id: 'warm', name: '温暖', class: 'brightness-105 contrast-105 saturate-110 sepia-20' },
+  { id: 'cool', name: '冷静', class: 'brightness-100 contrast-110 saturate-90 hue-rotate-180' },
+  { id: 'sharp', name: '锐利', class: 'brightness-110 contrast-130 saturate-100' },
+  { id: 'soft', name: '柔和', class: 'brightness-105 contrast-95 saturate-95 blur-[0.5px]' },
+  { id: 'vintage', name: '复古', class: 'brightness-100 contrast-105 saturate-85 sepia-30' },
+  { id: 'bw', name: '黑白', class: 'grayscale-100' },
+];
 
 // 编辑历史记录类型
 type EditHistoryEntry = {
-  brightness: number
-  contrast: number
-  saturation: number
-  blur: number
-  hueRotate: number
-  sepia: number
-  filterId: string
-}
+  brightness: number;
+  contrast: number;
+  saturation: number;
+  blur: number;
+  hueRotate: number;
+  sepia: number;
+  filterId: string;
+};
 
 export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: AvatarEditorProps) {
   // 编辑参数
-  const [brightness, setBrightness] = useState(100)
-  const [contrast, setContrast] = useState(100)
-  const [saturation, setSaturation] = useState(100)
-  const [blur, setBlur] = useState(0)
-  const [hueRotate, setHueRotate] = useState(0)
-  const [sepia, setSepia] = useState(0)
-  const [filterId, setFilterId] = useState("none")
+  const [brightness, setBrightness] = useState(100);
+  const [contrast, setContrast] = useState(100);
+  const [saturation, setSaturation] = useState(100);
+  const [blur, setBlur] = useState(0);
+  const [hueRotate, setHueRotate] = useState(0);
+  const [sepia, setSepia] = useState(0);
+  const [filterId, setFilterId] = useState('none');
 
   // 编辑历史
-  const [history, setHistory] = useState<EditHistoryEntry[]>([])
-  const [historyIndex, setHistoryIndex] = useState(-1)
-  const [activeTab, setActiveTab] = useState("adjust")
+  const [history, setHistory] = useState<EditHistoryEntry[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [activeTab, setActiveTab] = useState('adjust');
 
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const imageRef = useRef<HTMLImageElement | null>(null)
-  const { toast } = useToast()
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const { toast } = useToast();
 
   // 初始化
   useEffect(() => {
     if (isOpen && imageUrl) {
-      resetEditor()
-      loadImage()
+      resetEditor();
+      loadImage();
     }
-  }, [isOpen, imageUrl])
+  }, [isOpen, imageUrl]);
 
   // 加载图像
-  const loadImage = useCallback(() => {
-    const img = new Image()
-    img.crossOrigin = "anonymous"
+  function loadImage() {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
-      imageRef.current = img
-      renderImage()
+      imageRef.current = img;
+      renderImage();
 
       // 初始化历史记录
       const initialState: EditHistoryEntry = {
@@ -98,92 +108,102 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
         blur: 0,
         hueRotate: 0,
         sepia: 0,
-        filterId: "none",
-      }
-      setHistory([initialState])
-      setHistoryIndex(0)
-    }
-    img.src = imageUrl
-  }, [imageUrl])
+        filterId: 'none',
+      };
+      setHistory([initialState]);
+      setHistoryIndex(0);
+    };
+    img.src = imageUrl;
+  }
 
   // 重置编辑器
-  const resetEditor = useCallback(() => {
-    setBrightness(100)
-    setContrast(100)
-    setSaturation(100)
-    setBlur(0)
-    setHueRotate(0)
-    setSepia(0)
-    setFilterId("none")
-    setHistory([])
-    setHistoryIndex(-1)
-  }, [])
+  function resetEditor() {
+    setBrightness(100);
+    setContrast(100);
+    setSaturation(100);
+    setBlur(0);
+    setHueRotate(0);
+    setSepia(0);
+    setFilterId('none');
+    setHistory([]);
+    setHistoryIndex(-1);
+  }
 
   // 渲染图像
-  const renderImage = useCallback(() => {
-    if (!canvasRef.current || !imageRef.current) return
+  function renderImage() {
+    if (!canvasRef.current || !imageRef.current) return;
 
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    const img = imageRef.current
+    const img = imageRef.current;
 
     // 设置画布尺寸
-    const size = 400
-    canvas.width = size
-    canvas.height = size
+    const size = 400;
+    canvas.width = size;
+    canvas.height = size;
 
     // 清除画布
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // 绘制图像，居中并裁剪为正方形
-    const imgWidth = img.width
-    const imgHeight = img.height
-    const aspectRatio = imgWidth / imgHeight
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+    const aspectRatio = imgWidth / imgHeight;
 
     let drawWidth,
       drawHeight,
       offsetX = 0,
-      offsetY = 0
+      offsetY = 0;
 
     if (aspectRatio >= 1) {
       // 宽图
-      drawHeight = size
-      drawWidth = drawHeight * aspectRatio
-      offsetX = (drawWidth - size) / 2
+      drawHeight = size;
+      drawWidth = drawHeight * aspectRatio;
+      offsetX = (drawWidth - size) / 2;
     } else {
       // 高图
-      drawWidth = size
-      drawHeight = drawWidth / aspectRatio
-      offsetY = (drawHeight - size) / 2
+      drawWidth = size;
+      drawHeight = drawWidth / aspectRatio;
+      offsetY = (drawHeight - size) / 2;
     }
 
     // 应用滤镜效果
-    const filter = []
-    if (brightness !== 100) filter.push(`brightness(${brightness}%)`)
-    if (contrast !== 100) filter.push(`contrast(${contrast}%)`)
-    if (saturation !== 100) filter.push(`saturate(${saturation}%)`)
-    if (blur > 0) filter.push(`blur(${blur}px)`)
-    if (hueRotate !== 0) filter.push(`hue-rotate(${hueRotate}deg)`)
-    if (sepia > 0) filter.push(`sepia(${sepia}%)`)
+    const filter = [];
+    if (brightness !== 100) filter.push(`brightness(${brightness}%)`);
+    if (contrast !== 100) filter.push(`contrast(${contrast}%)`);
+    if (saturation !== 100) filter.push(`saturate(${saturation}%)`);
+    if (blur > 0) filter.push(`blur(${blur}px)`);
+    if (hueRotate !== 0) filter.push(`hue-rotate(${hueRotate}deg)`);
+    if (sepia > 0) filter.push(`sepia(${sepia}%)`);
 
     if (filter.length > 0) {
-      ctx.filter = filter.join(" ")
+      ctx.filter = filter.join(' ');
     } else {
-      ctx.filter = "none"
+      ctx.filter = 'none';
     }
 
-    ctx.drawImage(img, offsetX, offsetY, drawWidth - offsetX * 2, drawHeight - offsetY * 2, 0, 0, size, size)
+    ctx.drawImage(
+      img,
+      offsetX,
+      offsetY,
+      drawWidth - offsetX * 2,
+      drawHeight - offsetY * 2,
+      0,
+      0,
+      size,
+      size
+    );
 
     // 重置滤镜
-    ctx.filter = "none"
-  }, [brightness, contrast, saturation, blur, hueRotate, sepia])
+    ctx.filter = 'none';
+  }
 
   // 当编辑参数变化时重新渲染
   useEffect(() => {
-    renderImage()
-  }, [renderImage])
+    renderImage();
+  }, [brightness, contrast, saturation, blur, hueRotate, sepia]);
 
   // 添加历史记录
   const addHistory = useCallback(() => {
@@ -195,164 +215,164 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
       hueRotate,
       sepia,
       filterId,
-    }
+    };
 
     // 如果在历史中间进行了编辑，则删除后面的历史
-    const newHistory = history.slice(0, historyIndex + 1)
-    setHistory([...newHistory, currentState])
-    setHistoryIndex(newHistory.length)
-  }, [brightness, contrast, saturation, blur, hueRotate, sepia, filterId, history, historyIndex])
+    const newHistory = history.slice(0, historyIndex + 1);
+    setHistory([...newHistory, currentState]);
+    setHistoryIndex(newHistory.length);
+  }, [brightness, contrast, saturation, blur, hueRotate, sepia, filterId, history, historyIndex]);
 
   // 撤销
   const handleUndo = useCallback(() => {
     if (historyIndex > 0) {
-      const prevState = history[historyIndex - 1]
-      setBrightness(prevState.brightness)
-      setContrast(prevState.contrast)
-      setSaturation(prevState.saturation)
-      setBlur(prevState.blur)
-      setHueRotate(prevState.hueRotate)
-      setSepia(prevState.sepia)
-      setFilterId(prevState.filterId)
-      setHistoryIndex(historyIndex - 1)
+      const prevState = history[historyIndex - 1];
+      setBrightness(prevState.brightness);
+      setContrast(prevState.contrast);
+      setSaturation(prevState.saturation);
+      setBlur(prevState.blur);
+      setHueRotate(prevState.hueRotate);
+      setSepia(prevState.sepia);
+      setFilterId(prevState.filterId);
+      setHistoryIndex(historyIndex - 1);
     }
-  }, [history, historyIndex])
+  }, [history, historyIndex]);
 
   // 重做
   const handleRedo = useCallback(() => {
     if (historyIndex < history.length - 1) {
-      const nextState = history[historyIndex + 1]
-      setBrightness(nextState.brightness)
-      setContrast(nextState.contrast)
-      setSaturation(nextState.saturation)
-      setBlur(nextState.blur)
-      setHueRotate(nextState.hueRotate)
-      setSepia(nextState.sepia)
-      setFilterId(nextState.filterId)
-      setHistoryIndex(historyIndex + 1)
+      const nextState = history[historyIndex + 1];
+      setBrightness(nextState.brightness);
+      setContrast(nextState.contrast);
+      setSaturation(nextState.saturation);
+      setBlur(nextState.blur);
+      setHueRotate(nextState.hueRotate);
+      setSepia(nextState.sepia);
+      setFilterId(nextState.filterId);
+      setHistoryIndex(historyIndex + 1);
     }
-  }, [history, historyIndex])
+  }, [history, historyIndex]);
 
   // 重置
-  const handleReset = useCallback(() => {
-    resetEditor()
-    loadImage()
-  }, [resetEditor, loadImage])
+  function handleReset() {
+    resetEditor();
+    loadImage();
+  }
 
   // 应用滤镜预设
   const applyFilter = useCallback(
     (id: string) => {
-      setFilterId(id)
+      setFilterId(id);
 
-      if (id === "none") {
-        setBrightness(100)
-        setContrast(100)
-        setSaturation(100)
-        setBlur(0)
-        setHueRotate(0)
-        setSepia(0)
+      if (id === 'none') {
+        setBrightness(100);
+        setContrast(100);
+        setSaturation(100);
+        setBlur(0);
+        setHueRotate(0);
+        setSepia(0);
       } else {
         // 根据预设ID设置参数
         switch (id) {
-          case "clinical":
-            setBrightness(105)
-            setContrast(110)
-            setSaturation(90)
-            setBlur(0)
-            setHueRotate(0)
-            setSepia(0)
-            break
-          case "professional":
-            setBrightness(100)
-            setContrast(120)
-            setSaturation(80)
-            setBlur(0)
-            setHueRotate(355)
-            setSepia(0)
-            break
-          case "warm":
-            setBrightness(105)
-            setContrast(105)
-            setSaturation(110)
-            setBlur(0)
-            setHueRotate(0)
-            setSepia(20)
-            break
-          case "cool":
-            setBrightness(100)
-            setContrast(110)
-            setSaturation(90)
-            setBlur(0)
-            setHueRotate(180)
-            setSepia(0)
-            break
-          case "sharp":
-            setBrightness(110)
-            setContrast(130)
-            setSaturation(100)
-            setBlur(0)
-            setHueRotate(0)
-            setSepia(0)
-            break
-          case "soft":
-            setBrightness(105)
-            setContrast(95)
-            setSaturation(95)
-            setBlur(0.5)
-            setHueRotate(0)
-            setSepia(0)
-            break
-          case "vintage":
-            setBrightness(100)
-            setContrast(105)
-            setSaturation(85)
-            setBlur(0)
-            setHueRotate(0)
-            setSepia(30)
-            break
-          case "bw":
-            setBrightness(100)
-            setContrast(100)
-            setSaturation(0)
-            setBlur(0)
-            setHueRotate(0)
-            setSepia(0)
-            break
+          case 'clinical':
+            setBrightness(105);
+            setContrast(110);
+            setSaturation(90);
+            setBlur(0);
+            setHueRotate(0);
+            setSepia(0);
+            break;
+          case 'professional':
+            setBrightness(100);
+            setContrast(120);
+            setSaturation(80);
+            setBlur(0);
+            setHueRotate(355);
+            setSepia(0);
+            break;
+          case 'warm':
+            setBrightness(105);
+            setContrast(105);
+            setSaturation(110);
+            setBlur(0);
+            setHueRotate(0);
+            setSepia(20);
+            break;
+          case 'cool':
+            setBrightness(100);
+            setContrast(110);
+            setSaturation(90);
+            setBlur(0);
+            setHueRotate(180);
+            setSepia(0);
+            break;
+          case 'sharp':
+            setBrightness(110);
+            setContrast(130);
+            setSaturation(100);
+            setBlur(0);
+            setHueRotate(0);
+            setSepia(0);
+            break;
+          case 'soft':
+            setBrightness(105);
+            setContrast(95);
+            setSaturation(95);
+            setBlur(0.5);
+            setHueRotate(0);
+            setSepia(0);
+            break;
+          case 'vintage':
+            setBrightness(100);
+            setContrast(105);
+            setSaturation(85);
+            setBlur(0);
+            setHueRotate(0);
+            setSepia(30);
+            break;
+          case 'bw':
+            setBrightness(100);
+            setContrast(100);
+            setSaturation(0);
+            setBlur(0);
+            setHueRotate(0);
+            setSepia(0);
+            break;
         }
       }
 
-      addHistory()
+      addHistory();
     },
-    [addHistory],
-  )
+    [addHistory]
+  );
 
   // 参数调整后添加历史记录
   const handleAdjustmentChange = useCallback(() => {
-    addHistory()
-  }, [addHistory])
+    addHistory();
+  }, [addHistory]);
 
   // 完成编辑
   const handleComplete = useCallback(() => {
-    if (!canvasRef.current) return
+    if (!canvasRef.current) return;
 
     try {
-      const editedImageUrl = canvasRef.current.toDataURL("image/png")
-      onEditComplete(editedImageUrl)
-      onClose()
+      const editedImageUrl = canvasRef.current.toDataURL('image/png');
+      onEditComplete(editedImageUrl);
+      onClose();
 
       toast({
-        title: "编辑成功",
-        description: "头像已成功编辑并应用",
-      })
+        title: '编辑成功',
+        description: '头像已成功编辑并应用',
+      });
     } catch (error) {
-      console.error("保存编辑头像失败:", error)
+      console.error('保存编辑头像失败:', error);
       toast({
-        title: "保存失败",
-        description: "无法保存编辑后的头像，请重试",
-        variant: "destructive",
-      })
+        title: '保存失败',
+        description: '无法保存编辑后的头像，请重试',
+        variant: 'destructive',
+      });
     }
-  }, [onEditComplete, onClose, toast])
+  }, [onEditComplete, onClose, toast]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -371,14 +391,19 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
               <canvas
                 ref={canvasRef}
                 className="absolute inset-0 w-full h-full object-cover"
-                style={{ borderRadius: "50%" }}
+                style={{ borderRadius: '50%' }}
               />
             </div>
             <div className="flex space-x-2">
               <Button variant="outline" size="sm" onClick={handleUndo} disabled={historyIndex <= 0}>
                 <Undo2 className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm" onClick={handleRedo} disabled={historyIndex >= history.length - 1}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRedo}
+                disabled={historyIndex >= history.length - 1}
+              >
                 <Redo2 className="h-4 w-4" />
               </Button>
               <Button variant="outline" size="sm" onClick={handleReset}>
@@ -416,7 +441,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={50}
                     max={150}
                     step={1}
-                    onValueChange={(value) => setBrightness(value[0])}
+                    onValueChange={value => setBrightness(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -435,7 +460,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={50}
                     max={150}
                     step={1}
-                    onValueChange={(value) => setContrast(value[0])}
+                    onValueChange={value => setContrast(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -454,7 +479,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={0}
                     max={200}
                     step={1}
-                    onValueChange={(value) => setSaturation(value[0])}
+                    onValueChange={value => setSaturation(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -473,7 +498,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={0}
                     max={5}
                     step={0.1}
-                    onValueChange={(value) => setBlur(value[0])}
+                    onValueChange={value => setBlur(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -492,7 +517,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={0}
                     max={360}
                     step={1}
-                    onValueChange={(value) => setHueRotate(value[0])}
+                    onValueChange={value => setHueRotate(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -511,7 +536,7 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                     min={0}
                     max={100}
                     step={1}
-                    onValueChange={(value) => setSepia(value[0])}
+                    onValueChange={value => setSepia(value[0])}
                     onValueCommit={handleAdjustmentChange}
                     className="w-full"
                   />
@@ -519,16 +544,24 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
               </TabsContent>
 
               <TabsContent value="filters" className="mt-4">
-                <RadioGroup value={filterId} onValueChange={applyFilter} className="grid grid-cols-3 gap-4">
-                  {FILTERS.map((filter) => (
+                <RadioGroup
+                  value={filterId}
+                  onValueChange={applyFilter}
+                  className="grid grid-cols-3 gap-4"
+                >
+                  {FILTERS.map(filter => (
                     <div key={filter.id} className="space-y-2">
                       <div className="relative w-full aspect-square overflow-hidden rounded-md border">
-                        <RadioGroupItem value={filter.id} id={`filter-${filter.id}`} className="sr-only" />
+                        <RadioGroupItem
+                          value={filter.id}
+                          id={`filter-${filter.id}`}
+                          className="sr-only"
+                        />
                         {imageUrl && (
                           <img
-                            src={imageUrl || "/placeholder.svg"}
+                            src={imageUrl || '/placeholder.svg'}
                             alt={filter.name}
-                            className={cn("w-full h-full object-cover", filter.class)}
+                            className={cn('w-full h-full object-cover', filter.class)}
                           />
                         )}
                         {filterId === filter.id && (
@@ -537,7 +570,10 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
                           </div>
                         )}
                       </div>
-                      <Label htmlFor={`filter-${filter.id}`} className="text-center block text-xs cursor-pointer">
+                      <Label
+                        htmlFor={`filter-${filter.id}`}
+                        className="text-center block text-xs cursor-pointer"
+                      >
                         {filter.name}
                       </Label>
                     </div>
@@ -559,5 +595,5 @@ export function AvatarEditor({ isOpen, onClose, imageUrl, onEditComplete }: Avat
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

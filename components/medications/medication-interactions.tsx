@@ -1,100 +1,114 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Search, AlertCircle, Info, CheckCircle, XCircle, Plus, Trash2 } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { medicationInteractionService } from "@/services/medication-interaction-service"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useState } from 'react';
+import { Search, AlertCircle, Info, CheckCircle, XCircle, Plus, Trash2 } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { medicationInteractionService } from '@/services/medication-interaction-service';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 export function MedicationInteractions() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedMedications, setSelectedMedications] = useState<string[]>([])
-  const [searchResults, setSearchResults] = useState<any[]>([])
-  const [interactions, setInteractions] = useState<any[]>([])
-  const [activeTab, setActiveTab] = useState("checker")
-  const [selectedInteraction, setSelectedInteraction] = useState<any | null>(null)
-  const [isDetailOpen, setIsDetailOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMedications, setSelectedMedications] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [interactions, setInteractions] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState('checker');
+  const [selectedInteraction, setSelectedInteraction] = useState<any | null>(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // 搜索药物
   const handleSearch = () => {
-    if (searchTerm.trim().length < 2) return
-    const results = medicationInteractionService.searchMedicationsByName(searchTerm)
-    setSearchResults(results)
-  }
+    if (searchTerm.trim().length < 2) return;
+    const results = medicationInteractionService.searchMedicationsByName(searchTerm);
+    setSearchResults(results);
+  };
 
   // 添加药物到检查列表
   const addMedication = (medicationId: string) => {
-    if (selectedMedications.includes(medicationId)) return
-    setSelectedMedications([...selectedMedications, medicationId])
-    setSearchTerm("")
-    setSearchResults([])
-  }
+    if (selectedMedications.includes(medicationId)) return;
+    setSelectedMedications([...selectedMedications, medicationId]);
+    setSearchTerm('');
+    setSearchResults([]);
+  };
 
   // 移除药物
   const removeMedication = (medicationId: string) => {
-    setSelectedMedications(selectedMedications.filter((id) => id !== medicationId))
-  }
+    setSelectedMedications(selectedMedications.filter(id => id !== medicationId));
+  };
 
   // 检查药物相互作用
   const checkInteractions = () => {
-    if (selectedMedications.length < 2) return
-    const results = medicationInteractionService.checkInteractionsAmongMultiple(selectedMedications)
-    setInteractions(results)
-  }
+    if (selectedMedications.length < 2) return;
+    const results =
+      medicationInteractionService.checkInteractionsAmongMultiple(selectedMedications);
+    setInteractions(results);
+  };
 
   // 查看相互作用详情
   const viewInteractionDetail = (interaction: any) => {
-    setSelectedInteraction(interaction)
-    setIsDetailOpen(true)
-  }
+    setSelectedInteraction(interaction);
+    setIsDetailOpen(true);
+  };
 
   // 获取严重程度标识
   const getSeverityBadge = (severity: string) => {
     switch (severity) {
-      case "严重":
+      case '严重':
         return (
           <Badge variant="destructive" className="flex items-center gap-1">
             <AlertCircle className="h-3 w-3" /> 严重
           </Badge>
-        )
-      case "中度":
+        );
+      case '中度':
         return (
           <Badge variant="warning" className="flex items-center gap-1">
             <Info className="h-3 w-3" /> 中度
           </Badge>
-        )
-      case "轻微":
+        );
+      case '轻微':
         return (
           <Badge variant="outline" className="flex items-center gap-1">
             <Info className="h-3 w-3" /> 轻微
           </Badge>
-        )
-      case "禁忌":
+        );
+      case '禁忌':
         return (
-          <Badge variant="destructive" className="flex items-center gap-1 bg-purple-600">
+          <Badge variant="destructive" className="flex items-center gap-1 bg-primary">
             <XCircle className="h-3 w-3" /> 禁忌
           </Badge>
-        )
+        );
       default:
-        return <Badge variant="secondary">{severity}</Badge>
+        return <Badge variant="secondary">{severity}</Badge>;
     }
-  }
+  };
 
   // 获取所有药物
-  const allMedications = medicationInteractionService.getAllMedications()
+  const allMedications = medicationInteractionService.getAllMedications();
 
   // 获取选中的药物详情
   const selectedMedicationDetails = selectedMedications
-    .map((id) => allMedications.find((med) => med.id === id))
-    .filter(Boolean)
+    .map(id => allMedications.find(med => med.id === id))
+    .filter(Boolean);
 
   return (
     <div className="space-y-6">
@@ -119,11 +133,11 @@ export function MedicationInteractions() {
                       placeholder="搜索药物名称、通用名或品牌名..."
                       className="pl-8"
                       value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault()
-                          handleSearch()
+                      onChange={e => setSearchTerm(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          handleSearch();
                         }
                       }}
                     />
@@ -141,14 +155,16 @@ export function MedicationInteractions() {
                     <CardContent className="py-2 px-4">
                       <ScrollArea className="h-48">
                         <div className="space-y-2">
-                          {searchResults.map((medication) => (
+                          {searchResults.map(medication => (
                             <div
                               key={medication.id}
-                              className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-md"
+                              className="flex items-center justify-between p-2 hover:bg-medical-50 rounded-md"
                             >
                               <div>
                                 <div className="font-medium">{medication.name}</div>
-                                <div className="text-sm text-muted-foreground">{medication.genericName}</div>
+                                <div className="text-sm text-muted-foreground">
+                                  {medication.genericName}
+                                </div>
                               </div>
                               <Button
                                 variant="ghost"
@@ -173,11 +189,13 @@ export function MedicationInteractions() {
                       {selectedMedicationDetails.map((medication: any) => (
                         <div
                           key={medication.id}
-                          className="flex items-center justify-between p-3 bg-slate-50 rounded-md"
+                          className="flex items-center justify-between p-3 bg-medical-50 rounded-md"
                         >
                           <div>
                             <div className="font-medium">{medication.name}</div>
-                            <div className="text-sm text-muted-foreground">{medication.genericName}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {medication.genericName}
+                            </div>
                           </div>
                           <Button
                             variant="ghost"
@@ -216,17 +234,19 @@ export function MedicationInteractions() {
                           <Alert
                             key={index}
                             variant={
-                              interaction.interaction.severity === "严重" || interaction.interaction.severity === "禁忌"
-                                ? "destructive"
-                                : interaction.interaction.severity === "中度"
-                                  ? "warning"
-                                  : "default"
+                              interaction.interaction.severity === '严重' ||
+                              interaction.interaction.severity === '禁忌'
+                                ? 'destructive'
+                                : interaction.interaction.severity === '中度'
+                                  ? 'warning'
+                                  : 'default'
                             }
                           >
                             <AlertCircle className="h-4 w-4" />
                             <AlertTitle className="flex items-center justify-between">
                               <span>
-                                {interaction.medication1.name} 与 {interaction.medication2.name} 存在相互作用
+                                {interaction.medication1.name} 与 {interaction.medication2.name}{' '}
+                                存在相互作用
                               </span>
                               {getSeverityBadge(interaction.interaction.severity)}
                             </AlertTitle>
@@ -282,7 +302,7 @@ export function MedicationInteractions() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {allMedications.map((medication) => (
+                      {allMedications.map(medication => (
                         <TableRow key={medication.id}>
                           <TableCell className="font-medium">{medication.name}</TableCell>
                           <TableCell>{medication.genericName}</TableCell>
@@ -336,13 +356,17 @@ export function MedicationInteractions() {
                   <h4 className="text-sm font-medium text-muted-foreground">药物1</h4>
                   <p className="font-medium">{selectedInteraction.medication1.name}</p>
                   <p className="text-sm">{selectedInteraction.medication1.genericName}</p>
-                  <p className="text-sm text-muted-foreground">{selectedInteraction.medication1.drugClass}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedInteraction.medication1.drugClass}
+                  </p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground">药物2</h4>
                   <p className="font-medium">{selectedInteraction.medication2.name}</p>
                   <p className="text-sm">{selectedInteraction.medication2.genericName}</p>
-                  <p className="text-sm text-muted-foreground">{selectedInteraction.medication2.drugClass}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedInteraction.medication2.drugClass}
+                  </p>
                 </div>
               </div>
 
@@ -373,5 +397,5 @@ export function MedicationInteractions() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

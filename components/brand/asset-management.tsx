@@ -1,21 +1,26 @@
-import type React from "react"
-import { cn } from "@/lib/utils"
-import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
-import { Download } from "lucide-react"
-import { MedicalButton } from "@/components/ui/medical-button"
+import type React from 'react';
+import { cn } from '@/lib/utils';
+import {
+  MedicalCard,
+  MedicalCardContent,
+  MedicalCardHeader,
+  MedicalCardTitle,
+} from '@/components/ui/medical-card';
+import { Download } from 'lucide-react';
+import { MedicalButton } from '@/components/ui/medical-button';
 
 interface AssetItemProps {
-  title: string
-  description: string
-  type: string
-  size?: string
-  preview: React.ReactNode
-  className?: string
+  title: string;
+  description: string;
+  type: string;
+  size?: string;
+  preview: React.ReactNode;
+  className?: string;
 }
 
 function AssetItem({ title, description, type, size, preview, className }: AssetItemProps) {
   return (
-    <MedicalCard className={cn("", className)}>
+    <MedicalCard className={cn('', className)}>
       <div className="h-40 bg-medical-50 flex items-center justify-center p-4 border-b border-medical-100">
         {preview}
       </div>
@@ -34,16 +39,16 @@ function AssetItem({ title, description, type, size, preview, className }: Asset
         </div>
       </MedicalCardContent>
     </MedicalCard>
-  )
+  );
 }
 
 interface AssetManagementProps {
-  className?: string
+  className?: string;
 }
 
 export function AssetManagement({ className }: AssetManagementProps) {
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       <div>
         <h3 className="text-lg font-medium mb-3">品牌标识资产</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -131,7 +136,10 @@ export function AssetManagement({ className }: AssetManagementProps) {
               <div className="flex items-center justify-center h-full w-full">
                 <div className="grid grid-cols-3 gap-1">
                   {Array.from({ length: 9 }).map((_, i) => (
-                    <div key={i} className="h-8 w-8 border-2 border-[#0066CC] rounded-lg opacity-50"></div>
+                    <div
+                      key={i}
+                      className="h-8 w-8 border-2 border-[var(--primary)] rounded-lg opacity-50"
+                    ></div>
                   ))}
                 </div>
               </div>
@@ -146,8 +154,8 @@ export function AssetManagement({ className }: AssetManagementProps) {
             preview={
               <div className="flex items-center justify-center h-full w-full">
                 <div className="relative h-16 w-16">
-                  <div className="absolute inset-0 bg-[#0066CC] rounded-lg opacity-30 transform translate-x-2 translate-y-2"></div>
-                  <div className="absolute inset-0 bg-[#00A3E0] rounded-lg opacity-60 transform translate-x-1 translate-y-1"></div>
+                  <div className="absolute inset-0 bg-[var(--primary)] rounded-lg opacity-30 transform translate-x-2 translate-y-2"></div>
+                  <div className="absolute inset-0 bg-[var(--primary)] rounded-lg opacity-60 transform translate-x-1 translate-y-1"></div>
                   <div className="absolute inset-0 bg-medical-gradient rounded-lg"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className="text-white font-bold text-lg">³</span>
@@ -191,7 +199,7 @@ export function AssetManagement({ className }: AssetManagementProps) {
                 <div className="h-32 w-24 bg-white border border-medical-200 rounded-md flex flex-col">
                   <div className="h-8 bg-medical-gradient w-full rounded-t-md flex items-center justify-center">
                     <div className="h-4 w-4 rounded-full bg-white flex items-center justify-center">
-                      <span className="text-[#0066CC] font-bold text-[8px]">YY³</span>
+                      <span className="text-[var(--primary)] font-bold text-[8px]">YY³</span>
                     </div>
                   </div>
                   <div className="flex-1 p-2">
@@ -227,7 +235,7 @@ export function AssetManagement({ className }: AssetManagementProps) {
               <div>
                 <h4 className="text-base font-medium mb-3">色彩使用规范</h4>
                 <ul className="space-y-2 text-sm text-medical-600 list-disc pl-5">
-                  <li>主色医枢蓝(#0066CC)应用于品牌标识和主要视觉元素</li>
+                  <li>主色医枢蓝(var(--primary))应用于品牌标识和主要视觉元素</li>
                   <li>辅助色应按照规定的场景使用，不应喧宾夺主</li>
                   <li>在印刷品中，应使用CMYK色值，确保色彩还原准确</li>
                   <li>在特殊场合可使用单色版标志，但应遵循单色版使用规范</li>
@@ -248,5 +256,5 @@ export function AssetManagement({ className }: AssetManagementProps) {
         </MedicalCard>
       </div>
     </div>
-  )
+  );
 }

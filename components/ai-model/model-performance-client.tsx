@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { ModelPerformance } from "./model-performance"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react';
+import { ModelPerformance } from './model-performance';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 
 export function ModelPerformanceClient() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview');
 
   return (
     <div className="space-y-6">
@@ -38,25 +38,25 @@ export function ModelPerformanceClient() {
             </TabsContent>
 
             <TabsContent value="detailed">
-              <div className="h-96 flex items-center justify-center bg-gray-100 rounded-md">
-                <p className="text-gray-500">详细分析内容将在此处显示</p>
+              <div className="h-96 flex items-center justify-center bg-muted rounded-md">
+                <p className="text-muted-foreground">详细分析内容将在此处显示</p>
               </div>
             </TabsContent>
 
             <TabsContent value="comparison">
-              <div className="h-96 flex items-center justify-center bg-gray-100 rounded-md">
-                <p className="text-gray-500">模型比较内容将在此处显示</p>
+              <div className="h-96 flex items-center justify-center bg-muted rounded-md">
+                <p className="text-muted-foreground">模型比较内容将在此处显示</p>
               </div>
             </TabsContent>
 
             <TabsContent value="history">
-              <div className="h-96 flex items-center justify-center bg-gray-100 rounded-md">
-                <p className="text-gray-500">历史趋势内容将在此处显示</p>
+              <div className="h-96 flex items-center justify-center bg-muted rounded-md">
+                <p className="text-muted-foreground">历史趋势内容将在此处显示</p>
               </div>
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -1,22 +1,33 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CollaboratorsPanel } from "./collaborators-panel"
-import { VersionHistory } from "./version-history"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Users, History, MessageSquare, Bell, Calendar, Clock, Lock, Unlock, Share2, Settings } from "lucide-react"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CollaboratorsPanel } from './collaborators-panel';
+import { VersionHistory } from './version-history';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Users,
+  History,
+  MessageSquare,
+  Bell,
+  Calendar,
+  Clock,
+  Lock,
+  Unlock,
+  Share2,
+  Settings,
+} from 'lucide-react';
 
 interface CollaborationDashboardProps {
-  experimentId: string
+  experimentId: string;
 }
 
 export function CollaborationDashboard({ experimentId }: CollaborationDashboardProps) {
-  const [activeTab, setActiveTab] = useState("collaborators")
+  const [activeTab, setActiveTab] = useState('collaborators');
 
   // 模拟协作统计数据
   const collaborationStats = {
@@ -25,15 +36,15 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
     comments: 12,
     resolvedComments: 8,
     versions: 5,
-    lastUpdated: "今天 14:30",
-    updatedBy: "张医生",
-    updaterAvatar: "/placeholder.svg?height=40&width=40&query=张",
+    lastUpdated: '今天 14:30',
+    updatedBy: '张医生',
+    updaterAvatar: '/placeholder.svg?height=40&width=40&query=张',
     progress: 75,
-    status: "进行中",
-    nextMeeting: "2023-09-25 10:00",
+    status: '进行中',
+    nextMeeting: '2023-09-25 10:00',
     isLocked: false,
     notifications: 3,
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -41,14 +52,14 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Users className="h-4 w-4 text-blue-500" />
+              <Users className="h-4 w-4 text-primary" />
               协作者
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center">
               <div className="text-2xl font-bold">{collaborationStats.collaborators}</div>
-              <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+              <Badge variant="outline" className="bg-warning text-warning border-warning">
                 {collaborationStats.pendingInvitations} 待接受
               </Badge>
             </div>
@@ -76,14 +87,14 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-green-500" />
+              <MessageSquare className="h-4 w-4 text-success" />
               评论
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center">
               <div className="text-2xl font-bold">{collaborationStats.comments}</div>
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+              <Badge variant="outline" className="bg-success/5 text-success border-success/30">
                 {collaborationStats.resolvedComments} 已解决
               </Badge>
             </div>
@@ -103,19 +114,21 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <History className="h-4 w-4 text-purple-500" />
+              <History className="h-4 w-4 text-primary" />
               版本
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center">
               <div className="text-2xl font-bold">{collaborationStats.versions}</div>
-              <div className="text-xs text-muted-foreground">最后更新: {collaborationStats.lastUpdated}</div>
+              <div className="text-xs text-muted-foreground">
+                最后更新: {collaborationStats.lastUpdated}
+              </div>
             </div>
             <div className="flex items-center gap-2 mt-2">
               <Avatar className="h-6 w-6">
                 <AvatarImage
-                  src={collaborationStats.updaterAvatar || "/placeholder.svg"}
+                  src={collaborationStats.updaterAvatar || '/placeholder.svg'}
                   alt={collaborationStats.updatedBy}
                 />
                 <AvatarFallback>{collaborationStats.updatedBy.slice(0, 2)}</AvatarFallback>
@@ -128,14 +141,14 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Clock className="h-4 w-4 text-orange-500" />
+              <Clock className="h-4 w-4 text-warning" />
               状态
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex justify-between items-center">
               <div className="text-2xl font-bold">{collaborationStats.progress}%</div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+              <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
                 {collaborationStats.status}
               </Badge>
             </div>
@@ -204,5 +217,5 @@ export function CollaborationDashboard({ experimentId }: CollaborationDashboardP
         <VersionHistory experimentId={experimentId} />
       </TabsContent>
     </div>
-  )
+  );
 }

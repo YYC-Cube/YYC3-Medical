@@ -1,10 +1,19 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Brain, Activity, BarChart, Clock, CheckCircle, FileText, Users, Calendar } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Brain,
+  Activity,
+  BarChart,
+  Clock,
+  CheckCircle,
+  FileText,
+  Users,
+  Calendar,
+} from 'lucide-react';
 
 export function ModelOverview() {
   return (
@@ -13,7 +22,7 @@ export function ModelOverview() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">活跃模型</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">活跃模型</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end justify-between">
@@ -28,7 +37,7 @@ export function ModelOverview() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">本月诊断次数</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">本月诊断次数</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end justify-between">
@@ -43,12 +52,12 @@ export function ModelOverview() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">平均准确率</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">平均准确率</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end justify-between">
               <div className="text-3xl font-bold text-medical-700">92.7%</div>
-              <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+              <Badge variant="outline" className="flex items-center gap-1 text-success">
                 <Activity className="h-3 w-3" />
                 +1.2%
               </Badge>
@@ -58,12 +67,12 @@ export function ModelOverview() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">平均响应时间</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">平均响应时间</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-end justify-between">
               <div className="text-3xl font-bold text-medical-700">1.8s</div>
-              <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+              <Badge variant="outline" className="flex items-center gap-1 text-success">
                 <Clock className="h-3 w-3" />
                 -0.3s
               </Badge>
@@ -79,10 +88,10 @@ export function ModelOverview() {
           <CardDescription>过去30天的系统性能指标</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+          <div className="h-80 bg-muted rounded-md flex items-center justify-center">
             <div className="text-center">
-              <BarChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-              <p className="text-gray-500">性能图表将在此处显示</p>
+              <BarChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+              <p className="text-muted-foreground">性能图表将在此处显示</p>
             </div>
           </div>
         </CardContent>
@@ -108,8 +117,8 @@ export function ModelOverview() {
             </TabsList>
 
             <TabsContent value="diagnoses" className="space-y-4">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50">
+              {[1, 2, 3, 4, 5].map(i => (
+                <div key={i} className="flex items-start gap-4 p-3 rounded-lg hover:bg-muted">
                   <div className="bg-medical-100 p-2 rounded-full">
                     <FileText className="h-5 w-5 text-medical-600" />
                   </div>
@@ -118,8 +127,10 @@ export function ModelOverview() {
                       <h4 className="font-medium">肺部CT影像分析</h4>
                       <Badge variant="outline">92% 置信度</Badge>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">检测到右肺上叶可疑结节，建议进一步检查</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <p className="text-sm text-muted-foreground mt-1">
+                      检测到右肺上叶可疑结节，建议进一步检查
+                    </p>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Users className="h-3 w-3" />
                         <span>患者 #12458</span>
@@ -139,18 +150,20 @@ export function ModelOverview() {
             </TabsContent>
 
             <TabsContent value="updates" className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <Activity className="h-5 w-5 text-blue-600" />
+              {[1, 2, 3].map(i => (
+                <div key={i} className="flex items-start gap-4 p-3 rounded-lg hover:bg-muted">
+                  <div className="bg-primary/10 p-2 rounded-full">
+                    <Activity className="h-5 w-5 text-primary" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h4 className="font-medium">模型更新完成</h4>
                       <Badge variant="outline">v2.{4 - i}.0</Badge>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">肺部CT分析模型已更新至最新版本，准确率提升2.3%</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <p className="text-sm text-muted-foreground mt-1">
+                      肺部CT分析模型已更新至最新版本，准确率提升2.3%
+                    </p>
+                    <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
                         <span>{i}天前</span>
@@ -168,5 +181,5 @@ export function ModelOverview() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

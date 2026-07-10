@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { HealthDataImport } from "./data-import"
-import { VitalSigns } from "./vital-signs"
-import { TestResults } from "./test-results"
-import { TrendsAnalysis } from "./trends-analysis"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Upload, Activity, FileText, BarChart, Users, Calendar } from "lucide-react"
+import { useState } from 'react';
+import { HealthDataImport } from './data-import';
+import { VitalSigns } from './vital-signs';
+import { TestResults } from './test-results';
+import { TrendsAnalysis } from './trends-analysis';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Upload, Activity, FileText, BarChart, Users, Calendar } from 'lucide-react';
 
 export function HealthDataClient() {
-  const [activeTab, setActiveTab] = useState("import")
+  const [activeTab, setActiveTab] = useState('import');
 
   return (
     <div className="space-y-6">
@@ -69,7 +69,7 @@ export function HealthDataClient() {
         </TabsContent>
 
         <TabsContent value="patients">
-          <div className="h-[500px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+          <div className="h-[500px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
             <div className="text-center">
               <Users className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
               <h3 className="text-lg font-medium mb-2">患者数据管理</h3>
@@ -81,7 +81,7 @@ export function HealthDataClient() {
         </TabsContent>
 
         <TabsContent value="schedule">
-          <div className="h-[500px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+          <div className="h-[500px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
             <div className="text-center">
               <Calendar className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
               <h3 className="text-lg font-medium mb-2">数据采集计划管理</h3>
@@ -93,5 +93,5 @@ export function HealthDataClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

@@ -1,12 +1,12 @@
-import { Suspense } from "react"
-import { DiagnosisRecordsClient } from "@/components/ai-diagnosis/diagnosis-records-client"
-import { LoadingFallback } from "@/components/ui/loading-fallback"
-import { PageHeader } from "@/components/page-header"
+import { Suspense } from 'react';
+import { DiagnosisRecordsClient } from '@/components/ai-diagnosis/diagnosis-records-client';
+import { LoadingFallback } from '@/components/ui/loading-fallback';
+import { PageHeader } from '@/components/page-header';
 
 export const metadata = {
-  title: "诊断记录 | MediNexus³",
-  description: "查看和管理AI辅助诊断的历史记录",
-}
+  title: '诊断记录 | MediNexus³',
+  description: '查看和管理AI辅助诊断的历史记录',
+};
 
 export default function DiagnosisRecordsPage() {
   return (
@@ -15,9 +15,9 @@ export default function DiagnosisRecordsPage() {
         title="诊断记录"
         description="查看、管理和分析AI辅助诊断的历史记录"
         breadcrumbs={[
-          { label: "首页", href: "/" },
-          { label: "智能诊断", href: "/ai-diagnosis" },
-          { label: "诊断记录", href: "/ai-diagnosis/records" },
+          { label: '首页', href: '/' },
+          { label: '智能诊断', href: '/ai-diagnosis' },
+          { label: '诊断记录', href: '/ai-diagnosis/records' },
         ]}
       />
 
@@ -25,5 +25,5 @@ export default function DiagnosisRecordsPage() {
         <DiagnosisRecordsClient />
       </Suspense>
     </div>
-  )
+  );
 }

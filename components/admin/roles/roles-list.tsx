@@ -1,16 +1,39 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Input } from "@/components/ui/input"
-import { EditRoleDialog } from "./edit-role-dialog"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Search, Shield, Users, User, Lock, Eye, PenSquare, Trash2, FileText } from "lucide-react"
-import { toast } from "@/components/ui/use-toast"
+import { useState, useEffect } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input';
+import { EditRoleDialog } from './edit-role-dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  MoreHorizontal,
+  Search,
+  Shield,
+  Users,
+  User,
+  Lock,
+  Eye,
+  PenSquare,
+  Trash2,
+  FileText,
+} from 'lucide-react';
+import { toast } from '@/components/ui/use-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,148 +43,150 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
+} from '@/components/ui/alert-dialog';
 
 // 模拟角色数据
 const mockRoles = [
   {
-    id: "role_1",
-    name: "超级管理员",
-    description: "拥有系统所有权限",
+    id: 'role_1',
+    name: '超级管理员',
+    description: '拥有系统所有权限',
     users: 3,
     permissions: 128,
     isSystem: true,
     createdAt: new Date(2022, 0, 15),
   },
   {
-    id: "role_2",
-    name: "系统管理员",
-    description: "管理系统设置和用户",
+    id: 'role_2',
+    name: '系统管理员',
+    description: '管理系统设置和用户',
     users: 5,
     permissions: 64,
     isSystem: true,
     createdAt: new Date(2022, 0, 20),
   },
   {
-    id: "role_3",
-    name: "医生",
-    description: "医疗专业人员权限",
+    id: 'role_3',
+    name: '医生',
+    description: '医疗专业人员权限',
     users: 42,
     permissions: 32,
     isSystem: true,
     createdAt: new Date(2022, 1, 5),
   },
   {
-    id: "role_4",
-    name: "护士",
-    description: "医护人员权限",
+    id: 'role_4',
+    name: '护士',
+    description: '医护人员权限',
     users: 38,
     permissions: 24,
     isSystem: true,
     createdAt: new Date(2022, 1, 10),
   },
   {
-    id: "role_5",
-    name: "数据分析师",
-    description: "数据访问和分析权限",
+    id: 'role_5',
+    name: '数据分析师',
+    description: '数据访问和分析权限',
     users: 12,
     permissions: 18,
     isSystem: false,
     createdAt: new Date(2022, 2, 15),
   },
   {
-    id: "role_6",
-    name: "研究人员",
-    description: "研究数据访问权限",
+    id: 'role_6',
+    name: '研究人员',
+    description: '研究数据访问权限',
     users: 8,
     permissions: 16,
     isSystem: false,
     createdAt: new Date(2022, 3, 20),
   },
   {
-    id: "role_7",
-    name: "前台",
-    description: "患者管理和预约权限",
+    id: 'role_7',
+    name: '前台',
+    description: '患者管理和预约权限',
     users: 10,
     permissions: 12,
     isSystem: false,
     createdAt: new Date(2022, 4, 10),
   },
   {
-    id: "role_8",
-    name: "医技人员",
-    description: "检验和医技权限",
+    id: 'role_8',
+    name: '医技人员',
+    description: '检验和医技权限',
     users: 15,
     permissions: 14,
     isSystem: false,
     createdAt: new Date(2022, 5, 5),
   },
-]
+];
 
 export function RolesList() {
-  const [roles, setRoles] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [editingRole, setEditingRole] = useState<any>(null)
-  const [editDialogOpen, setEditDialogOpen] = useState(false)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [deletingRole, setDeletingRole] = useState<any>(null)
+  const [roles, setRoles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editingRole, setEditingRole] = useState<any>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deletingRole, setDeletingRole] = useState<any>(null);
 
   // 模拟加载角色数据
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
     // 模拟API调用延迟
     const timer = setTimeout(() => {
       // 筛选角色
-      let filteredRoles = [...mockRoles]
+      let filteredRoles = [...mockRoles];
 
       if (searchQuery) {
-        const query = searchQuery.toLowerCase()
+        const query = searchQuery.toLowerCase();
         filteredRoles = filteredRoles.filter(
-          (role) => role.name.toLowerCase().includes(query) || role.description.toLowerCase().includes(query),
-        )
+          role =>
+            role.name.toLowerCase().includes(query) ||
+            role.description.toLowerCase().includes(query)
+        );
       }
 
-      setRoles(filteredRoles)
-      setLoading(false)
-    }, 500)
+      setRoles(filteredRoles);
+      setLoading(false);
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [searchQuery])
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleEdit = (role: any) => {
-    setEditingRole(role)
-    setEditDialogOpen(true)
-  }
+    setEditingRole(role);
+    setEditDialogOpen(true);
+  };
 
   const handleDelete = (role: any) => {
-    setDeletingRole(role)
-    setDeleteDialogOpen(true)
-  }
+    setDeletingRole(role);
+    setDeleteDialogOpen(true);
+  };
 
   const confirmDelete = () => {
-    if (!deletingRole) return
+    if (!deletingRole) return;
 
     // 模拟删除操作
-    setRoles((prev) => prev.filter((role) => role.id !== deletingRole.id))
+    setRoles(prev => prev.filter(role => role.id !== deletingRole.id));
 
     toast({
-      title: "角色已删除",
+      title: '角色已删除',
       description: `角色 "${deletingRole.name}" 已成功删除。`,
-    })
+    });
 
-    setDeleteDialogOpen(false)
-    setDeletingRole(null)
-  }
+    setDeleteDialogOpen(false);
+    setDeletingRole(null);
+  };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("zh-CN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-  }
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
 
   if (loading) {
     return (
@@ -183,7 +208,7 @@ export function RolesList() {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -195,11 +220,11 @@ export function RolesList() {
       <CardContent>
         <div className="space-y-4">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="搜索角色..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="pl-9"
             />
           </div>
@@ -218,22 +243,22 @@ export function RolesList() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {roles.map((role) => (
+                {roles.map(role => (
                   <TableRow key={role.id}>
                     <TableCell className="font-medium flex items-center gap-2">
-                      <Shield className="h-4 w-4 text-gray-500" />
+                      <Shield className="h-4 w-4 text-muted-foreground" />
                       {role.name}
                     </TableCell>
                     <TableCell>{role.description}</TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-1.5">
-                        <Users className="h-4 w-4 text-gray-500" />
+                        <Users className="h-4 w-4 text-muted-foreground" />
                         {role.users}
                       </div>
                     </TableCell>
                     <TableCell className="text-center">
                       <div className="flex items-center justify-center gap-1.5">
-                        <Lock className="h-4 w-4 text-gray-500" />
+                        <Lock className="h-4 w-4 text-muted-foreground" />
                         {role.permissions}
                       </div>
                     </TableCell>
@@ -271,7 +296,10 @@ export function RolesList() {
                             导出详情
                           </DropdownMenuItem>
                           {!role.isSystem && (
-                            <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(role)}>
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onClick={() => handleDelete(role)}
+                            >
                               <Trash2 className="h-4 w-4 mr-2" />
                               删除角色
                             </DropdownMenuItem>
@@ -304,13 +332,16 @@ export function RolesList() {
               <AlertDialogTitle>确认删除角色</AlertDialogTitle>
               <AlertDialogDescription>
                 {deletingRole && (
-                  <>您确定要删除角色 "{deletingRole.name}" 吗？该操作无法撤销， 且将移除所有用户的该角色权限。</>
+                  <>
+                    您确定要删除角色 "{deletingRole.name}" 吗？该操作无法撤销，
+                    且将移除所有用户的该角色权限。
+                  </>
                 )}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>取消</AlertDialogCancel>
-              <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+              <AlertDialogAction onClick={confirmDelete} className="bg-destructive hover:bg-destructive">
                 删除
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -318,5 +349,5 @@ export function RolesList() {
         </AlertDialog>
       </CardContent>
     </Card>
-  )
+  );
 }

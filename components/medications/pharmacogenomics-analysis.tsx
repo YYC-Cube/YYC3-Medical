@@ -1,86 +1,99 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Dna, Pill, AlertTriangle, CheckCircle, XCircle, Info, TrendingUp, TrendingDown, Minus } from "lucide-react"
-import { pharmacogenomicsService, type PharmacogenomicsProfile } from "@/services/pharmacogenomics-service"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Dna,
+  Pill,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Info,
+  TrendingUp,
+  TrendingDown,
+  Minus,
+} from 'lucide-react';
+import {
+  pharmacogenomicsService,
+  type PharmacogenomicsProfile,
+} from '@/services/pharmacogenomics-service';
 
 interface PharmacogenomicsAnalysisProps {
-  patientId: string
+  patientId: string;
 }
 
 export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysisProps) {
-  const [profile, setProfile] = useState<PharmacogenomicsProfile | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("overview")
+  const [profile, setProfile] = useState<PharmacogenomicsProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('overview');
 
-  useEffect(() => {
-    loadPatientProfile()
-  }, [patientId])
-
-  const loadPatientProfile = async () => {
+  async function loadPatientProfile() {
     try {
-      setLoading(true)
-      const data = await pharmacogenomicsService.getPatientProfile(patientId)
-      setProfile(data)
+      setLoading(true);
+      const data = await pharmacogenomicsService.getPatientProfile(patientId);
+      setProfile(data);
     } catch (error) {
-      console.error("加载药物基因组学档案失败:", error)
+      console.error('加载药物基因组学档案失败:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
+
+  useEffect(() => {
+    loadPatientProfile();
+  }, [patientId]);
 
   const getMetabolizerIcon = (type: string) => {
     switch (type) {
-      case "poor":
-        return <TrendingDown className="h-4 w-4 text-red-500" />
-      case "intermediate":
-        return <Minus className="h-4 w-4 text-yellow-500" />
-      case "normal":
-        return <CheckCircle className="h-4 w-4 text-green-500" />
-      case "rapid":
-      case "ultrarapid":
-        return <TrendingUp className="h-4 w-4 text-blue-500" />
+      case 'poor':
+        return <TrendingDown className="h-4 w-4 text-destructive" />;
+      case 'intermediate':
+        return <Minus className="h-4 w-4 text-warning" />;
+      case 'normal':
+        return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'rapid':
+      case 'ultrarapid':
+        return <TrendingUp className="h-4 w-4 text-primary" />;
       default:
-        return <Info className="h-4 w-4 text-gray-500" />
+        return <Info className="h-4 w-4 text-muted-foreground" />;
     }
-  }
+  };
 
   const getRecommendationBadge = (recommendation: string) => {
     switch (recommendation) {
-      case "standard":
-        return <Badge className="bg-green-500">标准剂量</Badge>
-      case "reduced":
-        return <Badge className="bg-yellow-500">减少剂量</Badge>
-      case "increased":
-        return <Badge className="bg-blue-500">增加剂量</Badge>
-      case "alternative":
-        return <Badge className="bg-purple-500">替代药物</Badge>
-      case "avoid":
-        return <Badge className="bg-red-500">避免使用</Badge>
+      case 'standard':
+        return <Badge className="bg-success/50">标准剂量</Badge>;
+      case 'reduced':
+        return <Badge className="bg-warning">减少剂量</Badge>;
+      case 'increased':
+        return <Badge className="bg-primary/50">增加剂量</Badge>;
+      case 'alternative':
+        return <Badge className="bg-primary">替代药物</Badge>;
+      case 'avoid':
+        return <Badge className="bg-destructive">避免使用</Badge>;
       default:
-        return <Badge className="bg-gray-500">待评估</Badge>
+        return <Badge className="bg-muted0">待评估</Badge>;
     }
-  }
+  };
 
   const getEvidenceLevelColor = (level: string) => {
     switch (level) {
-      case "A":
-        return "text-green-600"
-      case "B":
-        return "text-blue-600"
-      case "C":
-        return "text-yellow-600"
-      case "D":
-        return "text-red-600"
+      case 'A':
+        return 'text-success';
+      case 'B':
+        return 'text-primary';
+      case 'C':
+        return 'text-warning';
+      case 'D':
+        return 'text-destructive';
       default:
-        return "text-gray-600"
+        return 'text-muted-foreground';
     }
-  }
+  };
 
   if (loading) {
     return (
@@ -92,7 +105,7 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   if (!profile) {
@@ -107,7 +120,7 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -118,8 +131,12 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
             <Dna className="mr-2 h-5 w-5" />
             药物基因组学分析
           </CardTitle>
-          <Badge className={profile.status === "completed" ? "bg-green-500" : "bg-yellow-500"}>
-            {profile.status === "completed" ? "已完成" : profile.status === "reviewed" ? "已审核" : "处理中"}
+          <Badge className={profile.status === 'completed' ? 'bg-success/50' : 'bg-warning'}>
+            {profile.status === 'completed'
+              ? '已完成'
+              : profile.status === 'reviewed'
+                ? '已审核'
+                : '处理中'}
           </Badge>
         </div>
       </CardHeader>
@@ -133,7 +150,7 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
 
           <TabsContent value="overview" className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <Card className="bg-gray-50">
+              <Card className="bg-muted">
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-muted-foreground">检测基因</div>
                   <div className="text-2xl font-bold">{profile.geneVariants.length}</div>
@@ -141,7 +158,7 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-50">
+              <Card className="bg-muted">
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-muted-foreground">药物建议</div>
                   <div className="text-2xl font-bold">{profile.drugRecommendations.length}</div>
@@ -149,11 +166,11 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-50">
+              <Card className="bg-muted">
                 <CardContent className="p-4">
                   <div className="text-sm font-medium text-muted-foreground">高风险药物</div>
-                  <div className="text-2xl font-bold text-red-600">
-                    {profile.drugRecommendations.filter((r) => r.recommendation === "avoid").length}
+                  <div className="text-2xl font-bold text-destructive">
+                    {profile.drugRecommendations.filter(r => r.recommendation === 'avoid').length}
                   </div>
                   <div className="text-sm text-muted-foreground">需避免使用</div>
                 </CardContent>
@@ -165,14 +182,16 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
                 <h3 className="text-lg font-medium mb-3">重要提醒</h3>
                 <div className="space-y-2">
                   {profile.drugRecommendations
-                    .filter((rec) => rec.recommendation === "avoid" || rec.recommendation === "alternative")
+                    .filter(
+                      rec => rec.recommendation === 'avoid' || rec.recommendation === 'alternative'
+                    )
                     .map((rec, index) => (
-                      <Alert key={index} className="border-red-200 bg-red-50">
-                        <AlertTriangle className="h-4 w-4 text-red-600" />
+                      <Alert key={index} className="border-destructive bg-destructive">
+                        <AlertTriangle className="h-4 w-4 text-destructive" />
                         <AlertDescription>
                           <strong>{rec.drugName}</strong>: {rec.reasoning}
-                          {rec.recommendation === "avoid" && " - 建议避免使用"}
-                          {rec.recommendation === "alternative" && " - 建议使用替代药物"}
+                          {rec.recommendation === 'avoid' && ' - 建议避免使用'}
+                          {rec.recommendation === 'alternative' && ' - 建议使用替代药物'}
                         </AlertDescription>
                       </Alert>
                     ))}
@@ -207,34 +226,36 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
                           {getMetabolizerIcon(variant.metabolizerType)}
                           <Badge
                             className={`ml-2 ${
-                              variant.clinicalSignificance === "high"
-                                ? "bg-red-500"
-                                : variant.clinicalSignificance === "moderate"
-                                  ? "bg-yellow-500"
-                                  : "bg-green-500"
+                              variant.clinicalSignificance === 'high'
+                                ? 'bg-destructive'
+                                : variant.clinicalSignificance === 'moderate'
+                                  ? 'bg-warning'
+                                  : 'bg-success/50'
                             }`}
                           >
-                            {variant.clinicalSignificance === "high"
-                              ? "高"
-                              : variant.clinicalSignificance === "moderate"
-                                ? "中"
-                                : "低"}
+                            {variant.clinicalSignificance === 'high'
+                              ? '高'
+                              : variant.clinicalSignificance === 'moderate'
+                                ? '中'
+                                : '低'}
                             风险
                           </Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground mb-1">变异型: {variant.variant}</div>
+                        <div className="text-sm text-muted-foreground mb-1">
+                          变异型: {variant.variant}
+                        </div>
                         <div className="text-sm">表型: {variant.phenotype}</div>
                         <div className="text-sm">
-                          代谢类型:{" "}
-                          {variant.metabolizerType === "poor"
-                            ? "慢代谢型"
-                            : variant.metabolizerType === "intermediate"
-                              ? "中间代谢型"
-                              : variant.metabolizerType === "normal"
-                                ? "正常代谢型"
-                                : variant.metabolizerType === "rapid"
-                                  ? "快代谢型"
-                                  : "超快代谢型"}
+                          代谢类型:{' '}
+                          {variant.metabolizerType === 'poor'
+                            ? '慢代谢型'
+                            : variant.metabolizerType === 'intermediate'
+                              ? '中间代谢型'
+                              : variant.metabolizerType === 'normal'
+                                ? '正常代谢型'
+                                : variant.metabolizerType === 'rapid'
+                                  ? '快代谢型'
+                                  : '超快代谢型'}
                         </div>
                       </div>
                     </div>
@@ -255,19 +276,29 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
                           <Pill className="mr-2 h-4 w-4" />
                           <h3 className="text-lg font-medium mr-2">{rec.drugName}</h3>
                           {getRecommendationBadge(rec.recommendation)}
-                          <span className={`ml-2 text-sm font-medium ${getEvidenceLevelColor(rec.evidenceLevel)}`}>
+                          <span
+                            className={`ml-2 text-sm font-medium ${getEvidenceLevelColor(rec.evidenceLevel)}`}
+                          >
                             证据等级: {rec.evidenceLevel}
                           </span>
                         </div>
                         <div className="text-sm mb-2">{rec.reasoning}</div>
                         {rec.dosageAdjustment && (
-                          <div className="text-sm font-medium text-blue-600">剂量调整: {rec.dosageAdjustment}</div>
+                          <div className="text-sm font-medium text-primary">
+                            剂量调整: {rec.dosageAdjustment}
+                          </div>
                         )}
                       </div>
                       <div className="flex items-center">
-                        {rec.recommendation === "avoid" && <XCircle className="h-5 w-5 text-red-500" />}
-                        {rec.recommendation === "alternative" && <AlertTriangle className="h-5 w-5 text-yellow-500" />}
-                        {rec.recommendation === "standard" && <CheckCircle className="h-5 w-5 text-green-500" />}
+                        {rec.recommendation === 'avoid' && (
+                          <XCircle className="h-5 w-5 text-destructive" />
+                        )}
+                        {rec.recommendation === 'alternative' && (
+                          <AlertTriangle className="h-5 w-5 text-warning" />
+                        )}
+                        {rec.recommendation === 'standard' && (
+                          <CheckCircle className="h-5 w-5 text-success" />
+                        )}
                       </div>
                     </div>
                   </CardContent>
@@ -283,5 +314,5 @@ export function PharmacogenomicsAnalysis({ patientId }: PharmacogenomicsAnalysis
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

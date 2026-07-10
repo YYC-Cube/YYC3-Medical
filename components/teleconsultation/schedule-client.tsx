@@ -1,10 +1,16 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -13,220 +19,218 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CalendarClock, Clock, Users, Video, Plus, Filter, Search, ChevronLeft, ChevronRight, X } from "lucide-react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  CalendarClock,
+  Clock,
+  Users,
+  Video,
+  Plus,
+  Filter,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  X,
+} from 'lucide-react';
 
 // 模拟会诊数据
 const consultations = [
   {
     id: 1,
-    title: "心脏病例远程会诊",
-    date: "2025-05-20",
-    time: "14:30-15:30",
-    department: "心脏科",
-    status: "已确认",
+    title: '心脏病例远程会诊',
+    date: '2025-05-20',
+    time: '14:30-15:30',
+    department: '心脏科',
+    status: '已确认',
     participants: [
       {
         id: 1,
-        name: "王医生",
-        role: "心脏科主任",
-        hospital: "中心医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '王医生',
+        role: '心脏科主任',
+        hospital: '中心医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 2,
-        name: "李医生",
-        role: "心脏外科医生",
-        hospital: "中心医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '李医生',
+        role: '心脏外科医生',
+        hospital: '中心医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 3,
-        name: "张医生",
-        role: "放射科医生",
-        hospital: "区域医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '张医生',
+        role: '放射科医生',
+        hospital: '区域医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
     ],
-    patient: { id: 101, name: "张明", age: 58, diagnosis: "冠心病，心肌缺血" },
+    patient: { id: 101, name: '张明', age: 58, diagnosis: '冠心病，心肌缺血' },
   },
   {
     id: 2,
-    title: "脑卒中病例讨论",
-    date: "2025-05-21",
-    time: "10:00-11:00",
-    department: "神经科",
-    status: "待确认",
+    title: '脑卒中病例讨论',
+    date: '2025-05-21',
+    time: '10:00-11:00',
+    department: '神经科',
+    status: '待确认',
     participants: [
       {
         id: 3,
-        name: "张医生",
-        role: "神经科主任",
-        hospital: "区域医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '张医生',
+        role: '神经科主任',
+        hospital: '区域医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 4,
-        name: "赵医生",
-        role: "神经内科医生",
-        hospital: "社区医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '赵医生',
+        role: '神经内科医生',
+        hospital: '社区医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
     ],
-    patient: { id: 102, name: "李强", age: 65, diagnosis: "缺血性脑卒中" },
+    patient: { id: 102, name: '李强', age: 65, diagnosis: '缺血性脑卒中' },
   },
   {
     id: 3,
-    title: "骨折术后康复讨论",
-    date: "2025-05-22",
-    time: "15:00-16:00",
-    department: "骨科",
-    status: "已确认",
+    title: '骨折术后康复讨论',
+    date: '2025-05-22',
+    time: '15:00-16:00',
+    department: '骨科',
+    status: '已确认',
     participants: [
       {
         id: 5,
-        name: "刘医生",
-        role: "骨科主任",
-        hospital: "中心医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '刘医生',
+        role: '骨科主任',
+        hospital: '中心医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 6,
-        name: "陈医生",
-        role: "康复科医生",
-        hospital: "区域医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '陈医生',
+        role: '康复科医生',
+        hospital: '区域医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
     ],
-    patient: { id: 103, name: "王丽", age: 42, diagnosis: "股骨颈骨折术后" },
+    patient: { id: 103, name: '王丽', age: 42, diagnosis: '股骨颈骨折术后' },
   },
   {
     id: 4,
-    title: "糖尿病并发症讨论",
-    date: "2025-05-23",
-    time: "09:30-10:30",
-    department: "内分泌科",
-    status: "已取消",
+    title: '糖尿病并发症讨论',
+    date: '2025-05-23',
+    time: '09:30-10:30',
+    department: '内分泌科',
+    status: '已取消',
     participants: [
       {
         id: 7,
-        name: "黄医生",
-        role: "内分泌科主任",
-        hospital: "中心医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '黄医生',
+        role: '内分泌科主任',
+        hospital: '中心医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 8,
-        name: "吴医生",
-        role: "肾内科医生",
-        hospital: "区域医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '吴医生',
+        role: '肾内科医生',
+        hospital: '区域医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
     ],
-    patient: { id: 104, name: "赵刚", age: 55, diagnosis: "2型糖尿病，糖尿病肾病" },
+    patient: { id: 104, name: '赵刚', age: 55, diagnosis: '2型糖尿病，糖尿病肾病' },
   },
   {
     id: 5,
-    title: "肺部感染病例讨论",
-    date: "2025-05-24",
-    time: "13:00-14:00",
-    department: "呼吸科",
-    status: "待确认",
+    title: '肺部感染病例讨论',
+    date: '2025-05-24',
+    time: '13:00-14:00',
+    department: '呼吸科',
+    status: '待确认',
     participants: [
       {
         id: 9,
-        name: "郑医生",
-        role: "呼吸科主任",
-        hospital: "中心医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '郑医生',
+        role: '呼吸科主任',
+        hospital: '中心医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
       {
         id: 10,
-        name: "孙医生",
-        role: "感染科医生",
-        hospital: "社区医院",
-        avatar: "/compassionate-doctor-consultation.png",
+        name: '孙医生',
+        role: '感染科医生',
+        hospital: '社区医院',
+        avatar: '/compassionate-doctor-consultation.png',
       },
     ],
-    patient: { id: 105, name: "张华", age: 70, diagnosis: "社区获得性肺炎" },
+    patient: { id: 105, name: '张华', age: 70, diagnosis: '社区获得性肺炎' },
   },
-]
+];
 
 // 获取状态对应的样式
-const getStatusStyle = (status) => {
+const getStatusStyle = (status: string) => {
   switch (status) {
-    case "已确认":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
-    case "待确认":
-      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300"
-    case "已取消":
-      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+    case '已确认':
+      return 'bg-success/10 text-success dark:bg-success dark:text-success';
+    case '待确认':
+      return 'bg-warning text-warning dark:bg-warning dark:text-warning';
+    case '已取消':
+      return 'bg-destructive text-destructive dark:bg-destructive dark:text-destructive';
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"
+      return 'bg-muted text-foreground dark:bg-medical-800 dark:text-medical-100';
   }
-}
+};
 
 export default function ScheduleClient() {
-  const [date, setDate] = useState(new Date())
-  const [activeTab, setActiveTab] = useState("calendar")
-  const [showNewConsultation, setShowNewConsultation] = useState(false)
-  const [selectedDepartment, setSelectedDepartment] = useState("")
-  const [selectedStatus, setSelectedStatus] = useState("")
-  const [searchQuery, setSearchQuery] = useState("")
+  const [date, setDate] = useState(new Date());
+  const [activeTab, setActiveTab] = useState('calendar');
+  const [showNewConsultation, setShowNewConsultation] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   // 过滤会诊列表
-  const filteredConsultations = consultations.filter((consultation) => {
+  const filteredConsultations = consultations.filter(consultation => {
     // 搜索过滤
     if (searchQuery && !consultation.title.toLowerCase().includes(searchQuery.toLowerCase())) {
-      return false
+      return false;
     }
     // 科室过滤
     if (selectedDepartment && consultation.department !== selectedDepartment) {
-      return false
+      return false;
     }
     // 状态过滤
     if (selectedStatus && consultation.status !== selectedStatus) {
-      return false
+      return false;
     }
-    return true
-  })
+    return true;
+  });
 
   // 根据日期获取当天的会诊
-  const getDayConsultations = (day) => {
-    const formattedDate = day.toISOString().split("T")[0]
-    return consultations.filter((consultation) => consultation.date === formattedDate)
-  }
+  const getDayConsultations = (day: Date) => {
+    const formattedDate = day.toISOString().split('T')[0];
+    return consultations.filter(consultation => consultation.date === formattedDate);
+  };
 
   // 自定义日期渲染
-  const renderDay = (day) => {
-    const dayConsultations = getDayConsultations(day)
-    return (
-      <div className="relative">
-        <div>{day.getDate()}</div>
-        {dayConsultations.length > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 flex justify-center">
-            <div className="h-1.5 w-1.5 rounded-full bg-blue-500"></div>
-          </div>
-        )}
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Button variant="outline" size="sm" onClick={() => setActiveTab("calendar")}>
+          <Button variant="outline" size="sm" onClick={() => setActiveTab('calendar')}>
             <CalendarClock className="w-4 h-4 mr-2" />
             日历视图
           </Button>
-          <Button variant="outline" size="sm" onClick={() => setActiveTab("list")}>
+          <Button variant="outline" size="sm" onClick={() => setActiveTab('list')}>
             <Users className="w-4 h-4 mr-2" />
             列表视图
           </Button>
@@ -296,10 +300,10 @@ export default function ScheduleClient() {
                 <Label htmlFor="participants">参与医生</Label>
                 <div className="border rounded-md p-2">
                   <div className="flex flex-wrap gap-2 mb-2">
-                    <Badge className="flex items-center gap-1 bg-blue-100 text-blue-800 hover:bg-blue-200">
+                    <Badge className="flex items-center gap-1 bg-primary/10 text-primary hover:bg-primary/20">
                       王医生 <X className="h-3 w-3 cursor-pointer" />
                     </Badge>
-                    <Badge className="flex items-center gap-1 bg-blue-100 text-blue-800 hover:bg-blue-200">
+                    <Badge className="flex items-center gap-1 bg-primary/10 text-primary hover:bg-primary/20">
                       李医生 <X className="h-3 w-3 cursor-pointer" />
                     </Badge>
                   </div>
@@ -330,7 +334,7 @@ export default function ScheduleClient() {
         </Dialog>
       </div>
 
-      {activeTab === "calendar" ? (
+      {activeTab === 'calendar' ? (
         <Card>
           <CardHeader>
             <div className="flex justify-between items-center">
@@ -340,7 +344,7 @@ export default function ScheduleClient() {
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <span className="text-sm font-medium">
-                  {date.toLocaleDateString("zh-CN", { year: "numeric", month: "long" })}
+                  {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long' })}
                 </span>
                 <Button variant="outline" size="sm">
                   <ChevronRight className="h-4 w-4" />
@@ -352,26 +356,30 @@ export default function ScheduleClient() {
             <Calendar
               mode="single"
               selected={date}
-              onSelect={setDate}
+              onSelect={(d: Date | undefined) => d && setDate(d)}
               className="rounded-md border"
-              renderDay={renderDay}
             />
 
             <div className="mt-6">
               <h3 className="text-lg font-medium mb-4">
-                {date.toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" })} 的会诊
+                {date.toLocaleDateString('zh-CN', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}{' '}
+                的会诊
               </h3>
               <div className="space-y-4">
                 {getDayConsultations(date).length > 0 ? (
-                  getDayConsultations(date).map((consultation) => (
+                  getDayConsultations(date).map(consultation => (
                     <Card key={consultation.id} className="overflow-hidden">
                       <div
                         className={`h-1.5 w-full ${
-                          consultation.status === "已确认"
-                            ? "bg-green-500"
-                            : consultation.status === "待确认"
-                              ? "bg-yellow-500"
-                              : "bg-red-500"
+                          consultation.status === '已确认'
+                            ? 'bg-success/50'
+                            : consultation.status === '待确认'
+                              ? 'bg-warning'
+                              : 'bg-destructive'
                         }`}
                       ></div>
                       <CardContent className="p-4">
@@ -385,14 +393,22 @@ export default function ScheduleClient() {
                               <span>{consultation.department}</span>
                             </div>
                           </div>
-                          <Badge className={getStatusStyle(consultation.status)}>{consultation.status}</Badge>
+                          <Badge className={getStatusStyle(consultation.status)}>
+                            {consultation.status}
+                          </Badge>
                         </div>
                         <div className="mt-3">
                           <div className="text-sm text-muted-foreground mb-1">参与医生</div>
                           <div className="flex -space-x-2">
-                            {consultation.participants.map((participant) => (
-                              <Avatar key={participant.id} className="border-2 border-background h-8 w-8">
-                                <AvatarImage src={participant.avatar || "/placeholder.svg"} alt={participant.name} />
+                            {consultation.participants.map(participant => (
+                              <Avatar
+                                key={participant.id}
+                                className="border-2 border-background h-8 w-8"
+                              >
+                                <AvatarImage
+                                  src={participant.avatar || '/placeholder.svg'}
+                                  alt={participant.name}
+                                />
                                 <AvatarFallback>{participant.name[0]}</AvatarFallback>
                               </Avatar>
                             ))}
@@ -422,7 +438,12 @@ export default function ScheduleClient() {
                   <div className="text-center py-8 text-muted-foreground">
                     <CalendarClock className="h-12 w-12 mx-auto mb-3 opacity-20" />
                     <p>当天没有安排会诊</p>
-                    <Button variant="outline" size="sm" className="mt-4" onClick={() => setShowNewConsultation(true)}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-4"
+                      onClick={() => setShowNewConsultation(true)}
+                    >
                       <Plus className="h-4 w-4 mr-2" />
                       安排会诊
                     </Button>
@@ -444,7 +465,7 @@ export default function ScheduleClient() {
                     placeholder="搜索会诊..."
                     className="pl-8 w-[200px]"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                   />
                 </div>
                 <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
@@ -500,7 +521,7 @@ export default function ScheduleClient() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredConsultations.map((consultation) => (
+                  {filteredConsultations.map(consultation => (
                     <tr key={consultation.id}>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="font-medium">{consultation.title}</div>
@@ -510,10 +531,10 @@ export default function ScheduleClient() {
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="text-sm">
-                          {new Date(consultation.date).toLocaleDateString("zh-CN", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
+                          {new Date(consultation.date).toLocaleDateString('zh-CN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
                           })}
                         </div>
                         <div className="text-sm text-muted-foreground">{consultation.time}</div>
@@ -521,9 +542,15 @@ export default function ScheduleClient() {
                       <td className="px-4 py-4 whitespace-nowrap">{consultation.department}</td>
                       <td className="px-4 py-4 whitespace-nowrap">
                         <div className="flex -space-x-2">
-                          {consultation.participants.slice(0, 3).map((participant) => (
-                            <Avatar key={participant.id} className="border-2 border-background h-8 w-8">
-                              <AvatarImage src={participant.avatar || "/placeholder.svg"} alt={participant.name} />
+                          {consultation.participants.slice(0, 3).map(participant => (
+                            <Avatar
+                              key={participant.id}
+                              className="border-2 border-background h-8 w-8"
+                            >
+                              <AvatarImage
+                                src={participant.avatar || '/placeholder.svg'}
+                                alt={participant.name}
+                              />
                               <AvatarFallback>{participant.name[0]}</AvatarFallback>
                             </Avatar>
                           ))}
@@ -535,14 +562,16 @@ export default function ScheduleClient() {
                         </div>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">
-                        <Badge className={getStatusStyle(consultation.status)}>{consultation.status}</Badge>
+                        <Badge className={getStatusStyle(consultation.status)}>
+                          {consultation.status}
+                        </Badge>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-right">
                         <div className="flex justify-end gap-2">
                           <Button variant="outline" size="sm">
                             详情
                           </Button>
-                          {consultation.status !== "已取消" && (
+                          {consultation.status !== '已取消' && (
                             <Button size="sm">
                               <Video className="h-4 w-4 mr-1" />
                               进入会诊
@@ -563,9 +592,9 @@ export default function ScheduleClient() {
                     size="sm"
                     className="mt-4"
                     onClick={() => {
-                      setSelectedDepartment("")
-                      setSelectedStatus("")
-                      setSearchQuery("")
+                      setSelectedDepartment('');
+                      setSelectedStatus('');
+                      setSearchQuery('');
                     }}
                   >
                     清除筛选条件
@@ -577,5 +606,5 @@ export default function ScheduleClient() {
         </Card>
       )}
     </div>
-  )
+  );
 }

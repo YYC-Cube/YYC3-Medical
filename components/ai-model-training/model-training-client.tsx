@@ -1,18 +1,23 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ModelTrainingDashboard } from "@/components/model-training-dashboard"
-import { ModelTrainingJobs } from "./model-training-jobs"
-import { ModelEvaluation } from "./model-evaluation"
-import { ModelDeployment } from "./model-deployment"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ModelTrainingDashboard } from '@/components/model-training-dashboard';
+import { ModelTrainingJobs } from './model-training-jobs';
+import { ModelEvaluation } from './model-evaluation';
+import { ModelDeployment } from './model-deployment';
 
 export function ModelTrainingClient() {
-  const [activeTab, setActiveTab] = useState("dashboard")
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   return (
     <div className="space-y-6">
-      <Tabs defaultValue="dashboard" className="w-full" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        defaultValue="dashboard"
+        className="w-full"
+        value={activeTab}
+        onValueChange={setActiveTab}
+      >
         <TabsList className="grid grid-cols-4 mb-8">
           <TabsTrigger value="dashboard">训练概览</TabsTrigger>
           <TabsTrigger value="jobs">训练任务</TabsTrigger>
@@ -37,5 +42,5 @@ export function ModelTrainingClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

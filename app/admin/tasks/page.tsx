@@ -1,6 +1,6 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import TasksClient from "@/components/admin/tasks/tasks-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import TasksClient from '@/components/admin/tasks/tasks-client';
 
 export default function TasksPage() {
   return (
@@ -12,5 +12,5 @@ export default function TasksPage() {
         <TasksClient />
       </Suspense>
     </div>
-  )
+  );
 }

@@ -1,27 +1,48 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Save, Clock, Shield, Copy, RefreshCw, AlertTriangle, Plus, X } from 'lucide-react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { toast } from "@/components/ui/use-toast"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from '@/components/ui/use-toast';
+import { AlertTriangle, Clock, Copy, Plus, RefreshCw, Save, Shield } from 'lucide-react';
+import { useState } from 'react';
 
 export function ApiSettings() {
   const [generalSettings, setGeneralSettings] = useState({
     enableApi: true,
-    apiVersion: "v1",
-    baseUrl: "https://api.example.com",
+    apiVersion: 'v1',
+    baseUrl: 'https://api.example.com',
     rateLimit: 100,
-    rateLimitPeriod: "minute",
+    rateLimitPeriod: 'minute',
     timeout: 30,
     maxPageSize: 100,
     defaultPageSize: 20,
@@ -29,134 +50,130 @@ export function ApiSettings() {
     cacheTtl: 300,
     enableCompression: true,
     enableCors: true,
-    allowedOrigins: "*",
+    allowedOrigins: '*',
     enableDocumentation: true,
-    documentationUrl: "/api/docs",
-  })
+    documentationUrl: '/api/docs',
+  });
 
   const [securitySettings, setSecuritySettings] = useState({
-    authMethod: "jwt",
+    authMethod: 'jwt',
     tokenExpiration: 3600,
     refreshTokenExpiration: 86400,
     enableIpWhitelist: false,
-    ipWhitelist: "",
+    ipWhitelist: '',
     enableRateLimiting: true,
     enableRequestLogging: true,
     logSensitiveData: false,
     enableTls: true,
-    tlsVersion: "1.2",
-  })
+    tlsVersion: '1.2',
+  });
 
   const [apiKeys, setApiKeys] = useState([
     {
       id: 1,
-      name: "开发环境",
-      key: "dev_api_key_xxxxxxxxxxxxx",
-      created: "2023-01-15",
-      lastUsed: "2023-05-14",
-      status: "active",
+      name: '开发环境',
+      key: 'dev_api_key_xxxxxxxxxxxxx',
+      created: '2023-01-15',
+      lastUsed: '2023-05-14',
+      status: 'active',
     },
     {
       id: 2,
-      name: "测试环境",
-      key: "test_api_key_xxxxxxxxxxxx",
-      created: "2023-02-20",
-      lastUsed: "2023-05-10",
-      status: "active",
+      name: '测试环境',
+      key: 'test_api_key_xxxxxxxxxxxx',
+      created: '2023-02-20',
+      lastUsed: '2023-05-10',
+      status: 'active',
     },
     {
       id: 3,
-      name: "生产环境",
-      key: "prod_api_key_xxxxxxxxxxxx",
-      created: "2023-03-01",
-      lastUsed: "2023-05-15",
-      status: "active",
+      name: '生产环境',
+      key: 'prod_api_key_xxxxxxxxxxxx',
+      created: '2023-03-01',
+      lastUsed: '2023-05-15',
+      status: 'active',
     },
     {
       id: 4,
-      name: "旧生产密钥",
-      key: "old_api_key_xxxxxxxxxxxxx",
-      created: "2022-10-15",
-      lastUsed: "2023-03-01",
-      status: "revoked",
+      name: '旧生产密钥',
+      key: 'old_api_key_xxxxxxxxxxxxx',
+      created: '2022-10-15',
+      lastUsed: '2023-03-01',
+      status: 'revoked',
     },
-  ])
+  ]);
 
-  const [isAddKeyDialogOpen, setIsAddKeyDialogOpen] = useState(false)
-  const [newKeyName, setNewKeyName] = useState("")
-  const [generatedKey, setGeneratedKey] = useState("")
+  const [isAddKeyDialogOpen, setIsAddKeyDialogOpen] = useState(false);
+  const [newKeyName, setNewKeyName] = useState('');
+  const [generatedKey, setGeneratedKey] = useState('');
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    console.log("保存API设置", {
+    debug('保存API设置', {
       general: generalSettings,
       security: securitySettings,
-    })
+    });
     toast({
-      title: "设置已保存",
-      description: "API设置已成功更新",
-    })
-  }
+      title: '设置已保存',
+      description: 'API设置已成功更新',
+    });
+  };
 
   const handleAddKey = () => {
     // 生成一个模拟的API密钥
-    const mockKey = `api_key_${Math.random().toString(36).substring(2, 15)}`
-    setGeneratedKey(mockKey)
+    const mockKey = `api_key_${Math.random().toString(36).substring(2, 15)}`;
+    setGeneratedKey(mockKey);
 
     // 添加新密钥到列表
     const newKey = {
       id: apiKeys.length + 1,
       name: newKeyName,
       key: mockKey,
-      created: new Date().toISOString().split("T")[0],
-      lastUsed: "-",
-      status: "active",
-    }
-    setApiKeys([...apiKeys, newKey])
-    setNewKeyName("")
-  }
+      created: new Date().toISOString().split('T')[0],
+      lastUsed: '-',
+      status: 'active',
+    };
+    setApiKeys([...apiKeys, newKey]);
+    setNewKeyName('');
+  };
 
-  const handleRevokeKey = (id) => {
+  const handleRevokeKey = (id: number) => {
+    setApiKeys(apiKeys.map(key => (key.id === id ? { ...key, status: 'revoked' } : key)));
+    toast({
+      title: 'API密钥已撤销',
+      description: '该API密钥已被成功撤销',
+    });
+  };
+
+  const handleRegenerateKey = (id: number) => {
+    const mockKey = `api_key_${Math.random().toString(36).substring(2, 15)}`;
     setApiKeys(
-      apiKeys.map((key) =>
-        key.id === id ? { ...key, status: "revoked" } : key
+      apiKeys.map(key =>
+        key.id === id
+          ? { ...key, key: mockKey, created: new Date().toISOString().split('T')[0] }
+          : key
       )
-    )
+    );
     toast({
-      title: "API密钥已撤销",
-      description: "该API密钥已被成功撤销",
-    })
-  }
+      title: 'API密钥已重新生成',
+      description: '新的API密钥已生成成功',
+    });
+  };
 
-  const handleRegenerateKey = (id) => {
-    const mockKey = `api_key_${Math.random().toString(36).substring(2, 15)}`
-    setApiKeys(
-      apiKeys.map((key) =>
-        key.id === id ? { ...key, key: mockKey, created: new Date().toISOString().split("T")[0] } : key
-      )
-    )
+  const handleCopyKey = (key: string) => {
+    navigator.clipboard.writeText(key);
     toast({
-      title: "API密钥已重新生成",
-      description: "新的API密钥已生成成功",
-    })
-  }
-
-  const handleCopyKey = (key) => {
-    navigator.clipboard.writeText(key)
-    toast({
-      title: "已复制到剪贴板",
-      description: "API密钥已复制到剪贴板",
-    })
-  }
+      title: '已复制到剪贴板',
+      description: 'API密钥已复制到剪贴板',
+    });
+  };
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle>API设置</CardTitle>
-          <CardDescription>
-            配置系统API的访问和安全设置
-          </CardDescription>
+          <CardDescription>配置系统API的访问和安全设置</CardDescription>
         </div>
         <Button onClick={handleSaveSettings}>
           <Save className="mr-2 h-4 w-4" />
@@ -176,13 +193,11 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-medium">启用API</h3>
-                  <p className="text-sm text-muted-foreground">
-                    控制系统API是否可访问
-                  </p>
+                  <p className="text-sm text-muted-foreground">控制系统API是否可访问</p>
                 </div>
                 <Switch
                   checked={generalSettings.enableApi}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setGeneralSettings({
                       ...generalSettings,
                       enableApi: checked,
@@ -199,7 +214,7 @@ export function ApiSettings() {
                   <Input
                     id="apiVersion"
                     value={generalSettings.apiVersion}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         apiVersion: e.target.value,
@@ -214,7 +229,7 @@ export function ApiSettings() {
                   <Input
                     id="baseUrl"
                     value={generalSettings.baseUrl}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         baseUrl: e.target.value,
@@ -234,7 +249,7 @@ export function ApiSettings() {
                       id="rateLimit"
                       type="number"
                       value={generalSettings.rateLimit}
-                      onChange={(e) =>
+                      onChange={e =>
                         setGeneralSettings({
                           ...generalSettings,
                           rateLimit: Number.parseInt(e.target.value),
@@ -245,7 +260,7 @@ export function ApiSettings() {
                     <span>每</span>
                     <Select
                       value={generalSettings.rateLimitPeriod}
-                      onValueChange={(value) =>
+                      onValueChange={value =>
                         setGeneralSettings({
                           ...generalSettings,
                           rateLimitPeriod: value,
@@ -271,7 +286,7 @@ export function ApiSettings() {
                     id="timeout"
                     type="number"
                     value={generalSettings.timeout}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         timeout: Number.parseInt(e.target.value),
@@ -287,7 +302,7 @@ export function ApiSettings() {
                     id="maxPageSize"
                     type="number"
                     value={generalSettings.maxPageSize}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         maxPageSize: Number.parseInt(e.target.value),
@@ -303,7 +318,7 @@ export function ApiSettings() {
                     id="defaultPageSize"
                     type="number"
                     value={generalSettings.defaultPageSize}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         defaultPageSize: Number.parseInt(e.target.value),
@@ -316,14 +331,12 @@ export function ApiSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="enableCaching">启用缓存</Label>
-                    <p className="text-sm text-muted-foreground">
-                      是否缓存API响应以提高性能
-                    </p>
+                    <p className="text-sm text-muted-foreground">是否缓存API响应以提高性能</p>
                   </div>
                   <Switch
                     id="enableCaching"
                     checked={generalSettings.enableCaching}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         enableCaching: checked,
@@ -338,7 +351,7 @@ export function ApiSettings() {
                     id="cacheTtl"
                     type="number"
                     value={generalSettings.cacheTtl}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         cacheTtl: Number.parseInt(e.target.value),
@@ -351,14 +364,12 @@ export function ApiSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="enableCompression">启用压缩</Label>
-                    <p className="text-sm text-muted-foreground">
-                      是否压缩API响应以减少带宽使用
-                    </p>
+                    <p className="text-sm text-muted-foreground">是否压缩API响应以减少带宽使用</p>
                   </div>
                   <Switch
                     id="enableCompression"
                     checked={generalSettings.enableCompression}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         enableCompression: checked,
@@ -370,14 +381,12 @@ export function ApiSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="enableCors">启用CORS</Label>
-                    <p className="text-sm text-muted-foreground">
-                      是否允许跨域资源共享
-                    </p>
+                    <p className="text-sm text-muted-foreground">是否允许跨域资源共享</p>
                   </div>
                   <Switch
                     id="enableCors"
                     checked={generalSettings.enableCors}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         enableCors: checked,
@@ -391,7 +400,7 @@ export function ApiSettings() {
                   <Input
                     id="allowedOrigins"
                     value={generalSettings.allowedOrigins}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         allowedOrigins: e.target.value,
@@ -404,14 +413,12 @@ export function ApiSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="enableDocumentation">启用API文档</Label>
-                    <p className="text-sm text-muted-foreground">
-                      是否提供API文档
-                    </p>
+                    <p className="text-sm text-muted-foreground">是否提供API文档</p>
                   </div>
                   <Switch
                     id="enableDocumentation"
                     checked={generalSettings.enableDocumentation}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         enableDocumentation: checked,
@@ -425,7 +432,7 @@ export function ApiSettings() {
                   <Input
                     id="documentationUrl"
                     value={generalSettings.documentationUrl}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         documentationUrl: e.target.value,
@@ -447,7 +454,7 @@ export function ApiSettings() {
                 </Label>
                 <Select
                   value={securitySettings.authMethod}
-                  onValueChange={(value) =>
+                  onValueChange={value =>
                     setSecuritySettings({
                       ...securitySettings,
                       authMethod: value,
@@ -472,7 +479,7 @@ export function ApiSettings() {
                   id="tokenExpiration"
                   type="number"
                   value={securitySettings.tokenExpiration}
-                  onChange={(e) =>
+                  onChange={e =>
                     setSecuritySettings({
                       ...securitySettings,
                       tokenExpiration: Number.parseInt(e.target.value),
@@ -483,14 +490,12 @@ export function ApiSettings() {
               </div>
 
               <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="refreshTokenExpiration">
-                  刷新令牌过期时间（秒）
-                </Label>
+                <Label htmlFor="refreshTokenExpiration">刷新令牌过期时间（秒）</Label>
                 <Input
                   id="refreshTokenExpiration"
                   type="number"
                   value={securitySettings.refreshTokenExpiration}
-                  onChange={(e) =>
+                  onChange={e =>
                     setSecuritySettings({
                       ...securitySettings,
                       refreshTokenExpiration: Number.parseInt(e.target.value),
@@ -503,14 +508,12 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="enableIpWhitelist">启用IP白名单</Label>
-                  <p className="text-sm text-muted-foreground">
-                    是否限制API访问到特定IP地址
-                  </p>
+                  <p className="text-sm text-muted-foreground">是否限制API访问到特定IP地址</p>
                 </div>
                 <Switch
                   id="enableIpWhitelist"
                   checked={securitySettings.enableIpWhitelist}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSecuritySettings({
                       ...securitySettings,
                       enableIpWhitelist: checked,
@@ -526,7 +529,7 @@ export function ApiSettings() {
                 <Input
                   id="ipWhitelist"
                   value={securitySettings.ipWhitelist}
-                  onChange={(e) =>
+                  onChange={e =>
                     setSecuritySettings({
                       ...securitySettings,
                       ipWhitelist: e.target.value,
@@ -540,14 +543,12 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="enableRateLimiting">启用速率限制</Label>
-                  <p className="text-sm text-muted-foreground">
-                    是否限制API请求频率
-                  </p>
+                  <p className="text-sm text-muted-foreground">是否限制API请求频率</p>
                 </div>
                 <Switch
                   id="enableRateLimiting"
                   checked={securitySettings.enableRateLimiting}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSecuritySettings({
                       ...securitySettings,
                       enableRateLimiting: checked,
@@ -559,14 +560,12 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="enableRequestLogging">启用请求日志</Label>
-                  <p className="text-sm text-muted-foreground">
-                    是否记录所有API请求
-                  </p>
+                  <p className="text-sm text-muted-foreground">是否记录所有API请求</p>
                 </div>
                 <Switch
                   id="enableRequestLogging"
                   checked={securitySettings.enableRequestLogging}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSecuritySettings({
                       ...securitySettings,
                       enableRequestLogging: checked,
@@ -578,14 +577,12 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="logSensitiveData">记录敏感数据</Label>
-                  <p className="text-sm text-muted-foreground">
-                    是否在日志中包含敏感数据
-                  </p>
+                  <p className="text-sm text-muted-foreground">是否在日志中包含敏感数据</p>
                 </div>
                 <Switch
                   id="logSensitiveData"
                   checked={securitySettings.logSensitiveData}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSecuritySettings({
                       ...securitySettings,
                       logSensitiveData: checked,
@@ -597,14 +594,12 @@ export function ApiSettings() {
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="enableTls">启用TLS</Label>
-                  <p className="text-sm text-muted-foreground">
-                    是否要求HTTPS连接
-                  </p>
+                  <p className="text-sm text-muted-foreground">是否要求HTTPS连接</p>
                 </div>
                 <Switch
                   id="enableTls"
                   checked={securitySettings.enableTls}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSecuritySettings({
                       ...securitySettings,
                       enableTls: checked,
@@ -617,7 +612,7 @@ export function ApiSettings() {
                 <Label htmlFor="tlsVersion">TLS版本</Label>
                 <Select
                   value={securitySettings.tlsVersion}
-                  onValueChange={(value) =>
+                  onValueChange={value =>
                     setSecuritySettings({
                       ...securitySettings,
                       tlsVersion: value,
@@ -659,19 +654,13 @@ export function ApiSettings() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {apiKeys.map((key) => (
+                {apiKeys.map(key => (
                   <TableRow key={key.id}>
                     <TableCell className="font-medium">{key.name}</TableCell>
                     <TableCell>
                       <div className="flex items-center">
-                        <span className="font-mono">
-                          {key.key.substring(0, 10)}...
-                        </span>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleCopyKey(key.key)}
-                        >
+                        <span className="font-mono">{key.key.substring(0, 10)}...</span>
+                        <Button variant="ghost" size="sm" onClick={() => handleCopyKey(key.key)}>
                           <Copy className="h-4 w-4" />
                         </Button>
                       </div>
@@ -679,14 +668,12 @@ export function ApiSettings() {
                     <TableCell>{key.created}</TableCell>
                     <TableCell>{key.lastUsed}</TableCell>
                     <TableCell>
-                      <Badge
-                        variant={key.status === "active" ? "default" : "destructive"}
-                      >
-                        {key.status === "active" ? "活跃" : "已撤销"}
+                      <Badge variant={key.status === 'active' ? 'default' : 'destructive'}>
+                        {key.status === 'active' ? '活跃' : '已撤销'}
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      {key.status === "active" ? (
+                      {key.status === 'active' ? (
                         <div className="flex justify-end gap-2">
                           <Button
                             variant="outline"
@@ -706,11 +693,7 @@ export function ApiSettings() {
                           </Button>
                         </div>
                       ) : (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          disabled
-                        >
+                        <Button variant="outline" size="sm" disabled>
                           已撤销
                         </Button>
                       )}
@@ -732,7 +715,7 @@ export function ApiSettings() {
               创建一个新的API密钥以访问系统API。请妥善保管您的密钥。
             </DialogDescription>
           </DialogHeader>
-          
+
           {!generatedKey ? (
             <div className="space-y-4 py-4">
               <div className="space-y-2">
@@ -741,7 +724,7 @@ export function ApiSettings() {
                   id="keyName"
                   placeholder="例如：开发环境、测试服务器等"
                   value={newKeyName}
-                  onChange={(e) => setNewKeyName(e.target.value)}
+                  onChange={e => setNewKeyName(e.target.value)}
                 />
               </div>
             </div>
@@ -750,11 +733,7 @@ export function ApiSettings() {
               <div className="space-y-2">
                 <Label>您的新API密钥</Label>
                 <div className="flex items-center">
-                  <Input
-                    readOnly
-                    value={generatedKey}
-                    className="font-mono"
-                  />
+                  <Input readOnly value={generatedKey} className="font-mono" />
                   <Button
                     variant="ghost"
                     size="sm"
@@ -782,10 +761,12 @@ export function ApiSettings() {
                 </Button>
               </>
             ) : (
-              <Button onClick={() => {
-                setIsAddKeyDialogOpen(false);
-                setGeneratedKey("");
-              }}>
+              <Button
+                onClick={() => {
+                  setIsAddKeyDialogOpen(false);
+                  setGeneratedKey('');
+                }}
+              >
                 完成
               </Button>
             )}
@@ -793,5 +774,5 @@ export function ApiSettings() {
         </DialogContent>
       </Dialog>
     </Card>
-  )
+  );
 }

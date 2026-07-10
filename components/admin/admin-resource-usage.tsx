@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { useState } from "react"
+import { useState } from 'react';
 import {
   AreaChart,
   Area,
@@ -13,76 +13,77 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+} from '@/components/ui/recharts-dynamic';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
 // 模拟CPU使用数据
 const cpuUsageData = [
-  { time: "00:00", usage: 25 },
-  { time: "02:00", usage: 18 },
-  { time: "04:00", usage: 15 },
-  { time: "06:00", usage: 20 },
-  { time: "08:00", usage: 35 },
-  { time: "10:00", usage: 45 },
-  { time: "12:00", usage: 50 },
-  { time: "14:00", usage: 48 },
-  { time: "16:00", usage: 52 },
-  { time: "18:00", usage: 40 },
-  { time: "20:00", usage: 30 },
-  { time: "22:00", usage: 28 },
-]
+  { time: '00:00', usage: 25 },
+  { time: '02:00', usage: 18 },
+  { time: '04:00', usage: 15 },
+  { time: '06:00', usage: 20 },
+  { time: '08:00', usage: 35 },
+  { time: '10:00', usage: 45 },
+  { time: '12:00', usage: 50 },
+  { time: '14:00', usage: 48 },
+  { time: '16:00', usage: 52 },
+  { time: '18:00', usage: 40 },
+  { time: '20:00', usage: 30 },
+  { time: '22:00', usage: 28 },
+];
 
 // 模拟内存使用数据
 const memoryUsageData = [
-  { time: "00:00", usage: 40 },
-  { time: "02:00", usage: 42 },
-  { time: "04:00", usage: 38 },
-  { time: "06:00", usage: 35 },
-  { time: "08:00", usage: 48 },
-  { time: "10:00", usage: 55 },
-  { time: "12:00", usage: 60 },
-  { time: "14:00", usage: 62 },
-  { time: "16:00", usage: 65 },
-  { time: "18:00", usage: 58 },
-  { time: "20:00", usage: 52 },
-  { time: "22:00", usage: 45 },
-]
+  { time: '00:00', usage: 40 },
+  { time: '02:00', usage: 42 },
+  { time: '04:00', usage: 38 },
+  { time: '06:00', usage: 35 },
+  { time: '08:00', usage: 48 },
+  { time: '10:00', usage: 55 },
+  { time: '12:00', usage: 60 },
+  { time: '14:00', usage: 62 },
+  { time: '16:00', usage: 65 },
+  { time: '18:00', usage: 58 },
+  { time: '20:00', usage: 52 },
+  { time: '22:00', usage: 45 },
+];
 
 // 模拟磁盘使用数据
 const diskUsageData = [
-  { name: "系统", value: 120, color: "#8884d8" },
-  { name: "数据库", value: 450, color: "#82ca9d" },
-  { name: "日志", value: 80, color: "#ffc658" },
-  { name: "备份", value: 200, color: "#ff8042" },
-  { name: "媒体", value: 150, color: "#0088fe" },
-  { name: "可用空间", value: 500, color: "#00C49F" },
-]
+  { name: '系统', value: 120, color: 'var(--primary)' },
+  { name: '数据库', value: 450, color: 'var(--success)' },
+  { name: '日志', value: 80, color: 'var(--warning)' },
+  { name: '备份', value: 200, color: 'var(--warning)' },
+  { name: '媒体', value: 150, color: 'var(--primary)' },
+  { name: '可用空间', value: 500, color: 'var(--success)' },
+];
 
 // 模拟网络使用数据
 const networkUsageData = [
-  { time: "00:00", incoming: 10, outgoing: 5 },
-  { time: "02:00", incoming: 8, outgoing: 4 },
-  { time: "04:00", incoming: 5, outgoing: 2 },
-  { time: "06:00", incoming: 12, outgoing: 6 },
-  { time: "08:00", incoming: 25, outgoing: 15 },
-  { time: "10:00", incoming: 35, outgoing: 20 },
-  { time: "12:00", incoming: 40, outgoing: 25 },
-  { time: "14:00", incoming: 38, outgoing: 22 },
-  { time: "16:00", incoming: 42, outgoing: 28 },
-  { time: "18:00", incoming: 30, outgoing: 18 },
-  { time: "20:00", incoming: 20, outgoing: 12 },
-  { time: "22:00", incoming: 15, outgoing: 8 },
-]
+  { time: '00:00', incoming: 10, outgoing: 5 },
+  { time: '02:00', incoming: 8, outgoing: 4 },
+  { time: '04:00', incoming: 5, outgoing: 2 },
+  { time: '06:00', incoming: 12, outgoing: 6 },
+  { time: '08:00', incoming: 25, outgoing: 15 },
+  { time: '10:00', incoming: 35, outgoing: 20 },
+  { time: '12:00', incoming: 40, outgoing: 25 },
+  { time: '14:00', incoming: 38, outgoing: 22 },
+  { time: '16:00', incoming: 42, outgoing: 28 },
+  { time: '18:00', incoming: 30, outgoing: 18 },
+  { time: '20:00', incoming: 20, outgoing: 12 },
+  { time: '22:00', incoming: 15, outgoing: 8 },
+];
 
 export function AdminResourceUsage() {
-  const [activeTab, setActiveTab] = useState("cpu")
+  const [activeTab, setActiveTab] = useState('cpu');
 
   // 计算总磁盘空间
-  const totalDiskSpace = diskUsageData.reduce((acc, item) => acc + item.value, 0)
-  const usedDiskSpace = totalDiskSpace - diskUsageData.find((item) => item.name === "可用空间")!.value
-  const diskUsagePercent = Math.round((usedDiskSpace / totalDiskSpace) * 100)
+  const totalDiskSpace = diskUsageData.reduce((acc, item) => acc + item.value, 0);
+  const usedDiskSpace =
+    totalDiskSpace - diskUsageData.find(item => item.name === '可用空间')!.value;
+  const diskUsagePercent = Math.round((usedDiskSpace / totalDiskSpace) * 100);
 
   return (
     <div className="space-y-4">
@@ -118,7 +119,13 @@ export function AdminResourceUsage() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Area type="monotone" dataKey="usage" name="CPU使用率 (%)" stroke="#8884d8" fill="#8884d8" />
+                      <Area
+                        type="monotone"
+                        dataKey="usage"
+                        name="CPU使用率 (%)"
+                        stroke="var(--primary)"
+                        fill="var(--primary)"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -225,7 +232,13 @@ export function AdminResourceUsage() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Area type="monotone" dataKey="usage" name="内存使用率 (%)" stroke="#82ca9d" fill="#82ca9d" />
+                      <Area
+                        type="monotone"
+                        dataKey="usage"
+                        name="内存使用率 (%)"
+                        stroke="var(--success)"
+                        fill="var(--success)"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -321,14 +334,14 @@ export function AdminResourceUsage() {
                         labelLine={true}
                         label={({ name, value }) => `${name}: ${value} GB`}
                         outerRadius={120}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {diskUsageData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`${value} GB`, "空间"]} />
+                      <Tooltip formatter={value => [`${value} GB`, '空间']} />
                       <Legend />
                     </PieChart>
                   </ResponsiveContainer>
@@ -361,7 +374,7 @@ export function AdminResourceUsage() {
                       <div>
                         <p className="text-sm text-muted-foreground">可用</p>
                         <p className="text-xl font-medium">
-                          {diskUsageData.find((item) => item.name === "可用空间")?.value} GB
+                          {diskUsageData.find(item => item.name === '可用空间')?.value} GB
                         </p>
                       </div>
                       <div>
@@ -430,8 +443,20 @@ export function AdminResourceUsage() {
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Area type="monotone" dataKey="incoming" name="入站流量 (Mbps)" stroke="#8884d8" fill="#8884d8" />
-                      <Area type="monotone" dataKey="outgoing" name="出站流量 (Mbps)" stroke="#82ca9d" fill="#82ca9d" />
+                      <Area
+                        type="monotone"
+                        dataKey="incoming"
+                        name="入站流量 (Mbps)"
+                        stroke="var(--primary)"
+                        fill="var(--primary)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="outgoing"
+                        name="出站流量 (Mbps)"
+                        stroke="var(--success)"
+                        fill="var(--success)"
+                      />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -505,7 +530,7 @@ export function AdminResourceUsage() {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-muted-foreground">状态</span>
-                      <span className="text-green-500">正常运行</span>
+                      <span className="text-success">正常运行</span>
                     </div>
                   </div>
                 </CardContent>
@@ -515,5 +540,5 @@ export function AdminResourceUsage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

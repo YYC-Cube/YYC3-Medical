@@ -1,30 +1,30 @@
-"use client"
+'use client';
 
-import { Menu, Bell, Search, Info } from "lucide-react"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Menu, Bell, Search, Info } from 'lucide-react';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 
 interface MainNavProps {
-  onToggleSidebar: () => void
+  onToggleSidebar: () => void;
 }
 
 export function MainNav({ onToggleSidebar }: MainNavProps) {
-  const [showNotifications, setShowNotifications] = useState(false)
-  const [notificationCount, setNotificationCount] = useState(3)
-  const [showSearch, setShowSearch] = useState(false)
-  const [showInfo, setShowInfo] = useState(false)
-  const isMobile = useIsMobile()
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(3);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <div className="flex items-center gap-4">
@@ -40,10 +40,10 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
           <TooltipContent>
             <div className="flex items-center gap-2">
               <span>切换侧边栏</span>
-              <div className="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded text-xs">
-                <span className="text-gray-500">Alt</span>
+              <div className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded text-xs">
+                <span className="text-muted-foreground">Alt</span>
                 <span>+</span>
-                <span className="text-gray-500">S</span>
+                <span className="text-muted-foreground">S</span>
               </div>
             </div>
           </TooltipContent>
@@ -54,7 +54,11 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
       <div className="relative">
         <DropdownMenu open={showSearch} onOpenChange={setShowSearch}>
           <DropdownMenuTrigger asChild>
-            <MedicalButton variant="ghost" size="icon" className={cn(showSearch && "text-medical-600")}>
+            <MedicalButton
+              variant="ghost"
+              size="icon"
+              className={cn(showSearch && 'text-medical-600')}
+            >
               <Search className="h-5 w-5" />
               <span className="sr-only">搜索</span>
             </MedicalButton>
@@ -70,7 +74,7 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
                 </MedicalButton>
               </div>
               <div className="text-xs text-muted-foreground">
-                提示: 使用 <kbd className="px-1 py-0.5 bg-muted rounded">Ctrl</kbd> +{" "}
+                提示: 使用 <kbd className="px-1 py-0.5 bg-muted rounded">Ctrl</kbd> +{' '}
                 <kbd className="px-1 py-0.5 bg-muted rounded">K</kbd> 快速打开搜索
               </div>
             </div>
@@ -82,7 +86,11 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
       <div className="relative">
         <DropdownMenu open={showInfo} onOpenChange={setShowInfo}>
           <DropdownMenuTrigger asChild>
-            <MedicalButton variant="ghost" size="icon" className={cn(showInfo && "text-medical-600")}>
+            <MedicalButton
+              variant="ghost"
+              size="icon"
+              className={cn(showInfo && 'text-medical-600')}
+            >
               <Info className="h-5 w-5" />
               <span className="sr-only">系统信息</span>
             </MedicalButton>
@@ -101,7 +109,7 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
                 </p>
                 <p className="flex justify-between">
                   <span className="text-muted-foreground">许可状态:</span>
-                  <span className="text-green-500">已激活</span>
+                  <span className="text-success">已激活</span>
                 </p>
               </div>
             </div>
@@ -123,7 +131,11 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
       <div className="relative">
         <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
           <DropdownMenuTrigger asChild>
-            <MedicalButton variant="ghost" size="icon" className={cn(showNotifications && "text-medical-600")}>
+            <MedicalButton
+              variant="ghost"
+              size="icon"
+              className={cn(showNotifications && 'text-medical-600')}
+            >
               <Bell className="h-5 w-5" />
               {notificationCount > 0 && (
                 <span className="absolute top-0 right-0 h-5 w-5 bg-medical-500 text-white text-xs flex items-center justify-center rounded-full">
@@ -173,5 +185,5 @@ export function MainNav({ onToggleSidebar }: MainNavProps) {
         </DropdownMenu>
       </div>
     </div>
-  )
+  );
 }

@@ -1,21 +1,27 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { DatePicker } from "@/components/ui/date-picker"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Download, FileText, FileSpreadsheet, FileIcon as FilePdf } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+import { useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { DatePicker } from '@/components/ui/date-picker';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Download, FileText, FileSpreadsheet, FileIcon as FilePdf } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export function DiagnosisExport() {
-  const { toast } = useToast()
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
-  const [exportFormat, setExportFormat] = useState("csv")
-  const [isExporting, setIsExporting] = useState(false)
+  const { toast } = useToast();
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
+  const [exportFormat, setExportFormat] = useState('csv');
+  const [isExporting, setIsExporting] = useState(false);
   const [selectedFields, setSelectedFields] = useState({
     patientInfo: true,
     diagnosisResult: true,
@@ -24,27 +30,27 @@ export function DiagnosisExport() {
     recommendations: true,
     doctorFeedback: false,
     followupData: false,
-  })
+  });
 
   const handleExport = () => {
-    setIsExporting(true)
+    setIsExporting(true);
 
     // 模拟导出过程
     setTimeout(() => {
-      setIsExporting(false)
+      setIsExporting(false);
       toast({
-        title: "导出成功",
+        title: '导出成功',
         description: `诊断记录已成功导出为${exportFormat.toUpperCase()}格式`,
-      })
-    }, 2000)
-  }
+      });
+    }, 2000);
+  };
 
   const toggleField = (field: keyof typeof selectedFields) => {
-    setSelectedFields((prev) => ({
+    setSelectedFields(prev => ({
       ...prev,
       [field]: !prev[field],
-    }))
-  }
+    }));
+  };
 
   return (
     <div className="space-y-6">
@@ -85,7 +91,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="patientInfo"
                     checked={selectedFields.patientInfo}
-                    onCheckedChange={() => toggleField("patientInfo")}
+                    onCheckedChange={() => toggleField('patientInfo')}
                   />
                   <label htmlFor="patientInfo" className="text-sm">
                     患者基本信息
@@ -95,7 +101,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="diagnosisResult"
                     checked={selectedFields.diagnosisResult}
-                    onCheckedChange={() => toggleField("diagnosisResult")}
+                    onCheckedChange={() => toggleField('diagnosisResult')}
                   />
                   <label htmlFor="diagnosisResult" className="text-sm">
                     诊断结果
@@ -105,7 +111,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="confidence"
                     checked={selectedFields.confidence}
-                    onCheckedChange={() => toggleField("confidence")}
+                    onCheckedChange={() => toggleField('confidence')}
                   />
                   <label htmlFor="confidence" className="text-sm">
                     置信度
@@ -115,7 +121,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="differentials"
                     checked={selectedFields.differentials}
-                    onCheckedChange={() => toggleField("differentials")}
+                    onCheckedChange={() => toggleField('differentials')}
                   />
                   <label htmlFor="differentials" className="text-sm">
                     鉴别诊断
@@ -125,7 +131,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="recommendations"
                     checked={selectedFields.recommendations}
-                    onCheckedChange={() => toggleField("recommendations")}
+                    onCheckedChange={() => toggleField('recommendations')}
                   />
                   <label htmlFor="recommendations" className="text-sm">
                     治疗建议
@@ -135,7 +141,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="doctorFeedback"
                     checked={selectedFields.doctorFeedback}
-                    onCheckedChange={() => toggleField("doctorFeedback")}
+                    onCheckedChange={() => toggleField('doctorFeedback')}
                   />
                   <label htmlFor="doctorFeedback" className="text-sm">
                     医生反馈
@@ -145,7 +151,7 @@ export function DiagnosisExport() {
                   <Checkbox
                     id="followupData"
                     checked={selectedFields.followupData}
-                    onCheckedChange={() => toggleField("followupData")}
+                    onCheckedChange={() => toggleField('followupData')}
                   />
                   <label htmlFor="followupData" className="text-sm">
                     随访数据
@@ -169,7 +175,12 @@ export function DiagnosisExport() {
           <span>预览数据</span>
         </Button>
 
-        <Button size="lg" className="flex items-center gap-2" onClick={handleExport} disabled={isExporting}>
+        <Button
+          size="lg"
+          className="flex items-center gap-2"
+          onClick={handleExport}
+          disabled={isExporting}
+        >
           {isExporting ? (
             <>
               <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
@@ -185,51 +196,51 @@ export function DiagnosisExport() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-        <Card className="bg-blue-50 border-blue-200">
+        <Card className="bg-primary/5 border-primary/20">
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center">
-              <FileSpreadsheet className="h-8 w-8 text-blue-500 mr-3" />
+              <FileSpreadsheet className="h-8 w-8 text-primary mr-3" />
               <div>
                 <h4 className="font-medium">CSV/Excel格式</h4>
-                <p className="text-sm text-gray-600">适合数据分析和二次处理</p>
+                <p className="text-sm text-muted-foreground">适合数据分析和二次处理</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="text-blue-600">
+            <Button variant="ghost" size="sm" className="text-primary">
               <Download className="h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="bg-green-50 border-green-200">
+        <Card className="bg-success/5 border-success/30">
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center">
-              <FilePdf className="h-8 w-8 text-green-500 mr-3" />
+              <FilePdf className="h-8 w-8 text-success mr-3" />
               <div>
                 <h4 className="font-medium">PDF报告</h4>
-                <p className="text-sm text-gray-600">适合打印和正式文档</p>
+                <p className="text-sm text-muted-foreground">适合打印和正式文档</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="text-green-600">
+            <Button variant="ghost" size="sm" className="text-success">
               <Download className="h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="bg-purple-50 border-purple-200">
+        <Card className="bg-primary border-primary">
           <CardContent className="flex items-center justify-between p-4">
             <div className="flex items-center">
-              <FileText className="h-8 w-8 text-purple-500 mr-3" />
+              <FileText className="h-8 w-8 text-primary mr-3" />
               <div>
                 <h4 className="font-medium">JSON格式</h4>
-                <p className="text-sm text-gray-600">适合系统集成和API调用</p>
+                <p className="text-sm text-muted-foreground">适合系统集成和API调用</p>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="text-purple-600">
+            <Button variant="ghost" size="sm" className="text-primary">
               <Download className="h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }

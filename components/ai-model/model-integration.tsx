@@ -1,23 +1,30 @@
-"use client"
+'use client';
 
-import { SelectItem } from "@/components/ui/select"
+import { SelectItem } from '@/components/ui/select';
 
-import { SelectContent } from "@/components/ui/select"
+import { SelectContent } from '@/components/ui/select';
 
-import { SelectValue } from "@/components/ui/select"
+import { SelectValue } from '@/components/ui/select';
 
-import { SelectTrigger } from "@/components/ui/select"
+import { SelectTrigger } from '@/components/ui/select';
 
-import { Select } from "@/components/ui/select"
+import { Select } from '@/components/ui/select';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Network,
   Code,
@@ -32,33 +39,33 @@ import {
   Lock,
   Plus,
   Clock,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function ModelIntegration() {
-  const [activeTab, setActiveTab] = useState("api")
-  const [apiKey, setApiKey] = useState("sk_medai_28f7a9c1d5e3b2a0")
-  const [showApiKey, setShowApiKey] = useState(false)
+  const [activeTab, setActiveTab] = useState('api');
+  const [apiKey, setApiKey] = useState('sk_medai_28f7a9c1d5e3b2a0');
+  const [showApiKey, setShowApiKey] = useState(false);
 
   // 模拟集成状态
   const integrations = [
-    { name: "电子病历系统", status: "connected", lastSync: "10分钟前" },
-    { name: "放射科PACS系统", status: "connected", lastSync: "25分钟前" },
-    { name: "检验信息系统", status: "connected", lastSync: "1小时前" },
-    { name: "医院信息系统", status: "error", lastSync: "连接失败" },
-    { name: "远程会诊平台", status: "pending", lastSync: "等待授权" },
-  ]
+    { name: '电子病历系统', status: 'connected', lastSync: '10分钟前' },
+    { name: '放射科PACS系统', status: 'connected', lastSync: '25分钟前' },
+    { name: '检验信息系统', status: 'connected', lastSync: '1小时前' },
+    { name: '医院信息系统', status: 'error', lastSync: '连接失败' },
+    { name: '远程会诊平台', status: 'pending', lastSync: '等待授权' },
+  ];
 
   // 复制API密钥
   const copyApiKey = () => {
-    navigator.clipboard.writeText(apiKey)
+    navigator.clipboard.writeText(apiKey);
     // 这里可以添加复制成功的提示
-  }
+  };
 
   // 重新生成API密钥
   const regenerateApiKey = () => {
-    setApiKey(`sk_medai_${Math.random().toString(36).substring(2, 15)}`)
+    setApiKey(`sk_medai_${Math.random().toString(36).substring(2, 15)}`);
     // 这里可以添加重新生成成功的提示
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -105,27 +112,35 @@ export function ModelIntegration() {
                     <div className="flex">
                       <Input
                         id="api-key"
-                        type={showApiKey ? "text" : "password"}
+                        type={showApiKey ? 'text' : 'password'}
                         value={apiKey}
                         readOnly
                         className="flex-1 rounded-r-none border-r-0"
                       />
-                      <Button variant="outline" className="rounded-l-none border-l-0" onClick={copyApiKey}>
+                      <Button
+                        variant="outline"
+                        className="rounded-l-none border-l-0"
+                        onClick={copyApiKey}
+                      >
                         <Copy className="h-4 w-4" />
                       </Button>
                     </div>
                     <div className="flex items-center space-x-2 mt-2">
-                      <Switch id="show-api-key" checked={showApiKey} onCheckedChange={setShowApiKey} />
+                      <Switch
+                        id="show-api-key"
+                        checked={showApiKey}
+                        onCheckedChange={setShowApiKey}
+                      />
                       <Label htmlFor="show-api-key">显示密钥</Label>
                     </div>
                   </div>
 
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+                  <div className="p-4 bg-warning border border-warning rounded-md">
                     <div className="flex items-start gap-3">
-                      <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                      <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
                       <div>
-                        <h4 className="font-medium text-yellow-800">安全提示</h4>
-                        <p className="text-sm text-yellow-700 mt-1">
+                        <h4 className="font-medium text-warning">安全提示</h4>
+                        <p className="text-sm text-warning mt-1">
                           请妥善保管您的API密钥，不要在客户端代码中暴露它。如果您怀疑密钥已泄露，请立即重新生成。
                         </p>
                       </div>
@@ -143,7 +158,7 @@ export function ModelIntegration() {
                 <CardContent className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2">HTTP请求示例</h4>
-                    <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                    <div className="bg-medical-900 text-medical-100 p-4 rounded-md overflow-x-auto">
                       <pre className="text-sm">
                         {`curl -X POST https://api.medinexus.com/v1/diagnose \\
   -H "Authorization: Bearer ${apiKey}" \\
@@ -158,7 +173,7 @@ export function ModelIntegration() {
 
                   <div>
                     <h4 className="font-medium mb-2">JavaScript示例</h4>
-                    <div className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto">
+                    <div className="bg-medical-900 text-medical-100 p-4 rounded-md overflow-x-auto">
                       <pre className="text-sm">
                         {`async function diagnoseImage(imageUrl) {
   const response = await fetch('https://api.medinexus.com/v1/diagnose', {
@@ -207,34 +222,36 @@ export function ModelIntegration() {
                     {integrations.map((integration, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
+                        className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted"
                       >
                         <div className="flex items-center gap-3">
-                          {integration.status === "connected" ? (
-                            <div className="bg-green-100 p-2 rounded-full">
-                              <Server className="h-5 w-5 text-green-600" />
+                          {integration.status === 'connected' ? (
+                            <div className="bg-success/10 p-2 rounded-full">
+                              <Server className="h-5 w-5 text-success" />
                             </div>
-                          ) : integration.status === "error" ? (
-                            <div className="bg-red-100 p-2 rounded-full">
-                              <AlertCircle className="h-5 w-5 text-red-600" />
+                          ) : integration.status === 'error' ? (
+                            <div className="bg-destructive p-2 rounded-full">
+                              <AlertCircle className="h-5 w-5 text-destructive" />
                             </div>
                           ) : (
-                            <div className="bg-yellow-100 p-2 rounded-full">
-                              <Clock className="h-5 w-5 text-yellow-600" />
+                            <div className="bg-warning p-2 rounded-full">
+                              <Clock className="h-5 w-5 text-warning" />
                             </div>
                           )}
                           <div>
                             <h4 className="font-medium">{integration.name}</h4>
-                            <p className="text-sm text-gray-500">上次同步: {integration.lastSync}</p>
+                            <p className="text-sm text-muted-foreground">
+                              上次同步: {integration.lastSync}
+                            </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          {integration.status === "connected" ? (
+                          {integration.status === 'connected' ? (
                             <Badge variant="success" className="flex items-center gap-1">
                               <CheckCircle className="h-3 w-3" />
                               已连接
                             </Badge>
-                          ) : integration.status === "error" ? (
+                          ) : integration.status === 'error' ? (
                             <Badge variant="destructive" className="flex items-center gap-1">
                               <AlertCircle className="h-3 w-3" />
                               连接错误
@@ -264,10 +281,10 @@ export function ModelIntegration() {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Database className="h-5 w-5 text-gray-500" />
+                      <Database className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <h4 className="font-medium">自动同步</h4>
-                        <p className="text-sm text-gray-500">定期从其他系统同步数据</p>
+                        <p className="text-sm text-muted-foreground">定期从其他系统同步数据</p>
                       </div>
                     </div>
                     <Switch id="auto-sync" defaultChecked />
@@ -275,10 +292,10 @@ export function ModelIntegration() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Clock className="h-5 w-5 text-gray-500" />
+                      <Clock className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <h4 className="font-medium">同步频率</h4>
-                        <p className="text-sm text-gray-500">设置数据同步的频率</p>
+                        <p className="text-sm text-muted-foreground">设置数据同步的频率</p>
                       </div>
                     </div>
                     <Select defaultValue="15m">
@@ -299,7 +316,7 @@ export function ModelIntegration() {
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Lock className="h-5 w-5 text-gray-500" />
+                      <Lock className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <h4 className="font-medium">安全传输</h4>
                       </div>
@@ -307,7 +324,7 @@ export function ModelIntegration() {
                     <Switch id="secure-transfer" defaultChecked />
                   </div>
 
-                  <Button variant="primary" className="w-full">
+                  <Button variant="default" className="w-full">
                     保存设置
                   </Button>
                 </CardContent>
@@ -338,5 +355,5 @@ export function ModelIntegration() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
