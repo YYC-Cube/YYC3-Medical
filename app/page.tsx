@@ -199,115 +199,110 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground">
+      {/* CTA Section — 浅蓝背景 */}
+      <section className="py-16 md:py-20 px-4 bg-primary/8">
         <div className="container mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">准备开始您的智能医疗之旅？</h2>
-          <p className="text-lg sm:text-xl mb-8 opacity-90 max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-foreground">准备开始您的智能医疗之旅？</h2>
+          <p className="text-lg sm:text-xl mb-8 text-muted-foreground max-w-2xl mx-auto">
             加入我们，体验AI驱动的医疗创新，为患者提供更好的医疗服务
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8" asChild>
+            <Button size="lg" className="text-lg px-8" asChild>
               <Link href="/register">免费注册</Link>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
-              asChild
-            >
+            <Button variant="outline" size="lg" className="text-lg px-8" asChild>
               <Link href="/help">联系我们</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="text-primary-foreground py-12 px-4" style={{ background: 'var(--footer-bg)' }}>
+      {/* Footer — 浅蓝背景 */}
+      <footer className="bg-primary/8 py-12 px-4 border-t border-primary/15">
         <div className="container mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             <div>
               <Logo size="md" showText className="mb-4" />
-              <Slogan className="text-primary-foreground/70 mb-4" />
-              <p className="text-sm text-primary-foreground/70">致力于通过AI技术推动医疗行业的数字化转型</p>
+              <Slogan className="text-muted-foreground mb-4" />
+              <p className="text-sm text-muted-foreground">致力于通过AI技术推动医疗行业的数字化转型</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">产品功能</h3>
-              <ul className="space-y-2 text-sm text-primary-foreground/70">
+              <h3 className="font-semibold mb-4 text-foreground">产品功能</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/ai-diagnosis" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/ai-diagnosis" className="hover:text-primary transition-colors">
                     AI诊断
                   </Link>
                 </li>
                 <li>
-                  <Link href="/patients" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/patients" className="hover:text-primary transition-colors">
                     患者管理
                   </Link>
                 </li>
                 <li>
-                  <Link href="/analytics" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/analytics" className="hover:text-primary transition-colors">
                     数据分析
                   </Link>
                 </li>
                 <li>
-                  <Link href="/research" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/research" className="hover:text-primary transition-colors">
                     科研工具
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">解决方案</h3>
-              <ul className="space-y-2 text-sm text-primary-foreground/70">
+              <h3 className="font-semibold mb-4 text-foreground">解决方案</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/clinical-decision" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/clinical-decision" className="hover:text-primary transition-colors">
                     临床决策支持
                   </Link>
                 </li>
                 <li>
-                  <Link href="/teleconsultation" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/teleconsultation" className="hover:text-primary transition-colors">
                     远程会诊
                   </Link>
                 </li>
                 <li>
-                  <Link href="/research" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/research" className="hover:text-primary transition-colors">
                     科研协作
                   </Link>
                 </li>
                 <li>
-                  <Link href="/ehr-integration" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/ehr-integration" className="hover:text-primary transition-colors">
                     EHR 集成
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">支持与服务</h3>
-              <ul className="space-y-2 text-sm text-primary-foreground/70">
+              <h3 className="font-semibold mb-4 text-foreground">支持与服务</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <Link href="/help" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/help" className="hover:text-primary transition-colors">
                     帮助中心
                   </Link>
                 </li>
                 <li>
-                  <Link href="/knowledge-base" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/knowledge-base" className="hover:text-primary transition-colors">
                     知识库
                   </Link>
                 </li>
                 <li>
-                  <Link href="/help" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/help" className="hover:text-primary transition-colors">
                     联系我们
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy" className="hover:text-primary-foreground transition-colors">
+                  <Link href="/privacy" className="hover:text-primary transition-colors">
                     隐私政策
                   </Link>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center text-sm text-primary-foreground/70">
+          <div className="border-t border-primary/15 mt-8 pt-8 text-center text-sm text-muted-foreground">
             <p>&copy; 2024 言语云³ (YYC³-Med). All rights reserved.</p>
           </div>
         </div>
