@@ -1,5 +1,5 @@
-// 支持的语言
-export type Locale = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR';
+// 支持的语言 — 10 语言（含 i18n-core 扩展）
+export type Locale = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR' | 'ar' | 'de' | 'es' | 'fr' | 'pt-BR' | 'zh-TW';
 
 // 翻译键类型
 export type TranslationKey = keyof (typeof translations)['zh-CN'];

@@ -15,6 +15,8 @@ const eslintConfig = [
       '_entities/**',
       '_middleware_dir/**',
       'scripts/**',
+      'docs/**',
+      'lib/i18n/locales/**',
     ],
   },
   ...nextCoreWebVitals,

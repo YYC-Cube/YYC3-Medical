@@ -32,5 +32,5 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", ".next", "dist", "build", "coverage", "out", "scripts"]
+  "exclude": ["node_modules", ".next", "dist", "build", "coverage", "out", "scripts", "docs"]
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
-// 支持的语言
-export type Locale = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR';
+// 支持的语言 — 10 语言（含 i18n-core 扩展）
+export type Locale = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR' | 'ar' | 'de' | 'es' | 'fr' | 'pt-BR' | 'zh-TW';
 
 // 语言名称映射
 const localeNames: Record<Locale, string> = {
@@ -11,19 +11,32 @@ const localeNames: Record<Locale, string> = {
   'en-US': 'English',
   'ja-JP': '日本語',
   'ko-KR': '한국어',
+  'ar': 'العربية',
+  'de': 'Deutsch',
+  'es': 'Español',
+  'fr': 'Français',
+  'pt-BR': 'Português (Brasil)',
+  'zh-TW': '繁體中文',
 };
 
-import zhCN from '@/lib/i18n/flat/zh-CN.json';
 import enUS from '@/lib/i18n/flat/en-US.json';
 import jaJP from '@/lib/i18n/flat/ja-JP.json';
 import koKR from '@/lib/i18n/flat/ko-KR.json';
+import zhCN from '@/lib/i18n/flat/zh-CN.json';
 
 // 翻译数据统一来源（从 lib/i18n/flat/*.json 加载）
+// 扩展语言暂使用 en-US 作为 fallback，逐步翻译
 const translations: Record<Locale, Record<string, string>> = {
   'zh-CN': zhCN,
   'en-US': enUS,
   'ja-JP': jaJP,
   'ko-KR': koKR,
+  'ar': enUS,
+  'de': enUS,
+  'es': enUS,
+  'fr': enUS,
+  'pt-BR': enUS,
+  'zh-TW': zhCN,
 };
 
 // 语言上下文类型
@@ -37,7 +50,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const availableLocales: Locale[] = ['zh-CN', 'en-US', 'ja-JP', 'ko-KR'];
+const availableLocales: Locale[] = ['zh-CN', 'en-US', 'ja-JP', 'ko-KR', 'ar', 'de', 'es', 'fr', 'pt-BR', 'zh-TW'];
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>('zh-CN');
@@ -48,18 +61,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (savedLocale && availableLocales.includes(savedLocale)) {
       setLocale(savedLocale);
     } else {
-      // 尝试从浏览器语言设置获取
-      const browserLocale = navigator.language;
-
-      if (browserLocale.startsWith('zh')) {
-        setLocale('zh-CN');
-      } else if (browserLocale.startsWith('ja')) {
-        setLocale('ja-JP');
-      } else if (browserLocale.startsWith('ko')) {
-        setLocale('ko-KR');
-      } else {
-        setLocale('en-US'); // 默认英语
-      }
+      // 尝试从浏览器语言设置获取（支持 10 语言）
+      const bl = navigator.language.toLowerCase();
+      if (bl.startsWith('zh-tw') || bl.startsWith('zh-hk')) setLocale('zh-TW');
+      else if (bl.startsWith('zh')) setLocale('zh-CN');
+      else if (bl.startsWith('ja')) setLocale('ja-JP');
+      else if (bl.startsWith('ko')) setLocale('ko-KR');
+      else if (bl.startsWith('ar')) setLocale('ar');
+      else if (bl.startsWith('de')) setLocale('de');
+      else if (bl.startsWith('es')) setLocale('es');
+      else if (bl.startsWith('fr')) setLocale('fr');
+      else if (bl.startsWith('pt')) setLocale('pt-BR');
+      else setLocale('en-US'); // 默认英语
     }
   }, []);
 
