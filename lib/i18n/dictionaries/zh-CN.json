@@ -49,8 +49,8 @@
     "admin": "系统管理"
   },
   "auth": {
-    "login_title": "登录到言语云³",
-    "register_title": "注册言语云³账户",
+    "login_title": "登录到YanYuCloud",
+    "register_title": "注册YanYuCloud账户",
     "email": "邮箱地址",
     "password": "密码",
     "confirm_password": "确认密码",
@@ -71,7 +71,7 @@
     "passwords_not_match": "两次输入的密码不一致"
   },
   "dashboard": {
-    "welcome": "欢迎使用言语云³医疗AI系统",
+    "welcome": "欢迎使用YanYuCloud 医疗AI系统",
     "overview": "系统概览",
     "quick_actions": "快捷操作",
     "recent_activities": "最近活动",
@@ -122,9 +122,9 @@
     "contraindications": "禁忌症"
   },
   "system": {
-    "system_name": "言语云³医疗AI系统",
+    "system_name": "YanYuCloud 医疗AI系统",
     "version": "版本 3.0",
-    "copyright": "© 2024 言语云³. 保留所有权利。",
+    "copyright": "© 2024 YanYuCloud. 保留所有权利。",
     "powered_by": "技术支持",
     "medical_ai": "医疗AI技术",
     "cloud_computing": "云计算平台"

@@ -67,7 +67,7 @@ export function TranslationLoader({
       >
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="言语云³ Logo"
+          alt="YanYuCloud Logo"
           width={logoSize}
           height={logoSize}
           className="object-contain"

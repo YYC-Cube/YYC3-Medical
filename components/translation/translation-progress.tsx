@@ -118,7 +118,7 @@ export function TranslationProgress({
               >
                 <Image
                   src="/yyc3-icons/pwa/icon-512x512.png"
-                  alt="言语云³ Logo"
+                  alt="YanYuCloud Logo"
                   width={isMobile ? 120 : 160}
                   height={isMobile ? 120 : 160}
                   priority

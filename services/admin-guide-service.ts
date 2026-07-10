@@ -5,7 +5,7 @@ export class AdminGuideService {
     {
       id: 'system-overview',
       title: '系统概览',
-      description: '了解言语云³医疗AI系统的整体架构和核心功能',
+      description: '了解YanYuCloud 医疗AI系统的整体架构和核心功能',
       duration: '5分钟',
       estimatedTime: 5,
       difficulty: 'beginner',
@@ -539,7 +539,7 @@ export class AdminGuideService {
       relatedGuides = ['troubleshooting', 'daily-operations'];
     } else {
       response =
-        '感谢您的提问！我是言语云³医疗AI系统的智能助手，可以为您解答系统使用、医疗AI科普等相关问题。您可以选择下方的快捷问题，或者直接描述您想了解的内容。';
+        '感谢您的提问！我是YanYuCloud 医疗AI系统的智能助手，可以为您解答系统使用、医疗AI科普等相关问题。您可以选择下方的快捷问题，或者直接描述您想了解的内容。';
       relatedGuides = ['system-overview'];
     }
 

@@ -1,7 +1,7 @@
 {
   "name": "@yyc3-med/database-scripts",
   "version": "1.0.0",
-  "description": "言语云³医疗AI系统数据库脚本工具",
+  "description": "YanYuCloud 医疗AI系统数据库脚本工具",
   "main": "run-sql-scripts.ts",
   "scripts": {
     "init": "ts-node run-sql-scripts.ts",

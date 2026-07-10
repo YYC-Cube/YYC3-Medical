@@ -28,7 +28,7 @@ import { toast } from '@/components/ui/use-toast';
 import { Settings, Save } from 'lucide-react';
 
 export function GeneralSettings() {
-  const [siteName, setSiteName] = useState('言语云³医疗管理平台');
+  const [siteName, setSiteName] = useState('YanYuCloud医疗管理平台');
   const [siteDescription, setSiteDescription] = useState('智能医疗决策支持与管理平台');
   const [adminEmail, setAdminEmail] = useState('admin@medinexus.com');
   const [timezone, setTimezone] = useState('Asia/Shanghai');

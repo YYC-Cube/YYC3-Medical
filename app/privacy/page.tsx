@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="prose max-w-none">
           <h2>1. 引言</h2>
           <p>
-            言语云科技有限公司（以下简称"我们"）尊重并保护用户隐私。本隐私政策说明我们如何收集、使用、披露、处理和保护您通过MediNexus³智能诊疗系统（以下简称"本系统"）提供给我们的个人信息。
+            YanYuCloud科技有限公司（以下简称"我们"）尊重并保护用户隐私。本隐私政策说明我们如何收集、使用、披露、处理和保护您通过MediNexus³智能诊疗系统（以下简称"本系统"）提供给我们的个人信息。
           </p>
 
           <h2>2. 我们收集的信息</h2>
@@ -106,7 +106,7 @@ export default function PrivacyPage() {
           <h2>11. 联系我们</h2>
           <p>如果您对本隐私政策有任何疑问或顾虑，请联系我们：</p>
           <p>电子邮件：privacy@yanyucloud.com</p>
-          <p>地址：中国北京市海淀区科技园区88号言语云大厦</p>
+          <p>地址：中国北京市海淀区科技园区88号YanYuCloud大厦</p>
           <p>电话：+86-10-12345678</p>
 
           <p className="text-sm text-muted-foreground mt-8">最后更新日期：2025年5月15日</p>

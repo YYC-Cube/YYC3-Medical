@@ -32,7 +32,7 @@ export class BrandIntegration {
     this.projectRoot = projectRoot;
     this.brandConfig = {
       name: {
-        zh: "言语云³",
+        zh: "YanYuCloud",
         en: "YYC³-Med",
       },
       slogan: {
@@ -40,7 +40,7 @@ export class BrandIntegration {
         en: "Words Initiate Cube Amid Vast Scenarios, Language Serves as Core, Smart Cloud Guards Health",
       },
       title: {
-        zh: "言语云³医疗AI系统",
+        zh: "YanYuCloud 医疗AI系统",
         en: "YYC³-Med | AI-Powered Intelligent Medical System",
       },
       description: {
@@ -246,7 +246,7 @@ export function Logo({
       {showText && (
         <div className="flex flex-col">
           <span className={cn("font-bold text-primary", textSize)}>
-            言语云³
+            YanYuCloud
           </span>
           <span className={cn("text-xs text-muted-foreground")}>
             YYC³-Med

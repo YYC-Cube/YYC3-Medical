@@ -23,7 +23,7 @@ class DevServer {
   }
 
   async start() {
-    console.log("🚀 启动言语云³医疗AI系统开发服务器...\n");
+    console.log("🚀 启动YanYuCloud 医疗AI系统开发服务器...\n");
 
     // 检查环境
     await this.checkEnvironment();

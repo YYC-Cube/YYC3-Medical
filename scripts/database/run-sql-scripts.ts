@@ -155,7 +155,7 @@ class MySQLScriptRunner {
 }
 
 async function main() {
-  console.log("🏥 言语云³医疗AI系统 - MySQL数据库初始化工具");
+  console.log("🏥 YanYuCloud 医疗AI系统 - MySQL数据库初始化工具");
   console.log("=".repeat(60));
 
   const config: DatabaseConfig = {
@@ -240,7 +240,7 @@ function parseArguments() {
  */
 function showHelp() {
   console.log(`
-🏥 言语云³医疗AI系统 - MySQL数据库脚本执行工具
+🏥 YanYuCloud 医疗AI系统 - MySQL数据库脚本执行工具
 
 用法: node run-sql-scripts.ts [选项]
 

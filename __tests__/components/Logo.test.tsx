@@ -9,7 +9,7 @@ describe('Logo Component', () => {
     expect(logoImage).toBeInTheDocument();
 
     // 默认 showText=false，不应渲染文字
-    const chineseText = screen.queryByText('言语云³');
+    const chineseText = screen.queryByText('YanYuCloud');
     expect(chineseText).not.toBeInTheDocument();
   });
 
@@ -19,7 +19,7 @@ describe('Logo Component', () => {
     const logoImage = screen.getByAltText('YYC³-Med Logo');
     expect(logoImage).toBeInTheDocument();
 
-    const chineseText = screen.getByText('言语云³');
+    const chineseText = screen.getByText('YanYuCloud');
     expect(chineseText).toBeInTheDocument();
 
     const englishText = screen.getByText('YYC³-Med');

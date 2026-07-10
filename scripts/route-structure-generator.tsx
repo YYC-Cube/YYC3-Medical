@@ -20,7 +20,7 @@ export class RouteStructureGenerator {
         path: "/",
         type: "layout",
         metadata: {
-          title: "言语云³医疗AI系统",
+          title: "YanYuCloud 医疗AI系统",
           description: "智能医疗诊断平台",
         },
         children: [
@@ -29,7 +29,7 @@ export class RouteStructureGenerator {
             type: "page",
             metadata: {
               title: "首页",
-              description: "言语云³医疗AI系统首页",
+              description: "YanYuCloud 医疗AI系统首页",
             },
           },
           {
@@ -356,8 +356,8 @@ export class RouteStructureGenerator {
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "${route.metadata?.title || "页面"} | 言语云³",
-  description: "${route.metadata?.description || "言语云³医疗AI系统"}",
+  title: "${route.metadata?.title || "页面"} | YanYuCloud",
+  description: "${route.metadata?.description || "YanYuCloud 医疗AI系统"}",
 }
 
 export default function ${componentName}Layout({
@@ -389,8 +389,8 @@ export default function ${componentName}Layout({
     const content = `import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "${route.metadata?.title || "页面"} | 言语云³",
-  description: "${route.metadata?.description || "言语云³医疗AI系统"}",
+  title: "${route.metadata?.title || "页面"} | YanYuCloud",
+  description: "${route.metadata?.description || "YanYuCloud 医疗AI系统"}",
 }
 
 export default function ${componentName}Page() {

@@ -114,7 +114,7 @@ export class RouteFixer {
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "${this.pathToTitle(routePath)} | 言语云³",
+  title: "${this.pathToTitle(routePath)} | YanYuCloud",
   description: "${this.pathToDescription(routePath)}",
 }
 

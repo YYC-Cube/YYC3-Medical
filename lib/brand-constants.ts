@@ -1,15 +1,15 @@
 export const BRAND_CONFIG = {
   name: {
-    zh: '言语云³',
-    en: 'YYC³-Med',
+    zh: 'YanYuCloud',
+    en: 'YanYuCloud',
   },
   slogan: {
     zh: '言启立方于万象，语枢智云守健康',
     en: 'Words Initiate Cube Amid Vast Scenarios, Language Serves as Core, Smart Cloud Guards Health',
   },
   title: {
-    zh: '言语云³医疗AI系统',
-    en: 'YYC³-Med | AI-Powered Intelligent Medical System',
+    zh: 'YanYuCloud 医疗AI系统',
+    en: 'YanYuCloud | AI-Powered Intelligent Medical System',
   },
   description: {
     zh: '基于人工智能的智能医疗系统，提供诊断辅助、病例分析、知识图谱等功能',

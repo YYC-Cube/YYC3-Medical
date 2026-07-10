@@ -32,7 +32,7 @@ export function CertificationChat({
     {
       id: '1',
       type: 'assistant',
-      content: '您好！我是言语云³认证助手，很高兴为您服务。我将协助您完成医生资格认证流程。',
+      content: '您好！我是YanYuCloud认证助手，很高兴为您服务。我将协助您完成医生资格认证流程。',
       timestamp: new Date(),
       suggestions: ['查看认证进度', '上传证书文件', '常见问题解答', '联系人工客服'],
     },

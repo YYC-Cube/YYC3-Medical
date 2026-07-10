@@ -113,7 +113,7 @@ const config = {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
-        // 言语云³品牌色 v2.0 — 医用信任蓝 + 生命绿松
+        // YanYuCloud品牌色 v2.0 — 医用信任蓝 + 生命绿松
         brand: {
           primary: '#2b6cb0',
           secondary: '#0d9488',

@@ -43,14 +43,14 @@ export function ShieldLogo({
       <div className={cn('relative flex items-center', className)}>
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="言语云³ Logo"
+          alt="YanYuCloud Logo"
           width={width}
           height={height}
           className="object-contain"
         />
         {showText && size !== 'xs' && size !== 'sm' && (
           <span className="ml-2 font-bold text-medical-700 whitespace-nowrap">
-            言语云<sup>3</sup>
+            YanYuCloud<sup>3</sup>
           </span>
         )}
       </div>
@@ -73,7 +73,7 @@ export function ShieldLogo({
       >
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="言语云³ Logo"
+          alt="YanYuCloud Logo"
           width={width}
           height={height}
           className="object-contain"
@@ -90,7 +90,7 @@ export function ShieldLogo({
           }}
           transition={{ duration: 0.3 }}
         >
-          言语云<sup>3</sup>
+          YanYuCloud<sup>3</sup>
         </motion.span>
       )}
     </div>

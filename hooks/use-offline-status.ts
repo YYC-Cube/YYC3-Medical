@@ -13,6 +13,7 @@ export function useOfflineStatus() {
     const handleOnline = () => {
       setIsOnline(true);
       if (wasOfflineRef.current) {
+        // 尝试注册 Background Sync（浏览器不支持时静默跳过）
         if ('serviceWorker' in navigator && 'SyncManager' in window) {
           navigator.serviceWorker.ready
             .then(registration => {
@@ -22,7 +23,9 @@ export function useOfflineStatus() {
                 }
               ).sync.register('background-sync');
             })
-            .catch(console.error);
+            .catch(() => {
+              // Background Sync 被浏览器禁用或不支持，忽略即可
+            });
         }
         setWasOffline(false);
         wasOfflineRef.current = false;

@@ -77,26 +77,26 @@
   --info: 198 65% 42%;
   --info-foreground: 0 0% 100%;
 
-  /* 系统色彩 v3.0 — 医疗蓝 + 白色主题 (Light Mode) */
+  /* 系统色彩 v3.0 — Logo 蓝(#0051e1) + 白色主题 (Light Mode) */
   --background: 0 0% 100%;
   --foreground: 215 30% 18%;
   --card: 0 0% 100%;
   --card-foreground: 215 30% 18%;
   --popover: 0 0% 100%;
   --popover-foreground: 215 30% 18%;
-  --primary: 210 55% 45%;
+  --primary: 218 100% 44%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 210 15% 94%;
+  --secondary: 218 15% 94%;
   --secondary-foreground: 215 30% 18%;
-  --muted: 210 12% 93%;
+  --muted: 218 12% 93%;
   --muted-foreground: 215 20% 50%;
-  --accent: 210 15% 94%;
+  --accent: 218 15% 94%;
   --accent-foreground: 215 30% 18%;
   --destructive: 0 65% 52%;
   --destructive-foreground: 0 0% 100%;
-  --border: 210 15% 88%;
-  --input: 210 15% 88%;
-  --ring: 210 55% 45%;
+  --border: 218 15% 88%;
+  --input: 218 15% 88%;
+  --ring: 218 100% 44%;
   --radius: 0.5rem;
 
   /* 图表色板 v3.0 — 医疗级蓝色系 */
@@ -125,7 +125,7 @@
   --card-foreground: 210 40% 98%;
   --popover: 215 30% 18%;
   --popover-foreground: 210 40% 98%;
-  --primary: 210 55% 48%;
+  --primary: 218 100% 52%;
   --primary-foreground: 0 0% 100%;
   --secondary: 215 30% 22%;
   --secondary-foreground: 210 15% 94%;

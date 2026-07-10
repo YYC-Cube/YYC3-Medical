@@ -35,7 +35,7 @@ export function CloudLogo({ size = 'md', animated = true, className = '' }: Clou
       <div className={`relative ${className}`} style={{ width, height }}>
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="言语云³ Logo"
+          alt="YanYuCloud Logo"
           width={width}
           height={height}
           className="object-contain"
@@ -61,7 +61,7 @@ export function CloudLogo({ size = 'md', animated = true, className = '' }: Clou
       >
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="言语云³ Logo"
+          alt="YanYuCloud Logo"
           width={width}
           height={height}
           className="object-contain"

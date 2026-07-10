@@ -115,7 +115,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto">
             <Logo size="xl" className="mx-auto mb-8" animated />
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-6">
-              言语云³
+              YanYuCloud
               <br />
               <span className="text-xl sm:text-2xl md:text-3xl font-medium text-primary/70">
                 AI-Powered Intelligent Medical System
@@ -223,7 +223,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="border-t border-white/20 mt-8 pt-8 text-center text-sm text-white/80">
-            <p>&copy; 2024 言语云³ (YYC³-Med). All rights reserved.</p>
+            <p>&copy; 2024 YanYuCloud (YYC³-Med). All rights reserved.</p>
           </div>
         </div>
       </footer>

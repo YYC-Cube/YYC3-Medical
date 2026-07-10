@@ -27,7 +27,7 @@ export function IntelligentChatAssistant() {
       id: '1',
       role: 'assistant',
       content:
-        '您好！我是言语云³医疗AI系统的智能助手。我可以帮您了解系统功能、解答医疗AI相关问题，或指导您完成管理后台的配置。请问有什么可以帮助您的吗？',
+        '您好！我是YanYuCloud 医疗AI系统的智能助手。我可以帮您了解系统功能、解答医疗AI相关问题，或指导您完成管理后台的配置。请问有什么可以帮助您的吗？',
       timestamp: new Date(),
       type: 'text',
     },

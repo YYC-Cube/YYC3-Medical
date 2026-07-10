@@ -131,7 +131,7 @@ export function SplashScreen({
               >
                 <Image
                   src="/yanyu-cloud-logo.png"
-                  alt="言语云³ Logo"
+                  alt="YanYuCloud Logo"
                   width={isMobile ? 140 : 180}
                   height={isMobile ? 140 : 180}
                   className="relative z-10"
@@ -161,7 +161,7 @@ export function SplashScreen({
                 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
               >
-                言语云<sup>3</sup>
+                YanYuCloud<sup>3</sup>
               </motion.h1>
               <motion.p
                 className={`${isMobile ? 'text-lg' : 'text-xl'} opacity-90`}

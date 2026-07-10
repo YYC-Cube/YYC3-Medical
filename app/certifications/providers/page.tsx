@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { VerificationProvidersClient } from '@/components/certifications/verification-providers-client';
 
 export const metadata: Metadata = {
-  title: '验证机构管理 | 言语云³',
+  title: '验证机构管理 | YanYuCloud',
   description: '管理和配置资质验证服务提供商',
 };
 

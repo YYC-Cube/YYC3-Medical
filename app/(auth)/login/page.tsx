@@ -1,71 +1,41 @@
 import { LoginForm } from '@/components/auth/LoginForm';
 import { Logo } from '@/components/brand/logo';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 
 function LoginSkeleton() {
   return (
-    <Card className="w-full max-w-md mx-auto border-border shadow-lg">
-      <CardContent className="p-6">
-        <div className="space-y-4">
-          <Skeleton className="h-8 w-3/4 mx-auto bg-muted" />
-          <Skeleton className="h-4 w-full bg-muted" />
-          <Skeleton className="h-10 w-full bg-muted" />
-          <Skeleton className="h-10 w-full bg-muted" />
-          <Skeleton className="h-10 w-full bg-muted" />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-md mx-auto rounded-lg bg-primary p-6 text-white">
+      <div className="space-y-4">
+        <div className="h-8 w-3/4 mx-auto bg-white/20 rounded animate-pulse" />
+        <div className="h-4 w-full bg-white/20 rounded animate-pulse" />
+        <div className="h-10 w-full bg-white/20 rounded animate-pulse" />
+        <div className="h-10 w-full bg-white/20 rounded animate-pulse" />
+        <div className="h-10 w-full bg-white/20 rounded animate-pulse" />
+      </div>
+    </div>
   );
 }
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
-      {/* 背景动画折射线 */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 left-0 w-1 h-32 bg-gradient-to-b from-transparent via-primary/30 to-transparent animate-pulse" />
-        <div
-          className="absolute top-1/2 left-1/4 w-0.5 h-24 bg-gradient-to-b from-transparent via-secondary/40 to-transparent animate-pulse"
-          style={{ animationDelay: '1s' }}
-        />
-        <div
-          className="absolute top-3/4 left-1/2 w-1 h-28 bg-gradient-to-b from-transparent via-primary/35 to-transparent animate-pulse"
-          style={{ animationDelay: '2s' }}
-        />
-        <div
-          className="absolute top-1/3 right-1/4 w-0.5 h-20 bg-gradient-to-b from-transparent via-secondary/30 to-transparent animate-pulse"
-          style={{ animationDelay: '0.5s' }}
-        />
-        <div
-          className="absolute top-2/3 right-0 w-1 h-36 bg-gradient-to-b from-transparent via-primary/25 to-transparent animate-pulse"
-          style={{ animationDelay: '1.5s' }}
-        />
-      </div>
-
+    <div className="min-h-screen flex items-center justify-center bg-white p-4">
       <div className="w-full max-w-md relative z-10">
-        {/* Logo和标题区域 */}
-        <div className="text-center mb-8 bg-card/80 backdrop-blur-sm rounded-2xl p-6 border border-border shadow-lg">
+        {/* 标题区域 — 蓝色卡片 + 白字 */}
+        <div className="text-center mb-8 bg-primary rounded-2xl p-6 shadow-lg">
           <div className="flex justify-center mb-4">
             <Logo size="xl" animated={true} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">言语云³医疗AI系统</h1>
-          <p className="text-primary font-medium">智能医疗管理平台 - 安全登录</p>
-
-          {/* 装饰性折射线 */}
-          <div className="relative mt-4 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-secondary to-transparent rounded-full animate-pulse" />
-          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">YanYuCloud 医疗AI系统</h1>
+          <p className="text-white/90 font-medium">智能医疗管理平台 - 安全登录</p>
         </div>
 
         <Suspense fallback={<LoginSkeleton />}>
           <LoginForm />
         </Suspense>
 
-        {/* 底部装饰 */}
-        <div className="text-center mt-6 text-muted-foreground text-sm">
-          <p>© 2024 言语云³医疗AI系统 - 专业医疗管理解决方案</p>
+        {/* 底部 */}
+        <div className="text-center mt-6 text-primary/70 text-sm">
+          <p>&copy; 2024 YanYuCloud 医疗AI系统 - 专业医疗管理解决方案</p>
         </div>
       </div>
     </div>

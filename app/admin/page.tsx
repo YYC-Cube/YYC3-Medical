@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { AdminDashboard } from '@/components/admin/admin-dashboard';
 
 export const metadata: Metadata = {
-  title: '管理平台首页 | 言语云³',
+  title: '管理平台首页 | YanYuCloud',
   description: '医疗系统管理平台概览',
 };
 

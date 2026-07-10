@@ -33,7 +33,7 @@ export function Logo({
       <div className={cn('relative', animated && 'animate-pulse')}>
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
-          alt="YYC³-Med Logo"
+          alt="YanYuCloud Logo"
           width={width}
           height={height}
           className={cn(
@@ -46,8 +46,8 @@ export function Logo({
       </div>
       {showText && (
         <div className="flex flex-col">
-          <span className={cn('font-bold text-primary', textSize)}>言语云³</span>
-          <span className={cn('text-xs text-muted-foreground')}>YYC³-Med</span>
+          <span className={cn('font-bold text-primary', textSize)}>YanYuCloud</span>
+          <span className={cn('text-xs text-muted-foreground')}>Medical AI</span>
         </div>
       )}
     </div>

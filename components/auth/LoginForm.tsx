@@ -142,13 +142,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto border-border shadow-xl bg-card/95 backdrop-blur-sm">
-      <CardHeader className="space-y-1 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-t-lg border-b border-border">
+    <Card className="w-full max-w-md mx-auto border-primary/20 shadow-xl bg-white">
+      <CardHeader className="space-y-1 bg-primary rounded-t-lg border-b border-primary/20">
         <div className="flex items-center justify-center mb-2">
-          <Shield className="h-6 w-6 text-primary mr-2" />
-          <CardTitle className="text-2xl font-bold text-center text-foreground">安全登录</CardTitle>
+          <Shield className="h-6 w-6 text-white mr-2" />
+          <CardTitle className="text-2xl font-bold text-center text-white">安全登录</CardTitle>
         </div>
-        <CardDescription className="text-center text-muted-foreground">
+        <CardDescription className="text-center text-white/80">
           输入您的邮箱和密码来访问您的医疗管理账户
         </CardDescription>
       </CardHeader>
@@ -228,8 +228,8 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           </div>
 
           {/* 演示账户提示（仅静态演示模式展示） */}
-          <div className="bg-muted/50 border border-border rounded-lg p-3">
-            <p className="text-xs text-foreground font-medium mb-1">演示账户（静态导出模式）：</p>
+          <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
+            <p className="text-xs text-primary font-medium mb-1">演示账户（静态导出模式）：</p>
             <div className="text-xs text-muted-foreground space-y-1">
               <div>管理员: admin@yanyucloud.com / admin123</div>
               <div>医生: doctor@yanyucloud.com / doctor123</div>
@@ -241,7 +241,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <CardFooter className="flex flex-col space-y-4 p-6 pt-0">
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-medium shadow-lg"
+            className="w-full bg-primary hover:bg-primary/90 text-white font-medium shadow-lg"
             disabled={isLoading}
           >
             {isLoading ? (

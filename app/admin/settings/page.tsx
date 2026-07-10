@@ -3,7 +3,7 @@ import { SettingsClient } from '@/components/admin/settings/settings-client';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata: Metadata = {
-  title: '系统设置 | 言语云³',
+  title: '系统设置 | YanYuCloud',
   description: '管理系统全局设置和参数配置',
 };
 

@@ -62,7 +62,7 @@ export function AdminGuideWizard() {
             <BookOpen className="h-5 w-5" />
             管理后台使用指南
           </CardTitle>
-          <CardDescription>完成以下步骤，快速掌握言语云³医疗AI系统的管理和配置</CardDescription>
+          <CardDescription>完成以下步骤，快速掌握YanYuCloud 医疗AI系统的管理和配置</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

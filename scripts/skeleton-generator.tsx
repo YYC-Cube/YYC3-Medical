@@ -49,7 +49,7 @@ export default ${name}
       ) => `import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "${name} | 言语云³",
+  title: "${name} | YanYuCloud",
   description: "${name}页面",
 }
 

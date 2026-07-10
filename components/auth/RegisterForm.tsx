@@ -149,14 +149,14 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto border-border shadow-xl bg-card/95 backdrop-blur-sm">
-      <CardHeader className="space-y-1 bg-gradient-to-r from-secondary/5 to-primary/5 rounded-t-lg border-b border-border">
+    <Card className="w-full max-w-md mx-auto border-primary/20 shadow-xl bg-white">
+      <CardHeader className="space-y-1 bg-primary rounded-t-lg border-b border-primary/20">
         <div className="flex items-center justify-center mb-2">
-          <UserPlus className="h-6 w-6 text-primary mr-2" />
-          <CardTitle className="text-2xl font-bold text-center text-foreground">创建账户</CardTitle>
+          <UserPlus className="h-6 w-6 text-white mr-2" />
+          <CardTitle className="text-2xl font-bold text-center text-white">创建账户</CardTitle>
         </div>
-        <CardDescription className="text-center text-muted-foreground">
-          填写以下信息来创建您的医疗管理账户
+        <CardDescription className="text-center text-white/80">
+          填写以下信息来创建您的YanYuCloud医疗管理账户
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
@@ -256,10 +256,10 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
                 <div className="flex-1 bg-muted rounded-full h-2">
                   <div
                     className={`h-2 rounded-full transition-all ${passwordStrength <= 1
-                        ? 'bg-destructive'
-                        : passwordStrength <= 3
-                          ? 'bg-warning'
-                          : 'bg-success'
+                      ? 'bg-destructive'
+                      : passwordStrength <= 3
+                        ? 'bg-warning'
+                        : 'bg-success'
                       }`}
                     style={{ width: `${(passwordStrength / 5) * 100}%` }}
                   />
@@ -330,7 +330,7 @@ export function RegisterForm({ onSuccess }: RegisterFormProps) {
         <CardFooter className="flex flex-col space-y-4 p-6 pt-0">
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-secondary to-primary hover:from-secondary/90 hover:to-primary/90 text-primary-foreground font-medium shadow-lg"
+            className="w-full bg-primary hover:bg-primary/90 text-white font-medium shadow-lg"
             disabled={isLoading}
           >
             {isLoading ? (
