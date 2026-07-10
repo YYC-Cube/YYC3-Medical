@@ -1,15 +1,15 @@
-import { Suspense } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { FollowupClient } from "@/components/patients/followup-client"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, Clock, CheckCircle, AlertCircle, Plus } from "lucide-react"
+import { Suspense } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { FollowupClient } from '@/components/patients/followup-client';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Calendar, Clock, CheckCircle, AlertCircle, Plus } from 'lucide-react';
 
 export const metadata = {
-  title: "随访计划 | MediNexus³",
-  description: "管理患者随访计划和提醒",
-}
+  title: '随访计划 | MediNexus³',
+  description: '管理患者随访计划和提醒',
+};
 
 export default function PatientFollowupPage() {
   return (
@@ -104,5 +104,5 @@ export default function PatientFollowupPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

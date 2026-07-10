@@ -1,238 +1,254 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, Search, Shield, Check, X, Eye, FileText } from "lucide-react"
-import { CreatePermissionDialog } from "./create-permission-dialog"
-import { EditPermissionDialog } from "./edit-permission-dialog"
+import { useState, useEffect } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { MoreHorizontal, Search, Shield, Check, X, Eye, FileText } from 'lucide-react';
+import { CreatePermissionDialog } from './create-permission-dialog';
+import { EditPermissionDialog } from './edit-permission-dialog';
 
 // 模拟权限数据
 const mockPermissions = [
   {
-    id: "perm_1",
-    code: "admin:system:view",
-    name: "查看系统状态",
-    description: "允许查看系统状态和性能指标",
-    module: "系统",
+    id: 'perm_1',
+    code: 'admin:system:view',
+    name: '查看系统状态',
+    description: '允许查看系统状态和性能指标',
+    module: '系统',
     isActive: true,
     createdAt: new Date(2022, 0, 15),
   },
   {
-    id: "perm_2",
-    code: "admin:system:manage",
-    name: "管理系统设置",
-    description: "允许管理系统参数和配置",
-    module: "系统",
+    id: 'perm_2',
+    code: 'admin:system:manage',
+    name: '管理系统设置',
+    description: '允许管理系统参数和配置',
+    module: '系统',
     isActive: true,
     createdAt: new Date(2022, 0, 20),
   },
   {
-    id: "perm_3",
-    code: "admin:users:view",
-    name: "查看用户",
-    description: "允许查看用户列表和详情",
-    module: "用户",
+    id: 'perm_3',
+    code: 'admin:users:view',
+    name: '查看用户',
+    description: '允许查看用户列表和详情',
+    module: '用户',
     isActive: true,
     createdAt: new Date(2022, 1, 5),
   },
   {
-    id: "perm_4",
-    code: "admin:users:create",
-    name: "创建用户",
-    description: "允许创建新用户",
-    module: "用户",
+    id: 'perm_4',
+    code: 'admin:users:create',
+    name: '创建用户',
+    description: '允许创建新用户',
+    module: '用户',
     isActive: true,
     createdAt: new Date(2022, 1, 10),
   },
   {
-    id: "perm_5",
-    code: "admin:users:update",
-    name: "更新用户",
-    description: "允许编辑用户信息",
-    module: "用户",
+    id: 'perm_5',
+    code: 'admin:users:update',
+    name: '更新用户',
+    description: '允许编辑用户信息',
+    module: '用户',
     isActive: true,
     createdAt: new Date(2022, 2, 15),
   },
   {
-    id: "perm_6",
-    code: "admin:users:delete",
-    name: "删除用户",
-    description: "允许删除用户",
-    module: "用户",
+    id: 'perm_6',
+    code: 'admin:users:delete',
+    name: '删除用户',
+    description: '允许删除用户',
+    module: '用户',
     isActive: true,
     createdAt: new Date(2022, 3, 20),
   },
   {
-    id: "perm_7",
-    code: "admin:roles:manage",
-    name: "管理角色",
-    description: "允许管理角色和权限",
-    module: "权限",
+    id: 'perm_7',
+    code: 'admin:roles:manage',
+    name: '管理角色',
+    description: '允许管理角色和权限',
+    module: '权限',
     isActive: true,
     createdAt: new Date(2022, 4, 10),
   },
   {
-    id: "perm_8",
-    code: "patient:records:view",
-    name: "查看患者记录",
-    description: "允许查看患者医疗记录",
-    module: "患者",
+    id: 'perm_8',
+    code: 'patient:records:view',
+    name: '查看患者记录',
+    description: '允许查看患者医疗记录',
+    module: '患者',
     isActive: true,
     createdAt: new Date(2022, 5, 5),
   },
   {
-    id: "perm_9",
-    code: "patient:records:create",
-    name: "创建患者记录",
-    description: "允许创建患者医疗记录",
-    module: "患者",
+    id: 'perm_9',
+    code: 'patient:records:create',
+    name: '创建患者记录',
+    description: '允许创建患者医疗记录',
+    module: '患者',
     isActive: true,
     createdAt: new Date(2022, 5, 15),
   },
   {
-    id: "perm_10",
-    code: "patient:records:update",
-    name: "更新患者记录",
-    description: "允许更新患者医疗记录",
-    module: "患者",
+    id: 'perm_10',
+    code: 'patient:records:update',
+    name: '更新患者记录',
+    description: '允许更新患者医疗记录',
+    module: '患者',
     isActive: true,
     createdAt: new Date(2022, 6, 20),
   },
   {
-    id: "perm_11",
-    code: "reports:view",
-    name: "查看报告",
-    description: "允许查看分析报告",
-    module: "报告",
+    id: 'perm_11',
+    code: 'reports:view',
+    name: '查看报告',
+    description: '允许查看分析报告',
+    module: '报告',
     isActive: true,
     createdAt: new Date(2022, 7, 5),
   },
   {
-    id: "perm_12",
-    code: "reports:generate",
-    name: "生成报告",
-    description: "允许生成分析报告",
-    module: "报告",
+    id: 'perm_12',
+    code: 'reports:generate',
+    name: '生成报告',
+    description: '允许生成分析报告',
+    module: '报告',
     isActive: true,
     createdAt: new Date(2022, 7, 15),
   },
   {
-    id: "perm_13",
-    code: "settings:view",
-    name: "查看设置",
-    description: "允许查看应用设置",
-    module: "设置",
+    id: 'perm_13',
+    code: 'settings:view',
+    name: '查看设置',
+    description: '允许查看应用设置',
+    module: '设置',
     isActive: true,
     createdAt: new Date(2022, 8, 10),
   },
   {
-    id: "perm_14",
-    code: "settings:update",
-    name: "更新设置",
-    description: "允许更新应用设置",
-    module: "设置",
+    id: 'perm_14',
+    code: 'settings:update',
+    name: '更新设置',
+    description: '允许更新应用设置',
+    module: '设置',
     isActive: true,
     createdAt: new Date(2022, 8, 20),
   },
   {
-    id: "perm_15",
-    code: "logs:view",
-    name: "查看日志",
-    description: "允许查看系统日志",
-    module: "日志",
+    id: 'perm_15',
+    code: 'logs:view',
+    name: '查看日志',
+    description: '允许查看系统日志',
+    module: '日志',
     isActive: true,
     createdAt: new Date(2022, 9, 5),
   },
   {
-    id: "perm_16",
-    code: "logs:export",
-    name: "导出日志",
-    description: "允许导出系统日志",
-    module: "日志",
+    id: 'perm_16',
+    code: 'logs:export',
+    name: '导出日志',
+    description: '允许导出系统日志',
+    module: '日志',
     isActive: false,
     createdAt: new Date(2022, 9, 15),
   },
-]
+];
 
 // 模块分组颜色
 const moduleColors: Record<string, string> = {
-  系统: "bg-blue-100 text-blue-800",
-  用户: "bg-green-100 text-green-800",
-  权限: "bg-purple-100 text-purple-800",
-  患者: "bg-rose-100 text-rose-800",
-  报告: "bg-amber-100 text-amber-800",
-  设置: "bg-gray-100 text-gray-800",
-  日志: "bg-teal-100 text-teal-800",
-}
+  系统: 'bg-primary/10 text-primary',
+  用户: 'bg-success/10 text-success',
+  权限: 'bg-primary text-primary',
+  患者: 'bg-destructive text-destructive',
+  报告: 'bg-warning text-warning',
+  设置: 'bg-muted text-foreground',
+  日志: 'bg-primary text-primary',
+};
 
 export function PermissionsList() {
-  const [permissions, setPermissions] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [moduleFilter, setModuleFilter] = useState<string[]>([])
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
-  const [editDialogOpen, setEditDialogOpen] = useState(false)
-  const [editingPermission, setEditingPermission] = useState<any>(null)
+  const [permissions, setPermissions] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [moduleFilter, setModuleFilter] = useState<string[]>([]);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editingPermission, setEditingPermission] = useState<any>(null);
 
   // 提取所有可用模块
-  const availableModules = Array.from(new Set(mockPermissions.map((p) => p.module)))
+  const availableModules = Array.from(new Set(mockPermissions.map(p => p.module)));
 
   // 模拟加载权限数据
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
     // 模拟API调用延迟
     const timer = setTimeout(() => {
       // 筛选权限
-      let filteredPermissions = [...mockPermissions]
+      let filteredPermissions = [...mockPermissions];
 
       if (searchQuery) {
-        const query = searchQuery.toLowerCase()
+        const query = searchQuery.toLowerCase();
         filteredPermissions = filteredPermissions.filter(
-          (perm) =>
+          perm =>
             perm.name.toLowerCase().includes(query) ||
             perm.description.toLowerCase().includes(query) ||
-            perm.code.toLowerCase().includes(query),
-        )
+            perm.code.toLowerCase().includes(query)
+        );
       }
 
       if (moduleFilter.length > 0) {
-        filteredPermissions = filteredPermissions.filter((perm) => moduleFilter.includes(perm.module))
+        filteredPermissions = filteredPermissions.filter(perm =>
+          moduleFilter.includes(perm.module)
+        );
       }
 
-      setPermissions(filteredPermissions)
-      setLoading(false)
-    }, 500)
+      setPermissions(filteredPermissions);
+      setLoading(false);
+    }, 500);
 
-    return () => clearTimeout(timer)
-  }, [searchQuery, moduleFilter])
+    return () => clearTimeout(timer);
+  }, [searchQuery, moduleFilter]);
 
   const toggleModuleFilter = (module: string) => {
-    setModuleFilter((prev) => (prev.includes(module) ? prev.filter((m) => m !== module) : [...prev, module]))
-  }
+    setModuleFilter(prev =>
+      prev.includes(module) ? prev.filter(m => m !== module) : [...prev, module]
+    );
+  };
 
   const clearModuleFilter = () => {
-    setModuleFilter([])
-  }
+    setModuleFilter([]);
+  };
 
   const handleEdit = (permission: any) => {
-    setEditingPermission(permission)
-    setEditDialogOpen(true)
-  }
+    setEditingPermission(permission);
+    setEditDialogOpen(true);
+  };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("zh-CN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    })
-  }
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
 
   if (loading) {
     return (
@@ -254,7 +270,7 @@ export function PermissionsList() {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -270,20 +286,20 @@ export function PermissionsList() {
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="搜索权限..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
                 className="pl-9"
               />
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {availableModules.map((module) => (
+              {availableModules.map(module => (
                 <Badge
                   key={module}
-                  variant={moduleFilter.includes(module) ? "default" : "outline"}
+                  variant={moduleFilter.includes(module) ? 'default' : 'outline'}
                   className="cursor-pointer"
                   onClick={() => toggleModuleFilter(module)}
                 >
@@ -291,7 +307,12 @@ export function PermissionsList() {
                 </Badge>
               ))}
               {moduleFilter.length > 0 && (
-                <Button variant="ghost" size="sm" onClick={clearModuleFilter} className="h-6 px-2 text-xs">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearModuleFilter}
+                  className="h-6 px-2 text-xs"
+                >
                   清除筛选
                 </Button>
               )}
@@ -312,22 +333,24 @@ export function PermissionsList() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {permissions.map((permission) => (
+                {permissions.map(permission => (
                   <TableRow key={permission.id}>
                     <TableCell className="font-medium">{permission.name}</TableCell>
                     <TableCell className="font-mono text-xs">{permission.code}</TableCell>
                     <TableCell>{permission.description}</TableCell>
                     <TableCell>
-                      <Badge className={moduleColors[permission.module] || "bg-gray-100"}>{permission.module}</Badge>
+                      <Badge className={moduleColors[permission.module] || 'bg-muted'}>
+                        {permission.module}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-center">
                       {permission.isActive ? (
                         <div className="flex items-center justify-center">
-                          <Check className="h-5 w-5 text-green-500" />
+                          <Check className="h-5 w-5 text-success" />
                         </div>
                       ) : (
                         <div className="flex items-center justify-center">
-                          <X className="h-5 w-5 text-red-500" />
+                          <X className="h-5 w-5 text-destructive" />
                         </div>
                       )}
                     </TableCell>
@@ -341,7 +364,9 @@ export function PermissionsList() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEdit(permission)}>编辑权限</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEdit(permission)}>
+                            编辑权限
+                          </DropdownMenuItem>
                           <DropdownMenuItem>
                             <Shield className="h-4 w-4 mr-2" />
                             查看角色
@@ -388,5 +413,5 @@ export function PermissionsList() {
         />
       </CardContent>
     </Card>
-  )
+  );
 }

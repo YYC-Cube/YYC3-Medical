@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import { useState } from "react"
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,17 +9,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { UserPlus, Upload } from "lucide-react"
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { UserPlus, Upload } from 'lucide-react';
 
 export function AddPatientDialog() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -50,7 +50,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="gender">性别</Label>
-                <Select id="gender">
+                <Select>
                   <option value="">请选择</option>
                   <option value="male">男</option>
                   <option value="female">女</option>
@@ -74,7 +74,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="id-type">证件类型</Label>
-                <Select id="id-type">
+                <Select>
                   <option value="">请选择</option>
                   <option value="id-card">身份证</option>
                   <option value="passport">护照</option>
@@ -89,7 +89,7 @@ export function AddPatientDialog() {
 
               <div className="space-y-2">
                 <Label htmlFor="blood-type">血型</Label>
-                <Select id="blood-type">
+                <Select>
                   <option value="">请选择</option>
                   <option value="A">A型</option>
                   <option value="B">B型</option>
@@ -108,14 +108,14 @@ export function AddPatientDialog() {
               <Label htmlFor="medical-history">病史简述</Label>
               <textarea
                 id="medical-history"
-                className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md"
+                className="w-full min-h-[100px] px-3 py-2 border border-border rounded-md"
                 placeholder="请输入患者病史简述"
               ></textarea>
             </div>
           </TabsContent>
 
           <TabsContent value="import" className="space-y-4 mt-4">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
               <div className="mx-auto flex flex-col items-center">
                 <Upload className="h-10 w-10 text-medical-500 mb-2" />
                 <h3 className="text-lg font-medium">拖放文件或点击上传</h3>
@@ -149,5 +149,5 @@ export function AddPatientDialog() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

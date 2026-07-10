@@ -1,117 +1,132 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { useToast } from "@/components/ui/use-toast"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Clock, Edit, Trash2 } from "lucide-react"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { useToast } from '@/components/ui/use-toast';
+import { Clock, Edit, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟备份计划数据
 const scheduleData = [
   {
-    id: "sch-001",
-    name: "每日备份",
-    frequency: "每日",
-    time: "00:00",
-    retention: "7天",
-    status: "启用",
-    lastRun: "2025-05-15 00:00:00",
-    nextRun: "2025-05-16 00:00:00",
+    id: 'sch-001',
+    name: '每日备份',
+    frequency: '每日',
+    time: '00:00',
+    retention: '7天',
+    status: '启用',
+    lastRun: '2025-05-15 00:00:00',
+    nextRun: '2025-05-16 00:00:00',
   },
   {
-    id: "sch-002",
-    name: "每周备份",
-    frequency: "每周",
-    time: "01:00",
-    retention: "4周",
-    status: "启用",
-    lastRun: "2025-05-10 01:00:00",
-    nextRun: "2025-05-17 01:00:00",
+    id: 'sch-002',
+    name: '每周备份',
+    frequency: '每周',
+    time: '01:00',
+    retention: '4周',
+    status: '启用',
+    lastRun: '2025-05-10 01:00:00',
+    nextRun: '2025-05-17 01:00:00',
   },
   {
-    id: "sch-003",
-    name: "每月备份",
-    frequency: "每月",
-    time: "02:00",
-    retention: "12个月",
-    status: "启用",
-    lastRun: "2025-05-01 02:00:00",
-    nextRun: "2025-06-01 02:00:00",
+    id: 'sch-003',
+    name: '每月备份',
+    frequency: '每月',
+    time: '02:00',
+    retention: '12个月',
+    status: '启用',
+    lastRun: '2025-05-01 02:00:00',
+    nextRun: '2025-06-01 02:00:00',
   },
-]
+];
 
 export function BackupSchedule() {
-  const { toast } = useToast()
-  const [schedules, setSchedules] = useState(scheduleData)
-  const [isEditing, setIsEditing] = useState(false)
-  const [editingSchedule, setEditingSchedule] = useState<any>(null)
+  const { toast } = useToast();
+  const [schedules, setSchedules] = useState(scheduleData);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState<any>(null);
 
   const handleToggleStatus = (id: string) => {
     setSchedules(
-      schedules.map((schedule) => {
+      schedules.map(schedule => {
         if (schedule.id === id) {
-          const newStatus = schedule.status === "启用" ? "禁用" : "启用"
-          return { ...schedule, status: newStatus }
+          const newStatus = schedule.status === '启用' ? '禁用' : '启用';
+          return { ...schedule, status: newStatus };
         }
-        return schedule
-      }),
-    )
+        return schedule;
+      })
+    );
 
     toast({
-      title: "计划状态已更新",
-      description: "备份计划状态已成功更新。",
-    })
-  }
+      title: '计划状态已更新',
+      description: '备份计划状态已成功更新。',
+    });
+  };
 
   const handleEditSchedule = (schedule: any) => {
-    setEditingSchedule({ ...schedule })
-    setIsEditing(true)
-  }
+    setEditingSchedule({ ...schedule });
+    setIsEditing(true);
+  };
 
   const handleSaveSchedule = () => {
     if (editingSchedule) {
-      setSchedules(schedules.map((schedule) => (schedule.id === editingSchedule.id ? editingSchedule : schedule)))
+      setSchedules(
+        schedules.map(schedule => (schedule.id === editingSchedule.id ? editingSchedule : schedule))
+      );
 
-      setIsEditing(false)
-      setEditingSchedule(null)
+      setIsEditing(false);
+      setEditingSchedule(null);
 
       toast({
-        title: "备份计划已更新",
-        description: "备份计划设置已成功保存。",
-      })
+        title: '备份计划已更新',
+        description: '备份计划设置已成功保存。',
+      });
     }
-  }
+  };
 
   const handleDeleteSchedule = (id: string) => {
-    setSchedules(schedules.filter((schedule) => schedule.id !== id))
+    setSchedules(schedules.filter(schedule => schedule.id !== id));
 
     toast({
-      title: "备份计划已删除",
-      description: "所选备份计划已成功删除。",
-    })
-  }
+      title: '备份计划已删除',
+      description: '所选备份计划已成功删除。',
+    });
+  };
 
   const handleAddSchedule = () => {
     const newSchedule = {
       id: `sch-${Math.floor(Math.random() * 1000)}`,
-      name: "新建备份计划",
-      frequency: "每日",
-      time: "03:00",
-      retention: "7天",
-      status: "启用",
-      lastRun: "-",
-      nextRun: "2025-05-16 03:00:00",
-    }
+      name: '新建备份计划',
+      frequency: '每日',
+      time: '03:00',
+      retention: '7天',
+      status: '启用',
+      lastRun: '-',
+      nextRun: '2025-05-16 03:00:00',
+    };
 
-    setEditingSchedule(newSchedule)
-    setIsEditing(true)
-  }
+    setEditingSchedule(newSchedule);
+    setIsEditing(true);
+  };
 
   return (
     <Card>
@@ -128,7 +143,7 @@ export function BackupSchedule() {
         {isEditing ? (
           <div className="space-y-4 border rounded-md p-4">
             <h3 className="text-lg font-medium">
-              {editingSchedule.id.includes("sch-") ? "编辑备份计划" : "新建备份计划"}
+              {editingSchedule.id.includes('sch-') ? '编辑备份计划' : '新建备份计划'}
             </h3>
 
             <div className="grid gap-4 md:grid-cols-2">
@@ -137,7 +152,7 @@ export function BackupSchedule() {
                 <Input
                   id="schedule-name"
                   value={editingSchedule.name}
-                  onChange={(e) => setEditingSchedule({ ...editingSchedule, name: e.target.value })}
+                  onChange={e => setEditingSchedule({ ...editingSchedule, name: e.target.value })}
                 />
               </div>
 
@@ -145,7 +160,9 @@ export function BackupSchedule() {
                 <Label htmlFor="schedule-frequency">备份频率</Label>
                 <Select
                   value={editingSchedule.frequency}
-                  onValueChange={(value) => setEditingSchedule({ ...editingSchedule, frequency: value })}
+                  onValueChange={value =>
+                    setEditingSchedule({ ...editingSchedule, frequency: value })
+                  }
                 >
                   <SelectTrigger id="schedule-frequency">
                     <SelectValue placeholder="选择频率" />
@@ -164,7 +181,7 @@ export function BackupSchedule() {
                   id="schedule-time"
                   type="time"
                   value={editingSchedule.time}
-                  onChange={(e) => setEditingSchedule({ ...editingSchedule, time: e.target.value })}
+                  onChange={e => setEditingSchedule({ ...editingSchedule, time: e.target.value })}
                 />
               </div>
 
@@ -172,7 +189,9 @@ export function BackupSchedule() {
                 <Label htmlFor="schedule-retention">保留策略</Label>
                 <Select
                   value={editingSchedule.retention}
-                  onValueChange={(value) => setEditingSchedule({ ...editingSchedule, retention: value })}
+                  onValueChange={value =>
+                    setEditingSchedule({ ...editingSchedule, retention: value })
+                  }
                 >
                   <SelectTrigger id="schedule-retention">
                     <SelectValue placeholder="选择保留时长" />
@@ -192,9 +211,9 @@ export function BackupSchedule() {
             <div className="flex items-center space-x-2">
               <Switch
                 id="schedule-status"
-                checked={editingSchedule.status === "启用"}
-                onCheckedChange={(checked) =>
-                  setEditingSchedule({ ...editingSchedule, status: checked ? "启用" : "禁用" })
+                checked={editingSchedule.status === '启用'}
+                onCheckedChange={checked =>
+                  setEditingSchedule({ ...editingSchedule, status: checked ? '启用' : '禁用' })
                 }
               />
               <Label htmlFor="schedule-status">启用此备份计划</Label>
@@ -204,8 +223,8 @@ export function BackupSchedule() {
               <Button
                 variant="outline"
                 onClick={() => {
-                  setIsEditing(false)
-                  setEditingSchedule(null)
+                  setIsEditing(false);
+                  setEditingSchedule(null);
                 }}
               >
                 取消
@@ -235,7 +254,7 @@ export function BackupSchedule() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  schedules.map((schedule) => (
+                  schedules.map(schedule => (
                     <TableRow key={schedule.id}>
                       <TableCell className="font-medium">{schedule.name}</TableCell>
                       <TableCell>{schedule.frequency}</TableCell>
@@ -244,17 +263,18 @@ export function BackupSchedule() {
                       <TableCell>
                         <div className="flex items-center">
                           <Badge
-                            variant={schedule.status === "启用" ? "success" : "secondary"}
+                            variant={schedule.status === '启用' ? 'outline' : 'secondary'}
                             className={
-                              schedule.status === "启用" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                              schedule.status === '启用'
+                                ? 'bg-success/10 text-success'
+                                : 'bg-muted text-foreground'
                             }
                           >
                             {schedule.status}
                           </Badge>
                           <Switch
                             className="ml-2"
-                            size="sm"
-                            checked={schedule.status === "启用"}
+                            checked={schedule.status === '启用'}
                             onCheckedChange={() => handleToggleStatus(schedule.id)}
                           />
                         </div>
@@ -267,11 +287,19 @@ export function BackupSchedule() {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end space-x-1">
-                          <Button variant="ghost" size="icon" onClick={() => handleEditSchedule(schedule)}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleEditSchedule(schedule)}
+                          >
                             <Edit className="h-4 w-4" />
                             <span className="sr-only">编辑</span>
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDeleteSchedule(schedule.id)}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDeleteSchedule(schedule.id)}
+                          >
                             <Trash2 className="h-4 w-4" />
                             <span className="sr-only">删除</span>
                           </Button>
@@ -286,5 +314,5 @@ export function BackupSchedule() {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

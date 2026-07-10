@@ -1,21 +1,23 @@
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 interface FormulaProps {
-  className?: string
-  simplified?: boolean
+  className?: string;
+  simplified?: boolean;
 }
 
 export function BrandFormula({ className, simplified = false }: FormulaProps) {
   if (simplified) {
     return (
-      <div className={cn("p-4 bg-medical-50 rounded-lg border border-medical-100", className)}>
-        <p className="text-center font-medium text-medical-800">³维精准：1mm病灶识别、3秒AI初诊、30年临床知识库</p>
+      <div className={cn('p-4 bg-medical-50 rounded-lg border border-medical-100', className)}>
+        <p className="text-center font-medium text-medical-800">
+          ³维精准：1mm病灶识别、3秒AI初诊、30年临床知识库
+        </p>
       </div>
-    )
+    );
   }
 
   return (
-    <div className={cn("p-4 bg-medical-50 rounded-lg border border-medical-100", className)}>
+    <div className={cn('p-4 bg-medical-50 rounded-lg border border-medical-100', className)}>
       <div className="text-center font-medium text-medical-800 mb-2">品牌公式</div>
       <div className="bg-white p-3 rounded-md border border-medical-100 text-center">
         <p className="text-medical-800 font-mono">
@@ -43,5 +45,5 @@ export function BrandFormula({ className, simplified = false }: FormulaProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

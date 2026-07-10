@@ -5,7 +5,11 @@ interface PerformanceData {
   [key: string]: any;
 }
 
-export default function PerformanceChart({ data }: { data: PerformanceData[] }) {
+export default function PerformanceChart({
+  data,
+}: {
+  data: PerformanceData[];
+}) {
   return (
     <LineChart width={600} height={300} data={data}>
       <XAxis dataKey="metric_name" />

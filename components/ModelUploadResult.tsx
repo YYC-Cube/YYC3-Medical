@@ -1,4 +1,9 @@
-export default function ModelUploadResult({ result }) {
+interface UploadResult {
+  accuracy: number;
+  recall: number;
+}
+
+export default function ModelUploadResult({ result }: { result: UploadResult | null }) {
   if (!result) return null;
   return (
     <div>

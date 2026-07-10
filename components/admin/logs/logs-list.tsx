@@ -1,132 +1,139 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import {
   AlertCircle,
   AlertTriangle,
-  Info,
-  CheckCircle,
   Bug,
-  User,
-  Shield,
-  Database,
-  Globe,
-  Server,
-  FileText,
-  EyeOff,
+  CheckCircle,
   Clock,
-} from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card } from "@/components/ui/card"
+  Database,
+  EyeOff,
+  FileText,
+  Globe,
+  Info,
+  Server,
+  Shield,
+  User,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface LogsListProps {
-  type: string
-  searchQuery: string
-  dateRange: { from: Date | undefined; to: Date | undefined }
-  logLevel: string[]
-  userFilter: string[]
-  moduleFilter: string[]
-  setSearchQuery: (query: string) => void
-  setDateRange: (range: { from: Date | undefined; to: Date | undefined }) => void
-  setLogLevel: (levels: string[]) => void
-  setUserFilter: (users: string[]) => void
-  setModuleFilter: (modules: string[]) => void
+  type: string;
+  searchQuery: string;
+  dateRange: { from: Date | undefined; to: Date | undefined };
+  logLevel: string[];
+  userFilter: string[];
+  moduleFilter: string[];
+  setSearchQuery?: (query: string) => void;
+  setDateRange?: (range: { from: Date | undefined; to: Date | undefined }) => void;
+  setLogLevel?: (levels: string[]) => void;
+  setUserFilter?: (users: string[]) => void;
+  setModuleFilter?: (modules: string[]) => void;
 }
 
 // 模拟的日志数据
 const mockLogs = [
   {
-    id: "log_1",
+    id: 'log_1',
     timestamp: new Date(2023, 5, 15, 10, 30, 45),
-    level: "error",
-    message: "数据库连接失败",
-    source: "database",
-    details: "连接超时，请检查数据库配置",
-    user: "系统",
-    ipAddress: "192.168.1.1",
-    userAgent: "Server/1.0",
+    level: 'error',
+    message: '数据库连接失败',
+    source: 'database',
+    details: '连接超时，请检查数据库配置',
+    user: '系统',
+    ipAddress: '192.168.1.1',
+    userAgent: 'Server/1.0',
   },
   {
-    id: "log_2",
+    id: 'log_2',
     timestamp: new Date(2023, 5, 15, 11, 20, 10),
-    level: "info",
-    message: "用户登录成功",
-    source: "auth",
-    details: "用户通过标准认证登录",
-    user: "zhang.wei@example.com",
-    ipAddress: "203.0.113.45",
-    userAgent: "Mozilla/5.0 Chrome/91.0",
+    level: 'info',
+    message: '用户登录成功',
+    source: 'auth',
+    details: '用户通过标准认证登录',
+    user: 'zhang.wei@example.com',
+    ipAddress: '203.0.113.45',
+    userAgent: 'Mozilla/5.0 Chrome/91.0',
   },
   {
-    id: "log_3",
+    id: 'log_3',
     timestamp: new Date(2023, 5, 15, 12, 15, 30),
-    level: "warning",
-    message: "API请求失败重试",
-    source: "api",
-    details: "第三方服务暂时不可用，5秒后重试",
-    user: "system_api",
-    ipAddress: "10.0.0.5",
-    userAgent: "API Client/2.1",
+    level: 'warning',
+    message: 'API请求失败重试',
+    source: 'api',
+    details: '第三方服务暂时不可用，5秒后重试',
+    user: 'system_api',
+    ipAddress: '10.0.0.5',
+    userAgent: 'API Client/2.1',
   },
   {
-    id: "log_4",
+    id: 'log_4',
     timestamp: new Date(2023, 5, 15, 14, 45, 22),
-    level: "debug",
-    message: "任务计划执行完成",
-    source: "scheduler",
-    details: "备份任务完成，用时43秒",
-    user: "系统",
-    ipAddress: "内部",
-    userAgent: "Scheduler/1.0",
+    level: 'debug',
+    message: '任务计划执行完成',
+    source: 'scheduler',
+    details: '备份任务完成，用时43秒',
+    user: '系统',
+    ipAddress: '内部',
+    userAgent: 'Scheduler/1.0',
   },
   {
-    id: "log_5",
+    id: 'log_5',
     timestamp: new Date(2023, 5, 15, 16, 10, 5),
-    level: "critical",
-    message: "存储空间不足",
-    source: "system",
-    details: "主存储剩余空间低于10%",
-    user: "系统",
-    ipAddress: "内部",
-    userAgent: "Monitor/1.0",
+    level: 'critical',
+    message: '存储空间不足',
+    source: 'system',
+    details: '主存储剩余空间低于10%',
+    user: '系统',
+    ipAddress: '内部',
+    userAgent: 'Monitor/1.0',
   },
   {
-    id: "log_6",
+    id: 'log_6',
     timestamp: new Date(2023, 5, 15, 17, 30, 15),
-    level: "info",
-    message: "患者记录更新",
-    source: "medical_records",
-    details: "更新患者治疗计划",
-    user: "li.na@example.com",
-    ipAddress: "203.0.113.101",
-    userAgent: "Mozilla/5.0 Safari/605.1.15",
+    level: 'info',
+    message: '患者记录更新',
+    source: 'medical_records',
+    details: '更新患者治疗计划',
+    user: 'li.na@example.com',
+    ipAddress: '203.0.113.101',
+    userAgent: 'Mozilla/5.0 Safari/605.1.15',
   },
-]
+];
 
 // 日志级别图标映射
 const levelIcons = {
-  debug: <Bug className="h-4 w-4 text-gray-500" />,
-  info: <Info className="h-4 w-4 text-blue-500" />,
-  warning: <AlertTriangle className="h-4 w-4 text-yellow-500" />,
-  error: <AlertCircle className="h-4 w-4 text-red-500" />,
-  critical: <AlertCircle className="h-4 w-4 text-red-600" />,
-  success: <CheckCircle className="h-4 w-4 text-green-500" />,
-}
+  debug: <Bug className="h-4 w-4 text-muted-foreground" />,
+  info: <Info className="h-4 w-4 text-primary" />,
+  warning: <AlertTriangle className="h-4 w-4 text-warning" />,
+  error: <AlertCircle className="h-4 w-4 text-destructive" />,
+  critical: <AlertCircle className="h-4 w-4 text-destructive" />,
+  success: <CheckCircle className="h-4 w-4 text-success" />,
+};
 
 // 日志源图标映射
 const sourceIcons = {
-  auth: <Shield className="h-4 w-4 text-purple-500" />,
-  system: <Server className="h-4 w-4 text-gray-500" />,
-  database: <Database className="h-4 w-4 text-blue-500" />,
-  api: <Globe className="h-4 w-4 text-green-500" />,
-  medical_records: <FileText className="h-4 w-4 text-teal-500" />,
-  user: <User className="h-4 w-4 text-orange-500" />,
-  security: <EyeOff className="h-4 w-4 text-red-500" />,
-  scheduler: <Clock className="h-4 w-4 text-indigo-500" />,
-}
+  auth: <Shield className="h-4 w-4 text-primary" />,
+  system: <Server className="h-4 w-4 text-muted-foreground" />,
+  database: <Database className="h-4 w-4 text-primary" />,
+  api: <Globe className="h-4 w-4 text-success" />,
+  medical_records: <FileText className="h-4 w-4 text-primary" />,
+  user: <User className="h-4 w-4 text-warning" />,
+  security: <EyeOff className="h-4 w-4 text-destructive" />,
+  scheduler: <Clock className="h-4 w-4 text-primary" />,
+};
 
 export function LogsList({
   type,
@@ -141,14 +148,14 @@ export function LogsList({
   setUserFilter,
   setModuleFilter,
 }: LogsListProps) {
-  const [logs, setLogs] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(1)
-  const [hasMore, setHasMore] = useState(true)
+  const [logs, setLogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   // 模拟加载日志数据
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
     // 模拟API调用延迟
     const timer = setTimeout(() => {
@@ -156,111 +163,112 @@ export function LogsList({
       // 目前使用模拟数据
 
       // 筛选日志
-      let filteredLogs = [...mockLogs]
+      let filteredLogs = [...mockLogs];
 
       // 根据类型筛选
-      if (type !== "all") {
+      if (type !== 'all') {
         const typeMap: Record<string, string[]> = {
-          system: ["system", "scheduler"],
-          security: ["auth", "security"],
-          user: ["user"],
-          api: ["api"],
-          error: ["error", "critical"],
-        }
+          system: ['system', 'scheduler'],
+          security: ['auth', 'security'],
+          user: ['user'],
+          api: ['api'],
+          error: ['error', 'critical'],
+        };
 
         if (typeMap[type]) {
           filteredLogs = filteredLogs.filter(
-            (log) =>
-              typeMap[type].includes(log.source) || (type === "error" && ["error", "critical"].includes(log.level)),
-          )
+            log =>
+              typeMap[type].includes(log.source) ||
+              (type === 'error' && ['error', 'critical'].includes(log.level))
+          );
         }
       }
 
       // 根据搜索词筛选
       if (searchQuery) {
-        const query = searchQuery.toLowerCase()
+        const query = searchQuery.toLowerCase();
         filteredLogs = filteredLogs.filter(
-          (log) =>
+          log =>
             log.message.toLowerCase().includes(query) ||
             log.details.toLowerCase().includes(query) ||
-            log.user.toLowerCase().includes(query),
-        )
+            log.user.toLowerCase().includes(query)
+        );
       }
 
       // 根据日期范围筛选
       if (dateRange.from) {
-        filteredLogs = filteredLogs.filter((log) => log.timestamp >= dateRange.from)
+        filteredLogs = filteredLogs.filter(log => log.timestamp >= dateRange.from!);
       }
 
       if (dateRange.to) {
-        filteredLogs = filteredLogs.filter((log) => log.timestamp <= dateRange.to)
+        filteredLogs = filteredLogs.filter(log => log.timestamp <= dateRange.to!);
       }
 
       // 根据日志级别筛选
       if (logLevel.length > 0) {
-        filteredLogs = filteredLogs.filter((log) => logLevel.includes(log.level))
+        filteredLogs = filteredLogs.filter(log => logLevel.includes(log.level));
       }
 
       // 根据用户筛选
       if (userFilter.length > 0) {
-        filteredLogs = filteredLogs.filter((log) => userFilter.includes(log.user))
+        filteredLogs = filteredLogs.filter(log => userFilter.includes(log.user));
       }
 
       // 根据模块筛选
       if (moduleFilter.length > 0) {
-        filteredLogs = filteredLogs.filter((log) => moduleFilter.includes(log.source))
+        filteredLogs = filteredLogs.filter(log => moduleFilter.includes(log.source));
       }
 
-      setLogs(filteredLogs)
-      setHasMore(filteredLogs.length >= 10)
-      setLoading(false)
-    }, 800)
+      setLogs(filteredLogs);
+      setHasMore(filteredLogs.length >= 10);
+      setLoading(false);
+    }, 800);
 
-    return () => clearTimeout(timer)
-  }, [type, searchQuery, dateRange, logLevel, userFilter, moduleFilter, page])
+    return () => clearTimeout(timer);
+  }, [type, searchQuery, dateRange, logLevel, userFilter, moduleFilter, page]);
 
   const formatDate = (date: Date) => {
-    return date.toLocaleString("zh-CN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    })
-  }
+    return date.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  };
 
   const getLevelBadge = (level: string) => {
     const colorMap: Record<string, string> = {
-      debug: "bg-gray-100 text-gray-800",
-      info: "bg-blue-100 text-blue-800",
-      warning: "bg-yellow-100 text-yellow-800",
-      error: "bg-red-100 text-red-800",
-      critical: "bg-red-200 text-red-900",
-      success: "bg-green-100 text-green-800",
-    }
+      debug: 'bg-muted text-muted-foreground',
+      info: 'bg-primary/10 text-primary',
+      warning: 'bg-warning/10 text-warning',
+      error: 'bg-destructive/10 text-destructive',
+      critical: 'bg-destructive/20 text-destructive',
+      success: 'bg-success/10 text-success',
+    };
 
     return (
-      <Badge className={`${colorMap[level] || ""} flex items-center gap-1`}>
+      <Badge className={`${colorMap[level] || ''} flex items-center gap-1`}>
         {levelIcons[level as keyof typeof levelIcons]}
         <span>
-          {level === "debug"
-            ? "调试"
-            : level === "info"
-              ? "信息"
-              : level === "warning"
-                ? "警告"
-                : level === "error"
-                  ? "错误"
-                  : level === "critical"
-                    ? "严重"
-                    : level === "success"
-                      ? "成功"
+          {level === 'debug'
+            ? '调试'
+            : level === 'info'
+              ? '信息'
+              : level === 'warning'
+                ? '警告'
+                : level === 'error'
+                  ? '错误'
+                  : level === 'critical'
+                    ? '严重'
+                    : level === 'success'
+                      ? '成功'
                       : level}
         </span>
       </Badge>
-    )
-  }
+    );
+  };
 
   // 加载中状态
   if (loading && page === 1) {
@@ -284,7 +292,7 @@ export function LogsList({
           </div>
         </div>
       </Card>
-    )
+    );
   }
 
   // 无数据状态
@@ -292,23 +300,23 @@ export function LogsList({
     return (
       <Card>
         <div className="p-8 text-center">
-          <FileText className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">暂无日志数据</h3>
-          <p className="text-gray-500 mb-4">根据您的筛选条件未找到任何日志记录</p>
+          <FileText className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+          <h3 className="text-lg font-medium text-foreground mb-2">暂无日志数据</h3>
+          <p className="text-muted-foreground mb-4">根据您的筛选条件未找到任何日志记录</p>
           <Button
             onClick={() => {
-              setSearchQuery("")
-              setDateRange({ from: undefined, to: undefined })
-              setLogLevel([])
-              setUserFilter([])
-              setModuleFilter([])
+              setSearchQuery?.('');
+              setDateRange?.({ from: undefined, to: undefined });
+              setLogLevel?.([]);
+              setUserFilter?.([]);
+              setModuleFilter?.([]);
             }}
           >
             清除筛选条件
           </Button>
         </div>
       </Card>
-    )
+    );
   }
 
   return (
@@ -327,32 +335,32 @@ export function LogsList({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {logs.map((log) => (
+            {logs.map(log => (
               <TableRow key={log.id}>
                 <TableCell className="font-mono text-xs">{formatDate(log.timestamp)}</TableCell>
                 <TableCell>{getLevelBadge(log.level)}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1.5">
                     {sourceIcons[log.source as keyof typeof sourceIcons] || (
-                      <Server className="h-4 w-4 text-gray-500" />
+                      <Server className="h-4 w-4 text-muted-foreground" />
                     )}
                     <span className="text-sm">
-                      {log.source === "auth"
-                        ? "认证"
-                        : log.source === "system"
-                          ? "系统"
-                          : log.source === "database"
-                            ? "数据库"
-                            : log.source === "api"
-                              ? "API"
-                              : log.source === "medical_records"
-                                ? "病历"
-                                : log.source === "user"
-                                  ? "用户"
-                                  : log.source === "security"
-                                    ? "安全"
-                                    : log.source === "scheduler"
-                                      ? "计划任务"
+                      {log.source === 'auth'
+                        ? '认证'
+                        : log.source === 'system'
+                          ? '系统'
+                          : log.source === 'database'
+                            ? '数据库'
+                            : log.source === 'api'
+                              ? 'API'
+                              : log.source === 'medical_records'
+                                ? '病历'
+                                : log.source === 'user'
+                                  ? '用户'
+                                  : log.source === 'security'
+                                    ? '安全'
+                                    : log.source === 'scheduler'
+                                      ? '计划任务'
                                       : log.source}
                     </span>
                   </div>
@@ -360,7 +368,7 @@ export function LogsList({
                 <TableCell>
                   <div>
                     <div className="font-medium">{log.message}</div>
-                    <div className="text-sm text-gray-500 truncate max-w-sm">{log.details}</div>
+                    <div className="text-sm text-muted-foreground truncate max-w-sm">{log.details}</div>
                   </div>
                 </TableCell>
                 <TableCell>{log.user}</TableCell>
@@ -379,14 +387,14 @@ export function LogsList({
         <div className="flex items-center justify-center p-4 border-t">
           <Button
             variant="outline"
-            onClick={() => setPage((p) => p + 1)}
+            onClick={() => setPage(p => p + 1)}
             disabled={!hasMore || loading}
             className="w-full max-w-xs"
           >
-            {loading ? "加载中..." : hasMore ? "加载更多" : "已显示全部"}
+            {loading ? '加载中...' : hasMore ? '加载更多' : '已显示全部'}
           </Button>
         </div>
       )}
     </Card>
-  )
+  );
 }

@@ -1,14 +1,14 @@
-import type { Metadata } from "next"
-import { AdminGuideWizard } from "@/components/admin/guide/admin-guide-wizard"
-import { IntelligentChatAssistant } from "@/components/admin/guide/intelligent-chat-assistant"
-import { KnowledgeBaseBrowser } from "@/components/admin/guide/knowledge-base-browser"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookOpen, MessageSquare, Search } from "lucide-react"
+import type { Metadata } from 'next';
+import { AdminGuideWizard } from '@/components/admin/guide/admin-guide-wizard';
+import { IntelligentChatAssistant } from '@/components/admin/guide/intelligent-chat-assistant';
+import { KnowledgeBaseBrowser } from '@/components/admin/guide/knowledge-base-browser';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BookOpen, MessageSquare, Search } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: "使用指南 | 言语云³管理后台",
-  description: "管理后台使用指南和智能科普助手",
-}
+  title: '使用指南 | 言语云³管理后台',
+  description: '管理后台使用指南和智能科普助手',
+};
 
 export default function AdminGuidePage() {
   return (
@@ -49,5 +49,5 @@ export default function AdminGuidePage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

@@ -1,116 +1,130 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Search, ArrowRight, Edit, Save, X, Plus } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Search, ArrowRight, Edit, Save, X, Plus } from 'lucide-react';
 
 // 模拟数据映射配置
-const dataMappings = {
-  patient: [
-    { id: 1, source: "MRN", target: "patientId", description: "患者医疗记录号", status: "active" },
-    { id: 2, source: "FirstName", target: "firstName", description: "患者名", status: "active" },
-    { id: 3, source: "LastName", target: "lastName", description: "患者姓", status: "active" },
-    { id: 4, source: "DOB", target: "birthDate", description: "出生日期", status: "active" },
-    { id: 5, source: "Gender", target: "gender", description: "性别", status: "active" },
-    { id: 6, source: "Address", target: "address", description: "地址", status: "active" },
-    { id: 7, source: "Phone", target: "phoneNumber", description: "电话号码", status: "active" },
-    { id: 8, source: "Email", target: "emailAddress", description: "电子邮件", status: "inactive" },
-  ],
-  diagnosis: [
-    { id: 1, source: "DiagnosisCode", target: "code", description: "诊断代码", status: "active" },
-    { id: 2, source: "DiagnosisName", target: "name", description: "诊断名称", status: "active" },
-    { id: 3, source: "DiagnosisDate", target: "date", description: "诊断日期", status: "active" },
-    { id: 4, source: "DiagnosisDoctor", target: "physician", description: "诊断医生", status: "active" },
-    { id: 5, source: "DiagnosisNotes", target: "notes", description: "诊断备注", status: "active" },
-    { id: 6, source: "Severity", target: "severity", description: "严重程度", status: "active" },
-  ],
-  medication: [
-    { id: 1, source: "MedicationCode", target: "code", description: "药品代码", status: "active" },
-    { id: 2, source: "MedicationName", target: "name", description: "药品名称", status: "active" },
-    { id: 3, source: "Dosage", target: "dosage", description: "剂量", status: "active" },
-    { id: 4, source: "Frequency", target: "frequency", description: "频率", status: "active" },
-    { id: 5, source: "StartDate", target: "startDate", description: "开始日期", status: "active" },
-    { id: 6, source: "EndDate", target: "endDate", description: "结束日期", status: "active" },
-    { id: 7, source: "Prescriber", target: "physician", description: "处方医生", status: "active" },
-  ],
-  labResult: [
-    { id: 1, source: "TestCode", target: "code", description: "检查代码", status: "active" },
-    { id: 2, source: "TestName", target: "name", description: "检查名称", status: "active" },
-    { id: 3, source: "TestDate", target: "date", description: "检查日期", status: "active" },
-    { id: 4, source: "TestResult", target: "result", description: "检查结果", status: "active" },
-    { id: 5, source: "ReferenceRange", target: "range", description: "参考范围", status: "active" },
-    { id: 6, source: "Units", target: "units", description: "单位", status: "active" },
-    { id: 7, source: "Performer", target: "performer", description: "执行人", status: "inactive" },
-  ],
+interface DataMapping {
+  id: number;
+  source: string;
+  target: string;
+  description: string;
+  status: 'active' | 'inactive';
 }
 
+const dataMappings: Record<string, DataMapping[]> = {
+  patient: [
+    { id: 1, source: 'MRN', target: 'patientId', description: '患者医疗记录号', status: 'active' },
+    { id: 2, source: 'FirstName', target: 'firstName', description: '患者名', status: 'active' },
+    { id: 3, source: 'LastName', target: 'lastName', description: '患者姓', status: 'active' },
+    { id: 4, source: 'DOB', target: 'birthDate', description: '出生日期', status: 'active' },
+    { id: 5, source: 'Gender', target: 'gender', description: '性别', status: 'active' },
+    { id: 6, source: 'Address', target: 'address', description: '地址', status: 'active' },
+    { id: 7, source: 'Phone', target: 'phoneNumber', description: '电话号码', status: 'active' },
+    { id: 8, source: 'Email', target: 'emailAddress', description: '电子邮件', status: 'inactive' },
+  ],
+  diagnosis: [
+    { id: 1, source: 'DiagnosisCode', target: 'code', description: '诊断代码', status: 'active' },
+    { id: 2, source: 'DiagnosisName', target: 'name', description: '诊断名称', status: 'active' },
+    { id: 3, source: 'DiagnosisDate', target: 'date', description: '诊断日期', status: 'active' },
+    {
+      id: 4,
+      source: 'DiagnosisDoctor',
+      target: 'physician',
+      description: '诊断医生',
+      status: 'active',
+    },
+    { id: 5, source: 'DiagnosisNotes', target: 'notes', description: '诊断备注', status: 'active' },
+    { id: 6, source: 'Severity', target: 'severity', description: '严重程度', status: 'active' },
+  ],
+  medication: [
+    { id: 1, source: 'MedicationCode', target: 'code', description: '药品代码', status: 'active' },
+    { id: 2, source: 'MedicationName', target: 'name', description: '药品名称', status: 'active' },
+    { id: 3, source: 'Dosage', target: 'dosage', description: '剂量', status: 'active' },
+    { id: 4, source: 'Frequency', target: 'frequency', description: '频率', status: 'active' },
+    { id: 5, source: 'StartDate', target: 'startDate', description: '开始日期', status: 'active' },
+    { id: 6, source: 'EndDate', target: 'endDate', description: '结束日期', status: 'active' },
+    { id: 7, source: 'Prescriber', target: 'physician', description: '处方医生', status: 'active' },
+  ],
+  labResult: [
+    { id: 1, source: 'TestCode', target: 'code', description: '检查代码', status: 'active' },
+    { id: 2, source: 'TestName', target: 'name', description: '检查名称', status: 'active' },
+    { id: 3, source: 'TestDate', target: 'date', description: '检查日期', status: 'active' },
+    { id: 4, source: 'TestResult', target: 'result', description: '检查结果', status: 'active' },
+    { id: 5, source: 'ReferenceRange', target: 'range', description: '参考范围', status: 'active' },
+    { id: 6, source: 'Units', target: 'units', description: '单位', status: 'active' },
+    { id: 7, source: 'Performer', target: 'performer', description: '执行人', status: 'inactive' },
+  ],
+};
+
 export function EHRDataMapping() {
-  const [activeTab, setActiveTab] = useState("patient")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [editingMapping, setEditingMapping] = useState(null)
-  const [mappings, setMappings] = useState(dataMappings)
-  const [isAddingNew, setIsAddingNew] = useState(false)
+  const [activeTab, setActiveTab] = useState('patient');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editingMapping, setEditingMapping] = useState<DataMapping | null>(null);
+  const [mappings, setMappings] = useState(dataMappings);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   const [newMapping, setNewMapping] = useState({
-    source: "",
-    target: "",
-    description: "",
-  })
+    source: '',
+    target: '',
+    description: '',
+  });
 
   // 过滤映射
   const filteredMappings = mappings[activeTab].filter(
-    (mapping) =>
+    mapping =>
       mapping.source.toLowerCase().includes(searchQuery.toLowerCase()) ||
       mapping.target.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      mapping.description.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      mapping.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // 开始编辑
-  const startEditing = (mapping) => {
-    setEditingMapping({ ...mapping })
-  }
+  const startEditing = (mapping: DataMapping) => {
+    setEditingMapping({ ...mapping });
+  };
 
   // 保存编辑
   const saveEditing = () => {
     if (editingMapping) {
       setMappings({
         ...mappings,
-        [activeTab]: mappings[activeTab].map((mapping) =>
-          mapping.id === editingMapping.id ? editingMapping : mapping,
+        [activeTab]: mappings[activeTab].map(mapping =>
+          mapping.id === editingMapping.id ? editingMapping : mapping
         ),
-      })
-      setEditingMapping(null)
+      });
+      setEditingMapping(null);
     }
-  }
+  };
 
   // 取消编辑
   const cancelEditing = () => {
-    setEditingMapping(null)
-  }
+    setEditingMapping(null);
+  };
 
   // 切换映射状态
-  const toggleMappingStatus = (id) => {
+  const toggleMappingStatus = (id: number) => {
     setMappings({
       ...mappings,
-      [activeTab]: mappings[activeTab].map((mapping) => {
+      [activeTab]: mappings[activeTab].map((mapping: DataMapping) => {
         if (mapping.id === id) {
           return {
             ...mapping,
-            status: mapping.status === "active" ? "inactive" : "active",
-          }
+            status: mapping.status === 'active' ? 'inactive' : 'active',
+          };
         }
-        return mapping
+        return mapping;
       }),
-    })
-  }
+    });
+  };
 
   // 添加新映射
   const addNewMapping = () => {
     if (newMapping.source && newMapping.target) {
-      const newId = Math.max(...mappings[activeTab].map((m) => m.id)) + 1
+      const newId = Math.max(...mappings[activeTab].map(m => m.id)) + 1;
       setMappings({
         ...mappings,
         [activeTab]: [
@@ -118,18 +132,18 @@ export function EHRDataMapping() {
           {
             id: newId,
             ...newMapping,
-            status: "active",
+            status: 'active',
           },
         ],
-      })
+      });
       setNewMapping({
-        source: "",
-        target: "",
-        description: "",
-      })
-      setIsAddingNew(false)
+        source: '',
+        target: '',
+        description: '',
+      });
+      setIsAddingNew(false);
     }
-  }
+  };
 
   return (
     <Card className="shadow-md">
@@ -158,7 +172,7 @@ export function EHRDataMapping() {
               placeholder="搜索映射..."
               className="pl-8"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
 
@@ -167,28 +181,34 @@ export function EHRDataMapping() {
               <h3 className="text-lg font-medium mb-3">添加新映射</h3>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm font-medium mb-1">源字段</label>
-                  <Input
-                    value={newMapping.source}
-                    onChange={(e) => setNewMapping({ ...newMapping, source: e.target.value })}
-                    placeholder="输入源字段名"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    源字段
+                    <Input
+                      value={newMapping.source}
+                      onChange={e => setNewMapping({ ...newMapping, source: e.target.value })}
+                      placeholder="输入源字段名"
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">目标字段</label>
-                  <Input
-                    value={newMapping.target}
-                    onChange={(e) => setNewMapping({ ...newMapping, target: e.target.value })}
-                    placeholder="输入目标字段名"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    目标字段
+                    <Input
+                      value={newMapping.target}
+                      onChange={e => setNewMapping({ ...newMapping, target: e.target.value })}
+                      placeholder="输入目标字段名"
+                    />
+                  </label>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">描述</label>
-                  <Input
-                    value={newMapping.description}
-                    onChange={(e) => setNewMapping({ ...newMapping, description: e.target.value })}
-                    placeholder="输入字段描述"
-                  />
+                  <label className="block text-sm font-medium mb-1">
+                    描述
+                    <Input
+                      value={newMapping.description}
+                      onChange={e => setNewMapping({ ...newMapping, description: e.target.value })}
+                      placeholder="输入字段描述"
+                    />
+                  </label>
                 </div>
                 <div className="flex gap-2 pt-2">
                   <Button onClick={addNewMapping}>保存</Button>
@@ -226,13 +246,15 @@ export function EHRDataMapping() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {filteredMappings.map((mapping) => (
+                  {filteredMappings.map(mapping => (
                     <tr key={mapping.id}>
                       <td className="px-4 py-3 whitespace-nowrap">
                         {editingMapping && editingMapping.id === mapping.id ? (
                           <Input
                             value={editingMapping.source}
-                            onChange={(e) => setEditingMapping({ ...editingMapping, source: e.target.value })}
+                            onChange={e =>
+                              setEditingMapping({ ...editingMapping, source: e.target.value })
+                            }
                             className="w-full"
                           />
                         ) : (
@@ -246,7 +268,9 @@ export function EHRDataMapping() {
                         {editingMapping && editingMapping.id === mapping.id ? (
                           <Input
                             value={editingMapping.target}
-                            onChange={(e) => setEditingMapping({ ...editingMapping, target: e.target.value })}
+                            onChange={e =>
+                              setEditingMapping({ ...editingMapping, target: e.target.value })
+                            }
                             className="w-full"
                           />
                         ) : (
@@ -257,7 +281,9 @@ export function EHRDataMapping() {
                         {editingMapping && editingMapping.id === mapping.id ? (
                           <Input
                             value={editingMapping.description}
-                            onChange={(e) => setEditingMapping({ ...editingMapping, description: e.target.value })}
+                            onChange={e =>
+                              setEditingMapping({ ...editingMapping, description: e.target.value })
+                            }
                             className="w-full"
                           />
                         ) : (
@@ -266,11 +292,15 @@ export function EHRDataMapping() {
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-center">
                         <Badge
-                          variant={mapping.status === "active" ? "default" : "outline"}
-                          className={mapping.status === "active" ? "bg-emerald-500" : "text-gray-500 border-gray-500"}
+                          variant={mapping.status === 'active' ? 'default' : 'outline'}
+                          className={
+                            mapping.status === 'active'
+                              ? 'bg-success'
+                              : 'text-muted-foreground border-border'
+                          }
                           onClick={() => toggleMappingStatus(mapping.id)}
                         >
-                          {mapping.status === "active" ? "启用" : "禁用"}
+                          {mapping.status === 'active' ? '启用' : '禁用'}
                         </Badge>
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-right">
@@ -298,5 +328,5 @@ export function EHRDataMapping() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

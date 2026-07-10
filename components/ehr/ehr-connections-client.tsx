@@ -1,14 +1,20 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -16,9 +22,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Database,
   Plus,
@@ -34,164 +40,170 @@ import {
   Globe,
   Clock,
   Calendar,
-} from "lucide-react"
+} from 'lucide-react';
 
 // 模拟系统连接配置
 const systemConnections = [
   {
-    id: "conn-001",
-    name: "中心医院HIS系统",
-    type: "HL7",
-    endpoint: "https://his.central-hospital.com/api/v2",
-    status: "connected",
+    id: 'conn-001',
+    name: '中心医院HIS系统',
+    type: 'HL7',
+    endpoint: 'https://his.central-hospital.com/api/v2',
+    status: 'connected',
     autoSync: true,
-    lastSync: "2025-05-19 08:15:23",
-    nextSync: "2025-05-19 12:00:00",
-    description: "中心医院的主要HIS系统，包含患者基本信息、诊断记录和医嘱信息。",
+    lastSync: '2025-05-19 08:15:23',
+    nextSync: '2025-05-19 12:00:00',
+    description: '中心医院的主要HIS系统，包含患者基本信息、诊断记录和医嘱信息。',
   },
   {
-    id: "conn-002",
-    name: "社区医疗中心EMR",
-    type: "FHIR",
-    endpoint: "https://emr.community-health.org/fhir",
-    status: "connected",
+    id: 'conn-002',
+    name: '社区医疗中心EMR',
+    type: 'FHIR',
+    endpoint: 'https://emr.community-health.org/fhir',
+    status: 'connected',
     autoSync: true,
-    lastSync: "2025-05-19 06:30:45",
-    nextSync: "2025-05-19 14:30:00",
-    description: "社区医疗中心的电子病历系统，主要包含基层医疗服务记录。",
+    lastSync: '2025-05-19 06:30:45',
+    nextSync: '2025-05-19 14:30:00',
+    description: '社区医疗中心的电子病历系统，主要包含基层医疗服务记录。',
   },
   {
-    id: "conn-003",
-    name: "专科医院LIS系统",
-    type: "API",
-    endpoint: "https://lis.specialty-hospital.net/integration",
-    status: "warning",
+    id: 'conn-003',
+    name: '专科医院LIS系统',
+    type: 'API',
+    endpoint: 'https://lis.specialty-hospital.net/integration',
+    status: 'warning',
     autoSync: false,
-    lastSync: "2025-05-18 22:15:12",
+    lastSync: '2025-05-18 22:15:12',
     nextSync: null,
-    description: "专科医院的实验室信息系统，包含各类检验结果数据。",
+    description: '专科医院的实验室信息系统，包含各类检验结果数据。',
   },
   {
-    id: "conn-004",
-    name: "区域医疗平台",
-    type: "FHIR",
-    endpoint: "https://regional-health-platform.org/fhir/r4",
-    status: "connected",
+    id: 'conn-004',
+    name: '区域医疗平台',
+    type: 'FHIR',
+    endpoint: 'https://regional-health-platform.org/fhir/r4',
+    status: 'connected',
     autoSync: true,
-    lastSync: "2025-05-19 04:45:33",
-    nextSync: "2025-05-19 16:45:00",
-    description: "区域医疗信息平台，整合多家医疗机构的患者数据。",
+    lastSync: '2025-05-19 04:45:33',
+    nextSync: '2025-05-19 16:45:00',
+    description: '区域医疗信息平台，整合多家医疗机构的患者数据。',
   },
   {
-    id: "conn-005",
-    name: "医学影像PACS系统",
-    type: "DICOM",
-    endpoint: "https://pacs.medical-imaging.com/dicom",
-    status: "error",
+    id: 'conn-005',
+    name: '医学影像PACS系统',
+    type: 'DICOM',
+    endpoint: 'https://pacs.medical-imaging.com/dicom',
+    status: 'error',
     autoSync: false,
-    lastSync: "2025-05-18 14:20:05",
+    lastSync: '2025-05-18 14:20:05',
     nextSync: null,
-    description: "医学影像存档和通信系统，包含各类影像学检查数据。",
+    description: '医学影像存档和通信系统，包含各类影像学检查数据。',
   },
-]
+];
 
 export default function EHRConnectionsClient() {
-  const router = useRouter()
-  const [connections, setConnections] = useState(systemConnections)
-  const [isAddingNew, setIsAddingNew] = useState(false)
+  const router = useRouter();
+  const [connections, setConnections] = useState(systemConnections);
+  const [isAddingNew, setIsAddingNew] = useState(false);
   const [newConnection, setNewConnection] = useState({
-    name: "",
-    type: "FHIR",
-    endpoint: "",
-    description: "",
-  })
-  const [showTestResult, setShowTestResult] = useState(false)
-  const [testResult, setTestResult] = useState({ success: true, message: "连接测试成功！服务器响应时间: 230ms" })
+    name: '',
+    type: 'FHIR',
+    endpoint: '',
+    description: '',
+  });
+  const [showTestResult, setShowTestResult] = useState(false);
+  const [testResult, setTestResult] = useState({
+    success: true,
+    message: '连接测试成功！服务器响应时间: 230ms',
+  });
 
   // 切换连接状态
-  const toggleConnectionStatus = (id) => {
+  const toggleConnectionStatus = (id: string | number) => {
     setConnections(
-      connections.map((conn) => {
+      connections.map(conn => {
         if (conn.id === id) {
           return {
             ...conn,
-            status: conn.status === "connected" ? "disconnected" : "connected",
-          }
+            status: conn.status === 'connected' ? 'disconnected' : 'connected',
+          };
         }
-        return conn
-      }),
-    )
-  }
+        return conn;
+      })
+    );
+  };
 
   // 切换自动同步
-  const toggleAutoSync = (id) => {
+  const toggleAutoSync = (id: string | number) => {
     setConnections(
-      connections.map((conn) => {
+      connections.map(conn => {
         if (conn.id === id) {
           return {
             ...conn,
             autoSync: !conn.autoSync,
-          }
+          };
         }
-        return conn
-      }),
-    )
-  }
+        return conn;
+      })
+    );
+  };
 
   // 添加新连接
   const addNewConnection = () => {
     if (newConnection.name && newConnection.endpoint) {
-      const newId = `conn-${String(connections.length + 1).padStart(3, "0")}`
+      const newId = `conn-${String(connections.length + 1).padStart(3, '0')}`;
       setConnections([
         ...connections,
         {
           id: newId,
           ...newConnection,
-          status: "disconnected",
+          status: 'disconnected',
           autoSync: false,
-          lastSync: null,
-          nextSync: null,
+          lastSync: '—',
+          nextSync: '—',
         },
-      ])
+      ]);
       setNewConnection({
-        name: "",
-        type: "FHIR",
-        endpoint: "",
-        description: "",
-      })
-      setIsAddingNew(false)
+        name: '',
+        type: 'FHIR',
+        endpoint: '',
+        description: '',
+      });
+      setIsAddingNew(false);
     }
-  }
+  };
 
   // 测试连接
   const testConnection = () => {
-    setShowTestResult(true)
+    setShowTestResult(true);
     // 模拟测试结果
     setTimeout(() => {
       setTestResult({
         success: Math.random() > 0.3,
         message:
           Math.random() > 0.3
-            ? "连接测试成功！服务器响应时间: 230ms"
-            : "连接测试失败：无法连接到服务器，请检查URL和凭证。",
-      })
-    }, 1500)
-  }
+            ? '连接测试成功！服务器响应时间: 230ms'
+            : '连接测试失败：无法连接到服务器，请检查URL和凭证。',
+      });
+    }, 1500);
+  };
 
   return (
     <div className="space-y-6">
       <Tabs defaultValue="connections" className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" onClick={() => router.push("/ehr-integration")}>
+          <TabsTrigger value="overview" onClick={() => router.push('/ehr-integration')}>
             集成概览
           </TabsTrigger>
-          <TabsTrigger value="mapping" onClick={() => router.push("/ehr-integration/mapping")}>
+          <TabsTrigger value="mapping" onClick={() => router.push('/ehr-integration/mapping')}>
             数据映射
           </TabsTrigger>
-          <TabsTrigger value="sync" onClick={() => router.push("/ehr-integration/sync")}>
+          <TabsTrigger value="sync" onClick={() => router.push('/ehr-integration/sync')}>
             同步状态
           </TabsTrigger>
-          <TabsTrigger value="connections" onClick={() => router.push("/ehr-integration/connections")}>
+          <TabsTrigger
+            value="connections"
+            onClick={() => router.push('/ehr-integration/connections')}
+          >
             系统连接
           </TabsTrigger>
         </TabsList>
@@ -223,7 +235,7 @@ export default function EHRConnectionsClient() {
               <Input
                 id="name"
                 value={newConnection.name}
-                onChange={(e) => setNewConnection({ ...newConnection, name: e.target.value })}
+                onChange={e => setNewConnection({ ...newConnection, name: e.target.value })}
                 className="col-span-3"
                 placeholder="输入系统名称"
               />
@@ -234,7 +246,7 @@ export default function EHRConnectionsClient() {
               </Label>
               <Select
                 value={newConnection.type}
-                onValueChange={(value) => setNewConnection({ ...newConnection, type: value })}
+                onValueChange={value => setNewConnection({ ...newConnection, type: value })}
               >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="选择连接类型" />
@@ -254,7 +266,7 @@ export default function EHRConnectionsClient() {
               <Input
                 id="endpoint"
                 value={newConnection.endpoint}
-                onChange={(e) => setNewConnection({ ...newConnection, endpoint: e.target.value })}
+                onChange={e => setNewConnection({ ...newConnection, endpoint: e.target.value })}
                 className="col-span-3"
                 placeholder="https://example.com/api"
               />
@@ -266,7 +278,7 @@ export default function EHRConnectionsClient() {
               <Textarea
                 id="description"
                 value={newConnection.description}
-                onChange={(e) => setNewConnection({ ...newConnection, description: e.target.value })}
+                onChange={e => setNewConnection({ ...newConnection, description: e.target.value })}
                 className="col-span-3"
                 placeholder="输入系统描述"
               />
@@ -280,7 +292,9 @@ export default function EHRConnectionsClient() {
                   测试连接
                 </Button>
                 {showTestResult && (
-                  <div className={`mt-2 text-sm ${testResult.success ? "text-green-500" : "text-red-500"}`}>
+                  <div
+                    className={`mt-2 text-sm ${testResult.success ? 'text-success' : 'text-destructive'}`}
+                  >
                     {testResult.success ? (
                       <div className="flex items-center">
                         <CheckCircle className="w-4 h-4 mr-1" />
@@ -308,7 +322,7 @@ export default function EHRConnectionsClient() {
 
       {/* 系统连接列表 */}
       <div className="space-y-4">
-        {connections.map((connection) => (
+        {connections.map(connection => (
           <Card key={connection.id} className="overflow-hidden">
             <CardContent className="p-0">
               <div className="p-6">
@@ -316,24 +330,24 @@ export default function EHRConnectionsClient() {
                   <div className="flex items-start gap-3">
                     <div
                       className={`p-2 rounded-lg ${
-                        connection.status === "connected"
-                          ? "bg-green-100"
-                          : connection.status === "warning"
-                            ? "bg-amber-100"
-                            : connection.status === "error"
-                              ? "bg-red-100"
-                              : "bg-gray-100"
+                        connection.status === 'connected'
+                          ? 'bg-success/10'
+                          : connection.status === 'warning'
+                            ? 'bg-warning'
+                            : connection.status === 'error'
+                              ? 'bg-destructive'
+                              : 'bg-muted'
                       }`}
                     >
                       <Database
                         className={`w-6 h-6 ${
-                          connection.status === "connected"
-                            ? "text-green-600"
-                            : connection.status === "warning"
-                              ? "text-amber-600"
-                              : connection.status === "error"
-                                ? "text-red-600"
-                                : "text-gray-600"
+                          connection.status === 'connected'
+                            ? 'text-success'
+                            : connection.status === 'warning'
+                              ? 'text-warning'
+                              : connection.status === 'error'
+                                ? 'text-destructive'
+                                : 'text-muted-foreground'
                         }`}
                       />
                     </div>
@@ -343,14 +357,14 @@ export default function EHRConnectionsClient() {
                         <Badge variant="outline" className="ml-2">
                           {connection.type}
                         </Badge>
-                        {connection.status === "connected" ? (
-                          <Badge className="bg-green-500">已连接</Badge>
-                        ) : connection.status === "warning" ? (
-                          <Badge variant="outline" className="text-amber-500 border-amber-500">
+                        {connection.status === 'connected' ? (
+                          <Badge className="bg-success/50">已连接</Badge>
+                        ) : connection.status === 'warning' ? (
+                          <Badge variant="outline" className="text-warning border-warning">
                             警告
                           </Badge>
-                        ) : connection.status === "error" ? (
-                          <Badge variant="outline" className="text-red-500 border-red-500">
+                        ) : connection.status === 'error' ? (
+                          <Badge variant="outline" className="text-destructive border-destructive">
                             错误
                           </Badge>
                         ) : (
@@ -401,13 +415,19 @@ export default function EHRConnectionsClient() {
                   <Switch
                     checked={connection.autoSync}
                     onCheckedChange={() => toggleAutoSync(connection.id)}
-                    disabled={connection.status !== "connected"}
+                    disabled={connection.status !== 'connected'}
                   />
-                  <span className="text-sm text-muted-foreground">{connection.autoSync ? "已启用" : "已禁用"}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {connection.autoSync ? '已启用' : '已禁用'}
+                  </span>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => toggleConnectionStatus(connection.id)}>
-                    {connection.status === "connected" ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => toggleConnectionStatus(connection.id)}
+                  >
+                    {connection.status === 'connected' ? (
                       <>
                         <LinkOff className="w-4 h-4 mr-1" />
                         断开
@@ -423,7 +443,7 @@ export default function EHRConnectionsClient() {
                     <Copy className="w-4 h-4 mr-1" />
                     复制
                   </Button>
-                  <Button variant="outline" size="sm" className="text-red-500 hover:text-red-500">
+                  <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
                     <Trash2 className="w-4 h-4 mr-1" />
                     删除
                   </Button>
@@ -435,7 +455,7 @@ export default function EHRConnectionsClient() {
       </div>
 
       <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={() => router.push("/ehr-integration")}>
+        <Button variant="outline" onClick={() => router.push('/ehr-integration')}>
           返回概览
         </Button>
         <Button>
@@ -444,5 +464,5 @@ export default function EHRConnectionsClient() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import fs from "fs"
-import path from "path"
+import fs from "fs";
+import path from "path";
 
 interface RouteStructure {
-  path: string
-  type: "layout" | "page" | "loading" | "error"
-  children?: RouteStructure[]
+  path: string;
+  type: "layout" | "page" | "loading" | "error";
+  children?: RouteStructure[];
   metadata?: {
-    title: string
-    description: string
-  }
+    title: string;
+    description: string;
+  };
 }
 
 export class RouteStructureGenerator {
-  private structure: RouteStructure[] = []
+  private structure: RouteStructure[] = [];
 
   generateOptimalStructure(): RouteStructure[] {
     this.structure = [
@@ -289,66 +289,69 @@ export class RouteStructureGenerator {
           },
         ],
       },
-    ]
+    ];
 
-    return this.structure
+    return this.structure;
   }
 
   generateFiles(): void {
-    const structure = this.generateOptimalStructure()
-    this.createStructureFiles(structure)
+    const structure = this.generateOptimalStructure();
+    this.createStructureFiles(structure);
   }
 
-  private createStructureFiles(structure: RouteStructure[], basePath = "app"): void {
+  private createStructureFiles(
+    structure: RouteStructure[],
+    basePath = "app",
+  ): void {
     structure.forEach((route) => {
-      const routePath = this.getRoutePath(route.path, basePath)
+      const routePath = this.getRoutePath(route.path, basePath);
 
       // 创建目录
       if (!fs.existsSync(routePath)) {
-        fs.mkdirSync(routePath, { recursive: true })
+        fs.mkdirSync(routePath, { recursive: true });
       }
 
       // 创建文件
       if (route.type === "layout") {
-        this.createLayoutFile(routePath, route)
+        this.createLayoutFile(routePath, route);
       } else if (route.type === "page") {
-        this.createPageFile(routePath, route)
+        this.createPageFile(routePath, route);
       }
 
       // 递归创建子路由
       if (route.children) {
-        this.createStructureFiles(route.children, basePath)
+        this.createStructureFiles(route.children, basePath);
       }
-    })
+    });
   }
 
   private getRoutePath(routePath: string, basePath: string): string {
     // 处理路由组和动态路由
-    const segments = routePath.split("/").filter(Boolean)
+    const segments = routePath.split("/").filter(Boolean);
     const pathSegments = segments.map((segment) => {
       if (segment.startsWith("(") && segment.endsWith(")")) {
         // 路由组
-        return segment
+        return segment;
       } else if (segment.startsWith("[") && segment.endsWith("]")) {
         // 动态路由
-        return segment
+        return segment;
       } else {
-        return segment
+        return segment;
       }
-    })
+    });
 
-    return path.join(basePath, ...pathSegments)
+    return path.join(basePath, ...pathSegments);
   }
 
   private createLayoutFile(routePath: string, route: RouteStructure): void {
-    const layoutPath = path.join(routePath, "layout.tsx")
+    const layoutPath = path.join(routePath, "layout.tsx");
 
     if (fs.existsSync(layoutPath)) {
-      console.log(`Layout already exists: ${layoutPath}`)
-      return
+      console.log(`Layout already exists: ${layoutPath}`);
+      return;
     }
 
-    const componentName = this.pathToComponentName(route.path)
+    const componentName = this.pathToComponentName(route.path);
     const content = `import type React from "react"
 import type { Metadata } from "next"
 
@@ -368,21 +371,21 @@ export default function ${componentName}Layout({
     </div>
   )
 }
-`
+`;
 
-    fs.writeFileSync(layoutPath, content, "utf-8")
-    console.log(`Created layout: ${layoutPath}`)
+    fs.writeFileSync(layoutPath, content, "utf-8");
+    console.log(`Created layout: ${layoutPath}`);
   }
 
   private createPageFile(routePath: string, route: RouteStructure): void {
-    const pagePath = path.join(routePath, "page.tsx")
+    const pagePath = path.join(routePath, "page.tsx");
 
     if (fs.existsSync(pagePath)) {
-      console.log(`Page already exists: ${pagePath}`)
-      return
+      console.log(`Page already exists: ${pagePath}`);
+      return;
     }
 
-    const componentName = this.pathToComponentName(route.path)
+    const componentName = this.pathToComponentName(route.path);
     const content = `import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -398,10 +401,10 @@ export default function ${componentName}Page() {
     </div>
   )
 }
-`
+`;
 
-    fs.writeFileSync(pagePath, content, "utf-8")
-    console.log(`Created page: ${pagePath}`)
+    fs.writeFileSync(pagePath, content, "utf-8");
+    console.log(`Created page: ${pagePath}`);
   }
 
   private pathToComponentName(path: string): string {
@@ -412,70 +415,71 @@ export default function ${componentName}Page() {
         .filter(Boolean)
         .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
         .join("") || "Root"
-    )
+    );
   }
 
   generateStructureReport(): string {
-    const structure = this.generateOptimalStructure()
+    const structure = this.generateOptimalStructure();
 
-    let report = "# Optimal Route Structure\n\n"
-    report += "This is the recommended route structure for the medical AI system:\n\n"
+    let report = "# Optimal Route Structure\n\n";
+    report +=
+      "This is the recommended route structure for the medical AI system:\n\n";
 
-    report += this.structureToMarkdown(structure)
+    report += this.structureToMarkdown(structure);
 
-    report += "\n## Benefits\n\n"
-    report += "- ✅ No route conflicts\n"
-    report += "- ✅ Proper nesting with layouts\n"
-    report += "- ✅ Clear separation of concerns\n"
-    report += "- ✅ SEO-friendly metadata\n"
-    report += "- ✅ Consistent naming conventions\n"
-    report += "- ✅ Route groups for logical organization\n"
+    report += "\n## Benefits\n\n";
+    report += "- ✅ No route conflicts\n";
+    report += "- ✅ Proper nesting with layouts\n";
+    report += "- ✅ Clear separation of concerns\n";
+    report += "- ✅ SEO-friendly metadata\n";
+    report += "- ✅ Consistent naming conventions\n";
+    report += "- ✅ Route groups for logical organization\n";
 
-    return report
+    return report;
   }
 
   private structureToMarkdown(structure: RouteStructure[], level = 0): string {
-    let markdown = ""
+    let markdown = "";
 
     structure.forEach((route) => {
-      const indent = "  ".repeat(level)
-      const icon = route.type === "layout" ? "📁" : "📄"
+      const indent = "  ".repeat(level);
+      const icon = route.type === "layout" ? "📁" : "📄";
 
-      markdown += `${indent}- ${icon} **${route.path}** (${route.type})`
+      markdown += `${indent}- ${icon} **${route.path}** (${route.type})`;
 
       if (route.metadata) {
-        markdown += ` - ${route.metadata.title}`
+        markdown += ` - ${route.metadata.title}`;
       }
 
-      markdown += "\n"
+      markdown += "\n";
 
       if (route.children) {
-        markdown += this.structureToMarkdown(route.children, level + 1)
+        markdown += this.structureToMarkdown(route.children, level + 1);
       }
-    })
+    });
 
-    return markdown
+    return markdown;
   }
 }
 
 // 运行生成器
 if (require.main === module) {
-  const generator = new RouteStructureGenerator()
+  const generator = new RouteStructureGenerator();
 
-  console.log("Generating optimal route structure...")
-  const report = generator.generateStructureReport()
-  console.log(report)
+  console.log("Generating optimal route structure...");
+  const report = generator.generateStructureReport();
+  console.log(report);
 
   // 保存报告
-  fs.writeFileSync("optimal-route-structure.md", report)
-  console.log("\nStructure report saved to optimal-route-structure.md")
+  fs.writeFileSync("optimal-route-structure.md", report);
+  console.log("\nStructure report saved to optimal-route-structure.md");
 
   // 询问是否生成文件
   if (process.argv.includes("--generate")) {
-    console.log("\nGenerating route files...")
-    generator.generateFiles()
-    console.log("Route files generated!")
+    console.log("\nGenerating route files...");
+    generator.generateFiles();
+    console.log("Route files generated!");
   } else {
-    console.log("\nRun with --generate flag to create the route files")
+    console.log("\nRun with --generate flag to create the route files");
   }
 }

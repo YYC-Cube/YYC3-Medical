@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from '@/components/ui/badge';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import {
   LineChart,
   Line,
@@ -19,62 +19,64 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
-import { Shield, Lock, AlertTriangle, CheckCircle, Database, RefreshCw } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { Shield, Lock, AlertTriangle, CheckCircle, Database, RefreshCw } from 'lucide-react';
 
 // 模拟安全评分数据
 const securityScores = [
-  { category: "数据加密", score: 92, color: "#10b981" },
-  { category: "访问控制", score: 85, color: "#3b82f6" },
-  { category: "漏洞防护", score: 78, color: "#f59e0b" },
-  { category: "合规性", score: 90, color: "#8b5cf6" },
-  { category: "审计日志", score: 95, color: "#ec4899" },
-]
+  { category: '数据加密', score: 92, color: 'var(--success)' },
+  { category: '访问控制', score: 85, color: 'var(--primary)' },
+  { category: '漏洞防护', score: 78, color: 'var(--warning)' },
+  { category: '合规性', score: 90, color: 'var(--primary)' },
+  { category: '审计日志', score: 95, color: 'var(--destructive)' },
+];
 
 // 模拟安全事件数据
 const securityEvents = [
-  { month: "1月", 登录失败: 45, 权限变更: 12, 数据访问: 78 },
-  { month: "2月", 登录失败: 38, 权限变更: 15, 数据访问: 82 },
-  { month: "3月", 登录失败: 52, 权限变更: 18, 数据访问: 85 },
-  { month: "4月", 登录失败: 40, 权限变更: 10, 数据访问: 90 },
-  { month: "5月", 登录失败: 35, 权限变更: 14, 数据访问: 88 },
-  { month: "6月", 登录失败: 30, 权限变更: 16, 数据访问: 92 },
-]
+  { month: '1月', 登录失败: 45, 权限变更: 12, 数据访问: 78 },
+  { month: '2月', 登录失败: 38, 权限变更: 15, 数据访问: 82 },
+  { month: '3月', 登录失败: 52, 权限变更: 18, 数据访问: 85 },
+  { month: '4月', 登录失败: 40, 权限变更: 10, 数据访问: 90 },
+  { month: '5月', 登录失败: 35, 权限变更: 14, 数据访问: 88 },
+  { month: '6月', 登录失败: 30, 权限变更: 16, 数据访问: 92 },
+];
 
 // 模拟数据加密状态
 const encryptionStatus = [
-  { name: "已加密", value: 85, color: "#10b981" },
-  { name: "未加密", value: 15, color: "#f43f5e" },
-]
+  { name: '已加密', value: 85, color: 'var(--success)' },
+  { name: '未加密', value: 15, color: 'var(--destructive)' },
+];
 
 // 模拟安全检查项
 const securityChecks = [
-  { id: 1, name: "强密码策略", status: "passed", description: "所有用户密码符合复杂度要求" },
-  { id: 2, name: "双因素认证", status: "passed", description: "已为所有管理员启用双因素认证" },
-  { id: 3, name: "数据备份", status: "passed", description: "自动备份已配置并正常运行" },
-  { id: 4, name: "漏洞扫描", status: "warning", description: "上次扫描发现3个低风险漏洞" },
-  { id: 5, name: "访问日志审计", status: "passed", description: "所有系统访问均被记录和监控" },
-  { id: 6, name: "数据传输加密", status: "passed", description: "所有数据传输使用TLS 1.3加密" },
-  { id: 7, name: "敏感数据识别", status: "warning", description: "部分数据未被正确标记为敏感信息" },
-  { id: 8, name: "安全更新", status: "passed", description: "所有系统组件均为最新版本" },
-]
+  { id: 1, name: '强密码策略', status: 'passed', description: '所有用户密码符合复杂度要求' },
+  { id: 2, name: '双因素认证', status: 'passed', description: '已为所有管理员启用双因素认证' },
+  { id: 3, name: '数据备份', status: 'passed', description: '自动备份已配置并正常运行' },
+  { id: 4, name: '漏洞扫描', status: 'warning', description: '上次扫描发现3个低风险漏洞' },
+  { id: 5, name: '访问日志审计', status: 'passed', description: '所有系统访问均被记录和监控' },
+  { id: 6, name: '数据传输加密', status: 'passed', description: '所有数据传输使用TLS 1.3加密' },
+  { id: 7, name: '敏感数据识别', status: 'warning', description: '部分数据未被正确标记为敏感信息' },
+  { id: 8, name: '安全更新', status: 'passed', description: '所有系统组件均为最新版本' },
+];
 
 export function SecurityDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [lastScanTime, setLastScanTime] = useState("2025-04-28 14:30")
+  const [activeTab, setActiveTab] = useState('overview');
+  const [lastScanTime, setLastScanTime] = useState('2025-04-28 14:30');
 
   // 计算总体安全评分
-  const overallScore = Math.round(securityScores.reduce((sum, item) => sum + item.score, 0) / securityScores.length)
+  const overallScore = Math.round(
+    securityScores.reduce((sum, item) => sum + item.score, 0) / securityScores.length
+  );
 
   // 模拟安全扫描
   const runSecurityScan = () => {
     // 更新最后扫描时间
-    const now = new Date()
+    const now = new Date();
     setLastScanTime(
-      `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ` +
-        `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
-    )
-  }
+      `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ` +
+        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+    );
+  };
 
   return (
     <Card className="shadow-md">
@@ -107,28 +109,28 @@ export function SecurityDashboard() {
 
                 <div className="grid grid-cols-2 gap-2 mt-4">
                   <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                    <Shield className="w-5 h-5 text-emerald-500" />
+                    <Shield className="w-5 h-5 text-success" />
                     <div>
                       <div className="font-medium">活跃用户</div>
                       <div className="text-sm text-muted-foreground">42 名用户</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                    <Lock className="w-5 h-5 text-blue-500" />
+                    <Lock className="w-5 h-5 text-primary" />
                     <div>
                       <div className="font-medium">访问控制</div>
                       <div className="text-sm text-muted-foreground">12 个角色</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                    <AlertTriangle className="w-5 h-5 text-amber-500" />
+                    <AlertTriangle className="w-5 h-5 text-warning" />
                     <div>
                       <div className="font-medium">安全警报</div>
                       <div className="text-sm text-muted-foreground">2 ��待处理</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-muted rounded-lg">
-                    <Database className="w-5 h-5 text-purple-500" />
+                    <Database className="w-5 h-5 text-primary" />
                     <div>
                       <div className="font-medium">数据量</div>
                       <div className="text-sm text-muted-foreground">1.2 TB</div>
@@ -140,14 +142,21 @@ export function SecurityDashboard() {
               <div>
                 <h3 className="text-lg font-medium mb-2">安全评分详情</h3>
                 <div className="space-y-3">
-                  {securityScores.map((item) => (
+                  {securityScores.map(item => (
                     <div key={item.category}>
                       <div className="flex justify-between mb-1">
                         <span className="text-sm">{item.category}</span>
                         <span className="text-sm font-medium">{item.score}</span>
                       </div>
-                      <Progress value={item.score} className="h-2" style={{ backgroundColor: item.color + "40" }}>
-                        <div className="h-full" style={{ backgroundColor: item.color, width: `${item.score}%` }} />
+                      <Progress
+                        value={item.score}
+                        className="h-2"
+                        style={{ backgroundColor: item.color + '40' }}
+                      >
+                        <div
+                          className="h-full"
+                          style={{ backgroundColor: item.color, width: `${item.score}%` }}
+                        />
                       </Progress>
                     </div>
                   ))}
@@ -159,15 +168,18 @@ export function SecurityDashboard() {
               <h3 className="text-lg font-medium mb-2">安全事件趋势</h3>
               <div className="h-60">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={securityEvents} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <LineChart
+                    data={securityEvents}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="登录失败" stroke="#ef4444" />
-                    <Line type="monotone" dataKey="权限变更" stroke="#f59e0b" />
-                    <Line type="monotone" dataKey="数据访问" stroke="#3b82f6" />
+                    <Line type="monotone" dataKey="登录失败" stroke="var(--destructive)" />
+                    <Line type="monotone" dataKey="权限变更" stroke="var(--warning)" />
+                    <Line type="monotone" dataKey="数据访问" stroke="var(--primary)" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -188,7 +200,7 @@ export function SecurityDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {encryptionStatus.map((entry, index) => (
@@ -207,28 +219,28 @@ export function SecurityDashboard() {
                   <div className="p-3 bg-muted rounded-lg">
                     <div className="font-medium">患者个人信息</div>
                     <div className="flex items-center mt-1">
-                      <CheckCircle className="w-4 h-4 text-emerald-500 mr-2" />
+                      <CheckCircle className="w-4 h-4 text-success mr-2" />
                       <span className="text-sm text-muted-foreground">AES-256 加密</span>
                     </div>
                   </div>
                   <div className="p-3 bg-muted rounded-lg">
                     <div className="font-medium">医疗记录</div>
                     <div className="flex items-center mt-1">
-                      <CheckCircle className="w-4 h-4 text-emerald-500 mr-2" />
+                      <CheckCircle className="w-4 h-4 text-success mr-2" />
                       <span className="text-sm text-muted-foreground">AES-256 加密</span>
                     </div>
                   </div>
                   <div className="p-3 bg-muted rounded-lg">
                     <div className="font-medium">诊断图像</div>
                     <div className="flex items-center mt-1">
-                      <CheckCircle className="w-4 h-4 text-emerald-500 mr-2" />
+                      <CheckCircle className="w-4 h-4 text-success mr-2" />
                       <span className="text-sm text-muted-foreground">AES-256 加密</span>
                     </div>
                   </div>
                   <div className="p-3 bg-muted rounded-lg">
                     <div className="font-medium">系统日志</div>
                     <div className="flex items-center mt-1">
-                      <AlertTriangle className="w-4 h-4 text-amber-500 mr-2" />
+                      <AlertTriangle className="w-4 h-4 text-warning mr-2" />
                       <span className="text-sm text-muted-foreground">部分未加密</span>
                     </div>
                   </div>
@@ -263,22 +275,26 @@ export function SecurityDashboard() {
 
           <TabsContent value="checks" className="pt-4">
             <div className="space-y-3">
-              {securityChecks.map((check) => (
+              {securityChecks.map(check => (
                 <div key={check.id} className="p-3 border rounded-lg">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                      {check.status === "passed" ? (
-                        <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
+                      {check.status === 'passed' ? (
+                        <CheckCircle className="w-5 h-5 text-success mr-2" />
                       ) : (
-                        <AlertTriangle className="w-5 h-5 text-amber-500 mr-2" />
+                        <AlertTriangle className="w-5 h-5 text-warning mr-2" />
                       )}
                       <span className="font-medium">{check.name}</span>
                     </div>
                     <Badge
-                      variant={check.status === "passed" ? "default" : "outline"}
-                      className={check.status === "passed" ? "bg-emerald-500" : "text-amber-500 border-amber-500"}
+                      variant={check.status === 'passed' ? 'default' : 'outline'}
+                      className={
+                        check.status === 'passed'
+                          ? 'bg-success'
+                          : 'text-warning border-warning'
+                      }
                     >
-                      {check.status === "passed" ? "通过" : "警告"}
+                      {check.status === 'passed' ? '通过' : '警告'}
                     </Badge>
                   </div>
                   <div className="text-sm text-muted-foreground mt-1 ml-7">{check.description}</div>
@@ -293,5 +309,5 @@ export function SecurityDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

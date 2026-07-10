@@ -1,60 +1,60 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react';
 import {
   testNavigationLinks,
   testSidebarFunctions,
   type NavLinkTestResult,
   type SidebarFunctionTestResult,
-} from "@/utils/navigation-tester"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { CheckCircle, XCircle, AlertCircle, RefreshCw } from "lucide-react"
-import Link from "next/link"
+} from '@/utils/navigation-tester';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { CheckCircle, XCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
 
 export function NavigationTester() {
-  const [linkResults, setLinkResults] = useState<NavLinkTestResult[]>([])
-  const [sidebarResults, setSidebarResults] = useState<SidebarFunctionTestResult[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [activeTab, setActiveTab] = useState("links")
+  const [linkResults, setLinkResults] = useState<NavLinkTestResult[]>([]);
+  const [sidebarResults, setSidebarResults] = useState<SidebarFunctionTestResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('links');
 
   // 运行测试
   const runTests = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       // 测试导航链接
-      const links = await testNavigationLinks()
-      setLinkResults(links)
+      const links = await testNavigationLinks();
+      setLinkResults(links);
 
       // 测试侧边栏功能
-      const sidebar = testSidebarFunctions()
-      setSidebarResults(sidebar)
+      const sidebar = testSidebarFunctions();
+      setSidebarResults(sidebar);
     } catch (error) {
-      console.error("测试执行失败:", error)
+      console.error('测试执行失败:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // 组件加载时自动运行测试
   useEffect(() => {
-    runTests()
-  }, [])
+    runTests();
+  }, []);
 
   // 计算测试结果统计
   const linkStats = {
     total: linkResults.length,
-    passed: linkResults.filter((r) => r.isValid).length,
-    failed: linkResults.filter((r) => !r.isValid).length,
-  }
+    passed: linkResults.filter(r => r.isValid).length,
+    failed: linkResults.filter(r => !r.isValid).length,
+  };
 
   const sidebarStats = {
     total: sidebarResults.length,
-    passed: sidebarResults.filter((r) => r.isWorking).length,
-    failed: sidebarResults.filter((r) => !r.isWorking).length,
-  }
+    passed: sidebarResults.filter(r => r.isWorking).length,
+    failed: sidebarResults.filter(r => !r.isWorking).length,
+  };
 
   return (
     <Card>
@@ -107,18 +107,18 @@ export function NavigationTester() {
                   <div key={index} className="grid grid-cols-12 p-3 text-sm items-center">
                     <div className="col-span-1">
                       {result.isValid ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <CheckCircle className="h-5 w-5 text-success" />
                       ) : (
-                        <XCircle className="h-5 w-5 text-red-500" />
+                        <XCircle className="h-5 w-5 text-destructive" />
                       )}
                     </div>
                     <div className="col-span-3 font-medium">{result.title}</div>
                     <div className="col-span-6 font-mono text-xs truncate">
                       {result.href}
-                      {result.error && <span className="ml-2 text-red-500">({result.error})</span>}
+                      {result.error && <span className="ml-2 text-destructive">({result.error})</span>}
                     </div>
                     <div className="col-span-2">
-                      <Link href={result.href} target="_blank">
+                      <Link href={result.href} target="_blank" rel="noopener noreferrer">
                         <MedicalButton size="sm" variant="outline">
                           访问
                         </MedicalButton>
@@ -142,17 +142,17 @@ export function NavigationTester() {
                   <div key={index} className="grid grid-cols-12 p-3 text-sm items-center">
                     <div className="col-span-1">
                       {result.isWorking ? (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <CheckCircle className="h-5 w-5 text-success" />
                       ) : (
-                        <XCircle className="h-5 w-5 text-red-500" />
+                        <XCircle className="h-5 w-5 text-destructive" />
                       )}
                     </div>
                     <div className="col-span-5 font-medium">{result.name}</div>
                     <div className="col-span-6">
                       {result.isWorking ? (
-                        <span className="text-green-600">功能正常</span>
+                        <span className="text-success">功能正常</span>
                       ) : (
-                        <span className="text-red-500">{result.error || "功能异常"}</span>
+                        <span className="text-destructive">{result.error || '功能异常'}</span>
                       )}
                     </div>
                   </div>
@@ -165,7 +165,9 @@ export function NavigationTester() {
                 <AlertCircle className="h-4 w-4 mr-2 text-medical-600" />
                 手动测试说明
               </h3>
-              <p className="text-sm text-medical-700 mb-3">以下功能需要手动测试，请按照步骤操作并验证：</p>
+              <p className="text-sm text-medical-700 mb-3">
+                以下功能需要手动测试，请按照步骤操作并验证：
+              </p>
               <ol className="list-decimal pl-5 text-sm space-y-2 text-medical-700">
                 <li>点击顶部导航栏中的折叠按钮，确认侧边栏可以折叠</li>
                 <li>再次点击折叠按钮，确认侧边栏可以展开</li>
@@ -178,5 +180,5 @@ export function NavigationTester() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -6,17 +6,17 @@
 export function formatNumber(
   num: number,
   options: {
-    locale?: string
-    minimumFractionDigits?: number
-    maximumFractionDigits?: number
-  } = {},
+    locale?: string;
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+  } = {}
 ): string {
-  const { locale = "zh-CN", minimumFractionDigits = 0, maximumFractionDigits = 2 } = options
+  const { locale = 'zh-CN', minimumFractionDigits = 0, maximumFractionDigits = 2 } = options;
 
   return new Intl.NumberFormat(locale, {
     minimumFractionDigits,
     maximumFractionDigits,
-  }).format(num)
+  }).format(num);
 }
 
 /**
@@ -25,20 +25,25 @@ export function formatNumber(
 export function formatCurrency(
   amount: number,
   options: {
-    currency?: string
-    locale?: string
-    minimumFractionDigits?: number
-    maximumFractionDigits?: number
-  } = {},
+    currency?: string;
+    locale?: string;
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+  } = {}
 ): string {
-  const { currency = "CNY", locale = "zh-CN", minimumFractionDigits = 2, maximumFractionDigits = 2 } = options
+  const {
+    currency = 'CNY',
+    locale = 'zh-CN',
+    minimumFractionDigits = 2,
+    maximumFractionDigits = 2,
+  } = options;
 
   return new Intl.NumberFormat(locale, {
-    style: "currency",
+    style: 'currency',
     currency,
     minimumFractionDigits,
     maximumFractionDigits,
-  }).format(amount)
+  }).format(amount);
 }
 
 /**
@@ -47,33 +52,33 @@ export function formatCurrency(
 export function formatPercent(
   value: number,
   options: {
-    locale?: string
-    minimumFractionDigits?: number
-    maximumFractionDigits?: number
-  } = {},
+    locale?: string;
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
+  } = {}
 ): string {
-  const { locale = "zh-CN", minimumFractionDigits = 0, maximumFractionDigits = 2 } = options
+  const { locale = 'zh-CN', minimumFractionDigits = 0, maximumFractionDigits = 2 } = options;
 
   return new Intl.NumberFormat(locale, {
-    style: "percent",
+    style: 'percent',
     minimumFractionDigits,
     maximumFractionDigits,
-  }).format(value)
+  }).format(value);
 }
 
 /**
  * 将数字限制在指定范围内
  */
 export function clamp(num: number, min: number, max: number): number {
-  return Math.min(Math.max(num, min), max)
+  return Math.min(Math.max(num, min), max);
 }
 
 /**
  * 四舍五入到指定小数位
  */
 export function roundTo(num: number, decimals = 0): number {
-  const factor = Math.pow(10, decimals)
-  return Math.round(num * factor) / factor
+  const factor = Math.pow(10, decimals);
+  return Math.round(num * factor) / factor;
 }
 
 /**
@@ -81,42 +86,42 @@ export function roundTo(num: number, decimals = 0): number {
  * 例如: 1024 -> 1 KB
  */
 export function formatFileSize(bytes: number): string {
-  if (bytes === 0) return "0 Bytes"
+  if (bytes === 0) return '0 Bytes';
 
-  const k = 1024
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`
+  return `${Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
 }
 
 /**
  * 生成指定范围内的随机整数
  */
 export function randomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
  * 计算数组的平均值
  */
 export function average(numbers: number[]): number {
-  if (numbers.length === 0) return 0
-  return numbers.reduce((sum, num) => sum + num, 0) / numbers.length
+  if (numbers.length === 0) return 0;
+  return numbers.reduce((sum, num) => sum + num, 0) / numbers.length;
 }
 
 /**
  * 计算数组的中位数
  */
 export function median(numbers: number[]): number {
-  if (numbers.length === 0) return 0
+  if (numbers.length === 0) return 0;
 
-  const sorted = [...numbers].sort((a, b) => a - b)
-  const middle = Math.floor(sorted.length / 2)
+  const sorted = [...numbers].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
 
   if (sorted.length % 2 === 0) {
-    return (sorted[middle - 1] + sorted[middle]) / 2
+    return (sorted[middle - 1] + sorted[middle]) / 2;
   }
 
-  return sorted[middle]
+  return sorted[middle];
 }

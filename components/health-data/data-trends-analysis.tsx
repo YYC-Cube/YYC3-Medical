@@ -1,47 +1,61 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar, TrendingUp, Download, BarChart3 } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Calendar, TrendingUp, Download, BarChart3 } from 'lucide-react';
 
 // 模拟血糖趋势数据
 const bloodGlucoseData = [
-  { date: "2023-05-01", fasting: 5.2, postprandial: 7.1 },
-  { date: "2023-05-08", fasting: 5.4, postprandial: 7.3 },
-  { date: "2023-05-15", fasting: 5.1, postprandial: 6.9 },
-  { date: "2023-05-22", fasting: 5.3, postprandial: 7.2 },
-  { date: "2023-05-29", fasting: 5.0, postprandial: 6.8 },
-  { date: "2023-06-05", fasting: 5.2, postprandial: 7.0 },
-]
+  { date: '2023-05-01', fasting: 5.2, postprandial: 7.1 },
+  { date: '2023-05-08', fasting: 5.4, postprandial: 7.3 },
+  { date: '2023-05-15', fasting: 5.1, postprandial: 6.9 },
+  { date: '2023-05-22', fasting: 5.3, postprandial: 7.2 },
+  { date: '2023-05-29', fasting: 5.0, postprandial: 6.8 },
+  { date: '2023-06-05', fasting: 5.2, postprandial: 7.0 },
+];
 
 // 模拟血压趋势数据
 const bloodPressureData = [
-  { date: "2023-05-01", systolic: 125, diastolic: 82 },
-  { date: "2023-05-08", systolic: 128, diastolic: 84 },
-  { date: "2023-05-15", systolic: 122, diastolic: 80 },
-  { date: "2023-05-22", systolic: 126, diastolic: 83 },
-  { date: "2023-05-29", systolic: 120, diastolic: 78 },
-  { date: "2023-06-05", systolic: 124, diastolic: 81 },
-]
+  { date: '2023-05-01', systolic: 125, diastolic: 82 },
+  { date: '2023-05-08', systolic: 128, diastolic: 84 },
+  { date: '2023-05-15', systolic: 122, diastolic: 80 },
+  { date: '2023-05-22', systolic: 126, diastolic: 83 },
+  { date: '2023-05-29', systolic: 120, diastolic: 78 },
+  { date: '2023-06-05', systolic: 124, diastolic: 81 },
+];
 
 // 模拟体重趋势数据
 const weightData = [
-  { date: "2023-05-01", weight: 68.5, bmi: 24.2 },
-  { date: "2023-05-08", weight: 68.2, bmi: 24.1 },
-  { date: "2023-05-15", weight: 67.8, bmi: 23.9 },
-  { date: "2023-05-22", weight: 67.5, bmi: 23.8 },
-  { date: "2023-05-29", weight: 67.2, bmi: 23.7 },
-  { date: "2023-06-05", weight: 66.9, bmi: 23.6 },
-]
+  { date: '2023-05-01', weight: 68.5, bmi: 24.2 },
+  { date: '2023-05-08', weight: 68.2, bmi: 24.1 },
+  { date: '2023-05-15', weight: 67.8, bmi: 23.9 },
+  { date: '2023-05-22', weight: 67.5, bmi: 23.8 },
+  { date: '2023-05-29', weight: 67.2, bmi: 23.7 },
+  { date: '2023-06-05', weight: 66.9, bmi: 23.6 },
+];
 
 export function DataTrendsAnalysis() {
-  const [activeTab, setActiveTab] = useState("blood-glucose")
-  const [timeRange, setTimeRange] = useState("1m")
+  const [activeTab, setActiveTab] = useState('blood-glucose');
+  const [timeRange, setTimeRange] = useState('1m');
 
   return (
     <Card className="h-full">
@@ -84,12 +98,12 @@ export function DataTrendsAnalysis() {
               <ChartContainer
                 config={{
                   fasting: {
-                    label: "空腹血糖 (mmol/L)",
-                    color: "hsl(var(--chart-1))",
+                    label: '空腹血糖 (mmol/L)',
+                    color: 'hsl(var(--chart-1))',
                   },
                   postprandial: {
-                    label: "餐后血糖 (mmol/L)",
-                    color: "hsl(var(--chart-2))",
+                    label: '餐后血糖 (mmol/L)',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -143,12 +157,12 @@ export function DataTrendsAnalysis() {
               <ChartContainer
                 config={{
                   systolic: {
-                    label: "收缩压 (mmHg)",
-                    color: "hsl(var(--chart-1))",
+                    label: '收缩压 (mmHg)',
+                    color: 'hsl(var(--chart-1))',
                   },
                   diastolic: {
-                    label: "舒张压 (mmHg)",
-                    color: "hsl(var(--chart-2))",
+                    label: '舒张压 (mmHg)',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -174,7 +188,12 @@ export function DataTrendsAnalysis() {
                       name="收缩压 (mmHg)"
                       activeDot={{ r: 8 }}
                     />
-                    <Line type="monotone" dataKey="diastolic" stroke="var(--color-diastolic)" name="舒张压 (mmHg)" />
+                    <Line
+                      type="monotone"
+                      dataKey="diastolic"
+                      stroke="var(--color-diastolic)"
+                      name="舒张压 (mmHg)"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -197,12 +216,12 @@ export function DataTrendsAnalysis() {
               <ChartContainer
                 config={{
                   weight: {
-                    label: "体重 (kg)",
-                    color: "hsl(var(--chart-1))",
+                    label: '体重 (kg)',
+                    color: 'hsl(var(--chart-1))',
                   },
                   bmi: {
-                    label: "BMI",
-                    color: "hsl(var(--chart-2))",
+                    label: 'BMI',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -230,7 +249,13 @@ export function DataTrendsAnalysis() {
                       name="体重 (kg)"
                       activeDot={{ r: 8 }}
                     />
-                    <Line yAxisId="right" type="monotone" dataKey="bmi" stroke="var(--color-bmi)" name="BMI" />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="bmi"
+                      stroke="var(--color-bmi)"
+                      name="BMI"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -250,5 +275,5 @@ export function DataTrendsAnalysis() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

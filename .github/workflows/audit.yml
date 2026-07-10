@@ -1,4 +1,4 @@
-name: Project Audit & DB Migrate
+name: Project Audit
 
 on:
   push:
@@ -10,13 +10,28 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - run: npm install
-      - run: npm run lint
-      - run: npm run type-check
-      - run: ts-node scripts/audit-project.ts
-      - run: npm run generate:dbml
-      - run: npm run generate:migration
+          node-version: "20"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile || pnpm install
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: PWA Icon quality audit (CI gate)
+        run: node scripts/optimize-pwa-icons.mjs --ci
+
+      - name: Dependency audit (fail on high severity)
+        run: pnpm audit --prod --audit-level=high

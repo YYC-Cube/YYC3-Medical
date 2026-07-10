@@ -1,16 +1,19 @@
-import { PageHeader } from "@/components/page-header"
-import Link from "next/link"
-import type { Metadata } from "next"
+import { PageHeader } from '@/components/page-header';
+import Link from 'next/link';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "服务条款 - MediNexus³",
-  description: "MediNexus³ 智能诊疗系统服务条款",
-}
+  title: '服务条款 - MediNexus³',
+  description: 'MediNexus³ 智能诊疗系统服务条款',
+};
 
 export default function TermsPage() {
   return (
     <div className="container max-w-4xl mx-auto py-8 px-4">
-      <PageHeader title="服务条款" description="请仔细阅读以下条款，使用我们的服务即表示您同意这些条款" />
+      <PageHeader
+        title="服务条款"
+        description="请仔细阅读以下条款，使用我们的服务即表示您同意这些条款"
+      />
 
       <div className="bg-white rounded-lg shadow-md p-6 mt-6">
         <div className="prose max-w-none">
@@ -21,17 +24,23 @@ export default function TermsPage() {
 
           <h2>2. 账户注册与安全</h2>
           <p>2.1 您必须年满18周岁或具有完全民事行为能力才能使用本系统。</p>
-          <p>2.2 您需要注册账户才能使用本系统的某些功能。您同意提供准确、完整的注册信息，并及时更新这些信息。</p>
+          <p>
+            2.2
+            您需要注册账户才能使用本系统的某些功能。您同意提供准确、完整的注册信息，并及时更新这些信息。
+          </p>
           <p>2.3 您负责维护账户的保密性，并对发生在您账户下的所有活动负责。</p>
 
           <h2>3. 医疗信息与建议</h2>
           <p>3.1 本系统提供的信息仅供参考，不构成医疗建议、诊断或治疗。</p>
-          <p>3.2 本系统不能替代专业医疗人员的诊断和治疗。在做出任何医疗决定前，请咨询合格的医疗专业人员。</p>
+          <p>
+            3.2
+            本系统不能替代专业医疗人员的诊断和治疗。在做出任何医疗决定前，请咨询合格的医疗专业人员。
+          </p>
 
           <h2>4. 数据隐私与安全</h2>
           <p>
             4.1 我们重视您的隐私。我们如何收集、使用和保护您的个人信息，请参阅我们的
-            <Link href="/privacy" className="text-blue-600 hover:underline">
+            <Link href="/privacy" className="text-primary hover:underline">
               隐私政策
             </Link>
             。
@@ -78,15 +87,15 @@ export default function TermsPage() {
           <h2>11. 联系我们</h2>
           <p>如果您对本服务条款有任何疑问，请联系我们：support@yanyucloud.com</p>
 
-          <p className="text-sm text-gray-500 mt-8">最后更新日期：2025年5月15日</p>
+          <p className="text-sm text-muted-foreground mt-8">最后更新日期：2025年5月15日</p>
         </div>
       </div>
 
       <div className="mt-6 text-center">
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-primary hover:underline">
           返回登录
         </Link>
       </div>
     </div>
-  )
+  );
 }

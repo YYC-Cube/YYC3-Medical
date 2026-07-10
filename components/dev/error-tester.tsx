@@ -1,32 +1,38 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { AlertTriangle, WifiOff, ShieldAlert, Clock, FileX, AlertCircle } from "lucide-react"
-import { ErrorType, simulateError } from "@/utils/error-simulator"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { AlertTriangle, WifiOff, ShieldAlert, Clock, FileX, AlertCircle } from 'lucide-react';
+import { ErrorType, simulateError } from '@/utils/error-simulator';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function ErrorTester() {
-  const [activeTab, setActiveTab] = useState("javascript")
-  const [errorMessage, setErrorMessage] = useState("")
-  const [errorDelay, setErrorDelay] = useState(0)
-  const [errorStatus, setErrorStatus] = useState(500)
-  const [errorCode, setErrorCode] = useState("ERR_UNKNOWN")
-  const [isLoading, setIsLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState('javascript');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorDelay, setErrorDelay] = useState(0);
+  const [errorStatus, setErrorStatus] = useState(500);
+  const [errorCode, setErrorCode] = useState('ERR_UNKNOWN');
+  const [isLoading, setIsLoading] = useState(false);
   const [testResult, setTestResult] = useState<{
-    success: boolean
-    message: string
-    error?: Error
-  } | null>(null)
+    success: boolean;
+    message: string;
+    error?: Error;
+  } | null>(null);
 
   // 处理错误测试
   const handleTestError = async (type: ErrorType) => {
-    setIsLoading(true)
-    setTestResult(null)
+    setIsLoading(true);
+    setTestResult(null);
 
     try {
       // 准备错误选项
@@ -35,79 +41,79 @@ export function ErrorTester() {
         delay: errorDelay || undefined,
         status: errorStatus || undefined,
         code: errorCode || undefined,
-      }
+      };
 
       // 模拟错误
-      const result = simulateError(type, options)
+      const result = simulateError(type, options);
 
       // 如果是Promise，等待它被拒绝
       if (result instanceof Promise) {
         try {
-          await result
+          await result;
           // 如果Promise成功解决，这是不应该发生的
           setTestResult({
             success: false,
-            message: "错误: 预期的错误没有发生",
-          })
+            message: '错误: 预期的错误没有发生',
+          });
         } catch (error) {
           // 这是预期的行为 - Promise被拒绝
           setTestResult({
             success: true,
-            message: "成功: 错误被正确抛出",
+            message: '成功: 错误被正确抛出',
             error: error instanceof Error ? error : new Error(String(error)),
-          })
+          });
         }
       } else {
         // 对于同步错误，这段代码不会执行，因为错误已经被抛出
         setTestResult({
           success: false,
-          message: "错误: 预期的错误没有发生",
-        })
+          message: '错误: 预期的错误没有发生',
+        });
       }
     } catch (error) {
       // 捕获同步错误
       setTestResult({
         success: true,
-        message: "成功: 错误被正确抛出",
+        message: '成功: 错误被正确抛出',
         error: error instanceof Error ? error : new Error(String(error)),
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   // 测试网络离线状态
   const testOfflineMode = () => {
     // 保存原始的navigator.onLine值
-    const originalOnlineStatus = navigator.onLine
+    const originalOnlineStatus = navigator.onLine;
 
     // 模拟离线状态
     // @ts-ignore - 我们知道这不是标准做法，但这是测试目的
-    Object.defineProperty(navigator, "onLine", {
+    Object.defineProperty(navigator, 'onLine', {
       configurable: true,
       get: () => false,
-    })
+    });
 
     // 触发offline事件
-    window.dispatchEvent(new Event("offline"))
+    window.dispatchEvent(new Event('offline'));
 
     // 5秒后恢复在线状态
     setTimeout(() => {
       // @ts-ignore - 恢复原始状态
-      Object.defineProperty(navigator, "onLine", {
+      Object.defineProperty(navigator, 'onLine', {
         configurable: true,
         get: () => originalOnlineStatus,
-      })
+      });
 
       // 触发online事件
-      window.dispatchEvent(new Event("online"))
-    }, 5000)
+      window.dispatchEvent(new Event('online'));
+    }, 5000);
 
     setTestResult({
       success: true,
-      message: "已模拟离线状态，5秒后将恢复",
-    })
-  }
+      message: '已模拟离线状态，5秒后将恢复',
+    });
+  };
 
   return (
     <Card>
@@ -131,7 +137,7 @@ export function ErrorTester() {
                 <Input
                   id="errorMessage"
                   value={errorMessage}
-                  onChange={(e) => setErrorMessage(e.target.value)}
+                  onChange={e => setErrorMessage(e.target.value)}
                   placeholder="自定义错误消息"
                 />
               </div>
@@ -141,7 +147,7 @@ export function ErrorTester() {
                   id="errorDelay"
                   type="number"
                   value={errorDelay}
-                  onChange={(e) => setErrorDelay(Number(e.target.value))}
+                  onChange={e => setErrorDelay(Number(e.target.value))}
                   placeholder="0"
                 />
               </div>
@@ -150,7 +156,10 @@ export function ErrorTester() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="errorStatus">HTTP状态码</Label>
-                <Select value={String(errorStatus)} onValueChange={(value) => setErrorStatus(Number(value))}>
+                <Select
+                  value={String(errorStatus)}
+                  onValueChange={value => setErrorStatus(Number(value))}
+                >
                   <SelectTrigger id="errorStatus">
                     <SelectValue placeholder="选择状态码" />
                   </SelectTrigger>
@@ -169,7 +178,7 @@ export function ErrorTester() {
                 <Input
                   id="errorCode"
                   value={errorCode}
-                  onChange={(e) => setErrorCode(e.target.value)}
+                  onChange={e => setErrorCode(e.target.value)}
                   placeholder="ERR_UNKNOWN"
                 />
               </div>
@@ -181,12 +190,14 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <AlertTriangle className="h-5 w-5 mr-2 text-amber-500" />
+                    <AlertTriangle className="h-5 w-5 mr-2 text-warning" />
                     JavaScript错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟JavaScript运行时错误，测试全局错误处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    模拟JavaScript运行时错误，测试全局错误处理
+                  </p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.JAVASCRIPT)}
                     disabled={isLoading}
@@ -200,12 +211,14 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <AlertCircle className="h-5 w-5 mr-2 text-blue-500" />
+                    <AlertCircle className="h-5 w-5 mr-2 text-primary" />
                     Promise错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟未处理的Promise拒绝，测试异步错误处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    模拟未处理的Promise拒绝，测试异步错误处理
+                  </p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.PROMISE)}
                     disabled={isLoading}
@@ -221,12 +234,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <AlertTriangle className="h-5 w-5 mr-2 text-red-500" />
+                    <AlertTriangle className="h-5 w-5 mr-2 text-destructive" />
                     渲染错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟React组件渲染错误，测试错误边界</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟React组件渲染错误，测试错误边界</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.RENDERING)}
                     disabled={isLoading}
@@ -241,12 +254,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <Clock className="h-5 w-5 mr-2 text-orange-500" />
+                    <Clock className="h-5 w-5 mr-2 text-warning" />
                     超时错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟操作超时，测试超时处理机制</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟操作超时，测试超时处理机制</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.TIMEOUT)}
                     disabled={isLoading}
@@ -264,12 +277,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <WifiOff className="h-5 w-5 mr-2 text-red-500" />
+                    <WifiOff className="h-5 w-5 mr-2 text-destructive" />
                     网络错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟网络连接失败，测试网络错误处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟网络连接失败，测试网络错误处理</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.NETWORK)}
                     disabled={isLoading}
@@ -283,13 +296,17 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <AlertTriangle className="h-5 w-5 mr-2 text-amber-500" />
+                    <AlertTriangle className="h-5 w-5 mr-2 text-warning" />
                     API错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟API请求失败，测试API错误处理</p>
-                  <MedicalButton onClick={() => handleTestError(ErrorType.API)} disabled={isLoading} className="w-full">
+                  <p className="text-sm text-muted-foreground mb-4">模拟API请求失败，测试API错误处理</p>
+                  <MedicalButton
+                    onClick={() => handleTestError(ErrorType.API)}
+                    disabled={isLoading}
+                    className="w-full"
+                  >
                     测试API错误
                   </MedicalButton>
                 </CardContent>
@@ -300,12 +317,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <FileX className="h-5 w-5 mr-2 text-gray-500" />
+                    <FileX className="h-5 w-5 mr-2 text-muted-foreground" />
                     资源未找到
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟404错误，测试资源未找到处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟404错误，测试资源未找到处理</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.NOT_FOUND)}
                     disabled={isLoading}
@@ -319,12 +336,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <WifiOff className="h-5 w-5 mr-2 text-blue-500" />
+                    <WifiOff className="h-5 w-5 mr-2 text-primary" />
                     离线状态
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟设备离线状态，测试离线处理机制</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟设备离线状态，测试离线处理机制</p>
                   <MedicalButton onClick={testOfflineMode} disabled={isLoading} className="w-full">
                     测试离线状态
                   </MedicalButton>
@@ -338,12 +355,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <ShieldAlert className="h-5 w-5 mr-2 text-red-500" />
+                    <ShieldAlert className="h-5 w-5 mr-2 text-destructive" />
                     认证错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟认证失败，测试未授权处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟认证失败，测试未授权处理</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.AUTHENTICATION)}
                     disabled={isLoading}
@@ -357,12 +374,12 @@ export function ErrorTester() {
               <Card>
                 <CardHeader className="py-4">
                   <CardTitle className="text-base flex items-center">
-                    <ShieldAlert className="h-5 w-5 mr-2 text-amber-500" />
+                    <ShieldAlert className="h-5 w-5 mr-2 text-warning" />
                     授权错误
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-500 mb-4">模拟权限不足，测试禁止访问处理</p>
+                  <p className="text-sm text-muted-foreground mb-4">模拟权限不足，测试禁止访问处理</p>
                   <MedicalButton
                     onClick={() => handleTestError(ErrorType.AUTHORIZATION)}
                     disabled={isLoading}
@@ -380,23 +397,31 @@ export function ErrorTester() {
         {testResult && (
           <div
             className={`mt-6 p-4 rounded-md ${
-              testResult.success ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"
+              testResult.success
+                ? 'bg-success/5 border border-success/30'
+                : 'bg-destructive border border-destructive'
             }`}
           >
-            <h3 className={`font-medium mb-2 ${testResult.success ? "text-green-700" : "text-red-700"}`}>测试结果</h3>
+            <h3
+              className={`font-medium mb-2 ${testResult.success ? 'text-success' : 'text-destructive'}`}
+            >
+              测试结果
+            </h3>
             <p className="text-sm mb-2">{testResult.message}</p>
 
             {testResult.error && (
-              <div className="mt-2 p-3 bg-gray-100 rounded text-xs font-mono overflow-auto max-h-32">
+              <div className="mt-2 p-3 bg-muted rounded text-xs font-mono overflow-auto max-h-32">
                 <p className="font-bold">
                   {testResult.error.name}: {testResult.error.message}
                 </p>
-                {testResult.error.stack && <pre className="mt-1 text-gray-700">{testResult.error.stack}</pre>}
+                {testResult.error.stack && (
+                  <pre className="mt-1 text-foreground">{testResult.error.stack}</pre>
+                )}
               </div>
             )}
           </div>
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

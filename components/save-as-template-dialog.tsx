@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { Badge } from "@/components/ui/badge"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Switch } from '@/components/ui/switch';
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -14,43 +14,55 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { X, Plus } from "lucide-react"
+} from '@/components/ui/dialog';
+import { X, Plus } from 'lucide-react';
 
 interface SaveAsTemplateDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onSave: (templateData: { name: string; description: string; tags: string[]; isPublic: boolean }) => void
-  experimentData: any | null
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSave: (templateData: {
+    name: string;
+    description: string;
+    tags: string[];
+    isPublic: boolean;
+  }) => void;
+  experimentData: any | null;
 }
 
-export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentData }: SaveAsTemplateDialogProps) {
-  const [templateName, setTemplateName] = useState(experimentData ? `${experimentData.title}模板` : "")
+export function SaveAsTemplateDialog({
+  open,
+  onOpenChange,
+  onSave,
+  experimentData,
+}: SaveAsTemplateDialogProps) {
+  const [templateName, setTemplateName] = useState(
+    experimentData ? `${experimentData.title}模板` : ''
+  );
   const [templateDescription, setTemplateDescription] = useState(
-    experimentData ? `基于"${experimentData.title}"创建的模板` : "",
-  )
-  const [isPublic, setIsPublic] = useState(false)
-  const [tags, setTags] = useState<string[]>(experimentData ? [...experimentData.tags] : [])
-  const [newTag, setNewTag] = useState("")
+    experimentData ? `基于"${experimentData.title}"创建的模板` : ''
+  );
+  const [isPublic, setIsPublic] = useState(false);
+  const [tags, setTags] = useState<string[]>(experimentData ? [...experimentData.tags] : []);
+  const [newTag, setNewTag] = useState('');
 
   // 添加标签
   const addTag = () => {
     if (newTag && !tags.includes(newTag)) {
-      setTags([...tags, newTag])
-      setNewTag("")
+      setTags([...tags, newTag]);
+      setNewTag('');
     }
-  }
+  };
 
   // 移除标签
   const removeTag = (tag: string) => {
-    setTags(tags.filter((t) => t !== tag))
-  }
+    setTags(tags.filter(t => t !== tag));
+  };
 
   // 处理保存
   const handleSave = () => {
     if (!templateName) {
-      alert("请输入模板名称")
-      return
+      alert('请输入模板名称');
+      return;
     }
 
     onSave({
@@ -58,8 +70,8 @@ export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentDat
       description: templateDescription,
       tags,
       isPublic,
-    })
-  }
+    });
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -76,7 +88,7 @@ export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentDat
               id="template-name"
               placeholder="输入模板名称"
               value={templateName}
-              onChange={(e) => setTemplateName(e.target.value)}
+              onChange={e => setTemplateName(e.target.value)}
             />
           </div>
 
@@ -86,14 +98,14 @@ export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentDat
               id="template-description"
               placeholder="输入模板描述"
               value={templateDescription}
-              onChange={(e) => setTemplateDescription(e.target.value)}
+              onChange={e => setTemplateDescription(e.target.value)}
             />
           </div>
 
           <div className="space-y-2">
             <Label>标签</Label>
             <div className="flex flex-wrap gap-2 mb-2">
-              {tags.map((tag) => (
+              {tags.map(tag => (
                 <Badge key={tag} variant="secondary" className="flex items-center gap-1">
                   {tag}
                   <X className="h-3 w-3 cursor-pointer" onClick={() => removeTag(tag)} />
@@ -104,11 +116,11 @@ export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentDat
               <Input
                 placeholder="添加标签"
                 value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault()
-                    addTag()
+                onChange={e => setNewTag(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTag();
                   }
                 }}
               />
@@ -132,5 +144,5 @@ export function SaveAsTemplateDialog({ open, onOpenChange, onSave, experimentDat
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

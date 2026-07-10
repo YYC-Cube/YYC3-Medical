@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 
+type ArchiveItem = {
+  version: string;
+  filename: string;
+  timestamp: string;
+  verified: boolean;
+  url: string;
+};
+
 export default function ArchiveList() {
-  const [archives, setArchives] = useState([]);
+  const [archives, setArchives] = useState<ArchiveItem[]>([]);
 
   useEffect(() => {
     fetch('/api/archive-list')
@@ -28,11 +36,11 @@ export default function ArchiveList() {
               <td>{r.version}</td>
               <td>{r.filename}</td>
               <td>{new Date(r.timestamp).toLocaleString()}</td>
-              <td className={r.verified ? 'text-green-600' : 'text-red-600'}>
+              <td className={r.verified ? 'text-success' : 'text-destructive'}>
                 {r.verified ? '✅ 可信' : '❌ 未验证'}
               </td>
               <td>
-                <a href={r.url} target="_blank" className="text-blue-600 underline">
+                <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-primary underline">
                   下载
                 </a>
               </td>

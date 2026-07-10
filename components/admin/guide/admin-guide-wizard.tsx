@@ -1,48 +1,57 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CheckCircle, Circle, Clock, ArrowRight, BookOpen, Settings, Shield, Monitor } from "lucide-react"
-import { AdminGuideService } from "@/services/admin-guide-service"
-import type { AdminGuideStep } from "@/types/admin-guide"
-import Link from "next/link"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AdminGuideService } from '@/services/admin-guide-service';
+import type { GuideStep } from '@/types/admin-guide';
+import {
+  ArrowRight,
+  BookOpen,
+  CheckCircle,
+  Circle,
+  Clock,
+  Monitor,
+  Settings,
+  Shield,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export function AdminGuideWizard() {
-  const [completedSteps, setCompletedSteps] = useState<string[]>([])
-  const [currentCategory, setCurrentCategory] = useState<AdminGuideStep["category"]>("setup")
+  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
+  const [currentCategory, setCurrentCategory] = useState<GuideStep['category']>('setup');
 
-  const allSteps = AdminGuideService.getGuideSteps()
-  const nextSteps = AdminGuideService.getNextSteps(completedSteps)
-  const progress = (completedSteps.length / allSteps.length) * 100
+  const allSteps = AdminGuideService.getGuideSteps();
+  const nextSteps = AdminGuideService.getNextSteps(completedSteps);
+  const progress = (completedSteps.length / allSteps.length) * 100;
 
   const categories = [
-    { id: "setup", label: "初始设置", icon: Settings, color: "bg-blue-500" },
-    { id: "configuration", label: "系统配置", icon: Settings, color: "bg-green-500" },
-    { id: "monitoring", label: "监控告警", icon: Monitor, color: "bg-yellow-500" },
-    { id: "management", label: "运维管理", icon: BookOpen, color: "bg-purple-500" },
-    { id: "troubleshooting", label: "故障排除", icon: Shield, color: "bg-red-500" },
-  ] as const
+    { id: 'setup', label: '初始设置', icon: Settings, color: 'bg-primary/50' },
+    { id: 'configuration', label: '系统配置', icon: Settings, color: 'bg-success/50' },
+    { id: 'monitoring', label: '监控告警', icon: Monitor, color: 'bg-warning' },
+    { id: 'management', label: '运维管理', icon: BookOpen, color: 'bg-primary' },
+    { id: 'troubleshooting', label: '故障排除', icon: Shield, color: 'bg-destructive' },
+  ] as const;
 
-  const getDifficultyColor = (difficulty: AdminGuideStep["difficulty"]) => {
+  const getDifficultyColor = (difficulty: GuideStep['difficulty']) => {
     switch (difficulty) {
-      case "beginner":
-        return "bg-green-100 text-green-800"
-      case "intermediate":
-        return "bg-yellow-100 text-yellow-800"
-      case "advanced":
-        return "bg-red-100 text-red-800"
+      case 'beginner':
+        return 'bg-success/10 text-success';
+      case 'intermediate':
+        return 'bg-warning text-warning';
+      case 'advanced':
+        return 'bg-destructive text-destructive';
     }
-  }
+  };
 
   const markStepCompleted = (stepId: string) => {
     if (!completedSteps.includes(stepId)) {
-      setCompletedSteps([...completedSteps, stepId])
+      setCompletedSteps([...completedSteps, stepId]);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -65,21 +74,30 @@ export function AdminGuideWizard() {
             </div>
             <Progress value={progress} className="h-2" />
             <div className="flex gap-2 text-sm text-muted-foreground">
-              <span>预计总时间: {allSteps.reduce((sum, step) => sum + step.estimatedTime, 0)} 分钟</span>
+              <span>
+                预计总时间: {allSteps.reduce((sum, step) => sum + step.estimatedTime, 0)} 分钟
+              </span>
               <span>•</span>
-              <span>剩余时间: {nextSteps.reduce((sum, step) => sum + step.estimatedTime, 0)} 分钟</span>
+              <span>
+                剩余时间: {nextSteps.reduce((sum, step) => sum + step.estimatedTime, 0)} 分钟
+              </span>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* 分类步骤 */}
-      <Tabs value={currentCategory} onValueChange={(value) => setCurrentCategory(value as AdminGuideStep["category"])}>
+      <Tabs
+        value={currentCategory}
+        onValueChange={value => setCurrentCategory(value as GuideStep['category'])}
+      >
         <TabsList className="grid w-full grid-cols-5">
-          {categories.map((category) => {
-            const categorySteps = AdminGuideService.getStepsByCategory(category.id)
-            const completedInCategory = categorySteps.filter((step) => completedSteps.includes(step.id)).length
-            const Icon = category.icon
+          {categories.map(category => {
+            const categorySteps = AdminGuideService.getStepsByCategory(category.id);
+            const completedInCategory = categorySteps.filter(step =>
+              completedSteps.includes(step.id)
+            ).length;
+            const Icon = category.icon;
 
             return (
               <TabsTrigger key={category.id} value={category.id} className="flex flex-col gap-1">
@@ -89,32 +107,37 @@ export function AdminGuideWizard() {
                   {completedInCategory}/{categorySteps.length}
                 </Badge>
               </TabsTrigger>
-            )
+            );
           })}
         </TabsList>
 
-        {categories.map((category) => (
+        {categories.map(category => (
           <TabsContent key={category.id} value={category.id} className="space-y-4">
             <div className="grid gap-4">
-              {AdminGuideService.getStepsByCategory(category.id).map((step) => {
-                const isCompleted = completedSteps.includes(step.id)
+              {AdminGuideService.getStepsByCategory(category.id).map(step => {
+                const isCompleted = completedSteps.includes(step.id);
                 const canStart =
-                  !step.prerequisites || step.prerequisites.every((prereq) => completedSteps.includes(prereq))
+                  !step.prerequisites ||
+                  step.prerequisites.every(prereq => completedSteps.includes(prereq));
 
                 return (
                   <Card
                     key={step.id}
                     className={`transition-all ${
-                      isCompleted ? "bg-green-50 border-green-200" : canStart ? "hover:shadow-md" : "opacity-60"
+                      isCompleted
+                        ? 'bg-success/5 border-success/30'
+                        : canStart
+                          ? 'hover:shadow-md'
+                          : 'opacity-60'
                     }`}
                   >
                     <CardHeader className="pb-3">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
                           {isCompleted ? (
-                            <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
+                            <CheckCircle className="h-5 w-5 text-success mt-0.5" />
                           ) : (
-                            <Circle className="h-5 w-5 text-gray-400 mt-0.5" />
+                            <Circle className="h-5 w-5 text-muted-foreground/50 mt-0.5" />
                           )}
                           <div className="space-y-1">
                             <CardTitle className="text-base">{step.title}</CardTitle>
@@ -123,11 +146,11 @@ export function AdminGuideWizard() {
                         </div>
                         <div className="flex flex-col items-end gap-2">
                           <Badge className={getDifficultyColor(step.difficulty)}>
-                            {step.difficulty === "beginner"
-                              ? "初级"
-                              : step.difficulty === "intermediate"
-                                ? "中级"
-                                : "高级"}
+                            {step.difficulty === 'beginner'
+                              ? '初级'
+                              : step.difficulty === 'intermediate'
+                                ? '中级'
+                                : '高级'}
                           </Badge>
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Clock className="h-3 w-3" />
@@ -141,32 +164,36 @@ export function AdminGuideWizard() {
                         <div className="space-y-1">
                           {step.prerequisites && step.prerequisites.length > 0 && (
                             <div className="text-xs text-muted-foreground">
-                              前置条件:{" "}
+                              前置条件:{' '}
                               {step.prerequisites
-                                .map((prereq) => {
-                                  const prereqStep = allSteps.find((s) => s.id === prereq)
-                                  return prereqStep?.title
+                                .map(prereq => {
+                                  const prereqStep = allSteps.find(s => s.id === prereq);
+                                  return prereqStep?.title;
                                 })
-                                .join(", ")}
+                                .join(', ')}
                             </div>
                           )}
                         </div>
                         <div className="flex gap-2">
                           {step.route && (
                             <Button
-                              variant={isCompleted ? "secondary" : "default"}
+                              variant={isCompleted ? 'secondary' : 'default'}
                               size="sm"
                               disabled={!canStart}
                               asChild
                             >
                               <Link href={step.route}>
-                                {isCompleted ? "重新查看" : "开始"}
+                                {isCompleted ? '重新查看' : '开始'}
                                 <ArrowRight className="ml-1 h-3 w-3" />
                               </Link>
                             </Button>
                           )}
                           {!isCompleted && canStart && (
-                            <Button variant="outline" size="sm" onClick={() => markStepCompleted(step.id)}>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => markStepCompleted(step.id)}
+                            >
                               标记完成
                             </Button>
                           )}
@@ -174,7 +201,7 @@ export function AdminGuideWizard() {
                       </div>
                     </CardContent>
                   </Card>
-                )
+                );
               })}
             </div>
           </TabsContent>
@@ -190,10 +217,13 @@ export function AdminGuideWizard() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3">
-              {nextSteps.slice(0, 3).map((step) => (
-                <div key={step.id} className="flex items-center justify-between p-3 border rounded-lg">
+              {nextSteps.slice(0, 3).map(step => (
+                <div
+                  key={step.id}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
                   <div className="flex items-center gap-3">
-                    <Circle className="h-4 w-4 text-blue-500" />
+                    <Circle className="h-4 w-4 text-primary" />
                     <div>
                       <div className="font-medium">{step.title}</div>
                       <div className="text-sm text-muted-foreground">{step.description}</div>
@@ -214,5 +244,5 @@ export function AdminGuideWizard() {
         </Card>
       )}
     </div>
-  )
+  );
 }

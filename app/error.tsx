@@ -1,22 +1,29 @@
-"use client"
+'use client';
 
-import { useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { AlertCircle, RefreshCw, Home } from "lucide-react"
-import Link from "next/link"
+import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { AlertCircle, RefreshCw, Home } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   useEffect(() => {
     // 可以在这里记录错误到错误报告服务
-    console.error("应用错误:", error)
-  }, [error])
+    console.error('应用错误:', error);
+  }, [error]);
 
   return (
     <div className="flex items-center justify-center min-h-[80vh]">
@@ -52,5 +59,5 @@ export default function Error({
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

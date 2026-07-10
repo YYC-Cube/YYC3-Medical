@@ -1,11 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -14,11 +20,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Search,
   Star,
@@ -32,219 +38,243 @@ import {
   Users,
   UserPlus,
   ExternalLink,
-} from "lucide-react"
+} from 'lucide-react';
 
 // 模拟专家数据
-const experts = [
+interface Expert {
+  id: number;
+  name: string;
+  avatar: string;
+  title: string;
+  department: string;
+  hospital: string;
+  city: string;
+  rating: number;
+  consultations: number;
+  specialties: string[];
+  availability: string;
+  bio: string;
+  contact: { email: string; phone: string };
+  isVerified: boolean;
+  isFeatured: boolean;
+}
+
+const experts: Expert[] = [
   {
     id: 1,
-    name: "王建国",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "主任医师",
-    department: "心脏科",
-    hospital: "北京中心医院",
-    city: "北京",
+    name: '王建国',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '主任医师',
+    department: '心脏科',
+    hospital: '北京中心医院',
+    city: '北京',
     rating: 4.9,
     consultations: 128,
-    specialties: ["冠心病", "心律失常", "心力衰竭"],
-    availability: "周一至周五 9:00-17:00",
-    bio: "王建国医师拥有30年心脏病学临床经验，专注于复杂心脏病例的诊断和治疗。曾在美国哈佛医学院进修，发表学术论文50余篇。",
+    specialties: ['冠心病', '心律失常', '心力衰竭'],
+    availability: '周一至周五 9:00-17:00',
+    bio: '王建国医师拥有30年心脏病学临床经验，专注于复杂心脏病例的诊断和治疗。曾在美国哈佛医学院进修，发表学术论文50余篇。',
     contact: {
-      email: "wang.jianguo@hospital.com",
-      phone: "010-12345678",
+      email: 'wang.jianguo@hospital.com',
+      phone: '010-12345678',
     },
     isVerified: true,
     isFeatured: true,
   },
   {
     id: 2,
-    name: "李明",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "副主任医师",
-    department: "神经科",
-    hospital: "上海第一人民医院",
-    city: "上海",
+    name: '李明',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '副主任医师',
+    department: '神经科',
+    hospital: '上海第一人民医院',
+    city: '上海',
     rating: 4.8,
     consultations: 95,
-    specialties: ["脑卒中", "癫痫", "帕金森病"],
-    availability: "周一、周三、周五 8:30-16:30",
-    bio: "李明医师是神经科领域的知名专家，擅长神经系统疾病的诊断和治疗，尤其在脑卒中急救和康复方面有丰富经验。",
+    specialties: ['脑卒中', '癫痫', '帕金森病'],
+    availability: '周一、周三、周五 8:30-16:30',
+    bio: '李明医师是神经科领域的知名专家，擅长神经系统疾病的诊断和治疗，尤其在脑卒中急救和康复方面有丰富经验。',
     contact: {
-      email: "li.ming@hospital.com",
-      phone: "021-87654321",
+      email: 'li.ming@hospital.com',
+      phone: '021-87654321',
     },
     isVerified: true,
     isFeatured: false,
   },
   {
     id: 3,
-    name: "张华",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "主任医师",
-    department: "骨科",
-    hospital: "广州医科大学附属医院",
-    city: "广州",
+    name: '张华',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '主任医师',
+    department: '骨科',
+    hospital: '广州医科大学附属医院',
+    city: '广州',
     rating: 4.7,
     consultations: 112,
-    specialties: ["关节置换", "脊柱外科", "运动损伤"],
-    availability: "周二、周四、周六 9:00-17:00",
-    bio: "张华医师是骨科领域的资深专家，擅长复杂关节置换手术和脊柱疾病治疗，曾主持多项国家级研究项目。",
+    specialties: ['关节置换', '脊柱外科', '运动损伤'],
+    availability: '周二、周四、周六 9:00-17:00',
+    bio: '张华医师是骨科领域的资深专家，擅长复杂关节置换手术和脊柱疾病治疗，曾主持多项国家级研究项目。',
     contact: {
-      email: "zhang.hua@hospital.com",
-      phone: "020-98765432",
+      email: 'zhang.hua@hospital.com',
+      phone: '020-98765432',
     },
     isVerified: true,
     isFeatured: true,
   },
   {
     id: 4,
-    name: "赵敏",
-    avatar: "/compassionate-caregiver.png",
-    title: "主任医师",
-    department: "内分泌科",
-    hospital: "武汉协和医院",
-    city: "武汉",
+    name: '赵敏',
+    avatar: '/compassionate-caregiver.png',
+    title: '主任医师',
+    department: '内分泌科',
+    hospital: '武汉协和医院',
+    city: '武汉',
     rating: 4.6,
     consultations: 87,
-    specialties: ["糖尿病", "甲状腺疾病", "肾上腺疾病"],
-    availability: "周一至周五 8:00-16:00",
-    bio: "赵敏医师专注于内分泌系统疾病的诊断和治疗，尤其在糖尿病和甲状腺疾病方面有深入研究，是国内知名的内分泌专家。",
+    specialties: ['糖尿病', '甲状腺疾病', '肾上腺疾病'],
+    availability: '周一至周五 8:00-16:00',
+    bio: '赵敏医师专注于内分泌系统疾病的诊断和治疗，尤其在糖尿病和甲状腺疾病方面有深入研究，是国内知名的内分泌专家。',
     contact: {
-      email: "zhao.min@hospital.com",
-      phone: "027-23456789",
+      email: 'zhao.min@hospital.com',
+      phone: '027-23456789',
     },
     isVerified: true,
     isFeatured: false,
   },
   {
     id: 5,
-    name: "陈刚",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "副主任医师",
-    department: "呼吸科",
-    hospital: "成都市第三人民医院",
-    city: "成都",
+    name: '陈刚',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '副主任医师',
+    department: '呼吸科',
+    hospital: '成都市第三人民医院',
+    city: '成都',
     rating: 4.5,
     consultations: 76,
-    specialties: ["慢性阻塞性肺疾病", "肺炎", "哮喘"],
-    availability: "周一、周三、周五 9:00-17:00",
-    bio: "陈刚医师在呼吸系统疾病诊治方面有丰富经验，尤其擅长慢性呼吸系统疾病的长期管理和急性呼吸系统感染的治疗。",
+    specialties: ['慢性阻塞性肺疾病', '肺炎', '哮喘'],
+    availability: '周一、周三、周五 9:00-17:00',
+    bio: '陈刚医师在呼吸系统疾病诊治方面有丰富经验，尤其擅长慢性呼吸系统疾病的长期管理和急性呼吸系统感染的治疗。',
     contact: {
-      email: "chen.gang@hospital.com",
-      phone: "028-34567890",
+      email: 'chen.gang@hospital.com',
+      phone: '028-34567890',
     },
     isVerified: false,
     isFeatured: false,
   },
   {
     id: 6,
-    name: "刘芳",
-    avatar: "/compassionate-caregiver.png",
-    title: "主任医师",
-    department: "妇产科",
-    hospital: "天津市妇女儿童医院",
-    city: "天津",
+    name: '刘芳',
+    avatar: '/compassionate-caregiver.png',
+    title: '主任医师',
+    department: '妇产科',
+    hospital: '天津市妇女儿童医院',
+    city: '天津',
     rating: 4.9,
     consultations: 135,
-    specialties: ["高危妊娠", "妇科肿瘤", "不孕症"],
-    availability: "周一至周五 8:30-16:30",
-    bio: "刘芳医师是妇产科领域的知名专家，在高危妊娠管理和妇科肿瘤治疗方面有卓越成就，曾获国家科技进步奖。",
+    specialties: ['高危妊娠', '妇科肿瘤', '不孕症'],
+    availability: '周一至周五 8:30-16:30',
+    bio: '刘芳医师是妇产科领域的知名专家，在高危妊娠管理和妇科肿瘤治疗方面有卓越成就，曾获国家科技进步奖。',
     contact: {
-      email: "liu.fang@hospital.com",
-      phone: "022-45678901",
+      email: 'liu.fang@hospital.com',
+      phone: '022-45678901',
     },
     isVerified: true,
     isFeatured: true,
   },
   {
     id: 7,
-    name: "吴强",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "主任医师",
-    department: "肿瘤科",
-    hospital: "南京医科大学附属医院",
-    city: "南京",
+    name: '吴强',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '主任医师',
+    department: '肿瘤科',
+    hospital: '南京医科大学附属医院',
+    city: '南京',
     rating: 4.8,
     consultations: 108,
-    specialties: ["肺癌", "胃癌", "结直肠癌"],
-    availability: "周二、周四、周六 9:00-17:00",
-    bio: "吴强医师在肿瘤诊断和治疗方面有深厚造诣，尤其在肺癌和消化道肿瘤的综合治疗方面经验丰富，是国内知名的肿瘤专家。",
+    specialties: ['肺癌', '胃癌', '结直肠癌'],
+    availability: '周二、周四、周六 9:00-17:00',
+    bio: '吴强医师在肿瘤诊断和治疗方面有深厚造诣，尤其在肺癌和消化道肿瘤的综合治疗方面经验丰富，是国内知名的肿瘤专家。',
     contact: {
-      email: "wu.qiang@hospital.com",
-      phone: "025-56789012",
+      email: 'wu.qiang@hospital.com',
+      phone: '025-56789012',
     },
     isVerified: true,
     isFeatured: false,
   },
   {
     id: 8,
-    name: "郑伟",
-    avatar: "/compassionate-doctor-consultation.png",
-    title: "副主任医师",
-    department: "肝胆外科",
-    hospital: "杭州市第一人民医院",
-    city: "杭州",
+    name: '郑伟',
+    avatar: '/compassionate-doctor-consultation.png',
+    title: '副主任医师',
+    department: '肝胆外科',
+    hospital: '杭州市第一人民医院',
+    city: '杭州',
     rating: 4.7,
     consultations: 92,
-    specialties: ["肝癌", "胆道疾病", "肝移植"],
-    availability: "周一、周三、周五 8:00-16:00",
-    bio: "郑伟医师在肝胆疾病的诊断和治疗方面有丰富经验，尤其擅长肝癌的微创治疗和复杂肝胆手术，是肝胆外科领域的知名专家。",
+    specialties: ['肝癌', '胆道疾病', '肝移植'],
+    availability: '周一、周三、周五 8:00-16:00',
+    bio: '郑伟医师在肝胆疾病的诊断和治疗方面有丰富经验，尤其擅长肝癌的微创治疗和复杂肝胆手术，是肝胆外科领域的知名专家。',
     contact: {
-      email: "zheng.wei@hospital.com",
-      phone: "0571-67890123",
+      email: 'zheng.wei@hospital.com',
+      phone: '0571-67890123',
     },
     isVerified: true,
     isFeatured: false,
   },
-]
+];
 
 // 模拟医院数据
 const hospitals = [
-  { id: 1, name: "北京中心医院", city: "北京", experts: 15 },
-  { id: 2, name: "上海第一人民医院", city: "上海", experts: 12 },
-  { id: 3, name: "广州医科大学附属医院", city: "广州", experts: 10 },
-  { id: 4, name: "武汉协和医院", city: "武汉", experts: 8 },
-  { id: 5, name: "成都市第三人民医院", city: "成都", experts: 6 },
-  { id: 6, name: "天津市妇女儿童医院", city: "天津", experts: 9 },
-  { id: 7, name: "南京医科大学附属医院", city: "南京", experts: 7 },
-  { id: 8, name: "杭州市第一人民医院", city: "杭州", experts: 5 },
-]
+  { id: 1, name: '北京中心医院', city: '北京', experts: 15 },
+  { id: 2, name: '上海第一人民医院', city: '上海', experts: 12 },
+  { id: 3, name: '广州医科大学附属医院', city: '广州', experts: 10 },
+  { id: 4, name: '武汉协和医院', city: '武汉', experts: 8 },
+  { id: 5, name: '成都市第三人民医院', city: '成都', experts: 6 },
+  { id: 6, name: '天津市妇女儿童医院', city: '天津', experts: 9 },
+  { id: 7, name: '南京医科大学附属医院', city: '南京', experts: 7 },
+  { id: 8, name: '杭州市第一人民医院', city: '杭州', experts: 5 },
+];
 
 export default function ExpertsClient() {
-  const [activeTab, setActiveTab] = useState("experts")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedDepartment, setSelectedDepartment] = useState("all")
-  const [selectedCity, setSelectedCity] = useState("all")
-  const [showInviteDialog, setShowInviteDialog] = useState(false)
-  const [selectedExpert, setSelectedExpert] = useState(null)
+  const [activeTab, setActiveTab] = useState('experts');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [selectedCity, setSelectedCity] = useState('all');
+  const [showInviteDialog, setShowInviteDialog] = useState(false);
+  const [selectedExpert, setSelectedExpert] = useState<Expert | null>(null);
 
   // 过滤专家列表
-  const filteredExperts = experts.filter((expert) => {
+  const filteredExperts = experts.filter((expert: Expert) => {
     // 搜索过滤
     if (
       searchQuery &&
       !expert.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !expert.department.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !expert.hospital.toLowerCase().includes(searchQuery.toLowerCase()) &&
-      !expert.specialties.some((specialty) => specialty.toLowerCase().includes(searchQuery.toLowerCase()))
+      !expert.specialties.some(specialty =>
+        specialty.toLowerCase().includes(searchQuery.toLowerCase())
+      )
     ) {
-      return false
+      return false;
     }
     // 科室过滤
-    if (selectedDepartment && selectedDepartment !== "all" && expert.department !== selectedDepartment) {
-      return false
+    if (
+      selectedDepartment &&
+      selectedDepartment !== 'all' &&
+      expert.department !== selectedDepartment
+    ) {
+      return false;
     }
     // 城市过滤
-    if (selectedCity && selectedCity !== "all" && expert.city !== selectedCity) {
-      return false
+    if (selectedCity && selectedCity !== 'all' && expert.city !== selectedCity) {
+      return false;
     }
-    return true
-  })
+    return true;
+  });
 
   // 打开专家详情
-  const openExpertDetails = (expert) => {
-    setSelectedExpert(expert)
-  }
+  const openExpertDetails = (expert: Expert) => {
+    setSelectedExpert(expert);
+  };
 
   return (
     <div className="space-y-6">
@@ -351,7 +381,7 @@ export default function ExpertsClient() {
                         placeholder="姓名、专长或医院..."
                         className="pl-8"
                         value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={e => setSearchQuery(e.target.value)}
                       />
                     </div>
                   </div>
@@ -398,9 +428,9 @@ export default function ExpertsClient() {
                       variant="outline"
                       className="w-full"
                       onClick={() => {
-                        setSearchQuery("")
-                        setSelectedDepartment("all")
-                        setSelectedCity("all")
+                        setSearchQuery('');
+                        setSelectedDepartment('all');
+                        setSelectedCity('all');
                       }}
                     >
                       <Filter className="w-4 h-4 mr-2" />
@@ -414,24 +444,30 @@ export default function ExpertsClient() {
             <div className="md:col-span-3">
               {filteredExperts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {filteredExperts.map((expert) => (
+                  {filteredExperts.map(expert => (
                     <Card key={expert.id} className="overflow-hidden">
                       {expert.isFeatured && (
-                        <div className="bg-yellow-500 text-white text-xs font-medium px-2 py-0.5 text-center">
+                        <div className="bg-warning text-white text-xs font-medium px-2 py-0.5 text-center">
                           特邀专家
                         </div>
                       )}
                       <CardContent className="p-4">
                         <div className="flex items-start gap-4">
                           <Avatar className="h-16 w-16 border">
-                            <AvatarImage src={expert.avatar || "/placeholder.svg"} alt={expert.name} />
+                            <AvatarImage
+                              src={expert.avatar || '/placeholder.svg'}
+                              alt={expert.name}
+                            />
                             <AvatarFallback>{expert.name.slice(0, 1)}</AvatarFallback>
                           </Avatar>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <h3 className="font-medium text-lg">{expert.name}</h3>
                               {expert.isVerified && (
-                                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                                <Badge
+                                  variant="outline"
+                                  className="bg-primary/5 text-primary border-primary/20"
+                                >
                                   已认证
                                 </Badge>
                               )}
@@ -448,11 +484,13 @@ export default function ExpertsClient() {
                             </div>
                             <div className="flex items-center gap-2 mt-1">
                               <div className="flex items-center">
-                                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+                                <Star className="h-4 w-4 text-warning fill-yellow-500" />
                                 <span className="ml-1 text-sm font-medium">{expert.rating}</span>
                               </div>
                               <span className="text-xs text-muted-foreground">•</span>
-                              <div className="text-sm text-muted-foreground">{expert.consultations} 次会诊</div>
+                              <div className="text-sm text-muted-foreground">
+                                {expert.consultations} 次会诊
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -471,7 +509,11 @@ export default function ExpertsClient() {
                           <span>可用时间: {expert.availability}</span>
                         </div>
                         <div className="mt-4 flex justify-between items-center">
-                          <Button variant="outline" size="sm" onClick={() => openExpertDetails(expert)}>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => openExpertDetails(expert)}
+                          >
                             查看详情
                           </Button>
                           <Button size="sm">邀请会诊</Button>
@@ -488,9 +530,9 @@ export default function ExpertsClient() {
                   <Button
                     variant="outline"
                     onClick={() => {
-                      setSearchQuery("")
-                      setSelectedDepartment("all")
-                      setSelectedCity("all")
+                      setSearchQuery('');
+                      setSelectedDepartment('all');
+                      setSelectedCity('all');
                     }}
                   >
                     查看所有专家
@@ -503,7 +545,7 @@ export default function ExpertsClient() {
 
         <TabsContent value="hospitals">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {hospitals.map((hospital) => (
+            {hospitals.map(hospital => (
               <Card key={hospital.id}>
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start">
@@ -514,7 +556,7 @@ export default function ExpertsClient() {
                         <span>{hospital.city}</span>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                    <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
                       合作医院
                     </Badge>
                   </div>
@@ -552,18 +594,21 @@ export default function ExpertsClient() {
             <div className="grid gap-4 py-4">
               <div className="flex items-start gap-4">
                 <Avatar className="h-20 w-20 border">
-                  <AvatarImage src={selectedExpert.avatar || "/placeholder.svg"} alt={selectedExpert.name} />
+                  <AvatarImage
+                    src={selectedExpert.avatar || '/placeholder.svg'}
+                    alt={selectedExpert.name}
+                  />
                   <AvatarFallback>{selectedExpert.name.slice(0, 1)}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <h2 className="text-xl font-medium">{selectedExpert.name}</h2>
                     {selectedExpert.isVerified && (
-                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                      <Badge variant="outline" className="bg-primary/5 text-primary border-primary/20">
                         已认证
                       </Badge>
                     )}
-                    {selectedExpert.isFeatured && <Badge className="bg-yellow-500">特邀专家</Badge>}
+                    {selectedExpert.isFeatured && <Badge className="bg-warning">特邀专家</Badge>}
                   </div>
                   <div className="text-muted-foreground">
                     {selectedExpert.title} · {selectedExpert.department}
@@ -577,10 +622,12 @@ export default function ExpertsClient() {
                   </div>
                   <div className="flex items-center gap-3 mt-2">
                     <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                      <Star className="h-5 w-5 text-warning fill-yellow-500" />
                       <span className="ml-1 font-medium">{selectedExpert.rating}</span>
                     </div>
-                    <div className="text-sm text-muted-foreground">{selectedExpert.consultations} 次会诊</div>
+                    <div className="text-sm text-muted-foreground">
+                      {selectedExpert.consultations} 次会诊
+                    </div>
                   </div>
                 </div>
               </div>
@@ -639,5 +686,5 @@ export default function ExpertsClient() {
         </Dialog>
       )}
     </div>
-  )
+  );
 }

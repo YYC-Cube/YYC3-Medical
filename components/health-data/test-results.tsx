@@ -1,9 +1,15 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   FileText,
   FlaskRoundIcon as Flask,
@@ -14,7 +20,7 @@ import {
   Download,
   Filter,
   AlertCircle,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function TestResults() {
   return (
@@ -22,7 +28,9 @@ export function TestResults() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">检验结果</h2>
-          <p className="text-sm text-muted-foreground">查看和分析患者的实验室检验结果，包括血液检查、生化指标等</p>
+          <p className="text-sm text-muted-foreground">
+            查看和分析患者的实验室检验结果，包括血液检查、生化指标等
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Select defaultValue="month">
@@ -107,19 +115,19 @@ export function TestResults() {
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <div className="text-sm font-medium text-red-600">总胆固醇</div>
+                    <div className="text-sm font-medium text-destructive">总胆固醇</div>
                     <div className="text-xs">
                       5.8 mmol/L <span className="text-muted-foreground">(参考: &lt;5.2)</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <div className="text-sm font-medium text-amber-600">低密度脂蛋白</div>
+                    <div className="text-sm font-medium text-warning">低密度脂蛋白</div>
                     <div className="text-xs">
                       3.6 mmol/L <span className="text-muted-foreground">(参考: &lt;3.4)</span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center">
-                    <div className="text-sm font-medium text-amber-600">谷丙转氨酶</div>
+                    <div className="text-sm font-medium text-warning">谷丙转氨酶</div>
                     <div className="text-xs">
                       52 U/L <span className="text-muted-foreground">(参考: 7-40)</span>
                     </div>
@@ -140,11 +148,11 @@ export function TestResults() {
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="text-sm font-medium">异常指标数</div>
-                    <div className="text-sm text-amber-600">8</div>
+                    <div className="text-sm text-warning">8</div>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="text-sm font-medium">严重异常</div>
-                    <div className="text-sm text-red-600">2</div>
+                    <div className="text-sm text-destructive">2</div>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="text-sm font-medium">最近一次检验</div>
@@ -174,56 +182,56 @@ export function TestResults() {
                     <div className="col-span-2">血红蛋白 (Hb)</div>
                     <div>145 g/L</div>
                     <div>130-175 g/L</div>
-                    <div className="text-green-600">正常</div>
+                    <div className="text-success">正常</div>
                     <div>2023-10-15</div>
                   </div>
                   <div className="grid grid-cols-6 p-3">
                     <div className="col-span-2">白细胞计数 (WBC)</div>
                     <div>6.8 × 10⁹/L</div>
                     <div>4.0-10.0 × 10⁹/L</div>
-                    <div className="text-green-600">正常</div>
+                    <div className="text-success">正常</div>
                     <div>2023-10-15</div>
                   </div>
                   <div className="grid grid-cols-6 p-3">
                     <div className="col-span-2">血小板计数 (PLT)</div>
                     <div>210 × 10⁹/L</div>
                     <div>100-300 × 10⁹/L</div>
-                    <div className="text-green-600">正常</div>
+                    <div className="text-success">正常</div>
                     <div>2023-10-15</div>
                   </div>
-                  <div className="grid grid-cols-6 p-3 bg-amber-50">
+                  <div className="grid grid-cols-6 p-3 bg-warning">
                     <div className="col-span-2">总胆固醇 (TC)</div>
                     <div>5.8 mmol/L</div>
                     <div>&lt;5.2 mmol/L</div>
-                    <div className="text-red-600">偏高</div>
+                    <div className="text-destructive">偏高</div>
                     <div>2023-09-28</div>
                   </div>
-                  <div className="grid grid-cols-6 p-3 bg-amber-50">
+                  <div className="grid grid-cols-6 p-3 bg-warning">
                     <div className="col-span-2">低密度脂蛋白 (LDL-C)</div>
                     <div>3.6 mmol/L</div>
                     <div>&lt;3.4 mmol/L</div>
-                    <div className="text-amber-600">偏高</div>
+                    <div className="text-warning">偏高</div>
                     <div>2023-09-28</div>
                   </div>
                   <div className="grid grid-cols-6 p-3">
                     <div className="col-span-2">高密度脂蛋白 (HDL-C)</div>
                     <div>1.2 mmol/L</div>
                     <div>&gt;1.0 mmol/L</div>
-                    <div className="text-green-600">正常</div>
+                    <div className="text-success">正常</div>
                     <div>2023-09-28</div>
                   </div>
-                  <div className="grid grid-cols-6 p-3 bg-amber-50">
+                  <div className="grid grid-cols-6 p-3 bg-warning">
                     <div className="col-span-2">谷丙转氨酶 (ALT)</div>
                     <div>52 U/L</div>
                     <div>7-40 U/L</div>
-                    <div className="text-amber-600">偏高</div>
+                    <div className="text-warning">偏高</div>
                     <div>2023-10-10</div>
                   </div>
                   <div className="grid grid-cols-6 p-3">
                     <div className="col-span-2">谷草转氨酶 (AST)</div>
                     <div>32 U/L</div>
                     <div>13-35 U/L</div>
-                    <div className="text-green-600">正常</div>
+                    <div className="text-success">正常</div>
                     <div>2023-10-10</div>
                   </div>
                 </div>
@@ -239,27 +247,37 @@ export function TestResults() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-4 p-3 bg-red-50 rounded-md">
+                  <div className="flex items-start gap-4 p-3 bg-destructive rounded-md">
                     <div className="mt-0.5">
-                      <AlertCircle className="h-5 w-5 text-red-500" />
+                      <AlertCircle className="h-5 w-5 text-destructive" />
                     </div>
                     <div>
                       <h4 className="font-medium">总胆固醇偏高</h4>
-                      <p className="text-sm text-muted-foreground">当前值: 5.8 mmol/L (参考范围: &lt;5.2 mmol/L)</p>
-                      <p className="text-sm mt-1">可能原因: 饮食中脂肪和胆固醇摄入过多，缺乏运动，遗传因素</p>
-                      <p className="text-sm text-red-600 mt-1">建议: 调整饮食结构，增加运动，必要时考虑药物治疗</p>
+                      <p className="text-sm text-muted-foreground">
+                        当前值: 5.8 mmol/L (参考范围: &lt;5.2 mmol/L)
+                      </p>
+                      <p className="text-sm mt-1">
+                        可能原因: 饮食中脂肪和胆固醇摄入过多，缺乏运动，遗传因素
+                      </p>
+                      <p className="text-sm text-destructive mt-1">
+                        建议: 调整饮食结构，增加运动，必要时考虑药物治疗
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-3 bg-amber-50 rounded-md">
+                  <div className="flex items-start gap-4 p-3 bg-warning rounded-md">
                     <div className="mt-0.5">
-                      <AlertCircle className="h-5 w-5 text-amber-500" />
+                      <AlertCircle className="h-5 w-5 text-warning" />
                     </div>
                     <div>
                       <h4 className="font-medium">谷丙转氨酶偏高</h4>
-                      <p className="text-sm text-muted-foreground">当前值: 52 U/L (参考范围: 7-40 U/L)</p>
+                      <p className="text-sm text-muted-foreground">
+                        当前值: 52 U/L (参考范围: 7-40 U/L)
+                      </p>
                       <p className="text-sm mt-1">可能原因: 轻度肝功能异常，药物影响，脂肪肝</p>
-                      <p className="text-sm text-amber-600 mt-1">建议: 避免饮酒，减少高脂饮食，复查肝功能</p>
+                      <p className="text-sm text-warning mt-1">
+                        建议: 避免饮酒，减少高脂饮食，复查肝功能
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -272,29 +290,31 @@ export function TestResults() {
                 <CardDescription>关键指标的变化趋势</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[200px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+                <div className="h-[200px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                   <div className="text-center">
                     <FileText className="h-10 w-10 text-medical-600 opacity-50 mx-auto mb-2" />
-                    <p className="text-sm text-muted-foreground">此处将显示关键检验指标的变化趋势图表</p>
+                    <p className="text-sm text-muted-foreground">
+                      此处将显示关键检验指标的变化趋势图表
+                    </p>
                   </div>
                 </div>
 
                 <div className="mt-4 space-y-2">
                   <div className="flex justify-between items-center text-sm">
                     <div>总胆固醇</div>
-                    <div className="text-red-600">↑ 上升趋势</div>
+                    <div className="text-destructive">↑ 上升趋势</div>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <div>谷丙转氨酶</div>
-                    <div className="text-amber-600">↔ 波动</div>
+                    <div className="text-warning">↔ 波动</div>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <div>血红蛋白</div>
-                    <div className="text-green-600">→ 稳定</div>
+                    <div className="text-success">→ 稳定</div>
                   </div>
                   <div className="flex justify-between items-center text-sm">
                     <div>血糖</div>
-                    <div className="text-green-600">→ 稳定</div>
+                    <div className="text-success">→ 稳定</div>
                   </div>
                 </div>
               </CardContent>
@@ -309,7 +329,7 @@ export function TestResults() {
               <CardDescription>详细的血液检查结果和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Droplets className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">血液检查详情</h3>
@@ -329,7 +349,7 @@ export function TestResults() {
               <CardDescription>详细的生化指标检测结果和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Flask className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">生化指标详情</h3>
@@ -349,7 +369,7 @@ export function TestResults() {
               <CardDescription>详细的心脏标志物检测结果和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <HeartPulse className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">心脏标志物详情</h3>
@@ -369,7 +389,7 @@ export function TestResults() {
               <CardDescription>详细的基因检测结果和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Dna className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">基因检测详情</h3>
@@ -383,5 +403,5 @@ export function TestResults() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

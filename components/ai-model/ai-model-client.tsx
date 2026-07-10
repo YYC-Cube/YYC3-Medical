@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Brain, Activity, BarChart } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Brain, Activity, BarChart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export function AIModelClient() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview');
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -15,7 +15,7 @@ export function AIModelClient() {
         <Brain className="h-6 w-6 text-medical-600" />
         <div>
           <h1 className="text-2xl font-bold">智能诊断系统</h1>
-          <p className="text-gray-500">基于深度学习的医疗影像分析和诊断辅助系统</p>
+          <p className="text-muted-foreground">基于深度学习的医疗影像分析和诊断辅助系统</p>
         </div>
       </div>
 
@@ -125,5 +125,5 @@ export function AIModelClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

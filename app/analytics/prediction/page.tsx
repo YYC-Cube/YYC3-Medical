@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import PredictionModelsClient from "@/components/analytics/prediction-models-client"
-import { PageHeader } from "@/components/page-header"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import PredictionModelsClient from '@/components/analytics/prediction-models-client';
+import { PageHeader } from '@/components/page-header';
 
 export default function PredictionPage() {
   return (
@@ -12,5 +12,5 @@ export default function PredictionPage() {
         <PredictionModelsClient />
       </Suspense>
     </div>
-  )
+  );
 }

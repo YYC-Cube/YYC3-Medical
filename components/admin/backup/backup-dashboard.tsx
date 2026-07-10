@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BackupList } from "./backup-list"
-import { BackupSchedule } from "./backup-schedule"
-import { RestorePanel } from "./restore-panel"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BackupList } from './backup-list';
+import { BackupSchedule } from './backup-schedule';
+import { RestorePanel } from './restore-panel';
 
 export function BackupDashboard() {
-  const [activeTab, setActiveTab] = useState("backups")
+  const [activeTab, setActiveTab] = useState('backups');
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -29,5 +29,5 @@ export function BackupDashboard() {
         <RestorePanel />
       </TabsContent>
     </Tabs>
-  )
+  );
 }

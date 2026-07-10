@@ -1,79 +1,91 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { CheckCircle, ExternalLink, Info, Shield, Award, Clock, FileCheck } from "lucide-react"
-import Link from "next/link"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, ExternalLink, Info, Shield, Award, Clock, FileCheck } from 'lucide-react';
+import Link from 'next/link';
 
 // 验证机构数据
 const verificationProviders = [
   {
-    id: "nhc",
-    name: "国家卫健委医师资格认证中心",
-    description: "国家卫生健康委员会下属的官方医师资格认证机构，提供执业医师资格证书验证服务。",
-    supportedTypes: ["doctor-license", "specialist-certificate"],
-    verificationTime: "1-2个工作日",
-    officialWebsite: "https://example.com/nhc",
+    id: 'nhc',
+    name: '国家卫健委医师资格认证中心',
+    description: '国家卫生健康委员会下属的官方医师资格认证机构，提供执业医师资格证书验证服务。',
+    supportedTypes: ['doctor-license', 'specialist-certificate'],
+    verificationTime: '1-2个工作日',
+    officialWebsite: 'https://example.com/nhc',
     isOfficial: true,
     isFast: false,
-    coverage: "全国",
-    fee: "免费",
+    coverage: '全国',
+    fee: '免费',
   },
   {
-    id: "cmda",
-    name: "中国医师协会认证中心",
-    description: "中国医师协会提供的专业资质认证服务，支持多种医疗专业资质的验证。",
-    supportedTypes: ["doctor-license", "specialist-certificate", "continuing-education"],
-    verificationTime: "2-3个工作日",
-    officialWebsite: "https://example.com/cmda",
+    id: 'cmda',
+    name: '中国医师协会认证中心',
+    description: '中国医师协会提供的专业资质认证服务，支持多种医疗专业资质的验证。',
+    supportedTypes: ['doctor-license', 'specialist-certificate', 'continuing-education'],
+    verificationTime: '2-3个工作日',
+    officialWebsite: 'https://example.com/cmda',
     isOfficial: true,
     isFast: false,
-    coverage: "全国",
-    fee: "会员免费，非会员收费",
+    coverage: '全国',
+    fee: '会员免费，非会员收费',
   },
   {
-    id: "medverify",
-    name: "医证通快速验证服务",
-    description: "第三方专业医疗资质验证服务，提供快速验证和额外的验证详情。",
-    supportedTypes: ["doctor-license", "specialist-certificate", "practice-permit", "continuing-education"],
-    verificationTime: "4小时内",
-    officialWebsite: "https://example.com/medverify",
+    id: 'medverify',
+    name: '医证通快速验证服务',
+    description: '第三方专业医疗资质验证服务，提供快速验证和额外的验证详情。',
+    supportedTypes: [
+      'doctor-license',
+      'specialist-certificate',
+      'practice-permit',
+      'continuing-education',
+    ],
+    verificationTime: '4小时内',
+    officialWebsite: 'https://example.com/medverify',
     isOfficial: false,
     isFast: true,
-    coverage: "全国主要城市",
-    fee: "每次验证30元",
+    coverage: '全国主要城市',
+    fee: '每次验证30元',
   },
   {
-    id: "healthcert",
-    name: "健康证书验证联盟",
-    description: "多家医疗机构组成的验证联盟，提供全面的医疗资质验证服务。",
-    supportedTypes: ["doctor-license", "specialist-certificate", "practice-permit"],
-    verificationTime: "1个工作日",
-    officialWebsite: "https://example.com/healthcert",
+    id: 'healthcert',
+    name: '健康证书验证联盟',
+    description: '多家医疗机构组成的验证联盟，提供全面的医疗资质验证服务。',
+    supportedTypes: ['doctor-license', 'specialist-certificate', 'practice-permit'],
+    verificationTime: '1个工作日',
+    officialWebsite: 'https://example.com/healthcert',
     isOfficial: false,
     isFast: true,
-    coverage: "全国",
-    fee: "包月服务",
+    coverage: '全国',
+    fee: '包月服务',
   },
-]
+];
 
 export function VerificationProvidersList() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {verificationProviders.map((provider) => (
+        {verificationProviders.map(provider => (
           <Card key={provider.id} className="overflow-hidden">
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg">{provider.name}</CardTitle>
                 <div className="flex space-x-2">
                   {provider.isOfficial && (
-                    <Badge className="bg-blue-500">
+                    <Badge className="bg-primary/50">
                       <Shield className="h-3 w-3 mr-1" />
                       官方认证
                     </Badge>
                   )}
                   {provider.isFast && (
-                    <Badge className="bg-green-500">
+                    <Badge className="bg-success/50">
                       <Clock className="h-3 w-3 mr-1" />
                       快速验证
                     </Badge>
@@ -89,29 +101,29 @@ export function VerificationProvidersList() {
                   <div>
                     <p className="text-sm font-medium">支持的资质类型</p>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {provider.supportedTypes.map((type) => {
-                        let typeName = ""
+                      {provider.supportedTypes.map(type => {
+                        let typeName = '';
                         switch (type) {
-                          case "doctor-license":
-                            typeName = "执业医师资格证"
-                            break
-                          case "specialist-certificate":
-                            typeName = "专科医师资格证"
-                            break
-                          case "practice-permit":
-                            typeName = "医疗机构执业许可证"
-                            break
-                          case "continuing-education":
-                            typeName = "继续教育证书"
-                            break
+                          case 'doctor-license':
+                            typeName = '执业医师资格证';
+                            break;
+                          case 'specialist-certificate':
+                            typeName = '专科医师资格证';
+                            break;
+                          case 'practice-permit':
+                            typeName = '医疗机构执业许可证';
+                            break;
+                          case 'continuing-education':
+                            typeName = '继续教育证书';
+                            break;
                           default:
-                            typeName = type
+                            typeName = type;
                         }
                         return (
                           <Badge key={type} variant="outline" className="text-xs">
                             {typeName}
                           </Badge>
-                        )
+                        );
                       })}
                     </div>
                   </div>
@@ -160,5 +172,5 @@ export function VerificationProvidersList() {
         ))}
       </div>
     </div>
-  )
+  );
 }

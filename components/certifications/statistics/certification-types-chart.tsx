@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function CertificationTypesChart() {
   // 模拟数据
   const certTypes = [
-    { type: "医师执业证书", count: 450, percentage: 36 },
-    { type: "护士执业证书", count: 320, percentage: 25.6 },
-    { type: "药师资格证", count: 180, percentage: 14.4 },
-    { type: "医学专业技术资格", count: 150, percentage: 12 },
-    { type: "其他医疗资格证书", count: 148, percentage: 12 },
-  ]
+    { type: '医师执业证书', count: 450, percentage: 36 },
+    { type: '护士执业证书', count: 320, percentage: 25.6 },
+    { type: '药师资格证', count: 180, percentage: 14.4 },
+    { type: '医学专业技术资格', count: 150, percentage: 12 },
+    { type: '其他医疗资格证书', count: 148, percentage: 12 },
+  ];
 
   return (
     <Card className="w-full">
@@ -39,9 +39,15 @@ export function CertificationTypesChart() {
               <table className="w-full caption-bottom text-sm">
                 <thead className="[&_tr]:border-b">
                   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">认证类型</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">数量</th>
-                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">百分比</th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      认证类型
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      数量
+                    </th>
+                    <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                      百分比
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:last-child]:border-0">
@@ -66,5 +72,5 @@ export function CertificationTypesChart() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

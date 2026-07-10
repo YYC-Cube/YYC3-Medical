@@ -1,20 +1,26 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useState } from 'react';
 
 export function FailureReasonsChart() {
-  const [timeRange, setTimeRange] = useState("month")
+  const [timeRange, setTimeRange] = useState('month');
 
   // 模拟数据
   const failureReasons = [
-    { reason: "文档不完整", percentage: 35 },
-    { reason: "信息不匹配", percentage: 28 },
-    { reason: "过期证书", percentage: 18 },
-    { reason: "图像质量差", percentage: 12 },
-    { reason: "其他原因", percentage: 7 },
-  ]
+    { reason: '文档不完整', percentage: 35 },
+    { reason: '信息不匹配', percentage: 28 },
+    { reason: '过期证书', percentage: 18 },
+    { reason: '图像质量差', percentage: 12 },
+    { reason: '其他原因', percentage: 7 },
+  ];
 
   return (
     <Card className="w-full">
@@ -41,7 +47,10 @@ export function FailureReasonsChart() {
                 <span className="text-sm text-muted-foreground">{item.percentage}%</span>
               </div>
               <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-                <div className="h-full bg-red-500 rounded-full" style={{ width: `${item.percentage}%` }}></div>
+                <div
+                  className="h-full bg-destructive rounded-full"
+                  style={{ width: `${item.percentage}%` }}
+                ></div>
               </div>
             </div>
           ))}
@@ -52,5 +61,5 @@ export function FailureReasonsChart() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

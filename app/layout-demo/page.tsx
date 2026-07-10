@@ -1,14 +1,14 @@
-import type { Metadata } from "next"
-import { PageBreadcrumb } from "@/components/layout/page-breadcrumb"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import type { Metadata } from 'next';
+import { PageBreadcrumb } from '@/components/layout/page-breadcrumb';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata: Metadata = {
-  title: "布局演示",
-  description: "统一布局系统演示",
-}
+  title: '布局演示',
+  description: '统一布局系统演示',
+};
 
 export default function LayoutDemoPage() {
   return (
@@ -35,14 +35,18 @@ export default function LayoutDemoPage() {
               <CardDescription>全新的布局系统为燕鱼医疗平台提供统一一致的用户体验</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p>本系统采用了现代化的组件架构，确保各模块之间的一致性和灵活性，同时针对医疗场景进行了专门优化。</p>
+              <p>
+                本系统采用了现代化的组件架构，确保各模块之间的一致性和灵活性，同时针对医疗场景进行了专门优化。
+              </p>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg">响应式设计</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">完全适配各种尺寸的设备，从手机到大屏显示器</p>
+                    <p className="text-sm text-muted-foreground">
+                      完全适配各种尺寸的设备，从手机到大屏显示器
+                    </p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -50,7 +54,9 @@ export default function LayoutDemoPage() {
                     <CardTitle className="text-lg">深色模式支持</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">内置深色模式支持，减轻长时间使用的视觉疲劳</p>
+                    <p className="text-sm text-muted-foreground">
+                      内置深色模式支持，减轻长时间使用的视觉疲劳
+                    </p>
                   </CardContent>
                 </Card>
                 <Card>
@@ -58,7 +64,9 @@ export default function LayoutDemoPage() {
                     <CardTitle className="text-lg">键盘快捷键</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">全面的键盘快捷键支持，提高操作效率</p>
+                    <p className="text-sm text-muted-foreground">
+                      全面的键盘快捷键支持，提高操作效率
+                    </p>
                   </CardContent>
                 </Card>
               </div>
@@ -109,11 +117,14 @@ export default function LayoutDemoPage() {
                 <CardTitle>使用指南</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">只需按照以下步骤，即可在任何页面中使用统一布局系统:</p>
+                <p className="text-sm text-muted-foreground">
+                  只需按照以下步骤，即可在任何页面中使用统一布局系统:
+                </p>
                 <ol className="list-decimal list-inside space-y-2 text-sm">
                   <li>页面已自动应用布局，无需额外包装</li>
                   <li>
-                    在页面顶部添加 <code className="bg-muted px-1 py-0.5 rounded">PageBreadcrumb</code> 组件
+                    在页面顶部添加{' '}
+                    <code className="bg-muted px-1 py-0.5 rounded">PageBreadcrumb</code> 组件
                   </li>
                   <li>使用统一的UI组件和样式</li>
                   <li>按Alt+S可以切换侧边栏折叠状态</li>
@@ -135,19 +146,27 @@ export default function LayoutDemoPage() {
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="border rounded-md p-4">
                     <h3 className="font-medium mb-2">AppShell</h3>
-                    <p className="text-sm text-muted-foreground">整体布局容器，负责协调各组件并处理布局逻辑</p>
+                    <p className="text-sm text-muted-foreground">
+                      整体布局容器，负责协调各组件并处理布局逻辑
+                    </p>
                   </div>
                   <div className="border rounded-md p-4">
                     <h3 className="font-medium mb-2">AppHeader</h3>
-                    <p className="text-sm text-muted-foreground">顶部导航栏，包含logo、搜索框、通知中心和用户菜单</p>
+                    <p className="text-sm text-muted-foreground">
+                      顶部导航栏，包含logo、搜索框、通知中心和用户菜单
+                    </p>
                   </div>
                   <div className="border rounded-md p-4">
                     <h3 className="font-medium mb-2">SidebarNav</h3>
-                    <p className="text-sm text-muted-foreground">侧边导航栏，支持折叠/展开，包含分组和工具提示</p>
+                    <p className="text-sm text-muted-foreground">
+                      侧边导航栏，支持折叠/展开，包含分组和工具提示
+                    </p>
                   </div>
                   <div className="border rounded-md p-4">
                     <h3 className="font-medium mb-2">PageBreadcrumb</h3>
-                    <p className="text-sm text-muted-foreground">面包屑导航，自动根据路径生成或手动指定</p>
+                    <p className="text-sm text-muted-foreground">
+                      面包屑导航，自动根据路径生成或手动指定
+                    </p>
                   </div>
                 </div>
               </div>
@@ -231,5 +250,5 @@ export default function LayoutDemoPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

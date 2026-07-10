@@ -1,22 +1,23 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface CloudLogoProps {
-  size?: "sm" | "md" | "lg" | "xl"
-  animated?: boolean
-  className?: string
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  animated?: boolean;
+  className?: string;
 }
 
-export function CloudLogo({ size = "md", animated = true, className = "" }: CloudLogoProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+export function CloudLogo({ size = 'md', animated = true, className = '' }: CloudLogoProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+     
+    setIsMounted(true);
+  }, []);
 
   // 根据尺寸确定宽高
   const dimensions = {
@@ -24,9 +25,9 @@ export function CloudLogo({ size = "md", animated = true, className = "" }: Clou
     md: { width: 60, height: 60 },
     lg: { width: 100, height: 100 },
     xl: { width: 150, height: 150 },
-  }
+  };
 
-  const { width, height } = dimensions[size]
+  const { width, height } = dimensions[size];
 
   // 如果不支持客户端动画，则返回静态版本
   if (!isMounted || !animated) {
@@ -40,7 +41,7 @@ export function CloudLogo({ size = "md", animated = true, className = "" }: Clou
           className="object-contain"
         />
       </div>
-    )
+    );
   }
 
   return (
@@ -67,5 +68,5 @@ export function CloudLogo({ size = "md", animated = true, className = "" }: Clou
         />
       </motion.div>
     </div>
-  )
+  );
 }

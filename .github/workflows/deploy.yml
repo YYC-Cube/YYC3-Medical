@@ -34,6 +34,11 @@ jobs:
         run: pnpm install --frozen-lockfile || pnpm install
 
       - name: Build
+        env:
+          NEXT_PUBLIC_DEMO_MODE: true
+          NEXT_PUBLIC_DEMO_ADMIN_PWD: admin123
+          NEXT_PUBLIC_DEMO_DOCTOR_PWD: doctor123
+          NEXT_PUBLIC_DEMO_NURSE_PWD: nurse123
         run: pnpm build
 
       - name: Add .nojekyll

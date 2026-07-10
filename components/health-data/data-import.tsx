@@ -1,38 +1,51 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Upload, FileText, Database } from "lucide-react"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Upload, FileText, Database } from 'lucide-react';
 
 export function HealthDataImport() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [dataSource, setDataSource] = useState("manual")
-  const [isUploading, setIsUploading] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [dataSource, setDataSource] = useState('manual');
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0])
+      setSelectedFile(e.target.files[0]);
     }
-  }
+  };
 
   const handleUpload = () => {
-    if (!selectedFile) return
+    if (!selectedFile) return;
 
-    setIsUploading(true)
+    setIsUploading(true);
 
     // 模拟上传过程
     setTimeout(() => {
-      setIsUploading(false)
-      setSelectedFile(null)
+      setIsUploading(false);
+      setSelectedFile(null);
       // 这里可以添加成功提示
-    }, 2000)
-  }
+    }, 2000);
+  };
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -45,7 +58,9 @@ export function HealthDataImport() {
           <div className="space-y-4">
             <div className="border-2 border-dashed rounded-lg p-6 text-center">
               <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
-              <p className="text-sm text-muted-foreground mb-2">拖放文件到此处或点击下方按钮选择文件</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                拖放文件到此处或点击下方按钮选择文件
+              </p>
               <Input
                 id="file-upload"
                 type="file"
@@ -90,7 +105,7 @@ export function HealthDataImport() {
         </CardContent>
         <CardFooter>
           <Button className="w-full" onClick={handleUpload} disabled={!selectedFile || isUploading}>
-            {isUploading ? "上传中..." : "上传数据"}
+            {isUploading ? '上传中...' : '上传数据'}
           </Button>
         </CardFooter>
       </Card>
@@ -117,14 +132,14 @@ export function HealthDataImport() {
               </Select>
             </div>
 
-            {dataSource === "manual" && (
+            {dataSource === 'manual' && (
               <div className="space-y-2">
                 <Label htmlFor="patient-id">患者ID</Label>
                 <Input id="patient-id" placeholder="输入患者ID" />
               </div>
             )}
 
-            {dataSource === "api" && (
+            {dataSource === 'api' && (
               <div className="space-y-2">
                 <Label htmlFor="api-endpoint">API端点</Label>
                 <Input id="api-endpoint" placeholder="https://api.example.com/health-data" />
@@ -133,7 +148,7 @@ export function HealthDataImport() {
               </div>
             )}
 
-            {dataSource === "device" && (
+            {dataSource === 'device' && (
               <div className="space-y-2">
                 <Label>可用设备</Label>
                 <div className="grid grid-cols-2 gap-2">
@@ -157,7 +172,7 @@ export function HealthDataImport() {
               </div>
             )}
 
-            {dataSource === "ehr" && (
+            {dataSource === 'ehr' && (
               <div className="space-y-2">
                 <Label htmlFor="ehr-system">电子病历系统</Label>
                 <Select defaultValue="system1">
@@ -177,7 +192,9 @@ export function HealthDataImport() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="w-full">{dataSource === "manual" ? "进入数据表单" : "连接数据源"}</Button>
+          <Button className="w-full">
+            {dataSource === 'manual' ? '进入数据表单' : '连接数据源'}
+          </Button>
         </CardFooter>
       </Card>
 
@@ -201,35 +218,35 @@ export function HealthDataImport() {
                 <div>生命体征</div>
                 <div>CSV文件</div>
                 <div>128</div>
-                <div className="text-green-600">成功</div>
+                <div className="text-success">成功</div>
               </div>
               <div className="grid grid-cols-5 p-3">
                 <div>2023-10-14 09:15</div>
                 <div>检验结果</div>
                 <div>API</div>
                 <div>56</div>
-                <div className="text-green-600">成功</div>
+                <div className="text-success">成功</div>
               </div>
               <div className="grid grid-cols-5 p-3">
                 <div>2023-10-12 16:45</div>
                 <div>用药记录</div>
                 <div>手动输入</div>
                 <div>12</div>
-                <div className="text-green-600">成功</div>
+                <div className="text-success">成功</div>
               </div>
               <div className="grid grid-cols-5 p-3">
                 <div>2023-10-10 11:20</div>
                 <div>活动数据</div>
                 <div>智能手表</div>
                 <div>340</div>
-                <div className="text-amber-600">部分成功</div>
+                <div className="text-warning">部分成功</div>
               </div>
               <div className="grid grid-cols-5 p-3">
                 <div>2023-10-08 08:05</div>
                 <div>睡眠数据</div>
                 <div>智能手表</div>
                 <div>0</div>
-                <div className="text-red-600">失败</div>
+                <div className="text-destructive">失败</div>
               </div>
             </div>
           </div>
@@ -240,5 +257,5 @@ export function HealthDataImport() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

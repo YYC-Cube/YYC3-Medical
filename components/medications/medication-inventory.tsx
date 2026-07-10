@@ -1,86 +1,100 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { AlertCircle, TrendingDown, TrendingUp, Package } from "lucide-react"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
+import { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from '@/components/ui/recharts-dynamic';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { AlertCircle, TrendingDown, TrendingUp, Package } from 'lucide-react';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 
 // 模拟库存数据
 const inventoryData = [
-  { category: "口服降糖药", count: 3250, value: 125800, lowStock: 2 },
-  { category: "调脂药", count: 1850, value: 165900, lowStock: 1 },
-  { category: "降压药", count: 2100, value: 143200, lowStock: 3 },
-  { category: "非甾体抗炎药", count: 4200, value: 65400, lowStock: 2 },
-  { category: "抗生素", count: 1650, value: 81000, lowStock: 4 },
-  { category: "抗抑郁药", count: 980, value: 72500, lowStock: 1 },
-  { category: "抗过敏药", count: 1250, value: 43800, lowStock: 0 },
-]
+  { category: '口服降糖药', count: 3250, value: 125800, lowStock: 2 },
+  { category: '调脂药', count: 1850, value: 165900, lowStock: 1 },
+  { category: '降压药', count: 2100, value: 143200, lowStock: 3 },
+  { category: '非甾体抗炎药', count: 4200, value: 65400, lowStock: 2 },
+  { category: '抗生素', count: 1650, value: 81000, lowStock: 4 },
+  { category: '抗抑郁药', count: 980, value: 72500, lowStock: 1 },
+  { category: '抗过敏药', count: 1250, value: 43800, lowStock: 0 },
+];
 
 // 模拟过期风险数据
 const expiryRiskData = [
-  { name: "1个月内", count: 12, value: 5800 },
-  { name: "3个月内", count: 28, value: 12400 },
-  { name: "6个月内", count: 45, value: 24600 },
-]
+  { name: '1个月内', count: 12, value: 5800 },
+  { name: '3个月内', count: 28, value: 12400 },
+  { name: '6个月内', count: 45, value: 24600 },
+];
 
 // 模拟库存趋势数据
 const inventoryTrendData = [
-  { month: "1月", inflow: 320, outflow: 240 },
-  { month: "2月", inflow: 280, outflow: 310 },
-  { month: "3月", inflow: 350, outflow: 290 },
-  { month: "4月", inflow: 420, outflow: 380 },
-  { month: "5月", inflow: 380, outflow: 350 },
-  { month: "6月", inflow: 450, outflow: 410 },
-]
+  { month: '1月', inflow: 320, outflow: 240 },
+  { month: '2月', inflow: 280, outflow: 310 },
+  { month: '3月', inflow: 350, outflow: 290 },
+  { month: '4月', inflow: 420, outflow: 380 },
+  { month: '5月', inflow: 380, outflow: 350 },
+  { month: '6月', inflow: 450, outflow: 410 },
+];
 
 export function MedicationInventory() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [showAddStock, setShowAddStock] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState("全部")
+  const [activeTab, setActiveTab] = useState('overview');
+  const [showAddStock, setShowAddStock] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('全部');
   const [stockOperation, setStockOperation] = useState<{
-    category: string
-    quantity: number
-    operation: "add" | "remove"
-  } | null>(null)
+    category: string;
+    quantity: number;
+    operation: 'add' | 'remove';
+  } | null>(null);
 
   // 计算总库存和总价值
-  const totalCount = inventoryData.reduce((sum, item) => sum + item.count, 0)
-  const totalValue = inventoryData.reduce((sum, item) => sum + item.value, 0)
-  const totalLowStock = inventoryData.reduce((sum, item) => sum + item.lowStock, 0)
+  const totalCount = inventoryData.reduce((sum, item) => sum + item.count, 0);
+  const totalValue = inventoryData.reduce((sum, item) => sum + item.value, 0);
+  const totalLowStock = inventoryData.reduce((sum, item) => sum + item.lowStock, 0);
 
   // 处理库存操作
   const handleStockOperation = () => {
-    if (!stockOperation) return
+    if (!stockOperation) return;
 
     // 模拟API调用，实际应用中应调用后端API
     setTimeout(() => {
       // 更新库存数据
-      const categoryIndex = inventoryData.findIndex((item) => item.category === stockOperation.category)
+      const categoryIndex = inventoryData.findIndex(
+        item => item.category === stockOperation.category
+      );
       if (categoryIndex !== -1) {
-        const newInventoryData = [...inventoryData]
-        if (stockOperation.operation === "add") {
-          newInventoryData[categoryIndex].count += stockOperation.quantity
+        const newInventoryData = [...inventoryData];
+        if (stockOperation.operation === 'add') {
+          newInventoryData[categoryIndex].count += stockOperation.quantity;
         } else {
           newInventoryData[categoryIndex].count = Math.max(
             0,
-            newInventoryData[categoryIndex].count - stockOperation.quantity,
-          )
+            newInventoryData[categoryIndex].count - stockOperation.quantity
+          );
         }
         // 在实际应用中，这里应该更新状态
       }
 
-      setShowAddStock(false)
-      setStockOperation(null)
-    }, 1000)
-  }
+      setShowAddStock(false);
+      setStockOperation(null);
+    }, 1000);
+  };
 
   return (
     <div className="space-y-6">
@@ -132,7 +146,7 @@ export function MedicationInventory() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">近效期预警</CardTitle>
-            <AlertCircle className="h-4 w-4 text-amber-500" />
+            <AlertCircle className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{expiryRiskData[0].count}</div>
@@ -158,12 +172,12 @@ export function MedicationInventory() {
               <ChartContainer
                 config={{
                   count: {
-                    label: "库存数量",
-                    color: "hsl(var(--chart-1))",
+                    label: '库存数量',
+                    color: 'hsl(var(--chart-1))',
                   },
                   value: {
-                    label: "库存价值 (¥)",
-                    color: "hsl(var(--chart-2))",
+                    label: '库存价值 (¥)',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -184,7 +198,12 @@ export function MedicationInventory() {
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <Legend />
                     <Bar yAxisId="left" dataKey="count" fill="var(--color-count)" name="库存数量" />
-                    <Bar yAxisId="right" dataKey="value" fill="var(--color-value)" name="库存价值 (¥)" />
+                    <Bar
+                      yAxisId="right"
+                      dataKey="value"
+                      fill="var(--color-value)"
+                      name="库存价值 (¥)"
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -205,13 +224,15 @@ export function MedicationInventory() {
                         <div key={index} className="flex items-center justify-between">
                           <div className="space-y-1">
                             <p className="text-sm font-medium leading-none">{item.category}</p>
-                            <p className="text-sm text-muted-foreground">{item.lowStock} 种药物库存不足</p>
+                            <p className="text-sm text-muted-foreground">
+                              {item.lowStock} 种药物库存不足
+                            </p>
                           </div>
                           <Badge variant="outline" className="ml-auto">
                             需补充
                           </Badge>
                         </div>
-                      ),
+                      )
                   )}
                 </div>
               </CardContent>
@@ -280,12 +301,12 @@ export function MedicationInventory() {
               <ChartContainer
                 config={{
                   inflow: {
-                    label: "入库数量",
-                    color: "hsl(var(--chart-1))",
+                    label: '入库数量',
+                    color: 'hsl(var(--chart-1))',
                   },
                   outflow: {
-                    label: "出库数量",
-                    color: "hsl(var(--chart-2))",
+                    label: '出库数量',
+                    color: 'hsl(var(--chart-2))',
                   },
                 }}
               >
@@ -331,7 +352,9 @@ export function MedicationInventory() {
                         </CardHeader>
                         <CardContent>
                           <div className="text-2xl font-bold">{item.count}</div>
-                          <p className="text-xs text-muted-foreground">价值: ¥{item.value.toLocaleString()}</p>
+                          <p className="text-xs text-muted-foreground">
+                            价值: ¥{item.value.toLocaleString()}
+                          </p>
                         </CardContent>
                       </Card>
                     ))}
@@ -385,16 +408,19 @@ export function MedicationInventory() {
             <div className="space-y-2">
               <Label htmlFor="stock-category">药物分类</Label>
               <Select
-                value={stockOperation?.category || ""}
-                onValueChange={(value) =>
-                  setStockOperation((prev) => ({ ...(prev || { quantity: 0, operation: "add" }), category: value }))
+                value={stockOperation?.category || ''}
+                onValueChange={value =>
+                  setStockOperation(prev => ({
+                    ...(prev || { quantity: 0, operation: 'add' }),
+                    category: value,
+                  }))
                 }
               >
                 <SelectTrigger id="stock-category">
                   <SelectValue placeholder="选择药物分类" />
                 </SelectTrigger>
                 <SelectContent>
-                  {inventoryData.map((item) => (
+                  {inventoryData.map(item => (
                     <SelectItem key={item.category} value={item.category}>
                       {item.category}
                     </SelectItem>
@@ -409,10 +435,10 @@ export function MedicationInventory() {
                 id="stock-quantity"
                 type="number"
                 min="1"
-                value={stockOperation?.quantity || ""}
-                onChange={(e) =>
-                  setStockOperation((prev) => ({
-                    ...(prev || { category: "", operation: "add" }),
+                value={stockOperation?.quantity || ''}
+                onChange={e =>
+                  setStockOperation(prev => ({
+                    ...(prev || { category: '', operation: 'add' }),
                     quantity: Number.parseInt(e.target.value) || 0,
                   }))
                 }
@@ -422,9 +448,12 @@ export function MedicationInventory() {
             <div className="space-y-2">
               <Label htmlFor="stock-operation">操作类型</Label>
               <Select
-                value={stockOperation?.operation || "add"}
-                onValueChange={(value: "add" | "remove") =>
-                  setStockOperation((prev) => ({ ...(prev || { category: "", quantity: 0 }), operation: value }))
+                value={stockOperation?.operation || 'add'}
+                onValueChange={(value: 'add' | 'remove') =>
+                  setStockOperation(prev => ({
+                    ...(prev || { category: '', quantity: 0 }),
+                    operation: value,
+                  }))
                 }
               >
                 <SelectTrigger id="stock-operation">
@@ -452,5 +481,5 @@ export function MedicationInventory() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

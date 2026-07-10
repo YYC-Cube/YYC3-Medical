@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 const mockDistributionData = [
-  { name: "验证成功", value: 1250, color: "#22c55e" },
-  { name: "验证失败", value: 180, color: "#ef4444" },
-  { name: "待处理", value: 95, color: "#f59e0b" },
-  { name: "已过期", value: 45, color: "#6b7280" },
-]
+  { name: '验证成功', value: 1250, color: 'var(--success)' },
+  { name: '验证失败', value: 180, color: 'var(--destructive)' },
+  { name: '待处理', value: 95, color: 'var(--warning)' },
+  { name: '已过期', value: 45, color: 'var(--muted-foreground)' },
+];
 
 export function ResultDistributionChart() {
   return (
@@ -23,20 +23,20 @@ export function ResultDistributionChart() {
           <ChartContainer
             config={{
               success: {
-                label: "验证成功",
-                color: "#22c55e",
+                label: '验证成功',
+                color: 'var(--success)',
               },
               failed: {
-                label: "验证失败",
-                color: "#ef4444",
+                label: '验证失败',
+                color: 'var(--destructive)',
               },
               pending: {
-                label: "待处理",
-                color: "#f59e0b",
+                label: '待处理',
+                color: 'var(--warning)',
               },
               expired: {
-                label: "已过期",
-                color: "#6b7280",
+                label: '已过期',
+                color: 'var(--muted-foreground)',
               },
             }}
           >
@@ -49,7 +49,7 @@ export function ResultDistributionChart() {
                   labelLine={false}
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   outerRadius={80}
-                  fill="#8884d8"
+                  fill="var(--primary)"
                   dataKey="value"
                 >
                   {mockDistributionData.map((entry, index) => (
@@ -64,7 +64,7 @@ export function ResultDistributionChart() {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-4">
-          {mockDistributionData.map((item) => (
+          {mockDistributionData.map(item => (
             <div key={item.name} className="flex items-center justify-between p-2 border rounded">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
@@ -76,5 +76,5 @@ export function ResultDistributionChart() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   BarChart,
   Bar,
@@ -19,47 +19,47 @@ import {
   Cell,
   LineChart,
   Line,
-} from "recharts"
-import { Microscope, Users, FileText, RefreshCw, Calendar, Dna } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { Microscope, Users, FileText, RefreshCw, Calendar, Dna } from 'lucide-react';
 
 // 模拟研究项目数据
 const projectsByCategory = [
-  { name: "临床试验", count: 24, color: "#10b981" },
-  { name: "观察性研究", count: 18, color: "#3b82f6" },
-  { name: "基础研究", count: 15, color: "#f59e0b" },
-  { name: "转化医学", count: 12, color: "#8b5cf6" },
-  { name: "流行病学", count: 10, color: "#ec4899" },
-]
+  { name: '临床试验', count: 24, color: 'var(--success)' },
+  { name: '观察性研究', count: 18, color: 'var(--primary)' },
+  { name: '基础研究', count: 15, color: 'var(--warning)' },
+  { name: '转化医学', count: 12, color: 'var(--primary)' },
+  { name: '流行病学', count: 10, color: 'var(--destructive)' },
+];
 
 // 模拟研究项目状态
 const projectStatus = [
-  { name: "进行中", value: 42, color: "#3b82f6" },
-  { name: "计划中", value: 18, color: "#f59e0b" },
-  { name: "已完成", value: 25, color: "#10b981" },
-  { name: "已暂停", value: 5, color: "#6b7280" },
-]
+  { name: '进行中', value: 42, color: 'var(--primary)' },
+  { name: '计划中', value: 18, color: 'var(--warning)' },
+  { name: '已完成', value: 25, color: 'var(--success)' },
+  { name: '已暂停', value: 5, color: 'var(--muted-foreground)' },
+];
 
 // 模拟研究趋势数据
 const researchTrends = [
-  { month: "1月", 新项目: 5, 发表论文: 3, 获得资助: 2 },
-  { month: "2月", 新项目: 7, 发表论文: 4, 获得资助: 3 },
-  { month: "3月", 新项目: 4, 发表论文: 6, 获得资助: 1 },
-  { month: "4月", 新项目: 8, 发表论文: 5, 获得资助: 4 },
-]
+  { month: '1月', 新项目: 5, 发表论文: 3, 获得资助: 2 },
+  { month: '2月', 新项目: 7, 发表论文: 4, 获得资助: 3 },
+  { month: '3月', 新项目: 4, 发表论文: 6, 获得资助: 1 },
+  { month: '4月', 新项目: 8, 发表论文: 5, 获得资助: 4 },
+];
 
 export function ResearchProjectsDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [lastUpdateTime, setLastUpdateTime] = useState("2025-04-28 14:30")
+  const [activeTab, setActiveTab] = useState('overview');
+  const [lastUpdateTime, setLastUpdateTime] = useState('2025-04-28 14:30');
 
   // 模拟更新数据
   const updateData = () => {
     // 更新最后更新时间
-    const now = new Date()
+    const now = new Date();
     setLastUpdateTime(
-      `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ` +
-        `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
-    )
-  }
+      `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ` +
+        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+    );
+  };
 
   return (
     <Card className="shadow-md">
@@ -86,7 +86,9 @@ export function ResearchProjectsDashboard() {
                 <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
                   <div className="text-sm text-muted-foreground mb-2">总研究项目数</div>
                   <div className="text-4xl font-bold mb-2">90</div>
-                  <div className="text-xs text-muted-foreground mt-2">上次更新: {lastUpdateTime}</div>
+                  <div className="text-xs text-muted-foreground mt-2">
+                    上次更新: {lastUpdateTime}
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 mt-4">
@@ -133,7 +135,7 @@ export function ResearchProjectsDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {projectStatus.map((entry, index) => (
@@ -198,7 +200,7 @@ export function ResearchProjectsDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="count"
                         nameKey="name"
                       >
@@ -226,7 +228,7 @@ export function ResearchProjectsDashboard() {
                       <YAxis dataKey="name" type="category" width={100} />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="count" name="项目数量" fill="#3b82f6" />
+                      <Bar dataKey="count" name="项目数量" fill="var(--primary)" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -311,15 +313,18 @@ export function ResearchProjectsDashboard() {
           <TabsContent value="trends" className="pt-4">
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={researchTrends} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <LineChart
+                  data={researchTrends}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="新项目" stroke="#3b82f6" activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="发表论文" stroke="#10b981" activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="获得资助" stroke="#f59e0b" />
+                  <Line type="monotone" dataKey="新项目" stroke="var(--primary)" activeDot={{ r: 8 }} />
+                  <Line type="monotone" dataKey="发表论文" stroke="var(--success)" activeDot={{ r: 8 }} />
+                  <Line type="monotone" dataKey="获得资助" stroke="var(--warning)" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -366,5 +371,5 @@ export function ResearchProjectsDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

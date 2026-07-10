@@ -1,31 +1,45 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { EHRDataMapping } from "@/components/ehr-data-mapping"
-import { Database, FileText, User, Stethoscope, Pill, Activity, Download, Upload, Save, History } from "lucide-react"
+import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { EHRDataMapping } from '@/components/ehr-data-mapping';
+import {
+  Database,
+  FileText,
+  User,
+  Stethoscope,
+  Pill,
+  Activity,
+  Download,
+  Upload,
+  Save,
+  History,
+} from 'lucide-react';
 
 export default function EHRMappingClient() {
-  const router = useRouter()
-  const [activeTab, setActiveTab] = useState("patient")
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('patient');
 
   return (
     <div className="space-y-6">
       <Tabs defaultValue="mapping" className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" onClick={() => router.push("/ehr-integration")}>
+          <TabsTrigger value="overview" onClick={() => router.push('/ehr-integration')}>
             集成概览
           </TabsTrigger>
-          <TabsTrigger value="mapping" onClick={() => router.push("/ehr-integration/mapping")}>
+          <TabsTrigger value="mapping" onClick={() => router.push('/ehr-integration/mapping')}>
             数据映射
           </TabsTrigger>
-          <TabsTrigger value="sync" onClick={() => router.push("/ehr-integration/sync")}>
+          <TabsTrigger value="sync" onClick={() => router.push('/ehr-integration/sync')}>
             同步状态
           </TabsTrigger>
-          <TabsTrigger value="connections" onClick={() => router.push("/ehr-integration/connections")}>
+          <TabsTrigger
+            value="connections"
+            onClick={() => router.push('/ehr-integration/connections')}
+          >
             系统连接
           </TabsTrigger>
         </TabsList>
@@ -59,49 +73,49 @@ export default function EHRMappingClient() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <Button
-              variant={activeTab === "patient" ? "default" : "outline"}
+              variant={activeTab === 'patient' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("patient")}
+              onClick={() => setActiveTab('patient')}
             >
               <User className="w-6 h-6" />
               <span>患者信息</span>
             </Button>
             <Button
-              variant={activeTab === "diagnosis" ? "default" : "outline"}
+              variant={activeTab === 'diagnosis' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("diagnosis")}
+              onClick={() => setActiveTab('diagnosis')}
             >
               <Stethoscope className="w-6 h-6" />
               <span>诊断信息</span>
             </Button>
             <Button
-              variant={activeTab === "medication" ? "default" : "outline"}
+              variant={activeTab === 'medication' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("medication")}
+              onClick={() => setActiveTab('medication')}
             >
               <Pill className="w-6 h-6" />
               <span>用药信息</span>
             </Button>
             <Button
-              variant={activeTab === "labResult" ? "default" : "outline"}
+              variant={activeTab === 'labResult' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("labResult")}
+              onClick={() => setActiveTab('labResult')}
             >
               <Activity className="w-6 h-6" />
               <span>检查结果</span>
             </Button>
             <Button
-              variant={activeTab === "document" ? "default" : "outline"}
+              variant={activeTab === 'document' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("document")}
+              onClick={() => setActiveTab('document')}
             >
               <FileText className="w-6 h-6" />
               <span>文档记录</span>
             </Button>
             <Button
-              variant={activeTab === "other" ? "default" : "outline"}
+              variant={activeTab === 'other' ? 'default' : 'outline'}
               className="h-auto py-4 px-3 flex flex-col items-center justify-center gap-2"
-              onClick={() => setActiveTab("other")}
+              onClick={() => setActiveTab('other')}
             >
               <Database className="w-6 h-6" />
               <span>其他数据</span>
@@ -113,7 +127,7 @@ export default function EHRMappingClient() {
       <EHRDataMapping />
 
       <div className="flex justify-between mt-6">
-        <Button variant="outline" onClick={() => router.push("/ehr-integration")}>
+        <Button variant="outline" onClick={() => router.push('/ehr-integration')}>
           返回概览
         </Button>
         <div className="flex gap-2">
@@ -128,5 +142,5 @@ export default function EHRMappingClient() {
         </div>
       </div>
     </div>
-  )
+  );
 }

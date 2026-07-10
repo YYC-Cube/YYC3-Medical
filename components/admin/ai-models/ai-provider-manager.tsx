@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import {
   Dialog,
   DialogContent,
@@ -16,11 +16,17 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
-import { aiProviderService } from "@/services/ai-provider-service"
-import type { AIProvider, AIProviderConfig, AIModel, AIUsageStats } from "@/types/ai-models"
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import { aiProviderService } from '@/services/ai-provider-service';
+import type { AIProvider, AIProviderConfig, AIModel, AIUsageStats } from '@/types/ai-models';
 import {
   Bot,
   Settings,
@@ -37,134 +43,134 @@ import {
   Globe,
   Key,
   Loader2,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function AIProviderManager() {
-  const { toast } = useToast()
-  const [providers, setProviders] = useState<AIProvider[]>([])
-  const [models, setModels] = useState<AIModel[]>([])
-  const [configs, setConfigs] = useState<AIProviderConfig[]>([])
-  const [usageStats, setUsageStats] = useState<AIUsageStats[]>([])
-  const [loading, setLoading] = useState(true)
-  const [selectedProvider, setSelectedProvider] = useState<AIProvider | null>(null)
-  const [showConfigDialog, setShowConfigDialog] = useState(false)
-  const [testingProvider, setTestingProvider] = useState<string | null>(null)
+  const { toast } = useToast();
+  const [providers, setProviders] = useState<AIProvider[]>([]);
+  const [models, setModels] = useState<AIModel[]>([]);
+  const [configs, setConfigs] = useState<AIProviderConfig[]>([]);
+  const [usageStats, setUsageStats] = useState<AIUsageStats[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedProvider, setSelectedProvider] = useState<AIProvider | null>(null);
+  const [showConfigDialog, setShowConfigDialog] = useState(false);
+  const [testingProvider, setTestingProvider] = useState<string | null>(null);
 
   // 新配置表单状态
   const [newConfig, setNewConfig] = useState<Partial<AIProviderConfig>>({
-    name: "",
+    name: '',
     credentials: {},
     settings: {},
     isActive: true,
-  })
+  });
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
+  async function loadData() {
     try {
-      setLoading(true)
+      setLoading(true);
       const [providersData, modelsData, statsData] = await Promise.all([
         aiProviderService.getAllProviders(),
         aiProviderService.getAllModels(),
         aiProviderService.getUsageStats(),
-      ])
+      ]);
 
-      setProviders(providersData)
-      setModels(modelsData)
-      setUsageStats(statsData)
+      setProviders(providersData);
+      setModels(modelsData);
+      setUsageStats(statsData);
     } catch (error) {
-      console.error("加载数据失败:", error)
+      console.error('加载数据失败:', error);
       toast({
-        title: "加载失败",
-        description: "无法加载AI提供商数据",
-        variant: "destructive",
-      })
+        title: '加载失败',
+        description: '无法加载AI提供商数据',
+        variant: 'destructive',
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
+  useEffect(() => {
+    loadData();
+  }, []);
+
   const handleConfigProvider = (provider: AIProvider) => {
-    setSelectedProvider(provider)
+    setSelectedProvider(provider);
     setNewConfig({
       providerId: provider.id,
       name: `${provider.displayName} 配置`,
       credentials: {},
       settings: {},
       isActive: true,
-    })
-    setShowConfigDialog(true)
-  }
+    });
+    setShowConfigDialog(true);
+  };
 
   const handleSaveConfig = async () => {
     if (!selectedProvider || !newConfig.name) {
       toast({
-        title: "配置无效",
-        description: "请填写必要的配置信息",
-        variant: "destructive",
-      })
-      return
+        title: '配置无效',
+        description: '请填写必要的配置信息',
+        variant: 'destructive',
+      });
+      return;
     }
 
     try {
       const savedConfig = await aiProviderService.saveProviderConfig(
-        newConfig as Omit<AIProviderConfig, "id" | "createdAt" | "updatedAt">,
-      )
-      setConfigs((prev) => [...prev, savedConfig])
-      setShowConfigDialog(false)
-      setNewConfig({})
-      setSelectedProvider(null)
+        newConfig as Omit<AIProviderConfig, 'id' | 'createdAt' | 'updatedAt'>
+      );
+      setConfigs(prev => [...prev, savedConfig]);
+      setShowConfigDialog(false);
+      setNewConfig({});
+      setSelectedProvider(null);
 
       toast({
-        title: "配置成功",
+        title: '配置成功',
         description: `${selectedProvider.displayName} 配置已保存`,
-      })
+      });
     } catch (error) {
       toast({
-        title: "配置失败",
-        description: "无法保存提供商配置",
-        variant: "destructive",
-      })
+        title: '配置失败',
+        description: '无法保存提供商配置',
+        variant: 'destructive',
+      });
     }
-  }
+  };
 
   const handleTestConnection = async (config: AIProviderConfig) => {
-    setTestingProvider(config.id)
+    setTestingProvider(config.id);
     try {
-      const result = await aiProviderService.testProviderConnection(config)
+      const result = await aiProviderService.testProviderConnection(config);
 
       toast({
-        title: result.success ? "连接成功" : "连接失败",
-        description: result.message + (result.latency ? ` (延迟: ${result.latency}ms)` : ""),
-        variant: result.success ? "default" : "destructive",
-      })
+        title: result.success ? '连接成功' : '连接失败',
+        description: result.message + (result.latency ? ` (延迟: ${result.latency}ms)` : ''),
+        variant: result.success ? 'default' : 'destructive',
+      });
     } catch (error) {
       toast({
-        title: "测试失败",
-        description: "无法测试连接",
-        variant: "destructive",
-      })
+        title: '测试失败',
+        description: '无法测试连接',
+        variant: 'destructive',
+      });
     } finally {
-      setTestingProvider(null)
+      setTestingProvider(null);
     }
-  }
+  };
 
   const getProviderStats = (providerId: string) => {
-    return usageStats.find((stat) => stat.providerId === providerId)
-  }
+    return usageStats.find(stat => stat.providerId === providerId);
+  };
 
   const getProviderModels = (providerId: string) => {
-    return models.filter((model) => model.provider === providerId)
-  }
+    return models.filter(model => model.provider === providerId);
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
-    )
+    );
   }
 
   return (
@@ -190,9 +196,9 @@ export function AIProviderManager() {
 
         <TabsContent value="providers" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {providers.map((provider) => {
-              const stats = getProviderStats(provider.id)
-              const providerModels = getProviderModels(provider.id)
+            {providers.map(provider => {
+              const stats = getProviderStats(provider.id);
+              const providerModels = getProviderModels(provider.id);
 
               return (
                 <Card key={provider.id} className="relative">
@@ -201,15 +207,15 @@ export function AIProviderManager() {
                       <div className="flex items-center space-x-2">
                         {provider.logo && (
                           <img
-                            src={provider.logo || "/placeholder.svg"}
+                            src={provider.logo || '/placeholder.svg'}
                             alt={provider.displayName}
                             className="w-6 h-6"
                           />
                         )}
                         <CardTitle className="text-lg">{provider.displayName}</CardTitle>
                       </div>
-                      <Badge variant={provider.isActive ? "default" : "secondary"}>
-                        {provider.isActive ? "可用" : "不可用"}
+                      <Badge variant={provider.isActive ? 'default' : 'secondary'}>
+                        {provider.isActive ? '可用' : '不可用'}
                       </Badge>
                     </div>
                     <CardDescription className="text-sm">{provider.description}</CardDescription>
@@ -254,30 +260,38 @@ export function AIProviderManager() {
                     )}
 
                     <div className="flex space-x-2">
-                      <Button size="sm" className="flex-1" onClick={() => handleConfigProvider(provider)}>
+                      <Button
+                        size="sm"
+                        className="flex-1"
+                        onClick={() => handleConfigProvider(provider)}
+                      >
                         <Settings className="h-4 w-4 mr-1" />
                         配置
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => window.open(provider.website, "_blank")}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => window.open(provider.website, '_blank')}
+                      >
                         <Globe className="h-4 w-4" />
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </TabsContent>
 
         <TabsContent value="models" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {models.map((model) => (
+            {models.map(model => (
               <Card key={model.id}>
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{model.name}</CardTitle>
-                    <Badge variant={model.status === "active" ? "default" : "secondary"}>
-                      {model.status === "active" ? "活跃" : "维护中"}
+                    <Badge variant={model.status === 'active' ? 'default' : 'secondary'}>
+                      {model.status === 'active' ? '活跃' : '维护中'}
                     </Badge>
                   </div>
                   <CardDescription>{model.description}</CardDescription>
@@ -311,8 +325,8 @@ export function AIProviderManager() {
                     <Label className="text-sm font-medium">支持的功能</Label>
                     <div className="flex flex-wrap gap-1">
                       {model.capabilities
-                        .filter((cap) => cap.supported)
-                        .map((capability) => (
+                        .filter(cap => cap.supported)
+                        .map(capability => (
                           <Badge key={capability.type} variant="outline" className="text-xs">
                             {capability.description}
                           </Badge>
@@ -323,7 +337,7 @@ export function AIProviderManager() {
                   <div className="space-y-2">
                     <Label className="text-sm font-medium">支持语言</Label>
                     <div className="flex flex-wrap gap-1">
-                      {model.supportedLanguages.map((lang) => (
+                      {model.supportedLanguages.map(lang => (
                         <Badge key={lang} variant="secondary" className="text-xs">
                           {lang}
                         </Badge>
@@ -338,8 +352,8 @@ export function AIProviderManager() {
 
         <TabsContent value="usage" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {usageStats.map((stat) => {
-              const provider = providers.find((p) => p.id === stat.providerId)
+            {usageStats.map(stat => {
+              const provider = providers.find(p => p.id === stat.providerId);
               return (
                 <Card key={`${stat.providerId}-${stat.modelId}`}>
                   <CardHeader className="pb-2">
@@ -355,7 +369,7 @@ export function AIProviderManager() {
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">成功率</span>
-                        <span className="font-medium text-green-600">
+                        <span className="font-medium text-success">
                           {((stat.successfulRequests / stat.totalRequests) * 100).toFixed(1)}%
                         </span>
                       </div>
@@ -374,23 +388,23 @@ export function AIProviderManager() {
                     </div>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </TabsContent>
 
         <TabsContent value="configs" className="space-y-4">
           <div className="space-y-4">
-            {configs.map((config) => {
-              const provider = providers.find((p) => p.id === config.providerId)
+            {configs.map(config => {
+              const provider = providers.find(p => p.id === config.providerId);
               return (
                 <Card key={config.id}>
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <CardTitle className="text-lg">{config.name}</CardTitle>
-                        <Badge variant={config.isActive ? "default" : "secondary"}>
-                          {config.isActive ? "启用" : "禁用"}
+                        <Badge variant={config.isActive ? 'default' : 'secondary'}>
+                          {config.isActive ? '启用' : '禁用'}
                         </Badge>
                       </div>
                       <div className="flex space-x-2">
@@ -415,7 +429,8 @@ export function AIProviderManager() {
                       </div>
                     </div>
                     <CardDescription>
-                      {provider?.displayName} - 创建于 {new Date(config.createdAt).toLocaleDateString("zh-CN")}
+                      {provider?.displayName} - 创建于{' '}
+                      {new Date(config.createdAt).toLocaleDateString('zh-CN')}
                     </CardDescription>
                   </CardHeader>
 
@@ -426,25 +441,25 @@ export function AIProviderManager() {
                         <span>已配置 {Object.keys(config.credentials).length} 个凭据</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        {config.testStatus === "success" ? (
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        ) : config.testStatus === "failed" ? (
-                          <XCircle className="h-4 w-4 text-red-500" />
+                        {config.testStatus === 'success' ? (
+                          <CheckCircle className="h-4 w-4 text-success" />
+                        ) : config.testStatus === 'failed' ? (
+                          <XCircle className="h-4 w-4 text-destructive" />
                         ) : (
-                          <Clock className="h-4 w-4 text-yellow-500" />
+                          <Clock className="h-4 w-4 text-warning" />
                         )}
                         <span>
-                          {config.testStatus === "success"
-                            ? "连接正常"
-                            : config.testStatus === "failed"
-                              ? "连接失败"
-                              : "未测试"}
+                          {config.testStatus === 'success'
+                            ? '连接正常'
+                            : config.testStatus === 'failed'
+                              ? '连接失败'
+                              : '未测试'}
                         </span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </TabsContent>
@@ -464,21 +479,21 @@ export function AIProviderManager() {
               <Input
                 id="config-name"
                 placeholder="例如：生产环境配置"
-                value={newConfig.name || ""}
-                onChange={(e) => setNewConfig({ ...newConfig, name: e.target.value })}
+                value={newConfig.name || ''}
+                onChange={e => setNewConfig({ ...newConfig, name: e.target.value })}
               />
             </div>
 
-            {selectedProvider?.requiredFields.map((field) => (
+            {selectedProvider?.requiredFields.map(field => (
               <div key={field.key} className="space-y-2">
                 <Label htmlFor={field.key}>
                   {field.label}
-                  {field.required && <span className="text-red-500 ml-1">*</span>}
+                  {field.required && <span className="text-destructive ml-1">*</span>}
                 </Label>
-                {field.type === "select" ? (
+                {field.type === 'select' ? (
                   <Select
-                    value={newConfig.credentials?.[field.key] || ""}
-                    onValueChange={(value) =>
+                    value={newConfig.credentials?.[field.key] || ''}
+                    onValueChange={value =>
                       setNewConfig({
                         ...newConfig,
                         credentials: { ...newConfig.credentials, [field.key]: value },
@@ -489,7 +504,7 @@ export function AIProviderManager() {
                       <SelectValue placeholder={field.placeholder} />
                     </SelectTrigger>
                     <SelectContent>
-                      {field.options?.map((option) => (
+                      {field.options?.map(option => (
                         <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
@@ -501,8 +516,8 @@ export function AIProviderManager() {
                     id={field.key}
                     type={field.type}
                     placeholder={field.placeholder}
-                    value={newConfig.credentials?.[field.key] || ""}
-                    onChange={(e) =>
+                    value={newConfig.credentials?.[field.key] || ''}
+                    onChange={e =>
                       setNewConfig({
                         ...newConfig,
                         credentials: { ...newConfig.credentials, [field.key]: e.target.value },
@@ -517,7 +532,7 @@ export function AIProviderManager() {
               <Switch
                 id="config-active"
                 checked={newConfig.isActive}
-                onCheckedChange={(checked) => setNewConfig({ ...newConfig, isActive: checked })}
+                onCheckedChange={checked => setNewConfig({ ...newConfig, isActive: checked })}
               />
               <Label htmlFor="config-active">启用此配置</Label>
             </div>
@@ -532,5 +547,5 @@ export function AIProviderManager() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

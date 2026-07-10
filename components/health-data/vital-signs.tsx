@@ -1,10 +1,16 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Activity,
   Heart,
@@ -15,17 +21,19 @@ import {
   Calendar,
   Download,
   Filter,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function VitalSigns() {
-  const [timeRange, setTimeRange] = useState("week")
+  const [timeRange, setTimeRange] = useState('week');
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">生命体征数据</h2>
-          <p className="text-sm text-muted-foreground">查看和分析患者的生命体征数据，包括血压、心率、体温等</p>
+          <p className="text-sm text-muted-foreground">
+            查看和分析患者的生命体征数据，包括血压、心率、体温等
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
@@ -88,7 +96,7 @@ export function VitalSigns() {
               <CardContent>
                 <div className="flex items-baseline justify-between">
                   <div className="text-2xl font-bold">120/80</div>
-                  <div className="text-xs text-green-600">正常</div>
+                  <div className="text-xs text-success">正常</div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">最近测量: 今天 08:30</p>
               </CardContent>
@@ -103,7 +111,7 @@ export function VitalSigns() {
                   <div className="text-2xl font-bold">
                     72 <span className="text-sm font-normal">bpm</span>
                   </div>
-                  <div className="text-xs text-green-600">正常</div>
+                  <div className="text-xs text-success">正常</div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">最近测量: 今天 08:30</p>
               </CardContent>
@@ -118,7 +126,7 @@ export function VitalSigns() {
                   <div className="text-2xl font-bold">
                     36.5 <span className="text-sm font-normal">°C</span>
                   </div>
-                  <div className="text-xs text-green-600">正常</div>
+                  <div className="text-xs text-success">正常</div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">最近测量: 今天 08:30</p>
               </CardContent>
@@ -126,14 +134,16 @@ export function VitalSigns() {
 
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">呼吸频率</CardTitle>
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  呼吸频率
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-baseline justify-between">
                   <div className="text-2xl font-bold">
                     16 <span className="text-sm font-normal">次/分</span>
                   </div>
-                  <div className="text-xs text-green-600">正常</div>
+                  <div className="text-xs text-success">正常</div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">最近测量: 今天 08:30</p>
               </CardContent>
@@ -146,7 +156,7 @@ export function VitalSigns() {
               <CardDescription>过去7天的生命体征变化趋势</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[300px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <LineChart className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">生命体征趋势图</h3>
@@ -166,25 +176,31 @@ export function VitalSigns() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-4 p-3 bg-red-50 rounded-md">
+                  <div className="flex items-start gap-4 p-3 bg-destructive rounded-md">
                     <div className="mt-0.5">
-                      <Heart className="h-5 w-5 text-red-500" />
+                      <Heart className="h-5 w-5 text-destructive" />
                     </div>
                     <div>
                       <h4 className="font-medium">心率异常</h4>
-                      <p className="text-sm text-muted-foreground">2023-10-12 23:15 - 心率达到112 bpm</p>
-                      <p className="text-sm text-red-600 mt-1">高于正常范围 (60-100 bpm)</p>
+                      <p className="text-sm text-muted-foreground">
+                        2023-10-12 23:15 - 心率达到112 bpm
+                      </p>
+                      <p className="text-sm text-destructive mt-1">高于正常范围 (60-100 bpm)</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-3 bg-amber-50 rounded-md">
+                  <div className="flex items-start gap-4 p-3 bg-warning rounded-md">
                     <div className="mt-0.5">
-                      <Droplets className="h-5 w-5 text-amber-500" />
+                      <Droplets className="h-5 w-5 text-warning" />
                     </div>
                     <div>
                       <h4 className="font-medium">血压偏高</h4>
-                      <p className="text-sm text-muted-foreground">2023-10-10 08:45 - 血压为135/88 mmHg</p>
-                      <p className="text-sm text-amber-600 mt-1">轻度高于正常范围 (90-120/60-80 mmHg)</p>
+                      <p className="text-sm text-muted-foreground">
+                        2023-10-10 08:45 - 血压为135/88 mmHg
+                      </p>
+                      <p className="text-sm text-warning mt-1">
+                        轻度高于正常范围 (90-120/60-80 mmHg)
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -252,7 +268,7 @@ export function VitalSigns() {
                       <div className="text-sm">
                         <span className="text-muted-foreground">血压:</span> 130/85
                       </div>
-                      <div className="text-sm text-red-600">
+                      <div className="text-sm text-destructive">
                         <span className="text-muted-foreground">心率:</span> 112
                       </div>
                     </div>
@@ -270,7 +286,7 @@ export function VitalSigns() {
               <CardDescription>详细的血压测量数据和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Droplets className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">血压数据详情</h3>
@@ -290,7 +306,7 @@ export function VitalSigns() {
               <CardDescription>详细的心率测量数据和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Heart className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">心率数据详情</h3>
@@ -310,7 +326,7 @@ export function VitalSigns() {
               <CardDescription>详细的体温测量数据和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Thermometer className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">体温数据详情</h3>
@@ -330,7 +346,7 @@ export function VitalSigns() {
               <CardDescription>详细的呼吸频率测量数据和分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Lungs className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">呼吸数据详情</h3>
@@ -350,7 +366,7 @@ export function VitalSigns() {
               <CardDescription>综合分析生命体征的长期变化趋势</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <LineChart className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">趋势分析</h3>
@@ -364,5 +380,5 @@ export function VitalSigns() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

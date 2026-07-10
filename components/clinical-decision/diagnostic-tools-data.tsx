@@ -1,0 +1,115 @@
+// 诊断工具 mock 数据
+import { Heart, Brain, Droplet, Thermometer } from 'lucide-react';
+// 从 diagnostic-tools-client.tsx 抽取。
+
+export const commonSymptoms = [
+  '头痛',
+  '发热',
+  '咳嗽',
+  '胸痛',
+  '腹痛',
+  '恶心',
+  '呕吐',
+  '腹泻',
+  '便秘',
+  '呼吸困难',
+  '疲劳',
+  '体重减轻',
+  '食欲不振',
+  '关节痛',
+  '肌肉痛',
+  '皮疹',
+  '头晕',
+  '视力模糊',
+  '听力下降',
+  '心悸',
+];
+
+// 模拟常见诊断
+export const commonDiagnoses = [
+  '上呼吸道感染',
+  '肺炎',
+  '支气管炎',
+  '胃炎',
+  '胃溃疡',
+  '肠炎',
+  '尿路感染',
+  '高血压',
+  '糖尿病',
+  '冠心病',
+  '心力衰竭',
+  '脑梗塞',
+  '偏头痛',
+  '抑郁症',
+  '焦虑症',
+  '甲状腺功能亢进',
+  '甲状腺功能减退',
+  '类风湿关节炎',
+  '骨关节炎',
+  '肝炎',
+];
+
+// 模拟风险评估工具
+export const riskAssessmentTools = [
+  {
+    id: 'cvd-risk',
+    name: '心血管疾病风险评估',
+    description: '评估10年内发生心血管疾病的风险',
+    icon: <Heart className="h-5 w-5 text-destructive" />,
+    factors: [
+      { id: 'age', name: '年龄', type: 'number', unit: '岁' },
+      { id: 'gender', name: '性别', type: 'select', options: ['男', '女'] },
+      { id: 'sbp', name: '收缩压', type: 'number', unit: 'mmHg' },
+      { id: 'tc', name: '总胆固醇', type: 'number', unit: 'mmol/L' },
+      { id: 'hdl', name: '高密度脂蛋白', type: 'number', unit: 'mmol/L' },
+      { id: 'diabetes', name: '糖尿病', type: 'boolean' },
+      { id: 'smoker', name: '吸烟', type: 'boolean' },
+    ],
+  },
+  {
+    id: 'stroke-risk',
+    name: '卒中风险评估 (CHA₂DS₂-VASc)',
+    description: '评估心房颤动患者发生卒中的风险',
+    icon: <Brain className="h-5 w-5 text-primary" />,
+    factors: [
+      { id: 'chf', name: '心力衰竭', type: 'boolean' },
+      { id: 'hypertension', name: '高血压', type: 'boolean' },
+      { id: 'age75', name: '年龄≥75岁', type: 'boolean' },
+      { id: 'diabetes', name: '糖尿病', type: 'boolean' },
+      { id: 'stroke', name: '既往卒中/TIA', type: 'boolean' },
+      { id: 'vascular', name: '血管疾病', type: 'boolean' },
+      { id: 'age65', name: '年龄65-74岁', type: 'boolean' },
+      { id: 'gender', name: '性别', type: 'select', options: ['男', '女'] },
+    ],
+  },
+  {
+    id: 'bleeding-risk',
+    name: '出血风险评估 (HAS-BLED)',
+    description: '评估抗凝治疗患者的出血风险',
+    icon: <Droplet className="h-5 w-5 text-destructive" />,
+    factors: [
+      { id: 'hypertension', name: '高血压', type: 'boolean' },
+      { id: 'renal', name: '肾功能异常', type: 'boolean' },
+      { id: 'liver', name: '肝功能异常', type: 'boolean' },
+      { id: 'stroke', name: '既往卒中', type: 'boolean' },
+      { id: 'bleeding', name: '出血史或倾向', type: 'boolean' },
+      { id: 'inr', name: 'INR不稳定', type: 'boolean' },
+      { id: 'age65', name: '年龄>65岁', type: 'boolean' },
+      { id: 'drugs', name: '药物使用', type: 'boolean' },
+      { id: 'alcohol', name: '酒精使用', type: 'boolean' },
+    ],
+  },
+  {
+    id: 'pneumonia-risk',
+    name: '肺炎严重程度评估 (CURB-65)',
+    description: '评估肺炎患者的严重程度和死亡风险',
+    icon: <Thermometer className="h-5 w-5 text-warning" />,
+    factors: [
+      { id: 'confusion', name: '意识模糊', type: 'boolean' },
+      { id: 'urea', name: '尿素>7mmol/L', type: 'boolean' },
+      { id: 'respiratory', name: '呼吸频率≥30次/分', type: 'boolean' },
+      { id: 'bp', name: '血压(收缩压<90mmHg或舒张压≤60mmHg)', type: 'boolean' },
+      { id: 'age65', name: '年龄≥65岁', type: 'boolean' },
+    ],
+  },
+];

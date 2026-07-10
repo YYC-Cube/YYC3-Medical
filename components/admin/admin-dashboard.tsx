@@ -1,14 +1,21 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, Database, Server, ShieldAlert, Activity, Clock, ArrowUpRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { AdminSystemStatus } from "./admin-system-status"
-import { AdminUserStats } from "./admin-user-stats"
-import { AdminRecentActivities } from "./admin-recent-activities"
-import { AdminResourceUsage } from "./admin-resource-usage"
+import { useState, useEffect } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Users, Database, Server, ShieldAlert, Activity, Clock, ArrowUpRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { AdminSystemStatus } from './admin-system-status';
+import { AdminUserStats } from './admin-user-stats';
+import { AdminRecentActivities } from './admin-recent-activities';
+import { AdminResourceUsage } from './admin-resource-usage';
 
 // 模拟数据
 const mockStats = {
@@ -19,13 +26,13 @@ const mockStats = {
     growth: 5.2,
   },
   data: {
-    storage: "1.2TB",
+    storage: '1.2TB',
     databases: 5,
     backups: 12,
     growth: 8.7,
   },
   system: {
-    uptime: "99.98%",
+    uptime: '99.98%',
     services: 24,
     alerts: 2,
     performance: 92.5,
@@ -33,23 +40,23 @@ const mockStats = {
   security: {
     threats: 0,
     vulnerabilities: 3,
-    lastScan: "2025-05-14 08:30",
+    lastScan: '2025-05-14 08:30',
     score: 94,
   },
-}
+};
 
 export function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState('overview');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // 模拟加载数据
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+      setIsLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Tabs defaultValue="overview" className="space-y-4" onValueChange={setActiveTab}>
@@ -79,7 +86,7 @@ export function AdminDashboard() {
             <CardContent>
               <div className="text-2xl font-bold">{mockStats.users.total}</div>
               <p className="text-xs text-muted-foreground">活跃用户: {mockStats.users.active}</p>
-              <div className="mt-2 flex items-center text-xs text-green-500">
+              <div className="mt-2 flex items-center text-xs text-success">
                 <ArrowUpRight className="mr-1 h-3 w-3" />
                 <span>增长 {mockStats.users.growth}%</span>
               </div>
@@ -96,7 +103,7 @@ export function AdminDashboard() {
               <p className="text-xs text-muted-foreground">
                 数据库: {mockStats.data.databases} | 备份: {mockStats.data.backups}
               </p>
-              <div className="mt-2 flex items-center text-xs text-green-500">
+              <div className="mt-2 flex items-center text-xs text-success">
                 <ArrowUpRight className="mr-1 h-3 w-3" />
                 <span>增长 {mockStats.data.growth}%</span>
               </div>
@@ -113,7 +120,7 @@ export function AdminDashboard() {
               <p className="text-xs text-muted-foreground">
                 服务: {mockStats.system.services} | 告警: {mockStats.system.alerts}
               </p>
-              <div className="mt-2 flex items-center text-xs text-blue-500">
+              <div className="mt-2 flex items-center text-xs text-primary">
                 <Activity className="mr-1 h-3 w-3" />
                 <span>性能指数: {mockStats.system.performance}</span>
               </div>
@@ -130,7 +137,7 @@ export function AdminDashboard() {
               <p className="text-xs text-muted-foreground">
                 威胁: {mockStats.security.threats} | 漏洞: {mockStats.security.vulnerabilities}
               </p>
-              <div className="mt-2 flex items-center text-xs text-gray-500">
+              <div className="mt-2 flex items-center text-xs text-muted-foreground">
                 <Clock className="mr-1 h-3 w-3" />
                 <span>最近扫描: {mockStats.security.lastScan}</span>
               </div>
@@ -158,7 +165,7 @@ export function AdminDashboard() {
               <AdminRecentActivities limit={5} />
             </CardContent>
             <CardFooter>
-              <Button variant="ghost" className="w-full" onClick={() => setActiveTab("activities")}>
+              <Button variant="ghost" className="w-full" onClick={() => setActiveTab('activities')}>
                 查看全部活动
               </Button>
             </CardFooter>
@@ -202,5 +209,5 @@ export function AdminDashboard() {
         </Card>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

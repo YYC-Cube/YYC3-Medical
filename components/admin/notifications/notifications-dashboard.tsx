@@ -1,14 +1,14 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { NotificationTemplates } from "./notification-templates"
-import { NotificationRules } from "./notification-rules"
-import { NotificationHistory } from "./notification-history"
-import { NotificationChannels } from "./notification-channels"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { NotificationTemplates } from './notification-templates';
+import { NotificationRules } from './notification-rules';
+import { NotificationHistory } from './notification-history';
+import { NotificationChannels } from './notification-channels';
 
 export function NotificationsDashboard() {
-  const [activeTab, setActiveTab] = useState("templates")
+  const [activeTab, setActiveTab] = useState('templates');
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -35,5 +35,5 @@ export function NotificationsDashboard() {
         <NotificationHistory />
       </TabsContent>
     </Tabs>
-  )
+  );
 }

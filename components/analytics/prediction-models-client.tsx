@@ -1,36 +1,42 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { PredictionModels } from "@/components/analytics/prediction-models"
-import { PredictionTool } from "@/components/analytics/prediction-tool"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Download, Filter, Play, Save, Share } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { PredictionModels } from '@/components/analytics/prediction-models';
+import { PredictionTool } from '@/components/analytics/prediction-tool';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Download, Filter, Play, Save, Share } from 'lucide-react';
 
 export default function PredictionModelsClient() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("disease")
-  const [modelType, setModelType] = useState("regression")
-  const [showPredictionTool, setShowPredictionTool] = useState(false)
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('disease');
+  const [modelType, setModelType] = useState('regression');
+  const [showPredictionTool, setShowPredictionTool] = useState(false);
 
   useEffect(() => {
     // 模拟数据加载
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+      setIsLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   if (isLoading) {
     return (
       <div className="flex h-[400px] w-full items-center justify-center">
         <LoadingSpinner />
       </div>
-    )
+    );
   }
 
   if (showPredictionTool) {
@@ -44,7 +50,7 @@ export default function PredictionModelsClient() {
         </div>
         <PredictionTool category={activeTab} modelType={modelType} />
       </div>
-    )
+    );
   }
 
   return (
@@ -84,10 +90,10 @@ export default function PredictionModelsClient() {
           <div>
             <CardTitle>预测模型</CardTitle>
             <CardDescription>
-              {activeTab === "disease" && "疾病风险和发展趋势预测"}
-              {activeTab === "readmission" && "患者再入院风险预测"}
-              {activeTab === "outcome" && "治疗结果和效果预测"}
-              {activeTab === "resource" && "医疗资源需求预测"}
+              {activeTab === 'disease' && '疾病风险和发展趋势预测'}
+              {activeTab === 'readmission' && '患者再入院风险预测'}
+              {activeTab === 'outcome' && '治疗结果和效果预测'}
+              {activeTab === 'resource' && '医疗资源需求预测'}
             </CardDescription>
           </div>
           <div className="flex gap-2">
@@ -110,5 +116,5 @@ export default function PredictionModelsClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

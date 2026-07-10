@@ -1,41 +1,45 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { EthicsApplicationForm } from "@/components/ethics-application-form"
-import { EthicsTemplateManager } from "@/components/ethics-template-manager"
-import { FileText, Plus } from "lucide-react"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { EthicsApplicationForm } from '@/components/ethics-application-form';
+import { EthicsTemplateManager } from '@/components/ethics-template-manager';
+import { FileText, Plus } from 'lucide-react';
 
 interface EthicsApplicationIntegrationProps {
-  experimentId: string
-  experimentData?: any
+  experimentId: string;
+  experimentData?: any;
 }
 
-export function EthicsApplicationIntegration({ experimentId, experimentData }: EthicsApplicationIntegrationProps) {
-  const [showForm, setShowForm] = useState(false)
-  const [showTemplateManager, setShowTemplateManager] = useState(false)
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
+export function EthicsApplicationIntegration({
+  experimentId,
+  experimentData,
+}: EthicsApplicationIntegrationProps) {
+  const [showForm, setShowForm] = useState(false);
+  const [showTemplateManager, setShowTemplateManager] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
 
   // 处理表单提交
   const handleSubmit = (data: any) => {
-    console.log("提交伦理申请:", data)
+    debug('提交伦理申请:', data);
     // 这里可以添加提交到后端的逻辑
-    setShowForm(false)
-  }
+    setShowForm(false);
+  };
 
   // 处理保存草稿
   const handleSaveDraft = (data: any) => {
-    console.log("保存草稿:", data)
+    debug('保存草稿:', data);
     // 这里可以添加保存草稿到后端的逻辑
-  }
+  };
 
   // 处理模板选择
   const handleSelectTemplate = (templateId: string) => {
-    setSelectedTemplateId(templateId)
-    setShowTemplateManager(false)
-    setShowForm(true)
-  }
+    setSelectedTemplateId(templateId);
+    setShowTemplateManager(false);
+    setShowForm(true);
+  };
 
   return (
     <div>
@@ -72,5 +76,5 @@ export function EthicsApplicationIntegration({ experimentId, experimentData }: E
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

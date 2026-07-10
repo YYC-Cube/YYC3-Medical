@@ -1,13 +1,19 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function ProviderComparisonChart() {
-  const [timeRange, setTimeRange] = useState("month")
-  const [metricType, setMetricType] = useState("success-rate")
+  const [timeRange, setTimeRange] = useState('month');
+  const [metricType, setMetricType] = useState('success-rate');
 
   // 这里应该使用实际的图表库，如 recharts 或 Chart.js
   // 为了简化，我们使用模拟的图表展示
@@ -44,10 +50,10 @@ export function ProviderComparisonChart() {
               <div className="text-center">
                 <p className="text-muted-foreground">提供商比较图表 - 周数据</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {metricType === "success-rate" && "显示各提供商的认证成功率"}
-                  {metricType === "processing-time" && "显示各提供商的平均处理时间"}
-                  {metricType === "cost-efficiency" && "显示各提供商的成本效率比较"}
-                  {metricType === "reliability" && "显示各提供商的系统可靠性"}
+                  {metricType === 'success-rate' && '显示各提供商的认证成功率'}
+                  {metricType === 'processing-time' && '显示各提供商的平均处理时间'}
+                  {metricType === 'cost-efficiency' && '显示各提供商的成本效率比较'}
+                  {metricType === 'reliability' && '显示各提供商的系统可靠性'}
                 </p>
               </div>
             </div>
@@ -58,10 +64,10 @@ export function ProviderComparisonChart() {
               <div className="text-center">
                 <p className="text-muted-foreground">提供商比较图表 - 月数据</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {metricType === "success-rate" && "显示各提供商的认证成功率"}
-                  {metricType === "processing-time" && "显示各提供商的平均处理时间"}
-                  {metricType === "cost-efficiency" && "显示各提供商的成本效率比较"}
-                  {metricType === "reliability" && "显示各提供商的系统可靠性"}
+                  {metricType === 'success-rate' && '显示各提供商的认证成功率'}
+                  {metricType === 'processing-time' && '显示各提供商的平均处理时间'}
+                  {metricType === 'cost-efficiency' && '显示各提供商的成本效率比较'}
+                  {metricType === 'reliability' && '显示各提供商的系统可靠性'}
                 </p>
               </div>
             </div>
@@ -72,10 +78,10 @@ export function ProviderComparisonChart() {
               <div className="text-center">
                 <p className="text-muted-foreground">提供商比较图表 - 季度数据</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {metricType === "success-rate" && "显示各提供商的认证成功率"}
-                  {metricType === "processing-time" && "显示各提供商的平均处理时间"}
-                  {metricType === "cost-efficiency" && "显示各提供商的成本效率比较"}
-                  {metricType === "reliability" && "显示各提供商的系统可靠性"}
+                  {metricType === 'success-rate' && '显示各提供商的认证成功率'}
+                  {metricType === 'processing-time' && '显示各提供商的平均处理时间'}
+                  {metricType === 'cost-efficiency' && '显示各提供商的成本效率比较'}
+                  {metricType === 'reliability' && '显示各提供商的系统可靠性'}
                 </p>
               </div>
             </div>
@@ -86,10 +92,10 @@ export function ProviderComparisonChart() {
               <div className="text-center">
                 <p className="text-muted-foreground">提供商比较图表 - 年度数据</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {metricType === "success-rate" && "显示各提供商的认证成功率"}
-                  {metricType === "processing-time" && "显示各提供商的平均处理时间"}
-                  {metricType === "cost-efficiency" && "显示各提供商的成本效率比较"}
-                  {metricType === "reliability" && "显示各提供商的系统可靠性"}
+                  {metricType === 'success-rate' && '显示各提供商的认证成功率'}
+                  {metricType === 'processing-time' && '显示各提供商的平均处理时间'}
+                  {metricType === 'cost-efficiency' && '显示各提供商的成本效率比较'}
+                  {metricType === 'reliability' && '显示各提供商的系统可靠性'}
                 </p>
               </div>
             </div>
@@ -101,5 +107,5 @@ export function ProviderComparisonChart() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

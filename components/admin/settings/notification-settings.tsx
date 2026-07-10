@@ -1,69 +1,76 @@
-"use client"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Save } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Save } from 'lucide-react';
 
 export function NotificationSettings() {
   const [emailSettings, setEmailSettings] = useState({
     enableEmail: true,
-    defaultSender: "YanYu MediNexus <notifications@example.com>",
-    replyTo: "support@example.com",
+    defaultSender: 'YanYu MediNexus <notifications@example.com>',
+    replyTo: 'support@example.com',
     batchSize: 50,
     retryAttempts: 3,
     retryDelay: 5,
     includeFooter: true,
-    footerText: "此邮件由言语医枢³系统自动发送，请勿直接回复。如有问题，请联系系统管理员。",
-  })
+    footerText: '此邮件由言语医枢³系统自动发送，请勿直接回复。如有问题，请联系系统管理员。',
+  });
 
   const [smsSettings, setSmsSettings] = useState({
     enableSms: true,
-    defaultSignature: "【言语医枢】",
+    defaultSignature: '【言语医枢】',
     maxLength: 70,
     retryAttempts: 2,
     retryDelay: 3,
     includeOptOut: true,
-    optOutText: "回复TD退订",
-  })
+    optOutText: '回复TD退订',
+  });
 
   const [pushSettings, setPushSettings] = useState({
     enablePush: true,
-    defaultIcon: "/logo.png",
-    defaultSound: "default",
+    defaultIcon: '/logo.png',
+    defaultSound: 'default',
     ttl: 86400,
     retryAttempts: 2,
     retryDelay: 3,
     badgeCount: true,
-  })
+  });
 
   const [generalSettings, setGeneralSettings] = useState({
     enableNotifications: true,
-    defaultPriority: "normal",
+    defaultPriority: 'normal',
     throttleRate: 100,
-    throttlePeriod: "minute",
+    throttlePeriod: 'minute',
     logNotifications: true,
     logRetention: 30,
     notifyAdminOnFailure: true,
-    adminEmail: "admin@example.com",
-  })
+    adminEmail: 'admin@example.com',
+  });
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    console.log("保存设置", {
+    debug('保存设置', {
       email: emailSettings,
       sms: smsSettings,
       push: pushSettings,
       general: generalSettings,
-    })
-  }
+    });
+  };
 
   return (
     <Card>
@@ -95,7 +102,7 @@ export function NotificationSettings() {
                 </div>
                 <Switch
                   checked={generalSettings.enableNotifications}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setGeneralSettings({
                       ...generalSettings,
                       enableNotifications: checked,
@@ -111,7 +118,7 @@ export function NotificationSettings() {
                   <Label htmlFor="defaultPriority">默认优先级</Label>
                   <Select
                     value={generalSettings.defaultPriority}
-                    onValueChange={(value) =>
+                    onValueChange={value =>
                       setGeneralSettings({
                         ...generalSettings,
                         defaultPriority: value,
@@ -136,7 +143,7 @@ export function NotificationSettings() {
                       id="throttleRate"
                       type="number"
                       value={generalSettings.throttleRate}
-                      onChange={(e) =>
+                      onChange={e =>
                         setGeneralSettings({
                           ...generalSettings,
                           throttleRate: Number.parseInt(e.target.value),
@@ -147,7 +154,7 @@ export function NotificationSettings() {
                     <span>每</span>
                     <Select
                       value={generalSettings.throttlePeriod}
-                      onValueChange={(value) =>
+                      onValueChange={value =>
                         setGeneralSettings({
                           ...generalSettings,
                           throttlePeriod: value,
@@ -172,7 +179,7 @@ export function NotificationSettings() {
                     id="logRetention"
                     type="number"
                     value={generalSettings.logRetention}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         logRetention: Number.parseInt(e.target.value),
@@ -190,7 +197,7 @@ export function NotificationSettings() {
                   <Switch
                     id="logNotifications"
                     checked={generalSettings.logNotifications}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         logNotifications: checked,
@@ -202,12 +209,14 @@ export function NotificationSettings() {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="notifyAdminOnFailure">通知失败时通知管理员</Label>
-                    <p className="text-sm text-muted-foreground">当通知发送失败时，是否通知系统管理员</p>
+                    <p className="text-sm text-muted-foreground">
+                      当通知发送失败时，是否通知系统管理员
+                    </p>
                   </div>
                   <Switch
                     id="notifyAdminOnFailure"
                     checked={generalSettings.notifyAdminOnFailure}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setGeneralSettings({
                         ...generalSettings,
                         notifyAdminOnFailure: checked,
@@ -222,7 +231,7 @@ export function NotificationSettings() {
                     id="adminEmail"
                     type="email"
                     value={generalSettings.adminEmail}
-                    onChange={(e) =>
+                    onChange={e =>
                       setGeneralSettings({
                         ...generalSettings,
                         adminEmail: e.target.value,
@@ -244,7 +253,7 @@ export function NotificationSettings() {
                 </div>
                 <Switch
                   checked={emailSettings.enableEmail}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setEmailSettings({
                       ...emailSettings,
                       enableEmail: checked,
@@ -261,7 +270,7 @@ export function NotificationSettings() {
                   <Input
                     id="defaultSender"
                     value={emailSettings.defaultSender}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         defaultSender: e.target.value,
@@ -276,7 +285,7 @@ export function NotificationSettings() {
                   <Input
                     id="replyTo"
                     value={emailSettings.replyTo}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         replyTo: e.target.value,
@@ -292,7 +301,7 @@ export function NotificationSettings() {
                     id="batchSize"
                     type="number"
                     value={emailSettings.batchSize}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         batchSize: Number.parseInt(e.target.value),
@@ -308,7 +317,7 @@ export function NotificationSettings() {
                     id="retryAttempts"
                     type="number"
                     value={emailSettings.retryAttempts}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         retryAttempts: Number.parseInt(e.target.value),
@@ -324,7 +333,7 @@ export function NotificationSettings() {
                     id="retryDelay"
                     type="number"
                     value={emailSettings.retryDelay}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         retryDelay: Number.parseInt(e.target.value),
@@ -342,7 +351,7 @@ export function NotificationSettings() {
                   <Switch
                     id="includeFooter"
                     checked={emailSettings.includeFooter}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setEmailSettings({
                         ...emailSettings,
                         includeFooter: checked,
@@ -358,7 +367,7 @@ export function NotificationSettings() {
                   <Textarea
                     id="footerText"
                     value={emailSettings.footerText}
-                    onChange={(e) =>
+                    onChange={e =>
                       setEmailSettings({
                         ...emailSettings,
                         footerText: e.target.value,
@@ -381,7 +390,7 @@ export function NotificationSettings() {
                 </div>
                 <Switch
                   checked={smsSettings.enableSms}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setSmsSettings({
                       ...smsSettings,
                       enableSms: checked,
@@ -398,7 +407,7 @@ export function NotificationSettings() {
                   <Input
                     id="defaultSignature"
                     value={smsSettings.defaultSignature}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSmsSettings({
                         ...smsSettings,
                         defaultSignature: e.target.value,
@@ -414,7 +423,7 @@ export function NotificationSettings() {
                     id="maxLength"
                     type="number"
                     value={smsSettings.maxLength}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSmsSettings({
                         ...smsSettings,
                         maxLength: Number.parseInt(e.target.value),
@@ -430,7 +439,7 @@ export function NotificationSettings() {
                     id="smsRetryAttempts"
                     type="number"
                     value={smsSettings.retryAttempts}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSmsSettings({
                         ...smsSettings,
                         retryAttempts: Number.parseInt(e.target.value),
@@ -446,7 +455,7 @@ export function NotificationSettings() {
                     id="smsRetryDelay"
                     type="number"
                     value={smsSettings.retryDelay}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSmsSettings({
                         ...smsSettings,
                         retryDelay: Number.parseInt(e.target.value),
@@ -464,7 +473,7 @@ export function NotificationSettings() {
                   <Switch
                     id="includeOptOut"
                     checked={smsSettings.includeOptOut}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSmsSettings({
                         ...smsSettings,
                         includeOptOut: checked,
@@ -478,7 +487,7 @@ export function NotificationSettings() {
                   <Input
                     id="optOutText"
                     value={smsSettings.optOutText}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSmsSettings({
                         ...smsSettings,
                         optOutText: e.target.value,
@@ -500,7 +509,7 @@ export function NotificationSettings() {
                 </div>
                 <Switch
                   checked={pushSettings.enablePush}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setPushSettings({
                       ...pushSettings,
                       enablePush: checked,
@@ -517,7 +526,7 @@ export function NotificationSettings() {
                   <Input
                     id="defaultIcon"
                     value={pushSettings.defaultIcon}
-                    onChange={(e) =>
+                    onChange={e =>
                       setPushSettings({
                         ...pushSettings,
                         defaultIcon: e.target.value,
@@ -532,7 +541,7 @@ export function NotificationSettings() {
                   <Input
                     id="defaultSound"
                     value={pushSettings.defaultSound}
-                    onChange={(e) =>
+                    onChange={e =>
                       setPushSettings({
                         ...pushSettings,
                         defaultSound: e.target.value,
@@ -548,7 +557,7 @@ export function NotificationSettings() {
                     id="ttl"
                     type="number"
                     value={pushSettings.ttl}
-                    onChange={(e) =>
+                    onChange={e =>
                       setPushSettings({
                         ...pushSettings,
                         ttl: Number.parseInt(e.target.value),
@@ -564,7 +573,7 @@ export function NotificationSettings() {
                     id="pushRetryAttempts"
                     type="number"
                     value={pushSettings.retryAttempts}
-                    onChange={(e) =>
+                    onChange={e =>
                       setPushSettings({
                         ...pushSettings,
                         retryAttempts: Number.parseInt(e.target.value),
@@ -580,7 +589,7 @@ export function NotificationSettings() {
                     id="pushRetryDelay"
                     type="number"
                     value={pushSettings.retryDelay}
-                    onChange={(e) =>
+                    onChange={e =>
                       setPushSettings({
                         ...pushSettings,
                         retryDelay: Number.parseInt(e.target.value),
@@ -598,7 +607,7 @@ export function NotificationSettings() {
                   <Switch
                     id="badgeCount"
                     checked={pushSettings.badgeCount}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setPushSettings({
                         ...pushSettings,
                         badgeCount: checked,
@@ -612,5 +621,5 @@ export function NotificationSettings() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

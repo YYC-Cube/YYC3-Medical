@@ -1,22 +1,22 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LogsList } from "./logs-list"
-import { LogsFilter } from "./logs-filter"
-import { LogsChart } from "./logs-chart"
-import { LogsExport } from "./logs-export"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LogsList } from './logs-list';
+import { LogsFilter } from './logs-filter';
+import { LogsChart } from './logs-chart';
+import { LogsExport } from './logs-export';
 
 export function LogsClient() {
-  const [activeTab, setActiveTab] = useState("all")
-  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState<{ from: Date | undefined; to: Date | undefined }>({
     from: undefined,
     to: undefined,
-  })
-  const [logLevel, setLogLevel] = useState<string[]>([])
-  const [userFilter, setUserFilter] = useState<string[]>([])
-  const [moduleFilter, setModuleFilter] = useState<string[]>([])
+  });
+  const [logLevel, setLogLevel] = useState<string[]>([]);
+  const [userFilter, setUserFilter] = useState<string[]>([]);
+  const [moduleFilter, setModuleFilter] = useState<string[]>([]);
 
   return (
     <div className="space-y-4">
@@ -119,5 +119,5 @@ export function LogsClient() {
         />
       </div>
     </div>
-  )
+  );
 }

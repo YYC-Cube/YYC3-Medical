@@ -1,34 +1,44 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { ArrowRight, BarChart2, LineChartIcon, PieChartIcon, GitCompare } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ArrowRight, BarChart2, LineChartIcon, PieChartIcon, GitCompare } from 'lucide-react';
 
 // 模拟数据
 const performanceData = [
-  { month: "1月", 患者满意度: 85, 医疗质量: 88 },
-  { month: "2月", 患者满意度: 83, 医疗质量: 87 },
-  { month: "3月", 患者满意度: 86, 医疗质量: 89 },
-  { month: "4月", 患者满意度: 88, 医疗质量: 90 },
-  { month: "5月", 患者满意度: 87, 医疗质量: 91 },
-  { month: "6月", 患者满意度: 90, 医疗质量: 92 },
-]
+  { month: '1月', 患者满意度: 85, 医疗质量: 88 },
+  { month: '2月', 患者满意度: 83, 医疗质量: 87 },
+  { month: '3月', 患者满意度: 86, 医疗质量: 89 },
+  { month: '4月', 患者满意度: 88, 医疗质量: 90 },
+  { month: '5月', 患者满意度: 87, 医疗质量: 91 },
+  { month: '6月', 患者满意度: 90, 医疗质量: 92 },
+];
 
 const departmentData = [
-  { name: "内科", 患者数: 1200 },
-  { name: "外科", 患者数: 900 },
-  { name: "儿科", 患者数: 600 },
-  { name: "妇产科", 患者数: 800 },
-  { name: "神经科", 患者数: 500 },
-  { name: "心脏科", 患者数: 700 },
-]
+  { name: '内科', 患者数: 1200 },
+  { name: '外科', 患者数: 900 },
+  { name: '儿科', 患者数: 600 },
+  { name: '妇产科', 患者数: 800 },
+  { name: '神经科', 患者数: 500 },
+  { name: '心脏科', 患者数: 700 },
+];
 
 interface DashboardProps {
-  onViewDetailedCharts: () => void
-  onViewAdvancedCharts: () => void
-  onViewDataComparison?: () => void
+  onViewDetailedCharts: () => void;
+  onViewAdvancedCharts: () => void;
+  onViewDataComparison?: () => void;
 }
 
 export default function Dashboard({
@@ -48,12 +58,12 @@ export default function Dashboard({
             <ChartContainer
               config={{
                 患者满意度: {
-                  label: "患者满意度",
-                  color: "hsl(var(--chart-1))",
+                  label: '患者满意度',
+                  color: 'hsl(var(--chart-1))',
                 },
                 医疗质量: {
-                  label: "医疗质量",
-                  color: "hsl(var(--chart-2))",
+                  label: '医疗质量',
+                  color: 'hsl(var(--chart-2))',
                 },
               }}
               className="h-[200px]"
@@ -65,7 +75,12 @@ export default function Dashboard({
                   <YAxis domain={[80, 100]} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Legend />
-                  <Line type="monotone" dataKey="患者满意度" stroke="var(--color-患者满意度)" activeDot={{ r: 8 }} />
+                  <Line
+                    type="monotone"
+                    dataKey="患者满意度"
+                    stroke="var(--color-患者满意度)"
+                    activeDot={{ r: 8 }}
+                  />
                   <Line type="monotone" dataKey="医疗质量" stroke="var(--color-医疗质量)" />
                 </LineChart>
               </ResponsiveContainer>
@@ -88,8 +103,8 @@ export default function Dashboard({
             <ChartContainer
               config={{
                 患者数: {
-                  label: "患者数",
-                  color: "hsl(var(--chart-3))",
+                  label: '患者数',
+                  color: 'hsl(var(--chart-3))',
                 },
               }}
               className="h-[200px]"
@@ -122,29 +137,45 @@ export default function Dashboard({
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-auto py-4 flex flex-col items-center" onClick={onViewDetailedCharts}>
-              <LineChartIcon className="h-10 w-10 mb-2 text-blue-600" />
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex flex-col items-center"
+              onClick={onViewDetailedCharts}
+            >
+              <LineChartIcon className="h-10 w-10 mb-2 text-primary" />
               <div className="text-sm font-medium">趋势分析</div>
-              <div className="text-xs text-gray-500 mt-1">查看关键指标的历史趋势</div>
+              <div className="text-xs text-muted-foreground mt-1">查看关键指标的历史趋势</div>
             </Button>
-            <Button variant="outline" className="h-auto py-4 flex flex-col items-center" onClick={onViewAdvancedCharts}>
-              <PieChartIcon className="h-10 w-10 mb-2 text-green-600" />
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex flex-col items-center"
+              onClick={onViewAdvancedCharts}
+            >
+              <PieChartIcon className="h-10 w-10 mb-2 text-success" />
               <div className="text-sm font-medium">分布分析</div>
-              <div className="text-xs text-gray-500 mt-1">了解各类数据的分布情况</div>
+              <div className="text-xs text-muted-foreground mt-1">了解各类数据的分布情况</div>
             </Button>
-            <Button variant="outline" className="h-auto py-4 flex flex-col items-center" onClick={onViewAdvancedCharts}>
-              <BarChart2 className="h-10 w-10 mb-2 text-purple-600" />
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex flex-col items-center"
+              onClick={onViewAdvancedCharts}
+            >
+              <BarChart2 className="h-10 w-10 mb-2 text-primary" />
               <div className="text-sm font-medium">对比分析</div>
-              <div className="text-xs text-gray-500 mt-1">比较不同维度的数据指标</div>
+              <div className="text-xs text-muted-foreground mt-1">比较不同维度的数据指标</div>
             </Button>
-            <Button variant="outline" className="h-auto py-4 flex flex-col items-center" onClick={onViewDataComparison}>
-              <GitCompare className="h-10 w-10 mb-2 text-orange-600" />
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex flex-col items-center"
+              onClick={onViewDataComparison}
+            >
+              <GitCompare className="h-10 w-10 mb-2 text-warning" />
               <div className="text-sm font-medium">时期对比</div>
-              <div className="text-xs text-gray-500 mt-1">比较不同时期的数据变化</div>
+              <div className="text-xs text-muted-foreground mt-1">比较不同时期的数据变化</div>
             </Button>
           </div>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

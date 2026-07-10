@@ -1,13 +1,19 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Building2,
   Users,
@@ -21,85 +27,89 @@ import {
   BarChart3,
   FileText,
   Shield,
-} from "lucide-react"
+} from 'lucide-react';
 import {
   multiCenterResearchService,
   type ResearchCenter,
   type MultiCenterStudy,
-} from "@/services/multi-center-research-service"
+} from '@/services/multi-center-research-service';
 
 export function MultiCenterCollaboration() {
-  const [centers, setCenters] = useState<ResearchCenter[]>([])
-  const [studies, setStudies] = useState<MultiCenterStudy[]>([])
-  const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("centers")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [statusFilter, setStatusFilter] = useState("all")
+  const [centers, setCenters] = useState<ResearchCenter[]>([]);
+  const [studies, setStudies] = useState<MultiCenterStudy[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('centers');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = async () => {
+  async function loadData() {
     try {
-      setLoading(true)
+      setLoading(true);
       const [centersData, studiesData] = await Promise.all([
         multiCenterResearchService.getResearchCenters(),
         multiCenterResearchService.getMultiCenterStudies(),
-      ])
-      setCenters(centersData)
-      setStudies(studiesData)
+      ]);
+      setCenters(centersData);
+      setStudies(studiesData);
     } catch (error) {
-      console.error("加载数据失败:", error)
+      console.error('加载数据失败:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
-  const filteredCenters = centers.filter((center) => {
-    if (statusFilter !== "all" && center.status !== statusFilter) return false
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const filteredCenters = centers.filter(center => {
+    if (statusFilter !== 'all' && center.status !== statusFilter) return false;
     if (
       searchQuery &&
       !center.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
       !center.institution.toLowerCase().includes(searchQuery.toLowerCase())
     )
-      return false
-    return true
-  })
+      return false;
+    return true;
+  });
 
-  const filteredStudies = studies.filter((study) => {
-    if (statusFilter !== "all" && study.status !== statusFilter) return false
-    if (searchQuery && !study.title.toLowerCase().includes(searchQuery.toLowerCase())) return false
-    return true
-  })
+  const filteredStudies = studies.filter(study => {
+    if (statusFilter !== 'all' && study.status !== statusFilter) return false;
+    if (searchQuery && !study.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
+  });
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "active":
-      case "recruiting":
-        return <Badge className="bg-green-500">活跃</Badge>
-      case "inactive":
-      case "suspended":
-        return <Badge className="bg-red-500">暂停</Badge>
-      case "pending":
-      case "planning":
-        return <Badge className="bg-yellow-500">筹备中</Badge>
-      case "completed":
-        return <Badge className="bg-blue-500">已完成</Badge>
+      case 'active':
+      case 'recruiting':
+        return <Badge className="bg-success/50">活跃</Badge>;
+      case 'inactive':
+      case 'suspended':
+        return <Badge className="bg-destructive">暂停</Badge>;
+      case 'pending':
+      case 'planning':
+        return <Badge className="bg-warning">筹备中</Badge>;
+      case 'completed':
+        return <Badge className="bg-primary/50">已完成</Badge>;
       default:
-        return <Badge className="bg-gray-500">未知</Badge>
+        return <Badge className="bg-muted0">未知</Badge>;
     }
-  }
+  };
 
   const getPhaseBadge = (phase: string) => {
     const colors = {
-      I: "bg-purple-500",
-      II: "bg-blue-500",
-      III: "bg-green-500",
-      IV: "bg-orange-500",
-    }
-    return <Badge className={colors[phase] || "bg-gray-500"}>Phase {phase}</Badge>
-  }
+      I: 'bg-primary',
+      II: 'bg-primary/50',
+      III: 'bg-success/50',
+      IV: 'bg-warning',
+    };
+    return (
+      <Badge className={(colors as Record<string, string>)[phase] || 'bg-muted0'}>
+        Phase {phase}
+      </Badge>
+    );
+  };
 
   if (loading) {
     return (
@@ -111,7 +121,7 @@ export function MultiCenterCollaboration() {
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -145,7 +155,7 @@ export function MultiCenterCollaboration() {
                 placeholder="搜索..."
                 className="pl-8"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={e => setSearchQuery(e.target.value)}
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -167,7 +177,7 @@ export function MultiCenterCollaboration() {
 
           <TabsContent value="centers" className="mt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredCenters.map((center) => (
+              {filteredCenters.map(center => (
                 <Card key={center.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between mb-3">
@@ -215,7 +225,7 @@ export function MultiCenterCollaboration() {
                       <div className="text-xs text-muted-foreground mb-1">主要研究者</div>
                       <div className="text-sm">{center.principalInvestigator.name}</div>
                       <div className="text-xs text-muted-foreground">
-                        {center.principalInvestigator.credentials.join(", ")}
+                        {center.principalInvestigator.credentials.join(', ')}
                       </div>
                     </div>
 
@@ -233,7 +243,7 @@ export function MultiCenterCollaboration() {
 
           <TabsContent value="studies" className="mt-0">
             <div className="space-y-4">
-              {filteredStudies.map((study) => (
+              {filteredStudies.map(study => (
                 <Card key={study.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between mb-3">
@@ -265,7 +275,9 @@ export function MultiCenterCollaboration() {
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground">参与中心</div>
-                        <div className="text-sm font-medium">{study.participatingCenters.length} 个中心</div>
+                        <div className="text-sm font-medium">
+                          {study.participatingCenters.length} 个中心
+                        </div>
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground">预计完成</div>
@@ -276,13 +288,13 @@ export function MultiCenterCollaboration() {
                     <div className="mb-4">
                       <div className="text-sm font-medium mb-2">参与中心</div>
                       <div className="flex flex-wrap gap-1">
-                        {study.participatingCenters.map((centerId) => {
-                          const center = centers.find((c) => c.id === centerId)
+                        {study.participatingCenters.map(centerId => {
+                          const center = centers.find(c => c.id === centerId);
                           return (
                             <Badge key={centerId} variant="outline" className="text-xs">
                               {center?.name || centerId}
                             </Badge>
-                          )
+                          );
                         })}
                       </div>
                     </div>
@@ -290,19 +302,25 @@ export function MultiCenterCollaboration() {
                     <div className="mb-4">
                       <div className="text-sm font-medium mb-2">伦理审批状态</div>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                        {study.ethicsApproval.localApprovals.map((approval) => {
-                          const center = centers.find((c) => c.id === approval.centerId)
+                        {study.ethicsApproval.localApprovals.map(approval => {
+                          const center = centers.find(c => c.id === approval.centerId);
                           return (
                             <div
                               key={approval.centerId}
-                              className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                              className="flex items-center justify-between p-2 bg-muted rounded"
                             >
                               <span className="text-xs">{center?.name || approval.centerId}</span>
-                              {approval.status === "approved" && <CheckCircle className="h-3 w-3 text-green-500" />}
-                              {approval.status === "pending" && <Clock className="h-3 w-3 text-yellow-500" />}
-                              {approval.status === "expired" && <AlertTriangle className="h-3 w-3 text-red-500" />}
+                              {approval.status === 'approved' && (
+                                <CheckCircle className="h-3 w-3 text-success" />
+                              )}
+                              {approval.status === 'pending' && (
+                                <Clock className="h-3 w-3 text-warning" />
+                              )}
+                              {approval.status === 'expired' && (
+                                <AlertTriangle className="h-3 w-3 text-destructive" />
+                              )}
                             </div>
-                          )
+                          );
                         })}
                       </div>
                     </div>
@@ -349,7 +367,7 @@ export function MultiCenterCollaboration() {
                         </div>
                         <div className="flex justify-between">
                           <span>合规性:</span>
-                          <Badge className="bg-green-500">100%</Badge>
+                          <Badge className="bg-success/50">100%</Badge>
                         </div>
                       </div>
                     </div>
@@ -400,7 +418,7 @@ export function MultiCenterCollaboration() {
                             <td className="p-2">USUBJID</td>
                             <td className="p-2">格式转换为CDISC标准</td>
                             <td className="p-2">
-                              <Badge className="bg-green-500">已配置</Badge>
+                              <Badge className="bg-success/50">已配置</Badge>
                             </td>
                           </tr>
                           <tr className="border-b">
@@ -408,7 +426,7 @@ export function MultiCenterCollaboration() {
                             <td className="p-2">RFSTDTC</td>
                             <td className="p-2">日期格式标准化</td>
                             <td className="p-2">
-                              <Badge className="bg-green-500">已配置</Badge>
+                              <Badge className="bg-success/50">已配置</Badge>
                             </td>
                           </tr>
                           <tr className="border-b">
@@ -416,7 +434,7 @@ export function MultiCenterCollaboration() {
                             <td className="p-2">VS</td>
                             <td className="p-2">生命体征域映射</td>
                             <td className="p-2">
-                              <Badge className="bg-yellow-500">待配置</Badge>
+                              <Badge className="bg-warning">待配置</Badge>
                             </td>
                           </tr>
                         </tbody>
@@ -471,13 +489,17 @@ export function MultiCenterCollaboration() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {studies.slice(0, 3).map((study) => (
+                    {studies.slice(0, 3).map(study => (
                       <div key={study.id}>
                         <div className="flex justify-between text-sm mb-1">
                           <span className="truncate">{study.title}</span>
-                          <span>{Math.round((study.currentEnrollment / study.targetEnrollment) * 100)}%</span>
+                          <span>
+                            {Math.round((study.currentEnrollment / study.targetEnrollment) * 100)}%
+                          </span>
                         </div>
-                        <Progress value={(study.currentEnrollment / study.targetEnrollment) * 100} />
+                        <Progress
+                          value={(study.currentEnrollment / study.targetEnrollment) * 100}
+                        />
                       </div>
                     ))}
                   </div>
@@ -499,5 +521,5 @@ export function MultiCenterCollaboration() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -2,73 +2,172 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   YYC³-Med 医疗级色彩系统 v3.0 — Medical Blue + White Unified System
+   设计理念：医疗蓝 (Medical Blue) · 纯白 (Pure White) · 临床洁净 (Clinical Clean)
+   主色方案：医疗蓝色 (#2b6cb0) + 白色 (#ffffff) 作为核心配色
+
+   行业基准 (2026):
+   - 医疗主色: HSL 210°, 饱和度 55%, 明度 45% [Medical Blue #2b6cb0]
+   - 辅助色: 纯白 #ffffff / 暖白 #f8fafc
+   - 背景色: 白色/浅灰白 (医疗洁净感)
+   - 暗色模式: 深蓝灰 HSL 215° 30% 15% (保持专业医疗感)
+   ========================================================================== */
+
+/* ── 多端适配安全区令牌 — Safe-Area Inset Tokens (多端适配规范 §4.3) ── */
 :root {
-  /* 医疗蓝色主题色彩系统 */
-  --medical-primary: #2563eb;
-  --medical-primary-dark: #1d4ed8;
-  --medical-primary-light: #3b82f6;
-  --medical-secondary: #06b6d4;
-  --medical-accent: #8b5cf6;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 
-  /* 医疗蓝色渐变 */
-  --medical-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-  --medical-gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
-
-  /* 医疗蓝色色阶 */
-  --medical-50: #eff6ff;
-  --medical-100: #dbeafe;
-  --medical-200: #bfdbfe;
-  --medical-300: #93c5fd;
-  --medical-400: #60a5fa;
-  --medical-500: #3b82f6;
-  --medical-600: #2563eb;
-  --medical-700: #1d4ed8;
-  --medical-800: #1e40af;
-  --medical-900: #1e3a8a;
-
-  /* 系统色彩 */
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 221.2 83.2% 53.3%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96%;
-  --accent-foreground: 222.2 84% 4.9%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 221.2 83.2% 53.3%;
-  --radius: 0.5rem;
+  /* 触控目标最小尺寸 — Touch Target (WCAG 2.1 AA / Apple HIG 44pt) */
+  --touch-min: 44px;
+  --touch-min-sm: 40px;
 }
 
+:root {
+  /* 医疗蓝色主题色彩系统 v3.0 — Medical Blue + White Unified */
+  --medical-primary: #2b6cb0;
+  --medical-primary-dark: #1a4d7a;
+  --medical-primary-light: #4a8dc7;
+  --medical-secondary: #0d9488;
+  --medical-accent: #6366f1;
+
+  /* 医疗渐变 — 医疗蓝 → 纯白 */
+  --medical-gradient: linear-gradient(135deg, #2b6cb0 0%, #ffffff 100%);
+  --medical-gradient-hover: linear-gradient(135deg, #1a4d7a 0%, #f1f5f9 100%);
+  --medical-gradient-soft: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
+
+  /* 医疗蓝色色阶 v3.0 — 统一蓝色系 */
+  --medical-50: #eef3f9;
+  --medical-100: #dce8f3;
+  --medical-200: #bfd4e8;
+  --medical-300: #93b8d8;
+  --medical-400: #6093c4;
+  --medical-500: #3b76b0;
+  --medical-600: #2b6cb0;
+  --medical-700: #1e5694;
+  --medical-800: #1a4d7a;
+  --medical-900: #163a5c;
+
+  /* 语义功能色 v3.0 — 医疗专业可视性标准 */
+  --success: 152 55% 42%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 80% 48%;
+  --warning-foreground: 0 0% 100%;
+  --info: 198 65% 42%;
+  --info-foreground: 0 0% 100%;
+
+  /* 系统色彩 v3.0 — 医疗蓝 + 白色主题 (Light Mode) */
+  --background: 0 0% 100%;
+  --foreground: 215 30% 18%;
+  --card: 0 0% 100%;
+  --card-foreground: 215 30% 18%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 30% 18%;
+  --primary: 210 55% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 15% 94%;
+  --secondary-foreground: 215 30% 18%;
+  --muted: 210 12% 93%;
+  --muted-foreground: 215 20% 50%;
+  --accent: 210 15% 94%;
+  --accent-foreground: 215 30% 18%;
+  --destructive: 0 65% 52%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 210 15% 88%;
+  --input: 210 15% 88%;
+  --ring: 210 55% 45%;
+  --radius: 0.5rem;
+
+  /* 图表色板 v3.0 — 医疗级蓝色系 */
+  --chart-1: 210 55% 45%;
+  --chart-2: 210 40% 60%;
+  --chart-3: 210 30% 75%;
+  --chart-4: 210 20% 85%;
+  --chart-5: 0 65% 52%;
+
+  /* 侧边栏令牌 — 白色医疗 (components/ui/sidebar.tsx 引用) */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 215 30% 18%;
+  --sidebar-primary: 210 55% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 210 15% 94%;
+  --sidebar-accent-foreground: 215 30% 18%;
+  --sidebar-border: 210 15% 88%;
+  --sidebar-ring: 210 55% 45%;
+}
+
+/* 暗色模式 — 深蓝灰主题（保持医疗专业感） */
 .dark {
-  --background: 222.2 84% 4.9%;
+  --background: 215 30% 15%;
   --foreground: 210 40% 98%;
-  --card: 222.2 84% 4.9%;
+  --card: 215 30% 18%;
   --card-foreground: 210 40% 98%;
-  --popover: 222.2 84% 4.9%;
+  --popover: 215 30% 18%;
   --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --primary-foreground: 222.2 84% 4.9%;
-  --secondary: 217.2 32.6% 17.5%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 217.2 32.6% 17.5%;
-  --muted-foreground: 215 20.2% 65.1%;
-  --accent: 217.2 32.6% 17.5%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 210 40% 98%;
-  --border: 217.2 32.6% 17.5%;
-  --input: 217.2 32.6% 17.5%;
-  --ring: 224.3 76.3% 94.1%;
+  --primary: 210 55% 48%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 215 30% 22%;
+  --secondary-foreground: 210 15% 94%;
+  --muted: 215 30% 22%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 215 30% 22%;
+  --accent-foreground: 210 15% 94%;
+  --destructive: 0 55% 42%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 215 25% 28%;
+  --input: 215 25% 28%;
+  --ring: 210 55% 55%;
+  --radius: 0.5rem;
+
+  /* 图表色板 v3.0（暗色模式：医疗蓝色系） */
+  --chart-1: 210 55% 55%;
+  --chart-2: 210 40% 65%;
+  --chart-3: 210 30% 75%;
+  --chart-4: 210 20% 85%;
+  --chart-5: 0 65% 58%;
+
+  /* 侧边栏令牌（暗色模式 — 深蓝灰） */
+  --sidebar: 215 30% 18%;
+  --sidebar-foreground: 210 15% 94%;
+  --sidebar-primary: 210 55% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 215 30% 25%;
+  --sidebar-accent-foreground: 210 15% 94%;
+  --sidebar-border: 215 25% 25%;
+  --sidebar-ring: 210 55% 55%;
+
+  /* 医疗主题色（暗色模式适配：提亮对比度） */
+  --medical-primary: #4a8dc7;
+  --medical-primary-dark: #2b6cb0;
+  --medical-primary-light: #73b0dc;
+  --medical-secondary: #2dd4bf;
+  --medical-accent: #818cf8;
+
+  --medical-gradient: linear-gradient(135deg, #4a8dc7 0%, #ffffff 100%);
+  --medical-gradient-hover: linear-gradient(135deg, #2b6cb0 0%, #f1f5f9 100%);
+  --medical-gradient-soft: linear-gradient(135deg, #163a5c 0%, #1e3a5f 100%);
+
+  --medical-50: #0f2338;
+  --medical-100: #163a5c;
+  --medical-200: #1a4d7a;
+  --medical-300: #1e5694;
+  --medical-400: #2b6cb0;
+  --medical-500: #3b76b0;
+  --medical-600: #6093c4;
+  --medical-700: #93b8d8;
+  --medical-800: #bfd4e8;
+  --medical-900: #dce8f3;
+
+  /* 语义功能色 v3.0（暗色模式提亮） */
+  --success: 152 55% 48%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 80% 52%;
+  --warning-foreground: 0 0% 100%;
+  --info: 198 65% 48%;
+  --info-foreground: 0 0% 100%;
 }
 
 * {
@@ -78,16 +177,40 @@
 body {
   color: hsl(var(--foreground));
   background: hsl(var(--background));
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 医疗蓝色工具类 */
+/* 文本选中高亮 — 医疗蓝 */
+::selection {
+  background-color: hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+}
+
+/* 键盘焦点可见性增强 — 无障碍 */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   医疗蓝色工具类 — Medical Blue Utilities
+   ========================================================================== */
+
 .medical-gradient {
   background: var(--medical-gradient);
 }
 
 .medical-gradient-hover:hover {
   background: var(--medical-gradient-hover);
+}
+
+.medical-gradient-soft {
+  background: var(--medical-gradient-soft);
 }
 
 .medical-text {
@@ -101,6 +224,34 @@ body {
 .medical-bg {
   background-color: var(--medical-primary);
 }
+
+/* 渐变文字 */
+.medical-text-gradient {
+  background: var(--medical-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 玻璃拟态 (Glassmorphism) — 医疗卡片高级感 */
+.glass {
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+.glass-dark {
+  background: hsl(222 47% 14% / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border) / 0.5);
+}
+
+/* ==========================================================================
+   动画系统 — Medical Animation Library
+   ========================================================================== */
 
 /* 动画折射线效果 */
 @keyframes refraction {
@@ -123,7 +274,7 @@ body {
 }
 
 .refraction-line::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -134,7 +285,7 @@ body {
   z-index: 1;
 }
 
-/* 脉冲动画 */
+/* 脉冲动画 — 医疗心率意象 */
 @keyframes pulse-medical {
   0%,
   100% {
@@ -149,7 +300,118 @@ body {
   animation: pulse-medical 2s infinite;
 }
 
-/* 医疗专业滚动条 */
+/* 呼吸动画 — 生命体征意象 */
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.85;
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* 心跳动画 */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.15);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* 微光闪烁 — 加载占位 */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* 渐入动画 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* 上滑渐入 */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 缩放渐入 */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   医疗专业滚动条 — Medical Scrollbar
+   ========================================================================== */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -169,7 +431,16 @@ body {
   background: var(--medical-gradient-hover);
 }
 
-/* 无障碍访问增强 */
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--medical-primary) var(--medical-50);
+}
+
+/* ==========================================================================
+   无障碍访问增强 — Accessibility
+   ========================================================================== */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -198,6 +469,130 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   多端适配工具类 — Multi-Device Adaptation Utilities (多端适配规范 §4.3)
+   安全区内边距 · 触控目标 · PWA · 折叠屏 · 响应式容器
+   ========================================================================== */
+
+/* 安全区内边距 — 适配刘海屏 / 全面屏 / PWA */
+.safe-top {
+  padding-top: var(--safe-top);
+}
+.safe-bottom {
+  padding-bottom: var(--safe-bottom);
+}
+.safe-left {
+  padding-left: var(--safe-left);
+}
+.safe-right {
+  padding-right: var(--safe-right);
+}
+.safe-x {
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+}
+.safe-y {
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+}
+.safe-all {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+
+/* 安全区外边距变体 — 用于 fixed/sticky 定位元素 */
+.safe-mt {
+  margin-top: var(--safe-top);
+}
+.safe-mb {
+  margin-bottom: var(--safe-bottom);
+}
+
+/* 触控友好目标尺寸 — 移动端最小可点击区域 */
+.touch-target {
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+}
+.touch-target-sm {
+  min-width: var(--touch-min-sm);
+  min-height: var(--touch-min-sm);
+}
+
+/* PWA standalone 模式 — 隐藏仅浏览器可见的元素 */
+@media (display-mode: browser) {
+  .pwa-only {
+    display: none !important;
+  }
+}
+
+/* 桌面端隐藏 PWA 安装引导 */
+@media (display-mode: standalone) {
+  .browser-only {
+    display: none !important;
+  }
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* 可折叠屏 / 横屏适配 — 双屏铰链区域避让 */
+@media (horizontal-viewport-segments: 2) {
+  .foldable-avoid-hinge {
+    margin-inline: env(viewport-segment-width 0 0);
+  }
+}
+
+/* 移动端底部导航占位 — 防止内容被 BottomNav 遮挡 */
+.md\:pb-bottom-nav {
+  padding-bottom: 0;
+}
+@media (max-width: 767px) {
+  .pb-bottom-nav {
+    padding-bottom: calc(64px + var(--safe-bottom));
+  }
+}
+
+/* 响应式容器 — PC 居中限宽 / 移动端全宽带安全区 */
+.medical-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+@media (min-width: 768px) {
+  .medical-container {
+    padding-inline: 2rem;
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1280px) {
+  .medical-container {
+    max-width: 1400px;
+  }
+}
+
+/* 移动端字号自适应 — 防止横屏 iOS Safari 放大 */
+@media (max-width: 767px) {
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  input[type='password'],
+  input[type='search'],
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* 触控设备优化 — 禁用 hover-only 交互的视觉提示 */
+@media (hover: none) {
+  .hover\:shadow-md:hover,
+  .hover\:shadow-lg:hover,
+  .hover\:-translate-y-1:hover {
+    box-shadow: var(--shadow-sm, 0 1px 2px 0 rgb(0 0 0 / 0.05));
+    transform: none;
   }
 }
 

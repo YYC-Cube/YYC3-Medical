@@ -1,11 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   BarChart,
   LineChart,
@@ -16,12 +22,12 @@ import {
   RefreshCw,
   Filter,
   ChevronDown,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function ModelPerformance() {
-  const [selectedModel, setSelectedModel] = useState("all")
-  const [timeRange, setTimeRange] = useState("30d")
-  const [activeTab, setActiveTab] = useState("accuracy")
+  const [selectedModel, setSelectedModel] = useState('all');
+  const [timeRange, setTimeRange] = useState('30d');
+  const [activeTab, setActiveTab] = useState('accuracy');
 
   return (
     <div className="space-y-6">
@@ -88,12 +94,12 @@ export function ModelPerformance() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">平均准确率</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">平均准确率</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">92.7%</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         +1.2%
                       </Badge>
@@ -103,24 +109,24 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最高准确率</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">最高准确率</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">96.5%</div>
-                      <div className="text-sm text-gray-500">肺部CT分析模型</div>
+                      <div className="text-sm text-muted-foreground">肺部CT分析模型</div>
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最低准确率</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">最低准确率</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">87.2%</div>
-                      <div className="text-sm text-gray-500">医学文本分析</div>
+                      <div className="text-sm text-muted-foreground">医学文本分析</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -147,10 +153,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <LineChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">准确率趋势图表将在此处显示</p>
+                      <LineChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">准确率趋势图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -171,10 +177,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <BarChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">模型比较图表将在此处显示</p>
+                      <BarChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">模型比较图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -186,12 +192,14 @@ export function ModelPerformance() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">平均响应时间</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      平均响应时间
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">1.8s</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         -0.3s
                       </Badge>
@@ -201,24 +209,28 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最快响应时间</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      最快响应时间
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">0.9s</div>
-                      <div className="text-sm text-gray-500">医学文本分析</div>
+                      <div className="text-sm text-muted-foreground">医学文本分析</div>
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最慢响应时间</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      最慢响应时间
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">3.2s</div>
-                      <div className="text-sm text-gray-500">病理切片分析</div>
+                      <div className="text-sm text-muted-foreground">病理切片分析</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -245,10 +257,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <LineChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">响应时间趋势图表将在此处显示</p>
+                      <LineChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">响应时间趋势图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -260,12 +272,12 @@ export function ModelPerformance() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">总调用次数</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">总调用次数</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">28,547</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         +12.5%
                       </Badge>
@@ -275,12 +287,12 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">日均调用</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">日均调用</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">952</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         +8.3%
                       </Badge>
@@ -290,7 +302,7 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最常用模型</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">最常用模型</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
@@ -322,10 +334,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <BarChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">使用情况趋势图表将在此处显示</p>
+                      <BarChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">使用情况趋势图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -346,10 +358,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <PieChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">模型使用分布图表将在此处显示</p>
+                      <PieChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">模型使用分布图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -361,12 +373,12 @@ export function ModelPerformance() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">错误率</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">错误率</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">2.3%</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         -0.5%
                       </Badge>
@@ -376,12 +388,12 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">总错误次数</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">总错误次数</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
                       <div className="text-3xl font-bold text-medical-700">657</div>
-                      <Badge variant="outline" className="flex items-center gap-1 text-green-600">
+                      <Badge variant="outline" className="flex items-center gap-1 text-success">
                         <Activity className="h-3 w-3" />
                         -12%
                       </Badge>
@@ -391,7 +403,9 @@ export function ModelPerformance() {
 
                 <Card>
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500">最常见错误类型</CardTitle>
+                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                      最常见错误类型
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-end justify-between">
@@ -423,10 +437,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <LineChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">错误趋势图表将在此处显示</p>
+                      <LineChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">错误趋势图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -447,10 +461,10 @@ export function ModelPerformance() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-gray-100 rounded-md flex items-center justify-center">
+                  <div className="h-80 bg-muted rounded-md flex items-center justify-center">
                     <div className="text-center">
-                      <PieChart className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                      <p className="text-gray-500">错误类型分布图表将在此处显示</p>
+                      <PieChart className="h-10 w-10 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">错误类型分布图表将在此处显示</p>
                     </div>
                   </div>
                 </CardContent>
@@ -460,5 +474,5 @@ export function ModelPerformance() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -1,4 +1,5 @@
-// ...existing content from 混淆产物/jest.config.js...module.exports = {
+// Jest config for scripts directory
+module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/app', '<rootDir>/tests'],
   transform: {

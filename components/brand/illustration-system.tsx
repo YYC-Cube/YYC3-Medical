@@ -1,20 +1,20 @@
-import { cn } from "@/lib/utils"
-import Image from "next/image"
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface IllustrationDisplayProps {
-  src: string
-  name: string
-  description: string
-  className?: string
+  src: string;
+  name: string;
+  description: string;
+  className?: string;
 }
 
 function IllustrationDisplay({ src, name, description, className }: IllustrationDisplayProps) {
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn('flex flex-col', className)}>
       <div className="h-48 w-full rounded-lg mb-2 overflow-hidden bg-medical-50 relative">
         {/* 使用Next.js的Image组件替代img标签 */}
         <Image
-          src={src || "/placeholder.svg"}
+          src={src || '/placeholder.svg'}
           alt={name}
           fill
           sizes="(max-width: 768px) 100vw, 400px"
@@ -25,16 +25,16 @@ function IllustrationDisplay({ src, name, description, className }: Illustration
       <div className="text-sm font-medium mt-2">{name}</div>
       <div className="text-xs text-medical-600">{description}</div>
     </div>
-  )
+  );
 }
 
 interface IllustrationSystemProps {
-  className?: string
+  className?: string;
 }
 
 export function IllustrationSystem({ className }: IllustrationSystemProps) {
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       <div>
         <h3 className="text-lg font-medium mb-3">品牌插图风格</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -98,5 +98,5 @@ export function IllustrationSystem({ className }: IllustrationSystemProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

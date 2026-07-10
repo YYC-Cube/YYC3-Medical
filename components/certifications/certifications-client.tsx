@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { CertificationList } from "@/components/profile/certifications/certification-list"
-import { ExpirationReminder } from "@/components/profile/certifications/expiration-reminder"
-import { PageHeader } from "@/components/page-header"
-import { Award, CheckCircle, Clock, FileCheck } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CertificationList } from '@/components/profile/certifications/certification-list';
+import { ExpirationReminder } from '@/components/profile/certifications/expiration-reminder';
+import { PageHeader } from '@/components/page-header';
+import { Award, CheckCircle, Clock, FileCheck } from 'lucide-react';
 
 export function CertificationsClient() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview');
 
   return (
     <div className="container mx-auto py-6 space-y-8">
@@ -19,7 +19,12 @@ export function CertificationsClient() {
         icon={<Award className="h-6 w-6" />}
       />
 
-      <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      <Tabs
+        defaultValue="overview"
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-4"
+      >
         <TabsList className="grid w-full max-w-md grid-cols-3">
           <TabsTrigger value="overview">概览</TabsTrigger>
           <TabsTrigger value="verified">已验证</TabsTrigger>
@@ -36,26 +41,26 @@ export function CertificationsClient() {
               <CardContent>
                 <div className="text-2xl font-bold">24</div>
                 <p className="text-xs text-muted-foreground">
-                  较上月 <span className="text-green-500">+12%</span>
+                  较上月 <span className="text-success">+12%</span>
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">已验证资质</CardTitle>
-                <CheckCircle className="h-4 w-4 text-green-500" />
+                <CheckCircle className="h-4 w-4 text-success" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">18</div>
                 <p className="text-xs text-muted-foreground">
-                  验证率 <span className="text-green-500">75%</span>
+                  验证率 <span className="text-success">75%</span>
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">即将过期</CardTitle>
-                <Clock className="h-4 w-4 text-amber-500" />
+                <Clock className="h-4 w-4 text-warning" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">3</div>
@@ -102,5 +107,5 @@ export function CertificationsClient() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

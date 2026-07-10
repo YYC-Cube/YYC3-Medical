@@ -1,9 +1,15 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   BarChart,
   Bar,
@@ -20,27 +26,27 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-} from "recharts"
+} from '@/components/ui/recharts-dynamic';
 
 // 模拟疾病分类性能数据
 const diseasePerformance = [
-  { name: "心脏病", precision: 0.92, recall: 0.89, f1: 0.9, accuracy: 0.91 },
-  { name: "糖尿病", precision: 0.88, recall: 0.85, f1: 0.86, accuracy: 0.87 },
-  { name: "肺炎", precision: 0.94, recall: 0.92, f1: 0.93, accuracy: 0.93 },
-  { name: "高血压", precision: 0.87, recall: 0.84, f1: 0.85, accuracy: 0.86 },
-  { name: "骨折", precision: 0.96, recall: 0.95, f1: 0.95, accuracy: 0.96 },
-  { name: "皮肤病", precision: 0.91, recall: 0.88, f1: 0.89, accuracy: 0.9 },
-]
+  { name: '心脏病', precision: 0.92, recall: 0.89, f1: 0.9, accuracy: 0.91 },
+  { name: '糖尿病', precision: 0.88, recall: 0.85, f1: 0.86, accuracy: 0.87 },
+  { name: '肺炎', precision: 0.94, recall: 0.92, f1: 0.93, accuracy: 0.93 },
+  { name: '高血压', precision: 0.87, recall: 0.84, f1: 0.85, accuracy: 0.86 },
+  { name: '骨折', precision: 0.96, recall: 0.95, f1: 0.95, accuracy: 0.96 },
+  { name: '皮肤病', precision: 0.91, recall: 0.88, f1: 0.89, accuracy: 0.9 },
+];
 
 // 模拟混淆矩阵数据
 const confusionMatrix = [
-  { name: "心脏病", 心脏病: 450, 糖尿病: 15, 肺炎: 10, 高血压: 20, 骨折: 5, 皮肤病: 0 },
-  { name: "糖尿病", 心脏病: 25, 糖尿病: 430, 肺炎: 5, 高血压: 30, 骨折: 0, 皮肤病: 10 },
-  { name: "肺炎", 心脏病: 10, 糖尿病: 5, 肺炎: 470, 高血压: 5, 骨折: 5, 皮肤病: 5 },
-  { name: "高血压", 心脏病: 30, 糖尿病: 35, 肺炎: 5, 高血压: 420, 骨折: 0, 皮肤病: 10 },
-  { name: "骨折", 心脏病: 0, 糖尿病: 0, 肺炎: 5, 高血压: 0, 骨折: 490, 皮肤病: 5 },
-  { name: "皮肤病", 心脏病: 0, 糖尿病: 5, 肺炎: 5, 高血压: 5, 骨折: 5, 皮肤病: 480 },
-]
+  { name: '心脏病', 心脏病: 450, 糖尿病: 15, 肺炎: 10, 高血压: 20, 骨折: 5, 皮肤病: 0 },
+  { name: '糖尿病', 心脏病: 25, 糖尿病: 430, 肺炎: 5, 高血压: 30, 骨折: 0, 皮肤病: 10 },
+  { name: '肺炎', 心脏病: 10, 糖尿病: 5, 肺炎: 470, 高血压: 5, 骨折: 5, 皮肤病: 5 },
+  { name: '高血压', 心脏病: 30, 糖尿病: 35, 肺炎: 5, 高血压: 420, 骨折: 0, 皮肤病: 10 },
+  { name: '骨折', 心脏病: 0, 糖尿病: 0, 肺炎: 5, 高血压: 0, 骨折: 490, 皮肤病: 5 },
+  { name: '皮肤病', 心脏病: 0, 糖尿病: 5, 肺炎: 5, 高血压: 5, 骨折: 5, 皮肤病: 480 },
+];
 
 // 模拟ROC曲线数据
 const rocData = [
@@ -53,19 +59,19 @@ const rocData = [
   { fpr: 0.5, tpr: 0.98 },
   { fpr: 0.7, tpr: 0.99 },
   { fpr: 1, tpr: 1 },
-]
+];
 
 // 模拟模型比较数据
 const modelComparison = [
-  { name: "CNN", accuracy: 0.91, speed: 85, size: 45 },
-  { name: "Transformer", accuracy: 0.93, speed: 70, size: 80 },
-  { name: "ResNet-50", accuracy: 0.92, speed: 75, size: 65 },
-  { name: "DenseNet-121", accuracy: 0.9, speed: 80, size: 60 },
-]
+  { name: 'CNN', accuracy: 0.91, speed: 85, size: 45 },
+  { name: 'Transformer', accuracy: 0.93, speed: 70, size: 80 },
+  { name: 'ResNet-50', accuracy: 0.92, speed: 75, size: 65 },
+  { name: 'DenseNet-121', accuracy: 0.9, speed: 80, size: 60 },
+];
 
 export function ModelPerformanceMetrics() {
-  const [activeTab, setActiveTab] = useState("metrics")
-  const [selectedDisease, setSelectedDisease] = useState("all")
+  const [activeTab, setActiveTab] = useState('metrics');
+  const [selectedDisease, setSelectedDisease] = useState('all');
 
   return (
     <Card className="shadow-md">
@@ -83,35 +89,40 @@ export function ModelPerformanceMetrics() {
 
           <TabsContent value="metrics" className="pt-4">
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">选择疾病类别</label>
-              <Select value={selectedDisease} onValueChange={setSelectedDisease}>
-                <SelectTrigger>
-                  <SelectValue placeholder="选择疾病类别" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">所有疾病</SelectItem>
-                  <SelectItem value="heart">心脏病</SelectItem>
-                  <SelectItem value="diabetes">糖尿病</SelectItem>
-                  <SelectItem value="pneumonia">肺炎</SelectItem>
-                  <SelectItem value="hypertension">高血压</SelectItem>
-                  <SelectItem value="fracture">骨折</SelectItem>
-                  <SelectItem value="skin">皮肤病</SelectItem>
-                </SelectContent>
-              </Select>
+              <label className="block text-sm font-medium mb-1">
+                选择疾病类别
+                <Select value={selectedDisease} onValueChange={setSelectedDisease}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="选择疾病类别" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">所有疾病</SelectItem>
+                    <SelectItem value="heart">心脏病</SelectItem>
+                    <SelectItem value="diabetes">糖尿病</SelectItem>
+                    <SelectItem value="pneumonia">肺炎</SelectItem>
+                    <SelectItem value="hypertension">高血压</SelectItem>
+                    <SelectItem value="fracture">骨折</SelectItem>
+                    <SelectItem value="skin">皮肤病</SelectItem>
+                  </SelectContent>
+                </Select>
+              </label>
             </div>
 
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={diseasePerformance} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <BarChart
+                  data={diseasePerformance}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis domain={[0, 1]} />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="precision" name="精确率" fill="#10b981" />
-                  <Bar dataKey="recall" name="召回率" fill="#3b82f6" />
-                  <Bar dataKey="f1" name="F1分数" fill="#f59e0b" />
-                  <Bar dataKey="accuracy" name="准确率" fill="#8b5cf6" />
+                  <Bar dataKey="precision" name="精确率" fill="var(--success)" />
+                  <Bar dataKey="recall" name="召回率" fill="var(--primary)" />
+                  <Bar dataKey="f1" name="F1分数" fill="var(--warning)" />
+                  <Bar dataKey="accuracy" name="准确率" fill="var(--primary)" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -119,31 +130,37 @@ export function ModelPerformanceMetrics() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
               <div className="p-3 bg-muted rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">平均精确率</div>
-                <div className="text-2xl font-bold text-emerald-500">
+                <div className="text-2xl font-bold text-success">
                   {(
-                    diseasePerformance.reduce((sum, item) => sum + item.precision, 0) / diseasePerformance.length
+                    diseasePerformance.reduce((sum, item) => sum + item.precision, 0) /
+                    diseasePerformance.length
                   ).toFixed(2)}
                 </div>
               </div>
               <div className="p-3 bg-muted rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">平均召回率</div>
-                <div className="text-2xl font-bold text-blue-500">
-                  {(diseasePerformance.reduce((sum, item) => sum + item.recall, 0) / diseasePerformance.length).toFixed(
-                    2,
-                  )}
+                <div className="text-2xl font-bold text-primary">
+                  {(
+                    diseasePerformance.reduce((sum, item) => sum + item.recall, 0) /
+                    diseasePerformance.length
+                  ).toFixed(2)}
                 </div>
               </div>
               <div className="p-3 bg-muted rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">平均F1分数</div>
-                <div className="text-2xl font-bold text-amber-500">
-                  {(diseasePerformance.reduce((sum, item) => sum + item.f1, 0) / diseasePerformance.length).toFixed(2)}
+                <div className="text-2xl font-bold text-warning">
+                  {(
+                    diseasePerformance.reduce((sum, item) => sum + item.f1, 0) /
+                    diseasePerformance.length
+                  ).toFixed(2)}
                 </div>
               </div>
               <div className="p-3 bg-muted rounded-lg text-center">
                 <div className="text-sm text-muted-foreground">平均准确率</div>
-                <div className="text-2xl font-bold text-purple-500">
+                <div className="text-2xl font-bold text-primary">
                   {(
-                    diseasePerformance.reduce((sum, item) => sum + item.accuracy, 0) / diseasePerformance.length
+                    diseasePerformance.reduce((sum, item) => sum + item.accuracy, 0) /
+                    diseasePerformance.length
                   ).toFixed(2)}
                 </div>
               </div>
@@ -156,7 +173,7 @@ export function ModelPerformanceMetrics() {
                 <thead>
                   <tr>
                     <th className="border p-2 bg-muted">预测 \ 实际</th>
-                    {diseasePerformance.map((disease) => (
+                    {diseasePerformance.map(disease => (
                       <th key={disease.name} className="border p-2 bg-muted">
                         {disease.name}
                       </th>
@@ -167,18 +184,18 @@ export function ModelPerformanceMetrics() {
                   {confusionMatrix.map((row, index) => (
                     <tr key={index}>
                       <td className="border p-2 font-medium bg-muted">{row.name}</td>
-                      {diseasePerformance.map((disease) => (
+                      {diseasePerformance.map(disease => (
                         <td
                           key={disease.name}
-                          className={`border p-2 text-center ${row.name === disease.name ? "bg-green-100" : ""}`}
+                          className={`border p-2 text-center ${row.name === disease.name ? 'bg-success/10' : ''}`}
                           style={{
                             backgroundColor:
                               row.name === disease.name
-                                ? `rgba(16, 185, 129, ${row[disease.name] / 500})`
-                                : `rgba(239, 68, 68, ${row[disease.name] / 100})`,
+                                ? `rgba(16, 185, 129, ${((row as Record<string, number | string>)[disease.name] as number) / 500})`
+                                : `rgba(239, 68, 68, ${((row as Record<string, number | string>)[disease.name] as number) / 100})`,
                           }}
                         >
-                          {row[disease.name]}
+                          {(row as Record<string, number | string>)[disease.name]}
                         </td>
                       ))}
                     </tr>
@@ -195,14 +212,29 @@ export function ModelPerformanceMetrics() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
                     dataKey="fpr"
-                    label={{ value: "假阳性率 (FPR)", position: "insideBottom", offset: -5 }}
+                    label={{ value: '假阳性率 (FPR)', position: 'insideBottom', offset: -5 }}
                     domain={[0, 1]}
                   />
-                  <YAxis label={{ value: "真阳性率 (TPR)", angle: -90, position: "insideLeft" }} domain={[0, 1]} />
+                  <YAxis
+                    label={{ value: '真阳性率 (TPR)', angle: -90, position: 'insideLeft' }}
+                    domain={[0, 1]}
+                  />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="tpr" name="ROC曲线" stroke="#10b981" strokeWidth={2} />
-                  <Line type="monotone" dataKey="fpr" name="随机猜测" stroke="#9ca3af" strokeDasharray="5 5" />
+                  <Line
+                    type="monotone"
+                    dataKey="tpr"
+                    name="ROC曲线"
+                    stroke="var(--success)"
+                    strokeWidth={2}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="fpr"
+                    name="随机猜测"
+                    stroke="var(--muted-foreground)"
+                    strokeDasharray="5 5"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -225,12 +257,15 @@ export function ModelPerformanceMetrics() {
                 <h3 className="text-lg font-medium mb-2">准确率比较</h3>
                 <div className="h-60">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={modelComparison} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <BarChart
+                      data={modelComparison}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis domain={[0.85, 0.95]} />
                       <Tooltip />
-                      <Bar dataKey="accuracy" name="准确率" fill="#10b981" />
+                      <Bar dataKey="accuracy" name="准确率" fill="var(--success)" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -244,9 +279,27 @@ export function ModelPerformanceMetrics() {
                       <PolarGrid />
                       <PolarAngleAxis dataKey="name" />
                       <PolarRadiusAxis angle={30} domain={[0, 100]} />
-                      <Radar name="准确率" dataKey="accuracy" stroke="#10b981" fill="#10b981" fillOpacity={0.6} />
-                      <Radar name="速度" dataKey="speed" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.6} />
-                      <Radar name="模型大小" dataKey="size" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.6} />
+                      <Radar
+                        name="准确率"
+                        dataKey="accuracy"
+                        stroke="var(--success)"
+                        fill="var(--success)"
+                        fillOpacity={0.6}
+                      />
+                      <Radar
+                        name="速度"
+                        dataKey="speed"
+                        stroke="var(--primary)"
+                        fill="var(--primary)"
+                        fillOpacity={0.6}
+                      />
+                      <Radar
+                        name="模型大小"
+                        dataKey="size"
+                        stroke="var(--warning)"
+                        fill="var(--warning)"
+                        fillOpacity={0.6}
+                      />
                       <Legend />
                     </RadarChart>
                   </ResponsiveContainer>
@@ -309,5 +362,5 @@ export function ModelPerformanceMetrics() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

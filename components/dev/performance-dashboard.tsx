@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   usePerformanceMonitor,
   type PerformanceMetric,
   type CustomEvent,
-} from "@/services/performance-monitoring-service"
+} from '@/services/performance-monitoring-service';
 import {
   Line,
   LineChart,
@@ -19,13 +19,20 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-} from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Button } from "@/components/ui/button"
-import { Download, RefreshCw, Play, Pause, X } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Button } from '@/components/ui/button';
+import { Download, RefreshCw, Play, Pause, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 export default function PerformanceDashboard() {
   const { report, trackEvent, clearData } = usePerformanceMonitor({
@@ -34,120 +41,120 @@ export default function PerformanceDashboard() {
     trackUserTiming: true,
     trackLongTasks: true,
     trackMemory: true,
-  })
+  });
 
-  const [isMonitoring, setIsMonitoring] = useState(true)
-  const [activeTab, setActiveTab] = useState("metrics")
-  const [metricsData, setMetricsData] = useState<Record<string, any[]>>({})
-  const [selectedMetrics, setSelectedMetrics] = useState<string[]>([])
-  const [eventsFiltered, setEventsFiltered] = useState<CustomEvent[]>([])
-  const [filterText, setFilterText] = useState("")
+  const [isMonitoring, setIsMonitoring] = useState(true);
+  const [activeTab, setActiveTab] = useState('metrics');
+  const [metricsData, setMetricsData] = useState<Record<string, any[]>>({});
+  const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
+  const [eventsFiltered, setEventsFiltered] = useState<CustomEvent[]>([]);
+  const [filterText, setFilterText] = useState('');
 
   // 处理指标数据
   useEffect(() => {
-    if (!report) return
+    if (!report) return;
 
     // 按指标名称分组
-    const groupedMetrics: Record<string, PerformanceMetric[]> = {}
-    report.metrics.forEach((metric) => {
+    const groupedMetrics: Record<string, PerformanceMetric[]> = {};
+    report.metrics.forEach(metric => {
       if (!groupedMetrics[metric.name]) {
-        groupedMetrics[metric.name] = []
+        groupedMetrics[metric.name] = [];
       }
-      groupedMetrics[metric.name].push(metric)
-    })
+      groupedMetrics[metric.name].push(metric);
+    });
 
     // 转换为图表数据格式
-    const chartData: Record<string, any[]> = {}
+    const chartData: Record<string, any[]> = {};
     Object.entries(groupedMetrics).forEach(([name, metrics]) => {
-      chartData[name] = metrics.map((m) => ({
+      chartData[name] = metrics.map(m => ({
         timestamp: new Date(m.timestamp).toLocaleTimeString(),
         value: m.value,
         unit: m.unit,
-      }))
-    })
+      }));
+    });
 
-    setMetricsData(chartData)
+    setMetricsData(chartData);
 
     // 如果没有选择的指标，默认选择前5个
     if (selectedMetrics.length === 0 && Object.keys(chartData).length > 0) {
-      setSelectedMetrics(Object.keys(chartData).slice(0, 5))
+      setSelectedMetrics(Object.keys(chartData).slice(0, 5));
     }
 
     // 过滤事件
     if (report.events.length > 0) {
       const filtered = filterText
         ? report.events.filter(
-            (e) =>
+            e =>
               e.name.toLowerCase().includes(filterText.toLowerCase()) ||
-              JSON.stringify(e.data).toLowerCase().includes(filterText.toLowerCase()),
+              JSON.stringify(e.data).toLowerCase().includes(filterText.toLowerCase())
           )
-        : report.events
-      setEventsFiltered(filtered)
+        : report.events;
+      setEventsFiltered(filtered);
     }
-  }, [report, filterText])
+  }, [report, filterText]);
 
   // 切换监控状态
   const toggleMonitoring = () => {
     if (isMonitoring) {
       // 暂停监控
-      setIsMonitoring(false)
-      trackEvent("性能监控暂停", { timestamp: Date.now() })
+      setIsMonitoring(false);
+      trackEvent('性能监控暂停', { timestamp: Date.now() });
     } else {
       // 恢复监控
-      setIsMonitoring(true)
-      trackEvent("性能监控恢复", { timestamp: Date.now() })
+      setIsMonitoring(true);
+      trackEvent('性能监控恢复', { timestamp: Date.now() });
     }
-  }
+  };
 
   // 清除数据
   const handleClearData = () => {
-    clearData()
-    trackEvent("性能数据已清除", { timestamp: Date.now() })
-  }
+    clearData();
+    trackEvent('性能数据已清除', { timestamp: Date.now() });
+  };
 
   // 下载报告
   const downloadReport = () => {
-    if (!report) return
+    if (!report) return;
 
-    const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = `performance-report-${new Date().toISOString()}.json`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `performance-report-${new Date().toISOString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 
-    trackEvent("性能报告下载", { timestamp: Date.now() })
-  }
+    trackEvent('性能报告下载', { timestamp: Date.now() });
+  };
 
   // 切换指标选择
   const toggleMetric = (metricName: string) => {
     if (selectedMetrics.includes(metricName)) {
-      setSelectedMetrics(selectedMetrics.filter((m) => m !== metricName))
+      setSelectedMetrics(selectedMetrics.filter(m => m !== metricName));
     } else {
-      setSelectedMetrics([...selectedMetrics, metricName])
+      setSelectedMetrics([...selectedMetrics, metricName]);
     }
-  }
+  };
 
   // 模拟长任务
   const simulateLongTask = () => {
-    trackEvent("模拟长任务开始", { timestamp: Date.now() })
-    const startTime = performance.now()
+    trackEvent('模拟长任务开始', { timestamp: Date.now() });
+    const startTime = performance.now();
 
     // 执行耗时操作
-    const arr = new Array(10000000).fill(0)
+    const arr = new Array(10000000).fill(0);
     for (let i = 0; i < arr.length; i++) {
-      arr[i] = Math.sqrt(i)
+      arr[i] = Math.sqrt(i);
     }
 
-    const duration = performance.now() - startTime
-    trackEvent("模拟长任务结束", {
+    const duration = performance.now() - startTime;
+    trackEvent('模拟长任务结束', {
       timestamp: Date.now(),
       duration: duration,
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -156,7 +163,7 @@ export default function PerformanceDashboard() {
         <div className="flex space-x-2">
           <Button variant="outline" size="sm" onClick={toggleMonitoring}>
             {isMonitoring ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
-            {isMonitoring ? "暂停" : "恢复"}
+            {isMonitoring ? '暂停' : '恢复'}
           </Button>
           <Button variant="outline" size="sm" onClick={handleClearData}>
             <X className="h-4 w-4 mr-1" />
@@ -191,10 +198,10 @@ export default function PerformanceDashboard() {
               {Object.keys(metricsData).length > 0 ? (
                 <>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {Object.keys(metricsData).map((metricName) => (
+                    {Object.keys(metricsData).map(metricName => (
                       <Badge
                         key={metricName}
-                        variant={selectedMetrics.includes(metricName) ? "default" : "outline"}
+                        variant={selectedMetrics.includes(metricName) ? 'default' : 'outline'}
                         className="cursor-pointer"
                         onClick={() => toggleMetric(metricName)}
                       >
@@ -210,16 +217,20 @@ export default function PerformanceDashboard() {
                           acc[metric] = {
                             label: metric,
                             color: `hsl(var(--chart-${(index % 9) + 1}))`,
-                          }
-                          return acc
+                          };
+                          return acc;
                         },
-                        {} as Record<string, { label: string; color: string }>,
+                        {} as Record<string, { label: string; color: string }>
                       )}
                     >
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                           <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="timestamp" allowDuplicatedCategory={false} type="category" />
+                          <XAxis
+                            dataKey="timestamp"
+                            allowDuplicatedCategory={false}
+                            type="category"
+                          />
                           <YAxis />
                           <ChartTooltip content={<ChartTooltipContent />} />
                           <Legend />
@@ -241,7 +252,9 @@ export default function PerformanceDashboard() {
                   </div>
                 </>
               ) : (
-                <div className="flex justify-center items-center h-80 text-muted-foreground">暂无性能指标数据</div>
+                <div className="flex justify-center items-center h-80 text-muted-foreground">
+                  暂无性能指标数据
+                </div>
               )}
             </CardContent>
           </Card>
@@ -258,7 +271,7 @@ export default function PerformanceDashboard() {
                   placeholder="搜索事件..."
                   className="w-full px-3 py-2 border rounded-md"
                   value={filterText}
-                  onChange={(e) => setFilterText(e.target.value)}
+                  onChange={e => setFilterText(e.target.value)}
                 />
               </div>
             </CardHeader>
@@ -279,14 +292,18 @@ export default function PerformanceDashboard() {
                           <TableCell>{new Date(event.timestamp).toLocaleTimeString()}</TableCell>
                           <TableCell>{event.name}</TableCell>
                           <TableCell>
-                            <pre className="text-xs whitespace-pre-wrap">{JSON.stringify(event.data, null, 2)}</pre>
+                            <pre className="text-xs whitespace-pre-wrap">
+                              {JSON.stringify(event.data, null, 2)}
+                            </pre>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 ) : (
-                  <div className="flex justify-center items-center h-40 text-muted-foreground">暂无事件数据</div>
+                  <div className="flex justify-center items-center h-40 text-muted-foreground">
+                    暂无事件数据
+                  </div>
                 )}
               </ScrollArea>
             </CardContent>
@@ -305,8 +322,8 @@ export default function PerformanceDashboard() {
                   <div className="h-80 mb-4">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
-                        data={report.resourceTiming.slice(0, 20).map((r) => ({
-                          name: r.name.split("/").pop()?.substring(0, 15) || r.name,
+                        data={report.resourceTiming.slice(0, 20).map(r => ({
+                          name: r.name.split('/').pop()?.substring(0, 15) || r.name,
                           duration: r.duration,
                           size: r.transferSize / 1024,
                         }))}
@@ -317,8 +334,8 @@ export default function PerformanceDashboard() {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="duration" name="加载时间 (ms)" fill="#8884d8" />
-                        <Bar dataKey="size" name="大小 (KB)" fill="#82ca9d" />
+                        <Bar dataKey="duration" name="加载时间 (ms)" fill="var(--primary)" />
+                        <Bar dataKey="size" name="大小 (KB)" fill="var(--success)" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -351,7 +368,9 @@ export default function PerformanceDashboard() {
                   </ScrollArea>
                 </>
               ) : (
-                <div className="flex justify-center items-center h-80 text-muted-foreground">暂无资源加载数据</div>
+                <div className="flex justify-center items-center h-80 text-muted-foreground">
+                  暂无资源加载数据
+                </div>
               )}
             </CardContent>
           </Card>
@@ -381,7 +400,7 @@ export default function PerformanceDashboard() {
                         <YAxis dataKey="name" type="category" width={150} />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="value" name="时间 (ms)" fill="#8884d8" />
+                        <Bar dataKey="value" name="时间 (ms)" fill="var(--primary)" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -406,29 +425,31 @@ export default function PerformanceDashboard() {
                   </Table>
                 </>
               ) : (
-                <div className="flex justify-center items-center h-80 text-muted-foreground">暂无导航计时数据</div>
+                <div className="flex justify-center items-center h-80 text-muted-foreground">
+                  暂无导航计时数据
+                </div>
               )}
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
 
 // 导航指标描述
 function getNavigationMetricDescription(metricName: string): string {
   const descriptions: Record<string, string> = {
-    loadTime: "页面完全加载时间",
-    domContentLoaded: "DOM内容加载完成时间",
-    firstByte: "首字节时间 (TTFB)",
-    domInteractive: "DOM可交互时间",
-    domComplete: "DOM完成时间",
-    redirectTime: "重定向时间",
-    dnsLookup: "DNS查询时间",
-    tcpConnection: "TCP连接时间",
-    requestTime: "请求响应时间",
-  }
+    loadTime: '页面完全加载时间',
+    domContentLoaded: 'DOM内容加载完成时间',
+    firstByte: '首字节时间 (TTFB)',
+    domInteractive: 'DOM可交互时间',
+    domComplete: 'DOM完成时间',
+    redirectTime: '重定向时间',
+    dnsLookup: 'DNS查询时间',
+    tcpConnection: 'TCP连接时间',
+    requestTime: '请求响应时间',
+  };
 
-  return descriptions[metricName] || "未知指标"
+  return descriptions[metricName] || '未知指标';
 }

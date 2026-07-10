@@ -1,17 +1,17 @@
-import fs from "fs"
-import path from "path"
-import { MissingModulesAnalyzer } from "./missing-modules-analyzer"
+import fs from "fs";
+import path from "path";
+import { MissingModulesAnalyzer } from "./missing-modules-analyzer";
 
 interface SkeletonTemplate {
-  type: string
-  template: (name: string, importPath: string) => string
+  type: string;
+  template: (name: string, importPath: string) => string;
 }
 
 export class SkeletonGenerator {
-  private templates: Map<string, SkeletonTemplate> = new Map()
+  private templates: Map<string, SkeletonTemplate> = new Map();
 
   constructor() {
-    this.initializeTemplates()
+    this.initializeTemplates();
   }
 
   private initializeTemplates(): void {
@@ -38,12 +38,15 @@ export function ${name}({ children, className }: ${name}Props) {
 
 export default ${name}
 `,
-    })
+    });
 
     // 页面组件模板
     this.templates.set("page", {
       type: "page",
-      template: (name: string, importPath: string) => `import type { Metadata } from "next"
+      template: (
+        name: string,
+        importPath: string,
+      ) => `import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "${name} | 言语云³",
@@ -61,12 +64,15 @@ export default function ${name}Page() {
   )
 }
 `,
-    })
+    });
 
     // Hook模板
     this.templates.set("hook", {
       type: "hook",
-      template: (name: string, importPath: string) => `import { useState, useEffect } from "react"
+      template: (
+        name: string,
+        importPath: string,
+      ) => `import { useState, useEffect } from "react"
 
 export function ${name}() {
   // TODO: 实现 ${name} hook
@@ -84,7 +90,7 @@ export function ${name}() {
 
 export default ${name}
 `,
-    })
+    });
 
     // 工具函数模板
     this.templates.set("utility", {
@@ -101,7 +107,7 @@ export function ${name}() {
 
 export default ${name}
 `,
-    })
+    });
 
     // 类型定义模板
     this.templates.set("type", {
@@ -122,7 +128,7 @@ export type ${name}Props = {
 
 export default ${name}
 `,
-    })
+    });
 
     // 服务模块模板
     this.templates.set("service", {
@@ -145,80 +151,80 @@ export const ${name.toLowerCase()}Service = new ${name}Service()
 
 export default ${name}Service
 `,
-    })
+    });
   }
 
   async generateSkeletons(): Promise<void> {
-    const analyzer = new MissingModulesAnalyzer()
-    const { missingModules } = await analyzer.analyze()
+    const analyzer = new MissingModulesAnalyzer();
+    const { missingModules } = await analyzer.analyze();
 
-    console.log(`🏗️ 生成 ${missingModules.length} 个骨架文件...`)
+    console.log(`🏗️ 生成 ${missingModules.length} 个骨架文件...`);
 
     for (const module of missingModules) {
       try {
-        await this.generateSkeleton(module)
-        console.log(`✅ 生成: ${module.suggestedPath}`)
+        await this.generateSkeleton(module);
+        console.log(`✅ 生成: ${module.suggestedPath}`);
       } catch (error) {
-        console.error(`❌ 生成失败: ${module.importPath}`, error)
+        console.error(`❌ 生成失败: ${module.importPath}`, error);
       }
     }
 
-    console.log("🎉 骨架文件生成完成！")
+    console.log("🎉 骨架文件生成完成！");
   }
 
   private async generateSkeleton(module: any): Promise<void> {
-    const template = this.templates.get(module.type)
+    const template = this.templates.get(module.type);
     if (!template) {
-      console.warn(`⚠️ 未找到 ${module.type} 类型的模板`)
-      return
+      console.warn(`⚠️ 未找到 ${module.type} 类型的模板`);
+      return;
     }
 
     // 从导入路径推断组件名称
-    const componentName = this.extractComponentName(module.importPath)
-    const content = template.template(componentName, module.importPath)
+    const componentName = this.extractComponentName(module.importPath);
+    const content = template.template(componentName, module.importPath);
 
     // 确定文件路径和扩展名
-    const filePath = this.determineFilePath(module.suggestedPath, module.type)
+    const filePath = this.determineFilePath(module.suggestedPath, module.type);
 
     // 确保目录存在
-    const dir = path.dirname(filePath)
+    const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true })
+      fs.mkdirSync(dir, { recursive: true });
     }
 
     // 写入文件
-    fs.writeFileSync(filePath, content, "utf-8")
+    fs.writeFileSync(filePath, content, "utf-8");
   }
 
   private extractComponentName(importPath: string): string {
     // 从路径中提取组件名称
-    const segments = importPath.split("/")
-    let name = segments[segments.length - 1]
+    const segments = importPath.split("/");
+    let name = segments[segments.length - 1];
 
     // 移除文件扩展名
-    name = name.replace(/\.(ts|tsx|js|jsx)$/, "")
+    name = name.replace(/\.(ts|tsx|js|jsx)$/, "");
 
     // 转换为PascalCase
     if (name === "index") {
       // 如果是index文件，使用父目录名
-      name = segments[segments.length - 2] || "Component"
+      name = segments[segments.length - 2] || "Component";
     }
 
     return name
       .split("-")
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join("")
+      .join("");
   }
 
   private determineFilePath(suggestedPath: string, type: string): string {
     // 根据类型确定文件扩展名
-    const extension = type === "type" ? ".ts" : ".tsx"
+    const extension = type === "type" ? ".ts" : ".tsx";
 
     // 如果路径已经有扩展名，直接使用
     if (path.extname(suggestedPath)) {
-      return suggestedPath
+      return suggestedPath;
     }
 
-    return suggestedPath + extension
+    return suggestedPath + extension;
   }
 }

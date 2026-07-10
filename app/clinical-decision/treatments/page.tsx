@@ -1,10 +1,10 @@
-import type { Metadata } from "next"
-import { ClinicalTreatmentsClient } from "@/components/clinical-decision/clinical-treatments-client"
+import type { Metadata } from 'next';
+import { ClinicalTreatmentsClient } from '@/components/clinical-decision/clinical-treatments-client';
 
 export const metadata: Metadata = {
-  title: "治疗方案 | 言语医枢³智能诊疗系统",
-  description: "AI辅助治疗方案推荐与管理",
-}
+  title: '治疗方案 | 言语医枢³智能诊疗系统',
+  description: 'AI辅助治疗方案推荐与管理',
+};
 
 export default function TreatmentsPage() {
   return (
@@ -16,5 +16,5 @@ export default function TreatmentsPage() {
 
       <ClinicalTreatmentsClient />
     </div>
-  )
+  );
 }

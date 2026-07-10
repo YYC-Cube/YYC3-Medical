@@ -1,14 +1,26 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Search, Plus, Filter, MoreHorizontal, FileText, Clock, AlertTriangle } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Search, Plus, Filter, MoreHorizontal, FileText, Clock, AlertTriangle } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -16,209 +28,215 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
+} from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 // 模拟临床路径数据
 const clinicalPathways = [
   {
-    id: "CP001",
-    name: "2型糖尿病标准诊疗路径",
-    department: "内分泌科",
-    version: "3.2",
-    status: "已发布",
-    lastUpdated: "2023-04-15",
-    author: "李医生",
+    id: 'CP001',
+    name: '2型糖尿病标准诊疗路径',
+    department: '内分泌科',
+    version: '3.2',
+    status: '已发布',
+    lastUpdated: '2023-04-15',
+    author: '李医生',
     usageCount: 128,
     complianceRate: 92,
   },
   {
-    id: "CP002",
-    name: "社区获得性肺炎诊疗路径",
-    department: "呼吸科",
-    version: "2.5",
-    status: "已发布",
-    lastUpdated: "2023-03-22",
-    author: "张医生",
+    id: 'CP002',
+    name: '社区获得性肺炎诊疗路径',
+    department: '呼吸科',
+    version: '2.5',
+    status: '已发布',
+    lastUpdated: '2023-03-22',
+    author: '张医生',
     usageCount: 87,
     complianceRate: 88,
   },
   {
-    id: "CP003",
-    name: "急性心肌梗死诊疗路径",
-    department: "心内科",
-    version: "4.0",
-    status: "已发布",
-    lastUpdated: "2023-05-10",
-    author: "王医生",
+    id: 'CP003',
+    name: '急性心肌梗死诊疗路径',
+    department: '心内科',
+    version: '4.0',
+    status: '已发布',
+    lastUpdated: '2023-05-10',
+    author: '王医生',
     usageCount: 56,
     complianceRate: 95,
   },
   {
-    id: "CP004",
-    name: "脑卒中诊疗路径",
-    department: "神经内科",
-    version: "3.1",
-    status: "已发布",
-    lastUpdated: "2023-02-28",
-    author: "赵医生",
+    id: 'CP004',
+    name: '脑卒中诊疗路径',
+    department: '神经内科',
+    version: '3.1',
+    status: '已发布',
+    lastUpdated: '2023-02-28',
+    author: '赵医生',
     usageCount: 72,
     complianceRate: 90,
   },
   {
-    id: "CP005",
-    name: "慢性阻塞性肺疾病诊疗路径",
-    department: "呼吸科",
-    version: "2.8",
-    status: "审核中",
-    lastUpdated: "2023-05-18",
-    author: "刘医生",
+    id: 'CP005',
+    name: '慢性阻塞性肺疾病诊疗路径',
+    department: '呼吸科',
+    version: '2.8',
+    status: '审核中',
+    lastUpdated: '2023-05-18',
+    author: '刘医生',
     usageCount: 0,
     complianceRate: 0,
   },
   {
-    id: "CP006",
-    name: "高血压诊疗路径",
-    department: "心内科",
-    version: "3.5",
-    status: "草稿",
-    lastUpdated: "2023-05-20",
-    author: "陈医生",
+    id: 'CP006',
+    name: '高血压诊疗路径',
+    department: '心内科',
+    version: '3.5',
+    status: '草稿',
+    lastUpdated: '2023-05-20',
+    author: '陈医生',
     usageCount: 0,
     complianceRate: 0,
   },
-]
+];
 
 // 模拟路径节点数据
 const pathwayNodes = [
   {
-    id: "node-1",
-    type: "诊断",
-    title: "初步评估",
-    description: "进行病史采集、体格检查和初步实验室检查",
-    requiredTests: ["血糖", "糖化血红蛋白", "血脂", "肾功能"],
-    expectedOutcomes: ["确认糖尿病诊断", "评估并发症风险"],
-    timeframe: "1天",
+    id: 'node-1',
+    type: '诊断',
+    title: '初步评估',
+    description: '进行病史采集、体格检查和初步实验室检查',
+    requiredTests: ['血糖', '糖化血红蛋白', '血脂', '肾功能'],
+    expectedOutcomes: ['确认糖尿病诊断', '评估并发症风险'],
+    timeframe: '1天',
     order: 1,
   },
   {
-    id: "node-2",
-    type: "检查",
-    title: "综合评估",
-    description: "进行全面的并发症筛查和风险评估",
-    requiredTests: ["眼底检查", "尿微量白蛋白", "神经病变筛查", "心血管评估"],
-    expectedOutcomes: ["明确并发症情况", "制定个体化治疗方案"],
-    timeframe: "2-3天",
+    id: 'node-2',
+    type: '检查',
+    title: '综合评估',
+    description: '进行全面的并发症筛查和风险评估',
+    requiredTests: ['眼底检查', '尿微量白蛋白', '神经病变筛查', '心血管评估'],
+    expectedOutcomes: ['明确并发症情况', '制定个体化治疗方案'],
+    timeframe: '2-3天',
     order: 2,
   },
   {
-    id: "node-3",
-    type: "治疗",
-    title: "初始治疗",
-    description: "根据评估结果制定并实施初始治疗方案",
-    medications: ["二甲双胍", "生活方式干预"],
-    expectedOutcomes: ["血糖控制改善", "患者教育完成"],
-    timeframe: "1-2周",
+    id: 'node-3',
+    type: '治疗',
+    title: '初始治疗',
+    description: '根据评估结果制定并实施初始治疗方案',
+    medications: ['二甲双胍', '生活方式干预'],
+    expectedOutcomes: ['血糖控制改善', '患者教育完成'],
+    timeframe: '1-2周',
     order: 3,
   },
   {
-    id: "node-4",
-    type: "随访",
-    title: "定期随访",
-    description: "定期评估治疗效果，调整治疗方案",
-    followupSchedule: "每3个月一次",
-    monitoringItems: ["空腹血糖", "糖化血红蛋白", "体重", "血压", "用药依从性"],
-    expectedOutcomes: ["血糖达标", "无低血糖发生", "生活质量改善"],
-    timeframe: "持续",
+    id: 'node-4',
+    type: '随访',
+    title: '定期随访',
+    description: '定期评估治疗效果，调整治疗方案',
+    followupSchedule: '每3个月一次',
+    monitoringItems: ['空腹血糖', '糖化血红蛋白', '体重', '血压', '用药依从性'],
+    expectedOutcomes: ['血糖达标', '无低血糖发生', '生活质量改善'],
+    timeframe: '持续',
     order: 4,
   },
   {
-    id: "node-5",
-    type: "教育",
-    title: "患者教育",
-    description: "提供糖尿病自我管理教育",
-    educationTopics: ["饮食控制", "运动指导", "血糖监测", "用药指导", "并发症预防"],
-    expectedOutcomes: ["自我管理能力提升", "生活方式改善"],
-    timeframe: "贯穿全程",
+    id: 'node-5',
+    type: '教育',
+    title: '患者教育',
+    description: '提供糖尿病自我管理教育',
+    educationTopics: ['饮食控制', '运动指导', '血糖监测', '用药指导', '并发症预防'],
+    expectedOutcomes: ['自我管理能力提升', '生活方式改善'],
+    timeframe: '贯穿全程',
     order: 5,
   },
-]
+];
 
 // 模拟路径变异数据
 const pathwayVariations = [
   {
-    id: "var-1",
-    pathwayId: "CP001",
-    nodeId: "node-3",
-    variationType: "治疗调整",
-    description: "对于肾功能不全患者，避免使用二甲双胍，改用DPP-4抑制剂",
-    condition: "eGFR < 30 ml/min/1.73m²",
-    recommendedAction: "更换为沙格列汀，初始剂量2.5mg，每日一次",
-    evidenceLevel: "B",
-    author: "李医生",
-    createdAt: "2023-04-10",
+    id: 'var-1',
+    pathwayId: 'CP001',
+    nodeId: 'node-3',
+    variationType: '治疗调整',
+    description: '对于肾功能不全患者，避免使用二甲双胍，改用DPP-4抑制剂',
+    condition: 'eGFR < 30 ml/min/1.73m²',
+    recommendedAction: '更换为沙格列汀，初始剂量2.5mg，每日一次',
+    evidenceLevel: 'B',
+    author: '李医生',
+    createdAt: '2023-04-10',
   },
   {
-    id: "var-2",
-    pathwayId: "CP001",
-    nodeId: "node-4",
-    variationType: "随访频率调整",
-    description: "对于血糖控制不佳的患者，增加随访频率",
-    condition: "糖化血红蛋白 > 9%",
-    recommendedAction: "将随访频率调整为每月一次，直至血糖控制改善",
-    evidenceLevel: "C",
-    author: "张医生",
-    createdAt: "2023-04-12",
+    id: 'var-2',
+    pathwayId: 'CP001',
+    nodeId: 'node-4',
+    variationType: '随访频率调整',
+    description: '对于血糖控制不佳的患者，增加随访频率',
+    condition: '糖化血红蛋白 > 9%',
+    recommendedAction: '将随访频率调整为每月一次，直至血糖控制改善',
+    evidenceLevel: 'C',
+    author: '张医生',
+    createdAt: '2023-04-12',
   },
   {
-    id: "var-3",
-    pathwayId: "CP001",
-    nodeId: "node-2",
-    variationType: "检查项目调整",
-    description: "对于年龄>65岁的患者，增加认知功能评估",
-    condition: "年龄 > 65岁",
-    recommendedAction: "增加简易精神状态检查(MMSE)评估",
-    evidenceLevel: "B",
-    author: "王医生",
-    createdAt: "2023-04-14",
+    id: 'var-3',
+    pathwayId: 'CP001',
+    nodeId: 'node-2',
+    variationType: '检查项目调整',
+    description: '对于年龄>65岁的患者，增加认知功能评估',
+    condition: '年龄 > 65岁',
+    recommendedAction: '增加简易精神状态检查(MMSE)评估',
+    evidenceLevel: 'B',
+    author: '王医生',
+    createdAt: '2023-04-14',
   },
-]
+];
 
 export function ClinicalPathwaysClient() {
-  const [activeTab, setActiveTab] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [showPathwayDialog, setShowPathwayDialog] = useState(false)
-  const [showNodeDialog, setShowNodeDialog] = useState(false)
-  const [selectedPathway, setSelectedPathway] = useState<(typeof clinicalPathways)[0] | null>(null)
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showPathwayDialog, setShowPathwayDialog] = useState(false);
+  const [showNodeDialog, setShowNodeDialog] = useState(false);
+  const [selectedPathway, setSelectedPathway] = useState<(typeof clinicalPathways)[0] | null>(null);
 
   // 过滤路径数据
   const filteredPathways = clinicalPathways.filter(
-    (pathway) =>
+    pathway =>
       pathway.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       pathway.department.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      pathway.id.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      pathway.id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // 根据状态获取路径颜色
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "已发布":
-        return "bg-green-100 text-green-800 hover:bg-green-100"
-      case "审核中":
-        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
-      case "草稿":
-        return "bg-gray-100 text-gray-800 hover:bg-gray-100"
+      case '已发布':
+        return 'bg-success/10 text-success hover:bg-success/10';
+      case '审核中':
+        return 'bg-warning text-warning hover:bg-warning/20';
+      case '草稿':
+        return 'bg-muted text-foreground hover:bg-muted';
       default:
-        return "bg-blue-100 text-blue-800 hover:bg-blue-100"
+        return 'bg-primary/10 text-primary hover:bg-primary/10';
     }
-  }
+  };
 
   // 查看路径详��
   const viewPathwayDetails = (pathway: (typeof clinicalPathways)[0]) => {
-    setSelectedPathway(pathway)
-  }
+    setSelectedPathway(pathway);
+  };
 
   return (
     <>
@@ -243,7 +261,7 @@ export function ClinicalPathwaysClient() {
                 placeholder="搜索路径名称、科室或ID..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -287,7 +305,7 @@ export function ClinicalPathwaysClient() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      filteredPathways.map((pathway) => (
+                      filteredPathways.map(pathway => (
                         <TableRow key={pathway.id} className="hover:bg-muted/50">
                           <TableCell className="font-medium">{pathway.name}</TableCell>
                           <TableCell>{pathway.department}</TableCell>
@@ -299,10 +317,16 @@ export function ClinicalPathwaysClient() {
                           </TableCell>
                           <TableCell>{pathway.lastUpdated}</TableCell>
                           <TableCell>{pathway.usageCount}</TableCell>
-                          <TableCell>{pathway.status === "已发布" ? `${pathway.complianceRate}%` : "-"}</TableCell>
+                          <TableCell>
+                            {pathway.status === '已发布' ? `${pathway.complianceRate}%` : '-'}
+                          </TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="icon" onClick={() => viewPathwayDetails(pathway)}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => viewPathwayDetails(pathway)}
+                              >
                                 <FileText className="h-4 w-4" />
                                 <span className="sr-only">查看详情</span>
                               </Button>
@@ -317,7 +341,9 @@ export function ClinicalPathwaysClient() {
                                   <DropdownMenuItem>编辑路径</DropdownMenuItem>
                                   <DropdownMenuItem>复制路径</DropdownMenuItem>
                                   <DropdownMenuItem>导出路径</DropdownMenuItem>
-                                  <DropdownMenuItem className="text-red-600">删除路径</DropdownMenuItem>
+                                  <DropdownMenuItem className="text-destructive">
+                                    删除路径
+                                  </DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
                             </div>
@@ -347,8 +373,8 @@ export function ClinicalPathwaysClient() {
 
                   <TableBody>
                     {filteredPathways
-                      .filter((p) => p.status === "已发布")
-                      .map((pathway) => (
+                      .filter(p => p.status === '已发布')
+                      .map(pathway => (
                         <TableRow key={pathway.id} className="hover:bg-muted/50">
                           <TableCell className="font-medium">{pathway.name}</TableCell>
                           <TableCell>{pathway.department}</TableCell>
@@ -358,7 +384,11 @@ export function ClinicalPathwaysClient() {
                           <TableCell>{pathway.complianceRate}%</TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="icon" onClick={() => viewPathwayDetails(pathway)}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => viewPathwayDetails(pathway)}
+                              >
                                 <FileText className="h-4 w-4" />
                                 <span className="sr-only">查看详情</span>
                               </Button>
@@ -373,7 +403,9 @@ export function ClinicalPathwaysClient() {
                                   <DropdownMenuItem>编辑路径</DropdownMenuItem>
                                   <DropdownMenuItem>复制路径</DropdownMenuItem>
                                   <DropdownMenuItem>导出路径</DropdownMenuItem>
-                                  <DropdownMenuItem className="text-red-600">删除路径</DropdownMenuItem>
+                                  <DropdownMenuItem className="text-destructive">
+                                    删除路径
+                                  </DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
                             </div>
@@ -401,8 +433,8 @@ export function ClinicalPathwaysClient() {
 
                   <TableBody>
                     {filteredPathways
-                      .filter((p) => p.status === "审核中")
-                      .map((pathway) => (
+                      .filter(p => p.status === '审核中')
+                      .map(pathway => (
                         <TableRow key={pathway.id} className="hover:bg-muted/50">
                           <TableCell className="font-medium">{pathway.name}</TableCell>
                           <TableCell>{pathway.department}</TableCell>
@@ -411,7 +443,11 @@ export function ClinicalPathwaysClient() {
                           <TableCell>{pathway.lastUpdated}</TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="icon" onClick={() => viewPathwayDetails(pathway)}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => viewPathwayDetails(pathway)}
+                              >
                                 <FileText className="h-4 w-4" />
                                 <span className="sr-only">查看详情</span>
                               </Button>
@@ -443,8 +479,8 @@ export function ClinicalPathwaysClient() {
 
                   <TableBody>
                     {filteredPathways
-                      .filter((p) => p.status === "草稿")
-                      .map((pathway) => (
+                      .filter(p => p.status === '草稿')
+                      .map(pathway => (
                         <TableRow key={pathway.id} className="hover:bg-muted/50">
                           <TableCell className="font-medium">{pathway.name}</TableCell>
                           <TableCell>{pathway.department}</TableCell>
@@ -453,7 +489,11 @@ export function ClinicalPathwaysClient() {
                           <TableCell>{pathway.lastUpdated}</TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">
-                              <Button variant="ghost" size="icon" onClick={() => viewPathwayDetails(pathway)}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => viewPathwayDetails(pathway)}
+                              >
                                 <FileText className="h-4 w-4" />
                                 <span className="sr-only">查看详情</span>
                               </Button>
@@ -514,22 +554,22 @@ export function ClinicalPathwaysClient() {
                 </div>
 
                 <div className="space-y-4">
-                  {pathwayNodes.map((node) => (
+                  {pathwayNodes.map(node => (
                     <Card key={node.id}>
                       <CardHeader className="pb-2">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Badge
                               className={
-                                node.type === "诊断"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : node.type === "检查"
-                                    ? "bg-purple-100 text-purple-800"
-                                    : node.type === "治疗"
-                                      ? "bg-green-100 text-green-800"
-                                      : node.type === "随访"
-                                        ? "bg-orange-100 text-orange-800"
-                                        : "bg-gray-100 text-gray-800"
+                                node.type === '诊断'
+                                  ? 'bg-primary/10 text-primary'
+                                  : node.type === '检查'
+                                    ? 'bg-primary text-primary'
+                                    : node.type === '治疗'
+                                      ? 'bg-success/10 text-success'
+                                      : node.type === '随访'
+                                        ? 'bg-warning text-warning'
+                                        : 'bg-muted text-foreground'
                               }
                             >
                               {node.type}
@@ -550,7 +590,9 @@ export function ClinicalPathwaysClient() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem>编辑节点</DropdownMenuItem>
                                 <DropdownMenuItem>添加变异</DropdownMenuItem>
-                                <DropdownMenuItem className="text-red-600">删除节点</DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive">
+                                  删除节点
+                                </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
                           </div>
@@ -561,7 +603,7 @@ export function ClinicalPathwaysClient() {
 
                         {node.requiredTests && (
                           <div className="mb-3">
-                            <h4 className="text-xs font-medium text-gray-500 mb-1">必要检查：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-1">必要检查：</h4>
                             <div className="flex flex-wrap gap-1">
                               {node.requiredTests.map((test, index) => (
                                 <Badge key={index} variant="outline">
@@ -574,7 +616,7 @@ export function ClinicalPathwaysClient() {
 
                         {node.medications && (
                           <div className="mb-3">
-                            <h4 className="text-xs font-medium text-gray-500 mb-1">推荐用药：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-1">推荐用药：</h4>
                             <div className="flex flex-wrap gap-1">
                               {node.medications.map((med, index) => (
                                 <Badge key={index} variant="outline">
@@ -587,14 +629,14 @@ export function ClinicalPathwaysClient() {
 
                         {node.followupSchedule && (
                           <div className="mb-3">
-                            <h4 className="text-xs font-medium text-gray-500 mb-1">随访计划：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-1">随访计划：</h4>
                             <p className="text-sm">{node.followupSchedule}</p>
                           </div>
                         )}
 
                         {node.monitoringItems && (
                           <div className="mb-3">
-                            <h4 className="text-xs font-medium text-gray-500 mb-1">监测项目：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-1">监测项目：</h4>
                             <div className="flex flex-wrap gap-1">
                               {node.monitoringItems.map((item, index) => (
                                 <Badge key={index} variant="outline">
@@ -607,7 +649,7 @@ export function ClinicalPathwaysClient() {
 
                         {node.educationTopics && (
                           <div className="mb-3">
-                            <h4 className="text-xs font-medium text-gray-500 mb-1">教育主题：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-1">教育主题：</h4>
                             <div className="flex flex-wrap gap-1">
                               {node.educationTopics.map((topic, index) => (
                                 <Badge key={index} variant="outline">
@@ -619,7 +661,7 @@ export function ClinicalPathwaysClient() {
                         )}
 
                         <div className="mt-3">
-                          <h4 className="text-xs font-medium text-gray-500 mb-1">预期结果：</h4>
+                          <h4 className="text-xs font-medium text-muted-foreground mb-1">预期结果：</h4>
                           <ul className="list-disc list-inside text-sm">
                             {node.expectedOutcomes.map((outcome, index) => (
                               <li key={index}>{outcome}</li>
@@ -628,27 +670,30 @@ export function ClinicalPathwaysClient() {
                         </div>
 
                         {/* 显示该节点的变异 */}
-                        {pathwayVariations.filter((v) => v.nodeId === node.id).length > 0 && (
+                        {pathwayVariations.filter(v => v.nodeId === node.id).length > 0 && (
                           <div className="mt-4 pt-3 border-t">
-                            <h4 className="text-xs font-medium text-gray-500 mb-2">路径变异：</h4>
+                            <h4 className="text-xs font-medium text-muted-foreground mb-2">路径变异：</h4>
                             <div className="space-y-2">
                               {pathwayVariations
-                                .filter((v) => v.nodeId === node.id)
-                                .map((variation) => (
-                                  <div key={variation.id} className="bg-amber-50 p-2 rounded-md text-sm">
+                                .filter(v => v.nodeId === node.id)
+                                .map(variation => (
+                                  <div
+                                    key={variation.id}
+                                    className="bg-warning p-2 rounded-md text-sm"
+                                  >
                                     <div className="flex items-center gap-1 mb-1">
-                                      <AlertTriangle className="h-3 w-3 text-amber-600" />
+                                      <AlertTriangle className="h-3 w-3 text-warning" />
                                       <span className="font-medium">{variation.variationType}</span>
                                       <Badge className="ml-auto" variant="outline">
                                         证据级别: {variation.evidenceLevel}
                                       </Badge>
                                     </div>
                                     <p className="mb-1">{variation.description}</p>
-                                    <div className="text-xs text-gray-600">
+                                    <div className="text-xs text-muted-foreground">
                                       <span className="font-medium">适用条件：</span>
                                       {variation.condition}
                                     </div>
-                                    <div className="text-xs text-gray-600">
+                                    <div className="text-xs text-muted-foreground">
                                       <span className="font-medium">推荐操作：</span>
                                       {variation.recommendedAction}
                                     </div>
@@ -673,7 +718,7 @@ export function ClinicalPathwaysClient() {
                     <CardContent>
                       <div className="text-2xl font-bold">{selectedPathway.usageCount}</div>
                       <p className="text-xs text-muted-foreground">
-                        较上月 <span className="text-green-500">↑ 12%</span>
+                        较上月 <span className="text-success">↑ 12%</span>
                       </p>
                     </CardContent>
                   </Card>
@@ -684,7 +729,7 @@ export function ClinicalPathwaysClient() {
                     <CardContent>
                       <div className="text-2xl font-bold">{selectedPathway.complianceRate}%</div>
                       <p className="text-xs text-muted-foreground">
-                        较上月 <span className="text-green-500">↑ 3%</span>
+                        较上月 <span className="text-success">↑ 3%</span>
                       </p>
                     </CardContent>
                   </Card>
@@ -695,7 +740,7 @@ export function ClinicalPathwaysClient() {
                     <CardContent>
                       <div className="text-2xl font-bold">8%</div>
                       <p className="text-xs text-muted-foreground">
-                        较上月 <span className="text-red-500">↓ 2%</span>
+                        较上月 <span className="text-destructive">↓ 2%</span>
                       </p>
                     </CardContent>
                   </Card>
@@ -827,5 +872,5 @@ export function ClinicalPathwaysClient() {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

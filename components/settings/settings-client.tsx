@@ -1,58 +1,66 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Moon, Sun, Eye, Zap, Clock, Laptop, Bot, Shield } from "lucide-react"
-import { useAutomaticExecution } from "@/contexts/automatic-execution-context"
-import { AutomaticExecutionConsent } from "@/components/ui/automatic-execution-consent"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Moon, Sun, Eye, Zap, Clock, Laptop, Bot, Shield } from 'lucide-react';
+import { useAutomaticExecution } from '@/contexts/automatic-execution-context';
+import { AutomaticExecutionConsent } from '@/components/ui/automatic-execution-consent';
 
 export function SettingsClient() {
   const [settings, setSettings] = useState({
-    theme: "system",
-    language: "zh-CN",
+    theme: 'system',
+    language: 'zh-CN',
     fontSize: 16,
-    colorScheme: "blue",
+    colorScheme: 'blue',
     animations: true,
     autoSave: true,
     compactMode: false,
     highContrastMode: false,
     sessionTimeout: 30,
     dataRefreshInterval: 60,
-  })
+  });
 
-  const {
-    consentGiven,
-    setConsentGiven,
-    showConsentDialog,
-    setShowConsentDialog,
-    requestConsent,
-  } = useAutomaticExecution()
+  const { consentGiven, setConsentGiven, showConsentDialog, setShowConsentDialog, requestConsent } =
+    useAutomaticExecution();
 
   const handleChange = (field: string, value: any) => {
-    setSettings((prev) => ({ ...prev, [field]: value }))
-  }
+    setSettings(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleAutoSaveToggle = (checked: boolean) => {
     if (checked && !consentGiven) {
-      requestConsent()
-      return
+      requestConsent();
+      return;
     }
-    handleChange("autoSave", checked)
-  }
+    handleChange('autoSave', checked);
+  };
 
   const handleAutomaticExecutionToggle = (checked: boolean) => {
     if (checked && !consentGiven) {
-      requestConsent()
+      requestConsent();
     } else {
-      setConsentGiven(checked)
+      setConsentGiven(checked);
     }
-  }
+  };
 
   return (
     <>
@@ -61,7 +69,7 @@ export function SettingsClient() {
         onOpenChange={setShowConsentDialog}
         onConsent={setConsentGiven}
       />
-      
+
       <Tabs defaultValue="appearance" className="space-y-4">
         <TabsList>
           <TabsTrigger value="appearance">外观</TabsTrigger>
@@ -71,453 +79,470 @@ export function SettingsClient() {
           <TabsTrigger value="advanced">高级设置</TabsTrigger>
         </TabsList>
 
-      <TabsContent value="appearance">
-        <Card>
-          <CardHeader>
-            <CardTitle>外观设置</CardTitle>
-            <CardDescription>自定义系统的视觉外观</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium mb-2">主题</h3>
-                <div className="grid grid-cols-3 gap-4">
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === "light" ? "border-medical-500 bg-medical-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("theme", "light")}
-                  >
-                    <Sun className="h-8 w-8 mb-2 text-medical-500" />
-                    <span>浅色</span>
-                  </div>
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === "dark" ? "border-medical-500 bg-medical-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("theme", "dark")}
-                  >
-                    <Moon className="h-8 w-8 mb-2 text-medical-500" />
-                    <span>深色</span>
-                  </div>
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === "system" ? "border-medical-500 bg-medical-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("theme", "system")}
-                  >
-                    <Laptop className="h-8 w-8 mb-2 text-medical-500" />
-                    <span>跟随系统</span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium mb-2">颜色方案</h3>
-                <div className="grid grid-cols-4 gap-4">
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === "blue" ? "border-blue-500 bg-blue-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("colorScheme", "blue")}
-                  >
-                    <div className="h-8 w-8 mb-2 bg-blue-500 rounded-full"></div>
-                    <span>蓝色</span>
-                  </div>
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === "green" ? "border-green-500 bg-green-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("colorScheme", "green")}
-                  >
-                    <div className="h-8 w-8 mb-2 bg-green-500 rounded-full"></div>
-                    <span>绿色</span>
-                  </div>
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === "purple" ? "border-purple-500 bg-purple-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("colorScheme", "purple")}
-                  >
-                    <div className="h-8 w-8 mb-2 bg-purple-500 rounded-full"></div>
-                    <span>紫色</span>
-                  </div>
-                  <div
-                    className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === "orange" ? "border-orange-500 bg-orange-50" : "border-gray-200"}`}
-                    onClick={() => handleChange("colorScheme", "orange")}
-                  >
-                    <div className="h-8 w-8 mb-2 bg-orange-500 rounded-full"></div>
-                    <span>橙色</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <Eye className="h-5 w-5 mr-3 text-medical-500" />
-                    <div>
-                      <Label htmlFor="font-size">字体大小</Label>
-                      <p className="text-sm text-muted-foreground">调整系统字体大小</p>
+        <TabsContent value="appearance">
+          <Card>
+            <CardHeader>
+              <CardTitle>外观设置</CardTitle>
+              <CardDescription>自定义系统的视觉外观</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-medium mb-2">主题</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === 'light' ? 'border-medical-500 bg-medical-50' : 'border-border'}`}
+                      onClick={() => handleChange('theme', 'light')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <Sun className="h-8 w-8 mb-2 text-medical-500" />
+                      <span>浅色</span>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === 'dark' ? 'border-medical-500 bg-medical-50' : 'border-border'}`}
+                      onClick={() => handleChange('theme', 'dark')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <Moon className="h-8 w-8 mb-2 text-medical-500" />
+                      <span>深色</span>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.theme === 'system' ? 'border-medical-500 bg-medical-50' : 'border-border'}`}
+                      onClick={() => handleChange('theme', 'system')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <Laptop className="h-8 w-8 mb-2 text-medical-500" />
+                      <span>跟随系统</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4 w-1/3">
-                    <span className="text-sm">A</span>
-                    <Slider
-                      id="font-size"
-                      value={[settings.fontSize]}
-                      min={12}
-                      max={20}
-                      step={1}
-                      onValueChange={(value) => handleChange("fontSize", value[0])}
-                    />
-                    <span className="text-lg">A</span>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium mb-2">颜色方案</h3>
+                  <div className="grid grid-cols-4 gap-4">
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === 'blue' ? 'border-primary bg-primary/5' : 'border-border'}`}
+                      onClick={() => handleChange('colorScheme', 'blue')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <div className="h-8 w-8 mb-2 bg-primary/50 rounded-full"></div>
+                      <span>蓝色</span>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === 'green' ? 'border-success bg-success/5' : 'border-border'}`}
+                      onClick={() => handleChange('colorScheme', 'green')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <div className="h-8 w-8 mb-2 bg-success/50 rounded-full"></div>
+                      <span>绿色</span>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === 'purple' ? 'border-primary bg-primary' : 'border-border'}`}
+                      onClick={() => handleChange('colorScheme', 'purple')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <div className="h-8 w-8 mb-2 bg-primary rounded-full"></div>
+                      <span>紫色</span>
+                    </div>
+                    <div
+                      className={`flex flex-col items-center p-4 border rounded-md cursor-pointer ${settings.colorScheme === 'orange' ? 'border-warning bg-warning' : 'border-border'}`}
+                      onClick={() => handleChange('colorScheme', 'orange')}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                    >
+                      <div className="h-8 w-8 mb-2 bg-warning rounded-full"></div>
+                      <span>橙色</span>
+                    </div>
                   </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Eye className="h-5 w-5 mr-3 text-medical-500" />
+                      <div>
+                        <Label htmlFor="font-size">字体大小</Label>
+                        <p className="text-sm text-muted-foreground">调整系统字体大小</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 w-1/3">
+                      <span className="text-sm">A</span>
+                      <Slider
+                        id="font-size"
+                        value={[settings.fontSize]}
+                        min={12}
+                        max={20}
+                        step={1}
+                        onValueChange={value => handleChange('fontSize', value[0])}
+                      />
+                      <span className="text-lg">A</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Zap className="h-5 w-5 mr-3 text-medical-500" />
+                      <div>
+                        <Label htmlFor="animations">动画效果</Label>
+                        <p className="text-sm text-muted-foreground">启用界面动画效果</p>
+                      </div>
+                    </div>
+                    <Switch
+                      id="animations"
+                      checked={settings.animations}
+                      onCheckedChange={checked => handleChange('animations', checked)}
+                    />
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center">
+                      <Eye className="h-5 w-5 mr-3 text-medical-500" />
+                      <div>
+                        <Label htmlFor="high-contrast">高对比度模式</Label>
+                        <p className="text-sm text-muted-foreground">提高界面对比度，增强可读性</p>
+                      </div>
+                    </div>
+                    <Switch
+                      id="high-contrast"
+                      checked={settings.highContrastMode}
+                      onCheckedChange={checked => handleChange('highContrastMode', checked)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>保存设置</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="language">
+          <Card>
+            <CardHeader>
+              <CardTitle>语言与区域</CardTitle>
+              <CardDescription>设置系统语言和区域偏好</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="language">系统语言</Label>
+                  <Select
+                    value={settings.language}
+                    onValueChange={value => handleChange('language', value)}
+                  >
+                    <SelectTrigger id="language" className="w-full">
+                      <SelectValue placeholder="选择语言" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="zh-CN">简体中文</SelectItem>
+                      <SelectItem value="zh-TW">繁體中文</SelectItem>
+                      <SelectItem value="en-US">English (US)</SelectItem>
+                      <SelectItem value="ja-JP">日本語</SelectItem>
+                      <SelectItem value="ko-KR">한국어</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="date-format">日期格式</Label>
+                  <Select defaultValue="yyyy-mm-dd">
+                    <SelectTrigger id="date-format" className="w-full">
+                      <SelectValue placeholder="选择日期格式" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
+                      <SelectItem value="dd-mm-yyyy">DD-MM-YYYY</SelectItem>
+                      <SelectItem value="mm-dd-yyyy">MM-DD-YYYY</SelectItem>
+                      <SelectItem value="yyyy年mm月dd日">YYYY年MM月DD日</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="time-format">时间格式</Label>
+                  <Select defaultValue="24h">
+                    <SelectTrigger id="time-format" className="w-full">
+                      <SelectValue placeholder="选择时间格式" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="24h">24小时制 (14:30)</SelectItem>
+                      <SelectItem value="12h">12小时制 (2:30 PM)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="timezone">时区</Label>
+                  <Select defaultValue="asia-shanghai">
+                    <SelectTrigger id="timezone" className="w-full">
+                      <SelectValue placeholder="选择时区" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="asia-shanghai">(GMT+8:00) 北京，上海</SelectItem>
+                      <SelectItem value="asia-hongkong">(GMT+8:00) 香港</SelectItem>
+                      <SelectItem value="asia-taipei">(GMT+8:00) 台北</SelectItem>
+                      <SelectItem value="asia-tokyo">(GMT+9:00) 东京</SelectItem>
+                      <SelectItem value="america-newyork">(GMT-5:00) 纽约</SelectItem>
+                      <SelectItem value="europe-london">(GMT+0:00) 伦敦</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>保存设置</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="performance">
+          <Card>
+            <CardHeader>
+              <CardTitle>性能设置</CardTitle>
+              <CardDescription>优化系统性能和资源使用</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <Zap className="h-5 w-5 mr-3 text-medical-500" />
+                    <div>
+                      <Label htmlFor="compact-mode">紧凑模式</Label>
+                      <p className="text-sm text-muted-foreground">减少界面间距，显示更多内容</p>
+                    </div>
+                  </div>
+                  <Switch
+                    id="compact-mode"
+                    checked={settings.compactMode}
+                    onCheckedChange={checked => handleChange('compactMode', checked)}
+                  />
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <Clock className="h-5 w-5 mr-3 text-medical-500" />
+                    <div>
+                      <Label htmlFor="data-refresh">数据刷新间隔</Label>
+                      <p className="text-sm text-muted-foreground">设置自动刷新数据的时间间隔</p>
+                    </div>
+                  </div>
+                  <Select
+                    value={settings.dataRefreshInterval.toString()}
+                    onValueChange={value =>
+                      handleChange('dataRefreshInterval', Number.parseInt(value))
+                    }
+                  >
+                    <SelectTrigger id="data-refresh" className="w-40">
+                      <SelectValue placeholder="选择间隔" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="30">30秒</SelectItem>
+                      <SelectItem value="60">1分钟</SelectItem>
+                      <SelectItem value="300">5分钟</SelectItem>
+                      <SelectItem value="600">10分钟</SelectItem>
+                      <SelectItem value="0">手动刷新</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
                     <Zap className="h-5 w-5 mr-3 text-medical-500" />
                     <div>
-                      <Label htmlFor="animations">动画效果</Label>
-                      <p className="text-sm text-muted-foreground">启用界面动画效果</p>
+                      <Label htmlFor="auto-save">自动保存</Label>
+                      <p className="text-sm text-muted-foreground">自动保存表单和编辑内容</p>
                     </div>
                   </div>
                   <Switch
-                    id="animations"
-                    checked={settings.animations}
-                    onCheckedChange={(checked) => handleChange("animations", checked)}
+                    id="auto-save"
+                    checked={settings.autoSave && consentGiven}
+                    onCheckedChange={handleAutoSaveToggle}
                   />
                 </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>保存设置</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
 
+        <TabsContent value="automation">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Bot className="h-5 w-5" />
+                自动执行设置
+              </CardTitle>
+              <CardDescription>管理系统自动执行功能的开启和配置</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center">
-                    <Eye className="h-5 w-5 mr-3 text-medical-500" />
+                    <Shield className="h-5 w-5 mr-3 text-medical-500" />
                     <div>
-                      <Label htmlFor="high-contrast">高对比度模式</Label>
-                      <p className="text-sm text-muted-foreground">提高界面对比度，增强可读性</p>
+                      <Label htmlFor="automatic-execution">启用自动执行</Label>
+                      <p className="text-sm text-muted-foreground">
+                        允许系统自动执行各种任务，提高工作效率
+                      </p>
                     </div>
                   </div>
                   <Switch
-                    id="high-contrast"
-                    checked={settings.highContrastMode}
-                    onCheckedChange={(checked) => handleChange("highContrastMode", checked)}
+                    id="automatic-execution"
+                    checked={consentGiven}
+                    onCheckedChange={handleAutomaticExecutionToggle}
                   />
                 </div>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button>保存设置</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
 
-      <TabsContent value="language">
-        <Card>
-          <CardHeader>
-            <CardTitle>语言与区域</CardTitle>
-            <CardDescription>设置系统语言和区域偏好</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="language">系统语言</Label>
-                <Select value={settings.language} onValueChange={(value) => handleChange("language", value)}>
-                  <SelectTrigger id="language" className="w-full">
-                    <SelectValue placeholder="选择语言" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="zh-CN">简体中文</SelectItem>
-                    <SelectItem value="zh-TW">繁體中文</SelectItem>
-                    <SelectItem value="en-US">English (US)</SelectItem>
-                    <SelectItem value="ja-JP">日本語</SelectItem>
-                    <SelectItem value="ko-KR">한국어</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+                {consentGiven && (
+                  <div className="space-y-4 pl-8 border-l-2 border-border">
+                    <h4 className="font-medium text-sm text-foreground">已启用的自动功能：</h4>
 
-              <div className="space-y-2">
-                <Label htmlFor="date-format">日期格式</Label>
-                <Select defaultValue="yyyy-mm-dd">
-                  <SelectTrigger id="date-format" className="w-full">
-                    <SelectValue placeholder="选择日期格式" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
-                    <SelectItem value="dd-mm-yyyy">DD-MM-YYYY</SelectItem>
-                    <SelectItem value="mm-dd-yyyy">MM-DD-YYYY</SelectItem>
-                    <SelectItem value="yyyy年mm月dd日">YYYY年MM月DD日</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="time-format">时间格式</Label>
-                <Select defaultValue="24h">
-                  <SelectTrigger id="time-format" className="w-full">
-                    <SelectValue placeholder="选择时间格式" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="24h">24小时制 (14:30)</SelectItem>
-                    <SelectItem value="12h">12小时制 (2:30 PM)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="timezone">时区</Label>
-                <Select defaultValue="asia-shanghai">
-                  <SelectTrigger id="timezone" className="w-full">
-                    <SelectValue placeholder="选择时区" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="asia-shanghai">(GMT+8:00) 北京，上海</SelectItem>
-                    <SelectItem value="asia-hongkong">(GMT+8:00) 香港</SelectItem>
-                    <SelectItem value="asia-taipei">(GMT+8:00) 台北</SelectItem>
-                    <SelectItem value="asia-tokyo">(GMT+9:00) 东京</SelectItem>
-                    <SelectItem value="america-newyork">(GMT-5:00) 纽约</SelectItem>
-                    <SelectItem value="europe-london">(GMT+0:00) 伦敦</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button>保存设置</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="performance">
-        <Card>
-          <CardHeader>
-            <CardTitle>性能设置</CardTitle>
-            <CardDescription>优化系统性能和资源使用</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Zap className="h-5 w-5 mr-3 text-medical-500" />
-                  <div>
-                    <Label htmlFor="compact-mode">紧凑模式</Label>
-                    <p className="text-sm text-muted-foreground">减少界面间距，显示更多内容</p>
-                  </div>
-                </div>
-                <Switch
-                  id="compact-mode"
-                  checked={settings.compactMode}
-                  onCheckedChange={(checked) => handleChange("compactMode", checked)}
-                />
-              </div>
-
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Clock className="h-5 w-5 mr-3 text-medical-500" />
-                  <div>
-                    <Label htmlFor="data-refresh">数据刷新间隔</Label>
-                    <p className="text-sm text-muted-foreground">设置自动刷新数据的时间间隔</p>
-                  </div>
-                </div>
-                <Select
-                  value={settings.dataRefreshInterval.toString()}
-                  onValueChange={(value) => handleChange("dataRefreshInterval", Number.parseInt(value))}
-                >
-                  <SelectTrigger id="data-refresh" className="w-40">
-                    <SelectValue placeholder="选择间隔" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="30">30秒</SelectItem>
-                    <SelectItem value="60">1分钟</SelectItem>
-                    <SelectItem value="300">5分钟</SelectItem>
-                    <SelectItem value="600">10分钟</SelectItem>
-                    <SelectItem value="0">手动刷新</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Zap className="h-5 w-5 mr-3 text-medical-500" />
-                  <div>
-                    <Label htmlFor="auto-save">自动保存</Label>
-                    <p className="text-sm text-muted-foreground">自动保存表单和编辑内容</p>
-                  </div>
-                </div>
-                <Switch
-                  id="auto-save"
-                  checked={settings.autoSave && consentGiven}
-                  onCheckedChange={handleAutoSaveToggle}
-                />
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button>保存设置</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="automation">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bot className="h-5 w-5" />
-              自动执行设置
-            </CardTitle>
-            <CardDescription>管理系统自动执行功能的开启和配置</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Shield className="h-5 w-5 mr-3 text-medical-500" />
-                  <div>
-                    <Label htmlFor="automatic-execution">启用自动执行</Label>
-                    <p className="text-sm text-muted-foreground">
-                      允许系统自动执行各种任务，提高工作效率
-                    </p>
-                  </div>
-                </div>
-                <Switch
-                  id="automatic-execution"
-                  checked={consentGiven}
-                  onCheckedChange={handleAutomaticExecutionToggle}
-                />
-              </div>
-
-              {consentGiven && (
-                <div className="space-y-4 pl-8 border-l-2 border-gray-100">
-                  <h4 className="font-medium text-sm text-gray-700">已启用的自动功能：</h4>
-                  
-                  <div className="grid gap-3">
-                    <div className="flex items-center justify-between py-2">
-                      <div>
-                        <Label className="font-medium">自动保存</Label>
-                        <p className="text-sm text-muted-foreground">自动保存表单和编辑内容</p>
+                    <div className="grid gap-3">
+                      <div className="flex items-center justify-between py-2">
+                        <div>
+                          <Label className="font-medium">自动保存</Label>
+                          <p className="text-sm text-muted-foreground">自动保存表单和编辑内容</p>
+                        </div>
+                        <Switch
+                          checked={settings.autoSave}
+                          onCheckedChange={checked => handleChange('autoSave', checked)}
+                        />
                       </div>
-                      <Switch
-                        checked={settings.autoSave}
-                        onCheckedChange={(checked) => handleChange("autoSave", checked)}
-                      />
-                    </div>
 
-                    <div className="flex items-center justify-between py-2">
-                      <div>
-                        <Label className="font-medium">OCR自动处理</Label>
-                        <p className="text-sm text-muted-foreground">OCR识别结果自动处理，减少人工审核</p>
+                      <div className="flex items-center justify-between py-2">
+                        <div>
+                          <Label className="font-medium">OCR自动处理</Label>
+                          <p className="text-sm text-muted-foreground">
+                            OCR识别结果自动处理，减少人工审核
+                          </p>
+                        </div>
+                        <Switch defaultChecked />
                       </div>
-                      <Switch defaultChecked />
-                    </div>
 
-                    <div className="flex items-center justify-between py-2">
-                      <div>
-                        <Label className="font-medium">任务自动重试</Label>
-                        <p className="text-sm text-muted-foreground">任务失败时自动重试执行</p>
+                      <div className="flex items-center justify-between py-2">
+                        <div>
+                          <Label className="font-medium">任务自动重试</Label>
+                          <p className="text-sm text-muted-foreground">任务失败时自动重试执行</p>
+                        </div>
+                        <Switch defaultChecked />
                       </div>
-                      <Switch defaultChecked />
-                    </div>
 
-                    <div className="flex items-center justify-between py-2">
-                      <div>
-                        <Label className="font-medium">自动备份</Label>
-                        <p className="text-sm text-muted-foreground">定期自动备份系统数据</p>
+                      <div className="flex items-center justify-between py-2">
+                        <div>
+                          <Label className="font-medium">自动备份</Label>
+                          <p className="text-sm text-muted-foreground">定期自动备份系统数据</p>
+                        </div>
+                        <Switch defaultChecked />
                       </div>
-                      <Switch defaultChecked />
-                    </div>
 
-                    <div className="flex items-center justify-between py-2">
-                      <div>
-                        <Label className="font-medium">资质自动验证</Label>
-                        <p className="text-sm text-muted-foreground">上传资质后自动发送验证请求</p>
+                      <div className="flex items-center justify-between py-2">
+                        <div>
+                          <Label className="font-medium">资质自动验证</Label>
+                          <p className="text-sm text-muted-foreground">
+                            上传资质后自动发送验证请求
+                          </p>
+                        </div>
+                        <Switch defaultChecked />
                       </div>
-                      <Switch defaultChecked />
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {!consentGiven && (
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                  <div className="text-center space-y-2">
-                    <Bot className="h-8 w-8 mx-auto text-gray-400" />
-                    <p className="text-sm text-gray-600">
-                      请启用自动执行功能以配置各项自动化设置
-                    </p>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setShowConsentDialog(true)}
-                    >
-                      启用自动执行
+                {!consentGiven && (
+                  <div className="bg-muted border border-border rounded-lg p-4">
+                    <div className="text-center space-y-2">
+                      <Bot className="h-8 w-8 mx-auto text-muted-foreground/50" />
+                      <p className="text-sm text-muted-foreground">
+                        请启用自动执行功能以配置各项自动化设置
+                      </p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowConsentDialog(true)}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                      >
+                        启用自动执行
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>保存设置</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="advanced">
+          <Card>
+            <CardHeader>
+              <CardTitle>高级设置</CardTitle>
+              <CardDescription>配置系统高级选项</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <Clock className="h-5 w-5 mr-3 text-medical-500" />
+                    <div>
+                      <Label htmlFor="session-timeout">会话超时</Label>
+                      <p className="text-sm text-muted-foreground">设置无操作自动退出的时间</p>
+                    </div>
+                  </div>
+                  <Select
+                    value={settings.sessionTimeout.toString()}
+                    onValueChange={value => handleChange('sessionTimeout', Number.parseInt(value))}
+                  >
+                    <SelectTrigger id="session-timeout" className="w-40">
+                      <SelectValue placeholder="选择时间" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="15">15分钟</SelectItem>
+                      <SelectItem value="30">30分钟</SelectItem>
+                      <SelectItem value="60">1小时</SelectItem>
+                      <SelectItem value="120">2小时</SelectItem>
+                      <SelectItem value="0">永不超时</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Button variant="outline" className="w-full justify-start">
+                    导出系统设置
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    导入系统设置
+                  </Button>
+                  <Button variant="outline" className="w-full justify-start">
+                    重置所有设置
+                  </Button>
+                </div>
+
+                <div className="pt-4">
+                  <h3 className="text-lg font-medium mb-2">数据管理</h3>
+                  <div className="space-y-2">
+                    <Button variant="outline" className="w-full justify-start">
+                      清除缓存数据
+                    </Button>
+                    <Button variant="outline" className="w-full justify-start">
+                      下载个人数据
+                    </Button>
+                    <Button variant="destructive" className="w-full justify-start">
+                      删除账号数据
                     </Button>
                   </div>
                 </div>
-              )}
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button>保存设置</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="advanced">
-        <Card>
-          <CardHeader>
-            <CardTitle>高级设置</CardTitle>
-            <CardDescription>配置系统高级选项</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <Clock className="h-5 w-5 mr-3 text-medical-500" />
-                  <div>
-                    <Label htmlFor="session-timeout">会话超时</Label>
-                    <p className="text-sm text-muted-foreground">设置无操作自动退出的时间</p>
-                  </div>
-                </div>
-                <Select
-                  value={settings.sessionTimeout.toString()}
-                  onValueChange={(value) => handleChange("sessionTimeout", Number.parseInt(value))}
-                >
-                  <SelectTrigger id="session-timeout" className="w-40">
-                    <SelectValue placeholder="选择时间" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="15">15分钟</SelectItem>
-                    <SelectItem value="30">30分钟</SelectItem>
-                    <SelectItem value="60">1小时</SelectItem>
-                    <SelectItem value="120">2小时</SelectItem>
-                    <SelectItem value="0">永不超时</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
-
-              <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start">
-                  导出系统设置
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  导入系统设置
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  重置所有设置
-                </Button>
-              </div>
-
-              <div className="pt-4">
-                <h3 className="text-lg font-medium mb-2">数据管理</h3>
-                <div className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start">
-                    清除缓存数据
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    下载个人数据
-                  </Button>
-                  <Button variant="destructive" className="w-full justify-start">
-                    删除账号数据
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button>保存设置</Button>
-          </CardFooter>
-        </Card>
-      </TabsContent>
-    </Tabs>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>保存设置</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </>
-  )
+  );
 }

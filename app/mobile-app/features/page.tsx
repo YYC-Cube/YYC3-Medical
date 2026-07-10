@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import MobileAppFeaturesClient from "@/components/mobile-app/features-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import MobileAppFeaturesClient from '@/components/mobile-app/features-client';
 
 export default function MobileAppFeaturesPage() {
   return (
@@ -14,5 +14,5 @@ export default function MobileAppFeaturesPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import AnalyticsClient from "@/components/analytics/analytics-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import AnalyticsClient from '@/components/analytics/analytics-client';
 
 export default function AnalyticsPage() {
   return (
@@ -11,5 +11,5 @@ export default function AnalyticsPage() {
         <AnalyticsClient />
       </Suspense>
     </div>
-  )
+  );
 }

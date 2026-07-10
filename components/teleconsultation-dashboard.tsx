@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   LineChart,
   Line,
@@ -17,45 +17,51 @@ import {
   PieChart,
   Pie,
   Cell,
-} from "recharts"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+} from '@/components/ui/recharts-dynamic';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 // 模拟会诊统计数据
 const consultationStats = [
-  { month: "1月", 心脏科: 25, 神经科: 18, 骨科: 15, 内科: 22, 其他: 10 },
-  { month: "2月", 心脏科: 28, 神经科: 20, 骨科: 16, 内科: 24, 其他: 12 },
-  { month: "3月", 心脏科: 32, 神经科: 22, 骨科: 18, 内科: 26, 其他: 14 },
-  { month: "4月", 心脏科: 35, 神经科: 25, 骨科: 20, 内科: 28, 其他: 15 },
-]
+  { month: '1月', 心脏科: 25, 神经科: 18, 骨科: 15, 内科: 22, 其他: 10 },
+  { month: '2月', 心脏科: 28, 神经科: 20, 骨科: 16, 内科: 24, 其他: 12 },
+  { month: '3月', 心脏科: 32, 神经科: 22, 骨科: 18, 内科: 26, 其他: 14 },
+  { month: '4月', 心脏科: 35, 神经科: 25, 骨科: 20, 内科: 28, 其他: 15 },
+];
 
 // 模拟科室分布
 const departmentDistribution = [
-  { name: "心脏科", value: 35, color: "#ef4444" },
-  { name: "神经科", value: 25, color: "#3b82f6" },
-  { name: "骨科", value: 20, color: "#f59e0b" },
-  { name: "内科", value: 28, color: "#10b981" },
-  { name: "其他", value: 15, color: "#8b5cf6" },
-]
+  { name: '心脏科', value: 35, color: 'var(--destructive)' },
+  { name: '神经科', value: 25, color: 'var(--primary)' },
+  { name: '骨科', value: 20, color: 'var(--warning)' },
+  { name: '内科', value: 28, color: 'var(--success)' },
+  { name: '其他', value: 15, color: 'var(--primary)' },
+];
 
 // 模拟医院分布
 const hospitalDistribution = [
-  { name: "中心医院", value: 45, color: "#10b981" },
-  { name: "区域医院", value: 30, color: "#3b82f6" },
-  { name: "社区医院", value: 15, color: "#f59e0b" },
-  { name: "专科医院", value: 10, color: "#8b5cf6" },
-]
+  { name: '中心医院', value: 45, color: 'var(--success)' },
+  { name: '区域医院', value: 30, color: 'var(--primary)' },
+  { name: '社区医院', value: 15, color: 'var(--warning)' },
+  { name: '专科医院', value: 10, color: 'var(--primary)' },
+];
 
 // 模拟会诊结果
 const consultationResults = [
-  { name: "诊断确认", value: 40, color: "#10b981" },
-  { name: "诊断修改", value: 25, color: "#3b82f6" },
-  { name: "需进一步检查", value: 20, color: "#f59e0b" },
-  { name: "转诊", value: 15, color: "#ef4444" },
-]
+  { name: '诊断确认', value: 40, color: 'var(--success)' },
+  { name: '诊断修改', value: 25, color: 'var(--primary)' },
+  { name: '需进一步检查', value: 20, color: 'var(--warning)' },
+  { name: '转诊', value: 15, color: 'var(--destructive)' },
+];
 
 export function TeleconsultationDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
-  const [timeRange, setTimeRange] = useState("month")
+  const [activeTab, setActiveTab] = useState('overview');
+  const [timeRange, setTimeRange] = useState('month');
 
   return (
     <Card className="shadow-md">
@@ -89,17 +95,25 @@ export function TeleconsultationDashboard() {
                 <h3 className="text-lg font-medium mb-2">会诊数量趋势</h3>
                 <div className="h-60">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={consultationStats} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <LineChart
+                      data={consultationStats}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis />
                       <Tooltip />
                       <Legend />
-                      <Line type="monotone" dataKey="心脏科" stroke="#ef4444" activeDot={{ r: 8 }} />
-                      <Line type="monotone" dataKey="神经科" stroke="#3b82f6" />
-                      <Line type="monotone" dataKey="骨科" stroke="#f59e0b" />
-                      <Line type="monotone" dataKey="内科" stroke="#10b981" />
-                      <Line type="monotone" dataKey="其他" stroke="#8b5cf6" />
+                      <Line
+                        type="monotone"
+                        dataKey="心脏科"
+                        stroke="var(--destructive)"
+                        activeDot={{ r: 8 }}
+                      />
+                      <Line type="monotone" dataKey="神经科" stroke="var(--primary)" />
+                      <Line type="monotone" dataKey="骨科" stroke="var(--warning)" />
+                      <Line type="monotone" dataKey="内科" stroke="var(--success)" />
+                      <Line type="monotone" dataKey="其他" stroke="var(--primary)" />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -117,7 +131,7 @@ export function TeleconsultationDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {hospitalDistribution.map((entry, index) => (
@@ -133,19 +147,19 @@ export function TeleconsultationDashboard() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="p-4 bg-muted rounded-lg text-center">
-                <div className="text-4xl font-bold text-emerald-500">123</div>
+                <div className="text-4xl font-bold text-success">123</div>
                 <div className="text-sm text-muted-foreground">总会诊次数</div>
               </div>
               <div className="p-4 bg-muted rounded-lg text-center">
-                <div className="text-4xl font-bold text-blue-500">42</div>
+                <div className="text-4xl font-bold text-primary">42</div>
                 <div className="text-sm text-muted-foreground">参与医生</div>
               </div>
               <div className="p-4 bg-muted rounded-lg text-center">
-                <div className="text-4xl font-bold text-amber-500">4</div>
+                <div className="text-4xl font-bold text-warning">4</div>
                 <div className="text-sm text-muted-foreground">合作医院</div>
               </div>
               <div className="p-4 bg-muted rounded-lg text-center">
-                <div className="text-4xl font-bold text-purple-500">85%</div>
+                <div className="text-4xl font-bold text-primary">85%</div>
                 <div className="text-sm text-muted-foreground">诊断一致率</div>
               </div>
             </div>
@@ -165,7 +179,7 @@ export function TeleconsultationDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {departmentDistribution.map((entry, index) => (
@@ -182,7 +196,10 @@ export function TeleconsultationDashboard() {
                 <h3 className="text-lg font-medium mb-2">科室会诊数量</h3>
                 <div className="h-60">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={departmentDistribution} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                    <BarChart
+                      data={departmentDistribution}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
@@ -287,7 +304,7 @@ export function TeleconsultationDashboard() {
                         labelLine={false}
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                       >
                         {consultationResults.map((entry, index) => (
@@ -308,8 +325,8 @@ export function TeleconsultationDashboard() {
                       <span className="text-sm">诊断准确率</span>
                       <span className="text-sm font-medium">92%</span>
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500" style={{ width: "92%" }} />
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-success" style={{ width: '92%' }} />
                     </div>
                   </div>
                   <div>
@@ -317,8 +334,8 @@ export function TeleconsultationDashboard() {
                       <span className="text-sm">治疗方案优化率</span>
                       <span className="text-sm font-medium">85%</span>
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500" style={{ width: "85%" }} />
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-primary/50" style={{ width: '85%' }} />
                     </div>
                   </div>
                   <div>
@@ -326,8 +343,8 @@ export function TeleconsultationDashboard() {
                       <span className="text-sm">患者满意度</span>
                       <span className="text-sm font-medium">88%</span>
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-amber-500" style={{ width: "88%" }} />
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-warning" style={{ width: '88%' }} />
                     </div>
                   </div>
                   <div>
@@ -335,8 +352,8 @@ export function TeleconsultationDashboard() {
                       <span className="text-sm">医生满意度</span>
                       <span className="text-sm font-medium">90%</span>
                     </div>
-                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-purple-500" style={{ width: "90%" }} />
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-primary" style={{ width: '90%' }} />
                     </div>
                   </div>
                 </div>
@@ -404,5 +421,5 @@ export function TeleconsultationDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

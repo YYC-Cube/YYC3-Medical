@@ -1,0 +1,226 @@
+// 试验设计 mock 数据与默认值
+// 从 experiment-design.tsx 抽取。
+
+import type { ExperimentFilters } from '@/components/experiment-filter-drawer';
+
+export const experimentDesigns = [
+  {
+    id: 'EXP-001',
+    title: '糖尿病患者血清生物标志物分析',
+    type: '临床研究',
+    status: '已批准',
+    designType: '病例对照研究',
+    createdDate: '2023-04-15',
+    updatedDate: '2023-05-01',
+    startDate: '2023-06-01',
+    endDate: '2023-12-31',
+    principalInvestigator: '张教授',
+    department: '内分泌科',
+    objective: '识别2型糖尿病患者特异性血清生物标志物，评估其在疾病早期诊断中的价值',
+    hypothesis: '2型糖尿病患者血清中存在特定蛋白质标志物，其表达水平与疾病进展相关',
+    groups: [
+      { name: '糖尿病组', size: 100, description: '确诊2型糖尿病患者' },
+      { name: '对照组', size: 100, description: '年龄、性别匹配的健康志愿者' },
+    ],
+    variables: [
+      { name: '空腹血糖', type: '连续变量', unit: 'mmol/L', method: '葡萄糖氧化酶法' },
+      { name: '糖化血红蛋白', type: '连续变量', unit: '%', method: '高效液相色谱法' },
+      { name: '血清胰岛素', type: '连续变量', unit: 'μIU/mL', method: '化学发光免疫法' },
+      { name: 'BMI', type: '连续变量', unit: 'kg/m²', method: '身高体重计算' },
+      { name: '年龄', type: '连续变量', unit: '岁', method: '问卷调查' },
+      { name: '性别', type: '分类变量', unit: '无', method: '问卷调查' },
+    ],
+    methods: [
+      { name: '样本采集', description: '空腹采集静脉血10mL，分离血清，-80°C保存' },
+      {
+        name: '蛋白质组学分析',
+        description: '使用液相色谱-质谱联用技术(LC-MS/MS)进行无标记定量蛋白质组学分析',
+      },
+      { name: '数据分析', description: '使用R软件进行统计分析，p<0.05认为差异有统计学意义' },
+    ],
+    statisticalAnalysis:
+      '使用t检验比较两组间连续变量差异，卡方检验比较分类变量差异。使用Logistic回归分析筛选与疾病相关的独立危险因素。',
+    ethicalConsiderations:
+      '本研究已获得医院伦理委员会批准(批准号:EC-2023-042)。所有参与者均签署知情同意书。',
+    budget: 150000,
+    currency: 'CNY',
+    collaborators: ['李教授(生物信息学)', '王教授(临床医学)', '赵博士(质谱分析)'],
+    attachments: ['研究方案.pdf', '伦理批准.pdf', '知情同意书.pdf'],
+    tags: ['糖尿病', '生物标志物', '蛋白质组学'],
+    hasEthicalApproval: true,
+  },
+  {
+    id: 'EXP-002',
+    title: '肝纤维化小鼠模型中抗纤维化药物疗效评估',
+    type: '动物实验',
+    status: '进行中',
+    designType: '随机对照试验',
+    createdDate: '2023-03-20',
+    updatedDate: '2023-04-10',
+    startDate: '2023-05-01',
+    endDate: '2023-08-31',
+    principalInvestigator: '李教授',
+    department: '药理学系',
+    objective: '评估新型抗纤维化药物XYZ-123在CCl4诱导的肝纤维化小鼠模型中的疗效',
+    hypothesis: 'XYZ-123通过抑制TGF-β/Smad信号通路减轻肝纤维化程度',
+    groups: [
+      { name: '模型组', size: 20, description: 'CCl4诱导肝纤维化+生理盐水' },
+      { name: '低剂量组', size: 20, description: 'CCl4诱导肝纤维化+XYZ-123(10mg/kg)' },
+      { name: '高剂量组', size: 20, description: 'CCl4诱导肝纤维化+XYZ-123(30mg/kg)' },
+      { name: '阳性对照组', size: 20, description: 'CCl4诱导肝纤维化+吡非尼酮(100mg/kg)' },
+      { name: '空白对照组', size: 10, description: '橄榄油+生理盐水' },
+    ],
+    variables: [
+      { name: '肝功能指标', type: '连续变量', unit: 'U/L', method: '生化分析' },
+      { name: '肝脏羟脯氨酸含量', type: '连续变量', unit: 'μg/g', method: '比色法' },
+      { name: '肝脏组织学评分', type: '序数变量', unit: '分', method: 'HE染色和Masson染色' },
+      { name: '纤维化相关基因表达', type: '连续变量', unit: '相对表达量', method: 'RT-qPCR' },
+      { name: '纤维化相关蛋白表达', type: '连续变量', unit: '相对表达量', method: 'Western blot' },
+    ],
+    methods: [
+      { name: '模型建立', description: '腹腔注射CCl4(1mL/kg，20%橄榄油溶液)，每周3次，连续6周' },
+      { name: '药物给药', description: '从第4周开始，每日灌胃给药，连续3周' },
+      { name: '样本采集', description: '末次给药24小时后处死动物，采集血液和肝脏组织' },
+      { name: '组织学分析', description: '石蜡包埋，切片，HE染色和Masson染色' },
+      { name: '分子生物学分析', description: '提取RNA和蛋白，进行RT-qPCR和Western blot分析' },
+    ],
+    statisticalAnalysis: '使用ANOVA分析各组间差异，LSD法进行多重比较，p<0.05认为差异有统计学意义。',
+    ethicalConsiderations:
+      '本研究已获得实验动物伦理委员会批准(批准号:IACUC-2023-015)。严格遵循实验动物福利和伦理准则。',
+    budget: 200000,
+    currency: 'CNY',
+    collaborators: ['张教授(病理学)', '刘博士(分子生物学)'],
+    attachments: ['研究方案.pdf', '动物伦理批准.pdf', '实验操作规程.pdf'],
+    tags: ['肝纤维化', '抗纤维化药物', '动物模型'],
+    hasEthicalApproval: true,
+  },
+  {
+    id: 'EXP-003',
+    title: '新型冠状病毒抗体检测方法的比较研究',
+    type: '方法学研究',
+    status: '计划中',
+    designType: '方法比较研究',
+    createdDate: '2023-05-05',
+    updatedDate: '2023-05-05',
+    startDate: '2023-07-01',
+    endDate: '2023-09-30',
+    principalInvestigator: '王教授',
+    department: '检验医学科',
+    objective: '比较三种不同的新型冠状病毒抗体检测方法的灵敏度、特异度和一致性',
+    hypothesis: '化学发光免疫法在灵敏度和特异度方面优于胶体金法和酶联免疫法',
+    groups: [
+      { name: '确诊组', size: 100, description: 'PCR确诊的COVID-19患者' },
+      { name: '疑似组', size: 50, description: '临床疑似但PCR阴性的患者' },
+      { name: '对照组', size: 100, description: '健康志愿者' },
+    ],
+    variables: [
+      {
+        name: 'IgM抗体(胶体金法)',
+        type: '分类变量',
+        unit: '阳性/阴性',
+        method: '胶体金免疫层析法',
+      },
+      {
+        name: 'IgG抗体(胶体金法)',
+        type: '分类变量',
+        unit: '阳性/阴性',
+        method: '胶体金免疫层析法',
+      },
+      { name: 'IgM抗体(ELISA)', type: '连续变量', unit: 'S/CO', method: '酶联免疫吸附法' },
+      { name: 'IgG抗体(ELISA)', type: '连续变量', unit: 'S/CO', method: '酶联免疫吸附法' },
+      { name: 'IgM抗体(CLIA)', type: '连续变量', unit: 'AU/mL', method: '化学发光免疫法' },
+      { name: 'IgG抗体(CLIA)', type: '连续变量', unit: 'AU/mL', method: '化学发光免疫法' },
+    ],
+    methods: [
+      { name: '样本采集', description: '采集静脉血5mL，分离血清，-20°C保存' },
+      { name: '胶体金法检测', description: '使用商品化试剂盒按说明书操作' },
+      { name: 'ELISA检测', description: '使用商品化试剂盒按说明书操作' },
+      { name: 'CLIA检测', description: '使用商品化试剂盒按说明书操作' },
+    ],
+    statisticalAnalysis:
+      '计算各方法的灵敏度、特异度、阳性预测值和阴性预测值。使用Kappa系数评估方法间一致性。使用ROC曲线分析各方法的诊断效能。',
+    ethicalConsiderations:
+      '本研究已获得医院伦理委员会批准(批准号:EC-2023-056)。所有参与者均签署知情同意书。',
+    budget: 100000,
+    currency: 'CNY',
+    collaborators: ['张医生(感染科)', '刘技师(检验科)'],
+    attachments: ['研究方案.pdf', '伦理批准.pdf', '知情同意书.pdf'],
+    tags: ['COVID-19', '抗体检测', '方法比较'],
+    hasEthicalApproval: false,
+  },
+];
+
+// 模拟研究类型数据
+export const researchTypes = [
+  { id: 'type-001', name: '临床研究', description: '涉及人类受试者的研究' },
+  { id: 'type-002', name: '动物实验', description: '使用动物模型的研究' },
+  { id: 'type-003', name: '体外研究', description: '在实验室条件下使用细胞或组织的研究' },
+  { id: 'type-004', name: '方法学研究', description: '开发或评估研究方法的研究' },
+  { id: 'type-005', name: '流行病学研究', description: '研究疾病在人群中的分布和决定因素' },
+  { id: 'type-006', name: '系统评价', description: '系统地收集和评估现有研究的研究' },
+];
+
+// 模拟研究设计类型数据
+export const designTypes = [
+  {
+    id: 'design-001',
+    name: '随机对照试验',
+    description: '将受试者随机分配到不同干预组的实验性研究',
+  },
+  {
+    id: 'design-002',
+    name: '病例对照研究',
+    description: '比较有特定结局的病例组和没有该结局的对照组的观察性研究',
+  },
+  { id: 'design-003', name: '队列研究', description: '随时间跟踪一组受试者的观察性研究' },
+  { id: 'design-004', name: '横断面研究', description: '在特定时间点收集数据的观察性研究' },
+  { id: 'design-005', name: '方法比较研究', description: '比较不同方法或技术的研究' },
+  { id: 'design-006', name: '剂量递增研究', description: '评估不同剂量效应的研究' },
+];
+
+// 默认筛选器
+export const defaultFilters: ExperimentFilters = {
+  searchTerm: '',
+  types: [],
+  designTypes: [],
+  statuses: [],
+  departments: [],
+  dateRange: {
+    from: undefined,
+    to: undefined,
+  },
+  tags: [],
+  budgetRange: [0, 1000000],
+  sampleTypes: [],
+  hasEthicalApproval: null,
+  createdByMe: false,
+  collaborators: [],
+};
+
+// 新建设计的默认数据
+export const defaultNewDesign = {
+  id: '',
+  title: '',
+  type: '',
+  status: '计划中',
+  designType: '',
+  createdDate: new Date().toISOString().split('T')[0],
+  updatedDate: new Date().toISOString().split('T')[0],
+  startDate: '',
+  endDate: '',
+  principalInvestigator: '',
+  department: '',
+  objective: '',
+  hypothesis: '',
+  groups: [],
+  variables: [],
+  methods: [],
+  statisticalAnalysis: '',
+  ethicalConsiderations: '',
+  budget: 0,
+  currency: 'CNY',
+  collaborators: [],
+  attachments: [],
+  tags: [],
+  hasEthicalApproval: false,
+};

@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import ExpertsClient from "@/components/teleconsultation/experts-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import ExpertsClient from '@/components/teleconsultation/experts-client';
 
 export default function ExpertsPage() {
   return (
@@ -14,5 +14,5 @@ export default function ExpertsPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

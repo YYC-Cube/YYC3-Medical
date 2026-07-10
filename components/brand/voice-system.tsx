@@ -1,16 +1,21 @@
-import { cn } from "@/lib/utils"
-import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
+import { cn } from '@/lib/utils';
+import {
+  MedicalCard,
+  MedicalCardContent,
+  MedicalCardHeader,
+  MedicalCardTitle,
+} from '@/components/ui/medical-card';
 
 interface VoiceExampleProps {
-  scenario: string
-  standard: string
-  example: string
-  className?: string
+  scenario: string;
+  standard: string;
+  example: string;
+  className?: string;
 }
 
 function VoiceExample({ scenario, standard, example, className }: VoiceExampleProps) {
   return (
-    <MedicalCard className={cn("", className)}>
+    <MedicalCard className={cn('', className)}>
       <MedicalCardHeader>
         <MedicalCardTitle className="text-base">{scenario}</MedicalCardTitle>
       </MedicalCardHeader>
@@ -21,22 +26,22 @@ function VoiceExample({ scenario, standard, example, className }: VoiceExamplePr
         </div>
         <div>
           <div className="text-sm font-medium text-medical-800">言语医枢³示例</div>
-          <div className="text-sm text-medical-800 bg-[#E6F4FF] p-2 rounded-md border border-[#0066CC]/20">
+          <div className="text-sm text-medical-800 bg-[var(--primary)/10] p-2 rounded-md border border-[var(--primary)]/20">
             {example}
           </div>
         </div>
       </MedicalCardContent>
     </MedicalCard>
-  )
+  );
 }
 
 interface VoiceSystemProps {
-  className?: string
+  className?: string;
 }
 
 export function VoiceSystem({ className }: VoiceSystemProps) {
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       <div>
         <h3 className="text-lg font-medium mb-3">品牌语音特性</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -113,19 +118,19 @@ export function VoiceSystem({ className }: VoiceSystemProps) {
                 <h4 className="text-base font-medium mb-2">语音特征</h4>
                 <ul className="space-y-2 text-sm text-medical-600">
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>语调：平稳、专业中带有温暖</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>节奏：中等速度，重要信息时会适当放慢</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>音色：中性偏温暖，清晰易懂</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>情感：表达关怀和理解，但保持专业</span>
                   </li>
                 </ul>
@@ -135,19 +140,19 @@ export function VoiceSystem({ className }: VoiceSystemProps) {
                 <h4 className="text-base font-medium mb-2">语言特点</h4>
                 <ul className="space-y-2 text-sm text-medical-600">
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>使用"我们"而非"我"，强调协作关系</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>提供信息时附带置信度，增强透明度</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>使用医学术语时主动解释，确保理解</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-[#0066CC] mr-2">•</span>
+                    <span className="text-[var(--primary)] mr-2">•</span>
                     <span>在建议后提供理由，增强说服力</span>
                   </li>
                 </ul>
@@ -157,5 +162,5 @@ export function VoiceSystem({ className }: VoiceSystemProps) {
         </MedicalCard>
       </div>
     </div>
-  )
+  );
 }

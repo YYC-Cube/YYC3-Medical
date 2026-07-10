@@ -1,90 +1,90 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Search, Calendar, Filter, FileText, ArrowRight } from "lucide-react"
-import { DatePicker } from "@/components/ui/date-picker"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Search, Calendar, Filter, FileText, ArrowRight } from 'lucide-react';
+import { DatePicker } from '@/components/ui/date-picker';
 
 // 模拟诊断历史数据
 const MOCK_HISTORY = [
   {
-    id: "1",
-    patientId: "P-20230501",
-    patientName: "张三",
-    date: "2023-05-01",
-    diagnosis: "2型糖尿病",
+    id: '1',
+    patientId: 'P-20230501',
+    patientName: '张三',
+    date: '2023-05-01',
+    diagnosis: '2型糖尿病',
     confidence: 0.92,
-    status: "confirmed",
+    status: 'confirmed',
   },
   {
-    id: "2",
-    patientId: "P-20230502",
-    patientName: "李四",
-    date: "2023-05-02",
-    diagnosis: "高血压",
+    id: '2',
+    patientId: 'P-20230502',
+    patientName: '李四',
+    date: '2023-05-02',
+    diagnosis: '高血压',
     confidence: 0.88,
-    status: "pending",
+    status: 'pending',
   },
   {
-    id: "3",
-    patientId: "P-20230503",
-    patientName: "王五",
-    date: "2023-05-03",
-    diagnosis: "冠心病",
+    id: '3',
+    patientId: 'P-20230503',
+    patientName: '王五',
+    date: '2023-05-03',
+    diagnosis: '冠心病',
     confidence: 0.85,
-    status: "revised",
+    status: 'revised',
   },
   {
-    id: "4",
-    patientId: "P-20230504",
-    patientName: "赵六",
-    date: "2023-05-04",
-    diagnosis: "肺炎",
+    id: '4',
+    patientId: 'P-20230504',
+    patientName: '赵六',
+    date: '2023-05-04',
+    diagnosis: '肺炎',
     confidence: 0.94,
-    status: "confirmed",
+    status: 'confirmed',
   },
   {
-    id: "5",
-    patientId: "P-20230505",
-    patientName: "钱七",
-    date: "2023-05-05",
-    diagnosis: "胃溃疡",
+    id: '5',
+    patientId: 'P-20230505',
+    patientName: '钱七',
+    date: '2023-05-05',
+    diagnosis: '胃溃疡',
     confidence: 0.79,
-    status: "pending",
+    status: 'pending',
   },
-]
+];
 
 export function DiagnosisHistory() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [startDate, setStartDate] = useState<Date | undefined>(undefined)
-  const [endDate, setEndDate] = useState<Date | undefined>(undefined)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
   // 过滤诊断历史
-  const filteredHistory = MOCK_HISTORY.filter((item) => {
+  const filteredHistory = MOCK_HISTORY.filter(item => {
     const matchesSearch =
       item.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.patientId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.diagnosis.toLowerCase().includes(searchTerm.toLowerCase())
+      item.diagnosis.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesSearch
-  })
+    return matchesSearch;
+  });
 
   // 状态徽章颜色
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "confirmed":
-        return <Badge className="bg-green-500">已确认</Badge>
-      case "pending":
-        return <Badge className="bg-yellow-500">待确认</Badge>
-      case "revised":
-        return <Badge className="bg-blue-500">已修正</Badge>
+      case 'confirmed':
+        return <Badge className="bg-success/50">已确认</Badge>;
+      case 'pending':
+        return <Badge className="bg-warning">待确认</Badge>;
+      case 'revised':
+        return <Badge className="bg-primary/50">已修正</Badge>;
       default:
-        return <Badge>未知</Badge>
+        return <Badge>未知</Badge>;
     }
-  }
+  };
 
   return (
     <Card>
@@ -96,12 +96,12 @@ export function DiagnosisHistory() {
         <div className="flex flex-col space-y-4">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="搜索患者姓名、ID或诊断..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex gap-2">
@@ -114,7 +114,7 @@ export function DiagnosisHistory() {
           </div>
 
           <div className="rounded-md border">
-            <div className="grid grid-cols-7 bg-slate-50 p-3 text-sm font-medium">
+            <div className="grid grid-cols-7 bg-medical-50 p-3 text-sm font-medium">
               <div>患者ID</div>
               <div>患者姓名</div>
               <div>诊断日期</div>
@@ -124,17 +124,19 @@ export function DiagnosisHistory() {
             </div>
             <div className="divide-y">
               {filteredHistory.length > 0 ? (
-                filteredHistory.map((item) => (
+                filteredHistory.map(item => (
                   <div key={item.id} className="grid grid-cols-7 p-3 text-sm">
                     <div className="font-medium">{item.patientId}</div>
                     <div>{item.patientName}</div>
                     <div className="flex items-center">
-                      <Calendar className="mr-1 h-3 w-3 text-gray-500" />
+                      <Calendar className="mr-1 h-3 w-3 text-muted-foreground" />
                       {item.date}
                     </div>
                     <div className="col-span-2">
                       <div>{item.diagnosis}</div>
-                      <div className="text-xs text-gray-500">置信度: {(item.confidence * 100).toFixed(1)}%</div>
+                      <div className="text-xs text-muted-foreground">
+                        置信度: {(item.confidence * 100).toFixed(1)}%
+                      </div>
                     </div>
                     <div>{getStatusBadge(item.status)}</div>
                     <div className="flex justify-end gap-2">
@@ -148,13 +150,13 @@ export function DiagnosisHistory() {
                   </div>
                 ))
               ) : (
-                <div className="p-4 text-center text-gray-500">未找到匹配的诊断记录</div>
+                <div className="p-4 text-center text-muted-foreground">未找到匹配的诊断记录</div>
               )}
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               显示 {filteredHistory.length} 条记录（共 {MOCK_HISTORY.length} 条）
             </div>
             <div className="flex gap-1">
@@ -169,5 +171,5 @@ export function DiagnosisHistory() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

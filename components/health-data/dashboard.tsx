@@ -1,9 +1,9 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import {
   LineChart,
   Line,
@@ -18,43 +18,43 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Activity, Heart, Thermometer, Droplets, Users, TrendingUp } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Activity, Heart, Thermometer, Droplets, Users, TrendingUp } from 'lucide-react';
 
 // 模拟健康数据
 const vitalSignsData = [
-  { month: "1月", heartRate: 72, bloodPressure: 120, temperature: 36.5, bloodOxygen: 98 },
-  { month: "2月", heartRate: 75, bloodPressure: 122, temperature: 36.6, bloodOxygen: 97 },
-  { month: "3月", heartRate: 71, bloodPressure: 118, temperature: 36.4, bloodOxygen: 99 },
-  { month: "4月", heartRate: 73, bloodPressure: 121, temperature: 36.5, bloodOxygen: 98 },
-  { month: "5月", heartRate: 74, bloodPressure: 123, temperature: 36.7, bloodOxygen: 97 },
-  { month: "6月", heartRate: 70, bloodPressure: 119, temperature: 36.5, bloodOxygen: 98 },
-]
+  { month: '1月', heartRate: 72, bloodPressure: 120, temperature: 36.5, bloodOxygen: 98 },
+  { month: '2月', heartRate: 75, bloodPressure: 122, temperature: 36.6, bloodOxygen: 97 },
+  { month: '3月', heartRate: 71, bloodPressure: 118, temperature: 36.4, bloodOxygen: 99 },
+  { month: '4月', heartRate: 73, bloodPressure: 121, temperature: 36.5, bloodOxygen: 98 },
+  { month: '5月', heartRate: 74, bloodPressure: 123, temperature: 36.7, bloodOxygen: 97 },
+  { month: '6月', heartRate: 70, bloodPressure: 119, temperature: 36.5, bloodOxygen: 98 },
+];
 
 // 模拟疾病分布数据
 const diseaseDistributionData = [
-  { name: "心血管疾病", value: 35 },
-  { name: "呼吸系统疾病", value: 25 },
-  { name: "消化系统疾病", value: 20 },
-  { name: "内分泌疾病", value: 15 },
-  { name: "其他", value: 5 },
-]
+  { name: '心血管疾病', value: 35 },
+  { name: '呼吸系统疾病', value: 25 },
+  { name: '消化系统疾病', value: 20 },
+  { name: '内分泌疾病', value: 15 },
+  { name: '其他', value: 5 },
+];
 
 // 模拟年龄分布数据
 const ageDistributionData = [
-  { age: "0-18", count: 120 },
-  { age: "19-35", count: 250 },
-  { age: "36-50", count: 380 },
-  { age: "51-65", count: 420 },
-  { age: "66+", count: 280 },
-]
+  { age: '0-18', count: 120 },
+  { age: '19-35', count: 250 },
+  { age: '36-50', count: 380 },
+  { age: '51-65', count: 420 },
+  { age: '66+', count: 280 },
+];
 
 // 饼图颜色
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"]
+const COLORS = ['var(--primary)', 'var(--success)', 'var(--warning)', 'var(--warning)', 'var(--primary)'];
 
 export function HealthDataDashboard() {
-  const [activeTab, setActiveTab] = useState("vital-signs")
+  const [activeTab, setActiveTab] = useState('vital-signs');
 
   return (
     <Card>
@@ -67,14 +67,14 @@ export function HealthDataDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">平均心率</CardTitle>
-              <Heart className="h-4 w-4 text-rose-500" />
+              <Heart className="h-4 w-4 text-destructive" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 72 <span className="text-sm font-normal">bpm</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                较上月 <span className="text-green-500">↓ 2.7%</span>
+                较上月 <span className="text-success">↓ 2.7%</span>
               </p>
             </CardContent>
           </Card>
@@ -82,14 +82,14 @@ export function HealthDataDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">平均血压</CardTitle>
-              <Activity className="h-4 w-4 text-blue-500" />
+              <Activity className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 120/80 <span className="text-sm font-normal">mmHg</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                较上月 <span className="text-green-500">↓ 1.6%</span>
+                较上月 <span className="text-success">↓ 1.6%</span>
               </p>
             </CardContent>
           </Card>
@@ -97,7 +97,7 @@ export function HealthDataDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">平均体温</CardTitle>
-              <Thermometer className="h-4 w-4 text-amber-500" />
+              <Thermometer className="h-4 w-4 text-warning" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
@@ -112,14 +112,14 @@ export function HealthDataDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">平均血氧</CardTitle>
-              <Droplets className="h-4 w-4 text-cyan-500" />
+              <Droplets className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
                 98 <span className="text-sm font-normal">%</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                较上月 <span className="text-amber-500">↑ 1.0%</span>
+                较上月 <span className="text-warning">↑ 1.0%</span>
               </p>
             </CardContent>
           </Card>
@@ -137,20 +137,20 @@ export function HealthDataDashboard() {
               <ChartContainer
                 config={{
                   heartRate: {
-                    label: "心率 (bpm)",
-                    color: "hsl(var(--chart-1))",
+                    label: '心率 (bpm)',
+                    color: 'hsl(var(--chart-1))',
                   },
                   bloodPressure: {
-                    label: "收缩压 (mmHg)",
-                    color: "hsl(var(--chart-2))",
+                    label: '收缩压 (mmHg)',
+                    color: 'hsl(var(--chart-2))',
                   },
                   temperature: {
-                    label: "体温 (°C)",
-                    color: "hsl(var(--chart-3))",
+                    label: '体温 (°C)',
+                    color: 'hsl(var(--chart-3))',
                   },
                   bloodOxygen: {
-                    label: "血氧 (%)",
-                    color: "hsl(var(--chart-4))",
+                    label: '血氧 (%)',
+                    color: 'hsl(var(--chart-4))',
                   },
                 }}
               >
@@ -182,8 +182,18 @@ export function HealthDataDashboard() {
                       stroke="var(--color-bloodPressure)"
                       name="收缩压 (mmHg)"
                     />
-                    <Line type="monotone" dataKey="temperature" stroke="var(--color-temperature)" name="体温 (°C)" />
-                    <Line type="monotone" dataKey="bloodOxygen" stroke="var(--color-bloodOxygen)" name="血氧 (%)" />
+                    <Line
+                      type="monotone"
+                      dataKey="temperature"
+                      stroke="var(--color-temperature)"
+                      name="体温 (°C)"
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="bloodOxygen"
+                      stroke="var(--color-bloodOxygen)"
+                      name="血氧 (%)"
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -206,7 +216,7 @@ export function HealthDataDashboard() {
                         cy="50%"
                         innerRadius={60}
                         outerRadius={80}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         paddingAngle={5}
                         dataKey="value"
                         label
@@ -215,7 +225,7 @@ export function HealthDataDashboard() {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`${value}%`, "比例"]} />
+                      <Tooltip formatter={value => [`${value}%`, '比例']} />
                       <Legend />
                     </PieChart>
                   </ResponsiveContainer>
@@ -261,8 +271,8 @@ export function HealthDataDashboard() {
                   <ChartContainer
                     config={{
                       count: {
-                        label: "患者数量",
-                        color: "hsl(var(--chart-1))",
+                        label: '患者数量',
+                        color: 'hsl(var(--chart-1))',
                       },
                     }}
                   >
@@ -362,5 +372,5 @@ export function HealthDataDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

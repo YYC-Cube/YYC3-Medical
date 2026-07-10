@@ -1,10 +1,16 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   BarChart,
   Bar,
@@ -19,44 +25,44 @@ import {
   ScatterChart,
   Scatter,
   ZAxis,
-} from "recharts"
-import { LineChartIcon, BarChartIcon, Download, Filter } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { LineChartIcon, BarChartIcon, Download, Filter } from 'lucide-react';
 
 // 模拟相关性数据
 const correlationData = [
-  { x: 65, y: 120, z: 20, name: "患者A" },
-  { x: 75, y: 135, z: 25, name: "患者B" },
-  { x: 68, y: 115, z: 15, name: "患者C" },
-  { x: 90, y: 160, z: 30, name: "患者D" },
-  { x: 85, y: 150, z: 28, name: "患者E" },
-  { x: 73, y: 130, z: 22, name: "患者F" },
-  { x: 78, y: 145, z: 24, name: "患者G" },
-  { x: 82, y: 155, z: 26, name: "患者H" },
-  { x: 70, y: 125, z: 18, name: "患者I" },
-  { x: 88, y: 158, z: 29, name: "患者J" },
-]
+  { x: 65, y: 120, z: 20, name: '患者A' },
+  { x: 75, y: 135, z: 25, name: '患者B' },
+  { x: 68, y: 115, z: 15, name: '患者C' },
+  { x: 90, y: 160, z: 30, name: '患者D' },
+  { x: 85, y: 150, z: 28, name: '患者E' },
+  { x: 73, y: 130, z: 22, name: '患者F' },
+  { x: 78, y: 145, z: 24, name: '患者G' },
+  { x: 82, y: 155, z: 26, name: '患者H' },
+  { x: 70, y: 125, z: 18, name: '患者I' },
+  { x: 88, y: 158, z: 29, name: '患者J' },
+];
 
 // 模拟时间序列数据
 const timeSeriesData = [
-  { month: "1月", 血糖值: 145, 血压值: 135, 胆固醇: 210 },
-  { month: "2月", 血糖值: 139, 血压值: 132, 胆固醇: 205 },
-  { month: "3月", 血糖值: 136, 血压值: 130, 胆固醇: 200 },
-  { month: "4月", 血糖值: 132, 血压值: 128, 胆固醇: 195 },
-  { month: "5月", 血糖值: 128, 血压值: 125, 胆固醇: 190 },
-  { month: "6月", 血糖值: 125, 血压值: 122, 胆固醇: 185 },
-]
+  { month: '1月', 血糖值: 145, 血压值: 135, 胆固醇: 210 },
+  { month: '2月', 血糖值: 139, 血压值: 132, 胆固醇: 205 },
+  { month: '3月', 血糖值: 136, 血压值: 130, 胆固醇: 200 },
+  { month: '4月', 血糖值: 132, 血压值: 128, 胆固醇: 195 },
+  { month: '5月', 血糖值: 128, 血压值: 125, 胆固醇: 190 },
+  { month: '6月', 血糖值: 125, 血压值: 122, 胆固醇: 185 },
+];
 
 // 模拟分组比较数据
 const groupComparisonData = [
-  { group: "对照组", 治疗前: 85, 治疗后: 85 },
-  { group: "实验组A", 治疗前: 84, 治疗后: 75 },
-  { group: "实验组B", 治疗前: 86, 治疗后: 70 },
-  { group: "实验组C", 治疗前: 83, 治疗后: 65 },
-]
+  { group: '对照组', 治疗前: 85, 治疗后: 85 },
+  { group: '实验组A', 治疗前: 84, 治疗后: 75 },
+  { group: '实验组B', 治疗前: 86, 治疗后: 70 },
+  { group: '实验组C', 治疗前: 83, 治疗后: 65 },
+];
 
 export function DataAnalysisOverview() {
-  const [activeTab, setActiveTab] = useState("correlation")
-  const [selectedDataset, setSelectedDataset] = useState("diabetes")
+  const [activeTab, setActiveTab] = useState('correlation');
+  const [selectedDataset, setSelectedDataset] = useState('diabetes');
 
   return (
     <Card className="shadow-md">
@@ -117,9 +123,9 @@ export function DataAnalysisOverview() {
                   <XAxis type="number" dataKey="x" name="血糖值" unit="mg/dL" />
                   <YAxis type="number" dataKey="y" name="血压值" unit="mmHg" />
                   <ZAxis type="number" dataKey="z" range={[60, 400]} name="胆固醇" unit="mg/dL" />
-                  <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+                  <Tooltip cursor={{ strokeDasharray: '3 3' }} />
                   <Legend />
-                  <Scatter name="患者数据" data={correlationData} fill="#3b82f6" />
+                  <Scatter name="患者数据" data={correlationData} fill="var(--primary)" />
                 </ScatterChart>
               </ResponsiveContainer>
             </div>
@@ -128,13 +134,15 @@ export function DataAnalysisOverview() {
               <h4 className="font-medium mb-2">相关性分析结果</h4>
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-medium">皮尔逊相关系数:</span> 0.85 (血糖值与血压值之间存在强相关性)
+                  <span className="font-medium">皮尔逊相关系数:</span> 0.85
+                  (血糖值与血压值之间存在强相关性)
                 </p>
                 <p>
-                  <span className="font-medium">显著性水平:</span> p &lt; 0.001 (相关性具有统计学意义)
+                  <span className="font-medium">显著性水平:</span> p &lt; 0.001
+                  (相关性具有统计学意义)
                 </p>
                 <p>
-                  <span className="font-medium">结论:</span>{" "}
+                  <span className="font-medium">结论:</span>{' '}
                   数据表明血糖值与血压值之间存在显著正相关，即血糖值越高，血压值也倾向于越高。这支持了糖尿病与高血压之间可能存在的病理生理学联系。
                 </p>
               </div>
@@ -158,15 +166,18 @@ export function DataAnalysisOverview() {
 
             <div className="h-80 border rounded-lg p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={timeSeriesData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <LineChart
+                  data={timeSeriesData}
+                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="血糖值" stroke="#3b82f6" activeDot={{ r: 8 }} />
-                  <Line type="monotone" dataKey="血压值" stroke="#10b981" />
-                  <Line type="monotone" dataKey="胆固醇" stroke="#f59e0b" />
+                  <Line type="monotone" dataKey="血糖值" stroke="var(--primary)" activeDot={{ r: 8 }} />
+                  <Line type="monotone" dataKey="血压值" stroke="var(--success)" />
+                  <Line type="monotone" dataKey="胆固醇" stroke="var(--warning)" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -175,14 +186,15 @@ export function DataAnalysisOverview() {
               <h4 className="font-medium mb-2">时间序列分析结果</h4>
               <div className="space-y-2 text-sm">
                 <p>
-                  <span className="font-medium">趋势分析:</span>{" "}
+                  <span className="font-medium">趋势分析:</span>{' '}
                   所有三个指标（血糖值、血压值、胆固醇）在6个月内均呈下降趋势。
                 </p>
                 <p>
-                  <span className="font-medium">平均下降率:</span> 血糖值 (-13.8%)，血压值 (-9.6%)，胆固醇 (-11.9%)
+                  <span className="font-medium">平均下降率:</span> 血糖值 (-13.8%)，血压值
+                  (-9.6%)，胆固醇 (-11.9%)
                 </p>
                 <p>
-                  <span className="font-medium">结论:</span>{" "}
+                  <span className="font-medium">结论:</span>{' '}
                   数据显示治疗干预��6个月内对所有三个关键健康指标均产生了积极影响，其中血糖值的改善最为显著。
                 </p>
               </div>
@@ -202,14 +214,17 @@ export function DataAnalysisOverview() {
 
             <div className="h-80 border rounded-lg p-4">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={groupComparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <BarChart
+                  data={groupComparisonData}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="group" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="治疗前" fill="#3b82f6" />
-                  <Bar dataKey="治疗后" fill="#10b981" />
+                  <Bar dataKey="治疗前" fill="var(--primary)" />
+                  <Bar dataKey="治疗后" fill="var(--success)" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -230,7 +245,7 @@ export function DataAnalysisOverview() {
                   <span className="font-medium">实验组C:</span> 显著下降 21.7% (p &lt; 0.001)
                 </p>
                 <p>
-                  <span className="font-medium">结论:</span>{" "}
+                  <span className="font-medium">结论:</span>{' '}
                   所有三个实验组相比对照组均显示出统计学显著的改善，其中实验组C的治疗方案效果最佳。建议进一步扩大实验组C的样本量进行验证性研究。
                 </p>
               </div>
@@ -239,5 +254,5 @@ export function DataAnalysisOverview() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

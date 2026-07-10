@@ -1,19 +1,19 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { LineChart, BarChart } from "recharts"
+import * as React from 'react';
+import { LineChart, BarChart } from './recharts-dynamic';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
 interface ChartConfig {
   [key: string]: {
-    label: string
-    color: string
-  }
+    label: string;
+    color: string;
+  };
 }
 
 interface ChartContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  config: ChartConfig
+  config: ChartConfig;
 }
 
 export function ChartContainer({ children, config, className, ...props }: ChartContainerProps) {
@@ -21,34 +21,34 @@ export function ChartContainer({ children, config, className, ...props }: ChartC
   const style = React.useMemo(() => {
     return Object.entries(config).reduce(
       (acc, [key, value]) => {
-        acc[`--color-${key}`] = value.color
-        return acc
+        acc[`--color-${key}`] = value.color;
+        return acc;
       },
-      {} as Record<string, string>,
-    )
-  }, [config])
+      {} as Record<string, string>
+    );
+  }, [config]);
 
   return (
-    <div className={cn("w-full h-full", className)} style={style} {...props}>
+    <div className={cn('w-full h-full', className)} style={style} {...props}>
       {children}
     </div>
-  )
+  );
 }
 
 interface ChartTooltipProps {
-  active?: boolean
-  payload?: any[]
-  label?: string
-  content?: React.ReactNode
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+  content?: React.ReactNode;
 }
 
 export function ChartTooltip({ content, ...props }: ChartTooltipProps) {
-  if (!content) return null
-  return React.cloneElement(content as React.ReactElement, props)
+  if (!content) return null;
+  return React.cloneElement(content as React.ReactElement, props);
 }
 
 export function ChartTooltipContent({ active, payload, label }: ChartTooltipProps) {
-  if (!active || !payload?.length) return null
+  if (!active || !payload?.length) return null;
 
   return (
     <div className="rounded-lg border bg-background p-2 shadow-sm">
@@ -68,7 +68,7 @@ export function ChartTooltipContent({ active, payload, label }: ChartTooltipProp
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export { BarChart, LineChart }
+export { BarChart, LineChart };

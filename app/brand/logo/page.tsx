@@ -1,5 +1,5 @@
-import { LogoShowcase } from "@/components/brand/logo-showcase"
-import { CloudLogo } from "@/components/brand/cloud-logo"
+import { LogoShowcase } from '@/components/brand/logo-showcase';
+import { CloudLogo } from '@/components/brand/cloud-logo';
 
 export default function LogoPage() {
   return (
@@ -32,7 +32,7 @@ export default function LogoPage() {
               <div className="bg-white p-4 rounded-lg border flex items-center justify-center">
                 <CloudLogo size="md" />
               </div>
-              <div className="bg-gray-100 p-4 rounded-lg border flex items-center justify-center">
+              <div className="bg-muted/10 p-4 rounded-lg border flex items-center justify-center">
                 <CloudLogo size="md" />
               </div>
             </div>
@@ -48,20 +48,20 @@ export default function LogoPage() {
             </ul>
 
             <div className="grid grid-cols-2 gap-4 mt-4">
-              <div className="bg-red-50 p-4 rounded-lg border border-red-200 flex items-center justify-center opacity-50">
+              <div className="bg-destructive/5 p-4 rounded-lg border border-destructive/20 flex items-center justify-center opacity-50">
                 <div className="transform skew-x-12">
                   <CloudLogo size="md" animated={false} />
                 </div>
                 <div className="absolute">
-                  <div className="w-16 h-0.5 bg-red-500 rotate-45"></div>
+                  <div className="w-16 h-0.5 bg-destructive/50 rotate-45"></div>
                 </div>
               </div>
-              <div className="bg-red-50 p-4 rounded-lg border border-red-200 flex items-center justify-center opacity-50">
+              <div className="bg-destructive/5 p-4 rounded-lg border border-destructive/20 flex items-center justify-center opacity-50">
                 <div className="grayscale">
                   <CloudLogo size="md" animated={false} />
                 </div>
                 <div className="absolute">
-                  <div className="w-16 h-0.5 bg-red-500 rotate-45"></div>
+                  <div className="w-16 h-0.5 bg-destructive/50 rotate-45"></div>
                 </div>
               </div>
             </div>
@@ -69,5 +69,5 @@ export default function LogoPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
