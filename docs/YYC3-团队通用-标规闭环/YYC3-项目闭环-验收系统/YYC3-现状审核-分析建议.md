@@ -13,13 +13,12 @@ audience: developers,qa,managers,stakeholders
 complexity: advanced
 ---
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -35,13 +34,13 @@ complexity: advanced
 
 ---
 
-| 属性         | 值                                    |
-| ------------ | ------------------------------------- |
-| **文档版本** | v2.1.0 Official                       |
-| **发布日期** | 2026-05-24                            |
+| 属性         | 值                                      |
+| ------------ | --------------------------------------- |
+| **文档版本** | v2.1.0 Official                         |
+| **发布日期** | 2026-05-24                              |
 | **验收阶段** | 第十三阶段：现状审核与分析建议          |
-| **前置依赖** | 前十二个验收阶段全部完成               |
-| **文档性质** | YYC³验收系统教科书级提示词文档         |
+| **前置依赖** | 前十二个验收阶段全部完成                |
+| **文档性质** | YYC³验收系统教科书级提示词文档          |
 | **适用范围** | Next.js + React + shadcn/ui + pnpm 项目 |
 
 </div>
@@ -95,13 +94,13 @@ complexity: advanced
 
 ### 核心价值
 
-| 维度 | 价值体现 | 业务影响 |
-|------|---------|---------|
+| 维度         | 价值体现                       | 业务影响                   |
+| ------------ | ------------------------------ | -------------------------- |
 | **全局视野** | 打破信息孤岛，建立项目全景视图 | 提升决策质量，避免局部优化 |
-| **数据驱动** | 基于客观数据而非主观判断 | 减少决策偏差，提高准确性 |
-| **前瞻性** | 识别潜在风险和机会 | 降低未来成本，把握发展先机 |
-| **可操作性** | 提供具体可行的行动方案 | 缩短从分析到实施的周期 |
-| **闭环性** | 建立持续改进的良性循环 | 确保优化措施落地见效 |
+| **数据驱动** | 基于客观数据而非主观判断       | 减少决策偏差，提高准确性   |
+| **前瞻性**   | 识别潜在风险和机会             | 降低未来成本，把握发展先机 |
+| **可操作性** | 提供具体可行的行动方案         | 缩短从分析到实施的周期     |
+| **闭环性**   | 建立持续改进的良性循环         | 确保优化措施落地见效       |
 
 ### 与其他阶段的关系
 
@@ -113,17 +112,17 @@ graph LR
     C --> E[优势总结]
     C --> F[机会识别]
     C --> G[风险评估]
-    
+
     D --> H[优化建议]
     E --> I[经验沉淀]
     F --> J[路线图规划]
     G --> K[预案制定]
-    
+
     H --> L[实施计划]
     I --> M[知识库更新]
     J --> N[版本规划]
     K --> O[监控预警]
-    
+
     L & M & N & O --> P[闭环反馈]
     P --> Q[下一轮迭代]
 ```
@@ -159,7 +158,7 @@ interface TimeDimensionMetrics {
       hotfixResponseTime: number; // in hours;
     };
   };
-  
+
   technicalDebt: {
     codeAgeMetrics: {
       averageFileAge: number; // in days
@@ -182,7 +181,7 @@ interface TimeDimensionMetrics {
       changelogCompleteness: number; // percentage
     };
   };
-  
+
   responsiveness: {
     issueResolutionTime: {
       criticalIssues: { avgHours: number; maxHours: number };
@@ -196,7 +195,7 @@ interface TimeDimensionMetrics {
       reviewCycleTime: number; // in hours;
     };
   };
-  
+
   timeScore: number; // 0-100 composite score
   timeTrends: {
     improving: string[];
@@ -272,7 +271,7 @@ interface SpaceDimensionMetrics {
       componentDependencyGraph: object;
     };
   };
-  
+
   resourceUtilization: {
     bundleAnalysis: {
       totalBundleSize: number; // in KB
@@ -293,7 +292,7 @@ interface SpaceDimensionMetrics {
       assetOptimizationRate: number; // percentage
     };
   };
-  
+
   modularityAssessment: {
     separationOfConcerns: {
       layerAdherence: Record<string, boolean>; // presentation, business, data layers
@@ -312,7 +311,7 @@ interface SpaceDimensionMetrics {
       microservicesMigrationPotential: number; // 0-100
     };
   };
-  
+
   spaceScore: number;
   spaceVisualization: {
     architectureMap: string; // URL or base64 encoded diagram
@@ -382,7 +381,7 @@ interface AttributeDimensionMetrics {
         dependencyInjectionUsage: number;
       };
     };
-    
+
     reliability: {
       errorHandling: {
         tryCatchCoverage: number; // percentage
@@ -400,7 +399,7 @@ interface AttributeDimensionMetrics {
         meanTimeBetweenFailures: number; // in hours
       };
     };
-    
+
     securityPosture: {
       vulnerabilityAssessment: {
         criticalVulnerabilities: number;
@@ -421,7 +420,7 @@ interface AttributeDimensionMetrics {
         securityHeadersImplemented: number; // out of recommended headers
       };
     };
-    
+
     performanceCharacteristics: {
       speedMetrics: {
         firstContentfulPaint: number; // in ms
@@ -442,7 +441,7 @@ interface AttributeDimensionMetrics {
       };
     };
   };
-  
+
   attributeScore: number;
   attributeHeatmap: {
     strengths: Array<{ attribute: string; score: number; evidence: string }>;
@@ -508,7 +507,7 @@ interface EventDimensionMetrics {
       loadingStateManagement: number;
     };
   };
-  
+
   exceptionManagement: {
     errorCapture: {
       globalErrorHandler: boolean;
@@ -529,7 +528,7 @@ interface EventDimensionMetrics {
       circuitBreakerPatterns: number;
     };
   };
-  
+
   loggingSystem: {
     logCompleteness: {
       coverageByModule: Record<string, number>; // percentage per module
@@ -550,7 +549,7 @@ interface EventDimensionMetrics {
       dashboardAvailability: boolean;
     };
   };
-  
+
   monitoringCoverage: {
     applicationPerformanceMonitoring: {
       apmTool: string;
@@ -571,7 +570,7 @@ interface EventDimensionMetrics {
       errorImpactAnalysis: boolean;
     };
   };
-  
+
   eventScore: number;
   eventFlowDiagram: string; // URL or base64 encoded diagram
 }
@@ -639,7 +638,7 @@ interface AssociationDimensionMetrics {
       mockServerUsage: number;
     };
   };
-  
+
   apiDesignQuality: {
     restfulCompliance: {
       endpointNamingConvention: boolean;
@@ -660,7 +659,7 @@ interface AssociationDimensionMetrics {
       sdkGenerationAvailable: boolean;
     };
   };
-  
+
   dependencyManagement: {
     directDependencies: {
       total: number;
@@ -688,7 +687,7 @@ interface AssociationDimensionMetrics {
       treeShakingImprovements: string[];
     };
   };
-  
+
   ecosystemCompatibility: {
     frameworkCompatibility: {
       nextjsVersion: string;
@@ -709,7 +708,7 @@ interface AssociationDimensionMetrics {
       semverFollowed: boolean;
     };
   };
-  
+
   associationScore: number;
   dependencyGraph: string; // URL or visualization
   riskMatrix: {
@@ -961,12 +960,12 @@ export async function performArchitectureHealthCheck(
 
 async function checkStructure(root: string): Promise<StructureHealth> {
   const srcPath = path.join(root, 'src');
-  
+
   const directoryDepth = calculateMaxDirectoryDepth(srcPath);
   const fileBalance = calculateFileBalance(srcPath);
   const moduleCohesion = assessModuleCohesion(srcPath);
   const couplingLevel = assessCouplingLevel(root);
-  
+
   return {
     score: calculateStructureScore(directoryDepth, fileBalance, moduleCohesion, couplingLevel),
     details: {
@@ -992,10 +991,10 @@ async function checkStructure(root: string): Promise<StructureHealth> {
 
 function calculateMaxDirectoryDepth(dirPath: string, currentDepth: number = 0): number {
   let maxDepth = currentDepth;
-  
+
   try {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-    
+
     for (const entry of entries) {
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         const childDepth = calculateMaxDirectoryDepth(
@@ -1008,17 +1007,17 @@ function calculateMaxDirectoryDepth(dirPath: string, currentDepth: number = 0): 
   } catch (error) {
     console.error(`Error reading directory ${dirPath}:`, error);
   }
-  
+
   return maxDepth;
 }
 
 function calculateFileBalance(srcPath: string): number {
   const filesByDir: Record<string, number> = {};
-  
+
   function scanDir(dirPath: string) {
     try {
       const entries = fs.readdirSync(dirPath, { withFileTypes: true });
-      
+
       for (const entry of entries) {
         if (entry.isDirectory()) {
           scanDir(path.join(dirPath, entry.name));
@@ -1031,17 +1030,18 @@ function calculateFileBalance(srcPath: string): number {
       console.error(`Error scanning ${dirPath}:`, error);
     }
   }
-  
+
   scanDir(srcPath);
-  
+
   const counts = Object.values(filesByDir);
   if (counts.length === 0) return 1;
-  
+
   const total = counts.reduce((sum, count) => sum + count, 0);
   const average = total / counts.length;
-  const variance = counts.reduce((sum, count) => sum + Math.pow(count - average, 2), 0) / counts.length;
+  const variance =
+    counts.reduce((sum, count) => sum + Math.pow(count - average, 2), 0) / counts.length;
   const stdDev = Math.sqrt(variance);
-  
+
   return stdDev === 0 ? 1 : Math.max(0, 1 - stdDev / average);
 }
 
@@ -1049,9 +1049,9 @@ function calculateFileBalance(srcPath: string): number {
 
 function generateRecommendations(result: ArchitectureHealthCheckResult): Recommendation[] {
   const recommendations: Recommendation[] = [];
-  
+
   const { structure, patterns, dependencies, quality } = result.categories;
-  
+
   if (structure.details.directoryDepth.status === 'critical') {
     recommendations.push({
       priority: 'high',
@@ -1063,7 +1063,7 @@ function generateRecommendations(result: ArchitectureHealthCheckResult): Recomme
       estimatedBenefit: '提升代码可读性和维护效率约 20%',
     });
   }
-  
+
   if (dependencies.details.circularDependencies > 0) {
     recommendations.push({
       priority: 'critical',
@@ -1075,7 +1075,7 @@ function generateRecommendations(result: ArchitectureHealthCheckResult): Recomme
       estimatedBenefit: '消除潜在的运行时错误，提升构建稳定性',
     });
   }
-  
+
   if (quality.metrics.codeDuplication > 15) {
     recommendations.push({
       priority: 'medium',
@@ -1087,7 +1087,7 @@ function generateRecommendations(result: ArchitectureHealthCheckResult): Recomme
       estimatedBenefit: '减少维护工作量约 25%，降低 Bug 引入风险',
     });
   }
-  
+
   if (patterns.architecturalSmells.length > 0) {
     for (const smell of patterns.architecturalSmells.slice(0, 3)) {
       recommendations.push({
@@ -1101,7 +1101,7 @@ function generateRecommendations(result: ArchitectureHealthCheckResult): Recomme
       });
     }
   }
-  
+
   return recommendations.sort((a, b) => {
     const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
     return priorityOrder[a.priority] - priorityOrder[b.priority];
@@ -1115,37 +1115,45 @@ function calculateOverallScore(result: ArchitectureHealthCheckResult): number {
     dependencies: 0.25,
     quality: 0.25,
   };
-  
+
   return Math.round(
     result.categories.structure.score * weights.structure +
-    result.categories.patterns.score * weights.patterns +
-    result.categories.dependencies.score * weights.dependencies +
-    result.categories.quality.score * weights.quality
+      result.categories.patterns.score * weights.patterns +
+      result.categories.dependencies.score * weights.dependencies +
+      result.categories.quality.score * weights.quality
   );
 }
 
 export function generateArchitectureHealthReport(result: ArchitectureHealthCheckResult): string {
   const lines: string[] = [];
-  
+
   lines.push('# 🏥 YYC3 架构健康度检查报告');
   lines.push('');
   lines.push(`**检查时间**: ${result.timestamp}`);
   lines.push(`**总体评分**: ${result.overallScore}/100`);
   lines.push('');
-  
+
   lines.push('## 📊 各维度评分');
   lines.push('');
   lines.push('| 维度 | 评分 | 状态 |');
   lines.push('|------|------|------|');
-  lines.push(`| 结构健康 | ${result.categories.structure.score}/100 | ${getScoreEmoji(result.categories.structure.score)} |`);
-  lines.push(`| 模式健康 | ${result.categories.patterns.score}/100 | ${getScoreEmoji(result.categories.patterns.score)} |`);
-  lines.push(`| 依赖健康 | ${result.categories.dependencies.score}/100 | ${getScoreEmoji(result.categories.dependencies.score)} |`);
-  lines.push(`| 质量健康 | ${result.categories.quality.score}/100 | ${getScoreEmoji(result.categories.quality.score)} |`);
+  lines.push(
+    `| 结构健康 | ${result.categories.structure.score}/100 | ${getScoreEmoji(result.categories.structure.score)} |`
+  );
+  lines.push(
+    `| 模式健康 | ${result.categories.patterns.score}/100 | ${getScoreEmoji(result.categories.patterns.score)} |`
+  );
+  lines.push(
+    `| 依赖健康 | ${result.categories.dependencies.score}/100 | ${getScoreEmoji(result.categories.dependencies.score)} |`
+  );
+  lines.push(
+    `| 质量健康 | ${result.categories.quality.score}/100 | ${getScoreEmoji(result.categories.quality.score)} |`
+  );
   lines.push('');
-  
+
   lines.push('## 🎯 优化建议');
   lines.push('');
-  
+
   for (const rec of result.recommendations) {
     lines.push(`### ${getPriorityEmoji(rec.priority)} ${rec.title}`);
     lines.push('');
@@ -1157,7 +1165,7 @@ export function generateArchitectureHealthReport(result: ArchitectureHealthCheck
     lines.push(`- **预期收益**: ${rec.estimatedBenefit}`);
     lines.push('');
   }
-  
+
   return lines.join('\n');
 }
 
@@ -1169,11 +1177,16 @@ function getScoreEmoji(score: number): string {
 
 function getPriorityEmoji(priority: string): string {
   switch (priority) {
-    case 'critical': return '🚨';
-    case 'high': return '⚠️';
-    case 'medium': return '💡';
-    case 'low': return 'ℹ️';
-    default: return '📌';
+    case 'critical':
+      return '🚨';
+    case 'high':
+      return '⚠️';
+    case 'medium':
+      return '💡';
+    case 'low':
+      return 'ℹ️';
+    default:
+      return '📌';
   }
 }
 ```
@@ -1320,10 +1333,11 @@ async function estimateCodeQualityDebt(root: string): Promise<number> {
   }
 
   try {
-    const complexityOutput = execSync(
-      'npx complexity-report src/ --format json',
-      { cwd: root, encoding: 'utf-8', timeout: 60000 }
-    );
+    const complexityOutput = execSync('npx complexity-report src/ --format json', {
+      cwd: root,
+      encoding: 'utf-8',
+      timeout: 60000,
+    });
 
     const complexityResults = JSON.parse(complexityOutput);
     for (const report of complexityResults.reports || []) {
@@ -1376,7 +1390,8 @@ async function estimateDocumentationDebt(root: string): Promise<number> {
         }
       } else if (entry.name.match(/\.(ts|tsx)$/)) {
         const content = fs.readFileSync(path.join(dir, entry.name), 'utf-8');
-        const exports = content.match(/export\s+(?:default\s+)?(?:function|class|const|interface|type)/g) || [];
+        const exports =
+          content.match(/export\s+(?:default\s+)?(?:function|class|const|interface|type)/g) || [];
         const jsdocComments = content.match(/\/\*\*[\s\S]*?\*\//g) || [];
 
         totalCount += exports.length;
@@ -1540,11 +1555,7 @@ function identifyDebtHotspots(_root: string): DebtHotspot[] {
       filePath: 'src/components/ui/complex-component.tsx',
       debtConcentration: 85,
       contributingFactors: ['高圈复杂度', '低测试覆盖', '缺少文档'],
-      recommendedActions: [
-        '拆分为多个小组件',
-        '补充单元测试',
-        '添加 JSDoc 注释',
-      ],
+      recommendedActions: ['拆分为多个小组件', '补充单元测试', '添加 JSDoc 注释'],
     },
   ];
 }
@@ -1577,22 +1588,14 @@ function generateRemediationPlan(): RemediationStep[] {
     {
       phase: 2,
       focusArea: '质量提升',
-      actions: [
-        '提高测试覆盖率到 80%+',
-        '重构高复杂度函数',
-        '统一代码风格',
-      ],
+      actions: ['提高测试覆盖率到 80%+', '重构高复杂度函数', '统一代码风格'],
       estimatedHours: 80,
       expectedReduction: 35,
     },
     {
       phase: 3,
       focusArea: '长期优化',
-      actions: [
-        '完善文档体系',
-        '优化架构设计',
-        '建立预防机制',
-      ],
+      actions: ['完善文档体系', '优化架构设计', '建立预防机制'],
       estimatedHours: 120,
       expectedReduction: 45,
     },
@@ -1609,7 +1612,9 @@ export function generateTechnicalDebtReport(analysis: TechnicalDebtAnalysis): st
   lines.push(`| 指标 | 数值 | 说明 |`);
   lines.push('|------|------|------|');
   lines.push(`| 总债务工时 | ${analysis.summary.totalDebtHours} 小时 | 修复所有已知问题所需时间 |`);
-  lines.push(`| 债务比率 | ${(analysis.summary.debtRatio * 100).toFixed(1)}% | 债务占总工作量的比例 |`);
+  lines.push(
+    `| 债务比率 | ${(analysis.summary.debtRatio * 100).toFixed(1)}% | 债务占总工作量的比例 |`
+  );
   lines.push(`| 月利息率 | ${(analysis.summary.interestRate * 100).toFixed(1)}% | 债务增长速度 |`);
   lines.push(`| 本金项数 | ${analysis.summary.principalItems} 个 | 产生债务的源文件数 |`);
   lines.push(`| 利息项数 | ${analysis.summary.interestItems} 个 | 因债务产生的新问题数 |`);
@@ -1633,13 +1638,21 @@ export function generateTechnicalDebtReport(analysis: TechnicalDebtAnalysis): st
 
   lines.push('## 🔮 趋势预测');
   lines.push('');
-  lines.push(`**当前趋势**: ${analysis.trends.direction === 'increasing' ? '📈 上升' : analysis.trends.direction === 'decreasing' ? '📉 下降' : '➡️ 稳定'} (${analysis.trends.monthlyChange} 小时/月)`);
+  lines.push(
+    `**当前趋势**: ${analysis.trends.direction === 'increasing' ? '📈 上升' : analysis.trends.direction === 'decreasing' ? '📉 下降' : '➡️ 稳定'} (${analysis.trends.monthlyChange} 小时/月)`
+  );
   lines.push('');
   lines.push('| 时间范围 | 预计债务工时 | 较现在增长 |');
   lines.push('|----------|-------------|-----------|');
-  lines.push(`| 3 个月后 | ${analysis.trends.projection.threeMonths}h | +${analysis.trends.projection.threeMonths - analysis.summary.totalDebtHours}h |`);
-  lines.push(`| 6 个月后 | ${analysis.trends.projection.sixMonths}h | +${analysis.trends.projection.sixMonths - analysis.summary.totalDebtHours}h |`);
-  lines.push(`| 12个月后 | ${analysis.trends.projection.twelveMonths}h | +${analysis.trends.projection.twelveMonths - analysis.summary.totalDebtHours}h |`);
+  lines.push(
+    `| 3 个月后 | ${analysis.trends.projection.threeMonths}h | +${analysis.trends.projection.threeMonths - analysis.summary.totalDebtHours}h |`
+  );
+  lines.push(
+    `| 6 个月后 | ${analysis.trends.projection.sixMonths}h | +${analysis.trends.projection.sixMonths - analysis.summary.totalDebtHours}h |`
+  );
+  lines.push(
+    `| 12个月后 | ${analysis.trends.projection.twelveMonths}h | +${analysis.trends.projection.twelveMonths - analysis.summary.totalDebtHours}h |`
+  );
   lines.push('');
 
   lines.push('## 🛠️ 清偿计划');
@@ -2231,5 +2244,6 @@ export class MaturityAssessor {
     const matchCount = indicators.filter(i =>
       requirements.some(r => i.toLowerCase().includes(r.toLowerCase()))
     ).length;
-    
+
     return matchCount >= Math.ceil(requirements.length * 0
+```

@@ -1,40 +1,47 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { Skeleton } from "@/components/ui/skeleton"
-import { useAuthStore } from "@/store/useAuthStore"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface AuthGuardProps {
-  children: React.ReactNode
-  requireAuth?: boolean
-  requiredRole?: string
-  requiredRoles?: string[]
-  fallback?: React.ReactNode
+  children: React.ReactNode;
+  requireAuth?: boolean;
+  requiredRole?: string;
+  requiredRoles?: string[];
+  fallback?: React.ReactNode;
 }
 
-export function AuthGuard({ children, requireAuth = true, requiredRole, requiredRoles, fallback }: AuthGuardProps) {
+export function AuthGuard({
+  children,
+  requireAuth = true,
+  requiredRole,
+  requiredRoles,
+  fallback,
+}: AuthGuardProps) {
   // 直接读取持久化的鉴权状态；useAuthStore 已经通过 zustand persist
   // 在 hydrate 后自动还原 token / user / isAuthenticated，
   // 不再需要手动读取 localStorage 或调用 /api/auth/verify（静态导出无后端）。
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
-  const user = useAuthStore((s) => s.user)
-  const router = useRouter()
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const user = useAuthStore(s => s.user);
+  const router = useRouter();
 
-  const allRoles = requiredRoles || (requiredRole ? [requiredRole] : [])
-  const hasRequiredRole = allRoles.length === 0 || (user?.role != null && allRoles.includes(user.role))
+  const allRoles = requiredRoles || (requiredRole ? [requiredRole] : []);
+  const hasRequiredRole =
+    allRoles.length === 0 || (user?.role != null && allRoles.includes(user.role));
 
   useEffect(() => {
     if (requireAuth && !isAuthenticated) {
-      router.push("/login")
-      return
+      router.push('/login');
+      return;
     }
     if (isAuthenticated && !hasRequiredRole) {
-      router.push("/unauthorized")
+      router.push('/unauthorized');
     }
-  }, [requireAuth, isAuthenticated, hasRequiredRole, router])
+  }, [requireAuth, isAuthenticated, hasRequiredRole, router]);
 
   if (requireAuth && !isAuthenticated) {
     return (
@@ -47,12 +54,12 @@ export function AuthGuard({ children, requireAuth = true, requiredRole, required
           </div>
         </div>
       )
-    )
+    );
   }
 
   if (isAuthenticated && !hasRequiredRole) {
-    return null
+    return null;
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }

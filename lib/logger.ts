@@ -4,8 +4,7 @@
  * Console.error/warn remain untouched (always-on diagnostics).
  */
 export const debug = (...args: unknown[]): void => {
-  if (process.env.NODE_ENV !== "production") {
-     
-    console.debug("[debug]", ...args)
+  if (process.env.NODE_ENV !== 'production') {
+    console.debug('[debug]', ...args);
   }
-}
+};

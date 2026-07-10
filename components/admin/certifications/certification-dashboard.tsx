@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   PieChart,
   Pie,
@@ -16,35 +16,35 @@ import {
   Legend,
   LineChart,
   Line,
-} from "recharts"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Download, RefreshCw } from "lucide-react"
+} from '@/components/ui/recharts-dynamic';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Download, RefreshCw } from 'lucide-react';
 
 // 模拟数据
 const statusData = [
-  { name: "已验证", value: 540, color: "#4ade80" },
-  { name: "待验证", value: 210, color: "#facc15" },
-  { name: "验证失败", value: 45, color: "#f87171" },
-  { name: "已过期", value: 25, color: "#94a3b8" },
-]
+  { name: '已验证', value: 540, color: 'var(--success)' },
+  { name: '待验证', value: 210, color: 'var(--warning)' },
+  { name: '验证失败', value: 45, color: 'var(--destructive)' },
+  { name: '已过期', value: 25, color: 'var(--muted-foreground)' },
+];
 
 const typeData = [
-  { name: "医师执业证", value: 320 },
-  { name: "护士执业证", value: 280 },
-  { name: "药师执业证", value: 120 },
-  { name: "医院资质", value: 60 },
-  { name: "其他资质", value: 40 },
-]
+  { name: '医师执业证', value: 320 },
+  { name: '护士执业证', value: 280 },
+  { name: '药师执业证', value: 120 },
+  { name: '医院资质', value: 60 },
+  { name: '其他资质', value: 40 },
+];
 
 const trendData = [
-  { month: "1月", verified: 42, pending: 18, failed: 4 },
-  { month: "2月", verified: 48, pending: 16, failed: 3 },
-  { month: "3月", verified: 55, pending: 20, failed: 5 },
-  { month: "4月", verified: 62, pending: 15, failed: 2 },
-  { month: "5月", verified: 70, pending: 22, failed: 6 },
-  { month: "6月", verified: 85, pending: 25, failed: 4 },
-]
+  { month: '1月', verified: 42, pending: 18, failed: 4 },
+  { month: '2月', verified: 48, pending: 16, failed: 3 },
+  { month: '3月', verified: 55, pending: 20, failed: 5 },
+  { month: '4月', verified: 62, pending: 15, failed: 2 },
+  { month: '5月', verified: 70, pending: 22, failed: 6 },
+  { month: '6月', verified: 85, pending: 25, failed: 4 },
+];
 
 export function CertificationDashboard() {
   return (
@@ -126,7 +126,7 @@ export function CertificationDashboard() {
                         cy="50%"
                         labelLine={false}
                         outerRadius={100}
-                        fill="#8884d8"
+                        fill="var(--primary)"
                         dataKey="value"
                         label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
                       >
@@ -155,8 +155,12 @@ export function CertificationDashboard() {
                           {new Date(Date.now() - i * 86400000).toLocaleDateString()}
                         </p>
                       </div>
-                      <Badge variant={i % 3 === 0 ? "default" : i % 3 === 1 ? "secondary" : "destructive"}>
-                        {i % 3 === 0 ? "已验证" : i % 3 === 1 ? "待验证" : "验证失败"}
+                      <Badge
+                        variant={
+                          i % 3 === 0 ? 'default' : i % 3 === 1 ? 'secondary' : 'destructive'
+                        }
+                      >
+                        {i % 3 === 0 ? '已验证' : i % 3 === 1 ? '待验证' : '验证失败'}
                       </Badge>
                     </div>
                   ))}
@@ -180,7 +184,7 @@ export function CertificationDashboard() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="value" fill="#8884d8" name="数量" />
+                    <Bar dataKey="value" fill="var(--primary)" name="数量" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -202,9 +206,9 @@ export function CertificationDashboard() {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="verified" stroke="#4ade80" name="已验证" />
-                    <Line type="monotone" dataKey="pending" stroke="#facc15" name="待验证" />
-                    <Line type="monotone" dataKey="failed" stroke="#f87171" name="验证失败" />
+                    <Line type="monotone" dataKey="verified" stroke="var(--success)" name="已验证" />
+                    <Line type="monotone" dataKey="pending" stroke="var(--warning)" name="待验证" />
+                    <Line type="monotone" dataKey="failed" stroke="var(--destructive)" name="验证失败" />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -223,11 +227,11 @@ export function CertificationDashboard() {
                   <BarChart
                     layout="vertical"
                     data={[
-                      { name: "国家医师资格认证中心", value: 320 },
-                      { name: "卫健委资质验证平台", value: 280 },
-                      { name: "医疗机构信息系统", value: 120 },
-                      { name: "第三方验证服务A", value: 60 },
-                      { name: "第三方验证服务B", value: 40 },
+                      { name: '国家医师资格认证中心', value: 320 },
+                      { name: '卫健委资质验证平台', value: 280 },
+                      { name: '医疗机构信息系统', value: 120 },
+                      { name: '第三方验证服务A', value: 60 },
+                      { name: '第三方验证服务B', value: 40 },
                     ]}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
@@ -235,7 +239,7 @@ export function CertificationDashboard() {
                     <YAxis dataKey="name" type="category" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="value" fill="#8884d8" name="处理数量" />
+                    <Bar dataKey="value" fill="var(--primary)" name="处理数量" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -244,5 +248,5 @@ export function CertificationDashboard() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

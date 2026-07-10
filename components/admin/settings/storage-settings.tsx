@@ -1,22 +1,28 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function StorageSettings() {
-  const [localStorageEnabled, setLocalStorageEnabled] = useState(true)
-  const [cloudStorageEnabled, setCloudStorageEnabled] = useState(true)
-  const [autoBackupEnabled, setAutoBackupEnabled] = useState(true)
-  const [compressionLevel, setCompressionLevel] = useState(50)
-  const [retentionPeriod, setRetentionPeriod] = useState("30")
-  const [storageType, setStorageType] = useState("hybrid")
+  const [localStorageEnabled, setLocalStorageEnabled] = useState(true);
+  const [cloudStorageEnabled, setCloudStorageEnabled] = useState(true);
+  const [autoBackupEnabled, setAutoBackupEnabled] = useState(true);
+  const [compressionLevel, setCompressionLevel] = useState(50);
+  const [retentionPeriod, setRetentionPeriod] = useState('30');
+  const [storageType, setStorageType] = useState('hybrid');
 
   return (
     <Card className="w-full">
@@ -38,7 +44,11 @@ export function StorageSettings() {
                   <Label htmlFor="local-storage">本地存储</Label>
                   <div className="text-sm text-muted-foreground">启用本地存储功能</div>
                 </div>
-                <Switch id="local-storage" checked={localStorageEnabled} onCheckedChange={setLocalStorageEnabled} />
+                <Switch
+                  id="local-storage"
+                  checked={localStorageEnabled}
+                  onCheckedChange={setLocalStorageEnabled}
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -46,7 +56,11 @@ export function StorageSettings() {
                   <Label htmlFor="cloud-storage">云存储</Label>
                   <div className="text-sm text-muted-foreground">启用云存储功能</div>
                 </div>
-                <Switch id="cloud-storage" checked={cloudStorageEnabled} onCheckedChange={setCloudStorageEnabled} />
+                <Switch
+                  id="cloud-storage"
+                  checked={cloudStorageEnabled}
+                  onCheckedChange={setCloudStorageEnabled}
+                />
               </div>
 
               <div className="space-y-2">
@@ -77,7 +91,7 @@ export function StorageSettings() {
                   max={100}
                   step={10}
                   value={[compressionLevel]}
-                  onValueChange={(value) => setCompressionLevel(value[0])}
+                  onValueChange={value => setCompressionLevel(value[0])}
                 />
               </div>
 
@@ -110,7 +124,11 @@ export function StorageSettings() {
                   <Label htmlFor="auto-backup">自动备份</Label>
                   <div className="text-sm text-muted-foreground">启用自动备份功能</div>
                 </div>
-                <Switch id="auto-backup" checked={autoBackupEnabled} onCheckedChange={setAutoBackupEnabled} />
+                <Switch
+                  id="auto-backup"
+                  checked={autoBackupEnabled}
+                  onCheckedChange={setAutoBackupEnabled}
+                />
               </div>
 
               <div className="space-y-2">
@@ -134,7 +152,7 @@ export function StorageSettings() {
                   id="retention-period"
                   type="number"
                   value={retentionPeriod}
-                  onChange={(e) => setRetentionPeriod(e.target.value)}
+                  onChange={e => setRetentionPeriod(e.target.value)}
                 />
               </div>
             </div>
@@ -147,5 +165,5 @@ export function StorageSettings() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

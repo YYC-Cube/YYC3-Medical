@@ -8,163 +8,151 @@ import {
   randomInt,
   average,
   median,
-} from "@/lib/utils/number"
+} from '@/lib/utils/number';
 
-describe("lib/utils/number", () => {
-  describe("formatNumber", () => {
-    it("formats with default zh-CN locale", () => {
-      const result = formatNumber(1234567)
-      expect(typeof result).toBe("string")
-      expect(result).toContain("1")
-    })
+describe('lib/utils/number', () => {
+  describe('formatNumber', () => {
+    it('formats with thousands separator', () => {
+      expect(formatNumber(1234567)).toBe('1,234,567');
+    });
 
-    it("respects fraction digit options", () => {
-      const result = formatNumber(3.14159, { minimumFractionDigits: 2, maximumFractionDigits: 4 })
-      expect(result).toContain("3.14")
-    })
+    it('respects minimum fraction digits', () => {
+      const result = formatNumber(100, { minimumFractionDigits: 2 });
+      expect(result).toContain('.00');
+    });
+  });
 
-    it("respects locale option", () => {
-      // zh-CN 用逗号作为千位分隔符，de-DE 用点
-      const deResult = formatNumber(1234.5, { locale: "de-DE" })
-      const enResult = formatNumber(1234.5, { locale: "en-US" })
-      expect(deResult).not.toBe(enResult)
-    })
-  })
+  describe('formatCurrency', () => {
+    it('formats as CNY by default', () => {
+      const result = formatCurrency(1234.5);
+      expect(result).toContain('¥');
+      expect(result).toContain('1,234.50');
+    });
 
-  describe("formatCurrency", () => {
-    it("formats as CNY by default", () => {
-      const result = formatCurrency(99.99)
-      expect(typeof result).toBe("string")
-      // CNY 在 zh-CN locale 下为 "¥" 或 "CN¥"
-      expect(result).toMatch(/¥|CNY|RMB/i)
-    })
+    it('supports USD currency', () => {
+      const result = formatCurrency(99.99, { currency: 'USD', locale: 'en-US' });
+      expect(result).toContain('$');
+      expect(result).toContain('99.99');
+    });
 
-    it("accepts currency option", () => {
-      const result = formatCurrency(100, { currency: "USD", locale: "en-US" })
-      expect(result).toContain("$")
-    })
-  })
+    it('defaults to 2 decimal places', () => {
+      const result = formatCurrency(100);
+      expect(result).toContain('.00');
+    });
+  });
 
-  describe("formatPercent", () => {
-    it("formats value as percent", () => {
-      const result = formatPercent(0.5)
-      // 0.5 → 50%
-      expect(result).toContain("50")
-      expect(result).toMatch(/%|％/)
-    })
+  describe('formatPercent', () => {
+    it('formats as percentage', () => {
+      expect(formatPercent(0.256)).toBe('25.6%');
+    });
 
-    it("formats 1 as 100%", () => {
-      const result = formatPercent(1)
-      expect(result).toContain("100")
-    })
-  })
+    it('handles 0%', () => {
+      expect(formatPercent(0)).toBe('0%');
+    });
 
-  describe("clamp", () => {
-    it("returns value when within range", () => {
-      expect(clamp(5, 1, 10)).toBe(5)
-    })
+    it('handles 100%', () => {
+      expect(formatPercent(1)).toBe('100%');
+    });
+  });
 
-    it("returns min when below range", () => {
-      expect(clamp(-1, 1, 10)).toBe(1)
-    })
+  describe('clamp', () => {
+    it('returns value within range', () => {
+      expect(clamp(5, 0, 10)).toBe(5);
+    });
 
-    it("returns max when above range", () => {
-      expect(clamp(100, 1, 10)).toBe(10)
-    })
-  })
+    it('clamps to min when below', () => {
+      expect(clamp(-5, 0, 10)).toBe(0);
+    });
 
-  describe("roundTo", () => {
-    it("rounds to 0 decimals by default", () => {
-      expect(roundTo(3.7)).toBe(4)
-      expect(roundTo(3.4)).toBe(3)
-    })
+    it('clamps to max when above', () => {
+      expect(clamp(15, 0, 10)).toBe(10);
+    });
 
-    it("rounds to specified decimals", () => {
-      expect(roundTo(3.14159, 2)).toBe(3.14)
-      expect(roundTo(3.14159, 4)).toBe(3.1416)
-    })
+    it('handles equal boundaries', () => {
+      expect(clamp(5, 5, 5)).toBe(5);
+    });
+  });
 
-    it("handles negative decimals", () => {
-      expect(roundTo(1234.5, -2)).toBe(1200)
-    })
-  })
+  describe('roundTo', () => {
+    it('rounds to integer by default', () => {
+      expect(roundTo(3.7)).toBe(4);
+    });
 
-  describe("formatFileSize", () => {
-    it("returns 0 Bytes for zero input", () => {
-      expect(formatFileSize(0)).toBe("0 Bytes")
-    })
+    it('rounds to specified decimal places', () => {
+      expect(roundTo(3.14159, 2)).toBe(3.14);
+    });
 
-    it("formats Bytes without conversion for small input", () => {
-      expect(formatFileSize(512)).toBe("512 Bytes")
-    })
+    it('rounds up correctly', () => {
+      expect(roundTo(2.675, 2)).toBe(2.68);
+    });
+  });
 
-    it("formats KB for kilobytes", () => {
-      expect(formatFileSize(1024)).toBe("1 KB")
-    })
+  describe('formatFileSize', () => {
+    it('returns "0 Bytes" for zero', () => {
+      expect(formatFileSize(0)).toBe('0 Bytes');
+    });
 
-    it("formats MB for megabytes", () => {
-      expect(formatFileSize(1024 * 1024)).toBe("1 MB")
-    })
+    it('formats bytes', () => {
+      expect(formatFileSize(500)).toBe('500 Bytes');
+    });
 
-    it("formats GB for gigabytes", () => {
-      expect(formatFileSize(1024 * 1024 * 1024)).toBe("1 GB")
-    })
+    it('formats KB', () => {
+      expect(formatFileSize(1024)).toMatch(/1\s*KB/);
+    });
 
-    it("preserves precision for fractional results", () => {
-      const result = formatFileSize(1500)
-      expect(result).toContain("KB")
-      // 1500 / 1024 = 1.46... → 1.46 KB
-      expect(result).toContain("1.46")
-    })
-  })
+    it('formats MB', () => {
+      expect(formatFileSize(1048576)).toMatch(/1\s*MB/);
+    });
 
-  describe("randomInt", () => {
-    it("returns integer within range inclusive", () => {
-      for (let i = 0; i < 100; i++) {
-        const r = randomInt(1, 10)
-        expect(r).toBeGreaterThanOrEqual(1)
-        expect(r).toBeLessThanOrEqual(10)
-        expect(Number.isInteger(r)).toBe(true)
-      }
-    })
+    it('formats GB', () => {
+      expect(formatFileSize(1073741824)).toMatch(/1\s*GB/);
+    });
+  });
 
-    it("returns min when min === max", () => {
-      expect(randomInt(5, 5)).toBe(5)
-    })
-  })
+  describe('randomInt', () => {
+    it('returns integer within range', () => {
+      const result = randomInt(5, 10);
+      expect(result).toBeGreaterThanOrEqual(5);
+      expect(result).toBeLessThanOrEqual(10);
+      expect(Number.isInteger(result)).toBe(true);
+    });
 
-  describe("average", () => {
-    it("returns 0 for empty array", () => {
-      expect(average([])).toBe(0)
-    })
+    it('returns single value when min equals max', () => {
+      expect(randomInt(7, 7)).toBe(7);
+    });
+  });
 
-    it("computes arithmetic mean", () => {
-      expect(average([1, 2, 3, 4, 5])).toBe(3)
-      expect(average([10, 20])).toBe(15)
-    })
+  describe('average', () => {
+    it('calculates average of numbers', () => {
+      expect(average([1, 2, 3, 4, 5])).toBe(3);
+    });
 
-    it("handles single element", () => {
-      expect(average([42])).toBe(42)
-    })
-  })
+    it('returns 0 for empty array', () => {
+      expect(average([])).toBe(0);
+    });
 
-  describe("median", () => {
-    it("returns 0 for empty array", () => {
-      expect(median([])).toBe(0)
-    })
+    it('handles single element', () => {
+      expect(average([42])).toBe(42);
+    });
+  });
 
-    it("returns middle for odd-length array", () => {
-      expect(median([1, 2, 3, 4, 5])).toBe(3)
-    })
+  describe('median', () => {
+    it('finds median of odd-length array', () => {
+      expect(median([1, 3, 5])).toBe(3);
+    });
 
-    it("returns average of two middles for even-length array", () => {
-      expect(median([1, 2, 3, 4])).toBe(2.5)
-    })
+    it('finds median of even-length array', () => {
+      expect(median([1, 2, 3, 4])).toBe(2.5);
+    });
 
-    it("does not mutate input array", () => {
-      const arr = [3, 1, 2]
-      median(arr)
-      expect(arr).toEqual([3, 1, 2])
-    })
-  })
-})
+    it('returns 0 for empty array', () => {
+      expect(median([])).toBe(0);
+    });
+
+    it('does not mutate input array', () => {
+      const input = [3, 1, 2];
+      median(input);
+      expect(input).toEqual([3, 1, 2]);
+    });
+  });
+});

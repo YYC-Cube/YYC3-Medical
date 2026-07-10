@@ -1,12 +1,25 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Search,
   Pill,
@@ -18,7 +31,7 @@ import {
   Bookmark,
   FileText,
   Plus,
-} from "lucide-react"
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -26,25 +39,33 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { drugs, drugInteractions, medicationGuidelines, clinical, decision, treatments, medications } from "./drug-reference-data"
+} from '@/components/ui/dialog';
+import {
+  drugs,
+  drugInteractions,
+  medicationGuidelines,
+  clinical,
+  decision,
+  treatments,
+  medications,
+} from './drug-reference-data';
 
 // 客户端组件，用于展示临床治疗数据
 function ClinicalTreatmentsClient() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   // 获取所有类别
-  const allCategories = Array.from(new Set(clinical.map((item) => item.category)))
+  const allCategories = Array.from(new Set(clinical.map(item => item.category)));
 
   // 过滤数据
   const filteredData = clinical.filter(
-    (item) =>
-      (searchTerm === "" ||
+    item =>
+      (searchTerm === '' ||
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "all" || item.category === selectedCategory),
-  )
+      (selectedCategory === 'all' || item.category === selectedCategory)
+  );
 
   return (
     <div className="space-y-6">
@@ -65,7 +86,7 @@ function ClinicalTreatmentsClient() {
                 placeholder="搜索名称或描述..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -75,7 +96,7 @@ function ClinicalTreatmentsClient() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">全部类别</SelectItem>
-                {allCategories.map((category) => (
+                {allCategories.map(category => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
@@ -88,7 +109,7 @@ function ClinicalTreatmentsClient() {
         <CardContent>
           {filteredData.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
-              <FileText className="h-12 w-12 text-gray-300 mb-4" />
+              <FileText className="h-12 w-12 text-muted-foreground/30 mb-4" />
               <h3 className="text-lg font-medium mb-2">未找到匹配的临床治疗</h3>
               <p className="text-muted-foreground max-w-md">
                 尝试使用不同的搜索词或筛选条件，或者清除筛选条件查看所有临床治疗
@@ -96,7 +117,7 @@ function ClinicalTreatmentsClient() {
             </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredData.map((item) => (
+              {filteredData.map(item => (
                 <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
@@ -117,74 +138,78 @@ function ClinicalTreatmentsClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 export function DrugReferenceClient() {
-  const [activeTab, setActiveTab] = useState("drugs")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedDrug, setSelectedDrug] = useState<(typeof drugs)[0] | null>(null)
-  const [selectedInteraction, setSelectedInteraction] = useState<(typeof drugInteractions)[0] | null>(null)
-  const [selectedGuideline, setSelectedGuideline] = useState<(typeof medicationGuidelines)[0] | null>(null)
-  const [showInteractionDetails, setShowInteractionDetails] = useState(false)
+  const [activeTab, setActiveTab] = useState('drugs');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedDrug, setSelectedDrug] = useState<(typeof drugs)[0] | null>(null);
+  const [selectedInteraction, setSelectedInteraction] = useState<
+    (typeof drugInteractions)[0] | null
+  >(null);
+  const [selectedGuideline, setSelectedGuideline] = useState<
+    (typeof medicationGuidelines)[0] | null
+  >(null);
+  const [showInteractionDetails, setShowInteractionDetails] = useState(false);
 
   // 获取所有药物类别
-  const allCategories = Array.from(new Set(drugs.map((drug) => drug.category)))
+  const allCategories = Array.from(new Set(drugs.map(drug => drug.category)));
 
   // 过滤药物
   const filteredDrugs = drugs.filter(
-    (drug) =>
-      (searchTerm === "" ||
+    drug =>
+      (searchTerm === '' ||
         drug.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         drug.englishName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         drug.category.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "all" || drug.category === selectedCategory),
-  )
+      (selectedCategory === 'all' || drug.category === selectedCategory)
+  );
 
   // 过滤药物相互作用
   const filteredInteractions = drugInteractions.filter(
-    (interaction) =>
-      searchTerm === "" ||
+    interaction =>
+      searchTerm === '' ||
       interaction.drug1.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      interaction.drug2.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      interaction.drug2.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // 过滤用药指导
   const filteredGuidelines = medicationGuidelines.filter(
-    (guideline) =>
-      searchTerm === "" ||
+    guideline =>
+      searchTerm === '' ||
       guideline.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      guideline.category.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      guideline.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // 获取严重程度标签颜色
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "严重":
-        return "bg-red-100 text-red-800"
-      case "中度":
-        return "bg-yellow-100 text-yellow-800"
-      case "轻度":
-        return "bg-blue-100 text-blue-800"
+      case '严重':
+        return 'bg-destructive text-destructive';
+      case '中度':
+        return 'bg-warning text-warning';
+      case '轻度':
+        return 'bg-primary/10 text-primary';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   // 获取证据级别标签颜色
   const getEvidenceLevelColor = (level: string) => {
     switch (level) {
-      case "A":
-        return "bg-green-100 text-green-800"
-      case "B":
-        return "bg-blue-100 text-blue-800"
-      case "C":
-        return "bg-yellow-100 text-yellow-800"
+      case 'A':
+        return 'bg-success/10 text-success';
+      case 'B':
+        return 'bg-primary/10 text-primary';
+      case 'C':
+        return 'bg-warning text-warning';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -215,7 +240,7 @@ export function DrugReferenceClient() {
                 placeholder="搜索药物名称、类别或适应症..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -225,7 +250,7 @@ export function DrugReferenceClient() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">全部类别</SelectItem>
-                {allCategories.map((category) => (
+                {allCategories.map(category => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
@@ -251,7 +276,7 @@ export function DrugReferenceClient() {
             <TabsContent value="drugs" className="space-y-4">
               {filteredDrugs.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <Pill className="h-12 w-12 text-gray-300 mb-4" />
+                  <Pill className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的药物</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词或筛选条件，或者清除筛选条件查看所有药物
@@ -259,15 +284,21 @@ export function DrugReferenceClient() {
                 </div>
               ) : (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredDrugs.map((drug) => (
-                    <Card key={drug.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  {filteredDrugs.map(drug => (
+                    <Card
+                      key={drug.id}
+                      className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
                             <CardTitle className="text-lg">{drug.name}</CardTitle>
                             <CardDescription>{drug.englishName}</CardDescription>
                           </div>
-                          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                          <Badge
+                            variant="outline"
+                            className="bg-primary/5 text-primary border-primary/20"
+                          >
                             {drug.prescriptionType}
                           </Badge>
                         </div>
@@ -280,15 +311,21 @@ export function DrugReferenceClient() {
                         <div className="space-y-2 text-sm">
                           <div>
                             <span className="font-medium">适应症：</span>
-                            <span className="text-muted-foreground">{drug.indications.join("、")}</span>
+                            <span className="text-muted-foreground">
+                              {drug.indications.join('、')}
+                            </span>
                           </div>
                           <div>
                             <span className="font-medium">常用规格：</span>
-                            <span className="text-muted-foreground">{drug.strengths.join("、")}</span>
+                            <span className="text-muted-foreground">
+                              {drug.strengths.join('、')}
+                            </span>
                           </div>
                           <div>
                             <span className="font-medium">常见品牌：</span>
-                            <span className="text-muted-foreground">{drug.commonBrands.join("、")}</span>
+                            <span className="text-muted-foreground">
+                              {drug.commonBrands.join('、')}
+                            </span>
                           </div>
                         </div>
                       </CardContent>
@@ -307,7 +344,7 @@ export function DrugReferenceClient() {
             <TabsContent value="interactions" className="space-y-4">
               {filteredInteractions.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <AlertTriangle className="h-12 w-12 text-gray-300 mb-4" />
+                  <AlertTriangle className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的药物相互作用</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词，或者清除搜索条件查看所有药物相互作用
@@ -315,8 +352,11 @@ export function DrugReferenceClient() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {filteredInteractions.map((interaction) => (
-                    <Card key={interaction.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  {filteredInteractions.map(interaction => (
+                    <Card
+                      key={interaction.id}
+                      className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                       <CardContent className="p-4">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                           <div>
@@ -324,19 +364,23 @@ export function DrugReferenceClient() {
                               <h3 className="font-medium">
                                 {interaction.drug1} + {interaction.drug2}
                               </h3>
-                              <Badge className={getSeverityColor(interaction.severity)}>{interaction.severity}</Badge>
+                              <Badge className={getSeverityColor(interaction.severity)}>
+                                {interaction.severity}
+                              </Badge>
                               <Badge className={getEvidenceLevelColor(interaction.evidence)}>
                                 证据级别: {interaction.evidence}
                               </Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground line-clamp-2">{interaction.effect}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2">
+                              {interaction.effect}
+                            </p>
                           </div>
                           <Button
                             variant="outline"
                             size="sm"
                             onClick={() => {
-                              setSelectedInteraction(interaction)
-                              setShowInteractionDetails(true)
+                              setSelectedInteraction(interaction);
+                              setShowInteractionDetails(true);
                             }}
                           >
                             查看详情
@@ -359,7 +403,7 @@ export function DrugReferenceClient() {
             <TabsContent value="guidelines" className="space-y-4">
               {filteredGuidelines.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <FileText className="h-12 w-12 text-gray-300 mb-4" />
+                  <FileText className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的用药指导</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词，或者清除搜索条件查看所有用药指导
@@ -367,8 +411,11 @@ export function DrugReferenceClient() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {filteredGuidelines.map((guideline) => (
-                    <Card key={guideline.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  {filteredGuidelines.map(guideline => (
+                    <Card
+                      key={guideline.id}
+                      className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
@@ -380,12 +427,16 @@ export function DrugReferenceClient() {
                         </div>
                       </CardHeader>
                       <CardContent className="pb-2">
-                        <p className="text-sm text-muted-foreground mb-3">来源: {guideline.source}</p>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          来源: {guideline.source}
+                        </p>
                         <div className="space-y-2">
                           {guideline.recommendations.slice(0, 2).map((rec, index) => (
                             <div key={index} className="text-sm">
                               <span className="font-medium">{rec.title}：</span>
-                              <span className="text-muted-foreground line-clamp-1">{rec.content}</span>
+                              <span className="text-muted-foreground line-clamp-1">
+                                {rec.content}
+                              </span>
                             </div>
                           ))}
                           {guideline.recommendations.length > 2 && (
@@ -396,7 +447,11 @@ export function DrugReferenceClient() {
                         </div>
                       </CardContent>
                       <CardFooter className="pt-2 flex justify-end">
-                        <Button variant="ghost" size="sm" onClick={() => setSelectedGuideline(guideline)}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setSelectedGuideline(guideline)}
+                        >
                           查看详情
                           <ChevronRight className="h-4 w-4 ml-1" />
                         </Button>
@@ -420,7 +475,8 @@ export function DrugReferenceClient() {
                   {selectedDrug.name} ({selectedDrug.englishName})
                 </CardTitle>
                 <CardDescription>
-                  {selectedDrug.category} · {selectedDrug.subcategory} · {selectedDrug.prescriptionType}
+                  {selectedDrug.category} · {selectedDrug.subcategory} ·{' '}
+                  {selectedDrug.prescriptionType}
                 </CardDescription>
               </div>
               <div className="flex gap-2">
@@ -443,15 +499,15 @@ export function DrugReferenceClient() {
               </div>
               <div className="border rounded-md p-3">
                 <div className="text-sm text-muted-foreground mb-1">剂型</div>
-                <div className="font-medium">{selectedDrug.formulations.join("、")}</div>
+                <div className="font-medium">{selectedDrug.formulations.join('、')}</div>
               </div>
               <div className="border rounded-md p-3">
                 <div className="text-sm text-muted-foreground mb-1">规格</div>
-                <div className="font-medium">{selectedDrug.strengths.join("、")}</div>
+                <div className="font-medium">{selectedDrug.strengths.join('、')}</div>
               </div>
               <div className="border rounded-md p-3">
                 <div className="text-sm text-muted-foreground mb-1">常用品牌</div>
-                <div className="font-medium">{selectedDrug.commonBrands.join("、")}</div>
+                <div className="font-medium">{selectedDrug.commonBrands.join('、')}</div>
               </div>
             </div>
 
@@ -517,11 +573,11 @@ export function DrugReferenceClient() {
                   <div key={index} className="flex items-start gap-2">
                     <Badge
                       className={
-                        effect.severity === "常见"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : effect.severity === "少见"
-                            ? "bg-blue-100 text-blue-800"
-                            : "bg-red-100 text-red-800"
+                        effect.severity === '常见'
+                          ? 'bg-warning text-warning'
+                          : effect.severity === '少见'
+                            ? 'bg-primary/10 text-primary'
+                            : 'bg-destructive text-destructive'
                       }
                     >
                       {effect.severity}
@@ -572,10 +628,14 @@ export function DrugReferenceClient() {
                         <div>
                           <div className="flex items-center gap-2">
                             <h4 className="font-medium">{interaction.drug}</h4>
-                            <Badge className={getSeverityColor(interaction.severity)}>{interaction.severity}</Badge>
+                            <Badge className={getSeverityColor(interaction.severity)}>
+                              {interaction.severity}
+                            </Badge>
                           </div>
                           <p className="text-sm mt-1">{interaction.effect}</p>
-                          <p className="text-sm text-muted-foreground mt-1">建议: {interaction.recommendation}</p>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            建议: {interaction.recommendation}
+                          </p>
                         </div>
                       </div>
                     </CardContent>
@@ -712,10 +772,14 @@ export function DrugReferenceClient() {
                   <Card key={index}>
                     <CardContent className="p-3">
                       <div className="flex items-center gap-2">
-                        <Badge className={getEvidenceLevelColor(evidence.level)}>证据级别: {evidence.level}</Badge>
+                        <Badge className={getEvidenceLevelColor(evidence.level)}>
+                          证据级别: {evidence.level}
+                        </Badge>
                         <p className="text-sm">{evidence.statement}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground mt-1">参考: {evidence.references.join(", ")}</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        参考: {evidence.references.join(', ')}
+                      </p>
                     </CardContent>
                   </Card>
                 ))}
@@ -796,5 +860,5 @@ export function DrugReferenceClient() {
         </Dialog>
       )}
     </div>
-  )
+  );
 }

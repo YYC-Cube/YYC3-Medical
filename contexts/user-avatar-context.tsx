@@ -1,35 +1,39 @@
-"use client"
+'use client';
 
-import { createContext, useContext, useState, type ReactNode } from "react"
-import { DEFAULT_AVATAR } from "@/types/avatar-presets"
+import { createContext, useContext, useState, type ReactNode } from 'react';
+import { DEFAULT_AVATAR } from '@/types/avatar-presets';
 
 interface UserAvatarContextType {
-  avatarUrl: string
-  updateAvatar: (newUrl: string) => void
+  avatarUrl: string;
+  updateAvatar: (newUrl: string) => void;
 }
 
-const UserAvatarContext = createContext<UserAvatarContextType | undefined>(undefined)
+const UserAvatarContext = createContext<UserAvatarContextType | undefined>(undefined);
 
 export function UserAvatarProvider({
   children,
   initialAvatarUrl = DEFAULT_AVATAR,
 }: {
-  children: ReactNode
-  initialAvatarUrl?: string
+  children: ReactNode;
+  initialAvatarUrl?: string;
 }) {
-  const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl)
+  const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl);
 
   const updateAvatar = (newUrl: string) => {
-    setAvatarUrl(newUrl)
-  }
+    setAvatarUrl(newUrl);
+  };
 
-  return <UserAvatarContext.Provider value={{ avatarUrl, updateAvatar }}>{children}</UserAvatarContext.Provider>
+  return (
+    <UserAvatarContext.Provider value={{ avatarUrl, updateAvatar }}>
+      {children}
+    </UserAvatarContext.Provider>
+  );
 }
 
 export function useUserAvatar() {
-  const context = useContext(UserAvatarContext)
+  const context = useContext(UserAvatarContext);
   if (context === undefined) {
-    throw new Error("useUserAvatar must be used within a UserAvatarProvider")
+    throw new Error('useUserAvatar must be used within a UserAvatarProvider');
   }
-  return context
+  return context;
 }

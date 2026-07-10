@@ -19,12 +19,12 @@ complexity: advanced
 
 ## 📋 文档概览
 
-| 维度 | 内容 |
-|------|------|
-| **验收阶段** | 第六阶段：全链路闭环验证 |
-| **核心目标** | 确保从需求到交付的全链路可追溯、可验证、可改进 |
-| **适用范围** | 项目交付前的最终闭环验证 |
-| **输出产物** | 闭环验证报告 + 改进建议清单 |
+| 维度         | 内容                                                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **验收阶段** | 第六阶段：全链路闭环验证                                                                                                                      |
+| **核心目标** | 确保从需求到交付的全链路可追溯、可验证、可改进                                                                                                |
+| **适用范围** | 项目交付前的最终闭环验证                                                                                                                      |
+| **输出产物** | 闭环验证报告 + 改进建议清单                                                                                                                   |
 | **关联文档** | [代码语法测试核验](./YYC3-代码语法-测试核验.md) \| [功能逻辑验收](./YYC3-功能逻辑-验收标准.md) \| [测试用例审核](./YYC3-测试用例-审核验收.md) |
 
 ---
@@ -358,7 +358,7 @@ class RequirementsTraceabilityVerifier {
     const requirements = await this.loadRequirements(projectRoot);
 
     this.matrix = await Promise.all(
-      requirements.map(async (req) => ({
+      requirements.map(async req => ({
         ...req,
         linkedDesignDocs: await this.findLinkedDesignDocs(req.requirementId),
         linkedCodeFiles: await this.findLinkedCode(req.requirementId),
@@ -448,41 +448,41 @@ traceability:
     requirements:
       type: markdown
       path: ./docs/requirements
-      pattern: "**/*.md"
+      pattern: '**/*.md'
       idPattern: "^REQ-(\\d+)$"
 
     design:
       type: confluence
-      baseUrl: "${CONFLUENCE_URL}"
-      spaceKey: "DESIGN"
+      baseUrl: '${CONFLUENCE_URL}'
+      spaceKey: 'DESIGN'
 
     jira:
-      baseUrl: "${JIRA_URL}"
-      projectKey: "YYC3"
+      baseUrl: '${JIRA_URL}'
+      projectKey: 'YYC3'
 
   # 追溯规则
   rules:
-    - name: "requirement-to-design"
-      source: "requirements"
-      target: "design"
-      linkType: "documents"
+    - name: 'requirement-to-design'
+      source: 'requirements'
+      target: 'design'
+      linkType: 'documents'
       required: true
 
-    - name: "design-to-code"
-      source: "design"
-      target: "code"
-      linkType: "implements"
+    - name: 'design-to-code'
+      source: 'design'
+      target: 'code'
+      linkType: 'implements'
       patterns:
         - "TODO.*REQ-\\d+"
         - "@see REQ-\\d+"
 
-    - name: "code-to-test"
-      source: "code"
-      target: "tests"
-      linkType: "tested-by"
+    - name: 'code-to-test'
+      source: 'code'
+      target: 'tests'
+      linkType: 'tested-by'
       patterns:
-        - ".test.ts$"
-        - ".spec.ts$"
+        - '.test.ts$'
+        - '.spec.ts$'
 
   # 验证阈值
   thresholds:
@@ -491,8 +491,8 @@ traceability:
 
   # 报告配置
   reports:
-    format: ["html", "json", "markdown"]
-    outputDir: "./reports/traceability"
+    format: ['html', 'json', 'markdown']
+    outputDir: './reports/traceability'
     includeDetails: true
 ```
 
@@ -509,14 +509,14 @@ enum DefectStatus {
   FIXED = 'fixed',
   VERIFIED = 'verified',
   CLOSED = 'closed',
-  REOPENED = 'reopened'
+  REOPENED = 'reopened',
 }
 
 enum DefectSeverity {
   CRITICAL = 'critical',
   MAJOR = 'major',
   MINOR = 'minor',
-  TRIVIAL = 'trivial'
+  TRIVIAL = 'trivial',
 }
 
 interface Defect {
@@ -601,7 +601,12 @@ class DefectLifecycleManager {
   /**
    * 更新缺陷状态
    */
-  async transitionStatus(defectId: string, newStatus: DefectStatus, actor: string, notes?: string): Promise<Defect> {
+  async transitionStatus(
+    defectId: string,
+    newStatus: DefectStatus,
+    actor: string,
+    notes?: string
+  ): Promise<Defect> {
     const defect = this.defects.get(defectId);
     if (!defect) {
       throw new Error(`Defect ${defectId} not found`);
@@ -738,12 +743,12 @@ class DefectLifecycleManager {
 
 ### 闭环验证签名确认
 
-| 角色 | 姓名 | 签名 | 日期 |
-|------|------|------|------|
-| 开发负责人 | _____________ | _____________ | _______ |
-| 测试负责人 | _____________ | _____________ | _______ |
-| 产品负责人 | _____________ | _____________ | _______ |
-| 技术负责人 | _____________ | _____________ | _______ |
+| 角色       | 姓名               | 签名               | 日期       |
+| ---------- | ------------------ | ------------------ | ---------- |
+| 开发负责人 | **\*\***\_**\*\*** | **\*\***\_**\*\*** | **\_\_\_** |
+| 测试负责人 | **\*\***\_**\*\*** | **\*\***\_**\*\*** | **\_\_\_** |
+| 产品负责人 | **\*\***\_**\*\*** | **\*\***\_**\*\*** | **\_\_\_** |
+| 技术负责人 | **\*\***\_**\*\*** | **\*\***\_**\*\*** | **\_\_\_** |
 ```
 
 ### 阶段三：质量度量评估
@@ -810,29 +815,37 @@ class QualityMetricsCalculator {
     const metrics: MetricResult[] = [
       {
         name: '需求实现率',
-        value: data.implementedRequirements / data.totalRequirements * 100,
+        value: (data.implementedRequirements / data.totalRequirements) * 100,
         unit: '%',
         target: 100,
         threshold: { warning: 95, critical: 90 },
-        status: this.getStatus(data.implementedRequirements / data.totalRequirements * 100, 95, 90),
+        status: this.getStatus(
+          (data.implementedRequirements / data.totalRequirements) * 100,
+          95,
+          90
+        ),
         trend: data.trend.implementationRate,
       },
       {
         name: '功能测试通过率',
-        value: data.passedFunctionalTests / data.totalFunctionalTests * 100,
+        value: (data.passedFunctionalTests / data.totalFunctionalTests) * 100,
         unit: '%',
         target: 100,
         threshold: { warning: 98, critical: 95 },
-        status: this.getStatus(data.passedFunctionalTests / data.totalFunctionalTests * 100, 98, 95),
+        status: this.getStatus(
+          (data.passedFunctionalTests / data.totalFunctionalTests) * 100,
+          98,
+          95
+        ),
         trend: data.trend.functionalTestPassRate,
       },
       {
         name: 'API契约合规率',
-        value: data.compliantAPIs / data.totalAPIs * 100,
+        value: (data.compliantAPIs / data.totalAPIs) * 100,
         unit: '%',
         target: 100,
         threshold: { warning: 99, critical: 95 },
-        status: this.getStatus(data.compliantAPIs / data.totalAPIs * 100, 99, 95),
+        status: this.getStatus((data.compliantAPIs / data.totalAPIs) * 100, 99, 95),
         trend: data.trend.apiCompliance,
       },
     ];
@@ -863,11 +876,11 @@ class QualityMetricsCalculator {
       },
       {
         name: '缺陷重开率',
-        value: data.reopenedDefects / data.closedDefects * 100,
+        value: (data.reopenedDefects / data.closedDefects) * 100,
         unit: '%',
         target: 0,
         threshold: { warning: 5, critical: 10 },
-        status: this.getInvertedStatus(data.reopenedDefects / data.closedDefects * 100, 5, 10),
+        status: this.getInvertedStatus((data.reopenedDefects / data.closedDefects) * 100, 5, 10),
         trend: data.trend.reopenRate,
       },
       {
@@ -892,8 +905,8 @@ class QualityMetricsCalculator {
 
     return {
       score: Math.round(rawScore),
-      weight: 0.20,
-      weightedScore: Math.round(rawScore * 0.20),
+      weight: 0.2,
+      weightedScore: Math.round(rawScore * 0.2),
       metrics,
     };
   }
@@ -902,7 +915,10 @@ class QualityMetricsCalculator {
    * 计算总体质量分数
    */
   calculateOverallScore(dimensions: QualityScorecard['dimensions']): QualityScorecard {
-    const totalWeightedScore = Object.values(dimensions).reduce((sum, d) => sum + d.weightedScore, 0);
+    const totalWeightedScore = Object.values(dimensions).reduce(
+      (sum, d) => sum + d.weightedScore,
+      0
+    );
     const totalWeight = Object.values(dimensions).reduce((sum, d) => sum + d.weight, 0);
     const overallScore = Math.round(totalWeightedScore / totalWeight);
 
@@ -968,7 +984,14 @@ export const dashboardConfig = {
       title: '六维质量雷达图',
       type: 'radar',
       dataSource: 'quality-scorecard.dimensions',
-      dimensions: ['functionality', 'reliability', 'usability', 'efficiency', 'maintainability', 'security'],
+      dimensions: [
+        'functionality',
+        'reliability',
+        'usability',
+        'efficiency',
+        'maintainability',
+        'security',
+      ],
       labels: {
         functionality: '功能性',
         reliability: '可靠性',
@@ -1034,12 +1057,7 @@ export const dashboardConfig = {
 
 ```typescript
 // src/verification/improvement-analyzer.ts
-type ImprovementCategory =
-  | 'process'
-  | 'technical'
-  | 'tooling'
-  | 'training'
-  | 'architecture';
+type ImprovementCategory = 'process' | 'technical' | 'tooling' | 'training' | 'architecture';
 
 interface ImprovementOpportunity {
   id: string;
@@ -1093,7 +1111,7 @@ class ImprovementAnalyzer {
         impact: {
           areas: [module],
           estimatedEffortSaved: `减少约${Math.ceil(moduleDefects.length * 0.3)}个潜在缺陷的修复成本`,
-          riskReduction: `降低该模块${(moduleDefects.length / defects.length * 50).toFixed(0)}%的故障风险`,
+          riskReduction: `降低该模块${((moduleDefects.length / defects.length) * 50).toFixed(0)}%的故障风险`,
         },
         recommendation: {
           description: `对${module}模块进行代码审查和重构`,
@@ -1106,13 +1124,14 @@ class ImprovementAnalyzer {
           estimatedEffort: '3-5人天',
           timeline: '1-2个Sprint',
         },
-        successCriteria: [
-          `下一迭代${module}模块缺陷数减少50%以上`,
-          `单元测试覆盖率达到95%`,
-        ],
+        successCriteria: [`下一迭代${module}模块缺陷数减少50%以上`, `单元测试覆盖率达到95%`],
         evidence: {
           metrics: [
-            { name: '当前缺陷数', currentValue: moduleDefects.length, targetValue: Math.ceil(moduleDefects.length / 2) },
+            {
+              name: '当前缺陷数',
+              currentValue: moduleDefects.length,
+              targetValue: Math.ceil(moduleDefects.length / 2),
+            },
           ],
           references: moduleDefects.map(d => d.id),
         },
@@ -1132,32 +1151,32 @@ class ImprovementAnalyzer {
 
 ### P0 必须通过（阻塞发布）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| ACV-001 | 需求追溯率 | ≥ 95% | 自动化追溯工具扫描 |
-| ACV-002 | Critical缺陷 | 全部关闭 | 缺陷管理系统查询 |
-| ACV-003 | Major缺陷 | 关闭率 ≥ 98% | 缺陷管理系统查询 |
-| ACV-004 | 安全漏洞 | 无Critical/High | 安全扫描报告 |
-| ACV-005 | 功能测试通过率 | 100% | CI测试报告 |
-| ACV-006 | 生产环境部署成功 | 部署无报错 | 部署日志审计 |
+| 编号    | 验收项           | 标准            | 验证方法           |
+| ------- | ---------------- | --------------- | ------------------ |
+| ACV-001 | 需求追溯率       | ≥ 95%           | 自动化追溯工具扫描 |
+| ACV-002 | Critical缺陷     | 全部关闭        | 缺陷管理系统查询   |
+| ACV-003 | Major缺陷        | 关闭率 ≥ 98%    | 缺陷管理系统查询   |
+| ACV-004 | 安全漏洞         | 无Critical/High | 安全扫描报告       |
+| ACV-005 | 功能测试通过率   | 100%            | CI测试报告         |
+| ACV-006 | 生产环境部署成功 | 部署无报错      | 部署日志审计       |
 
 ### P1 强烈建议（影响质量评级）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| ACV-101 | Minor缺陷关闭率 | ≥ 90% | 缺陷管理系统查询 |
-| ACV-102 | 代码覆盖率 | 语句≥80%, 分支≥75% | 覆盖率报告 |
-| ACV-103 | 缺陷重开率 | < 5% | 缺陷统计分析 |
-| ACV-104 | 性能基线达标 | Core Web Vitals全绿 | Lighthouse报告 |
-| ACV-105 | 文档完整性 | README/API/部署文档齐全 | 文档检查清单 |
+| 编号    | 验收项          | 标准                    | 验证方法         |
+| ------- | --------------- | ----------------------- | ---------------- |
+| ACV-101 | Minor缺陷关闭率 | ≥ 90%                   | 缺陷管理系统查询 |
+| ACV-102 | 代码覆盖率      | 语句≥80%, 分支≥75%      | 覆盖率报告       |
+| ACV-103 | 缺陷重开率      | < 5%                    | 缺陷统计分析     |
+| ACV-104 | 性能基线达标    | Core Web Vitals全绿     | Lighthouse报告   |
+| ACV-105 | 文档完整性      | README/API/部署文档齐全 | 文档检查清单     |
 
 ### P2 可选优化（锦上添花）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| ACV-201 | 技术债务清理 | 新增债务<5% | SonarQube报告 |
-| ACV-202 | 测试自动化率 | ≥ 85% | 测试分类统计 |
-| ACV-203 | 无障碍评分 | ≥ 90 | axe-core扫描 |
+| 编号    | 验收项          | 标准           | 验证方法       |
+| ------- | --------------- | -------------- | -------------- |
+| ACV-201 | 技术债务清理    | 新增债务<5%    | SonarQube报告  |
+| ACV-202 | 测试自动化率    | ≥ 85%          | 测试分类统计   |
+| ACV-203 | 无障碍评分      | ≥ 90           | axe-core扫描   |
 | ACV-204 | Bundle Size优化 | 较上次减小≥10% | Bundle分析报告 |
 
 ---
@@ -1190,13 +1209,13 @@ class ImprovementAnalyzer {
 
 ### 关键指标总览
 
-| 维度 | 得分 | 等级 | 趋势 |
-|------|------|------|------|
-| 总体质量 | {{overallScore}}/100 | {{grade}} | {{trend}} |
-| 需求追溯 | {{traceabilityRate}}% | - | - |
-| 缺陷闭环 | {{defectClosureRate}}% | - | - |
-| 测试覆盖 | {{coverageRate}}% | - | - |
-| 安全合规 | {{securityScore}}/100 | - | - |
+| 维度     | 得分                   | 等级      | 趋势      |
+| -------- | ---------------------- | --------- | --------- |
+| 总体质量 | {{overallScore}}/100   | {{grade}} | {{trend}} |
+| 需求追溯 | {{traceabilityRate}}%  | -         | -         |
+| 缺陷闭环 | {{defectClosureRate}}% | -         | -         |
+| 测试覆盖 | {{coverageRate}}%      | -         | -         |
+| 安全合规 | {{securityScore}}/100  | -         | -         |
 
 ---
 
@@ -1204,24 +1223,25 @@ class ImprovementAnalyzer {
 
 ### 1.1 追溯矩阵统计
 
-| 指标 | 数值 | 标准 | 状态 |
-|------|------|------|------|
-| 总需求数 | {{totalRequirements}} | - | - |
-| 已实现需求 | {{implementedReqs}} | - | - |
-| 实现率 | {{implementationRate}}% | ≥ 95% | {{implementationStatus}} |
-| 有测试覆盖 | {{testedReqs}} | - | - |
-| 测试覆盖率 | {{testCoverageRate}}% | ≥ 90% | {{testCoverageStatus}} |
-| 缺陷全关闭 | {{closedDefectReqs}} | - | - |
-| 闭环率 | {{closureRate}}% | ≥ 95% | {{closureStatus}} |
+| 指标       | 数值                    | 标准  | 状态                     |
+| ---------- | ----------------------- | ----- | ------------------------ |
+| 总需求数   | {{totalRequirements}}   | -     | -                        |
+| 已实现需求 | {{implementedReqs}}     | -     | -                        |
+| 实现率     | {{implementationRate}}% | ≥ 95% | {{implementationStatus}} |
+| 有测试覆盖 | {{testedReqs}}          | -     | -                        |
+| 测试覆盖率 | {{testCoverageRate}}%   | ≥ 90% | {{testCoverageStatus}}   |
+| 缺陷全关闭 | {{closedDefectReqs}}    | -     | -                        |
+| 闭环率     | {{closureRate}}%        | ≥ 95% | {{closureStatus}}        |
 
 ### 1.2 未闭环需求清单
 
 {% for req in unclosedRequirements %}
+
 - **{{req.id}}**: {{req.title}}
   - 阻塞原因: {{req.blocker}}
   - 责任人: {{req.owner}}
   - 计划完成: {{req.plannedDate}}
-{% endfor %}
+    {% endfor %}
 
 ---
 
@@ -1229,17 +1249,18 @@ class ImprovementAnalyzer {
 
 ### 2.1 缺陷统计摘要
 
-| 严重级别 | 发现 | 已修复 | 已验证 | 已关闭 | 关闭率 |
-|----------|------|--------|--------|--------|--------|
-| Critical | {{critDiscovered}} | {{critFixed}} | {{critVerified}} | {{critClosed}} | {{critRate}}% |
-| Major | {{majorDiscovered}} | {{majorFixed}} | {{majorVerified}} | {{majorClosed}} | {{majorRate}}% |
-| Minor | {{minorDiscovered}} | {{minorFixed}} | {{minorVerified}} | {{minorClosed}} | {{minorRate}}% |
-| Trivial | {{trivDiscovered}} | {{trivFixed}} | {{trivVerified}} | {{trivClosed}} | {{trivRate}}% |
+| 严重级别 | 发现                    | 已修复             | 已验证                | 已关闭              | 关闭率             |
+| -------- | ----------------------- | ------------------ | --------------------- | ------------------- | ------------------ |
+| Critical | {{critDiscovered}}      | {{critFixed}}      | {{critVerified}}      | {{critClosed}}      | {{critRate}}%      |
+| Major    | {{majorDiscovered}}     | {{majorFixed}}     | {{majorVerified}}     | {{majorClosed}}     | {{majorRate}}%     |
+| Minor    | {{minorDiscovered}}     | {{minorFixed}}     | {{minorVerified}}     | {{minorClosed}}     | {{minorRate}}%     |
+| Trivial  | {{trivDiscovered}}      | {{trivFixed}}      | {{trivVerified}}      | {{trivClosed}}      | {{trivRate}}%      |
 | **合计** | **{{totalDiscovered}}** | **{{totalFixed}}** | **{{totalVerified}}** | **{{totalClosed}}** | **{{totalRate}}%** |
 
 ### 2.2 未关闭缺陷详情
 
 {% for defect in openDefects %}
+
 #### {{defect.id}}: {{defect.title}}
 
 - **严重级别**: {{defect.severity}}
@@ -1257,20 +1278,20 @@ class ImprovementAnalyzer {
 
 ### 3.1 六维质量评分
 
-| 维度 | 得分 | 权重 | 加权分 | 等级 |
-|------|------|------|--------|------|
-| 功能性 | {{funcScore}} | 25% | {{funcWeighted}} | {{funcGrade}} |
-| 可靠性 | {{relScore}} | 20% | {{relWeighted}} | {{relGrade}} |
-| 易用性 | {{usaScore}} | 15% | {{usaWeighted}} | {{usaGrade}} |
-| 效率 | {{effScore}} | 15% | {{effWeighted}} | {{effGrade}} |
-| 可维护性 | {{maiScore}} | 15% | {{maiWeighted}} | {{maiGrade}} |
-| 安全性 | {{secScore}} | 10% | {{secWeighted}} | {{secGrade}} |
-| **综合** | **{{overallScore}}** | **100%** | **-** | **{{grade}}** |
+| 维度     | 得分                 | 权重     | 加权分           | 等级          |
+| -------- | -------------------- | -------- | ---------------- | ------------- |
+| 功能性   | {{funcScore}}        | 25%      | {{funcWeighted}} | {{funcGrade}} |
+| 可靠性   | {{relScore}}         | 20%      | {{relWeighted}}  | {{relGrade}}  |
+| 易用性   | {{usaScore}}         | 15%      | {{usaWeighted}}  | {{usaGrade}}  |
+| 效率     | {{effScore}}         | 15%      | {{effWeighted}}  | {{effGrade}}  |
+| 可维护性 | {{maiScore}}         | 15%      | {{maiWeighted}}  | {{maiGrade}}  |
+| 安全性   | {{secScore}}         | 10%      | {{secWeighted}}  | {{secGrade}}  |
+| **综合** | **{{overallScore}}** | **100%** | **-**            | **{{grade}}** |
 
 ### 3.2 与基准对比
 
-| 对比项 | 本项目 | 团队均值 | 行业标准 | 项目目标 | 达成状态 |
-|--------|--------|----------|----------|----------|----------|
+| 对比项 | 本项目           | 团队均值    | 行业标准        | 项目目标 | 达成状态       |
+| ------ | ---------------- | ----------- | --------------- | -------- | -------------- |
 | 总体分 | {{overallScore}} | {{teamAvg}} | {{industryStd}} | {{goal}} | {{goalStatus}} |
 
 ---
@@ -1279,17 +1300,18 @@ class ImprovementAnalyzer {
 
 ### 4.1 安全扫描摘要
 
-| 扫描类型 | 结果 | Critical | High | Medium | Low |
-|----------|------|----------|------|--------|-----|
-| SAST | {{sastResult}} | {{sastCrit}} | {{sastHigh}} | {{sastMed}} | {{sastLow}} |
-| DAST | {{dastResult}} | {{dastCrit}} | {{dastHigh}} | {{dastMed}} | {{dastLow}} |
-| 依赖扫描 | {{depResult}} | {{depCrit}} | {{depHigh}} | {{depMed}} | {{depLow}} |
+| 扫描类型 | 结果           | Critical     | High         | Medium      | Low         |
+| -------- | -------------- | ------------ | ------------ | ----------- | ----------- |
+| SAST     | {{sastResult}} | {{sastCrit}} | {{sastHigh}} | {{sastMed}} | {{sastLow}} |
+| DAST     | {{dastResult}} | {{dastCrit}} | {{dastHigh}} | {{dastMed}} | {{dastLow}} |
+| 依赖扫描 | {{depResult}}  | {{depCrit}}  | {{depHigh}}  | {{depMed}}  | {{depLow}}  |
 
 ### 4.2 合规检查清单
 
 {% for item in complianceItems %}
+
 - [{{item.status}}] {{item.name}}: {{item.result}}
-{% endfor %}
+  {% endfor %}
 
 ---
 
@@ -1298,6 +1320,7 @@ class ImprovementAnalyzer {
 ### 5.1 高优先级改进项（建议纳入下一迭代）
 
 {% for imp in highPriorityImprovements }}
+
 #### {{imp.id}}: {{imp.title}}
 
 - **类别**: {{imp.category}}
@@ -1322,27 +1345,29 @@ class ImprovementAnalyzer {
 {% if conditions %}
 **附加条件**:
 {% for condition in conditions }}
+
 - {{condition}}
-{% endfor %}
-{% endif %}
+  {% endfor %}
+  {% endif %}
 
 **有效期至**: {{validUntil}}
 
 ### 6.2 验收签字
 
-| 角色 | 姓名 | 签字 | 日期 |
-|------|------|------|------|
-| 验收负责人 | ________________ | ________________ | _______ |
-| 开发代表 | ________________ | ________________ | _______ |
-| 测试代表 | ________________ | ________________ | _______ |
-| 产品代表 | ________________ | ________________ | _______ |
-| 技术负责人 | ________________ | ________________ | _______ |
+| 角色       | 姓名                     | 签字                     | 日期       |
+| ---------- | ------------------------ | ------------------------ | ---------- |
+| 验收负责人 | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 开发代表   | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 测试代表   | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 产品代表   | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 技术负责人 | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
 
 ### 6.3 后续行动
 
 {% for action in followUpActions }}
+
 - [ ] **截止{{action.deadline}}**: {{action.item}} （责任人：{{action.owner}}）
-{% endfor %}
+      {% endfor %}
 
 ---
 
@@ -1352,8 +1377,8 @@ class ImprovementAnalyzer {
 
 ---
 
-*本报告由 YYC³ 闭环验证系统自动生成*
-*如有疑问请联系: admin@0379.email*
+_本报告由 YYC³ 闭环验证系统自动生成_
+_如有疑问请联系: admin@0379.email_
 ```
 
 ---
@@ -1574,11 +1599,11 @@ pnpm verify:trends --period 30d
 
 ## 📝 版本历史
 
-| 版本 | 日期 | 作者 | 变更说明 |
-|------|------|------|----------|
+| 版本   | 日期       | 作者                | 变更说明     |
+| ------ | ---------- | ------------------- | ------------ |
 | v1.0.0 | 2026-05-25 | YanYuCloudCube Team | 初始版本创建 |
 
 ---
 
-*本文档遵循 YYC³ 团队标规闭环体系，基于五高五标五化五维框架构建*
-*最后更新: 2026-05-25 | 下次审查: 2026-06-25*
+_本文档遵循 YYC³ 团队标规闭环体系，基于五高五标五化五维框架构建_
+_最后更新: 2026-05-25 | 下次审查: 2026-06-25_

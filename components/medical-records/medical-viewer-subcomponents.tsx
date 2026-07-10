@@ -1,23 +1,31 @@
 // 3D 医疗影像子组件
 // 从 3d-medical-viewer.tsx 抽取：ModelViewer / BoxHelper / VolumeRenderer / SliceRenderer 等。
 
-import * as THREE from "three"
-import { useEffect, useRef, useMemo, useState } from "react"
-import { useThree, useFrame } from "@react-three/fiber"
-import { OrbitControls, useGLTF, useTexture, useBounds } from "@react-three/drei"
+import * as THREE from 'three';
+import { useEffect, useRef, useMemo, useState } from 'react';
+import { useThree, useFrame } from '@react-three/fiber';
+import { OrbitControls, useGLTF, useTexture, useBounds } from '@react-three/drei';
 
-type RenderMode = "体积渲染" | "表面渲染" | "最大密度投影" | "切片" | "3D模型"
-export function ModelViewer({ url, opacity, showBoundingBox }: { url: string; opacity: number; showBoundingBox: boolean }) {
-  const { scene } = useGLTF(url)
-  const modelRef = useRef<THREE.Group>(null)
-  const [boundingBox, setBoundingBox] = useState<THREE.Box3 | null>(null)
+type RenderMode = '体积渲染' | '表面渲染' | '最大密度投影' | '切片' | '3D模型';
+export function ModelViewer({
+  url,
+  opacity,
+  showBoundingBox,
+}: {
+  url: string;
+  opacity: number;
+  showBoundingBox: boolean;
+}) {
+  const { scene } = useGLTF(url);
+  const modelRef = useRef<THREE.Group>(null);
+  const [boundingBox, setBoundingBox] = useState<THREE.Box3 | null>(null);
 
   useEffect(() => {
     if (modelRef.current) {
-      const box = new THREE.Box3().setFromObject(modelRef.current)
-      setBoundingBox(box)
+      const box = new THREE.Box3().setFromObject(modelRef.current);
+      setBoundingBox(box);
     }
-  }, [scene])
+  }, [scene]);
 
   return (
     <group>
@@ -25,21 +33,23 @@ export function ModelViewer({ url, opacity, showBoundingBox }: { url: string; op
 
       {showBoundingBox && boundingBox && <BoxHelper box={boundingBox} color="white" />}
     </group>
-  )
+  );
 }
 
 // 边界框辅助组件
 export function BoxHelper({ box, color }: { box: THREE.Box3; color: string }) {
-  const boxHelperRef = useRef<THREE.Box3Helper>(null)
+  const boxHelperRef = useRef<THREE.Box3Helper>(null);
 
   useEffect(() => {
     if (boxHelperRef.current) {
-      boxHelperRef.current.box = box
-      boxHelperRef.current.updateMatrixWorld(true)
+      boxHelperRef.current.box = box;
+      boxHelperRef.current.updateMatrixWorld(true);
     }
-  }, [box])
+  }, [box]);
 
-  return <primitive ref={boxHelperRef} object={new THREE.Box3Helper(box, new THREE.Color(color))} />
+  return (
+    <primitive ref={boxHelperRef} object={new THREE.Box3Helper(box, new THREE.Color(color))} />
+  );
 }
 
 // 体积渲染组件
@@ -54,53 +64,53 @@ export function VolumeRenderer({
   colorMap,
   selectedOrgan,
 }: {
-  textureUrl: string
-  renderMode: RenderMode
-  threshold: [number, number]
-  opacity: number
-  sliceIndex: [number, number, number]
-  dimensions: [number, number, number]
-  showBoundingBox: boolean
-  colorMap: string
-  selectedOrgan: string | null
+  textureUrl: string;
+  renderMode: RenderMode;
+  threshold: [number, number];
+  opacity: number;
+  sliceIndex: [number, number, number];
+  dimensions: [number, number, number];
+  showBoundingBox: boolean;
+  colorMap: string;
+  selectedOrgan: string | null;
 }) {
   // 加载纹理
-  const texture = useTexture(textureUrl)
-  const bounds = useBounds()
+  const texture = useTexture(textureUrl);
+  const bounds = useBounds();
 
   // 将颜色映射名称转换为索引
   const colorMapToIndex = (colorMap: string): number => {
     switch (colorMap) {
-      case "viridis":
-        return 0
-      case "jet":
-        return 1
-      case "gray":
-        return 2
-      case "hot":
-        return 3
-      case "bone":
-        return 4
+      case 'viridis':
+        return 0;
+      case 'jet':
+        return 1;
+      case 'gray':
+        return 2;
+      case 'hot':
+        return 3;
+      case 'bone':
+        return 4;
       default:
-        return 0
+        return 0;
     }
-  }
+  };
 
   // 将器官名称转换为索引
   const organTypeToIndex = (organ: string | null): number => {
     switch (organ) {
-      case "lung":
-        return 1
-      case "heart":
-        return 2
-      case "brain":
-        return 3
-      case "bone":
-        return 4
+      case 'lung':
+        return 1;
+      case 'heart':
+        return 2;
+      case 'brain':
+        return 3;
+      case 'bone':
+        return 4;
       default:
-        return 0
+        return 0;
     }
-  }
+  };
 
   // 创建着色器材质
   const shaderMaterial = useMemo(() => {
@@ -114,7 +124,7 @@ export function VolumeRenderer({
         vNormal = normal;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }
-    `
+    `;
 
     // 片段着色器
     const fragmentShader = `
@@ -216,7 +226,7 @@ export function VolumeRenderer({
         
         gl_FragColor = vec4(color, opacity);
       }
-    `
+    `;
 
     return new THREE.ShaderMaterial({
       uniforms: {
@@ -233,43 +243,43 @@ export function VolumeRenderer({
       fragmentShader,
       transparent: true,
       side: THREE.DoubleSide,
-    })
-  }, [texture, renderMode, threshold, opacity, sliceIndex, dimensions, colorMap, selectedOrgan])
+    });
+  }, [texture, renderMode, threshold, opacity, sliceIndex, dimensions, colorMap, selectedOrgan]);
 
   // 根据渲染模式创建不同的几何体
   const geometry = useMemo(() => {
-    if (renderMode === "切片") {
+    if (renderMode === '切片') {
       // 创建三个正交切片
-      const xSlice = new THREE.PlaneGeometry(1, 1)
-      xSlice.rotateY(Math.PI / 2)
-      xSlice.translate(sliceIndex[0] / dimensions[0] - 0.5, 0, 0)
+      const xSlice = new THREE.PlaneGeometry(1, 1);
+      xSlice.rotateY(Math.PI / 2);
+      xSlice.translate(sliceIndex[0] / dimensions[0] - 0.5, 0, 0);
 
-      const ySlice = new THREE.PlaneGeometry(1, 1)
-      ySlice.rotateX(Math.PI / 2)
-      ySlice.translate(0, sliceIndex[1] / dimensions[1] - 0.5, 0)
+      const ySlice = new THREE.PlaneGeometry(1, 1);
+      ySlice.rotateX(Math.PI / 2);
+      ySlice.translate(0, sliceIndex[1] / dimensions[1] - 0.5, 0);
 
-      const zSlice = new THREE.PlaneGeometry(1, 1)
-      zSlice.translate(0, 0, sliceIndex[2] / dimensions[2] - 0.5)
+      const zSlice = new THREE.PlaneGeometry(1, 1);
+      zSlice.translate(0, 0, sliceIndex[2] / dimensions[2] - 0.5);
 
-      return { xSlice, ySlice, zSlice }
+      return { xSlice, ySlice, zSlice };
     } else {
       // 对于其他渲染模式，使用立方体
-      return new THREE.BoxGeometry(1, 1, 1)
+      return new THREE.BoxGeometry(1, 1, 1);
     }
-  }, [renderMode, sliceIndex, dimensions])
+  }, [renderMode, sliceIndex, dimensions]);
 
   // 边界框
   const boundingBox = useMemo(() => {
-    return new THREE.Box3(new THREE.Vector3(-0.5, -0.5, -0.5), new THREE.Vector3(0.5, 0.5, 0.5))
-  }, [])
+    return new THREE.Box3(new THREE.Vector3(-0.5, -0.5, -0.5), new THREE.Vector3(0.5, 0.5, 0.5));
+  }, []);
 
   useEffect(() => {
     // 自动适应边界
-    bounds.refresh().clip().fit()
-  }, [bounds, renderMode])
+    bounds.refresh().clip().fit();
+  }, [bounds, renderMode]);
 
   // 渲染切片模式
-  if (renderMode === "切片" && "xSlice" in geometry) {
+  if (renderMode === '切片' && 'xSlice' in geometry) {
     return (
       <group>
         <mesh geometry={geometry.xSlice} material={shaderMaterial} />
@@ -278,15 +288,15 @@ export function VolumeRenderer({
 
         {showBoundingBox && <BoxHelper box={boundingBox} color="white" />}
       </group>
-    )
+    );
   }
 
   // 渲染其他模式
   return (
     <group>
-      {"xSlice" in geometry ? null : <mesh geometry={geometry} material={shaderMaterial} />}
+      {'xSlice' in geometry ? null : <mesh geometry={geometry} material={shaderMaterial} />}
 
       {showBoundingBox && <BoxHelper box={boundingBox} color="white" />}
     </group>
-  )
+  );
 }

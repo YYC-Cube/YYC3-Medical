@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface RollbackModel {
-  model_name: string
-  version: string
-  status: string
+  model_name: string;
+  version: string;
+  status: string;
 }
 
 interface ModelRollbackManagerProps {
-  models: RollbackModel[]
-  onRollback: (modelName: string, version: string) => void
+  models: RollbackModel[];
+  onRollback: (modelName: string, version: string) => void;
 }
 
 export default function ModelRollbackManager({ models, onRollback }: ModelRollbackManagerProps) {

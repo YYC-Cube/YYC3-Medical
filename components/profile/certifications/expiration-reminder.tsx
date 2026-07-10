@@ -1,40 +1,40 @@
-"use client"
+'use client';
 
-import { CardFooter } from "@/components/ui/card"
+import { CardFooter } from '@/components/ui/card';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { AlertTriangle, Calendar } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { AlertTriangle, Calendar } from 'lucide-react';
 
 interface ExpirationReminderProps {
-  expiryDate?: string
+  expiryDate?: string;
 }
 
-export function ExpirationReminder({ expiryDate = "2028-06-30" }: ExpirationReminderProps) {
-  const [daysRemaining, setDaysRemaining] = useState(0)
+export function ExpirationReminder({ expiryDate = '2028-06-30' }: ExpirationReminderProps) {
+  const [daysRemaining, setDaysRemaining] = useState(0);
 
   useEffect(() => {
     const calculateDaysRemaining = () => {
-      const now = new Date()
-      const expiry = new Date(expiryDate)
-      const diff = expiry.getTime() - now.getTime()
-      const days = Math.ceil(diff / (1000 * 3600 * 24))
-      setDaysRemaining(days)
-    }
+      const now = new Date();
+      const expiry = new Date(expiryDate);
+      const diff = expiry.getTime() - now.getTime();
+      const days = Math.ceil(diff / (1000 * 3600 * 24));
+      setDaysRemaining(days);
+    };
 
-    calculateDaysRemaining()
-  }, [expiryDate])
+    calculateDaysRemaining();
+  }, [expiryDate]);
 
   const getReminderColor = () => {
-    if (daysRemaining <= 30) return "bg-red-100 text-red-800"
-    if (daysRemaining <= 90) return "bg-yellow-100 text-yellow-800"
-    return "bg-green-100 text-green-800"
-  }
+    if (daysRemaining <= 30) return 'bg-destructive text-destructive';
+    if (daysRemaining <= 90) return 'bg-warning text-warning';
+    return 'bg-success/10 text-success';
+  };
 
   return (
-    <Card className="bg-blue-50 border-blue-200">
+    <Card className="bg-primary/5 border-primary/20">
       <CardHeader>
         <CardTitle className="text-lg">资质有效期提醒</CardTitle>
         <CardDescription>您的执业医师资格证即将到期</CardDescription>
@@ -58,5 +58,5 @@ export function ExpirationReminder({ expiryDate = "2028-06-30" }: ExpirationRemi
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

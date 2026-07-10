@@ -1,56 +1,63 @@
-"use client"
+'use client';
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useApi } from "@/hooks/useApi"
-import { API_ENDPOINTS } from "@/lib/api/endpoints"
-import type { Patient } from "@/services/patientService"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useApi } from '@/hooks/useApi';
+import { API_ENDPOINTS } from '@/lib/api/endpoints';
+import type { Patient } from '@/services/patientService';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 export function PatientList() {
-  const router = useRouter()
-  const [searchQuery, setSearchQuery] = useState("")
-  const { data: patients, isLoading, error, get } = useApi<Patient[]>()
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: patients, isLoading, error, get } = useApi<Patient[]>();
 
   async function fetchPatients(search?: string) {
     await get(API_ENDPOINTS.PATIENTS.LIST, {
       params: { search },
-    })
+    });
   }
 
   useEffect(() => {
     // 初始加载患者列表
-    fetchPatients()
-  }, [])
+    fetchPatients();
+  }, []);
 
   const handleSearch = () => {
-    fetchPatients(searchQuery)
-  }
+    fetchPatients(searchQuery);
+  };
 
   const handleViewPatient = (id: string) => {
-    router.push(`/patients/${id}`)
-  }
+    router.push(`/patients/${id}`);
+  };
 
   if (isLoading && !patients) {
     return (
       <div className="flex justify-center p-8">
         <LoadingSpinner size="lg" />
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
-      <div className="p-4 text-red-500 bg-red-50 rounded-md">
+      <div className="p-4 text-destructive bg-destructive rounded-md">
         <p>加载患者列表时出错: {error}</p>
         <Button onClick={() => fetchPatients()} className="mt-2">
           重试
         </Button>
       </div>
-    )
+    );
   }
 
   return (
@@ -59,7 +66,7 @@ export function PatientList() {
         <Input
           placeholder="搜索患者姓名或病历号..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           className="max-w-sm"
         />
         <Button onClick={handleSearch}>搜索</Button>
@@ -78,7 +85,7 @@ export function PatientList() {
         </TableHeader>
         <TableBody>
           {patients && patients.length > 0 ? (
-            patients.map((patient) => (
+            patients.map(patient => (
               <TableRow key={patient.id}>
                 <TableCell>{patient.name}</TableCell>
                 <TableCell>{patient.gender}</TableCell>
@@ -101,7 +108,7 @@ export function PatientList() {
                     <span className="ml-2">加载中...</span>
                   </div>
                 ) : (
-                  "没有找到患者记录"
+                  '没有找到患者记录'
                 )}
               </TableCell>
             </TableRow>
@@ -109,5 +116,5 @@ export function PatientList() {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

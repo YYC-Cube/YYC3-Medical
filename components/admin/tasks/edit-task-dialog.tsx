@@ -1,9 +1,9 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -11,39 +11,45 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
 interface EditTaskDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
   task?: {
-    id: string
-    name: string
-    type: string
-    schedule: string
-    description: string
-  }
+    id: string;
+    name: string;
+    type: string;
+    schedule: string;
+    description: string;
+  };
 }
 
 export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps) {
   const [formData, setFormData] = useState({
-    name: task?.name || "",
-    type: task?.type || "",
-    schedule: task?.schedule || "",
-    description: task?.description || "",
-  })
+    name: task?.name || '',
+    type: task?.type || '',
+    schedule: task?.schedule || '',
+    description: task?.description || '',
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // 处理任务编辑逻辑
-    debug("编辑任务:", { id: task?.id, ...formData })
-    onOpenChange(false)
-  }
+    debug('编辑任务:', { id: task?.id, ...formData });
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -61,7 +67,7 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
               <Input
                 id="edit-name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
                 className="col-span-3"
               />
             </div>
@@ -69,7 +75,10 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
               <Label htmlFor="edit-type" className="text-right">
                 任务类型
               </Label>
-              <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
+              <Select
+                value={formData.type}
+                onValueChange={value => setFormData({ ...formData, type: value })}
+              >
                 <SelectTrigger className="col-span-3">
                   <SelectValue />
                 </SelectTrigger>
@@ -87,7 +96,7 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
               </Label>
               <Select
                 value={formData.schedule}
-                onValueChange={(value) => setFormData({ ...formData, schedule: value })}
+                onValueChange={value => setFormData({ ...formData, schedule: value })}
               >
                 <SelectTrigger className="col-span-3">
                   <SelectValue />
@@ -107,7 +116,7 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
               <Textarea
                 id="edit-description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={e => setFormData({ ...formData, description: e.target.value })}
                 className="col-span-3"
               />
             </div>
@@ -121,5 +130,5 @@ export function EditTaskDialog({ open, onOpenChange, task }: EditTaskDialogProps
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

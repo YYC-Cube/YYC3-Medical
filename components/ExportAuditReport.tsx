@@ -21,20 +21,20 @@ export default function ExportAuditReport() {
     <div className="mt-6">
       <button
         onClick={handleExport}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/80"
         disabled={status === 'loading'}
       >
         📤 导出审查报告
       </button>
       {status === 'done' && (
-        <p className="mt-2 text-green-600">
+        <p className="mt-2 text-success">
           ✅ 上传成功：
-          <a href={link} className="underline" target="_blank">
+          <a href={link} className="underline" target="_blank" rel="noopener noreferrer">
             点击下载
           </a>
         </p>
       )}
-      {status === 'error' && <p className="mt-2 text-red-600">❌ 上传失败，请稍后重试</p>}
+      {status === 'error' && <p className="mt-2 text-destructive">❌ 上传失败，请稍后重试</p>}
     </div>
   );
 }

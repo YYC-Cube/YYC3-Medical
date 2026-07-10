@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 interface TosReport {
-  filename: string
-  timestamp?: string
-  verified: boolean
-  url: string
+  filename: string;
+  timestamp?: string;
+  verified: boolean;
+  url: string;
 }
 
 export default function ReportList() {
@@ -12,7 +12,7 @@ export default function ReportList() {
 
   useEffect(() => {
     // STATIC-EXPORT-NOTE: /api/tos-report-list 不存在于静态导出，这里保留接口契约。
-    setReports([])
+    setReports([]);
   }, []);
 
   return (
@@ -32,11 +32,11 @@ export default function ReportList() {
             <tr key={i} className="border-t">
               <td>{r.filename}</td>
               <td>{r.timestamp ? new Date(r.timestamp).toLocaleString() : '未知'}</td>
-              <td className={r.verified ? 'text-green-600' : 'text-red-600'}>
+              <td className={r.verified ? 'text-success' : 'text-destructive'}>
                 {r.verified ? '✅ 校验通过' : '❌ 校验失败'}
               </td>
               <td>
-                <a href={r.url} target="_blank" className="text-blue-600 underline">
+                <a href={r.url} target="_blank" rel="noopener noreferrer" className="text-primary underline">
                   下载
                 </a>
               </td>

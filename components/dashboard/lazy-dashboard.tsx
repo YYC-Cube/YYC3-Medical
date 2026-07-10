@@ -1,32 +1,36 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { createLazyComponent } from "@/components/ui/lazy-load"
-import { preloadComponents } from "@/utils/dependency-optimizer"
+import { useState, useEffect } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { createLazyComponent } from '@/components/ui/lazy-load';
+import { preloadComponents } from '@/utils/dependency-optimizer';
 
 // 懒加载大型组件
 const LazyHealthDataDashboard = createLazyComponent<{}>(() =>
-  import("@/components/health-data/dashboard").then((mod) => ({ default: mod.HealthDataDashboard })),
-)
+  import('@/components/health-data/dashboard').then(mod => ({ default: mod.HealthDataDashboard }))
+);
 
 const LazyDataTrendsAnalysis = createLazyComponent<{}>(() =>
-  import("@/components/health-data/data-trends-analysis").then((mod) => ({ default: mod.DataTrendsAnalysis })),
-)
+  import('@/components/health-data/data-trends-analysis').then(mod => ({
+    default: mod.DataTrendsAnalysis,
+  }))
+);
 
 const LazyClinicalDashboard = createLazyComponent<{}>(() =>
-  import("@/components/clinical-decision/dashboard").then((mod) => ({ default: mod.ClinicalDashboard })),
-)
+  import('@/components/clinical-decision/dashboard').then(mod => ({
+    default: mod.ClinicalDashboard,
+  }))
+);
 
 const LazyTreatmentRecommendations = createLazyComponent<{}>(() =>
-  import("@/components/clinical-decision/treatment-recommendations").then((mod) => ({
+  import('@/components/clinical-decision/treatment-recommendations').then(mod => ({
     default: mod.TreatmentRecommendations,
-  })),
-)
+  }))
+);
 
 export function LazyDashboard() {
-  const [activeTab, setActiveTab] = useState("health")
-  const [isPreloaded, setIsPreloaded] = useState(false)
+  const [activeTab, setActiveTab] = useState('health');
+  const [isPreloaded, setIsPreloaded] = useState(false);
 
   // 预加载其他标签页内容
   useEffect(() => {
@@ -34,28 +38,28 @@ export function LazyDashboard() {
       // 在用户交互后预加载其他组件
       const timer = setTimeout(() => {
         preloadComponents([
-          "/components/health-data/dashboard",
-          "/components/health-data/data-trends-analysis",
-          "/components/clinical-decision/dashboard",
-          "/components/clinical-decision/treatment-recommendations",
-        ])
-        setIsPreloaded(true)
-      }, 3000)
+          '/components/health-data/dashboard',
+          '/components/health-data/data-trends-analysis',
+          '/components/clinical-decision/dashboard',
+          '/components/clinical-decision/treatment-recommendations',
+        ]);
+        setIsPreloaded(true);
+      }, 3000);
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [isPreloaded])
+  }, [isPreloaded]);
 
   // 当标签页改变时预加载相关组件
   useEffect(() => {
-    if (activeTab === "health") {
-      import("@/components/health-data/dashboard")
-      import("@/components/health-data/data-trends-analysis")
-    } else if (activeTab === "clinical") {
-      import("@/components/clinical-decision/dashboard")
-      import("@/components/clinical-decision/treatment-recommendations")
+    if (activeTab === 'health') {
+      import('@/components/health-data/dashboard');
+      import('@/components/health-data/data-trends-analysis');
+    } else if (activeTab === 'clinical') {
+      import('@/components/clinical-decision/dashboard');
+      import('@/components/clinical-decision/treatment-recommendations');
     }
-  }, [activeTab])
+  }, [activeTab]);
 
   return (
     <div className="container mx-auto py-6">
@@ -78,5 +82,5 @@ export function LazyDashboard() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

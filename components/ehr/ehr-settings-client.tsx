@@ -1,26 +1,32 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { Switch } from "@/components/ui/switch"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
-import { Save, RotateCcw, Clock, Shield, FileText, AlertTriangle } from "lucide-react"
+import { useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { Save, RotateCcw, Clock, Shield, FileText, AlertTriangle } from 'lucide-react';
 
 export default function EHRSettingsClient() {
-  const router = useRouter()
+  const router = useRouter();
   const [settings, setSettings] = useState({
     syncInterval: 4,
     retryAttempts: 3,
     timeout: 30,
-    logLevel: "info",
+    logLevel: 'info',
     enableEncryption: true,
-    encryptionMethod: "AES-256",
+    encryptionMethod: 'AES-256',
     enableCompression: true,
     maxBatchSize: 1000,
     enableNotifications: true,
@@ -28,31 +34,34 @@ export default function EHRSettingsClient() {
     notifyOnSuccess: false,
     enableAuditLog: true,
     retentionPeriod: 90,
-    defaultDateFormat: "YYYY-MM-DD",
-    defaultTimeFormat: "HH:mm:ss",
-  })
+    defaultDateFormat: 'YYYY-MM-DD',
+    defaultTimeFormat: 'HH:mm:ss',
+  });
 
   const handleChange = (field: string, value: string | number | boolean) => {
     setSettings({
       ...settings,
       [field]: value,
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-6">
       <Tabs defaultValue="settings" className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" onClick={() => router.push("/ehr-integration")}>
+          <TabsTrigger value="overview" onClick={() => router.push('/ehr-integration')}>
             集成概览
           </TabsTrigger>
-          <TabsTrigger value="mapping" onClick={() => router.push("/ehr-integration/mapping")}>
+          <TabsTrigger value="mapping" onClick={() => router.push('/ehr-integration/mapping')}>
             数据映射
           </TabsTrigger>
-          <TabsTrigger value="sync" onClick={() => router.push("/ehr-integration/sync")}>
+          <TabsTrigger value="sync" onClick={() => router.push('/ehr-integration/sync')}>
             同步状态
           </TabsTrigger>
-          <TabsTrigger value="connections" onClick={() => router.push("/ehr-integration/connections")}>
+          <TabsTrigger
+            value="connections"
+            onClick={() => router.push('/ehr-integration/connections')}
+          >
             系统连接
           </TabsTrigger>
         </TabsList>
@@ -95,7 +104,7 @@ export default function EHRSettingsClient() {
                 min={1}
                 max={24}
                 step={1}
-                onValueChange={(value) => handleChange("syncInterval", value[0])}
+                onValueChange={value => handleChange('syncInterval', value[0])}
               />
               <p className="text-sm text-muted-foreground">设置自动同步的时间间隔</p>
             </div>
@@ -104,7 +113,7 @@ export default function EHRSettingsClient() {
               <Label htmlFor="retryAttempts">重试次数</Label>
               <Select
                 value={settings.retryAttempts.toString()}
-                onValueChange={(value) => handleChange("retryAttempts", Number.parseInt(value))}
+                onValueChange={value => handleChange('retryAttempts', Number.parseInt(value))}
               >
                 <SelectTrigger id="retryAttempts">
                   <SelectValue placeholder="选择重试次数" />
@@ -125,7 +134,7 @@ export default function EHRSettingsClient() {
                 id="timeout"
                 type="number"
                 value={settings.timeout}
-                onChange={(e) => handleChange("timeout", Number.parseInt(e.target.value))}
+                onChange={e => handleChange('timeout', Number.parseInt(e.target.value))}
               />
               <p className="text-sm text-muted-foreground">API请求的超时时间</p>
             </div>
@@ -136,7 +145,7 @@ export default function EHRSettingsClient() {
                 id="maxBatchSize"
                 type="number"
                 value={settings.maxBatchSize}
-                onChange={(e) => handleChange("maxBatchSize", Number.parseInt(e.target.value))}
+                onChange={e => handleChange('maxBatchSize', Number.parseInt(e.target.value))}
               />
               <p className="text-sm text-muted-foreground">单次同步的最大记录数</p>
             </div>
@@ -160,7 +169,7 @@ export default function EHRSettingsClient() {
               <Switch
                 id="enableEncryption"
                 checked={settings.enableEncryption}
-                onCheckedChange={(value) => handleChange("enableEncryption", value)}
+                onCheckedChange={value => handleChange('enableEncryption', value)}
               />
             </div>
 
@@ -169,7 +178,7 @@ export default function EHRSettingsClient() {
                 <Label htmlFor="encryptionMethod">加密方法</Label>
                 <Select
                   value={settings.encryptionMethod}
-                  onValueChange={(value) => handleChange("encryptionMethod", value)}
+                  onValueChange={value => handleChange('encryptionMethod', value)}
                 >
                   <SelectTrigger id="encryptionMethod">
                     <SelectValue placeholder="选择加密方法" />
@@ -192,7 +201,7 @@ export default function EHRSettingsClient() {
               <Switch
                 id="enableCompression"
                 checked={settings.enableCompression}
-                onCheckedChange={(value) => handleChange("enableCompression", value)}
+                onCheckedChange={value => handleChange('enableCompression', value)}
               />
             </div>
 
@@ -204,7 +213,7 @@ export default function EHRSettingsClient() {
               <Switch
                 id="enableAuditLog"
                 checked={settings.enableAuditLog}
-                onCheckedChange={(value) => handleChange("enableAuditLog", value)}
+                onCheckedChange={value => handleChange('enableAuditLog', value)}
               />
             </div>
 
@@ -215,7 +224,7 @@ export default function EHRSettingsClient() {
                   id="retentionPeriod"
                   type="number"
                   value={settings.retentionPeriod}
-                  onChange={(e) => handleChange("retentionPeriod", Number.parseInt(e.target.value))}
+                  onChange={e => handleChange('retentionPeriod', Number.parseInt(e.target.value))}
                 />
                 <p className="text-sm text-muted-foreground">审计日志的保留时间</p>
               </div>
@@ -240,7 +249,7 @@ export default function EHRSettingsClient() {
               <Switch
                 id="enableNotifications"
                 checked={settings.enableNotifications}
-                onCheckedChange={(value) => handleChange("enableNotifications", value)}
+                onCheckedChange={value => handleChange('enableNotifications', value)}
               />
             </div>
 
@@ -254,7 +263,7 @@ export default function EHRSettingsClient() {
                   <Switch
                     id="notifyOnError"
                     checked={settings.notifyOnError}
-                    onCheckedChange={(value) => handleChange("notifyOnError", value)}
+                    onCheckedChange={value => handleChange('notifyOnError', value)}
                   />
                 </div>
 
@@ -266,7 +275,7 @@ export default function EHRSettingsClient() {
                   <Switch
                     id="notifyOnSuccess"
                     checked={settings.notifyOnSuccess}
-                    onCheckedChange={(value) => handleChange("notifyOnSuccess", value)}
+                    onCheckedChange={value => handleChange('notifyOnSuccess', value)}
                   />
                 </div>
               </>
@@ -285,7 +294,10 @@ export default function EHRSettingsClient() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="logLevel">日志级别</Label>
-              <Select value={settings.logLevel} onValueChange={(value) => handleChange("logLevel", value)}>
+              <Select
+                value={settings.logLevel}
+                onValueChange={value => handleChange('logLevel', value)}
+              >
                 <SelectTrigger id="logLevel">
                   <SelectValue placeholder="选择日志级别" />
                 </SelectTrigger>
@@ -305,7 +317,7 @@ export default function EHRSettingsClient() {
                 id="defaultDateFormat"
                 type="text"
                 value={settings.defaultDateFormat}
-                onChange={(e) => handleChange("defaultDateFormat", e.target.value)}
+                onChange={e => handleChange('defaultDateFormat', e.target.value)}
               />
               <p className="text-sm text-muted-foreground">设置日期显示的默认格式</p>
             </div>
@@ -316,7 +328,7 @@ export default function EHRSettingsClient() {
                 id="defaultTimeFormat"
                 type="text"
                 value={settings.defaultTimeFormat}
-                onChange={(e) => handleChange("defaultTimeFormat", e.target.value)}
+                onChange={e => handleChange('defaultTimeFormat', e.target.value)}
               />
               <p className="text-sm text-muted-foreground">设置时间显示的默认格式</p>
             </div>
@@ -324,5 +336,5 @@ export default function EHRSettingsClient() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

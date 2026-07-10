@@ -1,13 +1,18 @@
-import type { Metadata } from "next"
-import { Logo as BrandLogo } from "@/components/brand/logo"
-import { BrandFormula } from "@/components/brand/formula"
-import { Slogan as BrandSlogan } from "@/components/brand/slogan"
-import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
+import type { Metadata } from 'next';
+import { Logo as BrandLogo } from '@/components/brand/logo';
+import { BrandFormula } from '@/components/brand/formula';
+import { Slogan as BrandSlogan } from '@/components/brand/slogan';
+import {
+  MedicalCard,
+  MedicalCardContent,
+  MedicalCardHeader,
+  MedicalCardTitle,
+} from '@/components/ui/medical-card';
 
 export const metadata: Metadata = {
-  title: "关于我们 | 言语医枢³智能诊疗系统",
-  description: "了解言语医枢³智能诊疗系统的品牌理念、技术优势和行业适配策略",
-}
+  title: '关于我们 | 言语医枢³智能诊疗系统',
+  description: '了解言语医枢³智能诊疗系统的品牌理念、技术优势和行业适配策略',
+};
 
 export default function AboutPage() {
   return (
@@ -59,11 +64,17 @@ export default function AboutPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-medium text-lg mb-2">技术向</h3>
-                <BrandSlogan variant="technical" className="bg-medical-50 border border-medical-100" />
+                <BrandSlogan
+                  variant="technical"
+                  className="bg-medical-50 border border-medical-100"
+                />
               </div>
               <div>
                 <h3 className="font-medium text-lg mb-2">患者向</h3>
-                <BrandSlogan variant="patient" className="bg-medical-50 border border-medical-100" />
+                <BrandSlogan
+                  variant="patient"
+                  className="bg-medical-50 border border-medical-100"
+                />
               </div>
             </div>
           </MedicalCardContent>
@@ -76,21 +87,29 @@ export default function AboutPage() {
           <MedicalCardContent>
             <div className="space-y-4">
               <div className="p-3 bg-medical-50 rounded-lg border border-medical-100">
-                <p className="font-medium text-medical-800 mb-1">"医"字聚焦行业属性、"诊疗系统"强化专业价值</p>
+                <p className="font-medium text-medical-800 mb-1">
+                  "医"字聚焦行业属性、"诊疗系统"强化专业价值
+                </p>
               </div>
               <div className="p-3 bg-medical-50 rounded-lg border border-medical-100">
-                <p className="font-medium text-medical-800 mb-1">技术信任：³维精准赋能对标医疗黄金标准</p>
+                <p className="font-medium text-medical-800 mb-1">
+                  技术信任：³维精准赋能对标医疗黄金标准
+                </p>
               </div>
               <div className="p-3 bg-medical-50 rounded-lg border border-medical-100">
-                <p className="font-medium text-medical-800 mb-1">情感共鸣：语言智能与患者关怀深度融合</p>
+                <p className="font-medium text-medical-800 mb-1">
+                  情感共鸣：语言智能与患者关怀深度融合
+                </p>
               </div>
               <div className="p-3 bg-medical-50 rounded-lg border border-medical-100">
-                <p className="font-medium text-medical-800 mb-1">生态扩展：从诊断到健康管理的闭环覆盖</p>
+                <p className="font-medium text-medical-800 mb-1">
+                  生态扩展：从诊断到健康管理的闭环覆盖
+                </p>
               </div>
             </div>
           </MedicalCardContent>
         </MedicalCard>
       </div>
     </div>
-  )
+  );
 }

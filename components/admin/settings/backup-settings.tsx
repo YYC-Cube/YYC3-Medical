@@ -1,65 +1,71 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Save, Download, Upload, Clock, Database, HardDrive } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Save, Download, Upload, Clock, Database, HardDrive } from 'lucide-react';
 
 export function BackupSettings() {
   const [autoBackupSettings, setAutoBackupSettings] = useState({
     enableAutoBackup: true,
-    frequency: "daily",
-    time: "02:00",
+    frequency: 'daily',
+    time: '02:00',
     retentionCount: 7,
-    compressionLevel: "medium",
+    compressionLevel: 'medium',
     includeAttachments: true,
     includeAuditLogs: true,
-  })
+  });
 
   const [storageSettings, setStorageSettings] = useState({
-    storageType: "local",
-    localPath: "/var/backups/yanyu",
-    s3Bucket: "yanyu-backups",
-    s3Region: "ap-east-1",
-    s3AccessKey: "<S3_ACCESS_KEY>",
-    s3SecretKey: "********",
-    ftpHost: "",
-    ftpUsername: "",
-    ftpPassword: "",
-    ftpPath: "",
-  })
+    storageType: 'local',
+    localPath: '/var/backups/yanyu',
+    s3Bucket: 'yanyu-backups',
+    s3Region: 'ap-east-1',
+    s3AccessKey: '<S3_ACCESS_KEY>',
+    s3SecretKey: '********',
+    ftpHost: '',
+    ftpUsername: '',
+    ftpPassword: '',
+    ftpPath: '',
+  });
 
   const [notificationSettings, setNotificationSettings] = useState({
     notifyOnSuccess: true,
     notifyOnFailure: true,
-    notifyEmail: "admin@example.com",
-  })
+    notifyEmail: 'admin@example.com',
+  });
 
   const handleSaveSettings = () => {
     // 在实际应用中，这里会调用API保存设置
-    debug("保存备份设置", {
+    debug('保存备份设置', {
       autoBackup: autoBackupSettings,
       storage: storageSettings,
       notification: notificationSettings,
-    })
-  }
+    });
+  };
 
   const handleManualBackup = () => {
     // 在实际应用中，这里会调用API执行手动备份
-    debug("执行手动备份")
-  }
+    debug('执行手动备份');
+  };
 
   const handleRestoreBackup = () => {
     // 在实际应用中，这里会打开一个对话框选择要恢复的备份
-    debug("恢复备份")
-  }
+    debug('恢复备份');
+  };
 
   return (
     <Card>
@@ -100,7 +106,7 @@ export function BackupSettings() {
                 </div>
                 <Switch
                   checked={autoBackupSettings.enableAutoBackup}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setAutoBackupSettings({
                       ...autoBackupSettings,
                       enableAutoBackup: checked,
@@ -119,7 +125,7 @@ export function BackupSettings() {
                   </Label>
                   <Select
                     value={autoBackupSettings.frequency}
-                    onValueChange={(value) =>
+                    onValueChange={value =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         frequency: value,
@@ -144,7 +150,7 @@ export function BackupSettings() {
                     id="time"
                     type="time"
                     value={autoBackupSettings.time}
-                    onChange={(e) =>
+                    onChange={e =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         time: e.target.value,
@@ -163,7 +169,7 @@ export function BackupSettings() {
                     id="retentionCount"
                     type="number"
                     value={autoBackupSettings.retentionCount}
-                    onChange={(e) =>
+                    onChange={e =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         retentionCount: Number.parseInt(e.target.value),
@@ -177,7 +183,7 @@ export function BackupSettings() {
                   <Label htmlFor="compressionLevel">压缩级别</Label>
                   <Select
                     value={autoBackupSettings.compressionLevel}
-                    onValueChange={(value) =>
+                    onValueChange={value =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         compressionLevel: value,
@@ -204,7 +210,7 @@ export function BackupSettings() {
                   <Switch
                     id="includeAttachments"
                     checked={autoBackupSettings.includeAttachments}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         includeAttachments: checked,
@@ -221,7 +227,7 @@ export function BackupSettings() {
                   <Switch
                     id="includeAuditLogs"
                     checked={autoBackupSettings.includeAuditLogs}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setAutoBackupSettings({
                         ...autoBackupSettings,
                         includeAuditLogs: checked,
@@ -242,7 +248,7 @@ export function BackupSettings() {
                 </Label>
                 <Select
                   value={storageSettings.storageType}
-                  onValueChange={(value) =>
+                  onValueChange={value =>
                     setStorageSettings({
                       ...storageSettings,
                       storageType: value,
@@ -262,14 +268,14 @@ export function BackupSettings() {
 
               <Separator />
 
-              {storageSettings.storageType === "local" && (
+              {storageSettings.storageType === 'local' && (
                 <div className="grid gap-4">
                   <div className="grid grid-cols-3 items-center gap-4">
                     <Label htmlFor="localPath">本地路径</Label>
                     <Input
                       id="localPath"
                       value={storageSettings.localPath}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           localPath: e.target.value,
@@ -281,14 +287,14 @@ export function BackupSettings() {
                 </div>
               )}
 
-              {storageSettings.storageType === "s3" && (
+              {storageSettings.storageType === 's3' && (
                 <div className="grid gap-4">
                   <div className="grid grid-cols-3 items-center gap-4">
                     <Label htmlFor="s3Bucket">S3存储桶</Label>
                     <Input
                       id="s3Bucket"
                       value={storageSettings.s3Bucket}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           s3Bucket: e.target.value,
@@ -303,7 +309,7 @@ export function BackupSettings() {
                     <Input
                       id="s3Region"
                       value={storageSettings.s3Region}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           s3Region: e.target.value,
@@ -318,7 +324,7 @@ export function BackupSettings() {
                     <Input
                       id="s3AccessKey"
                       value={storageSettings.s3AccessKey}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           s3AccessKey: e.target.value,
@@ -334,7 +340,7 @@ export function BackupSettings() {
                       id="s3SecretKey"
                       type="password"
                       value={storageSettings.s3SecretKey}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           s3SecretKey: e.target.value,
@@ -346,14 +352,14 @@ export function BackupSettings() {
                 </div>
               )}
 
-              {storageSettings.storageType === "ftp" && (
+              {storageSettings.storageType === 'ftp' && (
                 <div className="grid gap-4">
                   <div className="grid grid-cols-3 items-center gap-4">
                     <Label htmlFor="ftpHost">FTP主机</Label>
                     <Input
                       id="ftpHost"
                       value={storageSettings.ftpHost}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           ftpHost: e.target.value,
@@ -368,7 +374,7 @@ export function BackupSettings() {
                     <Input
                       id="ftpUsername"
                       value={storageSettings.ftpUsername}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           ftpUsername: e.target.value,
@@ -384,7 +390,7 @@ export function BackupSettings() {
                       id="ftpPassword"
                       type="password"
                       value={storageSettings.ftpPassword}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           ftpPassword: e.target.value,
@@ -399,7 +405,7 @@ export function BackupSettings() {
                     <Input
                       id="ftpPath"
                       value={storageSettings.ftpPath}
-                      onChange={(e) =>
+                      onChange={e =>
                         setStorageSettings({
                           ...storageSettings,
                           ftpPath: e.target.value,
@@ -423,7 +429,7 @@ export function BackupSettings() {
                 <Switch
                   id="notifyOnSuccess"
                   checked={notificationSettings.notifyOnSuccess}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setNotificationSettings({
                       ...notificationSettings,
                       notifyOnSuccess: checked,
@@ -440,7 +446,7 @@ export function BackupSettings() {
                 <Switch
                   id="notifyOnFailure"
                   checked={notificationSettings.notifyOnFailure}
-                  onCheckedChange={(checked) =>
+                  onCheckedChange={checked =>
                     setNotificationSettings({
                       ...notificationSettings,
                       notifyOnFailure: checked,
@@ -455,7 +461,7 @@ export function BackupSettings() {
                   id="notifyEmail"
                   type="email"
                   value={notificationSettings.notifyEmail}
-                  onChange={(e) =>
+                  onChange={e =>
                     setNotificationSettings({
                       ...notificationSettings,
                       notifyEmail: e.target.value,
@@ -469,5 +475,5 @@ export function BackupSettings() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

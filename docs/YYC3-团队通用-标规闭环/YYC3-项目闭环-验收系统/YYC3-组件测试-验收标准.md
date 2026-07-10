@@ -27,12 +27,12 @@ complexity: advanced
 
 ---
 
-| 属性         | 值                                    |
-| ------------ | ------------------------------------- |
-| **文档版本** | v1.0.0                                |
-| **发布日期** | 2026-05-25                            |
-| **验收阶段** | 第四阶段：组件测试类                     |
-| **验收性质** | 组件质量保障 · 交互正确性验证          |
+| 属性         | 值                                   |
+| ------------ | ------------------------------------ |
+| **文档版本** | v1.0.0                               |
+| **发布日期** | 2026-05-25                           |
+| **验收阶段** | 第四阶段：组件测试类                 |
+| **验收性质** | 组件质量保障 · 交互正确性验证        |
 | **适用范围** | React + TypeScript + RTL + userEvent |
 
 </div>
@@ -86,13 +86,13 @@ complexity: advanced
 
 ### 核心价值主张
 
-| 维度       | 价值主张                                   | 实现方式                              |
-| ---------- | ------------------------------------------ | ------------------------------------- |
-| **时间维** | 快速组件级反馈，问题精准定位                | 热更新测试，变更文件自动关联，<2s响应 |
-| **空间维** | 全量组件覆盖，无遗漏盲区                    | 原子→分子→有机体→模板→页面全覆盖     |
-| **属性维** | 渲染可预测、交互可验证、状态可追溯          | 快照测试、行为测试、状态机验证        |
-| **事件维** | 用户操作完整模拟，边界条件充分覆盖           | userEvent真实模拟，异常流程完整测试   |
-| **关联维** | 组件间通信清晰，Props/Context依赖明确        | Mock隔离，依赖注入，接口契约测试      |
+| 维度       | 价值主张                              | 实现方式                              |
+| ---------- | ------------------------------------- | ------------------------------------- |
+| **时间维** | 快速组件级反馈，问题精准定位          | 热更新测试，变更文件自动关联，<2s响应 |
+| **空间维** | 全量组件覆盖，无遗漏盲区              | 原子→分子→有机体→模板→页面全覆盖      |
+| **属性维** | 渲染可预测、交互可验证、状态可追溯    | 快照测试、行为测试、状态机验证        |
+| **事件维** | 用户操作完整模拟，边界条件充分覆盖    | userEvent真实模拟，异常流程完整测试   |
+| **关联维** | 组件间通信清晰，Props/Context依赖明确 | Mock隔离，依赖注入，接口契约测试      |
 
 ---
 
@@ -102,13 +102,13 @@ complexity: advanced
 
 #### 度量指标
 
-| 指标名称              | 目标值    | 测量方法                    | 优先级 |
-| --------------------- | --------- | --------------------------- | ------ |
-| 单个组件测试执行时间  | < 100ms   | Vitest + @testing-library  | P0     |
-| 组件测试套件总耗时    | < 120s    | 并行执行统计                | P0     |
-| 快照测试对比耗时      | < 5s      | Jest snapshot diff         | P1     |
-| 视觉回归测试耗时      | < 60s     | Percy/Chromatic            | P2     |
-| PR增量组件测试响应    | < 30s     | CI/CD Pipeline             | P0     |
+| 指标名称             | 目标值  | 测量方法                  | 优先级 |
+| -------------------- | ------- | ------------------------- | ------ |
+| 单个组件测试执行时间 | < 100ms | Vitest + @testing-library | P0     |
+| 组件测试套件总耗时   | < 120s  | 并行执行统计              | P0     |
+| 快照测试对比耗时     | < 5s    | Jest snapshot diff        | P1     |
+| 视觉回归测试耗时     | < 60s   | Percy/Chromatic           | P2     |
+| PR增量组件测试响应   | < 30s   | CI/CD Pipeline            | P0     |
 
 ### 空间维度评估
 
@@ -165,35 +165,35 @@ complexity: advanced
 
 #### 质量属性指标
 
-| 属性类别       | 具体指标                   | 目标值   | 权重   | 测量方法                      |
-| -------------- | -------------------------- | -------- | ------ | ----------------------------- |
-| **渲染正确性**  | 正常状态渲染通过率          | 100%     | 15%    | render() + screen queries     |
-|                | 边界条件渲染通过率          | > 98%    | 10%    | edge case testing              |
-|                | 错误状态渲染通过率          | 100%     | 10%    | error boundary testing         |
-| **交互可靠性**  | 用户事件处理正确率          | > 99%    | 15%    | userEvent simulation           |
-|                | 表单提交成功率              | > 99%    | 10%    | form submission testing        |
-|                | 异步操作完成率              | > 98%    | 10%    | waitFor + async testing        |
-| **状态一致性**  | Props变化响应正确率         | 100%     | 10%    | rerender on props change       |
-|                | Context消费正确率           | > 98%    | 5%     | context provider testing       |
-|                | State转换正确率             | > 97%    | 5%     | state machine testing          |
-| **可访问性**    | ARIA属性完整性              | 100%     | 10%    | axe-core / jest-axe            |
-|                | 键盘导航可用性              | 100%     | 5%     | keyboard navigation test       |
-|                | 屏幕阅读器兼容性            | > 98%    | 5%     | role/label testing             |
+| 属性类别       | 具体指标            | 目标值 | 权重 | 测量方法                  |
+| -------------- | ------------------- | ------ | ---- | ------------------------- |
+| **渲染正确性** | 正常状态渲染通过率  | 100%   | 15%  | render() + screen queries |
+|                | 边界条件渲染通过率  | > 98%  | 10%  | edge case testing         |
+|                | 错误状态渲染通过率  | 100%   | 10%  | error boundary testing    |
+| **交互可靠性** | 用户事件处理正确率  | > 99%  | 15%  | userEvent simulation      |
+|                | 表单提交成功率      | > 99%  | 10%  | form submission testing   |
+|                | 异步操作完成率      | > 98%  | 10%  | waitFor + async testing   |
+| **状态一致性** | Props变化响应正确率 | 100%   | 10%  | rerender on props change  |
+|                | Context消费正确率   | > 98%  | 5%   | context provider testing  |
+|                | State转换正确率     | > 97%  | 5%   | state machine testing     |
+| **可访问性**   | ARIA属性完整性      | 100%   | 10%  | axe-core / jest-axe       |
+|                | 键盘导航可用性      | 100%   | 5%   | keyboard navigation test  |
+|                | 屏幕阅读器兼容性    | > 98%  | 5%   | role/label testing        |
 
 ### 事件维度评估
 
 #### 用户交互事件矩阵
 
-| 事件类别       | 触发方式                   | 测试要点                     | 必须覆盖的场景           | 优先级 |
-| -------------- | -------------------------- | ---------------------------- | ------------------------ | ------ |
-| **点击事件**   | click, doubleClick         | 回调触发、防重复、禁用态     | 正常点击、快速双击、禁用 | P0     |
-| **输入事件**   | change, input, focus       | 值更新、校验、格式化         | 正常输入、清空、粘贴     | P0     |
-| **键盘事件**   | keyDown, keyUp, keyPress   | 快捷键、Tab导航、Enter提交   | Enter、Escape、Tab顺序   | P0     |
-| **表单事件**   | submit, reset, invalid     | 提交逻辑、重置、校验错误     | 成功提交、校验失败、重置 | P0     |
-| **拖拽事件**   | dragStart, dragEnd, drop   | 拖拽排序、文件拖入           | 开始拖拽、悬停、放置     | P1     |
-| **滚动事件**   | scroll, wheel              | 无限加载、吸顶效果           | 到底部、向上滚动         | P1     |
-| **触摸事件**   | touchStart, touchEnd       | 手势识别、移动端交互         | 点击、长按、滑动         | P2     |
-| **焦点事件**   | focus, blur, focusIn       | 焦点陷阱、自动聚焦           | 获焦、失焦、焦点恢复     | P1     |
+| 事件类别     | 触发方式                 | 测试要点                   | 必须覆盖的场景           | 优先级 |
+| ------------ | ------------------------ | -------------------------- | ------------------------ | ------ |
+| **点击事件** | click, doubleClick       | 回调触发、防重复、禁用态   | 正常点击、快速双击、禁用 | P0     |
+| **输入事件** | change, input, focus     | 值更新、校验、格式化       | 正常输入、清空、粘贴     | P0     |
+| **键盘事件** | keyDown, keyUp, keyPress | 快捷键、Tab导航、Enter提交 | Enter、Escape、Tab顺序   | P0     |
+| **表单事件** | submit, reset, invalid   | 提交逻辑、重置、校验错误   | 成功提交、校验失败、重置 | P0     |
+| **拖拽事件** | dragStart, dragEnd, drop | 拖拽排序、文件拖入         | 开始拖拽、悬停、放置     | P1     |
+| **滚动事件** | scroll, wheel            | 无限加载、吸顶效果         | 到底部、向上滚动         | P1     |
+| **触摸事件** | touchStart, touchEnd     | 手势识别、移动端交互       | 点击、长按、滑动         | P2     |
+| **焦点事件** | focus, blur, focusIn     | 焦点陷阱、自动聚焦         | 获焦、失焦、焦点恢复     | P1     |
 
 ### 关联维度评估
 
@@ -286,7 +286,11 @@ describe('Button 组件', () => {
 
   it('禁用状态下不应触发点击', async () => {
     const handleClick = jest.fn();
-    render(<Button disabled onClick={handleClick}>Disabled</Button>);
+    render(
+      <Button disabled onClick={handleClick}>
+        Disabled
+      </Button>
+    );
 
     await user.click(screen.getByRole('button'));
 
@@ -296,7 +300,11 @@ describe('Button 组件', () => {
 
   it('加载状态下应显示 Spinner 并禁用点击', async () => {
     const handleClick = jest.fn();
-    render(<Button isLoading onClick={handleClick}>Loading</Button>);
+    render(
+      <Button isLoading onClick={handleClick}>
+        Loading
+      </Button>
+    );
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
     await user.click(screen.getByRole('button'));
@@ -304,7 +312,11 @@ describe('Button 组件', () => {
   });
 
   it('作为链接时应渲染为 <a> 标签', () => {
-    render(<Button asChild><a href="/test">Link</a></Button>);
+    render(
+      <Button asChild>
+        <a href="/test">Link</a>
+      </Button>
+    );
 
     expect(screen.getByRole('link')).toHaveAttribute('href', '/test');
   });
@@ -433,11 +445,7 @@ describe('FormField 组件', () => {
 
   it('应显示错误信息', () => {
     render(
-      <FormField
-        label="Email"
-        name="email"
-        error="请输入有效的邮箱地址"
-      >
+      <FormField label="Email" name="email" error="请输入有效的邮箱地址">
         <input data-testid="input" />
       </FormField>
     );
@@ -609,8 +617,7 @@ describe('UserCard 组件', () => {
 
     expect(screen.getByText('张三')).toBeInTheDocument();
     expect(screen.getByText('zhangsan@example.com')).toBeInTheDocument();
-    expect(screen.getByAltText(`${mockUser.name}的头像`))
-      .toHaveAttribute('src', mockUser.avatar);
+    expect(screen.getByAltText(`${mockUser.name}的头像`)).toHaveAttribute('src', mockUser.avatar);
   });
 
   it('应显示在线状态指示器', () => {
@@ -775,46 +782,46 @@ describe('FileUploader 组件', () => {
 
 ### 必测场景清单 (P0 - Must Have)
 
-| 场景编号 | 场景名称               | 测试类型     | 验证点                           | 优先级 |
-| -------- | ---------------------- | ------------ | -------------------------------- | ------ |
-| CS-001   | 正常渲染               | Render Test  | 元素存在、文本正确、样式应用     | P0     |
-| CS-002   | Props传入              | Props Test   | Props正确接收和应用               | P0     |
-| CS-003   | 空数据处理             | Edge Case    | undefined/null/空数组处理        | P0     |
-| CS-004   | 加载状态               | State Test   | Loading indicator显示             | P0     |
-| CS-005   | 错误状态               | Error Test   | Error message显示、Error Boundary | P0     |
-| CS-006   | 点击交互               | Event Test   | onClick回调触发、参数正确         | P0     |
-| CS-007   | 表单输入               | Form Test   | 值更新、onChange回调、校验        | P0     |
-| CS-008   | 禁用状态               | Disabled Test| 不可交互、视觉反馈                | P0     |
-| CS-009   | 键盘导航               | A11y Test    | Tab顺序、Enter/Space激活          | P0     |
-| CS-010   | ARIA属性               | A11y Test    | role、label、description正确      | P0     |
+| 场景编号 | 场景名称   | 测试类型      | 验证点                            | 优先级 |
+| -------- | ---------- | ------------- | --------------------------------- | ------ |
+| CS-001   | 正常渲染   | Render Test   | 元素存在、文本正确、样式应用      | P0     |
+| CS-002   | Props传入  | Props Test    | Props正确接收和应用               | P0     |
+| CS-003   | 空数据处理 | Edge Case     | undefined/null/空数组处理         | P0     |
+| CS-004   | 加载状态   | State Test    | Loading indicator显示             | P0     |
+| CS-005   | 错误状态   | Error Test    | Error message显示、Error Boundary | P0     |
+| CS-006   | 点击交互   | Event Test    | onClick回调触发、参数正确         | P0     |
+| CS-007   | 表单输入   | Form Test     | 值更新、onChange回调、校验        | P0     |
+| CS-008   | 禁用状态   | Disabled Test | 不可交互、视觉反馈                | P0     |
+| CS-009   | 键盘导航   | A11y Test     | Tab顺序、Enter/Space激活          | P0     |
+| CS-010   | ARIA属性   | A11y Test     | role、label、description正确      | P0     |
 
 ### 推荐场景清单 (P1 - Should Have)
 
-| 场景编号 | 场景名称               | 测试类型     | 验证点                           | 优先级 |
-| -------- | ---------------------- | ------------ | -------------------------------- | ------ |
-| CS-011   | 异步数据加载           | Async Test   | loading → success/error 状态流转 | P1     |
-| CS-012   | Props变化响应          | Re-render    | 新Props正确渲染、旧状态清理       | P1     |
-| CS-013   | 列表渲染               | List Test    | 空列表、单条、多条、超长列表     | P1     |
-| CS-014   | 分页功能               | Pagination   | 页码切换、数据刷新               | P1     |
-| CS-015   | 搜索过滤               | Filter Test  | 实时搜索、防抖、结果高亮         | P1     |
-| CS-016   | 排序功能               | Sort Test    | 升序/降序、多字段排序            | P1     |
-| CS-017   | 模态框焦点管理         | Focus Trap   | 打开聚焦、关闭恢复、Tab循环      | P1     |
-| CS-018   | Tooltip提示            | Tooltip Test | 悬浮显示、隐藏延迟、位置正确     | P1     |
-| CS-019   | 响应式布局             | Responsive   | 断点切换、元素隐藏/显示           | P1     |
-| CS-020   | 主题切换               | Theme Test   | 明暗主题、颜色变量应用            | P1     |
+| 场景编号 | 场景名称       | 测试类型     | 验证点                           | 优先级 |
+| -------- | -------------- | ------------ | -------------------------------- | ------ |
+| CS-011   | 异步数据加载   | Async Test   | loading → success/error 状态流转 | P1     |
+| CS-012   | Props变化响应  | Re-render    | 新Props正确渲染、旧状态清理      | P1     |
+| CS-013   | 列表渲染       | List Test    | 空列表、单条、多条、超长列表     | P1     |
+| CS-014   | 分页功能       | Pagination   | 页码切换、数据刷新               | P1     |
+| CS-015   | 搜索过滤       | Filter Test  | 实时搜索、防抖、结果高亮         | P1     |
+| CS-016   | 排序功能       | Sort Test    | 升序/降序、多字段排序            | P1     |
+| CS-017   | 模态框焦点管理 | Focus Trap   | 打开聚焦、关闭恢复、Tab循环      | P1     |
+| CS-018   | Tooltip提示    | Tooltip Test | 悬浮显示、隐藏延迟、位置正确     | P1     |
+| CS-019   | 响应式布局     | Responsive   | 断点切换、元素隐藏/显示          | P1     |
+| CS-020   | 主题切换       | Theme Test   | 明暗主题、颜色变量应用           | P1     |
 
 ### 可选场景清单 (P2 - Nice to Have)
 
-| 场景编号 | 场景名称               | 测试类型     | 验证点                           | 优先级 |
-| -------- | ---------------------- | ------------ | -------------------------------- | ------ |
-| CS-021   | 动画过渡               | Animation    | 入场/退场动画、时长正确           | P2     |
-| CS-022   | 拖拽排序               | DragDrop     | 拖拽开始/结束、位置交换           | P2     |
-| CS-023   | 虚拟滚动               | Virtual Scroll| 大数据量渲染性能                | P2     |
-| CS-024   | 国际化(i18n)           | i18n Test    | 多语言切换、日期格式化            | P2     |
-| CS-025   | 快捷键                 | Shortcut     | Ctrl+S/Ctrl+Z等全局快捷键        | P2     |
-| CS-026   | 剪贴板操作             | Clipboard    | 复制/粘贴、格式保留               | P2     |
-| CS-027   | 打印优化               | Print Test   | 打印样式、分页符                  | P2     |
-| CS-028   | 截图分享               | Screenshot   | html2canvas/dom-to-image          | P2     |
+| 场景编号 | 场景名称     | 测试类型       | 验证点                    | 优先级 |
+| -------- | ------------ | -------------- | ------------------------- | ------ |
+| CS-021   | 动画过渡     | Animation      | 入场/退场动画、时长正确   | P2     |
+| CS-022   | 拖拽排序     | DragDrop       | 拖拽开始/结束、位置交换   | P2     |
+| CS-023   | 虚拟滚动     | Virtual Scroll | 大数据量渲染性能          | P2     |
+| CS-024   | 国际化(i18n) | i18n Test      | 多语言切换、日期格式化    | P2     |
+| CS-025   | 快捷键       | Shortcut       | Ctrl+S/Ctrl+Z等全局快捷键 | P2     |
+| CS-026   | 剪贴板操作   | Clipboard      | 复制/粘贴、格式保留       | P2     |
+| CS-027   | 打印优化     | Print Test     | 打印样式、分页符          | P2     |
+| CS-028   | 截图分享     | Screenshot     | html2canvas/dom-to-image  | P2     |
 
 ---
 
@@ -1091,18 +1098,18 @@ describe('LoginForm 无障碍测试', () => {
 
 ### WCAG 2.1 AA 合规检查清单
 
-| 原则         | 准则                         | 检查项                             | 测试方法           |
-| ------------ | ---------------------------- | ---------------------------------- | ------------------ |
-| 可感知性     | 1.1.1 非文本内容             | 图片有 alt 文本                    | alt 属性检查       |
-|              | 1.3.1 信息与关系             | 表单 label 正确关联                | label/for 检查     |
-|              | 1.4.3 对比度（最小）         | 文本对比度 >= 4.5:1               | axe-core 自动检测  |
-|              | 1.4.11 非文本对比度           | UI组件对比度 >= 3:1               | axe-core 自动检测  |
-| 可操作性     | 2.1.1 键盘                   | 所有功能可通过键盘访问             | Tab 导航测试       |
-|              | 2.4.7 焦点可见               | 焦点指示器清晰可见                 | :focus-visible     |
-|              | 2.5.3 输入助手的标签          | name 属性有意义                    | name 属性检查      |
-| 可理解性     | 3.2.2 输入时的帮助            | 表单字段有帮助文本或说明           | helper text 检查   |
-|              | 3.3.1 错误建议               | 错误消息包含修正建议               | error message 检查 |
-| 健壮性       | 4.1.2 名称、角色、值          | ARIA 属性正确使用                  | axe-core 自动检测  |
+| 原则     | 准则                 | 检查项                   | 测试方法           |
+| -------- | -------------------- | ------------------------ | ------------------ |
+| 可感知性 | 1.1.1 非文本内容     | 图片有 alt 文本          | alt 属性检查       |
+|          | 1.3.1 信息与关系     | 表单 label 正确关联      | label/for 检查     |
+|          | 1.4.3 对比度（最小） | 文本对比度 >= 4.5:1      | axe-core 自动检测  |
+|          | 1.4.11 非文本对比度  | UI组件对比度 >= 3:1      | axe-core 自动检测  |
+| 可操作性 | 2.1.1 键盘           | 所有功能可通过键盘访问   | Tab 导航测试       |
+|          | 2.4.7 焦点可见       | 焦点指示器清晰可见       | :focus-visible     |
+|          | 2.5.3 输入助手的标签 | name 属性有意义          | name 属性检查      |
+| 可理解性 | 3.2.2 输入时的帮助   | 表单字段有帮助文本或说明 | helper text 检查   |
+|          | 3.3.1 错误建议       | 错误消息包含修正建议     | error message 检查 |
+| 健壮性   | 4.1.2 名称、角色、值 | ARIA 属性正确使用        | axe-core 自动检测  |
 
 ---
 
@@ -1110,18 +1117,18 @@ describe('LoginForm 无障碍测试', () => {
 
 ### 总体验收标准
 
-| 标准编号 | 验收项                        | 目标值       | 优先级 | 是否通过 | 实际值   |
-| -------- | ----------------------------- | ------------ | ------ | -------- | -------- |
-| COMP-01  | 原子组件覆盖率                | > 98%        | P0     | □        | XX%      |
-| COMP-02  | 分子组件覆盖率                | > 93%        | P0     | □        | XX%      |
-| COMP-03  | 有机体组件覆盖率              | > 90%        | P0     | □        | XX%      |
-| COMP-04  | 模板组件覆盖率                | > 88%        | P1     | □        | XX%      |
-| COMP-05  | 页面组件覆盖率                | > 85%        | P1     | □        | XX%      |
-| COMP-06  | 交互测试通过率                | > 99%        | P0     | □        | XX%      |
-| COMP-07  | 无障碍合规率                  | > 98%        | P0     | □        | XX%      |
-| COMP-08  | 快照测试通过率                | 100%         | P1     | □        | XX%      |
-| COMP-09  | 样式回归测试通过率            | 100%         | P1     | □        | XX%      |
-| COMP-10  | 错误边界覆盖率                | 100%         | P0     | □        | XX%      |
+| 标准编号 | 验收项             | 目标值 | 优先级 | 是否通过 | 实际值 |
+| -------- | ------------------ | ------ | ------ | -------- | ------ |
+| COMP-01  | 原子组件覆盖率     | > 98%  | P0     | □        | XX%    |
+| COMP-02  | 分子组件覆盖率     | > 93%  | P0     | □        | XX%    |
+| COMP-03  | 有机体组件覆盖率   | > 90%  | P0     | □        | XX%    |
+| COMP-04  | 模板组件覆盖率     | > 88%  | P1     | □        | XX%    |
+| COMP-05  | 页面组件覆盖率     | > 85%  | P1     | □        | XX%    |
+| COMP-06  | 交互测试通过率     | > 99%  | P0     | □        | XX%    |
+| COMP-07  | 无障碍合规率       | > 98%  | P0     | □        | XX%    |
+| COMP-08  | 快照测试通过率     | 100%   | P1     | □        | XX%    |
+| COMP-09  | 样式回归测试通过率 | 100%   | P1     | □        | XX%    |
+| COMP-10  | 错误边界覆盖率     | 100%   | P0     | □        | XX%    |
 
 ### 分级验收准则
 
@@ -1167,28 +1174,28 @@ describe('LoginForm 无障碍测试', () => {
 
 ## 📋 报告概要
 
-| 属性           | 值                                      |
-| -------------- | --------------------------------------- |
-| **报告编号**   | RPT-COMP-{YYYYMMDD}-{SEQUENCE}          |
-| **项目名称**   | {PROJECT_NAME}                          |
-| **报告日期**   | {YYYY-MM-DD HH:MM}                      |
-| **验收阶段**   | 第四类：组件测试验收                     |
-| **测试负责人** | {TEST_LEADER_NAME}                      |
-| **Git Commit** | {COMMIT_HASH}                           |
+| 属性           | 值                                             |
+| -------------- | ---------------------------------------------- |
+| **报告编号**   | RPT-COMP-{YYYYMMDD}-{SEQUENCE}                 |
+| **项目名称**   | {PROJECT_NAME}                                 |
+| **报告日期**   | {YYYY-MM-DD HH:MM}                             |
+| **验收阶段**   | 第四类：组件测试验收                           |
+| **测试负责人** | {TEST_LEADER_NAME}                             |
+| **Git Commit** | {COMMIT_HASH}                                  |
 | **测试环境**   | Node {VERSION}, React {VERSION}, RTL {VERSION} |
 
 ---
 
 ## 📊 组件测试总览
 
-| 组件类型       | 总数   | 已测试数 | 覆盖率 | 通过率 | 失败数 | 执行耗时 |
-| -------------- | ------ | -------- | ------ | ------ | ------ | -------- |
-| **原子组件**   | XX     | XX       | XX.X%  | XX.X%  | X      | XXs      |
-| **分子组件**   | XX     | XX       | XX.X%  | XX.X%  | X      | XXs      |
-| **有机体组件** | XX     | XX       | XX.X%  | XX.X%  | X      | XXs      |
-| **模板组件**   | XX     | XX       | XX.X%  | XX.X%  | X      | XXs      |
-| **页面组件**   | XX     | XX       | XX.X%  | XX.X%  | X      | XXs      |
-| **总计**       | XXX    | XXX      | XX.X%  | XX.X%  | XX     | XXmXXs   |
+| 组件类型       | 总数 | 已测试数 | 覆盖率 | 通过率 | 失败数 | 执行耗时 |
+| -------------- | ---- | -------- | ------ | ------ | ------ | -------- |
+| **原子组件**   | XX   | XX       | XX.X%  | XX.X%  | X      | XXs      |
+| **分子组件**   | XX   | XX       | XX.X%  | XX.X%  | X      | XXs      |
+| **有机体组件** | XX   | XX       | XX.X%  | XX.X%  | X      | XXs      |
+| **模板组件**   | XX   | XX       | XX.X%  | XX.X%  | X      | XXs      |
+| **页面组件**   | XX   | XX       | XX.X%  | XX.X%  | X      | XXs      |
+| **总计**       | XXX  | XXX      | XX.X%  | XX.X%  | XX     | XXmXXs   |
 
 ---
 
@@ -1196,29 +1203,29 @@ describe('LoginForm 无障碍测试', () => {
 
 ### 1. 原子组件 (Atoms)
 
-| 组件名称       | 文件路径                          | 测试数 | 通过 | 失败 | 覆盖率 | 状态   |
-| -------------- | --------------------------------- | ------ | ---- | ---- | ------ | ------ |
-| Button         | src/components/ui/Button.tsx      | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| Input          | src/components/ui/Input.tsx       | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| Select         | src/components/ui/Select.tsx      | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| Checkbox       | src/components/ui/Checkbox.tsx    | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| ...            | ...                               | ...    | ...  | ...  | ...    | ...    |
+| 组件名称 | 文件路径                       | 测试数 | 通过 | 失败 | 覆盖率 | 状态  |
+| -------- | ------------------------------ | ------ | ---- | ---- | ------ | ----- |
+| Button   | src/components/ui/Button.tsx   | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| Input    | src/components/ui/Input.tsx    | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| Select   | src/components/ui/Select.tsx   | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| Checkbox | src/components/ui/Checkbox.tsx | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| ...      | ...                            | ...    | ...  | ...  | ...    | ...   |
 
 ### 2. 分子组件 (Molecules)
 
-| 组件名称       | 文件路径                          | 测试数 | 通过 | 失败 | 覆盖率 | 状态   |
-| -------------- | --------------------------------- | ------ | ---- | ---- | ------ | ------ |
-| FormField      | src/components/FormField.tsx      | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| SearchInput    | src/components/SearchInput.tsx    | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| ...            | ...                               | ...    | ...  | ...  | ...    | ...    |
+| 组件名称    | 文件路径                       | 测试数 | 通过 | 失败 | 覆盖率 | 状态  |
+| ----------- | ------------------------------ | ------ | ---- | ---- | ------ | ----- |
+| FormField   | src/components/FormField.tsx   | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| SearchInput | src/components/SearchInput.tsx | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| ...         | ...                            | ...    | ...  | ...  | ...    | ...   |
 
 ### 3. 有机体组件 (Organisms)
 
-| 组件名称       | 文件路径                          | 测试数 | 通过 | 失败 | 覆盖率 | 状态   |
-| -------------- | --------------------------------- | ------ | ---- | ---- | ------ | ------ |
-| UserCard       | src/components/UserCard.tsx       | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| FileUploader   | src/components/FileUploader.tsx   | XX     | XX   | X    | XX.X%  | ✅/❌  |
-| ...            | ...                               | ...    | ...  | ...  | ...    | ...    |
+| 组件名称     | 文件路径                        | 测试数 | 通过 | 失败 | 覆盖率 | 状态  |
+| ------------ | ------------------------------- | ------ | ---- | ---- | ------ | ----- |
+| UserCard     | src/components/UserCard.tsx     | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| FileUploader | src/components/FileUploader.tsx | XX     | XX   | X    | XX.X%  | ✅/❌ |
+| ...          | ...                             | ...    | ...  | ...  | ...    | ...   |
 
 ---
 
@@ -1226,33 +1233,33 @@ describe('LoginForm 无障碍测试', () => {
 
 ### axe-core 违规统计
 
-| 严重程度   | 违规数量 | 主要违规项                                   | 影响组件               |
-| ---------- | -------- | -------------------------------------------- | ---------------------- |
-| Critical   | 0        | -                                            | -                      |
-| Serious    | X        | {具体违规描述}                                | {ComponentName}        |
-| Moderate   | X        | {具体违规描述}                                | {ComponentName}        |
-| Minor      | X        | {具体违规描述}                                | {ComponentName}        |
+| 严重程度 | 违规数量 | 主要违规项     | 影响组件        |
+| -------- | -------- | -------------- | --------------- |
+| Critical | 0        | -              | -               |
+| Serious  | X        | {具体违规描述} | {ComponentName} |
+| Moderate | X        | {具体违规描述} | {ComponentName} |
+| Minor    | X        | {具体违规描述} | {ComponentName} |
 
 ### WCAG 2.1 合规情况
 
-| 原则         | 通过准则数 | 总准则数 | 合格率 | 状态   |
-| ------------ | ---------- | -------- | ------ | ------ |
-| 可感知性     | XX/XX      | XX       | XX.X%  | ✅/❌  |
-| 可操作性     | XX/XX      | XX       | XX.X%  | ✅/❌  |
-| 可理解性     | XX/XX      | XX       | XX.X%  | ✅/❌  |
-| 健壮性       | XX/XX      | XX       | XX.X%  | ✅/❌  |
+| 原则     | 通过准则数 | 总准则数 | 合格率 | 状态  |
+| -------- | ---------- | -------- | ------ | ----- |
+| 可感知性 | XX/XX      | XX       | XX.X%  | ✅/❌ |
+| 可操作性 | XX/XX      | XX       | XX.X%  | ✅/❌ |
+| 可理解性 | XX/XX      | XX       | XX.X%  | ✅/❌ |
+| 健壮性   | XX/XX      | XX       | XX.X%  | ✅/❌ |
 
 ---
 
 ## 🎨 样式回归结果
 
-| 检查项               | 结果   | 备注                       |
-| -------------------- | ------ | -------------------------- |
-| Tailwind 类名正确性   | ✅/❌  | {具体说明}                 |
-| CSS Variables 应用   | ✅/❌  | {具体说明}                 |
-| 响应式断点           | ✅/❌  | {具体说明}                 |
-| 主题切换             | ✅/❌  | {具体说明}                 |
-| 快照对比             | ✅/❌  | {具体说明}                 |
+| 检查项              | 结果  | 备注       |
+| ------------------- | ----- | ---------- |
+| Tailwind 类名正确性 | ✅/❌ | {具体说明} |
+| CSS Variables 应用  | ✅/❌ | {具体说明} |
+| 响应式断点          | ✅/❌ | {具体说明} |
+| 主题切换            | ✅/❌ | {具体说明} |
+| 快照对比            | ✅/❌ | {具体说明} |
 
 ---
 
@@ -1260,17 +1267,17 @@ describe('LoginForm 无障碍测试', () => {
 
 ### 失败组件列表
 
-| 组件名称   | 失败用例数 | 主要失败原因               | 严重程度 | 修复负责人 | 截止日期 |
-| ---------- | ---------- | -------------------------- | -------- | ---------- | -------- |
-| ComponentA | X          | {原因描述}                 | High     | 张三       | YYYY-MM-DD|
-| ComponentB | X          | {原因描述}                 | Medium   | 李四       | YYYY-MM-DD|
+| 组件名称   | 失败用例数 | 主要失败原因 | 严重程度 | 修复负责人 | 截止日期   |
+| ---------- | ---------- | ------------ | -------- | ---------- | ---------- |
+| ComponentA | X          | {原因描述}   | High     | 张三       | YYYY-MM-DD |
+| ComponentB | X          | {原因描述}   | Medium   | 李四       | YYYY-MM-DD |
 
 ### 修复计划
 
-| 用例ID   | 问题根因 | 修复方案                   | 验证方式 | 状态   |
-| -------- | -------- | -------------------------- | -------- | ------ |
-| CT-001   | 异步时序问题 | 增加 waitFor + act()包裹 | 手动+CI | 进行中 |
-| CT-002   | Mock不完整 | 补充 Provider 和 Context | CI自动 | 待开始 |
+| 用例ID | 问题根因     | 修复方案                 | 验证方式 | 状态   |
+| ------ | ------------ | ------------------------ | -------- | ------ |
+| CT-001 | 异步时序问题 | 增加 waitFor + act()包裹 | 手动+CI  | 进行中 |
+| CT-002 | Mock不完整   | 补充 Provider 和 Context | CI自动   | 待开始 |
 
 ---
 
@@ -1311,12 +1318,12 @@ describe('LoginForm 无障碍测试', () => {
 
 ## 📝 签字确认
 
-| 角色           | 姓名   | 日期       | 意见   |
-| -------------- | ------ | ---------- | ------ |
-| 前端负责人     |        | YYYY-MM-DD |        |
-| UI/UX设计师   |        | YYYY-MM-DD |        |
-| QA工程师       |        | YYYY-MM-DD |        |
-| 技术负责人     |        | YYYY-MM-DD |        |
+| 角色        | 姓名 | 日期       | 意见 |
+| ----------- | ---- | ---------- | ---- |
+| 前端负责人  |      | YYYY-MM-DD |      |
+| UI/UX设计师 |      | YYYY-MM-DD |      |
+| QA工程师    |      | YYYY-MM-DD |      |
+| 技术负责人  |      | YYYY-MM-DD |      |
 
 ---
 
@@ -1396,7 +1403,7 @@ jobs:
 1. **测试行为而非实现**: 关注用户看到什么和做什么，而非内部状态
 2. **使用语义化查询**: 优先 getByRole, getByLabelText，避免 getByTestId
 3. **真实模拟用户交互**: 使用 userEvent 而非 fireEvent
-4. **等待异步操作**: 使用 waitFor, findBy* 处理异步
+4. **等待异步操作**: 使用 waitFor, findBy\* 处理异步
 5. **合理Mock外部依赖**: 只Mock必要的，保持测试真实性
 6. **保持测试独立**: 每个测试自包含，无执行顺序依赖
 7. **有意义的断言**: 验证业务含义，而非DOM细节
@@ -1410,7 +1417,7 @@ jobs:
 ### C. 版本历史
 
 | 版本   | 日期       | 变更内容                       | 作者                |
-| ------ | ---------- | -------------------------------- | ------------------- |
+| ------ | ---------- | ------------------------------ | ------------------- |
 | v1.0.0 | 2026-05-25 | 初始版本，建立组件测试验收标准 | YanYuCloudCube Team |
 
 ---

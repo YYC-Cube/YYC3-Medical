@@ -1,13 +1,33 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import {
   Search,
   Plus,
@@ -30,60 +50,60 @@ import {
   TreesIcon as Lungs,
   Clipboard,
   Bell,
-} from "lucide-react"
-import { Progress } from "@/components/ui/progress"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { treatmentPlans, personalizedTreatments } from "./clinical-treatments-data"
+} from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { treatmentPlans, personalizedTreatments } from './clinical-treatments-data';
 
 export function ClinicalTreatmentsClient() {
-  const [activeTab, setActiveTab] = useState("standard")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedPlan, setSelectedPlan] = useState<(typeof treatmentPlans)[0] | null>(null)
-  const [selectedPersonalizedPlan, setSelectedPersonalizedPlan] = useState<(typeof personalizedTreatments)[0] | null>(
-    null,
-  )
+  const [activeTab, setActiveTab] = useState('standard');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedPlan, setSelectedPlan] = useState<(typeof treatmentPlans)[0] | null>(null);
+  const [selectedPersonalizedPlan, setSelectedPersonalizedPlan] = useState<
+    (typeof personalizedTreatments)[0] | null
+  >(null);
 
   // 获取所有类别
-  const allCategories = Array.from(new Set(treatmentPlans.map((plan) => plan.category)))
+  const allCategories = Array.from(new Set(treatmentPlans.map(plan => plan.category)));
 
   // 过滤标准方案
   const filteredStandardPlans = treatmentPlans.filter(
-    (plan) =>
-      (searchTerm === "" ||
+    plan =>
+      (searchTerm === '' ||
         plan.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         plan.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
         plan.subcategory.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === "all" || plan.category === selectedCategory),
-  )
+      (selectedCategory === 'all' || plan.category === selectedCategory)
+  );
 
   // 过滤个性化方案
   const filteredPersonalizedPlans = personalizedTreatments.filter(
-    (plan) =>
-      searchTerm === "" ||
+    plan =>
+      searchTerm === '' ||
       plan.planName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      plan.patientName.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      plan.patientName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // 获取图标
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "内分泌科":
-        return <Activity className="h-5 w-5 text-blue-500" />
-      case "心内科":
-        return <Heart className="h-5 w-5 text-red-500" />
-      case "呼吸科":
-        return <Lungs className="h-5 w-5 text-green-500" />
-      case "神经内科":
-        return <Brain className="h-5 w-5 text-purple-500" />
-      case "精神科":
-        return <Brain className="h-5 w-5 text-indigo-500" />
-      case "消化内科":
-        return <Activity className="h-5 w-5 text-orange-500" />
+      case '内分泌科':
+        return <Activity className="h-5 w-5 text-primary" />;
+      case '心内科':
+        return <Heart className="h-5 w-5 text-destructive" />;
+      case '呼吸科':
+        return <Lungs className="h-5 w-5 text-success" />;
+      case '神经内科':
+        return <Brain className="h-5 w-5 text-primary" />;
+      case '精神科':
+        return <Brain className="h-5 w-5 text-primary" />;
+      case '消化内科':
+        return <Activity className="h-5 w-5 text-warning" />;
       default:
-        return <Stethoscope className="h-5 w-5 text-gray-500" />
+        return <Stethoscope className="h-5 w-5 text-muted-foreground" />;
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -118,7 +138,7 @@ export function ClinicalTreatmentsClient() {
                 placeholder="搜索方案名称、科室或疾病..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
@@ -128,7 +148,7 @@ export function ClinicalTreatmentsClient() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">全部科室</SelectItem>
-                {allCategories.map((category) => (
+                {allCategories.map(category => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>
@@ -155,7 +175,7 @@ export function ClinicalTreatmentsClient() {
             <TabsContent value="standard" className="space-y-4">
               {filteredStandardPlans.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <FileText className="h-12 w-12 text-gray-300 mb-4" />
+                  <FileText className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的治疗方案</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词或筛选条件，或者清除筛选条件查看所有方案
@@ -163,8 +183,11 @@ export function ClinicalTreatmentsClient() {
                 </div>
               ) : (
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredStandardPlans.map((plan) => (
-                    <Card key={plan.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  {filteredStandardPlans.map(plan => (
+                    <Card
+                      key={plan.id}
+                      className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div className="flex items-start gap-2">
@@ -177,7 +200,10 @@ export function ClinicalTreatmentsClient() {
                             </div>
                           </div>
                           {plan.aiAssisted && (
-                            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                            <Badge
+                              variant="outline"
+                              className="bg-primary/5 text-primary border-primary/20"
+                            >
                               AI辅助
                             </Badge>
                           )}
@@ -195,7 +221,9 @@ export function ClinicalTreatmentsClient() {
                             {plan.effectivenessRating.toFixed(1)}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground line-clamp-2">{plan.description}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                          {plan.description}
+                        </p>
                       </CardContent>
                       <CardFooter className="flex justify-between pt-2">
                         <div className="flex items-center text-xs text-muted-foreground">
@@ -216,7 +244,7 @@ export function ClinicalTreatmentsClient() {
             <TabsContent value="personalized" className="space-y-4">
               {filteredPersonalizedPlans.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <Clipboard className="h-12 w-12 text-gray-300 mb-4" />
+                  <Clipboard className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的个性化治疗方案</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词，或者为患者创建新的个性化治疗方案
@@ -224,8 +252,11 @@ export function ClinicalTreatmentsClient() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {filteredPersonalizedPlans.map((plan) => (
-                    <Card key={plan.id} className="overflow-hidden hover:shadow-md transition-shadow">
+                  {filteredPersonalizedPlans.map(plan => (
+                    <Card
+                      key={plan.id}
+                      className="overflow-hidden hover:shadow-md transition-shadow"
+                    >
                       <CardContent className="p-4">
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                           <div className="flex items-start gap-3">
@@ -243,17 +274,17 @@ export function ClinicalTreatmentsClient() {
                                 <Badge
                                   variant="outline"
                                   className={
-                                    plan.status === "进行中"
-                                      ? "bg-green-50 text-green-700 border-green-200"
-                                      : plan.status === "已完成"
-                                        ? "bg-blue-50 text-blue-700 border-blue-200"
-                                        : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                                    plan.status === '进行中'
+                                      ? 'bg-success/5 text-success border-success/30'
+                                      : plan.status === '已完成'
+                                        ? 'bg-primary/5 text-primary border-primary/20'
+                                        : 'bg-warning text-warning border-warning'
                                   }
                                 >
                                   {plan.status}
                                 </Badge>
                                 <span className="text-xs text-muted-foreground">
-                                  基于: {treatmentPlans.find((t) => t.id === plan.basedOn)?.name}
+                                  基于: {treatmentPlans.find(t => t.id === plan.basedOn)?.name}
                                 </span>
                               </div>
                             </div>
@@ -288,8 +319,10 @@ export function ClinicalTreatmentsClient() {
                           <div className="space-y-2">
                             {plan.adjustments.slice(0, 2).map((adjustment, index) => (
                               <div key={index} className="text-sm">
-                                <span className="font-medium">{adjustment.category}:</span>{" "}
-                                <span className="text-muted-foreground">{adjustment.description}</span>
+                                <span className="font-medium">{adjustment.category}:</span>{' '}
+                                <span className="text-muted-foreground">
+                                  {adjustment.description}
+                                </span>
                               </div>
                             ))}
                             {plan.adjustments.length > 2 && (
@@ -333,7 +366,7 @@ export function ClinicalTreatmentsClient() {
 
             <TabsContent value="templates" className="space-y-4">
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <Clipboard className="h-16 w-16 text-gray-300 mb-4" />
+                <Clipboard className="h-16 w-16 text-muted-foreground/30 mb-4" />
                 <h3 className="text-lg font-medium mb-2">方案模板功能即将上线</h3>
                 <p className="text-muted-foreground max-w-md mb-6">
                   您将能够创建和管理自定义治疗方案模板，提高工作效率
@@ -347,7 +380,7 @@ export function ClinicalTreatmentsClient() {
 
             <TabsContent value="ai" className="space-y-4">
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <Brain className="h-16 w-16 text-gray-300 mb-4" />
+                <Brain className="h-16 w-16 text-muted-foreground/30 mb-4" />
                 <h3 className="text-lg font-medium mb-2">AI推荐功能即将上线</h3>
                 <p className="text-muted-foreground max-w-md mb-6">
                   基于患者数据和最新医学证据，AI将为您推荐个性化治疗方案
@@ -453,7 +486,11 @@ export function ClinicalTreatmentsClient() {
                       <CardContent>
                         <div className="flex flex-wrap gap-2">
                           {medication.drugs.map((drug, drugIndex) => (
-                            <Badge key={drugIndex} variant="outline" className="flex items-center gap-1">
+                            <Badge
+                              key={drugIndex}
+                              variant="outline"
+                              className="flex items-center gap-1"
+                            >
                               <Pill className="h-3 w-3" />
                               {drug}
                             </Badge>
@@ -509,8 +546,8 @@ export function ClinicalTreatmentsClient() {
               <div>
                 <CardTitle>{selectedPersonalizedPlan.planName}</CardTitle>
                 <CardDescription>
-                  患者: {selectedPersonalizedPlan.patientName} · ID: {selectedPersonalizedPlan.patientId} ·{" "}
-                  {selectedPersonalizedPlan.status}
+                  患者: {selectedPersonalizedPlan.patientName} · ID:{' '}
+                  {selectedPersonalizedPlan.patientId} · {selectedPersonalizedPlan.status}
                 </CardDescription>
               </div>
               <div className="flex gap-2">
@@ -558,7 +595,9 @@ export function ClinicalTreatmentsClient() {
                       <div className="flex flex-col">
                         <div className="font-medium">{adjustment.category}</div>
                         <p className="text-sm mt-1">{adjustment.description}</p>
-                        <div className="text-xs text-muted-foreground mt-2">原因: {adjustment.reason}</div>
+                        <div className="text-xs text-muted-foreground mt-2">
+                          原因: {adjustment.reason}
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -580,19 +619,21 @@ export function ClinicalTreatmentsClient() {
                           <div key={metricIndex} className="flex justify-between items-center">
                             <div>
                               <div className="font-medium">{metric.name}</div>
-                              <div className="text-xs text-muted-foreground">目标: {metric.target}</div>
+                              <div className="text-xs text-muted-foreground">
+                                目标: {metric.target}
+                              </div>
                             </div>
                             <div className="flex items-center gap-2">
                               <div className="font-medium">{metric.value}</div>
                               <Badge
                                 variant="outline"
                                 className={
-                                  metric.status === "达标"
-                                    ? "bg-green-50 text-green-700 border-green-200"
-                                    : "bg-red-50 text-red-700 border-red-200"
+                                  metric.status === '达标'
+                                    ? 'bg-success/5 text-success border-success/30'
+                                    : 'bg-destructive text-destructive border-destructive'
                                 }
                               >
-                                {metric.status === "达标" ? (
+                                {metric.status === '达标' ? (
                                   <CheckCircle className="h-3 w-3 mr-1" />
                                 ) : (
                                   <AlertCircle className="h-3 w-3 mr-1" />
@@ -615,14 +656,18 @@ export function ClinicalTreatmentsClient() {
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     {getCategoryIcon(
-                      treatmentPlans.find((t) => t.id === selectedPersonalizedPlan.basedOn)?.category || "",
+                      treatmentPlans.find(t => t.id === selectedPersonalizedPlan.basedOn)
+                        ?.category || ''
                     )}
                     <div>
                       <div className="font-medium">
-                        {treatmentPlans.find((t) => t.id === selectedPersonalizedPlan.basedOn)?.name}
+                        {treatmentPlans.find(t => t.id === selectedPersonalizedPlan.basedOn)?.name}
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">
-                        {treatmentPlans.find((t) => t.id === selectedPersonalizedPlan.basedOn)?.description}
+                        {
+                          treatmentPlans.find(t => t.id === selectedPersonalizedPlan.basedOn)
+                            ?.description
+                        }
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <Button variant="outline" size="sm" className="h-7 text-xs">
@@ -644,5 +689,5 @@ export function ClinicalTreatmentsClient() {
         </Card>
       )}
     </div>
-  )
+  );
 }

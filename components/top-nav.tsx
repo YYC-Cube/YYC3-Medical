@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
-import { MainNav } from "@/components/main-nav"
-import { LanguageSwitcher } from "@/components/language-switcher"
-import { EnhancedLanguageSwitcher } from "@/components/enhanced-language-switcher"
+import { MainNav } from '@/components/main-nav';
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { EnhancedLanguageSwitcher } from '@/components/enhanced-language-switcher';
 
 interface TopNavProps {
-  onToggleSidebar: () => void
+  onToggleSidebar: () => void;
 }
 
 export function TopNav({ onToggleSidebar }: TopNavProps) {
@@ -19,5 +19,5 @@ export function TopNav({ onToggleSidebar }: TopNavProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -19,12 +19,12 @@ complexity: advanced
 
 ## 📋 文档概览
 
-| 维度 | 内容 |
-|------|------|
-| **验收阶段** | 第七阶段：数据调取与API扩展优化 |
-| **核心目标** | 建立高效、可靠、可扩展的数据获取体系 |
-| **适用范围** | API设计、数据层架构、缓存策略、状态管理 |
-| **输出产物** | 数据调取优化报告 + 实施路线图 |
+| 维度         | 内容                                                                                                                                      |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **验收阶段** | 第七阶段：数据调取与API扩展优化                                                                                                           |
+| **核心目标** | 建立高效、可靠、可扩展的数据获取体系                                                                                                      |
+| **适用范围** | API设计、数据层架构、缓存策略、状态管理                                                                                                   |
+| **输出产物** | 数据调取优化报告 + 实施路线图                                                                                                             |
 | **关联文档** | [功能逻辑验收](./YYC3-功能逻辑-验收标准.md) \| [闭环验证标准](./YYC3-闭环验证-验收标准.md) \| [性能优化审核](./YYC3-深度审核-性能优化.md) |
 
 ---
@@ -296,9 +296,9 @@ const urlPatterns = {
 
     // ✗ 错误示例
     bad: [
-      '/api/v1/getAllUsers',           // 不应使用动词
-      '/api/v1/users/getPosts',         // 过深的嵌套
-      '/api/v1/user',                   // 应使用复数
+      '/api/v1/getAllUsers', // 不应使用动词
+      '/api/v1/users/getPosts', // 过深的嵌套
+      '/api/v1/user', // 应使用复数
     ],
   },
 
@@ -345,30 +345,38 @@ import { z } from 'zod';
 export const SuccessResponseSchema = z.object({
   success: z.literal(true),
   data: z.unknown(),
-  meta: z.object({
-    requestId: z.string().uuid(),
-    timestamp: z.string().datetime(),
-    version: z.string(),
-  }).optional(),
-  pagination: z.object({
-    page: z.number().int().positive(),
-    limit: z.number().int().positive().max(100),
-    total: z.number().int().nonnegative(),
-    totalPages: z.number().int().nonnegative(),
-  }).optional(),
+  meta: z
+    .object({
+      requestId: z.string().uuid(),
+      timestamp: z.string().datetime(),
+      version: z.string(),
+    })
+    .optional(),
+  pagination: z
+    .object({
+      page: z.number().int().positive(),
+      limit: z.number().int().positive().max(100),
+      total: z.number().int().nonnegative(),
+      totalPages: z.number().int().nonnegative(),
+    })
+    .optional(),
 });
 
 /** 错误响应 */
 export const ErrorResponseSchema = z.object({
   success: z.literal(false),
   error: z.object({
-    code: z.string(),          // 错误码: ERR_XXX
-    message: z.string(),       // 用户可读的错误信息
-    details: z.array(z.object({
-      field: z.string(),       // 字段名
-      message: z.string(),     // 具体错误描述
-      code: z.string(),        // 具体错误码
-    })).optional(),
+    code: z.string(), // 错误码: ERR_XXX
+    message: z.string(), // 用户可读的错误信息
+    details: z
+      .array(
+        z.object({
+          field: z.string(), // 字段名
+          message: z.string(), // 具体错误描述
+          code: z.string(), // 具体错误码
+        })
+      )
+      .optional(),
   }),
   meta: z.object({
     requestId: z.string().uuid(),
@@ -418,7 +426,7 @@ class ApiClient {
 
   private setupInterceptors() {
     // 请求拦截器：添加认证token
-    this.instance.interceptors.request.use((config) => {
+    this.instance.interceptors.request.use(config => {
       const token = this.getAuthToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -432,8 +440,8 @@ class ApiClient {
 
     // 响应拦截器：统一错误处理
     this.instance.interceptors.response.use(
-      (response) => response,
-      (error) => {
+      response => response,
+      error => {
         if (error.response) {
           const errorData: ErrorResponse = error.response.data;
 
@@ -565,8 +573,8 @@ export function useOptimizedQuery<T>(
   key: unknown[],
   fetcher: () => Promise<T>,
   options?: {
-    staleTime?: number;        // 数据新鲜时间（ms）
-    cacheTime?: number;        // 缓存保留时间（ms）
+    staleTime?: number; // 数据新鲜时间（ms）
+    cacheTime?: number; // 缓存保留时间（ms）
     refetchOnWindowFocus?: boolean;
     refetchOnReconnect?: boolean;
     retry?: number | boolean;
@@ -578,11 +586,11 @@ export function useOptimizedQuery<T>(
     queryKey: key,
     queryFn: fetcher,
     staleTime: options?.staleTime ?? 5 * 60 * 1000, // 默认5分钟
-    gcTime: options?.cacheTime ?? 10 * 60 * 1000,    // 默认10分钟
+    gcTime: options?.cacheTime ?? 10 * 60 * 1000, // 默认10分钟
     refetchOnWindowFocus: options?.refetchOnWindowFocus ?? true,
     refetchOnReconnect: options?.refetchOnReconnect ?? true,
     retry: options?.retry ?? 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // 指数退避，最大30秒
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // 指数退避，最大30秒
     enabled: options?.enabled ?? true,
   });
 }
@@ -638,18 +646,15 @@ export function useOptimizedMutation<TVariables, TData>(
  * 创建用户Mutation示例
  */
 export function CreateUserMutation() {
-  return useOptimizedMutation(
-    (userData) => apiClient.post('/users', userData),
-    {
-      invalidateQueries: ['users'],
-      onSuccess: () => {
-        // 显示成功提示
-      },
-      onError: (error) => {
-        // 显示错误提示
-      },
-    }
-  );
+  return useOptimizedMutation(userData => apiClient.post('/users', userData), {
+    invalidateQueries: ['users'],
+    onSuccess: () => {
+      // 显示成功提示
+    },
+    onError: error => {
+      // 显示错误提示
+    },
+  });
 }
 ```
 
@@ -673,7 +678,7 @@ export function useOptimisticUpdate<T>(
 
   return useMutation({
     mutationFn,
-    onMutate: async (newData) => {
+    onMutate: async newData => {
       // 取消正在进行的查询以避免冲突
       await queryClient.cancelQueries({ queryKey });
 
@@ -681,7 +686,7 @@ export function useOptimisticUpdate<T>(
       const previousData = queryClient.getQueryData<T>(queryKey);
 
       // 乐观更新
-      queryClient.setQueryData<T>(queryKey, (old) => updateFn(old, newData));
+      queryClient.setQueryData<T>(queryKey, old => updateFn(old, newData));
 
       // 返回快照以便回滚
       return { previousData };
@@ -708,8 +713,7 @@ export function useOptimisticUpdate<T>(
  */
 export function useLikePost(postId: string) {
   return useOptimisticUpdate(
-    (isLiked: boolean) =>
-      apiClient.post(`/posts/${postId}/like`, { isLiked }),
+    (isLiked: boolean) => apiClient.post(`/posts/${postId}/like`, { isLiked }),
     ['post', postId],
     (oldPost, isLiked) => {
       if (!oldPost) return oldPost;
@@ -740,18 +744,18 @@ export function useLikePost(postId: string) {
  */
 
 enum CacheLevel {
-  MEMORY = 'L1',       // 内存缓存
-  PERSISTENT = 'L2',   // 持久化缓存
-  CDN = 'L3',          // CDN缓存
-  REDIS = 'L4',        // Redis缓存
-  DATABASE = 'L5',     // 数据库缓存
+  MEMORY = 'L1', // 内存缓存
+  PERSISTENT = 'L2', // 持久化缓存
+  CDN = 'L3', // CDN缓存
+  REDIS = 'L4', // Redis缓存
+  DATABASE = 'L5', // 数据库缓存
 }
 
 interface CachePolicy {
   level: CacheLevel;
-  ttl: number;          // 存活时间（秒）
+  ttl: number; // 存活时间（秒）
   staleWhileRevalidate?: number; // SWR时间（秒）
-  maxSize?: number;     // 最大条目数（仅内存缓存）
+  maxSize?: number; // 最大条目数（仅内存缓存）
 }
 
 /** 不同类型数据的缓存策略 */
@@ -759,42 +763,46 @@ const cachePolicies: Record<string, CachePolicy> = {
   // 用户个人信息 - 变化少，缓存久
   user_profile: {
     level: CacheLevel.MEMORY,
-    ttl: 3600,                    // 1小时
-    staleWhileRevalidate: 300,    // 5分钟SWR
+    ttl: 3600, // 1小时
+    staleWhileRevalidate: 300, // 5分钟SWR
   },
 
   // 公开内容 - 可CDN缓存
   public_content: {
     level: CacheLevel.CDN,
-    ttl: 300,                     // 5分钟
-    staleWhileRevalidate: 60,     // 1分钟SWR
+    ttl: 300, // 5分钟
+    staleWhileRevalidate: 60, // 1分钟SWR
   },
 
   // 权限信息 - 需要较新
   permissions: {
     level: CacheLevel.MEMORY,
-    ttl: 300,                     // 5分钟
-    staleWhileRevalidate: 30,     // 30秒SWR
+    ttl: 300, // 5分钟
+    staleWhileRevalidate: 30, // 30秒SWR
   },
 
   // 配置数据 - 很少变化
   app_config: {
     level: CacheLevel.PERSISTENT,
-    ttl: 86400,                   // 24小时
-    staleWhileRevalidate: 3600,   // 1小时SWR
+    ttl: 86400, // 24小时
+    staleWhileRevalidate: 3600, // 1小时SWR
   },
 
   // 会话数据 - 不能缓存太久
   session_data: {
     level: CacheLevel.REDIS,
-    ttl: 1800,                    // 30分钟
+    ttl: 1800, // 30分钟
   },
 };
 
 /**
  * 缓存键命名规范
  */
-function generateCacheKey(namespace: string, identifier: string, params?: Record<string, unknown>): string {
+function generateCacheKey(
+  namespace: string,
+  identifier: string,
+  params?: Record<string, unknown>
+): string {
   const base = `${namespace}:${identifier}`;
   if (!params || Object.keys(params).length === 0) {
     return base;
@@ -841,7 +849,7 @@ export const queryClient = new QueryClient({
       retry: 3,
 
       // 重试延迟（指数退避）
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
 
       // 是否在后台重新获取过期数据
       refetchInterval: false,
@@ -874,9 +882,9 @@ const STATIC_ASSETS = [
 ];
 
 /** 安装事件：预缓存静态资源 */
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
+    caches.open(CACHE_NAME).then(cache => {
       return cache.addAll(STATIC_ASSETS);
     })
   );
@@ -884,13 +892,11 @@ self.addEventListener('install', (event) => {
 });
 
 /** 激活事件：清理旧缓存 */
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        cacheNames.filter(name => name !== CACHE_NAME).map(name => caches.delete(name))
       );
     })
   );
@@ -898,7 +904,7 @@ self.addEventListener('activate', (event) => {
 });
 
 /** 请求拦截：缓存策略 */
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
@@ -908,7 +914,7 @@ self.addEventListener('fetch', (event) => {
   // API请求：Network First + Cache Fallback
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
-      caches.open(`${CACHE_NAME}-api`).then(async (cache) => {
+      caches.open(`${CACHE_NAME}-api`).then(async cache => {
         try {
           const networkResponse = await fetch(request);
 
@@ -942,14 +948,14 @@ self.addEventListener('fetch', (event) => {
   // 静态资源：Cache First + Network Fallback
   if (STATIC_ASSETS.some(asset => url.pathname.endsWith(asset.split('/').pop()!))) {
     event.respondWith(
-      caches.match(request).then((response) => {
+      caches.match(request).then(response => {
         if (response) {
           return response;
         }
-        return fetch(request).then((networkResponse) => {
+        return fetch(request).then(networkResponse => {
           if (networkResponse.ok) {
             const clone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+            caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
           }
           return networkResponse;
         });
@@ -960,9 +966,9 @@ self.addEventListener('fetch', (event) => {
 
   // 其他请求：Stale While Revalidate
   event.respondWith(
-    caches.open(CACHE_NAME).then(async (cache) => {
+    caches.open(CACHE_NAME).then(async cache => {
       const cachedResponse = await cache.match(request);
-      const networkPromise = fetch(request).then((networkResponse) => {
+      const networkPromise = fetch(request).then(networkResponse => {
         if (networkResponse.ok) {
           cache.put(request, networkResponse.clone());
         }
@@ -1030,9 +1036,7 @@ export function errorHandler(err: ErrorWithStatus, req: NextRequest) {
       success: false,
       error: {
         code: 'INTERNAL_SERVER_ERROR',
-        message: process.env.NODE_ENV === 'production'
-          ? '服务器内部错误'
-          : err.message,
+        message: process.env.NODE_ENV === 'production' ? '服务器内部错误' : err.message,
       },
     },
     { status: 500 }
@@ -1059,11 +1063,11 @@ function getErrorCode(status: number): string {
 // src/utils/retry-strategy.ts
 interface RetryOptions {
   maxRetries: number;
-  baseDelay: number;          // ms
-  maxDelay: number;           // ms
-  backoffFactor: number;      // 指数退避因子
+  baseDelay: number; // ms
+  maxDelay: number; // ms
+  backoffFactor: number; // 指数退避因子
   retryableStatuses: number[]; // 可重试的HTTP状态码
-  retryableErrors: string[];  // 可重试的错误码
+  retryableErrors: string[]; // 可重试的错误码
 }
 
 const defaultRetryOptions: RetryOptions = {
@@ -1078,10 +1082,7 @@ const defaultRetryOptions: RetryOptions = {
 /**
  * 带指数退避的重试函数
  */
-async function withRetry<T>(
-  fn: () => Promise<T>,
-  options: Partial<RetryOptions> = {}
-): Promise<T> {
+async function withRetry<T>(fn: () => Promise<T>, options: Partial<RetryOptions> = {}): Promise<T> {
   const opts = { ...defaultRetryOptions, ...options };
   let lastError: Error;
 
@@ -1098,7 +1099,9 @@ async function withRetry<T>(
 
       // 计算延迟时间
       const delay = calculateDelay(attempt, opts);
-      console.log(`[Retry] Attempt ${attempt + 1}/${opts.maxRetries} failed, retrying in ${delay}ms`);
+      console.log(
+        `[Retry] Attempt ${attempt + 1}/${opts.maxRetries} failed, retrying in ${delay}ms`
+      );
 
       await sleep(delay);
     }
@@ -1168,11 +1171,10 @@ class RequestDeduplicator {
     }
 
     // 创建新请求
-    const promise = requestFn()
-      .finally(() => {
-        // 请求完成后清除记录
-        this.pendingRequests.delete(key);
-      });
+    const promise = requestFn().finally(() => {
+      // 请求完成后清除记录
+      this.pendingRequests.delete(key);
+    });
 
     this.pendingRequests.set(key, promise);
     return promise;
@@ -1196,10 +1198,7 @@ export const requestDeduplicator = new RequestDeduplicator();
 
 // 使用示例
 async function getUser(userId: string) {
-  return requestDeduplicator.dedupe(
-    `user:${userId}`,
-    () => apiClient.get(`/users/${userId}`)
-  );
+  return requestDeduplicator.dedupe(`user:${userId}`, () => apiClient.get(`/users/${userId}`));
 }
 
 // 即使同时多次调用getUser('123')，也只会发送一次请求
@@ -1379,32 +1378,32 @@ module.exports = {
 
 ### P0 必须通过（阻塞发布）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| DTF-001 | API响应格式 | 100%符合规范 | 自动化测试 |
-| DTF-002 | 认证覆盖率 | 所有API 100%覆盖 | 代码审查 |
-| DTF-003 | 错误处理 | 无未捕获异常 | 错误监控 |
-| DTF-004 | 超时设置 | 所有外部调用有超时 | 配置检查 |
-| DTF-005 | 敏感数据保护 | 日志/响应中无明文密码 | 安全扫描 |
+| 编号    | 验收项       | 标准                  | 验证方法   |
+| ------- | ------------ | --------------------- | ---------- |
+| DTF-001 | API响应格式  | 100%符合规范          | 自动化测试 |
+| DTF-002 | 认证覆盖率   | 所有API 100%覆盖      | 代码审查   |
+| DTF-003 | 错误处理     | 无未捕获异常          | 错误监控   |
+| DTF-004 | 超时设置     | 所有外部调用有超时    | 配置检查   |
+| DTF-005 | 敏感数据保护 | 日志/响应中无明文密码 | 安全扫描   |
 
 ### P1 强烈建议（影响质量评级）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| DTF-101 | 缓存命中率 | ≥ 80% | 监控面板 |
-| DTF-102 | P95响应时间 | < 500ms | APM工具 |
-| DTF-103 | 请求去重 | 并发重复请求 < 5% | 日志分析 |
-| DTF-104 | 离线支持 | 核心功能可用 | 手动测试 |
-| DTF-105 | 限流保护 | 所有限流生效 | 压力测试 |
+| 编号    | 验收项      | 标准              | 验证方法 |
+| ------- | ----------- | ----------------- | -------- |
+| DTF-101 | 缓存命中率  | ≥ 80%             | 监控面板 |
+| DTF-102 | P95响应时间 | < 500ms           | APM工具  |
+| DTF-103 | 请求去重    | 并发重复请求 < 5% | 日志分析 |
+| DTF-104 | 离线支持    | 核心功能可用      | 手动测试 |
+| DTF-105 | 限流保护    | 所有限流生效      | 压力测试 |
 
 ### P2 可选优化（锦上添花）
 
-| 编号 | 验收项 | 标准 | 验证方法 |
-|------|--------|------|----------|
-| DTF-201 | GraphQL支持 | 复杂查询可用 | 功能测试 |
-| DTF-202 | 实时推送 | WebSocket稳定 | 长时间测试 |
-| DTF-203 | 预取准确率 | > 70%命中 | 分析统计 |
-| DTF-204 | Bundle Size | 较基线减小≥15% | 构建分析 |
+| 编号    | 验收项      | 标准           | 验证方法   |
+| ------- | ----------- | -------------- | ---------- |
+| DTF-201 | GraphQL支持 | 复杂查询可用   | 功能测试   |
+| DTF-202 | 实时推送    | WebSocket稳定  | 长时间测试 |
+| DTF-203 | 预取准确率  | > 70%命中      | 分析统计   |
+| DTF-204 | Bundle Size | 较基线减小≥15% | 构建分析   |
 
 ---
 
@@ -1437,12 +1436,12 @@ module.exports = {
 
 ### 关键指标总览
 
-| 指标 | 当前值 | 目标值 | 达成率 | 趋势 |
-|------|--------|--------|--------|------|
-| 平均响应时间 | {{avgResponse}}ms | < 300ms | {{responseRate}}% | {{responseTrend}} |
-| 缓存命中率 | {{cacheHit}}% | > 80% | {{cacheRate}}% | {{cacheTrend}} |
-| 错误率 | {{errorRate}}% | < 0.1% | {{errorRateAchieved}}% | {{errorTrend}} |
-| 带宽节省 | {{bandwidthSaved}}% | > 40% | {{bandwidthRate}}% | {{bandwidthTrend}} |
+| 指标         | 当前值              | 目标值  | 达成率                 | 趋势               |
+| ------------ | ------------------- | ------- | ---------------------- | ------------------ |
+| 平均响应时间 | {{avgResponse}}ms   | < 300ms | {{responseRate}}%      | {{responseTrend}}  |
+| 缓存命中率   | {{cacheHit}}%       | > 80%   | {{cacheRate}}%         | {{cacheTrend}}     |
+| 错误率       | {{errorRate}}%      | < 0.1%  | {{errorRateAchieved}}% | {{errorTrend}}     |
+| 带宽节省     | {{bandwidthSaved}}% | > 40%   | {{bandwidthRate}}%     | {{bandwidthTrend}} |
 
 ---
 
@@ -1450,17 +1449,18 @@ module.exports = {
 
 ### 1.1 RESTful规范遵循度
 
-| 检查项 | 状态 | 备注 |
-|--------|------|------|
-| URL命名规范 | {{urlNaming}} | {{urlNamingNote}} |
+| 检查项           | 状态            | 备注                |
+| ---------------- | --------------- | ------------------- |
+| URL命名规范      | {{urlNaming}}   | {{urlNamingNote}}   |
 | HTTP方法正确使用 | {{httpMethods}} | {{httpMethodsNote}} |
-| 状态码使用恰当 | {{statusCode}} | {{statusCodeNote}} |
-| 版本控制实施 | {{versioning}} | {{versioningNote}} |
-| 分页实现规范 | {{pagination}} | {{paginationNote}} |
+| 状态码使用恰当   | {{statusCode}}  | {{statusCodeNote}}  |
+| 版本控制实施     | {{versioning}}  | {{versioningNote}}  |
+| 分页实现规范     | {{pagination}}  | {{paginationNote}}  |
 
 ### 1.2 接口质量分析
 
 {% for api in apis }}
+
 #### {{api.name}} (`{{api.method}} {{api.path}}`)
 
 - **复杂度**: {{api.complexity}}
@@ -1478,12 +1478,12 @@ module.exports = {
 
 ### 2.1 缓存层级分析
 
-| 缓存层 | 命中率 | 平均响应 | 配置合理性 | 优化建议 |
-|--------|--------|----------|------------|----------|
-| L1 内存缓存 | {{l1Hit}}% | {{l1Time}}ms | {{l1Config}} | {{l1Suggestion}} |
+| 缓存层        | 命中率     | 平均响应     | 配置合理性   | 优化建议         |
+| ------------- | ---------- | ------------ | ------------ | ---------------- |
+| L1 内存缓存   | {{l1Hit}}% | {{l1Time}}ms | {{l1Config}} | {{l1Suggestion}} |
 | L2 持久化缓存 | {{l2Hit}}% | {{l2Time}}ms | {{l2Config}} | {{l2Suggestion}} |
-| L3 CDN缓存 | {{l3Hit}}% | {{l3Time}}ms | {{l3Config}} | {{l3Suggestion}} |
-| L4 Redis缓存 | {{l4Hit}}% | {{l4Time}}ms | {{l4Config}} | {{l4Suggestion}} |
+| L3 CDN缓存    | {{l3Hit}}% | {{l3Time}}ms | {{l3Config}} | {{l3Suggestion}} |
+| L4 Redis缓存  | {{l4Hit}}% | {{l4Time}}ms | {{l4Config}} | {{l4Suggestion}} |
 
 ### 2.2 缓存键设计评估
 
@@ -1497,17 +1497,18 @@ module.exports = {
 
 ### 3.1 TOP 5 慢接口
 
-| 排名 | 接口 | 平均耗时 | 主要原因 | 优化方案 | 预期收益 |
-|------|------|----------|----------|----------|----------|
-| 1 | {{slowApi1.name}} | {{slowApi1.time}}ms | {{slowApi1.reason}} | {{slowApi1.solution}} | ↓{{slowApi1.gain}}% |
-| 2 | {{slowApi2.name}} | {{slowApi2.time}}ms | {{slowApi2.reason}} | {{slowApi2.solution}} | ↓{{slowApi2.gain}}% |
-| 3 | {{slowApi3.name}} | {{slowApi3.time}}ms | {{slowApi3.reason}} | {{slowApi3.solution}} | ↓{{slowApi3.gain}}% |
-| 4 | {{slowApi4.name}} | {{slowApi4.time}}ms | {{slowApi4.reason}} | {{slowApi4.solution}} | ↓{{slowApi4.gain}}% |
-| 5 | {{slowApi5.name}} | {{slowApi5.time}}ms | {{slowApi5.reason}} | {{slowApi5.solution}} | ↓{{slowApi5.gain}}% |
+| 排名 | 接口              | 平均耗时            | 主要原因            | 优化方案              | 预期收益            |
+| ---- | ----------------- | ------------------- | ------------------- | --------------------- | ------------------- |
+| 1    | {{slowApi1.name}} | {{slowApi1.time}}ms | {{slowApi1.reason}} | {{slowApi1.solution}} | ↓{{slowApi1.gain}}% |
+| 2    | {{slowApi2.name}} | {{slowApi2.time}}ms | {{slowApi2.reason}} | {{slowApi2.solution}} | ↓{{slowApi2.gain}}% |
+| 3    | {{slowApi3.name}} | {{slowApi3.time}}ms | {{slowApi3.reason}} | {{slowApi3.solution}} | ↓{{slowApi3.gain}}% |
+| 4    | {{slowApi4.name}} | {{slowApi4.time}}ms | {{slowApi4.reason}} | {{slowApi4.solution}} | ↓{{slowApi4.gain}}% |
+| 5    | {{slowApi5.name}} | {{slowApi5.time}}ms | {{slowApi5.reason}} | {{slowApi5.solution}} | ↓{{slowApi5.gain}}% |
 
 ### 3.2 N+1查询问题
 
 {% for nplus1 in nplus1Problems }}
+
 - **位置**: {{nplus1.location}}
 - **影响**: 每次请求额外产生 {{nplus1.extraQueries}} 次查询
 - **解决方案**: {{nplus1.solution}}
@@ -1521,21 +1522,21 @@ module.exports = {
 
 ### 4.1 数据传输安全
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
+| 检查项        | 状态              | 详情            |
+| ------------- | ----------------- | --------------- |
 | HTTPS强制使用 | {{httpsEnforced}} | {{httpsDetail}} |
-| TLS版本 | {{tlsVersion}} | {{tlsDetail}} |
-| 证书有效性 | {{certValid}} | {{certDetail}} |
-| HSTS启用 | {{hstsEnabled}} | {{hstsDetail}} |
+| TLS版本       | {{tlsVersion}}    | {{tlsDetail}}   |
+| 证书有效性    | {{certValid}}     | {{certDetail}}  |
+| HSTS启用      | {{hstsEnabled}}   | {{hstsDetail}}  |
 
 ### 4.2 输入输出安全
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| SQL注入防护 | {{sqlInjection}} | {{sqlInjectionDetail}} |
-| XSS防护 | {{xssProtection}} | {{xssDetail}} |
-| CSRF防护 | {{csrfProtection}} | {{csrfDetail}} |
-| 敏感数据脱敏 | {{dataMasking}} | {{dataMaskingDetail}} |
+| 检查项       | 状态               | 详情                   |
+| ------------ | ------------------ | ---------------------- |
+| SQL注入防护  | {{sqlInjection}}   | {{sqlInjectionDetail}} |
+| XSS防护      | {{xssProtection}}  | {{xssDetail}}          |
+| CSRF防护     | {{csrfProtection}} | {{csrfDetail}}         |
+| 敏感数据脱敏 | {{dataMasking}}    | {{dataMaskingDetail}}  |
 
 ---
 
@@ -1544,6 +1545,7 @@ module.exports = {
 ### 5.1 立即执行（本周）
 
 {% for immediate in immediates }}
+
 - [ ] **{{immediate.title}}**
   - 预估工作量: {{immediate.effort}}
   - 预期收益: {{immediate.benefit}}
@@ -1554,6 +1556,7 @@ module.exports = {
 ### 5.2 短期优化（本月）
 
 {% for shortTerm in shortTerms }}
+
 - [ ] **{{shortTerm.title}}**
   - 预估工作量: {{shortTerm.effort}}
   - 预期收益: {{shortTerm.benefit}}
@@ -1576,12 +1579,12 @@ module.exports = {
 
 ### 6.2 签字确认
 
-| 角色 | 姓名 | 签字 | 日期 |
-|------|------|------|------|
-| 评估负责人 | ________________ | ________________ | _______ |
-| 后端负责人 | ________________ | ________________ | _______ |
-| 前端负责人 | ________________ | ________________ | _______ |
-| 架构师 | ________________ | ________________ | _______ |
+| 角色       | 姓名                     | 签字                     | 日期       |
+| ---------- | ------------------------ | ------------------------ | ---------- |
+| 评估负责人 | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 后端负责人 | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 前端负责人 | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
+| 架构师     | **\*\***\_\_\_\_**\*\*** | **\*\***\_\_\_\_**\*\*** | **\_\_\_** |
 
 ---
 
@@ -1590,8 +1593,8 @@ module.exports = {
 
 ---
 
-*本报告由 YYC³ 数据调取优化系统生成*
-*如有疑问请联系: admin@0379.email*
+_本报告由 YYC³ 数据调取优化系统生成_
+_如有疑问请联系: admin@0379.email_
 ```
 
 ---
@@ -1698,14 +1701,14 @@ services:
   prometheus:
     image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+      - '9090:9090'
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
     image: grafana/grafana:latest
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
 
@@ -1735,11 +1738,11 @@ services:
 
 ## 📝 版本历史
 
-| 版本 | 日期 | 作者 | 变更说明 |
-|------|------|------|----------|
+| 版本   | 日期       | 作者                | 变更说明     |
+| ------ | ---------- | ------------------- | ------------ |
 | v1.0.0 | 2026-05-25 | YanYuCloudCube Team | 初始版本创建 |
 
 ---
 
-*本文档遵循 YYC³ 团队标规闭环体系，基于五高五标五化五维框架构建*
-*最后更新: 2026-05-25 | 下次审查: 2026-06-25*
+_本文档遵循 YYC³ 团队标规闭环体系，基于五高五标五化五维框架构建_
+_最后更新: 2026-05-25 | 下次审查: 2026-06-25_

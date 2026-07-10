@@ -1,127 +1,127 @@
-"use client"
+'use client';
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Edit, Eye, EyeOff, Lock, Plus, Search, ShieldCheck, Trash, UserPlus } from "lucide-react"
-import { useState } from "react"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Edit, Eye, EyeOff, Lock, Plus, Search, ShieldCheck, Trash, UserPlus } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟角色数据
 const roles = [
   {
-    id: "role-001",
-    name: "系统管理员",
-    description: "拥有系统的完全访问权限",
+    id: 'role-001',
+    name: '系统管理员',
+    description: '拥有系统的完全访问权限',
     userCount: 3,
     permissions: [
-      { id: "perm-001", name: "用户管理", granted: true },
-      { id: "perm-002", name: "角色管理", granted: true },
-      { id: "perm-003", name: "患者数据访问", granted: true },
-      { id: "perm-004", name: "诊断数据访问", granted: true },
-      { id: "perm-005", name: "系统配置", granted: true },
-      { id: "perm-006", name: "审计日志查看", granted: true },
+      { id: 'perm-001', name: '用户管理', granted: true },
+      { id: 'perm-002', name: '角色管理', granted: true },
+      { id: 'perm-003', name: '患者数据访问', granted: true },
+      { id: 'perm-004', name: '诊断数据访问', granted: true },
+      { id: 'perm-005', name: '系统配置', granted: true },
+      { id: 'perm-006', name: '审计日志查看', granted: true },
     ],
   },
   {
-    id: "role-002",
-    name: "医生",
-    description: "可以访问患者数据和诊断功能",
+    id: 'role-002',
+    name: '医生',
+    description: '可以访问患者数据和诊断功能',
     userCount: 25,
     permissions: [
-      { id: "perm-001", name: "用户管理", granted: false },
-      { id: "perm-002", name: "角色管理", granted: false },
-      { id: "perm-003", name: "患者数据访问", granted: true },
-      { id: "perm-004", name: "诊断数据访问", granted: true },
-      { id: "perm-005", name: "系统配置", granted: false },
-      { id: "perm-006", name: "审计日志查看", granted: false },
+      { id: 'perm-001', name: '用户管理', granted: false },
+      { id: 'perm-002', name: '角色管理', granted: false },
+      { id: 'perm-003', name: '患者数据访问', granted: true },
+      { id: 'perm-004', name: '诊断数据访问', granted: true },
+      { id: 'perm-005', name: '系统配置', granted: false },
+      { id: 'perm-006', name: '审计日志查看', granted: false },
     ],
   },
   {
-    id: "role-003",
-    name: "护士",
-    description: "可以查看患者基本信息",
+    id: 'role-003',
+    name: '护士',
+    description: '可以查看患者基本信息',
     userCount: 42,
     permissions: [
-      { id: "perm-001", name: "用户管理", granted: false },
-      { id: "perm-002", name: "角色管理", granted: false },
-      { id: "perm-003", name: "患者数据访问", granted: true },
-      { id: "perm-004", name: "诊断数据访问", granted: false },
-      { id: "perm-005", name: "系统配置", granted: false },
-      { id: "perm-006", name: "审计日志查看", granted: false },
+      { id: 'perm-001', name: '用户管理', granted: false },
+      { id: 'perm-002', name: '角色管理', granted: false },
+      { id: 'perm-003', name: '患者数据访问', granted: true },
+      { id: 'perm-004', name: '诊断数据访问', granted: false },
+      { id: 'perm-005', name: '系统配置', granted: false },
+      { id: 'perm-006', name: '审计日志查看', granted: false },
     ],
   },
   {
-    id: "role-004",
-    name: "患者",
-    description: "只能访问自己的数据",
+    id: 'role-004',
+    name: '患者',
+    description: '只能访问自己的数据',
     userCount: 1250,
     permissions: [
-      { id: "perm-001", name: "用户管理", granted: false },
-      { id: "perm-002", name: "角色管理", granted: false },
-      { id: "perm-003", name: "患者数据访问", granted: false },
-      { id: "perm-004", name: "诊断数据访问", granted: false },
-      { id: "perm-005", name: "系统配置", granted: false },
-      { id: "perm-006", name: "审计日志查看", granted: false },
+      { id: 'perm-001', name: '用户管理', granted: false },
+      { id: 'perm-002', name: '角色管理', granted: false },
+      { id: 'perm-003', name: '患者数据访问', granted: false },
+      { id: 'perm-004', name: '诊断数据访问', granted: false },
+      { id: 'perm-005', name: '系统配置', granted: false },
+      { id: 'perm-006', name: '审计日志查看', granted: false },
     ],
   },
-]
+];
 
 // 模拟用户数据
 const users = [
   {
-    id: "user-001",
-    name: "张医生",
-    email: "zhang@hospital.com",
-    role: "医生",
-    status: "active",
-    lastLogin: "2025-04-28 09:15",
+    id: 'user-001',
+    name: '张医生',
+    email: 'zhang@hospital.com',
+    role: '医生',
+    status: 'active',
+    lastLogin: '2025-04-28 09:15',
   },
   {
-    id: "user-002",
-    name: "李护士",
-    email: "li@hospital.com",
-    role: "护士",
-    status: "active",
-    lastLogin: "2025-04-28 08:30",
+    id: 'user-002',
+    name: '李护士',
+    email: 'li@hospital.com',
+    role: '护士',
+    status: 'active',
+    lastLogin: '2025-04-28 08:30',
   },
   {
-    id: "user-003",
-    name: "王管理",
-    email: "wang@hospital.com",
-    role: "系统管理员",
-    status: "active",
-    lastLogin: "2025-04-27 17:45",
+    id: 'user-003',
+    name: '王管理',
+    email: 'wang@hospital.com',
+    role: '系统管理员',
+    status: 'active',
+    lastLogin: '2025-04-27 17:45',
   },
   {
-    id: "user-004",
-    name: "赵患者",
-    email: "zhao@example.com",
-    role: "患者",
-    status: "inactive",
-    lastLogin: "2025-04-25 14:20",
+    id: 'user-004',
+    name: '赵患者',
+    email: 'zhao@example.com',
+    role: '患者',
+    status: 'inactive',
+    lastLogin: '2025-04-25 14:20',
   },
-]
+];
 
 export function AccessControlPanel() {
-  const [activeTab, setActiveTab] = useState("roles")
-  const [selectedRole, setSelectedRole] = useState<(typeof roles)[number] | null>(null)
-  const [searchQuery, setSearchQuery] = useState("")
+  const [activeTab, setActiveTab] = useState('roles');
+  const [selectedRole, setSelectedRole] = useState<(typeof roles)[number] | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   // 处理角色选择
   const handleRoleSelect = (role: (typeof roles)[number]) => {
-    setSelectedRole(role)
-  }
+    setSelectedRole(role);
+  };
 
   // 过滤用户
   const filteredUsers = users.filter(
-    (user) =>
+    user =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.role.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      user.role.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <Card className="shadow-md">
@@ -145,12 +145,14 @@ export function AccessControlPanel() {
             </div>
 
             <div className="space-y-3 mb-4">
-              {roles.map((role) => (
+              {roles.map(role => (
                 <div
                   key={role.id}
-                  className={`p-3 border rounded-lg cursor-pointer hover:border-emerald-500 transition-colors ${selectedRole?.id === role.id ? "border-emerald-500 bg-emerald-50" : ""
-                    }`}
+                  className={`p-3 border rounded-lg cursor-pointer hover:border-success transition-colors ${
+                    selectedRole?.id === role.id ? 'border-success bg-success' : ''
+                  }`}
                   onClick={() => handleRoleSelect(role)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="font-medium">{role.name}</div>
@@ -178,13 +180,16 @@ export function AccessControlPanel() {
                 </div>
 
                 <div className="space-y-3">
-                  {selectedRole.permissions.map((permission) => (
-                    <div key={permission.id} className="flex items-center justify-between p-2 bg-muted rounded-lg">
+                  {selectedRole.permissions.map(permission => (
+                    <div
+                      key={permission.id}
+                      className="flex items-center justify-between p-2 bg-muted rounded-lg"
+                    >
                       <div className="flex items-center">
                         {permission.granted ? (
-                          <Eye className="w-4 h-4 text-emerald-500 mr-2" />
+                          <Eye className="w-4 h-4 text-success mr-2" />
                         ) : (
-                          <EyeOff className="w-4 h-4 text-gray-400 mr-2" />
+                          <EyeOff className="w-4 h-4 text-muted-foreground/50 mr-2" />
                         )}
                         <span>{permission.name}</span>
                       </div>
@@ -205,7 +210,7 @@ export function AccessControlPanel() {
                   placeholder="搜索用户..."
                   className="pl-8"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
               <Button size="sm" className="ml-2">
@@ -215,7 +220,7 @@ export function AccessControlPanel() {
             </div>
 
             <div className="space-y-3">
-              {filteredUsers.map((user) => (
+              {filteredUsers.map(user => (
                 <div key={user.id} className="p-3 border rounded-lg">
                   <div className="flex items-center justify-between">
                     <div>
@@ -228,10 +233,14 @@ export function AccessControlPanel() {
                         {user.role}
                       </Badge>
                       <Badge
-                        variant={user.status === "active" ? "default" : "outline"}
-                        className={user.status === "active" ? "bg-emerald-500" : "text-gray-500 border-gray-500"}
+                        variant={user.status === 'active' ? 'default' : 'outline'}
+                        className={
+                          user.status === 'active'
+                            ? 'bg-success'
+                            : 'text-muted-foreground border-border'
+                        }
                       >
-                        {user.status === "active" ? "活跃" : "非活跃"}
+                        {user.status === 'active' ? '活跃' : '非活跃'}
                       </Badge>
                     </div>
                   </div>
@@ -261,5 +270,5 @@ export function AccessControlPanel() {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

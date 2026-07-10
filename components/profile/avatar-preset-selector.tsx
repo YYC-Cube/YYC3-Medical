@@ -1,39 +1,49 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Image from "next/image"
-import { AVATAR_PRESETS } from "@/types/avatar-presets"
-import { cn } from "@/lib/utils"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Check } from "lucide-react"
+import { useState } from 'react';
+import Image from 'next/image';
+import { AVATAR_PRESETS } from '@/types/avatar-presets';
+import { cn } from '@/lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Check } from 'lucide-react';
 
 interface AvatarPresetSelectorProps {
-  onSelect: (avatarPath: string) => void
-  currentAvatar?: string
-  className?: string
+  onSelect: (avatarPath: string) => void;
+  currentAvatar?: string;
+  className?: string;
 }
 
-export function AvatarPresetSelector({ onSelect, currentAvatar, className }: AvatarPresetSelectorProps) {
-  const [open, setOpen] = useState(false)
-  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(currentAvatar)
+export function AvatarPresetSelector({
+  onSelect,
+  currentAvatar,
+  className,
+}: AvatarPresetSelectorProps) {
+  const [open, setOpen] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState<string | undefined>(currentAvatar);
 
   const handleSelect = (path: string) => {
-    setSelectedAvatar(path)
-  }
+    setSelectedAvatar(path);
+  };
 
   const handleConfirm = () => {
     if (selectedAvatar) {
-      onSelect(selectedAvatar)
-      setOpen(false)
+      onSelect(selectedAvatar);
+      setOpen(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className={cn("text-xs", className)}>
+        <Button variant="outline" size="sm" className={cn('text-xs', className)}>
           选择预设头像
         </Button>
       </DialogTrigger>
@@ -43,20 +53,21 @@ export function AvatarPresetSelector({ onSelect, currentAvatar, className }: Ava
         </DialogHeader>
         <ScrollArea className="h-[400px] pr-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4">
-            {AVATAR_PRESETS.map((preset) => (
+            {AVATAR_PRESETS.map(preset => (
               <div
                 key={preset.id}
                 className={cn(
-                  "relative flex flex-col items-center p-3 border rounded-lg cursor-pointer transition-all",
+                  'relative flex flex-col items-center p-3 border rounded-lg cursor-pointer transition-all',
                   selectedAvatar === preset.path
-                    ? "border-medical-500 bg-medical-50 ring-2 ring-medical-500 ring-opacity-50"
-                    : "border-gray-200 hover:border-medical-300 hover:bg-gray-50",
+                    ? 'border-medical-500 bg-medical-50 ring-2 ring-medical-500 ring-opacity-50'
+                    : 'border-border hover:border-medical-300 hover:bg-muted'
                 )}
                 onClick={() => handleSelect(preset.path)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
               >
                 <div className="relative w-20 h-20 mb-2">
                   <Image
-                    src={preset.path || "/placeholder.svg"}
+                    src={preset.path || '/placeholder.svg'}
                     alt={preset.name}
                     fill
                     className="object-cover rounded-full"
@@ -68,7 +79,7 @@ export function AvatarPresetSelector({ onSelect, currentAvatar, className }: Ava
                   )}
                 </div>
                 <span className="text-sm font-medium">{preset.name}</span>
-                <span className="text-xs text-gray-500">{preset.description}</span>
+                <span className="text-xs text-muted-foreground">{preset.description}</span>
               </div>
             ))}
           </div>
@@ -83,5 +94,5 @@ export function AvatarPresetSelector({ onSelect, currentAvatar, className }: Ava
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

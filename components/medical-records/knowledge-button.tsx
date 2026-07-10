@@ -1,43 +1,49 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { BookOpen, AlertTriangle } from "lucide-react"
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { KnowledgeIntegration } from "./knowledge-integration"
-import type { DiagnosticFinding } from "../../types/medical-records"
+import { Button } from '@/components/ui/button';
+import { BookOpen, AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { KnowledgeIntegration } from './knowledge-integration';
+import type { DiagnosticFinding } from '../../types/medical-records';
 
 interface KnowledgeButtonProps {
-  findings: DiagnosticFinding[]
-  patientId?: string
-  label?: string
-  variant?: "default" | "outline" | "secondary" | "ghost" | "link" | "destructive"
-  size?: "default" | "sm" | "lg" | "icon"
-  className?: string
+  findings: DiagnosticFinding[];
+  patientId?: string;
+  label?: string;
+  variant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link' | 'destructive';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  className?: string;
 }
 
 export function KnowledgeButton({
   findings,
   patientId,
-  label = "医学知识库",
-  variant = "outline",
-  size = "default",
-  className = "border-blue-200 text-blue-700 hover:bg-blue-50",
+  label = '医学知识库',
+  variant = 'outline',
+  size = 'default',
+  className = 'border-primary/20 text-primary hover:bg-primary/5',
 }: KnowledgeButtonProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOpenChange = (open: boolean) => {
-    setIsOpen(open)
+    setIsOpen(open);
     if (!open) {
-      setError(null)
+      setError(null);
     }
-  }
+  };
 
   const handleError = (message: string) => {
-    setError(message)
-  }
+    setError(message);
+  };
 
   return (
     <>
@@ -66,13 +72,17 @@ export function KnowledgeButton({
             {findings.length === 0 ? (
               <div className="flex items-center justify-center h-64">
                 <div className="text-center">
-                  <AlertTriangle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
+                  <AlertTriangle className="h-12 w-12 text-warning mx-auto mb-4" />
                   <h3 className="text-lg font-medium">无诊断结果</h3>
-                  <p className="text-gray-500">没有可用的诊断结果来查询医学知识库</p>
+                  <p className="text-muted-foreground">没有可用的诊断结果来查询医学知识库</p>
                 </div>
               </div>
             ) : (
-              <KnowledgeIntegration findings={findings} patientId={patientId} onError={handleError} />
+              <KnowledgeIntegration
+                findings={findings}
+                patientId={patientId}
+                onError={handleError}
+              />
             )}
           </div>
 
@@ -84,5 +94,5 @@ export function KnowledgeButton({
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

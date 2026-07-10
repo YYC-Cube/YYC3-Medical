@@ -1,28 +1,43 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { PageHeader } from "@/components/page-header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { Workflow, Search, AlertTriangle, Info, CheckCircle, X, Plus, Download } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MedicalButton } from '@/components/ui/medical-button';
+import {
+  Workflow,
+  Search,
+  AlertTriangle,
+  Info,
+  CheckCircle,
+  X,
+  Plus,
+  Download,
+} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function MedicationInteractionsClient() {
-  const [selectedMedications, setSelectedMedications] = useState<string[]>([])
-  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedMedications, setSelectedMedications] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const addMedication = (medication: string) => {
     if (!selectedMedications.includes(medication)) {
-      setSelectedMedications([...selectedMedications, medication])
+      setSelectedMedications([...selectedMedications, medication]);
     }
-  }
+  };
 
   const removeMedication = (medication: string) => {
-    setSelectedMedications(selectedMedications.filter((med) => med !== medication))
-  }
+    setSelectedMedications(selectedMedications.filter(med => med !== medication));
+  };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -47,14 +62,14 @@ export function MedicationInteractionsClient() {
                   placeholder="搜索药物..."
                   className="pl-8"
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
 
               <div className="space-y-2">
                 <div className="font-medium">常用药物</div>
                 <div className="flex flex-wrap gap-2">
-                  {commonMedications.map((med) => (
+                  {commonMedications.map(med => (
                     <MedicalButton
                       key={med}
                       variant="outline"
@@ -75,7 +90,7 @@ export function MedicationInteractionsClient() {
                   <div className="text-sm text-muted-foreground">尚未选择任何药物</div>
                 ) : (
                   <div className="flex flex-wrap gap-2">
-                    {selectedMedications.map((med) => (
+                    {selectedMedications.map(med => (
                       <Badge key={med} variant="secondary" className="flex items-center gap-1">
                         {med}
                         <X
@@ -123,7 +138,7 @@ export function MedicationInteractionsClient() {
               <CardTitle>相互作用分析结果</CardTitle>
               <CardDescription>
                 {selectedMedications.length < 2
-                  ? "请至少选择两种药物进行分析"
+                  ? '请至少选择两种药物进行分析'
                   : `分析 ${selectedMedications.length} 种药物的相互作用`}
               </CardDescription>
             </CardHeader>
@@ -147,20 +162,20 @@ export function MedicationInteractionsClient() {
                   </div>
 
                   <div className="grid grid-cols-3 gap-4 text-center">
-                    <div className="bg-red-50 p-4 rounded-lg">
-                      <AlertTriangle className="h-8 w-8 text-red-500 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-red-600">2</div>
-                      <div className="text-sm text-red-600">严重相互作用</div>
+                    <div className="bg-destructive p-4 rounded-lg">
+                      <AlertTriangle className="h-8 w-8 text-destructive mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-destructive">2</div>
+                      <div className="text-sm text-destructive">严重相互作用</div>
                     </div>
-                    <div className="bg-amber-50 p-4 rounded-lg">
-                      <Info className="h-8 w-8 text-amber-500 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-amber-600">3</div>
-                      <div className="text-sm text-amber-600">中度相互作用</div>
+                    <div className="bg-warning p-4 rounded-lg">
+                      <Info className="h-8 w-8 text-warning mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-warning">3</div>
+                      <div className="text-sm text-warning">中度相互作用</div>
                     </div>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                      <CheckCircle className="h-8 w-8 text-green-500 mx-auto mb-2" />
-                      <div className="text-2xl font-bold text-green-600">5</div>
-                      <div className="text-sm text-green-600">无相互作用</div>
+                    <div className="bg-success/5 p-4 rounded-lg">
+                      <CheckCircle className="h-8 w-8 text-success mx-auto mb-2" />
+                      <div className="text-2xl font-bold text-success">5</div>
+                      <div className="text-sm text-success">无相互作用</div>
                     </div>
                   </div>
 
@@ -214,26 +229,26 @@ export function MedicationInteractionsClient() {
 
                     <TabsContent value="none" className="mt-4">
                       <div className="text-center py-4">
-                        <CheckCircle className="h-12 w-12 text-green-500 mx-auto mb-2" />
+                        <CheckCircle className="h-12 w-12 text-success mx-auto mb-2" />
                         <p className="text-muted-foreground">以下药物组合未发现明显相互作用</p>
                         <div className="flex flex-wrap justify-center gap-2 mt-4">
                           {selectedMedications
                             .filter(
-                              (med) =>
+                              med =>
                                 ![
-                                  "阿司匹林",
-                                  "华法林",
-                                  "克拉霉素",
-                                  "辛伐他汀",
-                                  "氟西汀",
-                                  "曲马多",
-                                  "二甲双胍",
-                                  "氢氯噻嗪",
-                                  "阿托伐他汀",
-                                  "地尔硫卓",
-                                ].includes(med),
+                                  '阿司匹林',
+                                  '华法林',
+                                  '克拉霉素',
+                                  '辛伐他汀',
+                                  '氟西汀',
+                                  '曲马多',
+                                  '二甲双胍',
+                                  '氢氯噻嗪',
+                                  '阿托伐他汀',
+                                  '地尔硫卓',
+                                ].includes(med)
                             )
-                            .map((med) => (
+                            .map(med => (
                               <Badge key={med} variant="outline">
                                 {med}
                               </Badge>
@@ -249,40 +264,54 @@ export function MedicationInteractionsClient() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 interface InteractionCardProps {
-  drug1: string
-  drug2: string
-  severity: "severe" | "moderate" | "mild"
-  description: string
-  recommendation: string
+  drug1: string;
+  drug2: string;
+  severity: 'severe' | 'moderate' | 'mild';
+  description: string;
+  recommendation: string;
 }
 
-function InteractionCard({ drug1, drug2, severity, description, recommendation }: InteractionCardProps) {
+function InteractionCard({
+  drug1,
+  drug2,
+  severity,
+  description,
+  recommendation,
+}: InteractionCardProps) {
   const getSeverityInfo = (severity: string) => {
     switch (severity) {
-      case "severe":
+      case 'severe':
         return {
-          icon: <AlertTriangle className="h-5 w-5 text-red-500" />,
-          text: "严重",
-          color: "bg-red-50 border-red-200",
-        }
-      case "moderate":
+          icon: <AlertTriangle className="h-5 w-5 text-destructive" />,
+          text: '严重',
+          color: 'bg-destructive border-destructive',
+        };
+      case 'moderate':
         return {
-          icon: <Info className="h-5 w-5 text-amber-500" />,
-          text: "中度",
-          color: "bg-amber-50 border-amber-200",
-        }
-      case "mild":
-        return { icon: <Info className="h-5 w-5 text-blue-500" />, text: "轻度", color: "bg-blue-50 border-blue-200" }
+          icon: <Info className="h-5 w-5 text-warning" />,
+          text: '中度',
+          color: 'bg-warning border-warning',
+        };
+      case 'mild':
+        return {
+          icon: <Info className="h-5 w-5 text-primary" />,
+          text: '轻度',
+          color: 'bg-primary/5 border-primary/20',
+        };
       default:
-        return { icon: <Info className="h-5 w-5" />, text: severity, color: "bg-gray-50 border-gray-200" }
+        return {
+          icon: <Info className="h-5 w-5" />,
+          text: severity,
+          color: 'bg-muted border-border',
+        };
     }
-  }
+  };
 
-  const severityInfo = getSeverityInfo(severity)
+  const severityInfo = getSeverityInfo(severity);
 
   return (
     <div className={`border rounded-lg p-4 ${severityInfo.color}`}>
@@ -306,24 +335,24 @@ function InteractionCard({ drug1, drug2, severity, description, recommendation }
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // 示例数据
 const commonMedications = [
-  "阿司匹林",
-  "氨氯地平",
-  "阿托伐他汀",
-  "二甲双胍",
-  "辛伐他汀",
-  "华法林",
-  "克拉霉素",
-  "氟西汀",
-  "曲马多",
-  "氢氯噻嗪",
-  "地尔硫卓",
-  "美托洛尔",
-  "布地奈德",
-  "沙丁胺醇",
-  "格列美脲",
-]
+  '阿司匹林',
+  '氨氯地平',
+  '阿托伐他汀',
+  '二甲双胍',
+  '辛伐他汀',
+  '华法林',
+  '克拉霉素',
+  '氟西汀',
+  '曲马多',
+  '氢氯噻嗪',
+  '地尔硫卓',
+  '美托洛尔',
+  '布地奈德',
+  '沙丁胺醇',
+  '格列美脲',
+];

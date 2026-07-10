@@ -27,12 +27,12 @@ complexity: advanced
 
 ---
 
-| 属性         | 值                                    |
-| ------------ | ------------------------------------- |
-| **文档版本** | v1.0.0                                |
-| **发布日期** | 2026-05-25                            |
-| **验收阶段** | 第五阶段：测试框架类                     |
-| **验收性质** | 工具链完整性 · 配置正确性验证          |
+| 属性         | 值                                          |
+| ------------ | ------------------------------------------- |
+| **文档版本** | v1.0.0                                      |
+| **发布日期** | 2026-05-25                                  |
+| **验收阶段** | 第五阶段：测试框架类                        |
+| **验收性质** | 工具链完整性 · 配置正确性验证               |
 | **适用范围** | Vitest + Playwright + MSW + Testing Library |
 
 </div>
@@ -86,13 +86,13 @@ complexity: advanced
 
 ### 核心价值主张
 
-| 维度       | 价值主张                                   | 实现方式                              |
-| ---------- | ------------------------------------------ | ------------------------------------- |
-| **时间维** | 快速环境搭建，即时可用                      | 一键初始化脚本，Docker容器化，<5min就绪|
-| **空间维** | 全栈覆盖无遗漏，多环境支持                  | 单元/组件/E2E/性能/安全全覆盖         |
-| **属性维** | 配置标准化，可复用可扩展                    | 共享配置、预设模板、插件生态           |
-| **事件维** | 自动触发，智能调度                          | Git Hooks、PR触发、定时执行           |
-| **关联维** | 工具链无缝集成，数据互通                     | 统一报告格式、覆盖率聚合、缺陷追踪    |
+| 维度       | 价值主张                   | 实现方式                                |
+| ---------- | -------------------------- | --------------------------------------- |
+| **时间维** | 快速环境搭建，即时可用     | 一键初始化脚本，Docker容器化，<5min就绪 |
+| **空间维** | 全栈覆盖无遗漏，多环境支持 | 单元/组件/E2E/性能/安全全覆盖           |
+| **属性维** | 配置标准化，可复用可扩展   | 共享配置、预设模板、插件生态            |
+| **事件维** | 自动触发，智能调度         | Git Hooks、PR触发、定时执行             |
+| **关联维** | 工具链无缝集成，数据互通   | 统一报告格式、覆盖率聚合、缺陷追踪      |
 
 ---
 
@@ -102,13 +102,13 @@ complexity: advanced
 
 #### 度量指标
 
-| 指标名称                | 目标值     | 测量方法              | 优先级 |
-| ----------------------- | ---------- | --------------------- | ------ |
-| 环境初始化时间          | < 5min     | pnpm install + setup  | P0     |
-| 单次全量测试执行时间    | < 20min    | CI Pipeline 耗时      | P0     |
-| PR增量测试响应时间      | < 3min     | GitHub Actions 反馈   | P0     |
-| 测试报告生成时间        | < 30s      | 聚合脚本执行          | P1     |
-| 环境恢复时间            | < 2min     | 清理+重置              | P2     |
+| 指标名称             | 目标值  | 测量方法             | 优先级 |
+| -------------------- | ------- | -------------------- | ------ |
+| 环境初始化时间       | < 5min  | pnpm install + setup | P0     |
+| 单次全量测试执行时间 | < 20min | CI Pipeline 耗时     | P0     |
+| PR增量测试响应时间   | < 3min  | GitHub Actions 反馈  | P0     |
+| 测试报告生成时间     | < 30s   | 聚合脚本执行         | P1     |
+| 环境恢复时间         | < 2min  | 清理+重置            | P2     |
 
 ### 空间维度评估
 
@@ -144,31 +144,31 @@ complexity: advanced
 
 #### 质量属性指标
 
-| 属性类别       | 具体指标                   | 目标值   | 权重   | 测量方法              |
-| -------------- | -------------------------- | -------- | ------ | --------------------- |
-| **完备性**      | 核心框架安装完整率          | 100%     | 20%    | 依赖检查              |
-|                | 配置文件覆盖度              | 100%     | 15%    | 文件清单核对          |
-|                | 插件生态适配度              | > 95%    | 10%    | 兼容性测试            |
-| **可靠性**      | 测试执行稳定性              | > 99%    | 15%    | 连续运行10次通过率     |
-|                | 环境隔离性                 | 100%     | 10%    | 并发执行验证          |
-|                | 错误恢复能力                | 100%     | 5%     | 异常处理测试          |
-| **性能**       | 测试启动速度                | < 3s     | 10%    | 冷启动耗时            |
-|                | 内存占用合理性              | < 512MB  | 5%     | 监控指标              |
-|                | 并行执行效率                | > 80%    | 5%     | 加速比计算            |
-| **可维护性**    | 配置可读性                  | 优秀     | 5%     | Code Review          |
+| 属性类别     | 具体指标           | 目标值  | 权重 | 测量方法           |
+| ------------ | ------------------ | ------- | ---- | ------------------ |
+| **完备性**   | 核心框架安装完整率 | 100%    | 20%  | 依赖检查           |
+|              | 配置文件覆盖度     | 100%    | 15%  | 文件清单核对       |
+|              | 插件生态适配度     | > 95%   | 10%  | 兼容性测试         |
+| **可靠性**   | 测试执行稳定性     | > 99%   | 15%  | 连续运行10次通过率 |
+|              | 环境隔离性         | 100%    | 10%  | 并发执行验证       |
+|              | 错误恢复能力       | 100%    | 5%   | 异常处理测试       |
+| **性能**     | 测试启动速度       | < 3s    | 10%  | 冷启动耗时         |
+|              | 内存占用合理性     | < 512MB | 5%   | 监控指标           |
+|              | 并行执行效率       | > 80%   | 5%   | 加速比计算         |
+| **可维护性** | 配置可读性         | 优秀    | 5%   | Code Review        |
 
 ### 事件维度评估
 
 #### 触发事件矩阵
 
-| 事件类型               | 触发条件                 | 执行范围                       | 自动化程度 | 告警级别 |
-| ---------------------- | ------------------------ | ------------------------------ | ---------- | -------- |
-| 本地开发               | 文件保存                 | 变更相关测试                   | 100%       | Info     |
-| PR提交                 | Pull Request 创建        | 影响分析 + 相关测试             | 100%       | Error    |
-| 主分支合并             | Merge to main            | 全量测试套件                   | 100%       | Warning  |
-| 定时任务               | Nightly Build (00:00)    | 全量 + 覆盖率 + 报告           | 100%       | Info     |
-| 发布前检查             | Release Branch 创建      | 全量 + 性能 + 安全 + 回归      | 100%       | Critical |
-| 手动触发               | pnpm test:{scope}        | 用户指定                       | 手动       | -        |
+| 事件类型   | 触发条件              | 执行范围                  | 自动化程度 | 告警级别 |
+| ---------- | --------------------- | ------------------------- | ---------- | -------- |
+| 本地开发   | 文件保存              | 变更相关测试              | 100%       | Info     |
+| PR提交     | Pull Request 创建     | 影响分析 + 相关测试       | 100%       | Error    |
+| 主分支合并 | Merge to main         | 全量测试套件              | 100%       | Warning  |
+| 定时任务   | Nightly Build (00:00) | 全量 + 覆盖率 + 报告      | 100%       | Info     |
+| 发布前检查 | Release Branch 创建   | 全量 + 性能 + 安全 + 回归 | 100%       | Critical |
+| 手动触发   | pnpm test:{scope}     | 用户指定                  | 手动       | -        |
 
 ### 关联维度评估
 
@@ -214,15 +214,15 @@ complexity: advanced
 
 ### 推荐技术栈（已确认）
 
-| 类别           | 工具名称         | 版本要求   | 用途说明                     |
-| -------------- | ---------------- | ---------- | ---------------------------- |
-| **测试运行器**  | Vitest           | ^1.6.0     | 单元/组件测试核心引擎        |
-| **E2E测试**     | Playwright       | ^1.40.0    | 端到端浏览器自动化测试       |
-| **React测试库** | Testing Library | ^14.0.0    | React组件DOM测试             |
-| **用户交互**    | user-event       | ^14.4.0    | 真实用户行为模拟             |
-| **API Mock**    | MSW              | ^2.0.0     | Service Worker API拦截       |
-| **覆盖率**      | c8               | ^8.0.0     | V8原生代码覆盖率             |
-| **无障碍**      | axe-core         | ^4.8.0     | WCAG合规自动检测             |
+| 类别            | 工具名称        | 版本要求 | 用途说明               |
+| --------------- | --------------- | -------- | ---------------------- |
+| **测试运行器**  | Vitest          | ^1.6.0   | 单元/组件测试核心引擎  |
+| **E2E测试**     | Playwright      | ^1.40.0  | 端到端浏览器自动化测试 |
+| **React测试库** | Testing Library | ^14.0.0  | React组件DOM测试       |
+| **用户交互**    | user-event      | ^14.4.0  | 真实用户行为模拟       |
+| **API Mock**    | MSW             | ^2.0.0   | Service Worker API拦截 |
+| **覆盖率**      | c8              | ^8.0.0   | V8原生代码覆盖率       |
+| **无障碍**      | axe-core        | ^4.8.0   | WCAG合规自动检测       |
 
 ### 版本兼容性矩阵
 
@@ -302,18 +302,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
 
-    include: [
-      'src/**/*.{test,spec}.{ts,tsx}',
-      '__tests__/**/*.{test,spec}.{ts,tsx}',
-    ],
+    include: ['src/**/*.{test,spec}.{ts,tsx}', '__tests__/**/*.{test,spec}.{ts,tsx}'],
 
-    exclude: [
-      'node_modules',
-      'dist',
-      '.next',
-      'coverage',
-      'e2e',
-    ],
+    exclude: ['node_modules', 'dist', '.next', 'coverage', 'e2e'],
 
     setupFiles: ['./vitest.setup.ts'],
 
@@ -531,19 +522,16 @@ export const handlers = [
   }),
 
   http.post(`${BASE_URL}/auth/login`, async ({ request }) => {
-    const body = await request.json() as Record<string, string>;
+    const body = (await request.json()) as Record<string, string>;
 
     if (body.email === 'admin@example.com' && body.password === 'password123') {
       return HttpResponse.json({
         token: 'mock-jwt-token',
-        user: { id: '1', role: 'admin' }
+        user: { id: '1', role: 'admin' },
       });
     }
 
-    return HttpResponse.json(
-      { error: 'Invalid credentials' },
-      { status: 401 }
-    );
+    return HttpResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }),
 ];
 ```
@@ -562,26 +550,22 @@ import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 
-export default tseslint.config(
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
-  {
-    files: ['**/*.{ts,tsx}'],
-    plugins: {
-      'react': eslintPluginReact,
-      'react-hooks': eslintPluginReactHooks,
-      'testing-library': testingLibrary,
-    },
-    rules: {
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'testing-library/prefer-screen-queries': 'error',
-      'testing-library/no-debugging-utils': 'warn',
-      'testing-library/no-container': 'error',
-      'testing-library/no-wait-for-empty-callback': 'error',
-    },
-  }
-);
+export default tseslint.config(js.configs.recommended, ...tseslint.configs.recommended, {
+  files: ['**/*.{ts,tsx}'],
+  plugins: {
+    react: eslintPluginReact,
+    'react-hooks': eslintPluginReactHooks,
+    'testing-library': testingLibrary,
+  },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'testing-library/prefer-screen-queries': 'error',
+    'testing-library/no-debugging-utils': 'warn',
+    'testing-library/no-container': 'error',
+    'testing-library/no-wait-for-empty-callback': 'error',
+  },
+});
 ```
 
 ### Prettier 配置
@@ -654,18 +638,18 @@ node-linker=hoisted
 
 ### 总体验收标准
 
-| 标准编号 | 验收项                        | 目标值       | 优先级 | 是否通过 | 实际值   |
-| -------- | ----------------------------- | ------------ | ------ | -------- | -------- |
-| FRAME-01 | Node.js版本符合要求           | >= 18       | P0     | □        | vX.X.X   |
-| FRAME-02 | pnpm版本符合要求              | >= 8        | P0     | □        | vX.X.X   |
-| FRAME-03 | Vitest安装成功并可运行        | 正常         | P0     | □        | ✅/❌    |
-| FRAME-04 | Playwright安装成功并可运行    | 正常         | P0     | □        | ✅/❌    |
-| FRAME-05 | Testing Library安装成功       | 正常         | P0     | □        | ✅/❌    |
-| FRAME-06 | MSW安装成功并配置完成          | 正常         | P0     | □        | ✅/❌    |
-| FRAME-07 | ESLint集成测试通过            | 0 errors     | P0     | □        | X        |
-| FRAME-08 | Prettier格式化正常             | 无报错       | P1     | □        | ✅/❌    |
-| FRAME-09 | Husky pre-commit钩子生效      | 触发成功     | P1     | □        | ✅/❌    |
-| FRAME-10 | CI/CD Pipeline 运行成功       | Green        | P0     | □        | ✅/❌    |
+| 标准编号 | 验收项                     | 目标值   | 优先级 | 是否通过 | 实际值 |
+| -------- | -------------------------- | -------- | ------ | -------- | ------ |
+| FRAME-01 | Node.js版本符合要求        | >= 18    | P0     | □        | vX.X.X |
+| FRAME-02 | pnpm版本符合要求           | >= 8     | P0     | □        | vX.X.X |
+| FRAME-03 | Vitest安装成功并可运行     | 正常     | P0     | □        | ✅/❌  |
+| FRAME-04 | Playwright安装成功并可运行 | 正常     | P0     | □        | ✅/❌  |
+| FRAME-05 | Testing Library安装成功    | 正常     | P0     | □        | ✅/❌  |
+| FRAME-06 | MSW安装成功并配置完成      | 正常     | P0     | □        | ✅/❌  |
+| FRAME-07 | ESLint集成测试通过         | 0 errors | P0     | □        | X      |
+| FRAME-08 | Prettier格式化正常         | 无报错   | P1     | □        | ✅/❌  |
+| FRAME-09 | Husky pre-commit钩子生效   | 触发成功 | P1     | □        | ✅/❌  |
+| FRAME-10 | CI/CD Pipeline 运行成功    | Green    | P0     | □        | ✅/❌  |
 
 ### 分级验收准则
 
@@ -709,14 +693,14 @@ node-linker=hoisted
 
 ## 📋 报告概要
 
-| 属性           | 值                                      |
-| -------------- | --------------------------------------- |
-| **报告编号**   | RPT-FRAME-{YYYYMMDD}-{SEQUENCE}         |
-| **项目名称**   | {PROJECT_NAME}                          |
-| **报告日期**   | {YYYY-MM-DD HH:MM}                      |
-| **验收阶段**   | 第五类：单元框架审核验收                 |
-| **审核负责人** | {REVIEWER_NAME}                         |
-| **Git Commit** | {COMMIT_HASH}                           |
+| 属性           | 值                              |
+| -------------- | ------------------------------- |
+| **报告编号**   | RPT-FRAME-{YYYYMMDD}-{SEQUENCE} |
+| **项目名称**   | {PROJECT_NAME}                  |
+| **报告日期**   | {YYYY-MM-DD HH:MM}              |
+| **验收阶段**   | 第五类：单元框架审核验收        |
+| **审核负责人** | {REVIEWER_NAME}                 |
+| **Git Commit** | {COMMIT_HASH}                   |
 
 ---
 
@@ -724,25 +708,25 @@ node-linker=hoisted
 
 ### 运行环境
 
-| 项目           | 当前版本   | 要求版本   | 状态   |
-| -------------- | ---------- | ---------- | ------ |
-| Node.js        | vX.X.X     | >= 18      | ✅/❌  |
-| npm            | vX.X.X     | >= 9       | ✅/❌  |
-| pnpm           | vX.X.X     | >= 8       | ✅/❌  |
-| OS             | {OS_INFO}  | -          | -      |
-| CPU            | {CPU_INFO} | -          | -      |
-| Memory         | {MEM_INFO} | -          | -      |
+| 项目    | 当前版本   | 要求版本 | 状态  |
+| ------- | ---------- | -------- | ----- |
+| Node.js | vX.X.X     | >= 18    | ✅/❌ |
+| npm     | vX.X.X     | >= 9     | ✅/❌ |
+| pnpm    | vX.X.X     | >= 8     | ✅/❌ |
+| OS      | {OS_INFO}  | -        | -     |
+| CPU     | {CPU_INFO} | -        | -     |
+| Memory  | {MEM_INFO} | -        | -     |
 
 ### 依赖安装状态
 
-| 依赖包名                    | 安装版本   | 要求版本   | 状态   |
-| --------------------------- | ---------- | ---------- | ------ |
-| vitest                      | vX.X.X     | ^1.6.0    | ✅/❌  |
-| @vitest/coverage-v8         | vX.X.X     | ^1.6.0    | ✅/❌  |
-| @testing-library/react      | vX.X.X     | ^14.0.0   | ✅/❌  |
-| @playwright/test            | vX.X.X     | ^1.40.0   | ✅/❌  |
-| msw                         | vX.X.X     | ^2.0.0    | ✅/❌  |
-| c8                          | vX.X.X     | ^8.0.0    | ✅/❌  |
+| 依赖包名               | 安装版本 | 要求版本 | 状态  |
+| ---------------------- | -------- | -------- | ----- |
+| vitest                 | vX.X.X   | ^1.6.0   | ✅/❌ |
+| @vitest/coverage-v8    | vX.X.X   | ^1.6.0   | ✅/❌ |
+| @testing-library/react | vX.X.X   | ^14.0.0  | ✅/❌ |
+| @playwright/test       | vX.X.X   | ^1.40.0  | ✅/❌ |
+| msw                    | vX.X.X   | ^2.0.0   | ✅/❌ |
+| c8                     | vX.X.X   | ^8.0.0   | ✅/❌ |
 
 ---
 
@@ -750,26 +734,26 @@ node-linker=hoisted
 
 ### 必需配置文件
 
-| 文件路径                          | 存在   | 格式正确 | 内容完整 | 状态   |
-| --------------------------------- | ------ | -------- | -------- | ------ |
-| vitest.config.ts                  | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| vitest.setup.ts                  | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| playwright.config.ts             | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| tsconfig.json                    | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| .eslintrc.* 或 eslint.config.*    | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| .prettierrc                      | ✅/❌  | ✅/❌    | ✅/❌    | ✅/❌  |
-| .husky/                           | ✅/❌  | -        | -        | ✅/❌  |
+| 文件路径                       | 存在  | 格式正确 | 内容完整 | 状态  |
+| ------------------------------ | ----- | -------- | -------- | ----- |
+| vitest.config.ts               | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| vitest.setup.ts                | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| playwright.config.ts           | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| tsconfig.json                  | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| .eslintrc._ 或 eslint.config._ | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| .prettierrc                    | ✅/❌ | ✅/❌    | ✅/❌    | ✅/❌ |
+| .husky/                        | ✅/❌ | -        | -        | ✅/❌ |
 
 ### 配置项验证结果
 
-| 配置类别       | 检查项                     | 期望值             | 实际值   | 状态   |
-| -------------- | -------------------------- | ------------------ | -------- | ------ |
-| Vitest         | environment                | jsdom              | {value} | ✅/❌  |
-| Vitest         | coverage.provider          | v8                 | {value} | ✅/❌  |
-| Vitest         | globals                    | true               | {value} | ✅/❌  |
-| Playwright    | testDir                    | ./e2e              | {value} | ✅/❌  |
-| Playwright    | fullyParallel              | true               | {value} | ✅/❌  |
-| ESLint         | parserOptions.ecmaVersion  | latest             | {value} | ✅/❌  |
+| 配置类别   | 检查项                    | 期望值 | 实际值  | 状态  |
+| ---------- | ------------------------- | ------ | ------- | ----- |
+| Vitest     | environment               | jsdom  | {value} | ✅/❌ |
+| Vitest     | coverage.provider         | v8     | {value} | ✅/❌ |
+| Vitest     | globals                   | true   | {value} | ✅/❌ |
+| Playwright | testDir                   | ./e2e  | {value} | ✅/❌ |
+| Playwright | fullyParallel             | true   | {value} | ✅/❌ |
+| ESLint     | parserOptions.ecmaVersion | latest | {value} | ✅/❌ |
 
 ---
 
@@ -777,22 +761,22 @@ node-linker=hoisted
 
 ### 命令执行测试
 
-| 命令                   | 执行结果   | 耗时     | 备注               |
-| ---------------------- | ---------- | -------- | ------------------ |
-| pnpm install           | ✅/❌      | XXs      | {备注信息}         |
-| pnpm test              | ✅/❌      | XXs      | {备注信息}         |
-| pnpm test:coverage     | ✅/❌      | XXs      | {备注信息}         |
-| pnpm test:e2e          | ✅/❌      | XXs      | {备注信息}         |
-| pnpm lint              | ✅/❌      | XXs      | {备注信息}         |
-| pnpm format            | ✅/❌      | XXs      | {备注信息}         |
+| 命令               | 执行结果 | 耗时 | 备注       |
+| ------------------ | -------- | ---- | ---------- |
+| pnpm install       | ✅/❌    | XXs  | {备注信息} |
+| pnpm test          | ✅/❌    | XXs  | {备注信息} |
+| pnpm test:coverage | ✅/❌    | XXs  | {备注信息} |
+| pnpm test:e2e      | ✅/❌    | XXs  | {备注信息} |
+| pnpm lint          | ✅/❌    | XXs  | {备注信息} |
+| pnpm format        | ✅/❌    | XXs  | {备注信息} |
 
 ### 示例测试运行
 
-| 测试类型       | 测试数量 | 通过数 | 失败数 | 跳过数 | 通过率 | 耗时   |
-| -------------- | -------- | ------ | ------ | ------ | ------ | ------ |
-| 示例单元测试   | X        | X      | X      | X      | XX%    | XXs    |
-| 示例组件测试   | X        | X      | X      | X      | XX%    | XXs    |
-| 示例E2E测试    | X        | X      | X      | X      | XX%    | XXs    |
+| 测试类型     | 测试数量 | 通过数 | 失败数 | 跳过数 | 通过率 | 耗时 |
+| ------------ | -------- | ------ | ------ | ------ | ------ | ---- |
+| 示例单元测试 | X        | X      | X      | X      | XX%    | XXs  |
+| 示例组件测试 | X        | X      | X      | X      | XX%    | XXs  |
+| 示例E2E测试  | X        | X      | X      | X      | XX%    | XXs  |
 
 ---
 
@@ -800,20 +784,20 @@ node-linker=hoisted
 
 ### Workflow 状态
 
-| Workflow 名称           | 触发条件   | 执行状态   | 最后运行时间 | 状态   |
-| ------------------------ | ---------- | ---------- | ------------ | ------ |
-| ci.yml                   | PR/Push    | ✅/❌      | YYYY-MM-DD   | ✅/❌  |
-| test.yml                 | PR/Push    | ✅/❌      | YYYY-MM-DD   | ✅/❌  |
-| e2e.yml                  | PR/Push    | ✅/❌      | YYYY-MM-DD   | ✅/❌  |
+| Workflow 名称 | 触发条件 | 执行状态 | 最后运行时间 | 状态  |
+| ------------- | -------- | -------- | ------------ | ----- |
+| ci.yml        | PR/Push  | ✅/❌    | YYYY-MM-DD   | ✅/❌ |
+| test.yml      | PR/Push  | ✅/❌    | YYYY-MM-DD   | ✅/❌ |
+| e2e.yml       | PR/Push  | ✅/❌    | YYYY-MM-DD   | ✅/❌ |
 
 ### Artifact 产出
 
-| 产物名称               | 产出位置                   | 大小     | 状态   |
-| ---------------------- | -------------------------- | -------- | ------ |
-| Coverage Report        | ./coverage/                | XX MB    | ✅/❌  |
-| Test Results           | ./test-results/            | XX KB    | ✅/❌  |
-| Playwright Report      | ./playwright-report/       | XX MB    | ✅/❌  |
-| LCOV File              | ./coverage/lcov.info       | XX KB    | ✅/❌  |
+| 产物名称          | 产出位置             | 大小  | 状态  |
+| ----------------- | -------------------- | ----- | ----- |
+| Coverage Report   | ./coverage/          | XX MB | ✅/❌ |
+| Test Results      | ./test-results/      | XX KB | ✅/❌ |
+| Playwright Report | ./playwright-report/ | XX MB | ✅/❌ |
+| LCOV File         | ./coverage/lcov.info | XX KB | ✅/❌ |
 
 ---
 
@@ -821,18 +805,18 @@ node-linker=hoisted
 
 ### 发现的问题
 
-| 问题ID   | 严重程度 | 问题描述                     | 影响范围               | 修复建议               | 状态   |
-| -------- | -------- | ---------------------------- | ---------------------- | ---------------------- | ------ |
-| FRM-001  | High     | {问题描述}                   | {受影响的模块/功能}     | {修复方案}             | 待修复 |
-| FRM-002  | Medium   | {问题描述}                   | {受影响的模块/功能}     | {修复方案}             | 待修复 |
+| 问题ID  | 严重程度 | 问题描述   | 影响范围            | 修复建议   | 状态   |
+| ------- | -------- | ---------- | ------------------- | ---------- | ------ |
+| FRM-001 | High     | {问题描述} | {受影响的模块/功能} | {修复方案} | 待修复 |
+| FRM-002 | Medium   | {问题描述} | {受影响的模块/功能} | {修复方案} | 待修复 |
 
 ### 缺失项清单
 
-| 类别       | 缺失项                     | 建议                       | 优先级 |
-| ---------- | -------------------------- | -------------------------- | ------ |
-| 配置文件   | {缺失的配置文件}           | {创建建议}                 | P0     |
-| 依赖包     | {缺失的依赖包}             | {安装命令}                 | P0     |
-| 脚本命令   | {缺失的npm script}         | {添加建议}                 | P1     |
+| 类别     | 缺失项             | 建议       | 优先级 |
+| -------- | ------------------ | ---------- | ------ |
+| 配置文件 | {缺失的配置文件}   | {创建建议} | P0     |
+| 依赖包   | {缺失的依赖包}     | {安装命令} | P0     |
+| 脚本命令 | {缺失的npm script} | {添加建议} | P1     |
 
 ---
 
@@ -868,11 +852,11 @@ node-linker=hoisted
 
 ## 📝 签字确认
 
-| 角色           | 姓名   | 日期       | 意见   |
-| -------------- | ------ | ---------- | ------ |
-| DevOps工程师   |        | YYYY-MM-DD |        |
-| 技术负责人     |        | YYYY-MM-DD |        |
-| 架构师         |        | YYYY-MM-DD |        |
+| 角色         | 姓名 | 日期       | 意见 |
+| ------------ | ---- | ---------- | ---- |
+| DevOps工程师 |      | YYYY-MM-DD |      |
+| 技术负责人   |      | YYYY-MM-DD |      |
+| 架构师       |      | YYYY-MM-DD |      |
 
 ---
 
@@ -949,13 +933,13 @@ fi
 
 ### A. 常见问题排查
 
-| 问题现象                   | 可能原因                     | 解决方案                     |
-| -------------------------- | ---------------------------- | ---------------------------- |
-| Vitest 启动慢              | 依赖过多或include范围过大     | 优化exclude配置，使用pool     |
-| Playwright 浏览器下载失败   | 网络问题或权限不足            | 使用镜像或手动下载           |
-| MSW 拦截失败               | Service Worker未注册          | 检查public目录和URL匹配      |
-| 覆盖率不准确               | sourceMap配置问题             | 确保TS编译输出sourceMap      |
-| 内存溢出(OOM)              | 并行workers过多              | 减少maxWorkers或增加内存     |
+| 问题现象                  | 可能原因                  | 解决方案                  |
+| ------------------------- | ------------------------- | ------------------------- |
+| Vitest 启动慢             | 依赖过多或include范围过大 | 优化exclude配置，使用pool |
+| Playwright 浏览器下载失败 | 网络问题或权限不足        | 使用镜像或手动下载        |
+| MSW 拦截失败              | Service Worker未注册      | 检查public目录和URL匹配   |
+| 覆盖率不准确              | sourceMap配置问题         | 确保TS编译输出sourceMap   |
+| 内存溢出(OOM)             | 并行workers过多           | 减少maxWorkers或增加内存  |
 
 ### B. 相关文档索引
 
@@ -966,7 +950,7 @@ fi
 ### C. 版本历史
 
 | 版本   | 日期       | 变更内容                       | 作者                |
-| ------ | ---------- | -------------------------------- | ------------------- |
+| ------ | ---------- | ------------------------------ | ------------------- |
 | v1.0.0 | 2026-05-25 | 初始版本，建立框架审核验收标准 | YanYuCloudCube Team |
 
 ---

@@ -1,71 +1,84 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { Button3d } from "@/components/ui/3d-button"
-import { Card3d, Card3dContent, Card3dHeader, Card3dTitle } from "@/components/ui/3d-card"
-import { EnhancedForm, EnhancedInput, FormField } from "@/components/ui/enhanced-form"
-import { InteractiveCard } from "@/components/ui/interactive-card"
-import { DynamicLoading } from "@/components/ui/dynamic-loading"
-import { ResponsiveTable } from "@/components/ui/responsive-table"
-import { PageTransition } from "@/components/ui/page-transition"
-import { Brain, Heart, User, Mail, Lock, Calendar, Activity, Stethoscope, Pill, FileText } from "lucide-react"
+import { useState } from 'react';
+import { Button3d } from '@/components/ui/3d-button';
+import { Card3d, Card3dContent, Card3dHeader, Card3dTitle } from '@/components/ui/3d-card';
+import { EnhancedForm, EnhancedInput, FormField } from '@/components/ui/enhanced-form';
+import { InteractiveCard } from '@/components/ui/interactive-card';
+import { DynamicLoading } from '@/components/ui/dynamic-loading';
+import { ResponsiveTable } from '@/components/ui/responsive-table';
+import { PageTransition } from '@/components/ui/page-transition';
+import {
+  Brain,
+  Heart,
+  User,
+  Mail,
+  Lock,
+  Calendar,
+  Activity,
+  Stethoscope,
+  Pill,
+  FileText,
+} from 'lucide-react';
 
 export default function UIShowcasePage() {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  })
+    name: '',
+    email: '',
+    password: '',
+  });
 
   const handleFormSubmit = (e: React.FormEvent) => {
-    setIsLoading(true)
+    setIsLoading(true);
     setTimeout(() => {
-      setIsLoading(false)
-      alert("表单提交成功！")
-    }, 1500)
-  }
+      setIsLoading(false);
+      alert('表单提交成功！');
+    }, 1500);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const tableData = [
-    { id: 1, name: "张三", age: 32, department: "内科", status: "在线" },
-    { id: 2, name: "李四", age: 45, department: "外科", status: "离线" },
-    { id: 3, name: "王五", age: 28, department: "儿科", status: "在线" },
-  ]
+    { id: 1, name: '张三', age: 32, department: '内科', status: '在线' },
+    { id: 2, name: '李四', age: 45, department: '外科', status: '离线' },
+    { id: 3, name: '王五', age: 28, department: '儿科', status: '在线' },
+  ];
 
   const tableColumns = [
-    { header: "ID", accessorKey: "id" as const, sortable: true },
-    { header: "姓名", accessorKey: "name" as const, sortable: true },
-    { header: "年龄", accessorKey: "age" as const, sortable: true },
-    { header: "科室", accessorKey: "department" as const },
+    { header: 'ID', accessorKey: 'id' as const, sortable: true },
+    { header: '姓名', accessorKey: 'name' as const, sortable: true },
+    { header: '年龄', accessorKey: 'age' as const, sortable: true },
+    { header: '科室', accessorKey: 'department' as const },
     {
-      header: "状态",
-      accessorKey: "status" as const,
+      header: '状态',
+      accessorKey: 'status' as const,
       cell: (item: (typeof tableData)[0]) => (
         <span
           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-            item.status === "在线" ? "bg-success-100 text-success-800" : "bg-gray-100 text-gray-800"
+            item.status === '在线' ? 'bg-success/10 text-success' : 'bg-muted/10 text-foreground'
           }`}
         >
           <span
-            className={`mr-1 h-1.5 w-1.5 rounded-full ${item.status === "在线" ? "bg-success-500" : "bg-gray-500"}`}
+            className={`mr-1 h-1.5 w-1.5 rounded-full ${item.status === '在线' ? 'bg-success' : 'bg-muted/50'}`}
           />
           {item.status}
         </span>
       ),
     },
-  ]
+  ];
 
   return (
     <PageTransition animation="slide-up">
       <div className="container mx-auto p-4 md:p-6 space-y-8 pb-20 md:pb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-medical-800 mb-6">MediNexus³ UI组件展示</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-medical-800 mb-6">
+          MediNexus³ UI组件展示
+        </h1>
 
         {/* 按钮展示 */}
         <section>
@@ -99,7 +112,11 @@ export default function UIShowcasePage() {
                 <h3 className="text-lg font-medium text-medical-800 mb-3">带图标按钮</h3>
                 <div className="flex flex-wrap gap-4 items-center">
                   <Button3d icon={<Brain className="h-4 w-4" />}>AI诊断</Button3d>
-                  <Button3d variant="secondary" icon={<Heart className="h-4 w-4" />} iconPosition="right">
+                  <Button3d
+                    variant="secondary"
+                    icon={<Heart className="h-4 w-4" />}
+                    iconPosition="right"
+                  >
                     健康数据
                   </Button3d>
                   <Button3d variant="outline" icon={<User className="h-4 w-4" />}>
@@ -180,7 +197,9 @@ export default function UIShowcasePage() {
               <Card3dHeader>
                 <Card3dTitle className="text-white">渐变卡片</Card3dTitle>
               </Card3dHeader>
-              <Card3dContent className="text-white">这是一个渐变背景的卡片，适用于强调重要内容。</Card3dContent>
+              <Card3dContent className="text-white">
+                这是一个渐变背景的卡片，适用于强调重要内容。
+              </Card3dContent>
             </Card3d>
 
             <Card3d variant="3d">
@@ -233,10 +252,12 @@ export default function UIShowcasePage() {
               title="AI诊断"
               description="使用人工智能辅助医疗诊断"
               icon={<Brain className="h-5 w-5" />}
-              onClick={() => alert("点击了AI诊断卡片")}
+              onClick={() => alert('点击了AI诊断卡片')}
               variant="3d"
             >
-              <p className="text-sm text-medical-600">基于深度学习的医学影像分析和自然语言处理技术。</p>
+              <p className="text-sm text-medical-600">
+                基于深度学习的医学影像分析和自然语言处理技术。
+              </p>
             </InteractiveCard>
 
             <InteractiveCard
@@ -244,7 +265,7 @@ export default function UIShowcasePage() {
               description="实时监测患者生命体征"
               icon={<Activity className="h-5 w-5" />}
               isActive
-              onClick={() => alert("点击了健康监测卡片")}
+              onClick={() => alert('点击了健康监测卡片')}
               animation="float"
             >
               <p className="text-sm">支持心率、血压、血氧等多项指标的连续监测。</p>
@@ -255,7 +276,7 @@ export default function UIShowcasePage() {
               description="管理医生和患者的预约"
               icon={<Calendar className="h-5 w-5" />}
               isDisabled
-              onClick={() => alert("此功能暂未开放")}
+              onClick={() => alert('此功能暂未开放')}
               variant="elevated"
             >
               <p className="text-sm text-medical-600">智能排班系统，自动匹配最佳预约时间。</p>
@@ -269,7 +290,12 @@ export default function UIShowcasePage() {
               variant="neuromorphic"
               animation="scale"
             />
-            <InteractiveCard title="药物管理" icon={<Pill className="h-5 w-5" />} variant="flat" animation="rotate" />
+            <InteractiveCard
+              title="药物管理"
+              icon={<Pill className="h-5 w-5" />}
+              variant="flat"
+              animation="rotate"
+            />
             <InteractiveCard
               title="病历查看"
               icon={<FileText className="h-5 w-5" />}
@@ -294,7 +320,7 @@ export default function UIShowcasePage() {
               isLoading={isLoading}
               submitText="提交表单"
               cancelText="取消"
-              onCancel={() => alert("取消表单")}
+              onCancel={() => alert('取消表单')}
             >
               <FormField label="姓名" htmlFor="name" required>
                 <EnhancedInput
@@ -311,7 +337,11 @@ export default function UIShowcasePage() {
                 label="邮箱"
                 htmlFor="email"
                 required
-                error={formData.email && !formData.email.includes("@") ? "请输入有效的邮箱地址" : undefined}
+                error={
+                  formData.email && !formData.email.includes('@')
+                    ? '请输入有效的邮箱地址'
+                    : undefined
+                }
               >
                 <EnhancedInput
                   id="email"
@@ -321,11 +351,16 @@ export default function UIShowcasePage() {
                   onChange={handleInputChange}
                   placeholder="请输入邮箱"
                   icon={<Mail className="h-4 w-4" />}
-                  error={!!(formData.email && !formData.email.includes("@"))}
+                  error={!!(formData.email && !formData.email.includes('@'))}
                 />
               </FormField>
 
-              <FormField label="密码" htmlFor="password" required description="密码长度至少为8位，包含字母和数字">
+              <FormField
+                label="密码"
+                htmlFor="password"
+                required
+                description="密码长度至少为8位，包含字母和数字"
+              >
                 <EnhancedInput
                   id="password"
                   name="password"
@@ -351,7 +386,12 @@ export default function UIShowcasePage() {
             </Card3d>
 
             <Card3d variant="elevated">
-              <DynamicLoading isLoading={true} loadingText="数据加载中..." size="md" variant="accent">
+              <DynamicLoading
+                isLoading={true}
+                loadingText="数据加载中..."
+                size="md"
+                variant="accent"
+              >
                 <p>内容已加载</p>
               </DynamicLoading>
             </Card3d>
@@ -371,7 +411,7 @@ export default function UIShowcasePage() {
             <ResponsiveTable
               data={tableData}
               columns={tableColumns}
-              onRowClick={(item) => alert(`点击了 ${item.name} 的行`)}
+              onRowClick={item => alert(`点击了 ${item.name} 的行`)}
             />
           </Card3d>
         </section>
@@ -416,5 +456,5 @@ export default function UIShowcasePage() {
         </section>
       </div>
     </PageTransition>
-  )
+  );
 }

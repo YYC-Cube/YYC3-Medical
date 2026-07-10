@@ -1,18 +1,18 @@
-import type { Metadata } from "next"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ColorSystem } from "@/components/brand/color-system"
-import { IconSystem } from "@/components/brand/icon-system"
-import { IllustrationSystem } from "@/components/brand/illustration-system"
-import { VoiceSystem } from "@/components/brand/voice-system"
-import { StorySystem } from "@/components/brand/story-system"
-import { UXConsistency } from "@/components/brand/ux-consistency"
-import { AssetManagement } from "@/components/brand/asset-management"
-import { Logo as BrandLogo } from "@/components/brand/logo"
+import type { Metadata } from 'next';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ColorSystem } from '@/components/brand/color-system';
+import { IconSystem } from '@/components/brand/icon-system';
+import { IllustrationSystem } from '@/components/brand/illustration-system';
+import { VoiceSystem } from '@/components/brand/voice-system';
+import { StorySystem } from '@/components/brand/story-system';
+import { UXConsistency } from '@/components/brand/ux-consistency';
+import { AssetManagement } from '@/components/brand/asset-management';
+import { Logo as BrandLogo } from '@/components/brand/logo';
 
 export const metadata: Metadata = {
-  title: "品牌系统 | 言语医枢³智能诊疗系统",
-  description: "言语医枢³智能诊疗系统的完整品牌系统，包括视觉系统、语音设计、品牌故事和资产管理",
-}
+  title: '品牌系统 | 言语医枢³智能诊疗系统',
+  description: '言语医枢³智能诊疗系统的完整品牌系统，包括视觉系统、语音设计、品牌故事和资产管理',
+};
 
 export default function BrandPage() {
   return (
@@ -73,5 +73,5 @@ export default function BrandPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

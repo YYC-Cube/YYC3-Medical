@@ -13,13 +13,12 @@ audience: architects,data-engineers,devops,platform-engineers
 complexity: advanced
 ---
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -34,12 +33,12 @@ complexity: advanced
 
 ---
 
-| 属性         | 值                                    |
-| ------------ | ------------------------------------- |
-| **文档版本** | v2.1.0 Draft                         |
-| **发布日期** | 2026-05-25                            |
-| **文档性质** | 架构设计方案（技术白皮书）            |
-| **适用范围** | YYC³ 全部13个验收阶段的数据整合       |
+| 属性         | 值                                        |
+| ------------ | ----------------------------------------- |
+| **文档版本** | v2.1.0 Draft                              |
+| **发布日期** | 2026-05-25                                |
+| **文档性质** | 架构设计方案（技术白皮书）                |
+| **适用范围** | YYC³ 全部13个验收阶段的数据整合           |
 | **技术栈**   | TypeScript + PostgreSQL + Redis + Grafana |
 
 </div>
@@ -51,6 +50,7 @@ complexity: advanced
 ### 核心使命
 
 构建**YYC³ 统一数据平台**，打通全部13个验收阶段的数据孤岛，实现：
+
 - **全局数据聚合** - 所有阶段产生的指标、报告、日志统一存储和查询
 - **实时可视化** - 提供全局质量仪表板，实时监控项目健康状态
 - **智能分析** - 跨阶段关联分析，发现深层问题和优化机会
@@ -120,24 +120,24 @@ complexity: advanced
 interface UnifiedDataPlatform {
   /** 数据采集器 */
   collectors: DataCollector[];
-  
+
   /** 数据处理器 */
   processors: DataProcessor[];
-  
+
   /** 存储引擎 */
   storage: {
     primary: PostgreSQLConfig;
     cache: RedisConfig;
     objectStorage: S3Config;
   };
-  
+
   /** 服务层 */
   services: {
     queryEngine: QueryEngine;
     alertEngine: AlertEngine;
     reportGenerator: ReportGenerator;
   };
-  
+
   /** 应用层 */
   applications: {
     grafanaDashboards: DashboardConfig[];
@@ -152,30 +152,30 @@ interface DataCollector {
   stageId: string; // 关联的验收阶段 (如 "stage-01", "stage-11")
   name: string; // 显示名称
   version: string;
-  
+
   /** 触发方式 */
   trigger: {
     type: 'event_driven' | 'scheduled' | 'manual';
     events?: string[]; // 如 ['pr.created', 'test.completed']
     schedule?: string; // Cron表达式
   };
-  
+
   /** 采集的数据类型 */
   dataTypes: DataType[];
-  
+
   /** 采集配置 */
   config: CollectorConfig;
 }
 
 /** 支持的数据类型 */
-type DataType = 
-  | 'metrics'          // 数值型指标 (覆盖率、响应时间等)
-  | 'logs'             // 日志文本
-  | 'events'           // 事件记录 (PR创建、测试通过等)
-  | 'reports'          // 结构化报告 (JSON/PDF)
-  | 'artifacts'        // 产物文件 (截图、日志文件)
-  | 'feedback'         // 用户反馈
-  | 'predictions';     // AI预测结果
+type DataType =
+  | 'metrics' // 数值型指标 (覆盖率、响应时间等)
+  | 'logs' // 日志文本
+  | 'events' // 事件记录 (PR创建、测试通过等)
+  | 'reports' // 结构化报告 (JSON/PDF)
+  | 'artifacts' // 产物文件 (截图、日志文件)
+  | 'feedback' // 用户反馈
+  | 'predictions'; // AI预测结果
 ```
 
 ---
@@ -195,7 +195,7 @@ interface Project {
   techStack: TechStackInfo;
   createdAt: Date;
   updatedAt: Date;
-  
+
   // 关联关系
   stages: AcceptanceStage[];
   runs: AcceptanceRun[];
@@ -208,10 +208,10 @@ interface AcceptanceStage {
   name: string;
   order: number; // 1-13
   category: 'foundation' | 'testing' | 'system' | 'intelligence';
-  
+
   config: StageConfig;
   thresholds: StageThresholds;
-  
+
   // 关联关系
   project: Project;
   runs: StageRun[];
@@ -222,17 +222,17 @@ interface AcceptanceRun {
   id: string;
   projectId: string;
   stageId: string;
-  
+
   status: 'running' | 'passed' | 'failed' | 'skipped' | 'error';
   startedAt: Date;
   completedAt?: Date;
   duration?: number; // ms
-  
+
   // 结果数据
   results: RunResults;
   artifacts: Artifact[];
   metadata: RunMetadata;
-  
+
   // 关联的度量指标
   metrics: MetricPoint[];
   logs: LogEntry[];
@@ -243,7 +243,7 @@ interface AcceptanceRun {
 interface RunResults {
   score: number; // 0-100
   grade: 'A' | 'B' | 'C' | 'D' | 'F';
-  
+
   criteriaResults: CriteriaResult[]; // 各检查项结果
   summary: string;
   findings: Finding[];
@@ -293,25 +293,25 @@ CREATE TABLE acceptance_runs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     project_id UUID REFERENCES projects(id),
     stage_id VARCHAR(20) REFERENCES acceptance_stages(id),
-    
+
     status VARCHAR(20) NOT NULL DEFAULT 'running',
     started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     completed_at TIMESTAMPTZ,
     duration_ms INT,
-    
+
     -- 结果摘要
     score INT CHECK (score >= 0 AND score <= 100),
     grade CHAR(1) CHECK (grade IN ('A', 'B', 'C', 'D', 'F')),
-    
+
     -- 详细结果 (JSONB)
     results JSONB,
-    
+
     -- 元数据
     triggered_by VARCHAR(100),
     commit_sha VARCHAR(40),
     branch_name VARCHAR(100),
     pr_number INT,
-    
+
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
@@ -353,15 +353,15 @@ abstract class BaseDataCollector extends EventEmitter {
   abstract readonly stageId: string;
   abstract readonly name: string;
   abstract readonly supportedDataTypes: DataType[];
-  
+
   protected config: CollectorConfig;
   private isRunning: boolean = false;
-  
+
   constructor(config: CollectorConfig) {
     super();
     this.config = config;
   }
-  
+
   /**
    * 初始化采集器
    */
@@ -370,7 +370,7 @@ abstract class BaseDataCollector extends EventEmitter {
     await this.onInitialize();
     this.isRunning = true;
   }
-  
+
   /**
    * 执行数据采集
    * @param context 采集上下文 (触发事件、项目信息等)
@@ -379,23 +379,23 @@ abstract class BaseDataCollector extends EventEmitter {
     if (!this.isRunning) {
       throw new Error(`采集器 ${this.name} 未初始化`);
     }
-    
+
     const startTime = Date.now();
     this.log('info', `开始采集数据: ${this.name}`, context);
-    
+
     try {
       // 1. 前置校验
       await this.validateContext(context);
-      
+
       // 2. 执行具体采集逻辑
       const rawData = await this.doCollect(context);
-      
+
       // 3. 数据标准化
       const normalizedData = await this.normalize(rawData);
-      
+
       // 4. 数据验证
       const validatedData = this.validate(normalizedData);
-      
+
       const duration = Date.now() - startTime;
       const result: CollectionResult = {
         success: true,
@@ -410,12 +410,13 @@ abstract class BaseDataCollector extends EventEmitter {
           normalizedDataSize: JSON.stringify(validatedData).length,
         },
       };
-      
+
       this.emit('collected', result);
-      this.log('info', `采集完成: ${this.name} (${duration}ms)`, { dataSize: validatedData.length });
-      
+      this.log('info', `采集完成: ${this.name} (${duration}ms)`, {
+        dataSize: validatedData.length,
+      });
+
       return result;
-      
     } catch (error) {
       const duration = Date.now() - startTime;
       const errorResult: CollectionResult = {
@@ -427,25 +428,25 @@ abstract class BaseDataCollector extends EventEmitter {
         error: error.message,
         metadata: { context },
       };
-      
+
       this.emit('error', errorResult);
       this.log('error', `采集失败: ${this.name}`, { error: error.message, duration });
-      
+
       return errorResult;
     }
   }
-  
+
   /** 子类实现的采集逻辑 */
   protected abstract doCollect(context: CollectionContext): Promise<RawData[]>;
-  
+
   /** 子类实现的初始化逻辑 */
   protected async onInitialize(): Promise<void> {}
-  
+
   /** 子类实现的上下文校验 */
   protected async validateContext(context: CollectionContext): Promise<void> {
     // 默认实现：无校验
   }
-  
+
   /** 数据标准化 */
   protected async normalize(rawData: RawData[]): Promise<NormalizedData[]> {
     return rawData.map(item => ({
@@ -455,7 +456,7 @@ abstract class BaseDataCollector extends EventEmitter {
       normalizedAt: new Date(),
     }));
   }
-  
+
   /** 数据验证 */
   private validate(data: NormalizedData[]): NormalizedData[] {
     return data.filter(item => {
@@ -466,12 +467,12 @@ abstract class BaseDataCollector extends EventEmitter {
       return isValid;
     });
   }
-  
+
   /** Schema验证 (子类可覆盖) */
   protected validateSchema(data: NormalizedData): boolean {
     return !!data && typeof data === 'object';
   }
-  
+
   /** 日志方法 */
   protected log(level: 'info' | 'warn' | 'error', message: string, data?: any): void {
     console.log(`[${level.toUpperCase()}] [${this.name}] ${message}`, data || '');
@@ -488,7 +489,7 @@ import { BaseDataCollector } from './base-collector';
 
 /**
  * 第一阶段（代码语法测试核验）数据采集器
- * 
+ *
  * 采集内容：
  * - TypeScript编译错误/警告
  * - ESLint检查结果
@@ -501,14 +502,14 @@ class CodeSyntaxCollector extends BaseDataCollector {
   readonly stageId = 'stage-01';
   readonly name = '代码语法测试核验采集器';
   readonly supportedDataTypes: DataType[] = ['metrics', 'logs', 'events'];
-  
+
   constructor(config: CollectorConfig) {
     super(config);
   }
-  
+
   protected async doCollect(context: CollectionContext): Promise<RawData[]> {
     const results: RawData[] = [];
-    
+
     // 1. 运行TypeScript类型检查
     const tscResult = await this.runTypeScriptCheck(context.projectPath);
     results.push({
@@ -521,7 +522,7 @@ class CodeSyntaxCollector extends BaseDataCollector {
         duration: tscResult.duration,
       },
     });
-    
+
     // 2. 运行ESLint检查
     const eslintResult = await this.runESLintCheck(context.projectPath);
     results.push({
@@ -535,7 +536,7 @@ class CodeSyntaxCollector extends BaseDataCollector {
         rules: eslintResult.results,
       },
     });
-    
+
     // 3. 收集JSDoc覆盖率
     const jsdocCoverage = await this.calculateJSDocCoverage(context.projectPath);
     results.push({
@@ -548,7 +549,7 @@ class CodeSyntaxCollector extends BaseDataCollector {
         undocumentedFunctions: jsdocCoverage.undocumented,
       },
     });
-    
+
     // 4. 记录事件
     results.push({
       type: 'events',
@@ -561,13 +562,13 @@ class CodeSyntaxCollector extends BaseDataCollector {
         context,
       },
     });
-    
+
     return results;
   }
-  
+
   private async runTypeScriptCheck(projectPath: string): Promise<TSCheckResult> {
     const { execSync } = require('child_process');
-    
+
     try {
       const startTime = Date.now();
       const output = execSync('npx tsc --noEmit --pretty false', {
@@ -575,11 +576,11 @@ class CodeSyntaxCollector extends BaseDataCollector {
         encoding: 'utf-8',
         timeout: 120000, // 2分钟超时
       });
-      
+
       const lines = output.split('\n').filter(line => line.trim());
       const errors = lines.filter(line => line.includes('error TS'));
       const warnings = []; // TSC不输出warnings
-      
+
       return {
         success: true,
         errors: errors.length,
@@ -588,7 +589,6 @@ class CodeSyntaxCollector extends BaseDataCollector {
         duration: Date.now() - startTime,
         details: errors,
       };
-      
     } catch (error: any) {
       // TSC返回非零退出码表示有错误
       return {
@@ -601,7 +601,7 @@ class CodeSyntaxCollector extends BaseDataCollector {
       };
     }
   }
-  
+
   // ... 其他私有方法的实现
 }
 ```
@@ -613,7 +613,7 @@ class CodeSyntaxCollector extends BaseDataCollector {
 
 /**
  * 第十一阶段（智能验收与AI赋能）数据采集器
- * 
+ *
  * 采集内容：
  * - AI代码审查结果
  * - 智能测试生成统计
@@ -626,14 +626,14 @@ class AIIntelligenceCollector extends BaseDataCollector {
   readonly stageId = 'stage-11';
   readonly name = '智能验收与AI赋能采集器';
   readonly supportedDataTypes: DataType[] = ['metrics', 'events', 'feedback', 'predictions'];
-  
+
   constructor(config: CollectorConfig) {
     super(config);
   }
-  
+
   protected async doCollect(context: CollectionContext): Promise<RawData[]> {
     const results: RawData[] = [];
-    
+
     // 1. AI代码审查效果数据
     const aiReviewStats = await this.collectAIReviewStats();
     results.push({
@@ -648,7 +648,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
         adoptionRate: aiReviewStats.adoptionRate,
       },
     });
-    
+
     // 2. 智能测试生成效果
     const testGenStats = await this.collectTestGenStats();
     results.push({
@@ -661,7 +661,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
         coverageImprovement: testGenStats.coverageGain,
       },
     });
-    
+
     // 3. 缺陷预测准确性
     const predictionAccuracy = await this.collectPredictionAccuracy();
     results.push({
@@ -675,7 +675,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
         highRiskModulesIdentified: predictionAccuracy.highRiskCount,
       },
     });
-    
+
     // 4. LLM使用统计（成本追踪）
     const llmUsage = await this.collectLLMUsage();
     results.push({
@@ -689,7 +689,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
         cacheHitRate: llmUsage.cacheHitRate,
       },
     });
-    
+
     // 5. 用户反馈汇总
     const feedbackSummary = await this.aggregateUserFeedback();
     results.push({
@@ -703,10 +703,10 @@ class AIIntelligenceCollector extends BaseDataCollector {
         featureRequests: feedbackSummary.requests,
       },
     });
-    
+
     return results;
   }
-  
+
   private async collectAIReviewStats(): Promise<AIReviewStatistics> {
     // 从数据库或缓存中查询最近的AI审查记录
     const recentReviews = await this.queryRecentRecords(
@@ -714,7 +714,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
       '7d', // 最近7天
       { projectId: this.config.projectId }
     );
-    
+
     return {
       total: recentReviews.length,
       avgTime: this.average(recentReviews.map(r => r.responseTimeMs)),
@@ -724,7 +724,7 @@ class AIIntelligenceCollector extends BaseDataCollector {
       adoptionRate: this.calculateAdoptionRate(recentReviews),
     };
   }
-  
+
   // ... 其他私有方法
 }
 ```
@@ -746,84 +746,83 @@ class ETLPipeline {
   private transformers: DataTransformer[];
   private loaders: DataLoader[];
   private validators: DataValidator[];
-  
+
   constructor(config: PipelineConfig) {
     this.collectors = new Map();
     this.transformers = [];
     this.loaders = [];
     this.validators = [];
-    
+
     this.initializeComponents(config);
   }
-  
+
   /**
    * 执行完整ETL流程
    */
   async execute(pipelineRun: PipelineRunContext): Promise<PipelineResult> {
     console.log(`🚀 开始执行ETL流水线: ${pipelineRun.id}`);
     const startTime = Date.now();
-    
+
     const result: PipelineResult = {
       runId: pipelineRun.id,
       status: 'running',
       startTime: new Date(),
       stages: {},
     };
-    
+
     try {
       // Stage 1: Extract (数据提取)
       console.log('📥 Stage 1: Extract - 数据提取');
       result.stages.extract = await this.executeExtract(pipelineRun);
-      
+
       // Stage 2: Transform (数据转换)
       console.log('🔄 Stage 2: Transform - 数据转换');
       result.stages.transform = await this.executeTransform(result.stages.extract.data);
-      
+
       // Stage 3: Validate (数据验证)
       console.log('✅ Stage 3: Validate - 数据验证');
       result.stages.validate = await this.executeValidate(result.stages.transform.data);
-      
+
       // Stage 4: Load (数据加载)
       console.log('💾 Stage 4: Load - 数据加载');
       result.stages.load = await this.executeLoad(result.stages.validate.validatedData);
-      
+
       // 完成
       result.status = 'completed';
       result.endTime = new Date();
       result.duration = Date.now() - startTime;
-      
+
       console.log(`✨ ETL流水线执行完成! 耗时: ${result.duration}ms`);
-      
+
       return result;
-      
     } catch (error) {
       result.status = 'failed';
       result.error = error.message;
       result.endTime = new Date();
       result.duration = Date.now() - startTime;
-      
+
       console.error(`❌ ETL流水线执行失败: ${error.message}`);
-      
+
       throw error;
     }
   }
-  
+
   private async executeExtract(context: PipelineRunContext): Promise<ExtractResult> {
     const extractedData: CollectedData[] = [];
     const errors: Error[] = [];
-    
+
     // 根据触发的阶段选择对应的采集器
     const targetCollectors = context.triggeredStages
       ? this.getCollectorsByStages(context.triggeredStages)
       : Array.from(this.collectors.values());
-    
+
     // 并行执行所有采集器
-    const collectionPromises = targetCollectors.map(collector => 
+    const collectionPromises = targetCollectors.map(collector =>
       collector.collect(context.collectionContext)
     );
-    
+
     const results = await Promise.allSettled(collectionPromises);
-    
+
     for (const result of results) {
       if (result.status === 'fulfilled') {
         if (result.value.success) {
@@ -835,7 +834,7 @@ class ETLPipeline {
         errors.push(result.reason);
       }
     }
-    
+
     return {
       success: errors.length === 0,
       data: extractedData,
@@ -844,14 +843,14 @@ class ETLPipeline {
       dataPointsCollected: extractedData.length,
     };
   }
-  
+
   private async executeTransform(rawData: NormalizedData[]): Promise<TransformResult> {
     let transformedData = [...rawData];
-    
+
     for (const transformer of this.transformers) {
       transformedData = await transformer.process(transformedData);
     }
-    
+
     return {
       inputSize: rawData.length,
       outputSize: transformedData.length,
@@ -859,11 +858,11 @@ class ETLPipeline {
       transformationsApplied: this.transformers.length,
     };
   }
-  
+
   private async executeValidate(data: NormalizedData[]): Promise<ValidateResult> {
     const validData: NormalizedData[] = [];
     const invalidData: InvalidData[] = [];
-    
+
     for (const validator of this.validators) {
       for (const item of data) {
         const validation = await validator.validate(item);
@@ -878,7 +877,7 @@ class ETLPipeline {
         }
       }
     }
-    
+
     return {
       totalItems: data.length,
       validItems: validData.length,
@@ -888,12 +887,10 @@ class ETLPipeline {
       invalidData,
     };
   }
-  
+
   private async executeLoad(data: NormalizedData[]): Promise<LoadResult> {
-    const loadResults = await Promise.all(
-      this.loader.map(loader => loader.load(data))
-    );
-    
+    const loadResults = await Promise.all(this.loader.map(loader => loader.load(data)));
+
     return {
       totalLoaded: loadResults.reduce((sum, r) => sum + r.loadedCount, 0),
       failedLoads: loadResults.reduce((sum, r) => sum + r.failedCount, 0),
@@ -914,20 +911,20 @@ class ETLPipeline {
  */
 class MetricNormalizer implements DataTransformer {
   readonly name = 'metric-normalizer';
-  
+
   async process(data: NormalizedData[]): Promise<NormalizedData[]> {
     return data.map(item => {
       if (item.type !== 'metrics') return item;
-      
+
       // 标准化指标名称
       const normalizedName = this.normalizeMetricName(item.data.source, item.data.metric);
-      
+
       // 标准化单位
       const normalizedUnit = this.normalizeUnit(item.data.unit);
-      
+
       // 标准化值
       const normalizedValue = this.normalizeValue(normalizedName, item.data.value);
-      
+
       return {
         ...item,
         data: {
@@ -940,31 +937,31 @@ class MetricNormalizer implements DataTransformer {
       };
     });
   }
-  
+
   private normalizeMetricName(source: string, rawName: string): string {
     // 映射表：将不同工具的指标名称映射为统一名称
     const mappings: Record<string, Record<string, string>> = {
       typescript: {
-        'errors': 'ts_type_errors',
-        'warnings': 'ts_warnings',
-        'filesChecked': 'ts_files_checked',
+        errors: 'ts_type_errors',
+        warnings: 'ts_warnings',
+        filesChecked: 'ts_files_checked',
       },
       eslint: {
-        'errors': 'eslint_errors',
-        'warnings': 'eslint_warnings',
-        'errorCount': 'eslint_errors',
-        'warningCount': 'eslint_warnings',
+        errors: 'eslint_errors',
+        warnings: 'eslint_warnings',
+        errorCount: 'eslint_errors',
+        warningCount: 'eslint_warnings',
       },
       vitest: {
-        'coverage': 'test_coverage_percent',
-        'passRate': 'test_pass_rate',
-        'duration': 'test_duration_ms',
+        coverage: 'test_coverage_percent',
+        passRate: 'test_pass_rate',
+        duration: 'test_duration_ms',
       },
     };
-    
+
     return mappings[source]?.[rawName] || rawName.toLowerCase().replace(/\s+/g, '_');
   }
-  
+
   private normalizeValue(metricName: string, value: number): number {
     // 特殊处理某些指标的值
     switch (metricName) {
@@ -996,58 +993,58 @@ class UnifiedQueryEngine {
   private postgresClient: PostgreSQLClient;
   private redisClient: RedisClient;
   private queryCache: LRUCache;
-  
+
   constructor(config: QueryEngineConfig) {
     this.postgresClient = new PostgreSQLClient(config.postgres);
     this.redisClient = new RedisClient(config.redis);
     this.queryCache = new LRUCache({ max: 1000, ttl: 300 }); // 5分钟缓存
   }
-  
+
   /**
    * 执行查询
    */
   async query(query: UnifiedQuery): Promise<QueryResult> {
     const cacheKey = this.generateCacheKey(query);
-    
+
     // 检查缓存
     const cached = this.queryCache.get(cacheKey);
     if (cached && !query.bypassCache) {
       return { ...cached, fromCache: true };
     }
-    
+
     // 解析并优化查询
     const optimizedQuery = this.optimizeQuery(query);
-    
+
     // 执行查询
     let result: QueryResult;
-    
+
     switch (optimizedQuery.type) {
       case 'metric_aggregation':
         result = await this.executeMetricQuery(optimizedQuery);
         break;
-        
+
       case 'trend_analysis':
         result = await this.executeTrendQuery(optimizedQuery);
         break;
-        
+
       case 'cross_stage_comparison':
         result = await this.executeCrossStageQuery(optimizedQuery);
         break;
-        
+
       case 'correlation_analysis':
         result = await this.executeCorrelationQuery(optimizedQuery);
         break;
-        
+
       default:
         throw new Error(`不支持的查询类型: ${optimizedQuery.type}`);
     }
-    
+
     // 更新缓存
     this.queryCache.set(cacheKey, result);
-    
+
     return { ...result, fromCache: false };
   }
-  
+
   /**
    * 示例查询：获取项目整体健康分数
    */
@@ -1063,12 +1060,12 @@ class UnifiedQueryEngine {
           metric: '*',
           operation: 'weighted_average',
           weights: {
-            'stage-01': 0.10, // 代码语法
+            'stage-01': 0.1, // 代码语法
             'stage-02': 0.15, // 功能逻辑
-            'stage-03': 0.10, // 测试用例
-            'stage-04': 0.10, // 组件测试
+            'stage-03': 0.1, // 测试用例
+            'stage-04': 0.1, // 组件测试
             'stage-05': 0.05, // 测试框架
-            'stage-06': 0.10, // 闭环验证
+            'stage-06': 0.1, // 闭环验证
             'stage-07': 0.08, // 数据调取
             'stage-08': 0.12, // 安全加固
             'stage-09': 0.05, // 高级功能
@@ -1079,10 +1076,10 @@ class UnifiedQueryEngine {
       ],
       groupBy: ['date'],
     };
-    
+
     return this.query(query) as Promise<HealthScoreResult>;
   }
-  
+
   /**
    * 示例查询：跨阶段相关性分析
    * 例如：分析代码覆盖率与缺陷数量的相关性
@@ -1105,7 +1102,7 @@ class UnifiedQueryEngine {
         significanceLevel: options.significanceLevel || 0.05,
       },
     };
-    
+
     return this.query(query) as Promise<CorrelationResult>;
   }
 }
@@ -1122,13 +1119,13 @@ class UnifiedQueryEngine {
  */
 export class PredefinedQueries {
   private queryEngine: UnifiedQueryEngine;
-  
+
   constructor(queryEngine: UnifiedQueryEngine) {
     this.queryEngine = queryEngine;
   }
-  
+
   // ========== 总览查询 ==========
-  
+
   /** 获取项目仪表板概览数据 */
   async getDashboardOverview(projectId: string): Promise<DashboardOverview> {
     const [healthScore, recentRuns, trend, alerts] = await Promise.all([
@@ -1137,7 +1134,7 @@ export class PredefinedQueries {
       this.getScoreTrend(projectId, { days: 90 }),
       this.getActiveAlerts(projectId),
     ]);
-    
+
     return {
       healthScore,
       recentRuns,
@@ -1146,9 +1143,9 @@ export class PredefinedQueries {
       lastUpdated: new Date(),
     };
   }
-  
+
   // ========== 阶段特定查询 ==========
-  
+
   /** 获取某个阶段的详细表现 */
   async getStagePerformance(
     projectId: string,
@@ -1160,7 +1157,7 @@ export class PredefinedQueries {
       this.getStageDetailedMetrics(projectId, stageId, timeRange),
       this.getStageCriticalFindings(projectId, stageId, timeRange),
     ]);
-    
+
     return {
       stageId,
       scores,
@@ -1169,9 +1166,9 @@ export class PredefinedQueries {
       comparisonWithPrevious: await this.compareWithPreviousPeriod(projectId, stageId),
     };
   }
-  
+
   // ========== AI专项查询 (第十一阶段) ==========
-  
+
   /** 获取AI能力成熟度评估 */
   async getAIMaturityAssessment(projectId: string): Promise<AIMaturityReport> {
     const [
@@ -1187,7 +1184,7 @@ export class PredefinedQueries {
       this.getUserFeedbackSummary(projectId, { days: 30 }),
       this.getAICostAnalysis(projectId, { days: 30 }),
     ]);
-    
+
     return {
       overallMaturity: this.calculateOverallMaturity([
         codeReviewEffectiveness,
@@ -1210,13 +1207,13 @@ export class PredefinedQueries {
       ]),
     };
   }
-  
+
   // ========== 高级分析查询 ==========
-  
+
   /** 质量门禁状态检查 */
   async checkQualityGates(projectId: string): Promise<QualityGateStatus> {
     const latestRuns = await this.getLatestCompletedRunsForAllStages(projectId);
-    
+
     const gateResults = latestRuns.map(run => ({
       stageId: run.stageId,
       passed: run.score >= run.thresholds.minimum,
@@ -1224,9 +1221,9 @@ export class PredefinedQueries {
       threshold: run.thresholds.minimum,
       grade: run.grade,
     }));
-    
+
     const allPassed = gateResults.every(gate => gate.passed);
-    
+
     return {
       overallPassed: allPassed,
       gates: gateResults,
@@ -1234,7 +1231,7 @@ export class PredefinedQueries {
       timestamp: new Date(),
     };
   }
-  
+
   /** 技术债务估算 */
   async estimateTechnicalDebt(projectId: string): Promise<TechnicalDebtEstimate> {
     const [codeQualityDebt, testDebt, securityDebt, performanceDebt] = await Promise.all([
@@ -1243,13 +1240,10 @@ export class PredefinedQueries {
       this.estimateSecurityDebt(projectId),
       this.estimatePerformanceDebt(projectId),
     ]);
-    
-    const totalRemediationHours = 
-      codeQualityDebt.hours +
-      testDebt.hours +
-      securityDebt.hours +
-      performanceDebt.hours;
-    
+
+    const totalRemediationHours =
+      codeQualityDebt.hours + testDebt.hours + securityDebt.hours + performanceDebt.hours;
+
     return {
       totalDebtHours: totalRemediationHours,
       estimatedCost: totalRemediationHours * 150, // $150/hour
@@ -1279,6 +1273,7 @@ export class PredefinedQueries {
 **目标**：建立数据平台基础框架
 
 **任务清单**：
+
 - [ ] 设计并实施数据库Schema
 - [ ] 开发BaseDataCollector抽象类
 - [ ] 实现阶段1-5的基础采集器（代码语法、功能逻辑、测试用例、组件测试、单元框架）
@@ -1286,6 +1281,7 @@ export class PredefinedQueries {
 - [ ] 实现基础的ETL流水线
 
 **交付物**：
+
 - 可运行的采集器框架
 - 数据库迁移脚本
 - 基础API端点（写入数据）
@@ -1297,6 +1293,7 @@ export class PredefinedQueries {
 **目标**：实现主要功能模块
 
 **任务清单**：
+
 - [ ] 完成剩余8个阶段的采集器
 - [ ] 实现UnifiedQueryEngine
 - [ ] 开发PredefinedQueries库
@@ -1304,6 +1301,7 @@ export class PredefinedQueries {
 - [ ] 实现告警引擎基础版
 
 **交付物**：
+
 - 完整的13阶段数据采集系统
 - 查询API文档
 - 初始Dashboard原型
@@ -1315,6 +1313,7 @@ export class PredefinedQueries {
 **目标**：集成AI能力，提升智能化水平
 
 **任务清单**：
+
 - [ ] 实现第十一阶段（AI智能验收）专用采集器
 - [ ] 开发跨阶段关联分析算法
 - [ ] 实现预测性分析模型
@@ -1322,6 +1321,7 @@ export class PredefinedQueries {
 - [ ] 集成自然语言查询接口（可选）
 
 **交付物**：
+
 - AI增强的数据分析能力
 - 智能推荐系统原型
 - 高级分析Dashboard
@@ -1333,6 +1333,7 @@ export class PredefinedQueries {
 **目标**：达到生产部署标准
 
 **任务清单**：
+
 - [ ] 性能优化（查询响应时间 < 500ms）
 - [ ] 安全加固（权限控制、数据加密）
 - [ ] 监控告警完善（平台自身监控）
@@ -1340,6 +1341,7 @@ export class PredefinedQueries {
 - [ ] 压力测试和容量规划
 
 **交付物**：
+
 - 生产级部署包
 - 完整文档体系
 - 运维SOP
@@ -1348,25 +1350,24 @@ export class PredefinedQueries {
 
 ## 📚 七、附录：关键技术选型
 
-| 组件 | 推荐方案 | 备选方案 | 选择理由 |
-|------|---------|---------|----------|
-| **数据库** | PostgreSQL 15+ | TimescaleDB, ClickHouse | 成熟稳定，JSON支持好，生态丰富 |
-| **缓存** | Redis 7+ | Memcached | 数据结构丰富，支持Pub/Sub |
-| **对象存储** | MinIO (自托管) | AWS S3, Aliyun OSS | 成本可控，兼容S3 API |
-| **可视化** | Grafana 10+ | Metabase, Superset | 插件生态强大，定制灵活 |
-| **消息队列** | RabbitMQ | Kafka, Redis Streams | 可靠性高，管理方便 |
-| **API网关** | Express + GraphQL | Fastify, Apollo | 与现有技术栈一致 |
-| **ORM** | Prisma | TypeORM, Drizzle | 类型安全，开发体验好 |
+| 组件         | 推荐方案          | 备选方案                | 选择理由                       |
+| ------------ | ----------------- | ----------------------- | ------------------------------ |
+| **数据库**   | PostgreSQL 15+    | TimescaleDB, ClickHouse | 成熟稳定，JSON支持好，生态丰富 |
+| **缓存**     | Redis 7+          | Memcached               | 数据结构丰富，支持Pub/Sub      |
+| **对象存储** | MinIO (自托管)    | AWS S3, Aliyun OSS      | 成本可控，兼容S3 API           |
+| **可视化**   | Grafana 10+       | Metabase, Superset      | 插件生态强大，定制灵活         |
+| **消息队列** | RabbitMQ          | Kafka, Redis Streams    | 可靠性高，管理方便             |
+| **API网关**  | Express + GraphQL | Fastify, Apollo         | 与现有技术栈一致               |
+| **ORM**      | Prisma            | TypeORM, Drizzle        | 类型安全，开发体验好           |
 
 ---
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -1374,13 +1375,12 @@ export class PredefinedQueries {
 
 </div>
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 

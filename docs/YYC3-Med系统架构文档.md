@@ -2,7 +2,7 @@
 
 > 本文档解释仓库的物理与逻辑架构，明确"静态导出"的边界，以及与未来后端的对接点。
 >
-> 最近更新：2026-07-06（对齐 v1.1.0 状态）
+> 最近更新：2026-07-10（对齐终极审核状态）
 
 ## 目录
 
@@ -67,16 +67,16 @@
 
 ### 项目指标（2026-07-06）
 
-| 指标 | 数值 |
-|------|------|
-| 路由数 | 112 个 `page.tsx` |
-| 组件数 | 441 个 `.tsx` |
-| 自定义 Hooks | 18 |
-| 业务服务 | 30（当前 mock 数据） |
-| Zustand Store | 2 |
-| React Context | 5 |
-| 测试 | 311 个用例，16 个套件 |
-| 代码行数 | ~121,000 行 TS/TSX |
+| 指标          | 数值                  |
+| ------------- | --------------------- |
+| 路由数        | 112 个 `page.tsx`     |
+| 组件数        | 441 个 `.tsx`         |
+| 自定义 Hooks  | 18                    |
+| 业务服务      | 30（当前 mock 数据）  |
+| Zustand Store | 2                     |
+| React Context | 5                     |
+| 测试          | 311 个用例，16 个套件 |
+| 代码行数      | ~121,000 行 TS/TSX    |
 
 ---
 
@@ -228,14 +228,14 @@ Theme → Language → Loading → UserAvatar → AutoTranslation
 
 仓库中保留以下"未来接入点"，当前均无运行时实现：
 
-| 位置 | 用途 | 接入方式 |
-|------|------|---------|
-| `lib/db.ts` | 数据库连接占位 | 接入真实后端时改为 Prisma/Drizzle/SQL client |
-| `lib/auth/jwt.ts`、`utils/jwt.ts` | JWT 工具 | 仅客户端工具，服务端验证需在后端实现 |
-| `prisma/schema.prisma` | 数据库 schema（MySQL） | 后端启动时 `prisma migrate` |
-| `services/search.ts` | Elasticsearch 客户端 | 后端搜索服务，前端不应直接连 |
-| `services/*-service.ts` | 各业务服务（30 个） | 当前为 mock 数据；接入后端时替换内部 fetch |
-| `components/RouteCheck.tsx` 等 | 包含 `// STATIC-EXPORT-NOTE` 注释 | 注释处替换为后端 API 调用 |
+| 位置                              | 用途                              | 接入方式                                     |
+| --------------------------------- | --------------------------------- | -------------------------------------------- |
+| `lib/db.ts`                       | 数据库连接占位                    | 接入真实后端时改为 Prisma/Drizzle/SQL client |
+| `lib/auth/jwt.ts`、`utils/jwt.ts` | JWT 工具                          | 仅客户端工具，服务端验证需在后端实现         |
+| `prisma/schema.prisma`            | 数据库 schema（MySQL）            | 后端启动时 `prisma migrate`                  |
+| `services/search.ts`              | Elasticsearch 客户端              | 后端搜索服务，前端不应直接连                 |
+| `services/*-service.ts`           | 各业务服务（30 个）               | 当前为 mock 数据；接入后端时替换内部 fetch   |
+| `components/RouteCheck.tsx` 等    | 包含 `// STATIC-EXPORT-NOTE` 注释 | 注释处替换为后端 API 调用                    |
 
 ---
 

@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { TestResults } from "./test-results"
+import { TestResults } from './test-results';
 
 export function TestResultsClient() {
-  return <TestResults />
+  return <TestResults />;
 }

@@ -1,19 +1,19 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useEffect, useRef } from "react"
-import { performanceMonitor, markUserInteraction } from "@/services/performance-monitoring-service"
+import { useEffect, useRef } from 'react';
+import { performanceMonitor, markUserInteraction } from '@/services/performance-monitoring-service';
 
 type EventTrackerProps = {
-  children: React.ReactNode
-  eventName: string
-  data?: Record<string, any>
-  trackMount?: boolean
-  trackUnmount?: boolean
-  trackClick?: boolean
-  trackHover?: boolean
-}
+  children: React.ReactNode;
+  eventName: string;
+  data?: Record<string, any>;
+  trackMount?: boolean;
+  trackUnmount?: boolean;
+  trackClick?: boolean;
+  trackHover?: boolean;
+};
 
 export default function EventTracker({
   children,
@@ -24,7 +24,7 @@ export default function EventTracker({
   trackClick = false,
   trackHover = false,
 }: EventTrackerProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 跟踪组件挂载
@@ -32,7 +32,7 @@ export default function EventTracker({
       performanceMonitor.trackEvent(`${eventName}:挂载`, {
         ...data,
         timestamp: Date.now(),
-      })
+      });
     }
 
     // 跟踪组件卸载
@@ -41,10 +41,10 @@ export default function EventTracker({
         performanceMonitor.trackEvent(`${eventName}:卸载`, {
           ...data,
           timestamp: Date.now(),
-        })
+        });
       }
-    }
-  }, [])
+    };
+  }, []);
 
   // 点击事件处理
   const handleClick = () => {
@@ -52,14 +52,14 @@ export default function EventTracker({
       performanceMonitor.trackEvent(`${eventName}:点击`, {
         ...data,
         timestamp: Date.now(),
-      })
+      });
 
       // 使用用户交互标记
-      const endMark = markUserInteraction(`${eventName}:点击`)
+      const endMark = markUserInteraction(`${eventName}:点击`);
       // 模拟处理时间
-      setTimeout(endMark, 100)
+      setTimeout(endMark, 100);
     }
-  }
+  };
 
   // 悬停事件处理
   const handleMouseEnter = () => {
@@ -67,22 +67,28 @@ export default function EventTracker({
       performanceMonitor.trackEvent(`${eventName}:悬停开始`, {
         ...data,
         timestamp: Date.now(),
-      })
+      });
     }
-  }
+  };
 
   const handleMouseLeave = () => {
     if (trackHover) {
       performanceMonitor.trackEvent(`${eventName}:悬停结束`, {
         ...data,
         timestamp: Date.now(),
-      })
+      });
     }
-  }
+  };
 
   return (
-    <div ref={ref} onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div
+      ref={ref}
+      onClick={handleClick}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleClick(); } }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      role="button" tabIndex={0}>
       {children}
     </div>
-  )
+  );
 }

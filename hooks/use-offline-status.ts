@@ -1,49 +1,52 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef, useState } from 'react';
 
 export function useOfflineStatus() {
-  const [isOnline, setIsOnline] = useState(true)
-  const [wasOffline, setWasOffline] = useState(false)
+  const [isOnline, setIsOnline] = useState(true);
+  const [wasOffline, setWasOffline] = useState(false);
+  const wasOfflineRef = useRef(false);
 
   useEffect(() => {
-    // Check initial online status
-    setIsOnline(navigator.onLine)
+    setIsOnline(navigator.onLine);
 
     const handleOnline = () => {
-      setIsOnline(true)
-      if (wasOffline) {
-        // Trigger sync when coming back online
-        if ("serviceWorker" in navigator && "SyncManager" in window) {
+      setIsOnline(true);
+      if (wasOfflineRef.current) {
+        if ('serviceWorker' in navigator && 'SyncManager' in window) {
           navigator.serviceWorker.ready
-            .then((registration) => {
-              return (registration as ServiceWorkerRegistration & {
-                sync: { register: (tag: string) => Promise<void> }
-              }).sync.register("background-sync")
+            .then(registration => {
+              return (
+                registration as ServiceWorkerRegistration & {
+                  sync: { register: (tag: string) => Promise<void> };
+                }
+              ).sync.register('background-sync');
             })
-            .catch(console.error)
+            .catch(console.error);
         }
-        setWasOffline(false)
+        setWasOffline(false);
+        wasOfflineRef.current = false;
       }
-    }
+    };
 
     const handleOffline = () => {
-      setIsOnline(false)
-      setWasOffline(true)
-    }
+      setIsOnline(false);
+      setWasOffline(true);
+      wasOfflineRef.current = true;
+    };
 
-    window.addEventListener("online", handleOnline)
-    window.addEventListener("offline", handleOffline)
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     return () => {
-      window.removeEventListener("online", handleOnline)
-      window.removeEventListener("offline", handleOffline)
-    }
-  }, [wasOffline])
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []); // 空依赖数组：事件监听器只挂载一次，通过 ref 同步最新状态
 
   return {
     isOnline,
     isOffline: !isOnline,
     wasOffline,
-  }
+  };
 }

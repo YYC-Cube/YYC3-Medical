@@ -1,23 +1,23 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
-import { CaseImageViewer } from "./case-image-viewer"
-import { CaseLabResults } from "./case-lab-results"
-import { CaseTreatmentTimeline } from "./case-treatment-timeline"
-import { CaseKnowledgePoints } from "./case-knowledge-points"
-import { CaseComments } from "./case-comments"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { caseLibraryService } from "../../services/case-library-service"
-import { knowledgeGraphService } from "../../services/knowledge-graph-service"
-import type { ClinicalCase } from "../../types/case-library"
-import type { GraphNode } from "../../types/knowledge-graph"
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import { CaseImageViewer } from './case-image-viewer';
+import { CaseLabResults } from './case-lab-results';
+import { CaseTreatmentTimeline } from './case-treatment-timeline';
+import { CaseKnowledgePoints } from './case-knowledge-points';
+import { CaseComments } from './case-comments';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { caseLibraryService } from '../../services/case-library-service';
+import { knowledgeGraphService } from '../../services/knowledge-graph-service';
+import type { ClinicalCase } from '../../types/case-library';
+import type { GraphNode } from '../../types/knowledge-graph';
 import {
   ArrowLeft,
   Calendar,
@@ -36,107 +36,107 @@ import {
   Pill,
   Lightbulb,
   ChevronRight,
-} from "lucide-react"
+} from 'lucide-react';
 
 interface CaseDetailProps {
-  caseId: string
-  onBack?: () => void
-  onNodeClick?: (nodeId: string) => void
+  caseId: string;
+  onBack?: () => void;
+  onNodeClick?: (nodeId: string) => void;
 }
 
 export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
-  const router = useRouter()
-  const [clinicalCase, setClinicalCase] = useState<ClinicalCase | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [relatedNodes, setRelatedNodes] = useState<GraphNode[]>([])
-  const [activeTab, setActiveTab] = useState("overview")
+  const router = useRouter();
+  const [clinicalCase, setClinicalCase] = useState<ClinicalCase | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [relatedNodes, setRelatedNodes] = useState<GraphNode[]>([]);
+  const [activeTab, setActiveTab] = useState('overview');
 
   // 加载病例数据
   useEffect(() => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
 
     try {
       // 获取病例详情
-      const caseData = caseLibraryService.getCaseById(caseId)
+      const caseData = caseLibraryService.getCaseById(caseId);
       if (caseData) {
-        setClinicalCase(caseData)
+        setClinicalCase(caseData);
 
         // 获取关联的知识图谱节点
         if (caseData.relatedNodeIds && caseData.relatedNodeIds.length > 0) {
           const nodes = caseData.relatedNodeIds
-            .map((nodeId) => {
+            .map(nodeId => {
               try {
-                return knowledgeGraphService.getNodeById("graph-1", nodeId)
+                return knowledgeGraphService.getNodeById('graph-1', nodeId);
               } catch (err) {
-                console.error(`获取节点 ${nodeId} 失败:`, err)
-                return null
+                console.error(`获取节点 ${nodeId} 失败:`, err);
+                return null;
               }
             })
-            .filter((node): node is GraphNode => node !== null)
+            .filter((node): node is GraphNode => node !== null);
 
-          setRelatedNodes(nodes)
+          setRelatedNodes(nodes);
         }
       } else {
-        setError("未找到指定的病例")
+        setError('未找到指定的病例');
       }
     } catch (err) {
-      console.error("加载病例数据失败:", err)
-      setError("加载病例数据失败，请稍后重试")
+      console.error('加载病例数据失败:', err);
+      setError('加载病例数据失败，请稍后重试');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [caseId])
+  }, [caseId]);
 
   // 处理返回
   const handleBack = () => {
     if (onBack) {
-      onBack()
+      onBack();
     } else {
-      router.back()
+      router.back();
     }
-  }
+  };
 
   // 处理知识图谱节点点击
   const handleNodeClick = (nodeId: string) => {
     if (onNodeClick) {
-      onNodeClick(nodeId)
+      onNodeClick(nodeId);
     } else {
       // 导航到知识图谱页面并聚焦到指定节点
-      router.push(`/knowledge-graph?focusNode=${nodeId}`)
+      router.push(`/knowledge-graph?focusNode=${nodeId}`);
     }
-  }
+  };
 
   // 获取严重程度的颜色
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case "轻度":
-        return "bg-green-100 text-green-800"
-      case "中度":
-        return "bg-yellow-100 text-yellow-800"
-      case "重度":
-        return "bg-orange-100 text-orange-800"
-      case "危重":
-        return "bg-red-100 text-red-800"
+      case '轻度':
+        return 'bg-success/10 text-success';
+      case '中度':
+        return 'bg-warning text-warning';
+      case '重度':
+        return 'bg-warning text-warning';
+      case '危重':
+        return 'bg-destructive text-destructive';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   // 获取状态的颜色
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "进行中":
-        return "bg-blue-100 text-blue-800"
-      case "已完成":
-        return "bg-green-100 text-green-800"
-      case "已归档":
-        return "bg-gray-100 text-gray-800"
+      case '进行中':
+        return 'bg-primary/10 text-primary';
+      case '已完成':
+        return 'bg-success/10 text-success';
+      case '已归档':
+        return 'bg-muted text-foreground';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   // 渲染加载状态
   if (loading) {
@@ -144,27 +144,27 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
       <div className="flex items-center justify-center h-96">
         <div className="text-center">
           <LoadingSpinner className="h-12 w-12 mx-auto mb-4" />
-          <p className="text-gray-500">正在加载病例详情...</p>
+          <p className="text-muted-foreground">正在加载病例详情...</p>
         </div>
       </div>
-    )
+    );
   }
 
   // 渲染错误状态
   if (error || !clinicalCase) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="text-center text-red-500">
+        <div className="text-center text-destructive">
           <AlertTriangle className="h-12 w-12 mx-auto mb-4" />
           <p className="text-xl mb-2">加载失败</p>
-          <p>{error || "未找到病例数据"}</p>
+          <p>{error || '未找到病例数据'}</p>
           <Button variant="outline" className="mt-4" onClick={handleBack}>
             <ArrowLeft className="h-4 w-4 mr-2" />
             返回
           </Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -197,19 +197,21 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
 
       {/* 病例标题和基本信息 */}
       <Card className="mb-6 shadow-md overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
+        <CardHeader className="bg-gradient-to-r from-medical-50 to-white border-b border-medical-100">
           <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
             <div>
-              <CardTitle className="text-2xl text-blue-800">{clinicalCase.title}</CardTitle>
+              <CardTitle className="text-2xl text-primary">{clinicalCase.title}</CardTitle>
               <CardDescription className="mt-2">
                 <span className="font-medium">主要诊断：</span>
                 {clinicalCase.diagnosis.primary}
               </CardDescription>
               <div className="flex flex-wrap gap-2 mt-3">
-                <Badge className={getSeverityColor(clinicalCase.severity)}>{clinicalCase.severity}</Badge>
+                <Badge className={getSeverityColor(clinicalCase.severity)}>
+                  {clinicalCase.severity}
+                </Badge>
                 <Badge className={getStatusColor(clinicalCase.status)}>{clinicalCase.status}</Badge>
                 <Badge variant="outline">{clinicalCase.type}</Badge>
-                {clinicalCase.tags.map((tag) => (
+                {clinicalCase.tags.map(tag => (
                   <Badge
                     key={tag.id}
                     style={{ backgroundColor: `${tag.color}20`, color: tag.color }}
@@ -222,29 +224,29 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
             </div>
             <div className="flex flex-col gap-2 text-sm">
               <div className="flex items-center">
-                <User className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-gray-700">
+                <User className="h-4 w-4 mr-2 text-muted-foreground" />
+                <span className="text-foreground">
                   <span className="font-medium">创建者：</span>
                   {clinicalCase.createdBy.name} ({clinicalCase.createdBy.role})
                 </span>
               </div>
               <div className="flex items-center">
-                <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-gray-700">
+                <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
+                <span className="text-foreground">
                   <span className="font-medium">创建日期：</span>
                   {new Date(clinicalCase.createdAt).toLocaleDateString()}
                 </span>
               </div>
               <div className="flex items-center">
-                <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-gray-700">
+                <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                <span className="text-foreground">
                   <span className="font-medium">更新日期：</span>
                   {new Date(clinicalCase.updatedAt).toLocaleDateString()}
                 </span>
               </div>
               <div className="flex items-center">
-                <Eye className="h-4 w-4 mr-2 text-gray-500" />
-                <span className="text-gray-700">
+                <Eye className="h-4 w-4 mr-2 text-muted-foreground" />
+                <span className="text-foreground">
                   <span className="font-medium">查看次数：</span>
                   {clinicalCase.viewCount}
                 </span>
@@ -265,23 +267,24 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
             <CardContent>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-500">年龄</p>
+                  <p className="text-sm text-muted-foreground">年龄</p>
                   <p className="font-medium">{clinicalCase.patientInfo.age} 岁</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">性别</p>
+                  <p className="text-sm text-muted-foreground">性别</p>
                   <p className="font-medium">{clinicalCase.patientInfo.gender}</p>
                 </div>
                 {clinicalCase.patientInfo.occupation && (
                   <div>
-                    <p className="text-sm text-gray-500">职业</p>
+                    <p className="text-sm text-muted-foreground">职业</p>
                     <p className="font-medium">{clinicalCase.patientInfo.occupation}</p>
                   </div>
                 )}
                 <Separator />
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">既往病史</p>
-                  {clinicalCase.patientInfo.medicalHistory && clinicalCase.patientInfo.medicalHistory.length > 0 ? (
+                  <p className="text-sm text-muted-foreground mb-1">既往病史</p>
+                  {clinicalCase.patientInfo.medicalHistory &&
+                  clinicalCase.patientInfo.medicalHistory.length > 0 ? (
                     <ul className="list-disc list-inside text-sm">
                       {clinicalCase.patientInfo.medicalHistory.map((history, index) => (
                         <li key={index}>{history}</li>
@@ -292,8 +295,9 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
                   )}
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">家族史</p>
-                  {clinicalCase.patientInfo.familyHistory && clinicalCase.patientInfo.familyHistory.length > 0 ? (
+                  <p className="text-sm text-muted-foreground mb-1">家族史</p>
+                  {clinicalCase.patientInfo.familyHistory &&
+                  clinicalCase.patientInfo.familyHistory.length > 0 ? (
                     <ul className="list-disc list-inside text-sm">
                       {clinicalCase.patientInfo.familyHistory.map((history, index) => (
                         <li key={index}>{history}</li>
@@ -304,8 +308,9 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
                   )}
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">过敏史</p>
-                  {clinicalCase.patientInfo.allergies && clinicalCase.patientInfo.allergies.length > 0 ? (
+                  <p className="text-sm text-muted-foreground mb-1">过敏史</p>
+                  {clinicalCase.patientInfo.allergies &&
+                  clinicalCase.patientInfo.allergies.length > 0 ? (
                     <ul className="list-disc list-inside text-sm">
                       {clinicalCase.patientInfo.allergies.map((allergy, index) => (
                         <li key={index}>{allergy}</li>
@@ -324,17 +329,18 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
             <Card className="shadow-md mt-6">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center">
-                  <Network className="h-5 w-5 mr-2 text-blue-600" />
+                  <Network className="h-5 w-5 mr-2 text-primary" />
                   知识图谱关联
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[200px]">
                   <div className="space-y-3">
-                    {relatedNodes.map((node) => (
+                    {relatedNodes.map(node => (
                       <div
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
                         key={node.id}
-                        className="p-2 border border-gray-100 rounded-md hover:bg-blue-50 cursor-pointer transition-colors"
+                        className="p-2 border border-border rounded-md hover:bg-primary/5 cursor-pointer transition-colors"
                         onClick={() => handleNodeClick(node.id)}
                       >
                         <div className="flex justify-between items-center">
@@ -344,7 +350,7 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
                               {node.type}
                             </Badge>
                           </div>
-                          <ChevronRight className="h-4 w-4 text-gray-400" />
+                          <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
                         </div>
                       </div>
                     ))}
@@ -354,7 +360,7 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
                   variant="outline"
                   size="sm"
                   className="w-full mt-4"
-                  onClick={() => router.push("/knowledge-graph")}
+                  onClick={() => router.push('/knowledge-graph')}
                 >
                   查看完整知识图谱
                 </Button>
@@ -420,16 +426,17 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
                           <p className="font-medium">主要诊断：</p>
                           <p>{clinicalCase.diagnosis.primary}</p>
                         </div>
-                        {clinicalCase.diagnosis.differential && clinicalCase.diagnosis.differential.length > 0 && (
-                          <div>
-                            <p className="font-medium">鉴别诊断：</p>
-                            <ul className="list-disc list-inside">
-                              {clinicalCase.diagnosis.differential.map((diagnosis, index) => (
-                                <li key={index}>{diagnosis}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
+                        {clinicalCase.diagnosis.differential &&
+                          clinicalCase.diagnosis.differential.length > 0 && (
+                            <div>
+                              <p className="font-medium">鉴别诊断：</p>
+                              <ul className="list-disc list-inside">
+                                {clinicalCase.diagnosis.differential.map((diagnosis, index) => (
+                                  <li key={index}>{diagnosis}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
                         {clinicalCase.diagnosis.icd10Code && (
                           <div>
                             <p className="font-medium">ICD-10编码：</p>
@@ -465,16 +472,22 @@ export function CaseDetail({ caseId, onBack, onNodeClick }: CaseDetailProps) {
 
             {/* 治疗标签页 */}
             <TabsContent value="treatment" className="mt-0">
-              <CaseTreatmentTimeline treatments={clinicalCase.treatments} followUps={clinicalCase.followUps} />
+              <CaseTreatmentTimeline
+                treatments={clinicalCase.treatments}
+                followUps={clinicalCase.followUps}
+              />
             </TabsContent>
 
             {/* 知识点标签页 */}
             <TabsContent value="knowledge" className="mt-0">
-              <CaseKnowledgePoints knowledgePoints={clinicalCase.knowledgePoints} onNodeClick={handleNodeClick} />
+              <CaseKnowledgePoints
+                knowledgePoints={clinicalCase.knowledgePoints}
+                onNodeClick={handleNodeClick}
+              />
             </TabsContent>
           </Tabs>
         </div>
       </div>
     </div>
-  )
+  );
 }

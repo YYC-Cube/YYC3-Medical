@@ -1,159 +1,179 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Eye, EyeOff, Lock, Mail, AlertCircle, Shield, CheckCircle } from "lucide-react"
-import Link from "next/link"
-import { useAuthStore } from "@/store/useAuthStore"
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useAuthStore } from '@/store/useAuthStore';
+import { AlertCircle, CheckCircle, Eye, EyeOff, Lock, Mail, Shield } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface LoginFormProps {
-  onSuccess?: () => void
+  onSuccess?: () => void;
 }
 
 // 静态导出演示模式下的本地演示账户。
-// 真实环境请接入后端 /auth/login 接口并移除此清单。
-const DEMO_ACCOUNTS = [
-  { email: "admin@yanyucloud.com", password: "admin123", name: "系统管理员", role: "admin" },
-  { email: "doctor@yanyucloud.com", password: "doctor123", name: "张医生", role: "doctor" },
-  { email: "nurse@yanyucloud.com", password: "nurse123", name: "李护士", role: "nurse" },
-] as const
+// 安全策略：
+//   1. 仅在 NEXT_PUBLIC_DEMO_MODE === 'true' 时激活
+//   2. 密码通过 NEXT_PUBLIC_DEMO_* 环境变量注入，不硬编码于源码
+//   3. 真实环境请接入后端 /auth/login 接口并彻底移除此段代码
+const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === 'true';
+
+const DEMO_ACCOUNTS = DEMO_MODE
+  ? [
+    { email: 'admin@yanyucloud.com', password: process.env.NEXT_PUBLIC_DEMO_ADMIN_PWD || '', name: '系统管理员', role: 'admin' },
+    { email: 'doctor@yanyucloud.com', password: process.env.NEXT_PUBLIC_DEMO_DOCTOR_PWD || '', name: '张医生', role: 'doctor' },
+    { email: 'nurse@yanyucloud.com', password: process.env.NEXT_PUBLIC_DEMO_NURSE_PWD || '', name: '李护士', role: 'nurse' },
+  ].filter(a => a.password) // 仅保留配置了密码的账户
+  : [];
 
 export function LoginForm({ onSuccess }: LoginFormProps) {
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
-  const router = useRouter()
-  const login = useAuthStore((state) => state.login)
-  const setErrorState = useAuthStore((state) => state.setError)
+    email: '',
+    password: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const router = useRouter();
+  const login = useAuthStore(state => state.login);
+  const setErrorState = useAuthStore(state => state.setError);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setError("")
-    setSuccess("")
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    setSuccess('');
 
     // 基本验证
     if (!formData.email || !formData.password) {
-      setError("请填写完整的邮箱和密码")
-      setIsLoading(false)
-      return
+      setError('请填写完整的邮箱和密码');
+      setIsLoading(false);
+      return;
     }
 
-    if (!formData.email.includes("@")) {
-      setError("请输入有效的邮箱地址")
-      setIsLoading(false)
-      return
+    if (!formData.email.includes('@')) {
+      setError('请输入有效的邮箱地址');
+      setIsLoading(false);
+      return;
     }
 
     // 模拟网络延迟
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     try {
+      if (DEMO_ACCOUNTS.length === 0) {
+        setError('演示模式未启用。请配置 NEXT_PUBLIC_DEMO_MODE=true 或接入后端认证服务。');
+        setIsLoading(false);
+        return;
+      }
+
       // 查找演示账户
-      const account = DEMO_ACCOUNTS.find((u) => u.email === formData.email)
+      const account = DEMO_ACCOUNTS.find(u => u.email === formData.email);
 
       if (!account) {
-        setError("邮箱地址不存在，请检查邮箱是否正确或先注册账户")
-        setIsLoading(false)
-        return
+        setError('邮箱地址不存在，请检查邮箱是否正确或先注册账户');
+        setIsLoading(false);
+        return;
       }
 
       // 验证密码
       if (account.password !== formData.password) {
-        setError("密码错误，请检查密码是否正确")
-        setIsLoading(false)
-        return
+        setError('密码错误，请检查密码是否正确');
+        setIsLoading(false);
+        return;
       }
 
       // 登录成功
-      setSuccess("登录成功！正在跳转...")
+      setSuccess('登录成功！正在跳转...');
 
-      const now = new Date().toISOString()
+      const now = new Date().toISOString();
       const user = {
         id: `${Date.now()}`,
         email: account.email,
         name: account.name,
-        phone: "",
+        phone: '',
         role: account.role,
         createdAt: now,
-      }
+      };
       // 静态演示模式：使用时间戳作为本地会话令牌
-      const token = `demo-token-${Date.now()}`
+      const token = `demo-token-${Date.now()}`;
 
       // 写入全局认证状态（持久化到 localStorage）
-      login(token, user)
+      login(token, user);
 
       // 触发成功回调
-      onSuccess?.()
+      onSuccess?.();
 
       // 延迟跳转以显示成功消息，跳转至实际存在的控制台路由
       setTimeout(() => {
-        router.push("/admin")
-      }, 1500)
+        router.push('/admin');
+      }, 1500);
     } catch (err) {
-      setError("系统错误，请稍后重试")
-      setErrorState(err instanceof Error ? err.message : "登录失败")
+      setError('系统错误，请稍后重试');
+      setErrorState(err instanceof Error ? err.message : '登录失败');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
+    const { name, value } = e.target;
+    setFormData(prev => ({
       ...prev,
       [name]: value,
-    }))
+    }));
     // 清除错误信息当用户开始输入时
-    if (error) setError("")
-    if (success) setSuccess("")
-  }
+    if (error) setError('');
+    if (success) setSuccess('');
+  };
 
   return (
-    <Card className="w-full max-w-md mx-auto border-blue-200 shadow-xl bg-white/95 backdrop-blur-sm">
-      <CardHeader className="space-y-1 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-t-lg border-b border-blue-100">
+    <Card className="w-full max-w-md mx-auto border-border shadow-xl bg-card/95 backdrop-blur-sm">
+      <CardHeader className="space-y-1 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-t-lg border-b border-border">
         <div className="flex items-center justify-center mb-2">
-          <Shield className="h-6 w-6 text-blue-600 mr-2" />
-          <CardTitle className="text-2xl font-bold text-center text-blue-800">安全登录</CardTitle>
+          <Shield className="h-6 w-6 text-primary mr-2" />
+          <CardTitle className="text-2xl font-bold text-center text-foreground">安全登录</CardTitle>
         </div>
-        <CardDescription className="text-center text-blue-600">
+        <CardDescription className="text-center text-muted-foreground">
           输入您的邮箱和密码来访问您的医疗管理账户
         </CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4 p-6">
           {error && (
-            <Alert variant="destructive" className="border-red-200 bg-red-50">
-              <AlertCircle className="h-4 w-4 text-red-600" />
-              <AlertDescription className="text-red-700">{error}</AlertDescription>
+            <Alert variant="destructive" className="border-destructive/50 bg-destructive/10">
+              <AlertCircle className="h-4 w-4 text-destructive" />
+              <AlertDescription className="text-destructive">{error}</AlertDescription>
             </Alert>
           )}
 
           {success && (
-            <Alert className="border-green-200 bg-green-50">
-              <CheckCircle className="h-4 w-4 text-green-600" />
-              <AlertDescription className="text-green-700">{success}</AlertDescription>
+            <Alert className="border-success/50 bg-success/10">
+              <CheckCircle className="h-4 w-4 text-success" />
+              <AlertDescription className="text-success">{success}</AlertDescription>
             </Alert>
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-blue-700 font-medium">
+            <Label htmlFor="email" className="text-foreground font-medium">
               邮箱地址
             </Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3 h-4 w-4 text-blue-500" />
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-primary/60" />
               <Input
                 id="email"
                 name="email"
@@ -161,7 +181,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
                 placeholder="请输入您的邮箱"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="pl-10 border-blue-200 focus:border-blue-500 focus:ring-blue-500"
+                className="pl-10"
                 required
                 disabled={isLoading}
               />
@@ -169,19 +189,19 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-blue-700 font-medium">
+            <Label htmlFor="password" className="text-foreground font-medium">
               密码
             </Label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3 h-4 w-4 text-blue-500" />
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-primary/60" />
               <Input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 placeholder="请输入您的密码"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="pl-10 pr-10 border-blue-200 focus:border-blue-500 focus:ring-blue-500"
+                className="pl-10 pr-10"
                 required
                 disabled={isLoading}
               />
@@ -189,7 +209,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-blue-50 text-blue-500"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-accent text-muted-foreground"
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isLoading}
               >
@@ -201,16 +221,16 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           <div className="flex items-center justify-between">
             <Link
               href="/forgot-password"
-              className="text-sm text-blue-600 hover:text-blue-800 hover:underline font-medium"
+              className="text-sm text-primary hover:text-primary/80 hover:underline font-medium"
             >
               忘记密码？
             </Link>
           </div>
 
           {/* 演示账户提示（仅静态演示模式展示） */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <p className="text-xs text-blue-700 font-medium mb-1">演示账户（静态导出模式）：</p>
-            <div className="text-xs text-blue-600 space-y-1">
+          <div className="bg-muted/50 border border-border rounded-lg p-3">
+            <p className="text-xs text-foreground font-medium mb-1">演示账户（静态导出模式）：</p>
+            <div className="text-xs text-muted-foreground space-y-1">
               <div>管理员: admin@yanyucloud.com / admin123</div>
               <div>医生: doctor@yanyucloud.com / doctor123</div>
               <div>护士: nurse@yanyucloud.com / nurse123</div>
@@ -221,27 +241,30 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <CardFooter className="flex flex-col space-y-4 p-6 pt-0">
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-medium shadow-lg"
+            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground font-medium shadow-lg"
             disabled={isLoading}
           >
             {isLoading ? (
               <div className="flex items-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
                 验证中...
               </div>
             ) : (
-              "安全登录"
+              '安全登录'
             )}
           </Button>
 
-          <div className="text-center text-sm text-blue-600">
-            还没有账户？{" "}
-            <Link href="/register" className="text-blue-700 hover:text-blue-900 hover:underline font-medium">
+          <div className="text-center text-sm text-muted-foreground">
+            还没有账户？{' '}
+            <Link
+              href="/register"
+              className="text-primary hover:text-primary/80 hover:underline font-medium"
+            >
               立即注册
             </Link>
           </div>
         </CardFooter>
       </form>
     </Card>
-  )
+  );
 }

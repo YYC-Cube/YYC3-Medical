@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { PasswordChangeForm } from "./password-change-form"
-import { TwoFactorAuth } from "./two-factor-auth"
-import { LoginDevices } from "./login-devices"
-import { LoginHistory } from "./login-history"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { PasswordChangeForm } from './password-change-form';
+import { TwoFactorAuth } from './two-factor-auth';
+import { LoginDevices } from './login-devices';
+import { LoginHistory } from './login-history';
 
 export function AccountSecurityClient() {
   return (
@@ -32,5 +32,5 @@ export function AccountSecurityClient() {
         <LoginHistory />
       </TabsContent>
     </Tabs>
-  )
+  );
 }

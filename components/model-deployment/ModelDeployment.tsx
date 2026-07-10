@@ -1,13 +1,19 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import {
   Cloud,
   Server,
@@ -20,19 +26,19 @@ import {
   Settings,
   Play,
   Pause,
-} from "lucide-react"
+} from 'lucide-react';
 
 // 模拟数据
 const deployments = [
   {
-    id: "dep-001",
-    name: "生产环境",
-    status: "running",
-    model: "MediNexus-v3.2",
-    version: "3.2.5",
-    environment: "production",
-    deployedAt: "2025-04-15 09:30:22",
-    lastUpdated: "2025-05-10 14:22:45",
+    id: 'dep-001',
+    name: '生产环境',
+    status: 'running',
+    model: 'MediNexus-v3.2',
+    version: '3.2.5',
+    environment: 'production',
+    deployedAt: '2025-04-15 09:30:22',
+    lastUpdated: '2025-05-10 14:22:45',
     metrics: {
       requests: 12450,
       avgResponseTime: 120,
@@ -42,14 +48,14 @@ const deployments = [
     },
   },
   {
-    id: "dep-002",
-    name: "测试环境",
-    status: "running",
-    model: "MediNexus-v3.3-beta",
-    version: "3.3.0-beta.2",
-    environment: "staging",
-    deployedAt: "2025-05-05 11:15:30",
-    lastUpdated: "2025-05-18 08:45:12",
+    id: 'dep-002',
+    name: '测试环境',
+    status: 'running',
+    model: 'MediNexus-v3.3-beta',
+    version: '3.3.0-beta.2',
+    environment: 'staging',
+    deployedAt: '2025-05-05 11:15:30',
+    lastUpdated: '2025-05-18 08:45:12',
     metrics: {
       requests: 3240,
       avgResponseTime: 115,
@@ -59,14 +65,14 @@ const deployments = [
     },
   },
   {
-    id: "dep-003",
-    name: "开发环境",
-    status: "stopped",
-    model: "MediNexus-v3.4-dev",
-    version: "3.4.0-dev.5",
-    environment: "development",
-    deployedAt: "2025-05-12 15:40:18",
-    lastUpdated: "2025-05-17 22:10:33",
+    id: 'dep-003',
+    name: '开发环境',
+    status: 'stopped',
+    model: 'MediNexus-v3.4-dev',
+    version: '3.4.0-dev.5',
+    environment: 'development',
+    deployedAt: '2025-05-12 15:40:18',
+    lastUpdated: '2025-05-17 22:10:33',
     metrics: {
       requests: 850,
       avgResponseTime: 108,
@@ -75,24 +81,34 @@ const deployments = [
       uptime: 98.75,
     },
   },
-]
+];
 
 const modelVersions = [
-  { id: "v-001", name: "MediNexus-v3.2", version: "3.2.5", status: "stable" },
-  { id: "v-002", name: "MediNexus-v3.3-beta", version: "3.3.0-beta.2", status: "beta" },
-  { id: "v-003", name: "MediNexus-v3.4-dev", version: "3.4.0-dev.5", status: "development" },
-  { id: "v-004", name: "MediNexus-v3.1", version: "3.1.8", status: "deprecated" },
-]
+  { id: 'v-001', name: 'MediNexus-v3.2', version: '3.2.5', status: 'stable' },
+  { id: 'v-002', name: 'MediNexus-v3.3-beta', version: '3.3.0-beta.2', status: 'beta' },
+  { id: 'v-003', name: 'MediNexus-v3.4-dev', version: '3.4.0-dev.5', status: 'development' },
+  { id: 'v-004', name: 'MediNexus-v3.1', version: '3.1.8', status: 'deprecated' },
+];
 
 const environments = [
-  { id: "env-001", name: "生产环境", type: "production", resources: { cpu: 8, memory: 32, gpu: 2 } },
-  { id: "env-002", name: "测试环境", type: "staging", resources: { cpu: 4, memory: 16, gpu: 1 } },
-  { id: "env-003", name: "开发环境", type: "development", resources: { cpu: 2, memory: 8, gpu: 1 } },
-]
+  {
+    id: 'env-001',
+    name: '生产环境',
+    type: 'production',
+    resources: { cpu: 8, memory: 32, gpu: 2 },
+  },
+  { id: 'env-002', name: '测试环境', type: 'staging', resources: { cpu: 4, memory: 16, gpu: 1 } },
+  {
+    id: 'env-003',
+    name: '开发环境',
+    type: 'development',
+    resources: { cpu: 2, memory: 8, gpu: 1 },
+  },
+];
 
 export function ModelDeployment() {
-  const [activeTab, setActiveTab] = useState("deployments")
-  const [selectedDeployment, setSelectedDeployment] = useState(deployments[0])
+  const [activeTab, setActiveTab] = useState('deployments');
+  const [selectedDeployment, setSelectedDeployment] = useState(deployments[0]);
 
   return (
     <div className="space-y-6">
@@ -117,21 +133,21 @@ export function ModelDeployment() {
 
         <TabsContent value="deployments" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {deployments.map((deployment) => (
+            {deployments.map(deployment => (
               <Card
                 key={deployment.id}
                 className={`cursor-pointer hover:border-primary transition-colors ${
-                  selectedDeployment.id === deployment.id ? "border-primary" : ""
+                  selectedDeployment.id === deployment.id ? 'border-primary' : ''
                 }`}
                 onClick={() => setSelectedDeployment(deployment)}
               >
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
                     <CardTitle>{deployment.name}</CardTitle>
-                    {deployment.status === "running" ? (
-                      <Badge className="bg-green-500">运行中</Badge>
+                    {deployment.status === 'running' ? (
+                      <Badge className="bg-success/50">运行中</Badge>
                     ) : (
-                      <Badge variant="outline" className="text-amber-500 border-amber-500">
+                      <Badge variant="outline" className="text-warning border-warning">
                         已停止
                       </Badge>
                     )}
@@ -145,11 +161,11 @@ export function ModelDeployment() {
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">环境:</span>
                       <span className="font-medium">
-                        {deployment.environment === "production"
-                          ? "生产"
-                          : deployment.environment === "staging"
-                            ? "测试"
-                            : "开发"}
+                        {deployment.environment === 'production'
+                          ? '生产'
+                          : deployment.environment === 'staging'
+                            ? '测试'
+                            : '开发'}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
@@ -158,7 +174,9 @@ export function ModelDeployment() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">请求数:</span>
-                      <span className="font-medium">{deployment.metrics.requests.toLocaleString()}</span>
+                      <span className="font-medium">
+                        {deployment.metrics.requests.toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">平均响应时间:</span>
@@ -166,7 +184,9 @@ export function ModelDeployment() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">错误率:</span>
-                      <span className="font-medium">{(deployment.metrics.errorRate * 100).toFixed(2)}%</span>
+                      <span className="font-medium">
+                        {(deployment.metrics.errorRate * 100).toFixed(2)}%
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -185,7 +205,7 @@ export function ModelDeployment() {
                     </CardDescription>
                   </div>
                   <div className="flex gap-2">
-                    {selectedDeployment.status === "running" ? (
+                    {selectedDeployment.status === 'running' ? (
                       <Button variant="outline" size="sm">
                         <Pause className="mr-2 h-4 w-4" />
                         停止
@@ -214,7 +234,9 @@ export function ModelDeployment() {
                       <CardTitle className="text-sm font-medium">请求数</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{selectedDeployment.metrics.requests.toLocaleString()}</div>
+                      <div className="text-2xl font-bold">
+                        {selectedDeployment.metrics.requests.toLocaleString()}
+                      </div>
                       <p className="text-xs text-muted-foreground">过去30天</p>
                     </CardContent>
                   </Card>
@@ -223,7 +245,9 @@ export function ModelDeployment() {
                       <CardTitle className="text-sm font-medium">平均响应时间</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-2xl font-bold">{selectedDeployment.metrics.avgResponseTime}ms</div>
+                      <div className="text-2xl font-bold">
+                        {selectedDeployment.metrics.avgResponseTime}ms
+                      </div>
                       <p className="text-xs text-muted-foreground">过去24小时</p>
                     </CardContent>
                   </Card>
@@ -288,9 +312,10 @@ export function ModelDeployment() {
                   <Card className="bg-muted">
                     <CardContent className="p-4">
                       <pre className="text-xs overflow-auto max-h-[200px]">
-                        [2025-05-19 08:15:22] INFO: 模型服务启动成功 [2025-05-19 08:15:23] INFO: 加载模型版本 v3.2.5
-                        [2025-05-19 08:15:25] INFO: 初始化GPU加速 [2025-05-19 08:15:28] INFO: 模型服务就绪，开始接收请求
-                        [2025-05-19 10:22:15] WARN: 检测到高负载，自动扩展实例数 [2025-05-19 12:45:33] INFO:
+                        [2025-05-19 08:15:22] INFO: 模型服务启动成功 [2025-05-19 08:15:23] INFO:
+                        加载模型版本 v3.2.5 [2025-05-19 08:15:25] INFO: 初始化GPU加速 [2025-05-19
+                        08:15:28] INFO: 模型服务就绪，开始接收请求 [2025-05-19 10:22:15] WARN:
+                        检测到高负载，自动扩展实例数 [2025-05-19 12:45:33] INFO:
                         实例扩展完成，当前实例数: 3
                       </pre>
                     </CardContent>
@@ -338,25 +363,25 @@ export function ModelDeployment() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {modelVersions.map((model) => (
+                    {modelVersions.map(model => (
                       <tr key={model.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="font-medium">{model.name}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">{model.version}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {model.status === "stable" ? (
-                            <Badge className="bg-green-500">稳定版</Badge>
-                          ) : model.status === "beta" ? (
-                            <Badge variant="outline" className="text-blue-500 border-blue-500">
+                          {model.status === 'stable' ? (
+                            <Badge className="bg-success/50">稳定版</Badge>
+                          ) : model.status === 'beta' ? (
+                            <Badge variant="outline" className="text-primary border-primary">
                               测试版
                             </Badge>
-                          ) : model.status === "development" ? (
-                            <Badge variant="outline" className="text-amber-500 border-amber-500">
+                          ) : model.status === 'development' ? (
+                            <Badge variant="outline" className="text-warning border-warning">
                               开发版
                             </Badge>
                           ) : (
-                            <Badge variant="outline" className="text-gray-500 border-gray-500">
+                            <Badge variant="outline" className="text-muted-foreground border-border">
                               已弃用
                             </Badge>
                           )}
@@ -394,12 +419,16 @@ export function ModelDeployment() {
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-3">
-                {environments.map((env) => (
+                {environments.map(env => (
                   <Card key={env.id}>
                     <CardHeader>
                       <CardTitle>{env.name}</CardTitle>
                       <CardDescription>
-                        {env.type === "production" ? "生产环境" : env.type === "staging" ? "测试环境" : "开发环境"}
+                        {env.type === 'production'
+                          ? '生产环境'
+                          : env.type === 'staging'
+                            ? '测试环境'
+                            : '开发环境'}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -491,7 +520,7 @@ export function ModelDeployment() {
                       <td className="px-6 py-4 whitespace-nowrap">生产环境</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <CheckCircle className="text-green-500 mr-2 h-4 w-4" />
+                          <CheckCircle className="text-success mr-2 h-4 w-4" />
                           <span>成功</span>
                         </div>
                       </td>
@@ -507,11 +536,13 @@ export function ModelDeployment() {
                     </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap">2025-05-17 22:10:33</td>
-                      <td className="px-6 py-4 whitespace-nowrap">MediNexus-v3.4-dev (v3.4.0-dev.5)</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        MediNexus-v3.4-dev (v3.4.0-dev.5)
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">开发环境</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <CheckCircle className="text-green-500 mr-2 h-4 w-4" />
+                          <CheckCircle className="text-success mr-2 h-4 w-4" />
                           <span>成功</span>
                         </div>
                       </td>
@@ -527,11 +558,13 @@ export function ModelDeployment() {
                     </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap">2025-05-15 09:45:12</td>
-                      <td className="px-6 py-4 whitespace-nowrap">MediNexus-v3.3-beta (v3.3.0-beta.1)</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        MediNexus-v3.3-beta (v3.3.0-beta.1)
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">测试环境</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <AlertCircle className="text-red-500 mr-2 h-4 w-4" />
+                          <AlertCircle className="text-destructive mr-2 h-4 w-4" />
                           <span>失败</span>
                         </div>
                       </td>
@@ -547,11 +580,13 @@ export function ModelDeployment() {
                     </tr>
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap">2025-05-12 15:40:18</td>
-                      <td className="px-6 py-4 whitespace-nowrap">MediNexus-v3.4-dev (v3.4.0-dev.4)</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        MediNexus-v3.4-dev (v3.4.0-dev.4)
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">开发环境</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <CheckCircle className="text-green-500 mr-2 h-4 w-4" />
+                          <CheckCircle className="text-success mr-2 h-4 w-4" />
                           <span>成功</span>
                         </div>
                       </td>
@@ -571,7 +606,7 @@ export function ModelDeployment() {
                       <td className="px-6 py-4 whitespace-nowrap">生产环境</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <CheckCircle className="text-green-500 mr-2 h-4 w-4" />
+                          <CheckCircle className="text-success mr-2 h-4 w-4" />
                           <span>成功</span>
                         </div>
                       </td>
@@ -593,5 +628,5 @@ export function ModelDeployment() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

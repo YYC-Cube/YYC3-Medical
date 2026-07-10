@@ -5,26 +5,26 @@
 
 // 错误类型枚举
 export enum ErrorType {
-  JAVASCRIPT = "javascript",
-  PROMISE = "promise",
-  NETWORK = "network",
-  API = "api",
-  AUTHENTICATION = "authentication",
-  AUTHORIZATION = "authorization",
-  VALIDATION = "validation",
-  NOT_FOUND = "not_found",
-  TIMEOUT = "timeout",
-  MEMORY = "memory",
-  RENDERING = "rendering",
-  HYDRATION = "hydration",
+  JAVASCRIPT = 'javascript',
+  PROMISE = 'promise',
+  NETWORK = 'network',
+  API = 'api',
+  AUTHENTICATION = 'authentication',
+  AUTHORIZATION = 'authorization',
+  VALIDATION = 'validation',
+  NOT_FOUND = 'not_found',
+  TIMEOUT = 'timeout',
+  MEMORY = 'memory',
+  RENDERING = 'rendering',
+  HYDRATION = 'hydration',
 }
 
 // 错误模拟选项
 export interface ErrorSimulationOptions {
-  message?: string
-  delay?: number
-  status?: number
-  code?: string
+  message?: string;
+  delay?: number;
+  status?: number;
+  code?: string;
 }
 
 /**
@@ -32,8 +32,8 @@ export interface ErrorSimulationOptions {
  * @param options 错误模拟选项
  */
 export function simulateJavaScriptError(options: ErrorSimulationOptions = {}): void {
-  const message = options.message || "模拟的JavaScript错误"
-  throw new Error(message)
+  const message = options.message || '模拟的JavaScript错误';
+  throw new Error(message);
 }
 
 /**
@@ -42,14 +42,14 @@ export function simulateJavaScriptError(options: ErrorSimulationOptions = {}): v
  * @returns 被拒绝的Promise
  */
 export function simulatePromiseError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const message = options.message || "模拟的Promise错误"
-  const delay = options.delay || 0
+  const message = options.message || '模拟的Promise错误';
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      reject(new Error(message))
-    }, delay)
-  })
+      reject(new Error(message));
+    }, delay);
+  });
 }
 
 /**
@@ -58,16 +58,16 @@ export function simulatePromiseError(options: ErrorSimulationOptions = {}): Prom
  * @returns 被拒绝的Promise
  */
 export function simulateNetworkError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const message = options.message || "网络连接失败"
-  const delay = options.delay || 0
+  const message = options.message || '网络连接失败';
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "NetworkError"
-      reject(error)
-    }, delay)
-  })
+      const error = new Error(message);
+      error.name = 'NetworkError';
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -76,22 +76,22 @@ export function simulateNetworkError(options: ErrorSimulationOptions = {}): Prom
  * @returns 被拒绝的Promise
  */
 export function simulateApiError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const status = options.status || 500
-  const message = options.message || `API错误: ${status}`
-  const code = options.code || "API_ERROR"
-  const delay = options.delay || 0
+  const status = options.status || 500;
+  const message = options.message || `API错误: ${status}`;
+  const code = options.code || 'API_ERROR';
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "ApiError"
+      const error = new Error(message);
+      error.name = 'ApiError';
       // @ts-ignore - 添加自定义属性
-      error.status = status
+      error.status = status;
       // @ts-ignore - 添加自定义属性
-      error.code = code
-      reject(error)
-    }, delay)
-  })
+      error.code = code;
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -100,18 +100,18 @@ export function simulateApiError(options: ErrorSimulationOptions = {}): Promise<
  * @returns 被拒绝的Promise
  */
 export function simulateAuthenticationError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const message = options.message || "认证失败: 会话已过期"
-  const delay = options.delay || 0
+  const message = options.message || '认证失败: 会话已过期';
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "AuthenticationError"
+      const error = new Error(message);
+      error.name = 'AuthenticationError';
       // @ts-ignore - 添加自定义属性
-      error.status = 401
-      reject(error)
-    }, delay)
-  })
+      error.status = 401;
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -120,18 +120,18 @@ export function simulateAuthenticationError(options: ErrorSimulationOptions = {}
  * @returns 被拒绝的Promise
  */
 export function simulateAuthorizationError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const message = options.message || "授权失败: 权限不足"
-  const delay = options.delay || 0
+  const message = options.message || '授权失败: 权限不足';
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "AuthorizationError"
+      const error = new Error(message);
+      error.name = 'AuthorizationError';
       // @ts-ignore - 添加自定义属性
-      error.status = 403
-      reject(error)
-    }, delay)
-  })
+      error.status = 403;
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -140,19 +140,19 @@ export function simulateAuthorizationError(options: ErrorSimulationOptions = {})
  * @returns 被拒绝的Promise
  */
 export function simulateNotFoundError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const resource = options.message || "请求的资源"
-  const message = `未找到: ${resource}`
-  const delay = options.delay || 0
+  const resource = options.message || '请求的资源';
+  const message = `未找到: ${resource}`;
+  const delay = options.delay || 0;
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "NotFoundError"
+      const error = new Error(message);
+      error.name = 'NotFoundError';
       // @ts-ignore - 添加自定义属性
-      error.status = 404
-      reject(error)
-    }, delay)
-  })
+      error.status = 404;
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -161,16 +161,16 @@ export function simulateNotFoundError(options: ErrorSimulationOptions = {}): Pro
  * @returns 被拒绝的Promise
  */
 export function simulateTimeoutError(options: ErrorSimulationOptions = {}): Promise<never> {
-  const message = options.message || "请求超时"
-  const delay = options.delay || 5000 // 默认5秒超时
+  const message = options.message || '请求超时';
+  const delay = options.delay || 5000; // 默认5秒超时
 
   return new Promise((_, reject) => {
     setTimeout(() => {
-      const error = new Error(message)
-      error.name = "TimeoutError"
-      reject(error)
-    }, delay)
-  })
+      const error = new Error(message);
+      error.name = 'TimeoutError';
+      reject(error);
+    }, delay);
+  });
 }
 
 /**
@@ -179,18 +179,18 @@ export function simulateTimeoutError(options: ErrorSimulationOptions = {}): Prom
  * @param options 错误模拟选项
  */
 export function simulateMemoryError(options: ErrorSimulationOptions = {}): void {
-  const message = options.message || "内存溢出错误"
+  const message = options.message || '内存溢出错误';
 
   try {
-    const arr: any[] = []
+    const arr: any[] = [];
     while (true) {
-      arr.push(new Array(1000000).fill("x"))
+      arr.push(new Array(1000000).fill('x'));
     }
   } catch (error) {
     if (error instanceof Error) {
-      error.message = message
+      error.message = message;
     }
-    throw error
+    throw error;
   }
 }
 
@@ -199,11 +199,11 @@ export function simulateMemoryError(options: ErrorSimulationOptions = {}): void 
  * @param options 错误模拟选项
  */
 export function simulateRenderingError(options: ErrorSimulationOptions = {}): void {
-  const message = options.message || "渲染错误"
+  const message = options.message || '渲染错误';
 
   // 创建一个无效的React元素状态
   // 这通常会在渲染时导致错误
-  throw new Error(message)
+  throw new Error(message);
 }
 
 /**
@@ -212,10 +212,10 @@ export function simulateRenderingError(options: ErrorSimulationOptions = {}): vo
  * @param options 错误模拟选项
  */
 export function simulateHydrationError(options: ErrorSimulationOptions = {}): void {
-  const message = options.message || "水合错误: 服务器和客户端渲染不匹配"
+  const message = options.message || '水合错误: 服务器和客户端渲染不匹配';
 
   // 在实际应用中，这通常是由于服务器和客户端渲染的内容不同导致的
-  console.error(message)
+  console.error(message);
   // 实际的水合错误会由React自动抛出
 }
 
@@ -225,31 +225,34 @@ export function simulateHydrationError(options: ErrorSimulationOptions = {}): vo
  * @param options 错误模拟选项
  * @returns Promise或void，取决于错误类型
  */
-export function simulateError(type: ErrorType, options: ErrorSimulationOptions = {}): Promise<never> | void {
+export function simulateError(
+  type: ErrorType,
+  options: ErrorSimulationOptions = {}
+): Promise<never> | void {
   switch (type) {
     case ErrorType.JAVASCRIPT:
-      return simulateJavaScriptError(options)
+      return simulateJavaScriptError(options);
     case ErrorType.PROMISE:
-      return simulatePromiseError(options)
+      return simulatePromiseError(options);
     case ErrorType.NETWORK:
-      return simulateNetworkError(options)
+      return simulateNetworkError(options);
     case ErrorType.API:
-      return simulateApiError(options)
+      return simulateApiError(options);
     case ErrorType.AUTHENTICATION:
-      return simulateAuthenticationError(options)
+      return simulateAuthenticationError(options);
     case ErrorType.AUTHORIZATION:
-      return simulateAuthorizationError(options)
+      return simulateAuthorizationError(options);
     case ErrorType.NOT_FOUND:
-      return simulateNotFoundError(options)
+      return simulateNotFoundError(options);
     case ErrorType.TIMEOUT:
-      return simulateTimeoutError(options)
+      return simulateTimeoutError(options);
     case ErrorType.MEMORY:
-      return simulateMemoryError(options)
+      return simulateMemoryError(options);
     case ErrorType.RENDERING:
-      return simulateRenderingError(options)
+      return simulateRenderingError(options);
     case ErrorType.HYDRATION:
-      return simulateHydrationError(options)
+      return simulateHydrationError(options);
     default:
-      throw new Error(`未知的错误类型: ${type}`)
+      throw new Error(`未知的错误类型: ${type}`);
   }
 }

@@ -1,6 +1,6 @@
-import { AppDataSource } from '@/lib/db';
-import fs from 'fs';
-import path from 'path';
+import { AppDataSource } from "@/lib/db";
+import fs from "fs";
+import path from "path";
 
 async function generateDBML() {
   const connection = await AppDataSource.initialize();
@@ -12,14 +12,14 @@ async function generateDBML() {
   for (const table of tables) {
     dbml += `Table ${table.name} {\n`;
     for (const column of table.columns) {
-      const pk = column.isPrimary ? ' [pk]' : '';
+      const pk = column.isPrimary ? " [pk]" : "";
       const type = column.type.toUpperCase();
       dbml += `  ${column.name} ${type}${pk}\n`;
     }
     dbml += `}\n\n`;
   }
 
-  const outputPath = path.join(process.cwd(), 'schema.dbml');
+  const outputPath = path.join(process.cwd(), "schema.dbml");
   fs.writeFileSync(outputPath, dbml);
   console.log(`✅ schema.dbml 已生成: ${outputPath}`);
 

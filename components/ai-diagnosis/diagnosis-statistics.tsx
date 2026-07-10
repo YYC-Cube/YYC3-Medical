@@ -1,8 +1,14 @@
-"use client"
+'use client';
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import {
   BarChart,
   LineChart,
@@ -17,41 +23,41 @@ import {
   Line,
   Pie,
   Cell,
-} from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { useState } from "react"
+} from '@/components/ui/recharts-dynamic';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { useState } from 'react';
 
 // 模拟诊断统计数据
 const diagnosisData = {
   byMonth: [
-    { month: "1月", count: 45, accuracy: 0.92 },
-    { month: "2月", count: 52, accuracy: 0.89 },
-    { month: "3月", count: 68, accuracy: 0.91 },
-    { month: "4月", count: 75, accuracy: 0.93 },
-    { month: "5月", count: 92, accuracy: 0.94 },
-    { month: "6月", count: 105, accuracy: 0.95 },
+    { month: '1月', count: 45, accuracy: 0.92 },
+    { month: '2月', count: 52, accuracy: 0.89 },
+    { month: '3月', count: 68, accuracy: 0.91 },
+    { month: '4月', count: 75, accuracy: 0.93 },
+    { month: '5月', count: 92, accuracy: 0.94 },
+    { month: '6月', count: 105, accuracy: 0.95 },
   ],
   byDiagnosis: [
-    { name: "2型糖尿病", value: 124 },
-    { name: "高血压", value: 85 },
-    { name: "冠心病", value: 67 },
-    { name: "肺炎", value: 45 },
-    { name: "胃溃疡", value: 32 },
-    { name: "其他", value: 84 },
+    { name: '2型糖尿病', value: 124 },
+    { name: '高血压', value: 85 },
+    { name: '冠心病', value: 67 },
+    { name: '肺炎', value: 45 },
+    { name: '胃溃疡', value: 32 },
+    { name: '其他', value: 84 },
   ],
   byAccuracy: [
-    { range: "90-100%", count: 245 },
-    { range: "80-90%", count: 132 },
-    { range: "70-80%", count: 64 },
-    { range: "60-70%", count: 28 },
-    { range: "<60%", count: 12 },
+    { range: '90-100%', count: 245 },
+    { range: '80-90%', count: 132 },
+    { range: '70-80%', count: 64 },
+    { range: '60-70%', count: 28 },
+    { range: '<60%', count: 12 },
   ],
-}
+};
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8", "#82CA9D"]
+const COLORS = ['var(--primary)', 'var(--success)', 'var(--warning)', 'var(--warning)', 'var(--primary)', 'var(--success)'];
 
 export function DiagnosisStatistics() {
-  const [timeRange, setTimeRange] = useState("6months")
+  const [timeRange, setTimeRange] = useState('6months');
 
   return (
     <div className="space-y-6">
@@ -79,12 +85,12 @@ export function DiagnosisStatistics() {
             <ChartContainer
               config={{
                 count: {
-                  label: "诊断数量",
-                  color: "hsl(var(--chart-1))",
+                  label: '诊断数量',
+                  color: 'hsl(var(--chart-1))',
                 },
                 accuracy: {
-                  label: "准确率",
-                  color: "hsl(var(--chart-2))",
+                  label: '准确率',
+                  color: 'hsl(var(--chart-2))',
                 },
               }}
               className="h-[300px]"
@@ -98,7 +104,7 @@ export function DiagnosisStatistics() {
                     yAxisId="right"
                     orientation="right"
                     domain={[0, 1]}
-                    tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                    tickFormatter={value => `${(value * 100).toFixed(0)}%`}
                   />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Legend />
@@ -128,7 +134,7 @@ export function DiagnosisStatistics() {
                     cy="50%"
                     labelLine={true}
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="var(--primary)"
                     dataKey="value"
                     label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   >
@@ -136,7 +142,7 @@ export function DiagnosisStatistics() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(value) => [`${value}例`, "数量"]} />
+                  <Tooltip formatter={value => [`${value}例`, '数量']} />
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
@@ -150,8 +156,8 @@ export function DiagnosisStatistics() {
             <ChartContainer
               config={{
                 count: {
-                  label: "诊断数量",
-                  color: "hsl(var(--chart-3))",
+                  label: '诊断数量',
+                  color: 'hsl(var(--chart-3))',
                 },
               }}
               className="h-[300px]"
@@ -171,5 +177,5 @@ export function DiagnosisStatistics() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

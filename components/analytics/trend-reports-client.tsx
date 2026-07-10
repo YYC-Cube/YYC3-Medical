@@ -1,36 +1,42 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { TrendReports } from "@/components/analytics/trend-reports"
-import { DateRangePicker } from "@/components/ui/date-picker"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Download, Filter, Share } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { TrendReports } from '@/components/analytics/trend-reports';
+import { DateRangePicker } from '@/components/ui/date-picker';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Download, Filter, Share } from 'lucide-react';
 
 export default function TrendReportsClient() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("patients")
-  const [dateRange, setDateRange] = useState({ from: new Date(2025, 0, 1), to: new Date() })
-  const [interval, setInterval] = useState("monthly")
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('patients');
+  const [dateRange, setDateRange] = useState({ from: new Date(2025, 0, 1), to: new Date() });
+  const [interval, setInterval] = useState('monthly');
 
   useEffect(() => {
     // 模拟数据加载
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+      setIsLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   if (isLoading) {
     return (
       <div className="flex h-[400px] w-full items-center justify-center">
         <LoadingSpinner />
       </div>
-    )
+    );
   }
 
   return (
@@ -49,8 +55,8 @@ export default function TrendReportsClient() {
           <DateRangePicker
             startDate={dateRange.from}
             endDate={dateRange.to}
-            onStartDateChange={(d) => d && setDateRange(prev => ({ ...prev, from: d }))}
-            onEndDateChange={(d) => d && setDateRange(prev => ({ ...prev, to: d }))}
+            onStartDateChange={d => d && setDateRange(prev => ({ ...prev, from: d }))}
+            onEndDateChange={d => d && setDateRange(prev => ({ ...prev, to: d }))}
           />
 
           <Select value={interval} onValueChange={setInterval}>
@@ -73,10 +79,10 @@ export default function TrendReportsClient() {
           <div>
             <CardTitle>趋势分析报告</CardTitle>
             <CardDescription>
-              {activeTab === "patients" && "患者数量、分布和增长趋势"}
-              {activeTab === "diagnoses" && "诊断类型和准确率趋势"}
-              {activeTab === "treatments" && "治疗方案采用率和效果趋势"}
-              {activeTab === "outcomes" && "治疗结果和患者恢复趋势"}
+              {activeTab === 'patients' && '患者数量、分布和增长趋势'}
+              {activeTab === 'diagnoses' && '诊断类型和准确率趋势'}
+              {activeTab === 'treatments' && '治疗方案采用率和效果趋势'}
+              {activeTab === 'outcomes' && '治疗结果和患者恢复趋势'}
             </CardDescription>
           </div>
           <div className="flex gap-2">
@@ -96,5 +102,5 @@ export default function TrendReportsClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

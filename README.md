@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/Family-001.png" alt="YYC³-Med Banner" width="100%" />
+<img src="./public/Family-001.jpg" alt="YYC³-Med Banner" width="100%" />
 
 <br />
 
@@ -8,7 +8,7 @@
 
 **言启立方于万象，语枢智云守健康**
 
-*AI-Powered Intelligent Medical Diagnosis Platform — Diagnostic Assistance · Case Analysis · Clinical Decision Support*
+_AI-Powered Intelligent Medical Diagnosis Platform — Diagnostic Assistance · Case Analysis · Clinical Decision Support_
 
 <br />
 
@@ -33,36 +33,36 @@
 
 YYC³-Med is a bilingual (zh-CN / en-US / ja-JP / ko-KR) medical AI platform frontend, delivered as a fully static site via GitHub Pages. It provides intelligent diagnostic assistance, patient management, case libraries, clinical decision support, knowledge graphs, and research tools — all built with a medical-grade blue/teal design system.
 
-| Metric | Value |
-|--------|-------|
-| Routes | 112 App Router pages |
-| Components | 441 React components |
-| Custom Hooks | 19 |
-| Services | 31 domain service modules |
-| Tests | 311 passing (16 suites) |
-| Loc | ~121,000 lines of TypeScript/TSX |
-| Bundle | ~25 MB static export |
-| i18n | 4 locales (zh-CN, en-US, ja-JP, ko-KR) |
+| Metric       | Value                                  |
+| ------------ | -------------------------------------- |
+| Routes       | 112 App Router pages                   |
+| Components   | 441 React components                   |
+| Custom Hooks | 19                                     |
+| Services     | 31 domain service modules              |
+| Tests        | 311 passing (16 suites)                |
+| Loc          | ~121,000 lines of TypeScript/TSX       |
+| Bundle       | ~25 MB static export                   |
+| i18n         | 4 locales (zh-CN, en-US, ja-JP, ko-KR) |
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Framework** | Next.js 16.2 (App Router, Turbopack, Static Export) |
-| **Runtime** | React 18.3 |
-| **Language** | TypeScript 5.8 (strict mode) |
-| **Styling** | Tailwind CSS 3.4 + shadcn/ui (Radix-based) |
-| **State** | Zustand 5 + React Context + React Hook Form 7 |
-| **Validation** | Zod 4 |
-| **Charts** | Recharts 2.15 + D3.js 7.9 |
-| **3D / Viz** | Three.js 0.176 + @react-three/fiber 8.18 |
-| **Animation** | Framer Motion 12 + tailwindcss-animate |
-| **Icons** | lucide-react |
-| **Fonts** | GeistSans (self-hosted, offline-buildable) |
-| **Testing** | Jest 29 + Testing Library + jsdom |
-| **Package Manager** | pnpm 9.15 |
-| **CI/CD** | GitHub Actions → GitHub Pages |
-| **Domain** | `medical.yyc3.vip` (HTTPS enforced) |
+| Layer               | Technology                                          |
+| ------------------- | --------------------------------------------------- |
+| **Framework**       | Next.js 16.2 (App Router, Turbopack, Static Export) |
+| **Runtime**         | React 18.3                                          |
+| **Language**        | TypeScript 5.8 (strict mode)                        |
+| **Styling**         | Tailwind CSS 3.4 + shadcn/ui (Radix-based)          |
+| **State**           | Zustand 5 + React Context + React Hook Form 7       |
+| **Validation**      | Zod 4                                               |
+| **Charts**          | Recharts 2.15 + D3.js 7.9                           |
+| **3D / Viz**        | Three.js 0.176 + @react-three/fiber 8.18            |
+| **Animation**       | Framer Motion 12 + tailwindcss-animate              |
+| **Icons**           | lucide-react                                        |
+| **Fonts**           | GeistSans (self-hosted, offline-buildable)          |
+| **Testing**         | Jest 29 + Testing Library + jsdom                   |
+| **Package Manager** | pnpm 9.15                                           |
+| **CI/CD**           | GitHub Actions → GitHub Pages                       |
+| **Domain**          | `medical.yyc3.vip` (HTTPS enforced)                 |
 
 ## Quick Start
 
@@ -148,20 +148,20 @@ YYC3-Medical/
 
 ## Feature Modules
 
-| Module | Route | Description |
-|--------|-------|-------------|
-| Dashboard | `/admin` | System overview, resource monitoring |
-| AI Diagnosis | `/ai-diagnosis` | AI-assisted diagnostic support |
-| Patients | `/patients` | Patient management with dynamic routes |
-| Analytics | `/analytics` | Prediction models, trend analysis |
-| Case Library | `/case-library` | Medical case repository |
-| Medications | `/medications` | Drug interactions, prescriptions, inventory |
-| Research | `/research` | Analysis, samples, clinical trials |
-| Clinical Decision | `/clinical-decision` | Drug reference, guidelines, treatments |
-| Teleconsultation | `/teleconsultation` | Remote consultation scheduling |
-| Security | `/security` | Access control, audit, compliance |
-| EHR Integration | `/ehr-integration` | Connections, mapping, sync |
-| Knowledge Graph | `/knowledge-graph` | Medical knowledge visualization |
+| Module            | Route                | Description                                 |
+| ----------------- | -------------------- | ------------------------------------------- |
+| Dashboard         | `/admin`             | System overview, resource monitoring        |
+| AI Diagnosis      | `/ai-diagnosis`      | AI-assisted diagnostic support              |
+| Patients          | `/patients`          | Patient management with dynamic routes      |
+| Analytics         | `/analytics`         | Prediction models, trend analysis           |
+| Case Library      | `/case-library`      | Medical case repository                     |
+| Medications       | `/medications`       | Drug interactions, prescriptions, inventory |
+| Research          | `/research`          | Analysis, samples, clinical trials          |
+| Clinical Decision | `/clinical-decision` | Drug reference, guidelines, treatments      |
+| Teleconsultation  | `/teleconsultation`  | Remote consultation scheduling              |
+| Security          | `/security`          | Access control, audit, compliance           |
+| EHR Integration   | `/ehr-integration`   | Connections, mapping, sync                  |
+| Knowledge Graph   | `/knowledge-graph`   | Medical knowledge visualization             |
 
 ## Architecture Constraints
 
@@ -178,28 +178,28 @@ Interactive features use **client components** (`"use client"`) with browser API
 
 Push to `main` → GitHub Actions builds → Deploys to GitHub Pages.
 
-| Setting | Value |
-|---------|-------|
-| Platform | GitHub Pages |
-| Domain | `medical.yyc3.vip` |
-| HTTPS | Enforced |
+| Setting  | Value                          |
+| -------- | ------------------------------ |
+| Platform | GitHub Pages                   |
+| Domain   | `medical.yyc3.vip`             |
+| HTTPS    | Enforced                       |
 | Workflow | `.github/workflows/deploy.yml` |
-| Source | GitHub Actions (not branch) |
+| Source   | GitHub Actions (not branch)    |
 
 > **Setup**: Settings → Pages → Source → GitHub Actions
 
 ## Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Contributing](./CONTRIBUTING.md) | Development setup, code standards, PR workflow |
-| [Changelog](./CHANGELOG.md) | Version history and release notes |
-| [AI Agent Guide](./AGENTS.md) | Comprehensive guide for AI coding assistants |
-| [Security](./SECURITY.md) | Security policy and vulnerability reporting |
-| [Code of Conduct](./CODE_OF_CONDUCT.md) | Community guidelines |
-| [Naming Conventions](./docs/naming-conventions.md) | File and component naming rules |
-| [Architecture](./docs/architecture.md) | System architecture and design decisions |
-| [Developer Guide](./docs/developer-guide.md) | Technical onboarding and conventions |
+| Document                                           | Description                                    |
+| -------------------------------------------------- | ---------------------------------------------- |
+| [Contributing](./CONTRIBUTING.md)                  | Development setup, code standards, PR workflow |
+| [Changelog](./CHANGELOG.md)                        | Version history and release notes              |
+| [AI Agent Guide](./AGENTS.md)                      | Comprehensive guide for AI coding assistants   |
+| [Security](./SECURITY.md)                          | Security policy and vulnerability reporting    |
+| [Code of Conduct](./CODE_OF_CONDUCT.md)            | Community guidelines                           |
+| [Naming Conventions](./docs/naming-conventions.md) | File and component naming rules                |
+| [Architecture](./docs/architecture.md)             | System architecture and design decisions       |
+| [Developer Guide](./docs/developer-guide.md)       | Technical onboarding and conventions           |
 
 ## Contributors
 

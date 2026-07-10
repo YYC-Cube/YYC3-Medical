@@ -1,40 +1,47 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { CloudLogo } from "./cloud-logo"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { Download, Copy, Check, Code } from "lucide-react"
+import { useState } from 'react';
+import { CloudLogo } from './cloud-logo';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Download, Copy, Check, Code } from 'lucide-react';
 
 export function LogoShowcase() {
-  const [size, setSize] = useState<"sm" | "md" | "lg" | "xl">("lg")
-  const [animated, setAnimated] = useState(true)
-  const [bgColor, setBgColor] = useState("bg-white")
-  const [copied, setCopied] = useState(false)
+  const [size, setSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('lg');
+  const [animated, setAnimated] = useState(true);
+  const [bgColor, setBgColor] = useState('bg-white');
+  const [copied, setCopied] = useState(false);
 
-  const sizeOptions: Array<"sm" | "md" | "lg" | "xl"> = ["sm", "md", "lg", "xl"]
+  const sizeOptions: Array<'sm' | 'md' | 'lg' | 'xl'> = ['sm', 'md', 'lg', 'xl'];
   const bgOptions = [
-    { value: "bg-white", label: "白色" },
-    { value: "bg-gray-100", label: "浅灰" },
-    { value: "bg-medical-900", label: "深色" },
-    { value: "bg-blue-50", label: "浅蓝" },
-    { value: "bg-gradient-to-br from-blue-50 to-cyan-100", label: "渐变" },
-  ]
+    { value: 'bg-white', label: '白色' },
+    { value: 'bg-muted', label: '浅灰' },
+    { value: 'bg-medical-900', label: '深色' },
+    { value: 'bg-primary/5', label: '浅蓝' },
+    { value: 'bg-gradient-to-br from-medical-50 to-medical-100', label: '渐变' },
+  ];
 
   const handleCopyCode = () => {
-    const code = `<CloudLogo size="${size}" animated={${animated}} />`
-    navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    const code = `<CloudLogo size="${size}" animated={${animated}} />`;
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleDownload = () => {
     // 这里可以实现下载功能
-    alert("下载功能将在实际应用中实现")
-  }
+    alert('下载功能将在实际应用中实现');
+  };
 
   return (
     <Card className="w-full max-w-3xl mx-auto">
@@ -62,10 +69,10 @@ export function LogoShowcase() {
                 <div>
                   <h3 className="text-sm font-medium mb-2">尺寸</h3>
                   <div className="flex flex-wrap gap-2">
-                    {sizeOptions.map((option) => (
+                    {sizeOptions.map(option => (
                       <Button
                         key={option}
-                        variant={size === option ? "default" : "outline"}
+                        variant={size === option ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setSize(option)}
                       >
@@ -84,10 +91,10 @@ export function LogoShowcase() {
               <div className="space-y-4">
                 <h3 className="text-sm font-medium mb-2">背景</h3>
                 <div className="grid grid-cols-2 gap-2">
-                  {bgOptions.map((option) => (
+                  {bgOptions.map(option => (
                     <Button
                       key={option.value}
-                      variant={bgColor === option.value ? "default" : "outline"}
+                      variant={bgColor === option.value ? 'default' : 'outline'}
                       size="sm"
                       className="justify-start"
                       onClick={() => setBgColor(option.value)}
@@ -102,12 +109,12 @@ export function LogoShowcase() {
           </TabsContent>
 
           <TabsContent value="usage" className="space-y-4">
-            <div className="bg-gray-50 p-4 rounded-md">
+            <div className="bg-muted p-4 rounded-md">
               <div className="flex justify-between items-center mb-2">
                 <h3 className="text-sm font-medium">组件代码</h3>
                 <Button variant="ghost" size="sm" onClick={handleCopyCode} className="h-8 gap-1">
                   {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  {copied ? "已复制" : "复制"}
+                  {copied ? '已复制' : '复制'}
                 </Button>
               </div>
               <pre className="bg-medical-900 text-medical-100 p-4 rounded text-sm overflow-x-auto">
@@ -122,14 +129,15 @@ export function LogoShowcase() {
               <h3 className="text-sm font-medium">属性说明</h3>
               <ul className="text-sm space-y-2">
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">size</code> - 标志尺寸，可选值: "sm", "md", "lg",
-                  "xl"
+                  <code className="bg-muted px-1 py-0.5 rounded">size</code> - 标志尺寸，可选值:
+                  "sm", "md", "lg", "xl"
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">animated</code> - 是否启用悬停动画效果
+                  <code className="bg-muted px-1 py-0.5 rounded">animated</code> -
+                  是否启用悬停动画效果
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">className</code> - 自定义CSS类名
+                  <code className="bg-muted px-1 py-0.5 rounded">className</code> - 自定义CSS类名
                 </li>
               </ul>
             </div>
@@ -152,5 +160,5 @@ export function LogoShowcase() {
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

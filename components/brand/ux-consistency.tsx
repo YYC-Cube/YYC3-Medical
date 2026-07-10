@@ -1,15 +1,20 @@
-import { cn } from "@/lib/utils"
-import { MedicalCard, MedicalCardContent, MedicalCardHeader, MedicalCardTitle } from "@/components/ui/medical-card"
+import { cn } from '@/lib/utils';
+import {
+  MedicalCard,
+  MedicalCardContent,
+  MedicalCardHeader,
+  MedicalCardTitle,
+} from '@/components/ui/medical-card';
 
 interface UXPrincipleProps {
-  title: string
-  description: string
-  className?: string
+  title: string;
+  description: string;
+  className?: string;
 }
 
 function UXPrinciple({ title, description, className }: UXPrincipleProps) {
   return (
-    <MedicalCard className={cn("", className)}>
+    <MedicalCard className={cn('', className)}>
       <MedicalCardHeader>
         <MedicalCardTitle className="text-base">{title}</MedicalCardTitle>
       </MedicalCardHeader>
@@ -17,16 +22,16 @@ function UXPrinciple({ title, description, className }: UXPrincipleProps) {
         <p className="text-sm text-medical-600">{description}</p>
       </MedicalCardContent>
     </MedicalCard>
-  )
+  );
 }
 
 interface UXConsistencyProps {
-  className?: string
+  className?: string;
 }
 
 export function UXConsistency({ className }: UXConsistencyProps) {
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       <div>
         <h3 className="text-lg font-medium mb-3">用户体验原则</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -71,20 +76,20 @@ export function UXConsistency({ className }: UXConsistencyProps) {
                 <h4 className="text-base font-medium mb-3">色彩应用</h4>
                 <div className="space-y-2 text-sm text-medical-600">
                   <p>
-                    <span className="font-medium text-medical-800">主色应用：</span>{" "}
-                    医枢蓝(#0066CC)作为主色，用于主要按钮、重要信息高亮和品牌标识。
+                    <span className="font-medium text-medical-800">主色应用：</span>{' '}
+                    医枢蓝(var(--primary))作为主色，用于主要按钮、重要信息高亮和品牌标识。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">辅助色应用：</span>{" "}
-                    健康绿(#00CC99)用于正面反馈和健康状态，警示红(#FF6B6B)用于警告和错误提示。
+                    <span className="font-medium text-medical-800">辅助色应用：</span>{' '}
+                    健康绿(var(--success))用于正面反馈和健康状态，警示红(var(--destructive))用于警告和错误提示。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">背景色：</span>{" "}
-                    主要使用白色和浅蓝(#E6F4FF)作为背景，确保内容清晰可读。
+                    <span className="font-medium text-medical-800">背景色：</span>{' '}
+                    主要使用白色和浅蓝(var(--primary)/10)作为背景，确保内容清晰可读。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">文本色：</span>{" "}
-                    主要文本使用深灰(#4D4D4D)，次要文本使用中灰，确保足够对比度。
+                    <span className="font-medium text-medical-800">文本色：</span>{' '}
+                    主要文本使用深灰(var(--muted-foreground))，次要文本使用中灰，确保足够对比度。
                   </p>
                 </div>
               </div>
@@ -93,19 +98,19 @@ export function UXConsistency({ className }: UXConsistencyProps) {
                 <h4 className="text-base font-medium mb-3">排版规范</h4>
                 <div className="space-y-2 text-sm text-medical-600">
                   <p>
-                    <span className="font-medium text-medical-800">字体：</span>{" "}
+                    <span className="font-medium text-medical-800">字体：</span>{' '}
                     全系统统一使用无衬线字体，中文优先使用思源黑体，英文使用Inter。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">字号：</span>{" "}
+                    <span className="font-medium text-medical-800">字号：</span>{' '}
                     标题使用18-24px，正文使用14-16px，注释和辅助文本使用12px。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">行高：</span>{" "}
+                    <span className="font-medium text-medical-800">行高：</span>{' '}
                     标题行高1.2，正文行高1.5，确保良好的可读性。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">对齐：</span>{" "}
+                    <span className="font-medium text-medical-800">对齐：</span>{' '}
                     文本左对齐，数据和表格可居中对齐，保持一致的视觉节奏。
                   </p>
                 </div>
@@ -150,18 +155,19 @@ export function UXConsistency({ className }: UXConsistencyProps) {
                 <h4 className="text-base font-medium mb-3">导航模式</h4>
                 <div className="space-y-2 text-sm text-medical-600">
                   <p>
-                    <span className="font-medium text-medical-800">主导航：</span>{" "}
+                    <span className="font-medium text-medical-800">主导航：</span>{' '}
                     使用左侧垂直导航栏，突出显示当前位置，分组相关功能。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">二级导航：</span> 使用顶部水平标签，保持层级清晰。
+                    <span className="font-medium text-medical-800">二级导航：</span>{' '}
+                    使用顶部水平标签，保持层级清晰。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">移动端导航：</span>{" "}
+                    <span className="font-medium text-medical-800">移动端导航：</span>{' '}
                     使用底部导航栏，显示最常用的4-5个功能入口。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">面包屑：</span>{" "}
+                    <span className="font-medium text-medical-800">面包屑：</span>{' '}
                     在复杂层级页面中使用面包屑导航，帮助用户定位和返回。
                   </p>
                 </div>
@@ -171,19 +177,19 @@ export function UXConsistency({ className }: UXConsistencyProps) {
                 <h4 className="text-base font-medium mb-3">反馈机制</h4>
                 <div className="space-y-2 text-sm text-medical-600">
                   <p>
-                    <span className="font-medium text-medical-800">操作反馈：</span>{" "}
+                    <span className="font-medium text-medical-800">操作反馈：</span>{' '}
                     所有用户操作都应有明确的视觉反馈，如按钮点击效果、表单提交状态等。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">加载状态：</span>{" "}
+                    <span className="font-medium text-medical-800">加载状态：</span>{' '}
                     使用统一的加载动画，显示进度和预计完成时间。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">成功/错误提示：</span>{" "}
+                    <span className="font-medium text-medical-800">成功/错误提示：</span>{' '}
                     使用一致的提示样式，成功提示使用绿色，错误提示使用红色。
                   </p>
                   <p>
-                    <span className="font-medium text-medical-800">确认对话框：</span>{" "}
+                    <span className="font-medium text-medical-800">确认对话框：</span>{' '}
                     对于重要操作，使用统一的确认对话框样式，明确操作后果。
                   </p>
                 </div>
@@ -212,5 +218,5 @@ export function UXConsistency({ className }: UXConsistencyProps) {
         </MedicalCard>
       </div>
     </div>
-  )
+  );
 }

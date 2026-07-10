@@ -1,16 +1,23 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Plus, Search, Filter } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Plus, Search, Filter } from 'lucide-react';
 
 const mockSamples = [
-  { id: "S001", type: "血液", status: "已处理", location: "冷冻库A-1", date: "2024-01-15" },
-  { id: "S002", type: "组织", status: "处理中", location: "实验室B", date: "2024-01-16" },
-  { id: "S003", type: "尿液", status: "待处理", location: "冷冻库A-2", date: "2024-01-17" },
-]
+  { id: 'S001', type: '血液', status: '已处理', location: '冷冻库A-1', date: '2024-01-15' },
+  { id: 'S002', type: '组织', status: '处理中', location: '实验室B', date: '2024-01-16' },
+  { id: 'S003', type: '尿液', status: '待处理', location: '冷冻库A-2', date: '2024-01-17' },
+];
 
 export function SampleManagementClient() {
   return (
@@ -51,14 +58,18 @@ export function SampleManagementClient() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockSamples.map((sample) => (
+              {mockSamples.map(sample => (
                 <TableRow key={sample.id}>
                   <TableCell className="font-medium">{sample.id}</TableCell>
                   <TableCell>{sample.type}</TableCell>
                   <TableCell>
                     <Badge
                       variant={
-                        sample.status === "已处理" ? "default" : sample.status === "处理中" ? "secondary" : "outline"
+                        sample.status === '已处理'
+                          ? 'default'
+                          : sample.status === '处理中'
+                            ? 'secondary'
+                            : 'outline'
                       }
                     >
                       {sample.status}
@@ -73,5 +84,5 @@ export function SampleManagementClient() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

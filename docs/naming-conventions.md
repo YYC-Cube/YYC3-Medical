@@ -4,16 +4,16 @@
 
 ## 文件命名
 
-| 类型 | 约定 | 示例 |
-|------|------|------|
-| 组件文件 | **kebab-case** `.tsx` | `patient-card.tsx`、`case-detail-client.tsx` |
-| 历史组件（PascalCase） | 保留，不重命名 | `AuthGuard.tsx`、`LoginForm.tsx`、`PatientList.tsx` |
-| 页面/布局/错误 | Next.js 约定 | `page.tsx`、`layout.tsx`、`loading.tsx`、`error.tsx`、`not-found.tsx` |
-| Hooks | `use-*.ts` / `use-*.tsx` | `use-debounce.ts`、`use-mobile.tsx` |
-| 非组件 TS | **camelCase** 或 **kebab-case** `.ts` | `patientService.ts`、`api-endpoints.ts` |
-| 类型定义 | PascalCase `.ts` 在 `types/` | `Patient.ts`、`MedicalRecord.ts` |
-| 测试 | `*.test.ts(x)` 在 `__tests__/` | `utils.test.ts`、`stores.test.ts` |
-| 常量配置 | kebab-case | `brand-constants.ts`、`seo-config.ts` |
+| 类型                   | 约定                                  | 示例                                                                  |
+| ---------------------- | ------------------------------------- | --------------------------------------------------------------------- |
+| 组件文件               | **kebab-case** `.tsx`                 | `patient-card.tsx`、`case-detail-client.tsx`                          |
+| 历史组件（PascalCase） | 保留，不重命名                        | `AuthGuard.tsx`、`LoginForm.tsx`、`PatientList.tsx`                   |
+| 页面/布局/错误         | Next.js 约定                          | `page.tsx`、`layout.tsx`、`loading.tsx`、`error.tsx`、`not-found.tsx` |
+| Hooks                  | `use-*.ts` / `use-*.tsx`              | `use-debounce.ts`、`use-mobile.tsx`                                   |
+| 非组件 TS              | **camelCase** 或 **kebab-case** `.ts` | `patientService.ts`、`api-endpoints.ts`                               |
+| 类型定义               | PascalCase `.ts` 在 `types/`          | `Patient.ts`、`MedicalRecord.ts`                                      |
+| 测试                   | `*.test.ts(x)` 在 `__tests__/`        | `utils.test.ts`、`stores.test.ts`                                     |
+| 常量配置               | kebab-case                            | `brand-constants.ts`、`seo-config.ts`                                 |
 
 **对历史 PascalCase 组件的处理**：
 
@@ -39,25 +39,25 @@
 
 ```tsx
 // 1. React / Next.js
-import { useState } from "react"
-import Link from "next/link"
+import { useState } from 'react';
+import Link from 'next/link';
 
 // 2. 第三方库
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
+import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 // 3. 内部模块（@/ 别名）
-import { useAuth } from "@/hooks"
-import { formatDate } from "@/lib/utils"
+import { useAuth } from '@/hooks';
+import { formatDate } from '@/lib/utils';
 
 // 4. 相对路径
-import { PatientCard } from "../PatientCard"
+import { PatientCard } from '../PatientCard';
 
 // 5. 类型
-import type { Patient } from "@/types"
+import type { Patient } from '@/types';
 
 // 6. 样式
-import "./styles.css"
+import './styles.css';
 ```
 
 ## 同名跨目录组件

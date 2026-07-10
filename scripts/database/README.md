@@ -30,12 +30,12 @@ scripts/database/
 
 确保系统已安装以下软件：
 
-| 依赖 | 版本要求 | 说明 |
-|------|---------|------|
-| **Node.js** | `>= 18.17.0` | 与项目根目录一致 |
-| **pnpm** | `>= 9.0.0` | 项目统一包管理器 |
-| **MySQL** | `>= 8.0` | 数据库服务 |
-| **ts-node** | latest | 用于运行 TypeScript 脚本 |
+| 依赖        | 版本要求     | 说明                     |
+| ----------- | ------------ | ------------------------ |
+| **Node.js** | `>= 18.17.0` | 与项目根目录一致         |
+| **pnpm**    | `>= 9.0.0`   | 项目统一包管理器         |
+| **MySQL**   | `>= 8.0`     | 数据库服务               |
+| **ts-node** | latest       | 用于运行 TypeScript 脚本 |
 
 ### 2. 配置环境变量
 
@@ -88,53 +88,59 @@ pnpm run db:init:schema
 
 ## 脚本命令（package.json）
 
-| 命令 | 描述 |
-|------|------|
-| `db:init` | 执行完整初始化 |
-| `db:init:create` | 创建数据库并初始化 |
-| `db:init:schema` | 仅创建表结构，跳过数据 |
-| `db:backup` | 执行数据库备份 |
-| `db:maintenance` | 执行维护存储过程 |
-| `db:health-check` | 执行数据库健康检查 |
-| `db:install-deps` | 安装数据库脚本依赖 |
+| 命令              | 描述                   |
+| ----------------- | ---------------------- |
+| `db:init`         | 执行完整初始化         |
+| `db:init:create`  | 创建数据库并初始化     |
+| `db:init:schema`  | 仅创建表结构，跳过数据 |
+| `db:backup`       | 执行数据库备份         |
+| `db:maintenance`  | 执行维护存储过程       |
+| `db:health-check` | 执行数据库健康检查     |
+| `db:install-deps` | 安装数据库脚本依赖     |
 
 ## 数据库结构
 
 ### 核心业务表
 
-| 表名 | 描述 |
-|------|------|
-| `users` | 用户信息 |
-| `patients` | 患者信息 |
-| `medical_records` | 医疗记录 |
+| 表名                   | 描述       |
+| ---------------------- | ---------- |
+| `users`                | 用户信息   |
+| `patients`             | 患者信息   |
+| `medical_records`      | 医疗记录   |
 | `ai_diagnosis_records` | AI诊断记录 |
-| `medical_images` | 医疗图像 |
-| `certifications` | 认证证书 |
-| `medications` | 药物信息 |
-| `prescriptions` | 处方信息 |
-| `appointments` | 预约信息 |
-| `research_projects` | 研究项目 |
-| `research_data` | 研究数据 |
+| `medical_images`       | 医疗图像   |
+| `certifications`       | 认证证书   |
+| `medications`          | 药物信息   |
+| `prescriptions`        | 处方信息   |
+| `appointments`         | 预约信息   |
+| `research_projects`    | 研究项目   |
+| `research_data`        | 研究数据   |
 
 ### 系统表
 
-| 表名 | 描述 |
-|------|------|
-| `system_logs` | 系统操作日志 |
-| `notifications` | 用户通知 |
-| `system_settings` | 系统配置 |
+| 表名                | 描述         |
+| ------------------- | ------------ |
+| `system_logs`       | 系统操作日志 |
+| `notifications`     | 用户通知     |
+| `system_settings`   | 系统配置     |
 | `maintenance_tasks` | 维护任务记录 |
 
 ## 维护存储过程（MySQL）
 
 ```sql
-CALL cleanup_old_data();
-CALL optimize_database_performance();
-CALL check_patient_data_integrity();
-CALL get_ai_diagnosis_statistics();
-CALL get_user_activity_statistics(30);
-CALL database_health_check();
-CALL export_patient_data('patient-uuid-here');
+CALL cleanup_old_data ();
+
+CALL optimize_database_performance ();
+
+CALL check_patient_data_integrity ();
+
+CALL get_ai_diagnosis_statistics ();
+
+CALL get_user_activity_statistics (30);
+
+CALL database_health_check ();
+
+CALL export_patient_data ('patient-uuid-here');
 ```
 
 ## 常用操作
@@ -204,33 +210,29 @@ mysql -u root -p yyc3_med < backup_20240115.sql
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: yyc3-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: your_password
-      MYSQL_DATABASE: yyc3_med
-      MYSQL_USER: yyc3_user
-      MYSQL_PASSWORD: your_password
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./scripts/database/init:/docker-entrypoint-initdb.d
-    command: --default-authentication-plugin=mysql_native_password
+mysql:
+image: mysql:8.0
+container_name: yyc3-mysql
+restart: always
+environment:
+MYSQL_ROOT_PASSWORD: your_password
+MYSQL_DATABASE: yyc3_med
+MYSQL_USER: yyc3_user
+MYSQL_PASSWORD: your_password
+ports: - "3306:3306"
+volumes: - mysql_data:/var/lib/mysql - ./scripts/database/init:/docker-entrypoint-initdb.d
+command: --default-authentication-plugin=mysql_native_password
 
-  adminer:
-    image: adminer
-    container_name: yyc3-adminer
-    restart: always
-    ports:
-      - "5151:8080"
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
+adminer:
+image: adminer
+container_name: yyc3-adminer
+restart: always
+ports: - "5151:8080"
+environment:
+ADMINER_DEFAULT_SERVER: mysql
 
 volumes:
-  mysql_data:
+mysql_data:
 
 ---
 

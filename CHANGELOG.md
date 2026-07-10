@@ -7,25 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security
+
+- Removed hardcoded demo passwords from `LoginForm.tsx` — now driven by `NEXT_PUBLIC_DEMO_*` environment variables
+- Added `rel="noopener noreferrer"` to all `target="_blank"` links (4 files)
+- Updated `scripts/seed.ts` to use `process.env.SEED_*_PWD` instead of hardcoded passwords
+- Added security annotation for `dangerouslySetInnerHTML` JSON-LD in `app/layout.tsx`
+
+### Performance
+
+- Created `components/ui/recharts-dynamic.tsx` — lazy-loaded recharts components via `next/dynamic`
+- Migrated 37 component files from static `recharts` imports to dynamic imports
+- Reduced max chunk size from 370KB to 223KB (5 chunks >350KB → 0)
+- Compressed `Family-001.png` from 573KB PNG to 19KB WebP (97% reduction)
+
+### Accessibility (a11y)
+
+- Fixed 37 `div onClick` elements missing keyboard handlers across 25 component files
+- Added `role="button"` + `tabIndex={0}` + `onKeyDown(Enter/Space)` to all interactive divs
+- Created `lib/a11y.ts` with `clickableDivProps()` helper function
+- Enabled `jsx-a11y/click-events-have-key-events` and `jsx-a11y/interactive-supports-focus` ESLint rules
+
+### Code Quality
+
+- Achieieved **0 ESLint warnings** (down from 236)
+- Configured `@typescript-eslint/no-unused-vars`, `react-hooks/set-state-in-effect` rules
+- Added `clickableDivProps` shared utility to `lib/a11y.ts`
+- Updated `jest.setup.js` with demo mode environment variables
+
 ### Documentation
 
-- Rewrote `README.md` to open-source standard with accurate metrics (311 tests, 441 components, 112 routes)
-- Rewrote `AGENTS.md` — authoritative AI agent guide aligned to 2026-07-06 codebase state
-- Rewrote `CONTRIBUTING.md` — full contributing guide with medical color system, i18n workflow, quality gates
-- Deleted 9 stale/inaccurate documentation files (wrong tech stack, hardcoded metrics, one-off tools)
-- Updated `scripts/database/README.md` — Node v16+ → Node 18.17+, npm/yarn → pnpm 9
-
-### Removed
-
-- `docs/tech-architecture.ts` — claimed Next.js 14 + PostgreSQL + Vercel (all wrong)
-- `docs/project-statistics.ts` — stale hardcoded estimates
-- `docs/feature-manifest.ts` — stale page/component counts
-- `docs/mobile-features.ts` — listed unimplemented features as available
-- `docs/route-structure-fix.md` — one-time fix already applied
-- `docs/phase-completion-plan.md` — superseded by execution report
-- `docs/YYC3-Med数据库审查保障系统.md` — referenced TypeORM (project uses Prisma)
-- `docs/YYC3-Med模块修复指南.md` — temporary tools no longer relevant
-- `docs/tech-debt/eslint-9-migration.md` — migration complete
+- Updated `docs/YYC3-Med开发者指南.md` — latest metrics, env vars, a11y section, quality gates
+- Added `.env.example` — environment variable configuration template
+- Deleted stale progress reports: `docs/阶段0-1执行进度报告.md`, `docs/全局审核与CI-CD完善进度报告.md`
+- Deleted superseded tech debt audit: `docs/tech-debt/any-audit.md`
 
 ---
 
@@ -176,11 +191,11 @@ This release covers Phase 0 (build stabilization) and Phase 1 (quality ramp-up),
 
 ## Version History Summary
 
-| Version | Date | Highlights |
-|---------|------|------------|
-| Unreleased | — | Documentation overhaul, root docs to open-source standard |
-| 1.1.0 | 2026-07-06 | Phase 0/1: 311 tests, i18n 4 locales, medical UI system, CI unified to pnpm |
-| 1.0.0 | 2026-05-22 | Initial release: Next.js 16, static export, 112 routes, full module suite |
+| Version    | Date       | Highlights                                                                  |
+| ---------- | ---------- | --------------------------------------------------------------------------- |
+| Unreleased | —          | Documentation overhaul, root docs to open-source standard                   |
+| 1.1.0      | 2026-07-06 | Phase 0/1: 311 tests, i18n 4 locales, medical UI system, CI unified to pnpm |
+| 1.0.0      | 2026-05-22 | Initial release: Next.js 16, static export, 112 routes, full module suite   |
 
 ---
 

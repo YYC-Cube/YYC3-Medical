@@ -1,9 +1,9 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
-import type React from "react"
+import type React from 'react';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -12,36 +12,42 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Plus } from "lucide-react"
-import { useState } from "react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
 interface CreateTaskDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onTaskCreated: () => void
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onTaskCreated: () => void;
 }
 
 export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTaskDialogProps) {
   const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    schedule: "",
-    description: "",
-  })
+    name: '',
+    type: '',
+    schedule: '',
+    description: '',
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // 处理任务创建逻辑
-    debug("创建任务:", formData)
-    onTaskCreated()
-    onOpenChange(false)
-    setFormData({ name: "", type: "", schedule: "", description: "" })
-  }
+    debug('创建任务:', formData);
+    onTaskCreated();
+    onOpenChange(false);
+    setFormData({ name: '', type: '', schedule: '', description: '' });
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -65,7 +71,7 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
                 className="col-span-3"
                 placeholder="输入任务名称"
               />
@@ -74,7 +80,10 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
               <Label htmlFor="type" className="text-right">
                 任务类型
               </Label>
-              <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
+              <Select
+                value={formData.type}
+                onValueChange={value => setFormData({ ...formData, type: value })}
+              >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="选择任务类型" />
                 </SelectTrigger>
@@ -92,7 +101,7 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
               </Label>
               <Select
                 value={formData.schedule}
-                onValueChange={(value) => setFormData({ ...formData, schedule: value })}
+                onValueChange={value => setFormData({ ...formData, schedule: value })}
               >
                 <SelectTrigger className="col-span-3">
                   <SelectValue placeholder="选择执行计划" />
@@ -112,7 +121,7 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
               <Textarea
                 id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={e => setFormData({ ...formData, description: e.target.value })}
                 className="col-span-3"
                 placeholder="任务描述（可选）"
               />
@@ -127,5 +136,5 @@ export function CreateTaskDialog({ open, onOpenChange, onTaskCreated }: CreateTa
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

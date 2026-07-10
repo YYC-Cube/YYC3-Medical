@@ -13,13 +13,12 @@ audience: developers,architects,stakeholders
 complexity: advanced
 ---
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -35,13 +34,13 @@ complexity: advanced
 
 ---
 
-| 属性         | 值                                    |
-| ------------ | ------------------------------------- |
-| **文档版本** | v2.1.0 Official                       |
-| **发布日期** | 2026-05-24                            |
+| 属性         | 值                                      |
+| ------------ | --------------------------------------- |
+| **文档版本** | v2.1.0 Official                         |
+| **发布日期** | 2026-05-24                              |
 | **验收阶段** | 第十阶段：深度审核与性能优化            |
-| **前置依赖** | 前九个验收阶段全部完成                |
-| **文档性质** | YYC³验收系统教科书级提示词文档         |
+| **前置依赖** | 前九个验收阶段全部完成                  |
+| **文档性质** | YYC³验收系统教科书级提示词文档          |
 | **适用范围** | Next.js + React + shadcn/ui + pnpm 项目 |
 
 </div>
@@ -94,13 +93,13 @@ complexity: advanced
 
 ### 核心价值
 
-| 维度 | 价值体现 | 业务影响 |
-|------|---------|---------|
-| **用户体验** | 确保页面加载快速、交互流畅，提升用户满意度 | 减少跳出率，增加用户停留时间 |
-| **资源效率** | 优化服务器资源使用，降低运营成本 | 提高服务器吞吐量，减少硬件投入 |
-| **可扩展性** | 建立性能基线，为业务增长提供支撑 | 应对流量高峰，保证服务稳定性 |
-| **竞争优势** | 性能领先于竞争对手，提升品牌形象 | 获得更好的 SEO 排名，提高转化率 |
-| **技术债务预防** | 及早发现和解决性能问题，避免技术债累积 | 降低后期维护成本，提高开发效率 |
+| 维度             | 价值体现                                   | 业务影响                        |
+| ---------------- | ------------------------------------------ | ------------------------------- |
+| **用户体验**     | 确保页面加载快速、交互流畅，提升用户满意度 | 减少跳出率，增加用户停留时间    |
+| **资源效率**     | 优化服务器资源使用，降低运营成本           | 提高服务器吞吐量，减少硬件投入  |
+| **可扩展性**     | 建立性能基线，为业务增长提供支撑           | 应对流量高峰，保证服务稳定性    |
+| **竞争优势**     | 性能领先于竞争对手，提升品牌形象           | 获得更好的 SEO 排名，提高转化率 |
+| **技术债务预防** | 及早发现和解决性能问题，避免技术债累积     | 降低后期维护成本，提高开发效率  |
 
 ---
 
@@ -775,11 +774,7 @@ export class PerformanceBaselineManager {
     };
   }
 
-  private calculateStatus(
-    current: number,
-    baseline: number,
-    threshold: number
-  ): MetricStatus {
+  private calculateStatus(current: number, baseline: number, threshold: number): MetricStatus {
     const change = ((current - baseline) / baseline) * 100;
 
     if (Math.abs(change) < threshold) return 'within-bounds';
@@ -790,9 +785,9 @@ export class PerformanceBaselineManager {
   }
 
   private determineOverallStatus(comparisons: MetricComparison[]): OverallStatus {
-    const hasCritical = comparisons.some((m) => m.status === 'critical');
-    const hasWarning = comparisons.some((m) => m.status === 'warning');
-    const hasImproved = comparisons.some((m) => m.status === 'improved');
+    const hasCritical = comparisons.some(m => m.status === 'critical');
+    const hasWarning = comparisons.some(m => m.status === 'warning');
+    const hasImproved = comparisons.some(m => m.status === 'improved');
 
     if (hasCritical) return 'critical';
     if (hasWarning) return 'warning';
@@ -807,19 +802,19 @@ export class PerformanceBaselineManager {
         category: 'optimization',
         title: 'Optimize Largest Contentful Paint',
         description: 'Consider implementing image lazy loading and font optimization',
-        suggestedActions: ['Add loading="lazy" to below-fold images', 'Implement font-display: swap'],
+        suggestedActions: [
+          'Add loading="lazy" to below-fold images',
+          'Implement font-display: swap',
+        ],
         expectedImprovement: 'Reduce LCP by 15-20%',
       },
     ];
   }
 
-  private generateAlerts(
-    metrics: MetricComparison[],
-    thresholds: PerformanceThresholds
-  ): Alert[] {
+  private generateAlerts(metrics: MetricComparison[], thresholds: PerformanceThresholds): Alert[] {
     return metrics
-      .filter((m) => m.status === 'critical' || m.status === 'warning')
-      .map((m) => ({
+      .filter(m => m.status === 'critical' || m.status === 'warning')
+      .map(m => ({
         metric: m.name,
         severity: m.status === 'critical' ? 'critical' : 'warning',
         message: `${m.name} has ${m.status} deviation from baseline`,
@@ -862,11 +857,7 @@ interface MetricComparison {
   status: MetricStatus;
 }
 
-type MetricStatus =
-  | 'within-bounds'
-  | 'warning'
-  | 'critical'
-  | 'improved';
+type MetricStatus = 'within-bounds' | 'warning' | 'critical' | 'improved';
 
 type OverallStatus = 'stable' | 'warning' | 'critical' | 'improved';
 
@@ -1318,7 +1309,7 @@ export class JavaScriptPerformanceAuditor {
         effectiveness: 87,
         deadCodeIdentified: {
           totalDeadCode: 120,
-          byCategory: { 'unused-functions': 45, 'dead-code': 38, 'polyfills': 37 },
+          byCategory: { 'unused-functions': 45, 'dead-code': 38, polyfills: 37 },
           topDeadCodeModules: [
             {
               path: 'src/utils/deprecated.ts',
@@ -1428,19 +1419,50 @@ export class JavaScriptPerformanceAuditor {
       heapSnapshots: {
         totalHeapSize: 45.2,
         retainedSizeByType: [
-          { type: 'Object', retainedSize: 18.5, instanceCount: 1245, averageSize: 14.9, growthTrend: 'stable' },
-          { type: 'Array', retainedSize: 12.3, instanceCount: 567, averageSize: 21.7, growthTrend: 'growing' },
-          { type: 'String', retainedSize: 8.4, instanceCount: 2340, averageSize: 3.6, growthTrend: 'stable' },
+          {
+            type: 'Object',
+            retainedSize: 18.5,
+            instanceCount: 1245,
+            averageSize: 14.9,
+            growthTrend: 'stable',
+          },
+          {
+            type: 'Array',
+            retainedSize: 12.3,
+            instanceCount: 567,
+            averageSize: 21.7,
+            growthTrend: 'growing',
+          },
+          {
+            type: 'String',
+            retainedSize: 8.4,
+            instanceCount: 2340,
+            averageSize: 3.6,
+            growthTrend: 'stable',
+          },
         ],
         dominators: [
-          { object: 'Redux Store', retainedSize: 15.2, retainedCount: 1, children: ['state', 'reducers'], suspect: false },
-          { object: 'Component Cache', retainedSize: 8.7, retainedCount: 1, children: ['cachedComponents'], suspect: true },
+          {
+            object: 'Redux Store',
+            retainedSize: 15.2,
+            retainedCount: 1,
+            children: ['state', 'reducers'],
+            suspect: false,
+          },
+          {
+            object: 'Component Cache',
+            retainedSize: 8.7,
+            retainedCount: 1,
+            children: ['cachedComponents'],
+            suspect: true,
+          },
         ],
         shallowVsRetained: {
           shallowSize: 12.4,
           retainedSize: 45.2,
           ratio: 3.64,
-          interpretation: 'Good ratio indicates efficient memory usage with minimal dangling references',
+          interpretation:
+            'Good ratio indicates efficient memory usage with minimal dangling references',
         },
       },
       garbageCollection: {
@@ -2067,7 +2089,8 @@ export class APIPerformanceAuditor {
             priority: 'high',
             category: 'query-optimization',
             title: 'Eliminate N+1 Queries',
-            description: 'Replace multiple individual queries with a single joined query or batch loading',
+            description:
+              'Replace multiple individual queries with a single joined query or batch loading',
             currentPerformance: 85,
             expectedPerformance: 25,
             improvement: 71,
@@ -2141,7 +2164,8 @@ export class APIPerformanceAuditor {
           {
             table: 'orders',
             columns: ['user_id', 'status', 'created_at'],
-            queryPattern: 'SELECT * FROM orders WHERE user_id = ? AND status = ? ORDER BY created_at DESC',
+            queryPattern:
+              'SELECT * FROM orders WHERE user_id = ? AND status = ? ORDER BY created_at DESC',
             estimatedBenefit: 'Reduce query time from 850ms to 45ms',
             priority: 'high',
           },
@@ -2178,7 +2202,7 @@ export class APIPerformanceAuditor {
           evictionPolicy: 'lru',
           ttlConfiguration: {
             defaultTTL: 3600,
-            byCategory: { 'user-data': 300, 'session': 1800, 'config': 86400 },
+            byCategory: { 'user-data': 300, session: 1800, config: 86400 },
             adaptiveTTL: true,
             staleWhileRevalidate: true,
           },
@@ -2357,29 +2381,29 @@ export class APIPerformanceAuditor {
 
 ### P0 - 必须通过标准（阻塞性）
 
-| 编号 | 验收项 | 验收标准 | 验证方法 | 权重 |
-|------|--------|----------|----------|------|
-| P0-01 | Core Web Vitals 达标 | LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 | Lighthouse / RUM | 20% |
-| P0-02 | 无严重内存泄漏 | 24小时内存增长 < 10%，无确认泄漏点 | 内存分析工具 | 15% |
-| P0-03 | API 响应时间达标 | P95 响应时间 < 500ms，无超时错误 | APM 工具 | 15% |
-| P0-04 | 无阻塞主线程任务 | TBT < 200ms，无超过 50ms 的长任务 | Chrome DevTools | 10% |
+| 编号  | 验收项               | 验收标准                           | 验证方法         | 权重 |
+| ----- | -------------------- | ---------------------------------- | ---------------- | ---- |
+| P0-01 | Core Web Vitals 达标 | LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 | Lighthouse / RUM | 20%  |
+| P0-02 | 无严重内存泄漏       | 24小时内存增长 < 10%，无确认泄漏点 | 内存分析工具     | 15%  |
+| P0-03 | API 响应时间达标     | P95 响应时间 < 500ms，无超时错误   | APM 工具         | 15%  |
+| P0-04 | 无阻塞主线程任务     | TBT < 200ms，无超过 50ms 的长任务  | Chrome DevTools  | 10%  |
 
 ### P1 - 强烈推荐标准（重要）
 
-| 编号 | 验收项 | 验收标准 | 验证方法 | 权重 |
-|------|--------|----------|----------|------|
-| P1-01 | 包大小优化 | JS 初始包 < 250KB (gzipped)，CSS < 100KB | Bundle Analyzer | 10% |
-| P1-02 | 缓存命中率 | 总体缓存命中率 ≥ 90%，CDN ≥ 95% | 缓存监控 | 8% |
-| P1-03 | 数据库查询优化 | 无全表扫描，慢查询 < 1% | 慢查询日志 | 7% |
-| P1-04 | 图片优化 | 所有图片使用 WebP 格式，实现懒加载 | PageSpeed Insights | 5% |
+| 编号  | 验收项         | 验收标准                                 | 验证方法           | 权重 |
+| ----- | -------------- | ---------------------------------------- | ------------------ | ---- |
+| P1-01 | 包大小优化     | JS 初始包 < 250KB (gzipped)，CSS < 100KB | Bundle Analyzer    | 10%  |
+| P1-02 | 缓存命中率     | 总体缓存命中率 ≥ 90%，CDN ≥ 95%          | 缓存监控           | 8%   |
+| P1-03 | 数据库查询优化 | 无全表扫描，慢查询 < 1%                  | 慢查询日志         | 7%   |
+| P1-04 | 图片优化       | 所有图片使用 WebP 格式，实现懒加载       | PageSpeed Insights | 5%   |
 
 ### P2 - 可选优化标准（增强）
 
-| 编号 | 验收项 | 验收标准 | 验证方法 | 权重 |
-|------|--------|----------|----------|------|
-| P2-01 | Service Worker 支持 | 离线可用性 ≥ 70%，首屏加速 > 20% | Lighthouse | 5% |
-| P2-02 | 预加载/预取策略 | 关键资源预加载覆盖率 ≥ 80% | Network Panel | 3% |
-| P2-03 | 代码分割效果 | 懒加载路由覆盖率 ≥ 90% | Bundle Report | 2% |
+| 编号  | 验收项              | 验收标准                         | 验证方法      | 权重 |
+| ----- | ------------------- | -------------------------------- | ------------- | ---- |
+| P2-01 | Service Worker 支持 | 离线可用性 ≥ 70%，首屏加速 > 20% | Lighthouse    | 5%   |
+| P2-02 | 预加载/预取策略     | 关键资源预加载覆盖率 ≥ 80%       | Network Panel | 3%   |
+| P2-03 | 代码分割效果        | 懒加载路由覆盖率 ≥ 90%           | Bundle Report | 2%   |
 
 ---
 
@@ -2402,27 +2426,32 @@ export class APIPerformanceAuditor {
 ## 📊 执行摘要
 
 ### 总体评价
+
 {{summary}}
 
 ### 性能概况
-| 维度 | 当前值 | 目标值 | 状态 | 改善幅度 |
-|------|--------|--------|------|----------|
-| LCP | {{lcp}}ms | ≤2500ms | {{lcpStatus}} | {{lcpImprovement}}% |
-| INP | {{inp}}ms | ≤200ms | {{inpStatus}} | {{inpImprovement}}% |
-| CLS | {{cls}} | ≤0.1 | {{clsStatus}} | {{clsImprovement}}% |
-| TBT | {{tbt}}ms | ≤200ms | {{tbtStatus}} | {{tbtImprovement}}% |
-| FCP | {{fcp}}ms | ≤1800ms | {{fcpStatus}} | {{fcpImprovement}}% |
-| TTFB | {{ttfb}}ms | ≤800ms | {{ttfbStatus}} | {{ttfbImprovement}}% |
+
+| 维度 | 当前值     | 目标值  | 状态           | 改善幅度             |
+| ---- | ---------- | ------- | -------------- | -------------------- |
+| LCP  | {{lcp}}ms  | ≤2500ms | {{lcpStatus}}  | {{lcpImprovement}}%  |
+| INP  | {{inp}}ms  | ≤200ms  | {{inpStatus}}  | {{inpImprovement}}%  |
+| CLS  | {{cls}}    | ≤0.1    | {{clsStatus}}  | {{clsImprovement}}%  |
+| TBT  | {{tbt}}ms  | ≤200ms  | {{tbtStatus}}  | {{tbtImprovement}}%  |
+| FCP  | {{fcp}}ms  | ≤1800ms | {{fcpStatus}}  | {{fcpImprovement}}%  |
+| TTFB | {{ttfb}}ms | ≤800ms  | {{ttfbStatus}} | {{ttfbImprovement}}% |
 
 ### 关键发现
 
 #### 🎯 优势领域
+
 {{strengths}}
 
 #### ⚠️ 需要改进
+
 {{improvements}}
 
 #### 🚨 严重问题
+
 {{criticalIssues}}
 
 ---
@@ -2432,88 +2461,100 @@ export class APIPerformanceAuditor {
 ### 前端性能分析
 
 #### Core Web Vitals 详细数据
-| 指标 | P50 (中位数) | P75 | P95 | P99 | 目标 | 状态 |
-|------|-------------|-----|-----|-----|------|------|
-| LCP | {{lcpP50}}ms | {{lcpP75}}ms | {{lcpP95}}ms | {{lcpP99}}ms | ≤2500ms | {{lcpOverallStatus}} |
-| INP | {{inpP50}}ms | {{inpP75}}ms | {{inpP95}}ms | {{inpP99}}ms | ≤200ms | {{inpOverallStatus}} |
-| CLS | {{clsP50}} | {{clsP75}} | {{clsP95}} | {{clsP99}} | ≤0.1 | {{clsOverallStatus}} |
+
+| 指标 | P50 (中位数) | P75          | P95          | P99          | 目标    | 状态                 |
+| ---- | ------------ | ------------ | ------------ | ------------ | ------- | -------------------- |
+| LCP  | {{lcpP50}}ms | {{lcpP75}}ms | {{lcpP95}}ms | {{lcpP99}}ms | ≤2500ms | {{lcpOverallStatus}} |
+| INP  | {{inpP50}}ms | {{inpP75}}ms | {{inpP95}}ms | {{inpP99}}ms | ≤200ms  | {{inpOverallStatus}} |
+| CLS  | {{clsP50}}   | {{clsP75}}   | {{clsP95}}   | {{clsP99}}   | ≤0.1    | {{clsOverallStatus}} |
 
 #### 资源加载分析
-| 资源类型 | 大小 (gzipped) | 加载时间 | 阻塞渲染 | 优化状态 |
-|----------|---------------|----------|---------|----------|
-| JavaScript | {{jsSize}}KB | {{jsLoadTime}}ms | {{jsBlocking}} | {{jsOptimization}} |
-| CSS | {{cssSize}}KB | {{cssLoadTime}}ms | {{cssBlocking}} | {{cssOptimization}} |
-| Images | {{imagesSize}}KB | {{imagesLoadTime}}ms | N/A | {{imagesOptimization}} |
-| Fonts | {{fontsSize}}KB | {{fontsLoadTime}}ms | {{fontsBlocking}} | {{fontsOptimization}} |
+
+| 资源类型   | 大小 (gzipped)   | 加载时间             | 阻塞渲染          | 优化状态               |
+| ---------- | ---------------- | -------------------- | ----------------- | ---------------------- |
+| JavaScript | {{jsSize}}KB     | {{jsLoadTime}}ms     | {{jsBlocking}}    | {{jsOptimization}}     |
+| CSS        | {{cssSize}}KB    | {{cssLoadTime}}ms    | {{cssBlocking}}   | {{cssOptimization}}    |
+| Images     | {{imagesSize}}KB | {{imagesLoadTime}}ms | N/A               | {{imagesOptimization}} |
+| Fonts      | {{fontsSize}}KB  | {{fontsLoadTime}}ms  | {{fontsBlocking}} | {{fontsOptimization}}  |
 
 #### 渲染性能分析
-| 指标 | 数值 | 目标 | 状态 | 建议 |
-|------|------|------|------|------|
-| First Paint | {{fp}}ms | ≤1000ms | {{fpStatus}} | {{fpRecommendation}} |
-| Contentful Paint | {{fcpDetailed}}ms | ≤1800ms | {{fcpDetailedStatus}} | {{fcpDetailedRecommendation}} |
+
+| 指标                     | 数值              | 目标    | 状态                  | 建议                          |
+| ------------------------ | ----------------- | ------- | --------------------- | ----------------------------- |
+| First Paint              | {{fp}}ms          | ≤1000ms | {{fpStatus}}          | {{fpRecommendation}}          |
+| Contentful Paint         | {{fcpDetailed}}ms | ≤1800ms | {{fcpDetailedStatus}} | {{fcpDetailedRecommendation}} |
 | Largest Contentful Paint | {{lcpDetailed}}ms | ≤2500ms | {{lcpDetailedStatus}} | {{lcpDetailedRecommendation}} |
-| Time to Interactive | {{tti}}ms | ≤3800ms | {{ttiStatus}} | {{ttiRecommendation}} |
-| Total Blocking Time | {{tbtDetailed}}ms | ≤200ms | {{tbtDetailedStatus}} | {{tbtDetailedRecommendation}} |
-| Speed Index | {{si}} | ≤3400 | {{siStatus}} | {{siRecommendation}} |
+| Time to Interactive      | {{tti}}ms         | ≤3800ms | {{ttiStatus}}         | {{ttiRecommendation}}         |
+| Total Blocking Time      | {{tbtDetailed}}ms | ≤200ms  | {{tbtDetailedStatus}} | {{tbtDetailedRecommendation}} |
+| Speed Index              | {{si}}            | ≤3400   | {{siStatus}}          | {{siRecommendation}}          |
 
 ### 后端性能分析
 
 #### API 性能概览
-| API 类别 | 平均响应时间 | P95 响应时间 | 错误率 | 吞吐量 (RPS) | 状态 |
-|----------|-------------|-------------|--------|--------------|------|
-| 用户相关 | {{userApiAvg}}ms | {{userApiP95}}ms | {{userApiErrorRate}}% | {{userApiThroughput}} | {{userApiStatus}} |
+
+| API 类别 | 平均响应时间        | P95 响应时间        | 错误率                   | 吞吐量 (RPS)             | 状态                 |
+| -------- | ------------------- | ------------------- | ------------------------ | ------------------------ | -------------------- |
+| 用户相关 | {{userApiAvg}}ms    | {{userApiP95}}ms    | {{userApiErrorRate}}%    | {{userApiThroughput}}    | {{userApiStatus}}    |
 | 内容管理 | {{contentApiAvg}}ms | {{contentApiP95}}ms | {{contentApiErrorRate}}% | {{contentApiThroughput}} | {{contentApiStatus}} |
-| 数据查询 | {{queryApiAvg}}ms | {{queryApiP95}}ms | {{queryApiErrorRate}}% | {{queryApiThroughput}} | {{queryApiStatus}} |
-| 文件操作 | {{fileApiAvg}}ms | {{fileApiP95}}ms | {{fileApiErrorRate}}% | {{fileApiThroughput}} | {{fileApiStatus}} |
+| 数据查询 | {{queryApiAvg}}ms   | {{queryApiP95}}ms   | {{queryApiErrorRate}}%   | {{queryApiThroughput}}   | {{queryApiStatus}}   |
+| 文件操作 | {{fileApiAvg}}ms    | {{fileApiP95}}ms    | {{fileApiErrorRate}}%    | {{fileApiThroughput}}    | {{fileApiStatus}}    |
 
 #### 数据库性能
-| 指标 | 当前值 | 目标值 | 状态 | 改善措施 |
-|------|--------|--------|------|----------|
-| 慢查询比例 | {{slowQueryRatio}}% | <1% | {{slowQueryStatus}} | {{slowQueryImprovement}} |
-| 平均查询时间 | {{avgQueryTime}}ms | <100ms | {{avgQueryTimeStatus}} | {{avgQueryTimeImprovement}} |
-| 连接池利用率 | {{connectionPoolUsage}}% | <80% | {{connectionPoolStatus}} | {{connectionPoolImprovement}} |
-| 索引命中率 | {{indexHitRate}}% | >95% | {{indexHitStatus}} | {{indexHitImprovement}} |
+
+| 指标         | 当前值                   | 目标值 | 状态                     | 改善措施                      |
+| ------------ | ------------------------ | ------ | ------------------------ | ----------------------------- |
+| 慢查询比例   | {{slowQueryRatio}}%      | <1%    | {{slowQueryStatus}}      | {{slowQueryImprovement}}      |
+| 平均查询时间 | {{avgQueryTime}}ms       | <100ms | {{avgQueryTimeStatus}}   | {{avgQueryTimeImprovement}}   |
+| 连接池利用率 | {{connectionPoolUsage}}% | <80%   | {{connectionPoolStatus}} | {{connectionPoolImprovement}} |
+| 索引命中率   | {{indexHitRate}}%        | >95%   | {{indexHitStatus}}       | {{indexHitImprovement}}       |
 
 #### 缓存效果分析
-| 缓存层 | 命中率 | 平均响应时间 | 失效策略 | 状态 |
-|--------|--------|-------------|----------|------|
+
+| 缓存层     | 命中率                   | 平均响应时间                   | 失效策略            | 状态                   |
+| ---------- | ------------------------ | ------------------------------ | ------------------- | ---------------------- |
 | 浏览器缓存 | {{browserCacheHitRate}}% | {{browserCacheResponseTime}}ms | {{browserCacheTTL}} | {{browserCacheStatus}} |
-| CDN 缓存 | {{cdnCacheHitRate}}% | {{cdnCacheResponseTime}}ms | {{cdnCacheTTL}} | {{cdnCacheStatus}} |
-| 应用缓存 | {{appCacheHitRate}}% | {{appCacheResponseTime}}ms | {{appCacheTTL}} | {{appCacheStatus}} |
-| Redis 缓存 | {{redisCacheHitRate}}% | {{redisCacheResponseTime}}ms | {{redisCacheTTL}} | {{redisCacheStatus}} |
+| CDN 缓存   | {{cdnCacheHitRate}}%     | {{cdnCacheResponseTime}}ms     | {{cdnCacheTTL}}     | {{cdnCacheStatus}}     |
+| 应用缓存   | {{appCacheHitRate}}%     | {{appCacheResponseTime}}ms     | {{appCacheTTL}}     | {{appCacheStatus}}     |
+| Redis 缓存 | {{redisCacheHitRate}}%   | {{redisCacheResponseTime}}ms   | {{redisCacheTTL}}   | {{redisCacheStatus}}   |
 
 ### 内存与资源利用
 
 #### 内存使用情况
-| 时间段 | 堆内存使用 | DOM 节点数 | 事件监听器数 | 内存增长趋势 | 状态 |
-|--------|-----------|-----------|-------------|------------|------|
-| 初始加载 | {{initialHeap}}MB | {{initialDOMNodes}} | {{initialEventListeners}} | - | {{initialMemoryStatus}} |
-| 10分钟后 | {{heapAfter10min}}MB | {{domAfter10min}} | {{listenersAfter10min}} | {{growthAfter10min}}%/h | {{memoryAfter10minStatus}} |
-| 30分钟后 | {{heapAfter30min}}MB | {{domAfter30min}} | {{listenersAfter30min}} | {{growthAfter30min}}%/h | {{memoryAfter30minStatus}} |
-| 1小时后 | {{heapAfter1hour}}MB | {{domAfter1hour}} | {{listenersAfter1hour}} | {{growthAfter1hour}}%/h | {{memoryAfter1hourStatus}} |
+
+| 时间段   | 堆内存使用           | DOM 节点数          | 事件监听器数              | 内存增长趋势            | 状态                       |
+| -------- | -------------------- | ------------------- | ------------------------- | ----------------------- | -------------------------- |
+| 初始加载 | {{initialHeap}}MB    | {{initialDOMNodes}} | {{initialEventListeners}} | -                       | {{initialMemoryStatus}}    |
+| 10分钟后 | {{heapAfter10min}}MB | {{domAfter10min}}   | {{listenersAfter10min}}   | {{growthAfter10min}}%/h | {{memoryAfter10minStatus}} |
+| 30分钟后 | {{heapAfter30min}}MB | {{domAfter30min}}   | {{listenersAfter30min}}   | {{growthAfter30min}}%/h | {{memoryAfter30minStatus}} |
+| 1小时后  | {{heapAfter1hour}}MB | {{domAfter1hour}}   | {{listenersAfter1hour}}   | {{growthAfter1hour}}%/h | {{memoryAfter1hourStatus}} |
 
 #### CPU 使用率
-| 场景 | CPU 使用率 | 主线程阻塞时间 | 长任务数量 | 状态 |
-|------|-----------|---------------|-----------|------|
-| 页面加载 | {{loadCpuUsage}}% | {{loadMainThreadBlock}}ms | {{loadLongTasks}} | {{loadCpuStatus}} |
+
+| 场景     | CPU 使用率               | 主线程阻塞时间                   | 长任务数量               | 状态                     |
+| -------- | ------------------------ | -------------------------------- | ------------------------ | ------------------------ |
+| 页面加载 | {{loadCpuUsage}}%        | {{loadMainThreadBlock}}ms        | {{loadLongTasks}}        | {{loadCpuStatus}}        |
 | 用户交互 | {{interactionCpuUsage}}% | {{interactionMainThreadBlock}}ms | {{interactionLongTasks}} | {{interactionCpuStatus}} |
-| 数据请求 | {{requestCpuUsage}}% | {{requestMainThreadBlock}}ms | {{requestLongTasks}} | {{requestCpuStatus}} |
-| 动画渲染 | {{animationCpuUsage}}% | {{animationMainThreadBlock}}ms | {{animationLongTasks}} | {{animationCpuStatus}} |
+| 数据请求 | {{requestCpuUsage}}%     | {{requestMainThreadBlock}}ms     | {{requestLongTasks}}     | {{requestCpuStatus}}     |
+| 动画渲染 | {{animationCpuUsage}}%   | {{animationMainThreadBlock}}ms   | {{animationLongTasks}}   | {{animationCpuStatus}}   |
 
 ---
 
 ## 🔧 已实施的优化措施
 
 ### 前端优化
+
 {{frontendOptimizations}}
 
 ### 后端优化
+
 {{backendOptimizations}}
 
 ### 数据库优化
+
 {{databaseOptimizations}}
 
 ### 基础设施优化
+
 {{infrastructureOptimizations}}
 
 ---
@@ -2521,22 +2562,24 @@ export class APIPerformanceAuditor {
 ## 📊 性能对比分析
 
 ### 优化前后对比
-| 指标 | 优化前 | 优化后 | 改善幅度 | 达标情况 |
-|------|--------|--------|----------|----------|
-| LCP | {{beforeLcp}}ms | {{afterLcp}}ms | {{lcpImprovementDetailed}}% | {{lcpCompliance}} |
-| INP | {{beforeInp}}ms | {{afterInp}}ms | {{inpImprovementDetailed}}% | {{inpCompliance}} |
-| CLS | {{beforeCls}} | {{afterCls}} | {{clsImprovementDetailed}}% | {{clsCompliance}} |
-| TBT | {{beforeTbt}}ms | {{afterTbt}}ms | {{tbtImprovementDetailed}}% | {{tbtCompliance}} |
-| FCP | {{beforeFcp}}ms | {{afterFcp}}ms | {{fcpImprovementDetailed}}% | {{fcpCompliance}} |
-| JS Bundle Size | {{beforeJsSize}}KB | {{afterJsSize}}KB | {{jsSizeImprovement}}% | {{jsSizeCompliance}} |
-| API P95 Response | {{beforeApiP95}}ms | {{afterApiP95}}ms | {{apiP95Improvement}}% | {{apiP95Compliance}} |
+
+| 指标             | 优化前             | 优化后            | 改善幅度                    | 达标情况             |
+| ---------------- | ------------------ | ----------------- | --------------------------- | -------------------- |
+| LCP              | {{beforeLcp}}ms    | {{afterLcp}}ms    | {{lcpImprovementDetailed}}% | {{lcpCompliance}}    |
+| INP              | {{beforeInp}}ms    | {{afterInp}}ms    | {{inpImprovementDetailed}}% | {{inpCompliance}}    |
+| CLS              | {{beforeCls}}      | {{afterCls}}      | {{clsImprovementDetailed}}% | {{clsCompliance}}    |
+| TBT              | {{beforeTbt}}ms    | {{afterTbt}}ms    | {{tbtImprovementDetailed}}% | {{tbtCompliance}}    |
+| FCP              | {{beforeFcp}}ms    | {{afterFcp}}ms    | {{fcpImprovementDetailed}}% | {{fcpCompliance}}    |
+| JS Bundle Size   | {{beforeJsSize}}KB | {{afterJsSize}}KB | {{jsSizeImprovement}}%      | {{jsSizeCompliance}} |
+| API P95 Response | {{beforeApiP95}}ms | {{afterApiP95}}ms | {{apiP95Improvement}}%      | {{apiP95Compliance}} |
 
 ### 与行业基准对比
-| 指标 | 本项目 | 行业平均 | 行业优秀 | 相对位置 |
-|------|--------|---------|---------|----------|
-| LCP | {{projectLcp}}ms | {{industryAvgLcp}}ms | {{industryGoodLcp}}ms | {{lcpPosition}} |
-| INP | {{projectInp}}ms | {{industryAvgInp}}ms | {{industryGoodInp}}ms | {{inpPosition}} |
-| CLS | {{projectCls}} | {{industryAvgCls}} | {{industryGoodCls}} | {{clsPosition}} |
+
+| 指标              | 本项目           | 行业平均             | 行业优秀              | 相对位置          |
+| ----------------- | ---------------- | -------------------- | --------------------- | ----------------- |
+| LCP               | {{projectLcp}}ms | {{industryAvgLcp}}ms | {{industryGoodLcp}}ms | {{lcpPosition}}   |
+| INP               | {{projectInp}}ms | {{industryAvgInp}}ms | {{industryGoodInp}}ms | {{inpPosition}}   |
+| CLS               | {{projectCls}}   | {{industryAvgCls}}   | {{industryGoodCls}}   | {{clsPosition}}   |
 | Performance Score | {{projectScore}} | {{industryAvgScore}} | {{industryGoodScore}} | {{scorePosition}} |
 
 ---
@@ -2544,15 +2587,19 @@ export class APIPerformanceAuditor {
 ## 💡 优化建议与后续计划
 
 ### 立即执行（高优先级）
+
 {{highPrioritySuggestions}}
 
 ### 短期规划（1-2周）
+
 {{shortTermPlans}}
 
 ### 中期规划（1个月）
+
 {{mediumTermPlans}}
 
 ### 长期规划（持续优化）
+
 {{longTermPlans}}
 
 ---
@@ -2560,21 +2607,24 @@ export class APIPerformanceAuditor {
 ## ✅ 验收结论
 
 ### 总体评估
+
 **综合评分**: {{overallScore}}/100
 **验收等级**: {{grade}}
 **验收结论**: {{finalConclusion}}
 
 ### 各维度评分
-| 维度 | 得分 | 权重 | 加权得分 | 等级 |
-|------|------|------|----------|------|
-| 核心Web Vitals | {{cwvScore}} | 25% | {{cwvWeightedScore}} | {{cwvGrade}} |
-| 前端资源优化 | {{frontendScore}} | 20% | {{frontendWeightedScore}} | {{frontendGrade}} |
-| 后端API性能 | {{backendScore}} | 20% | {{backendWeightedScore}} | {{backendGrade}} |
-| 数据库性能 | {{databaseScore}} | 15% | {{databaseWeightedScore}} | {{databaseGrade}} |
-| 内存管理 | {{memoryScore}} | 10% | {{memoryWeightedScore}} | {{memoryGrade}} |
-| 可扩展性 | {{scalabilityScore}} | 10% | {{scalabilityWeightedScore}} | {{scalabilityGrade}} |
+
+| 维度           | 得分                 | 权重 | 加权得分                     | 等级                 |
+| -------------- | -------------------- | ---- | ---------------------------- | -------------------- |
+| 核心Web Vitals | {{cwvScore}}         | 25%  | {{cwvWeightedScore}}         | {{cwvGrade}}         |
+| 前端资源优化   | {{frontendScore}}    | 20%  | {{frontendWeightedScore}}    | {{frontendGrade}}    |
+| 后端API性能    | {{backendScore}}     | 20%  | {{backendWeightedScore}}     | {{backendGrade}}     |
+| 数据库性能     | {{databaseScore}}    | 15%  | {{databaseWeightedScore}}    | {{databaseGrade}}    |
+| 内存管理       | {{memoryScore}}      | 10%  | {{memoryWeightedScore}}      | {{memoryGrade}}      |
+| 可扩展性       | {{scalabilityScore}} | 10%  | {{scalabilityWeightedScore}} | {{scalabilityGrade}} |
 
 ### 通过标准验证
+
 - [ ] **P0 必须通过项**: {{p0Result}} ({{p0Count}}/{{p0Total}})
 - [ ] **P1 强烈推荐项**: {{p1Result}} ({{p1Count}}/{{p1Total}})
 - [ ] **P2 可选优化项**: {{p2Result}} ({{p2Count}}/{{p2Total}})
@@ -2583,18 +2633,18 @@ export class APIPerformanceAuditor {
 ```
 
 ┌─────────────────────────────────────────────────────┐
-│                                                     │
-│   验收结果: {{verdict}}                              │
-│   有效期: {{validityPeriod}}                         │
-│   下次审核: {{nextAuditDate}}                        │
-│                                                     │
-│   签字确认:                                          │
-│   ┌──────────┐  ┌──────────┐  ┌──────────┐         │
-│   │ 验收负责人 │  │ 技术负责人 │  │ 项目经理  │         │
-│   │          │  │          │  │          │         │
-│   │ 日期:    │  │ 日期:    │  │ 日期:    │         │
-│   └──────────┘  └──────────┘  └──────────┘         │
-│                                                     │
+│ │
+│ 验收结果: {{verdict}} │
+│ 有效期: {{validityPeriod}} │
+│ 下次审核: {{nextAuditDate}} │
+│ │
+│ 签字确认: │
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ │
+│ │ 验收负责人 │ │ 技术负责人 │ │ 项目经理 │ │
+│ │ │ │ │ │ │ │
+│ │ 日期: │ │ 日期: │ │ 日期: │ │
+│ └──────────┘ └──────────┘ └──────────┘ │
+│ │
 └─────────────────────────────────────────────────────┘
 
 ```
@@ -2727,7 +2777,9 @@ class PerformanceAlertEngine {
     switch (rule.condition) {
       case 'threshold_exceeded':
         const avgValue = this.calculateAverage(relevantMetrics.map(m => m.value));
-        return avgValue > rule.threshold ? { actualValue: avgValue, expectedValue: rule.threshold } : null;
+        return avgValue > rule.threshold
+          ? { actualValue: avgValue, expectedValue: rule.threshold }
+          : null;
 
       case 'degradation_detected':
         return this.detectDegradation(relevantMetrics, rule.degradationThreshold);
@@ -2781,13 +2833,17 @@ class PerformanceBaselineGuardian {
   }
 
   private checkCoreWebVitals(current: CoreWebVitals): BaselineViolation | null {
-    const lcpDegradation = (current.lcp - this.baseline.coreWebVitals.lcp) / this.baseline.coreWebVitals.lcp * 100;
-    const inpDegradation = (current.inp - this.baseline.coreWebVitals.inp) / this.baseline.coreWebVitals.inp * 100;
+    const lcpDegradation =
+      ((current.lcp - this.baseline.coreWebVitals.lcp) / this.baseline.coreWebVitals.lcp) * 100;
+    const inpDegradation =
+      ((current.inp - this.baseline.coreWebVitals.inp) / this.baseline.coreWebVitals.inp) * 100;
     const clsDegradation = current.cls - this.baseline.coreWebVitals.cls;
 
-    if (lcpDegradation > this.tolerance.maxLCPDegradation ||
-        inpDegradation > this.tolerance.maxINPDegradation ||
-        clsDegradation > this.tolerance.maxCLSDegradation) {
+    if (
+      lcpDegradation > this.tolerance.maxLCPDegradation ||
+      inpDegradation > this.tolerance.maxINPDegradation ||
+      clsDegradation > this.tolerance.maxCLSDegradation
+    ) {
       return {
         type: 'core_web_vitals',
         severity: 'critical',
@@ -2933,7 +2989,10 @@ class PerformanceOptimizationWorkflow {
           implementation: implementationResults,
           verification: verificationResults,
         },
-        overallImprovement: this.calculateOverallImprovement(baseline, verificationResults.afterMetrics),
+        overallImprovement: this.calculateOverallImprovement(
+          baseline,
+          verificationResults.afterMetrics
+        ),
       };
 
       this.optimizationHistory.push(record);
@@ -2945,7 +3004,6 @@ class PerformanceOptimizationWorkflow {
         summary: this.generateCycleSummary(record),
         nextSteps: this.generateNextSteps(record),
       };
-
     } catch (error) {
       return {
         success: false,
@@ -3499,7 +3557,7 @@ class PerformanceHealthCheckScheduler {
 #### 数据库优化
 
 - [ ] **索引优化**: 为常用查询字段添加适当索引
-- [ ] **查询优化**: 避免 SELECT *, 使用 EXPLAIN 分析查询计划
+- [ ] **查询优化**: 避免 SELECT \*, 使用 EXPLAIN 分析查询计划
 - [ ] **连接池**: 配置适当的数据库连接池大小
 - [ ] **读写分离**: 对于读密集型应用考虑读写分离
 - [ ] **慢查询监控**: 设置并定期审查慢查询日志
@@ -3532,13 +3590,12 @@ class PerformanceHealthCheckScheduler {
 
 ---
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -3546,13 +3603,12 @@ class PerformanceHealthCheckScheduler {
 
 </div>
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 
@@ -3560,13 +3616,12 @@ class PerformanceHealthCheckScheduler {
 
 </div>
 
-
 ## 变更历史
 
-| 版本 | 日期 | 变更内容 | 作者 |
-| ---- | ---- | -------- | ---- |
+| 版本   | 日期       | 变更内容     | 作者                |
+| ------ | ---------- | ------------ | ------------------- |
 | v2.0.0 | 2026-05-30 | 版本迭代同步 | YanYuCloudCube Team |
-| v1.0.0 | 2026-04-03 | 初始版本 | YanYuCloudCube Team |
+| v1.0.0 | 2026-04-03 | 初始版本     | YanYuCloudCube Team |
 
 <div align="center">
 

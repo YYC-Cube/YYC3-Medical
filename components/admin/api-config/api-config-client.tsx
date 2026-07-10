@@ -1,227 +1,233 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { ApiKeyManager } from "./api-key-manager"
-import { EndpointConfig } from "./endpoint-config"
-import { apiConfigService } from "@/services/api-config-service"
-import type { ProviderApiConfig, ApiKeyConfig, ApiEndpointConfig } from "@/types/api-config"
-import { useToast } from "@/hooks/use-toast"
-import { Loader2, CheckCircle, AlertCircle } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { certificationVerificationService } from "@/services/certification-verification-service"
+import { useState, useEffect } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { ApiKeyManager } from './api-key-manager';
+import { EndpointConfig } from './endpoint-config';
+import { apiConfigService } from '@/services/api-config-service';
+import type { ProviderApiConfig, ApiKeyConfig, ApiEndpointConfig } from '@/types/api-config';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { certificationVerificationService } from '@/services/certification-verification-service';
 
 export function ApiConfigClient() {
-  const { toast } = useToast()
-  const [loading, setLoading] = useState(true)
-  const [providers, setProviders] = useState<ProviderApiConfig[]>([])
-  const [selectedProviderId, setSelectedProviderId] = useState<string>("")
-  const [selectedProvider, setSelectedProvider] = useState<ProviderApiConfig | null>(null)
-  const [isTesting, setIsTesting] = useState(false)
-  const [availableProviders, setAvailableProviders] = useState<{ id: string; name: string }[]>([])
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(true);
+  const [providers, setProviders] = useState<ProviderApiConfig[]>([]);
+  const [selectedProviderId, setSelectedProviderId] = useState<string>('');
+  const [selectedProvider, setSelectedProvider] = useState<ProviderApiConfig | null>(null);
+  const [isTesting, setIsTesting] = useState(false);
+  const [availableProviders, setAvailableProviders] = useState<{ id: string; name: string }[]>([]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         // 获取所有验证机构
-        const allProviders = certificationVerificationService.getAvailableProviders()
-        setAvailableProviders(allProviders.map((p) => ({ id: p.id, name: p.name })))
+        const allProviders = certificationVerificationService.getAvailableProviders();
+        setAvailableProviders(allProviders.map(p => ({ id: p.id, name: p.name })));
 
         // 获取API配置
-        const configs = await apiConfigService.getAllApiConfigs()
-        setProviders(configs)
+        const configs = await apiConfigService.getAllApiConfigs();
+        setProviders(configs);
 
         if (configs.length > 0) {
-          setSelectedProviderId(configs[0].providerId)
-          setSelectedProvider(configs[0])
+          setSelectedProviderId(configs[0].providerId);
+          setSelectedProvider(configs[0]);
         }
       } catch (error) {
-        console.error("加载API配置失败:", error)
+        console.error('加载API配置失败:', error);
         toast({
-          title: "加载失败",
-          description: "无法加载API配置信息",
-          variant: "destructive",
-        })
+          title: '加载失败',
+          description: '无法加载API配置信息',
+          variant: 'destructive',
+        });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadData()
-  }, [toast])
+    loadData();
+  }, [toast]);
 
   useEffect(() => {
     if (selectedProviderId && providers.length > 0) {
-      const provider = providers.find((p) => p.providerId === selectedProviderId)
-      setSelectedProvider(provider || null)
+      const provider = providers.find(p => p.providerId === selectedProviderId);
+      setSelectedProvider(provider || null);
     } else {
-      setSelectedProvider(null)
+      setSelectedProvider(null);
     }
-  }, [selectedProviderId, providers])
+  }, [selectedProviderId, providers]);
 
   const handleProviderChange = (value: string) => {
-    setSelectedProviderId(value)
-  }
+    setSelectedProviderId(value);
+  };
 
   const handleUpdateProvider = async (updatedProvider: ProviderApiConfig) => {
     try {
-      const updated = await apiConfigService.updateApiConfig(updatedProvider)
-      setProviders((prev) => prev.map((p) => (p.id === updated.id ? updated : p)))
-      setSelectedProvider(updated)
+      const updated = await apiConfigService.updateApiConfig(updatedProvider);
+      setProviders(prev => prev.map(p => (p.id === updated.id ? updated : p)));
+      setSelectedProvider(updated);
       toast({
-        title: "更新成功",
-        description: "API配置已成功更新",
-      })
+        title: '更新成功',
+        description: 'API配置已成功更新',
+      });
     } catch (error) {
       toast({
-        title: "更新失败",
-        description: "无法更新API配置",
-        variant: "destructive",
-      })
+        title: '更新失败',
+        description: '无法更新API配置',
+        variant: 'destructive',
+      });
     }
-  }
+  };
 
-  const handleAddApiKey = async (apiKey: Omit<ApiKeyConfig, "id">) => {
-    if (!selectedProvider) return
+  const handleAddApiKey = async (apiKey: Omit<ApiKeyConfig, 'id'>) => {
+    if (!selectedProvider) return;
 
     try {
-      const newKey = await apiConfigService.addApiKey(selectedProvider.providerId, apiKey)
+      const newKey = await apiConfigService.addApiKey(selectedProvider.providerId, apiKey);
       const updatedProvider = {
         ...selectedProvider,
         apiKeys: [...selectedProvider.apiKeys, newKey],
-      }
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   const handleDeleteApiKey = async (keyId: string) => {
-    if (!selectedProvider) return
+    if (!selectedProvider) return;
 
     try {
-      await apiConfigService.deleteApiKey(selectedProvider.providerId, keyId)
+      await apiConfigService.deleteApiKey(selectedProvider.providerId, keyId);
       const updatedProvider = {
         ...selectedProvider,
-        apiKeys: selectedProvider.apiKeys.filter((key) => key.id !== keyId),
-      }
+        apiKeys: selectedProvider.apiKeys.filter(key => key.id !== keyId),
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   const handleUpdateApiKey = async (apiKey: ApiKeyConfig) => {
-    if (!selectedProvider) return
+    if (!selectedProvider) return;
 
     try {
       const updatedProvider = {
         ...selectedProvider,
-        apiKeys: selectedProvider.apiKeys.map((key) => (key.id === apiKey.id ? apiKey : key)),
-      }
+        apiKeys: selectedProvider.apiKeys.map(key => (key.id === apiKey.id ? apiKey : key)),
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
-  const handleAddEndpoint = async (endpoint: Omit<ApiEndpointConfig, "id">) => {
-    if (!selectedProvider) return
+  const handleAddEndpoint = async (endpoint: Omit<ApiEndpointConfig, 'id'>) => {
+    if (!selectedProvider) return;
 
     try {
       // 生成新ID
       const newEndpoint: ApiEndpointConfig = {
         ...endpoint,
         id: `endpoint-${Date.now()}`,
-      }
+      };
 
       const updatedProvider = {
         ...selectedProvider,
         endpoints: [...selectedProvider.endpoints, newEndpoint],
-      }
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   const handleDeleteEndpoint = async (endpointId: string) => {
-    if (!selectedProvider) return
+    if (!selectedProvider) return;
 
     try {
       const updatedProvider = {
         ...selectedProvider,
-        endpoints: selectedProvider.endpoints.filter((endpoint) => endpoint.id !== endpointId),
-      }
+        endpoints: selectedProvider.endpoints.filter(endpoint => endpoint.id !== endpointId),
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   const handleUpdateEndpoint = async (endpoint: ApiEndpointConfig) => {
-    if (!selectedProvider) return
+    if (!selectedProvider) return;
 
     try {
       const updatedProvider = {
         ...selectedProvider,
-        endpoints: selectedProvider.endpoints.map((ep) => (ep.id === endpoint.id ? endpoint : ep)),
-      }
+        endpoints: selectedProvider.endpoints.map(ep => (ep.id === endpoint.id ? endpoint : ep)),
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
     } catch (error) {
-      throw error
+      throw error;
     }
-  }
+  };
 
   const handleTestConnection = async () => {
-    if (!selectedProvider) return
+    if (!selectedProvider) return;
 
-    setIsTesting(true)
+    setIsTesting(true);
     try {
-      const result = await apiConfigService.testApiConnection(selectedProvider.providerId)
+      const result = await apiConfigService.testApiConnection(selectedProvider.providerId);
 
       const updatedProvider = {
         ...selectedProvider,
         lastTested: result.timestamp,
-        testStatus: (result.success ? "success" : "failed") as "success" | "failed",
+        testStatus: (result.success ? 'success' : 'failed') as 'success' | 'failed',
         testMessage: result.message,
-      }
+      };
 
-      await handleUpdateProvider(updatedProvider)
+      await handleUpdateProvider(updatedProvider);
 
       toast({
-        title: result.success ? "连接测试成功" : "连接测试失败",
+        title: result.success ? '连接测试成功' : '连接测试失败',
         description: result.message,
-        variant: result.success ? "default" : "destructive",
-      })
+        variant: result.success ? 'default' : 'destructive',
+      });
     } catch (error) {
       toast({
-        title: "测试失败",
-        description: "无法完成API连接测试",
-        variant: "destructive",
-      })
+        title: '测试失败',
+        description: '无法完成API连接测试',
+        variant: 'destructive',
+      });
     } finally {
-      setIsTesting(false)
+      setIsTesting(false);
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
-    )
+    );
   }
 
   return (
@@ -243,7 +249,7 @@ export function ApiConfigClient() {
                     <SelectValue placeholder="选择验证机构" />
                   </SelectTrigger>
                   <SelectContent>
-                    {providers.map((provider) => (
+                    {providers.map(provider => (
                       <SelectItem key={provider.providerId} value={provider.providerId}>
                         {provider.providerName}
                       </SelectItem>
@@ -251,7 +257,11 @@ export function ApiConfigClient() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button variant="outline" onClick={handleTestConnection} disabled={!selectedProvider || isTesting}>
+              <Button
+                variant="outline"
+                onClick={handleTestConnection}
+                disabled={!selectedProvider || isTesting}
+              >
                 {isTesting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -268,24 +278,28 @@ export function ApiConfigClient() {
                 {selectedProvider.testStatus && (
                   <div
                     className={`flex items-center p-3 rounded-md ${
-                      selectedProvider.testStatus === "success"
-                        ? "bg-green-50 text-green-700 border border-green-200"
-                        : "bg-red-50 text-red-700 border border-red-200"
+                      selectedProvider.testStatus === 'success'
+                        ? 'bg-success/5 text-success border border-success/30'
+                        : 'bg-destructive text-destructive border border-destructive'
                     }`}
                   >
-                    {selectedProvider.testStatus === "success" ? (
-                      <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
+                    {selectedProvider.testStatus === 'success' ? (
+                      <CheckCircle className="h-5 w-5 mr-2 text-success" />
                     ) : (
-                      <AlertCircle className="h-5 w-5 mr-2 text-red-500" />
+                      <AlertCircle className="h-5 w-5 mr-2 text-destructive" />
                     )}
                     <div>
                       <div className="font-medium">
-                        {selectedProvider.testStatus === "success" ? "连接正常" : "连接失败"}
+                        {selectedProvider.testStatus === 'success' ? '连接正常' : '连接失败'}
                       </div>
                       <div className="text-sm">
                         {selectedProvider.testMessage}
                         {selectedProvider.lastTested && (
-                          <> · 最后测试时间: {new Date(selectedProvider.lastTested).toLocaleString("zh-CN")}</>
+                          <>
+                            {' '}
+                            · 最后测试时间:{' '}
+                            {new Date(selectedProvider.lastTested).toLocaleString('zh-CN')}
+                          </>
                         )}
                       </div>
                     </div>
@@ -298,7 +312,7 @@ export function ApiConfigClient() {
                     <Input
                       id="base-url"
                       value={selectedProvider.baseUrl}
-                      onChange={(e) =>
+                      onChange={e =>
                         setSelectedProvider({
                           ...selectedProvider,
                           baseUrl: e.target.value,
@@ -312,7 +326,7 @@ export function ApiConfigClient() {
                     <Input
                       id="api-version"
                       value={selectedProvider.apiVersion}
-                      onChange={(e) =>
+                      onChange={e =>
                         setSelectedProvider({
                           ...selectedProvider,
                           apiVersion: e.target.value,
@@ -328,7 +342,7 @@ export function ApiConfigClient() {
                   <Input
                     id="description"
                     value={selectedProvider.description}
-                    onChange={(e) =>
+                    onChange={e =>
                       setSelectedProvider({
                         ...selectedProvider,
                         description: e.target.value,
@@ -342,7 +356,7 @@ export function ApiConfigClient() {
                   <Switch
                     id="is-active"
                     checked={selectedProvider.isActive}
-                    onCheckedChange={(checked) =>
+                    onCheckedChange={checked =>
                       setSelectedProvider({
                         ...selectedProvider,
                         isActive: checked,
@@ -353,7 +367,9 @@ export function ApiConfigClient() {
                 </div>
 
                 <div className="flex justify-end">
-                  <Button onClick={() => handleUpdateProvider(selectedProvider)}>保存基本配置</Button>
+                  <Button onClick={() => handleUpdateProvider(selectedProvider)}>
+                    保存基本配置
+                  </Button>
                 </div>
               </>
             )}
@@ -389,5 +405,5 @@ export function ApiConfigClient() {
         </Tabs>
       )}
     </div>
-  )
+  );
 }

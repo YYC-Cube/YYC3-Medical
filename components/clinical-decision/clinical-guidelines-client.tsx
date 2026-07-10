@@ -1,12 +1,25 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Search,
   FileText,
@@ -23,7 +36,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Info,
-} from "lucide-react"
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -31,81 +44,97 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { clinicalGuidelines, recommendationData, evidenceLevelExplanations, recommendationStrengthExplanations } from "./clinical-guidelines-data"
+} from '@/components/ui/dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import {
+  clinicalGuidelines,
+  recommendationData,
+  evidenceLevelExplanations,
+  recommendationStrengthExplanations,
+} from './clinical-guidelines-data';
 
 export function ClinicalGuidelinesClient() {
-  const [activeTab, setActiveTab] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedGuideline, setSelectedGuideline] = useState<(typeof clinicalGuidelines)[0] | null>(null)
-  const [showRecommendationDialog, setShowRecommendationDialog] = useState(false)
-  const [selectedRecommendation, setSelectedRecommendation] = useState<(typeof recommendationData)[0] | null>(null)
-  const [showEvidenceLevelDialog, setShowEvidenceLevelDialog] = useState(false)
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedGuideline, setSelectedGuideline] = useState<(typeof clinicalGuidelines)[0] | null>(
+    null
+  );
+  const [showRecommendationDialog, setShowRecommendationDialog] = useState(false);
+  const [selectedRecommendation, setSelectedRecommendation] = useState<
+    (typeof recommendationData)[0] | null
+  >(null);
+  const [showEvidenceLevelDialog, setShowEvidenceLevelDialog] = useState(false);
 
   // 获取所有类别
-  const allCategories = Array.from(new Set(clinicalGuidelines.map((g) => g.category)))
+  const allCategories = Array.from(new Set(clinicalGuidelines.map(g => g.category)));
 
   // 过滤指南
   const filteredGuidelines = clinicalGuidelines.filter(
-    (guideline) =>
-      (searchTerm === "" ||
+    guideline =>
+      (searchTerm === '' ||
         guideline.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         guideline.organization.toLowerCase().includes(searchTerm.toLowerCase()) ||
         guideline.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
         guideline.subcategory.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedCategory === null || guideline.category === selectedCategory),
-  )
+      (selectedCategory === null || guideline.category === selectedCategory)
+  );
 
   // 获取指南的推荐建议
   const getGuidelineRecommendations = (guidelineId: string) => {
-    return recommendationData.filter((rec) => rec.guidelineId === guidelineId)
-  }
+    return recommendationData.filter(rec => rec.guidelineId === guidelineId);
+  };
 
   // 查看指南详情
   const viewGuidelineDetails = (guideline: (typeof clinicalGuidelines)[0]) => {
-    setSelectedGuideline(guideline)
-  }
+    setSelectedGuideline(guideline);
+  };
 
   // 查看推荐建议详情
   const viewRecommendationDetails = (recommendation: (typeof recommendationData)[0]) => {
-    setSelectedRecommendation(recommendation)
-    setShowRecommendationDialog(true)
-  }
+    setSelectedRecommendation(recommendation);
+    setShowRecommendationDialog(true);
+  };
 
   // 获取证据级别标签颜色
   const getEvidenceLevelColor = (level: string) => {
     switch (level) {
-      case "A":
-        return "bg-green-100 text-green-800"
-      case "B":
-        return "bg-blue-100 text-blue-800"
-      case "C":
-        return "bg-yellow-100 text-yellow-800"
-      case "D":
-        return "bg-gray-100 text-gray-800"
+      case 'A':
+        return 'bg-success/10 text-success';
+      case 'B':
+        return 'bg-primary/10 text-primary';
+      case 'C':
+        return 'bg-warning text-warning';
+      case 'D':
+        return 'bg-muted text-foreground';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   // 获取推荐强度标签颜色
   const getRecommendationStrengthColor = (strength: string) => {
     switch (strength) {
-      case "强推荐":
-        return "bg-green-100 text-green-800"
-      case "一般推荐":
-        return "bg-blue-100 text-blue-800"
-      case "弱推荐":
-        return "bg-yellow-100 text-yellow-800"
-      case "不推荐":
-        return "bg-red-100 text-red-800"
+      case '强推荐':
+        return 'bg-success/10 text-success';
+      case '一般推荐':
+        return 'bg-primary/10 text-primary';
+      case '弱推荐':
+        return 'bg-warning text-warning';
+      case '不推荐':
+        return 'bg-destructive text-destructive';
       default:
-        return "bg-gray-100 text-gray-800"
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   return (
     <>
@@ -118,7 +147,11 @@ export function ClinicalGuidelinesClient() {
                 <CardDescription>查询和应用最新临床指南，获取循证医学支持</CardDescription>
               </div>
               <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => setShowEvidenceLevelDialog(true)}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowEvidenceLevelDialog(true)}
+                >
                   <Info className="h-4 w-4 mr-1" />
                   证据级别说明
                 </Button>
@@ -141,17 +174,20 @@ export function ClinicalGuidelinesClient() {
                   placeholder="搜索指南标题、组织或疾病..."
                   className="pl-8"
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                 />
               </div>
 
-              <Select value={selectedCategory || ""} onValueChange={(value) => setSelectedCategory(value || null)}>
+              <Select
+                value={selectedCategory || ''}
+                onValueChange={value => setSelectedCategory(value || null)}
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="选择科室" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">全部科室</SelectItem>
-                  {allCategories.map((category) => (
+                  {allCategories.map(category => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>
@@ -178,7 +214,7 @@ export function ClinicalGuidelinesClient() {
               <TabsContent value="all" className="space-y-4">
                 {filteredGuidelines.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <FileText className="h-12 w-12 text-gray-300 mb-4" />
+                    <FileText className="h-12 w-12 text-muted-foreground/30 mb-4" />
                     <h3 className="text-lg font-medium mb-2">未找到匹配的临床指南</h3>
                     <p className="text-muted-foreground max-w-md">
                       尝试使用不同的搜索词或筛选条件，或者清除筛选条件查看所有指南
@@ -186,18 +222,22 @@ export function ClinicalGuidelinesClient() {
                   </div>
                 ) : (
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {filteredGuidelines.map((guideline) => (
+                    {filteredGuidelines.map(guideline => (
                       <Card key={guideline.id} className="overflow-hidden">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
-                              <CardTitle className="text-lg line-clamp-2">{guideline.title}</CardTitle>
+                              <CardTitle className="text-lg line-clamp-2">
+                                {guideline.title}
+                              </CardTitle>
                               <CardDescription className="flex items-center mt-1">
                                 <Globe className="h-3 w-3 mr-1" />
                                 {guideline.organization}
                               </CardDescription>
                             </div>
-                            {guideline.isFavorite && <Star className="h-4 w-4 text-yellow-400 flex-shrink-0" />}
+                            {guideline.isFavorite && (
+                              <Star className="h-4 w-4 text-warning flex-shrink-0" />
+                            )}
                           </div>
                         </CardHeader>
                         <CardContent className="pb-2">
@@ -209,14 +249,20 @@ export function ClinicalGuidelinesClient() {
                               {guideline.publishDate}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-3">{guideline.summary}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {guideline.summary}
+                          </p>
                         </CardContent>
                         <CardFooter className="flex justify-between pt-2">
                           <div className="flex items-center text-xs text-muted-foreground">
                             <FileText className="h-3 w-3 mr-1" />
                             {guideline.recommendationCount} 条建议
                           </div>
-                          <Button variant="ghost" size="sm" onClick={() => viewGuidelineDetails(guideline)}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => viewGuidelineDetails(guideline)}
+                          >
                             查看详情
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
@@ -230,20 +276,27 @@ export function ClinicalGuidelinesClient() {
               <TabsContent value="recent" className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {filteredGuidelines
-                    .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+                    .sort(
+                      (a, b) =>
+                        new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
+                    )
                     .slice(0, 6)
-                    .map((guideline) => (
+                    .map(guideline => (
                       <Card key={guideline.id} className="overflow-hidden">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
-                              <CardTitle className="text-lg line-clamp-2">{guideline.title}</CardTitle>
+                              <CardTitle className="text-lg line-clamp-2">
+                                {guideline.title}
+                              </CardTitle>
                               <CardDescription className="flex items-center mt-1">
                                 <Globe className="h-3 w-3 mr-1" />
                                 {guideline.organization}
                               </CardDescription>
                             </div>
-                            {guideline.isFavorite && <Star className="h-4 w-4 text-yellow-400 flex-shrink-0" />}
+                            {guideline.isFavorite && (
+                              <Star className="h-4 w-4 text-warning flex-shrink-0" />
+                            )}
                           </div>
                         </CardHeader>
                         <CardContent className="pb-2">
@@ -255,14 +308,20 @@ export function ClinicalGuidelinesClient() {
                               {guideline.publishDate}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-3">{guideline.summary}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {guideline.summary}
+                          </p>
                         </CardContent>
                         <CardFooter className="flex justify-between pt-2">
                           <div className="flex items-center text-xs text-muted-foreground">
                             <FileText className="h-3 w-3 mr-1" />
                             {guideline.recommendationCount} 条建议
                           </div>
-                          <Button variant="ghost" size="sm" onClick={() => viewGuidelineDetails(guideline)}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => viewGuidelineDetails(guideline)}
+                          >
                             查看详情
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
@@ -277,18 +336,22 @@ export function ClinicalGuidelinesClient() {
                   {filteredGuidelines
                     .sort((a, b) => b.downloadCount - a.downloadCount)
                     .slice(0, 6)
-                    .map((guideline) => (
+                    .map(guideline => (
                       <Card key={guideline.id} className="overflow-hidden">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
-                              <CardTitle className="text-lg line-clamp-2">{guideline.title}</CardTitle>
+                              <CardTitle className="text-lg line-clamp-2">
+                                {guideline.title}
+                              </CardTitle>
                               <CardDescription className="flex items-center mt-1">
                                 <Globe className="h-3 w-3 mr-1" />
                                 {guideline.organization}
                               </CardDescription>
                             </div>
-                            {guideline.isFavorite && <Star className="h-4 w-4 text-yellow-400 flex-shrink-0" />}
+                            {guideline.isFavorite && (
+                              <Star className="h-4 w-4 text-warning flex-shrink-0" />
+                            )}
                           </div>
                         </CardHeader>
                         <CardContent className="pb-2">
@@ -300,14 +363,20 @@ export function ClinicalGuidelinesClient() {
                               {guideline.downloadCount} 次下载
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-3">{guideline.summary}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {guideline.summary}
+                          </p>
                         </CardContent>
                         <CardFooter className="flex justify-between pt-2">
                           <div className="flex items-center text-xs text-muted-foreground">
                             <FileText className="h-3 w-3 mr-1" />
                             {guideline.recommendationCount} 条建议
                           </div>
-                          <Button variant="ghost" size="sm" onClick={() => viewGuidelineDetails(guideline)}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => viewGuidelineDetails(guideline)}
+                          >
                             查看详情
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
@@ -320,19 +389,21 @@ export function ClinicalGuidelinesClient() {
               <TabsContent value="favorite" className="space-y-4">
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {filteredGuidelines
-                    .filter((g) => g.isFavorite)
-                    .map((guideline) => (
+                    .filter(g => g.isFavorite)
+                    .map(guideline => (
                       <Card key={guideline.id} className="overflow-hidden">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div>
-                              <CardTitle className="text-lg line-clamp-2">{guideline.title}</CardTitle>
+                              <CardTitle className="text-lg line-clamp-2">
+                                {guideline.title}
+                              </CardTitle>
                               <CardDescription className="flex items-center mt-1">
                                 <Globe className="h-3 w-3 mr-1" />
                                 {guideline.organization}
                               </CardDescription>
                             </div>
-                            <Star className="h-4 w-4 text-yellow-400 flex-shrink-0" />
+                            <Star className="h-4 w-4 text-warning flex-shrink-0" />
                           </div>
                         </CardHeader>
                         <CardContent className="pb-2">
@@ -344,14 +415,20 @@ export function ClinicalGuidelinesClient() {
                               {guideline.publishDate}
                             </Badge>
                           </div>
-                          <p className="text-sm text-muted-foreground line-clamp-3">{guideline.summary}</p>
+                          <p className="text-sm text-muted-foreground line-clamp-3">
+                            {guideline.summary}
+                          </p>
                         </CardContent>
                         <CardFooter className="flex justify-between pt-2">
                           <div className="flex items-center text-xs text-muted-foreground">
                             <FileText className="h-3 w-3 mr-1" />
                             {guideline.recommendationCount} 条建议
                           </div>
-                          <Button variant="ghost" size="sm" onClick={() => viewGuidelineDetails(guideline)}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => viewGuidelineDetails(guideline)}
+                          >
                             查看详情
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
@@ -359,9 +436,9 @@ export function ClinicalGuidelinesClient() {
                       </Card>
                     ))}
                 </div>
-                {filteredGuidelines.filter((g) => g.isFavorite).length === 0 && (
+                {filteredGuidelines.filter(g => g.isFavorite).length === 0 && (
                   <div className="flex flex-col items-center justify-center py-8 text-center">
-                    <Bookmark className="h-12 w-12 text-gray-300 mb-4" />
+                    <Bookmark className="h-12 w-12 text-muted-foreground/30 mb-4" />
                     <h3 className="text-lg font-medium mb-2">暂无收藏的临床指南</h3>
                     <p className="text-muted-foreground max-w-md">
                       浏览指南并点击星标图标将其添加到收藏夹，方便快速访问常用指南
@@ -473,20 +550,24 @@ export function ClinicalGuidelinesClient() {
                 </div>
 
                 <div className="space-y-3">
-                  {getGuidelineRecommendations(selectedGuideline.id).map((recommendation) => (
+                  {getGuidelineRecommendations(selectedGuideline.id).map(recommendation => (
                     <Card key={recommendation.id} className="overflow-hidden">
                       <CardContent className="p-4">
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-1">
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                            <CheckCircle2 className="h-5 w-5 text-success" />
                           </div>
                           <div className="flex-1">
                             <p className="text-sm mb-2">{recommendation.content}</p>
                             <div className="flex flex-wrap gap-2">
-                              <Badge className={getEvidenceLevelColor(recommendation.evidenceLevel)}>
+                              <Badge
+                                className={getEvidenceLevelColor(recommendation.evidenceLevel)}
+                              >
                                 证据级别: {recommendation.evidenceLevel}
                               </Badge>
-                              <Badge className={getRecommendationStrengthColor(recommendation.strength)}>
+                              <Badge
+                                className={getRecommendationStrengthColor(recommendation.strength)}
+                              >
                                 {recommendation.strength}
                               </Badge>
                               <Badge variant="outline">{recommendation.category}</Badge>
@@ -547,7 +628,7 @@ export function ClinicalGuidelinesClient() {
             </DialogHeader>
 
             <div className="space-y-4 py-4">
-              <Alert className="bg-blue-50">
+              <Alert className="bg-primary/5">
                 <CheckCircle2 className="h-4 w-4" />
                 <AlertTitle>推荐内容</AlertTitle>
                 <AlertDescription>{selectedRecommendation.content}</AlertDescription>
@@ -565,7 +646,9 @@ export function ClinicalGuidelinesClient() {
                 <div className="border rounded-md p-3">
                   <div className="text-sm text-muted-foreground mb-1">推荐强度</div>
                   <div className="font-medium">
-                    <Badge className={getRecommendationStrengthColor(selectedRecommendation.strength)}>
+                    <Badge
+                      className={getRecommendationStrengthColor(selectedRecommendation.strength)}
+                    >
                       {selectedRecommendation.strength}
                     </Badge>
                   </div>
@@ -575,14 +658,15 @@ export function ClinicalGuidelinesClient() {
               <div>
                 <h3 className="text-sm font-medium mb-2">参考文献</h3>
                 <div className="space-y-3">
-                  {selectedRecommendation.references.map((reference) => (
+                  {selectedRecommendation.references.map(reference => (
                     <Card key={reference.id}>
                       <CardContent className="p-3">
                         <h4 className="text-sm font-medium mb-1">{reference.title}</h4>
-                        <p className="text-xs text-gray-600 mb-1">{reference.authors}</p>
-                        <div className="flex items-center text-xs text-gray-500">
+                        <p className="text-xs text-muted-foreground mb-1">{reference.authors}</p>
+                        <div className="flex items-center text-xs text-muted-foreground">
                           <span>
-                            {reference.journal}, {reference.year}, {reference.volume}:{reference.pages}
+                            {reference.journal}, {reference.year}, {reference.volume}:
+                            {reference.pages}
                           </span>
                         </div>
                         {reference.doi && (
@@ -604,21 +688,21 @@ export function ClinicalGuidelinesClient() {
                     <div className="space-y-2 text-sm">
                       <p>
                         <span className="font-medium">适用人群：</span>
-                        {selectedRecommendation.guidelineId === "cg-001"
-                          ? "2型糖尿病患者，尤其是新诊断患者"
-                          : "符合指南适用条件的患者"}
+                        {selectedRecommendation.guidelineId === 'cg-001'
+                          ? '2型糖尿病患者，尤其是新诊断患者'
+                          : '符合指南适用条件的患者'}
                       </p>
                       <p>
                         <span className="font-medium">注意事项：</span>
-                        {selectedRecommendation.guidelineId === "cg-001"
-                          ? "应考虑患者的肾功能状态、年龄和并发症情况，个体化制定治疗方案"
-                          : "应根据患者具体情况个体化应用"}
+                        {selectedRecommendation.guidelineId === 'cg-001'
+                          ? '应考虑患者的肾功能状态、年龄和并发症情况，个体化制定治疗方案'
+                          : '应根据患者具体情况个体化应用'}
                       </p>
                       <p>
                         <span className="font-medium">实施建议：</span>
-                        {selectedRecommendation.guidelineId === "cg-001"
-                          ? "从小剂量开始，逐渐调整至有效剂量，定期监测疗效和不良反应"
-                          : "遵循循证医学原则，结合临床经验实施"}
+                        {selectedRecommendation.guidelineId === 'cg-001'
+                          ? '从小剂量开始，逐渐调整至有效剂量，定期监测疗效和不良反应'
+                          : '遵循循证医学原则，结合临床经验实施'}
                       </p>
                     </div>
                   </CardContent>
@@ -656,7 +740,7 @@ export function ClinicalGuidelinesClient() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {evidenceLevelExplanations.map((level) => (
+                  {evidenceLevelExplanations.map(level => (
                     <TableRow key={level.level}>
                       <TableCell>
                         <Badge className={getEvidenceLevelColor(level.level)}>{level.level}</Badge>
@@ -680,10 +764,12 @@ export function ClinicalGuidelinesClient() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {recommendationStrengthExplanations.map((strength) => (
+                  {recommendationStrengthExplanations.map(strength => (
                     <TableRow key={strength.strength}>
                       <TableCell>
-                        <Badge className={getRecommendationStrengthColor(strength.strength)}>{strength.strength}</Badge>
+                        <Badge className={getRecommendationStrengthColor(strength.strength)}>
+                          {strength.strength}
+                        </Badge>
                       </TableCell>
                       <TableCell>{strength.description}</TableCell>
                       <TableCell>{strength.implication}</TableCell>
@@ -708,5 +794,5 @@ export function ClinicalGuidelinesClient() {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

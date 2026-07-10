@@ -1,27 +1,27 @@
-"use client"
+'use client';
 
-import { Suspense } from "react"
-import dynamic from "next/dynamic"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import { AccessControlPanel } from "@/components/access-control-panel"
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import { AccessControlPanel } from '@/components/access-control-panel';
 
 // 动态导入可能使用浏览器API的组件
 const SecurityDashboard = dynamic(
-  () => import("@/components/security-dashboard").then((mod) => ({ default: mod.SecurityDashboard })),
+  () => import('@/components/security-dashboard').then(mod => ({ default: mod.SecurityDashboard })),
   {
     loading: () => <LoadingSpinner />,
     ssr: false,
-  },
-)
+  }
+);
 
 const AuditLogViewer = dynamic(
-  () => import("@/components/audit-log-viewer").then((mod) => ({ default: mod.AuditLogViewer })),
+  () => import('@/components/audit-log-viewer').then(mod => ({ default: mod.AuditLogViewer })),
   {
     loading: () => <LoadingSpinner />,
     ssr: false,
-  },
-)
+  }
+);
 
 export default function SecurityClient() {
   return (
@@ -47,5 +47,5 @@ export default function SecurityClient() {
         <AccessControlPanel />
       </div>
     </div>
-  )
+  );
 }

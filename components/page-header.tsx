@@ -13,30 +13,30 @@ import {
   Stethoscope,
   Users,
   Video,
-} from "lucide-react"
-import type { ReactNode } from "react"
+} from 'lucide-react';
+import type { ReactNode } from 'react';
 
 type IconName =
-  | "brain"
-  | "users"
-  | "stethoscope"
-  | "pill"
-  | "heartPulse"
-  | "microscope"
-  | "lock"
-  | "smartphone"
-  | "fileText"
-  | "video"
-  | "barChart3"
-  | "server"
-  | "globe"
-  | "activity"
+  | 'brain'
+  | 'users'
+  | 'stethoscope'
+  | 'pill'
+  | 'heartPulse'
+  | 'microscope'
+  | 'lock'
+  | 'smartphone'
+  | 'fileText'
+  | 'video'
+  | 'barChart3'
+  | 'server'
+  | 'globe'
+  | 'activity';
 
 interface PageHeaderProps {
-  title: string
-  description: string
-  icon?: IconName | ReactNode
-  breadcrumbs?: Array<{ label: string; href: string }>
+  title: string;
+  description: string;
+  icon?: IconName | ReactNode;
+  breadcrumbs?: Array<{ label: string; href: string }>;
 }
 
 const iconComponents = {
@@ -54,17 +54,17 @@ const iconComponents = {
   server: Server,
   globe: Globe,
   activity: Activity,
-}
+};
 
 export function PageHeader({ title, description, icon, breadcrumbs }: PageHeaderProps) {
-  const isIconName = typeof icon === "string"
-  const IconComponent = isIconName ? iconComponents[icon as IconName] : null
-  const iconElement = isIconName ? null : icon
+  const isIconName = typeof icon === 'string';
+  const IconComponent = isIconName ? iconComponents[icon as IconName] : null;
+  const iconElement = isIconName ? null : icon;
 
   return (
     <div className="flex flex-col space-y-2 mb-6">
       {breadcrumbs && breadcrumbs.length > 0 && (
-        <div className="flex items-center gap-1 text-sm text-gray-500 mb-2">
+        <div className="flex items-center gap-1 text-sm text-muted-foreground mb-2">
           {breadcrumbs.map((crumb, index) => (
             <div key={index} className="flex items-center">
               {index > 0 && <span className="mx-1">/</span>}
@@ -82,5 +82,5 @@ export function PageHeader({ title, description, icon, breadcrumbs }: PageHeader
       </div>
       <p className="text-lg text-medical-600">{description}</p>
     </div>
-  )
+  );
 }

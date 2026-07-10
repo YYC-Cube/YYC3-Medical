@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { VitalSigns } from "./vital-signs"
+import { VitalSigns } from './vital-signs';
 
 export function VitalSignsClient() {
-  return <VitalSigns />
+  return <VitalSigns />;
 }

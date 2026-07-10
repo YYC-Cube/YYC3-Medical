@@ -2,10 +2,10 @@
 
 ## Supported Versions
 
-| Version | Supported | Status |
-|---------|-----------|--------|
-| 1.1.x   | ✅ | Current release |
-| 1.0.x   | ⚠️ | Security fixes only |
+| Version | Supported | Status              |
+| ------- | --------- | ------------------- |
+| 1.1.x   | ✅        | Current release     |
+| 1.0.x   | ⚠️        | Security fixes only |
 
 ## Reporting a Vulnerability
 
@@ -63,12 +63,12 @@ pnpm audit
 
 When the backend is implemented, the following compliance frameworks should be evaluated:
 
-| Framework | Region | Relevance |
-|-----------|--------|-----------|
-| **HIPAA** | US | Health Insurance Portability and Accountability Act |
-| **等保 2.0** (MLPS) | China | 多级保护方案 — information security protection system |
-| **GDPR** | EU | General Data Protection Regulation |
-| **PIPL** | China | 个人信息保护法 — Personal Information Protection Law |
+| Framework           | Region | Relevance                                             |
+| ------------------- | ------ | ----------------------------------------------------- |
+| **HIPAA**           | US     | Health Insurance Portability and Accountability Act   |
+| **等保 2.0** (MLPS) | China  | 多级保护方案 — information security protection system |
+| **GDPR**            | EU     | General Data Protection Regulation                    |
+| **PIPL**            | China  | 个人信息保护法 — Personal Information Protection Law  |
 
 **Action items for backend implementation:**
 

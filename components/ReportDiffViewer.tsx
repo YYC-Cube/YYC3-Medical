@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 interface ReportDiff {
-  entity: string
-  column: string
-  from: { status: string; type: string }
-  to: { status: string; type: string }
+  entity: string;
+  column: string;
+  from: { status: string; type: string };
+  to: { status: string; type: string };
 }
 
 export default function ReportDiffViewer({ from, to }: { from: string; to: string }) {
@@ -13,7 +13,7 @@ export default function ReportDiffViewer({ from, to }: { from: string; to: strin
   useEffect(() => {
     // STATIC-EXPORT-NOTE: /api/report-diff 不存在于静态导出，这里保留接口契约。
     // 后续接入真实后端时，替换为 fetch 调用即可。
-    setDiffs([])
+    setDiffs([]);
   }, [from, to]);
 
   return (

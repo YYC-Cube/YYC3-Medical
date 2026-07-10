@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 type AuditLogItem = {
-  id: string | number
-  action_type: string
-  model_name: string
-  version: string
-  performed_by: string
-  timestamp: string
-}
+  id: string | number;
+  action_type: string;
+  model_name: string;
+  version: string;
+  performed_by: string;
+  timestamp: string;
+};
 
 export default function AuditLog() {
   const [logs, setLogs] = useState<AuditLogItem[]>([]);

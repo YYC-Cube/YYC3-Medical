@@ -1,0 +1,8 @@
+feat(v1.2.0): 全局闭环终极审核 - 安全加固/a11y合规/性能优化/文档治理
+
+Security: LoginForm密码改环境变量, target=_blank加rel, seed.ts密码改env
+A11y: 37处div onClick添加keyboard handler, 创建lib/a11y.ts
+Performance: recharts动态导入(370KB->223KB), 图片压缩97%
+Quality: ESLint 0 warnings, TS 0 errors, Jest 291/291 passed
+Docs: 更新开发者指南, 删除3个过时文档, 添加.env.example
+CI/CD: deploy.yml补充演示模式环境变量

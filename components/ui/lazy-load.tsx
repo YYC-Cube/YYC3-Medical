@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { Suspense, lazy, type ComponentType, useState, useEffect } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import { Suspense, lazy, type ComponentType, useState, useEffect } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 interface LazyComponentProps {
-  component: () => Promise<{ default: ComponentType<any> }>
-  props?: any
-  fallback?: React.ReactNode
-  onLoad?: () => void
+  component: () => Promise<{ default: ComponentType<any> }>;
+  props?: any;
+  fallback?: React.ReactNode;
+  onLoad?: () => void;
 }
 
 export function LazyComponent({
@@ -22,35 +22,35 @@ export function LazyComponent({
   ),
   onLoad,
 }: LazyComponentProps) {
-  const [Component, setComponent] = useState<ComponentType<any> | null>(null)
+  const [Component, setComponent] = useState<ComponentType<any> | null>(null);
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
 
     const loadComponent = async () => {
       try {
-        const mod = await component()
+        const mod = await component();
         if (isMounted) {
-          setComponent(() => mod.default)
-          onLoad?.()
+          setComponent(() => mod.default);
+          onLoad?.();
         }
       } catch (error) {
-        console.error("组件加载失败:", error)
+        console.error('组件加载失败:', error);
       }
-    }
+    };
 
-    loadComponent()
+    loadComponent();
 
     return () => {
-      isMounted = false
-    }
-  }, [component, onLoad])
+      isMounted = false;
+    };
+  }, [component, onLoad]);
 
   if (!Component) {
-    return <>{fallback}</>
+    return <>{fallback}</>;
   }
 
-  return <Component {...props} />
+  return <Component {...props} />;
 }
 
 /**
@@ -60,9 +60,9 @@ export function LazyComponent({
  */
 export function createLazyComponent<T extends Record<string, unknown>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
-  fallback?: React.ReactNode,
+  fallback?: React.ReactNode
 ) {
-  const LazyLoadedComponent = lazy(importFunc)
+  const LazyLoadedComponent = lazy(importFunc);
 
   return function LazyWrapper(props: T) {
     return (
@@ -75,9 +75,9 @@ export function createLazyComponent<T extends Record<string, unknown>>(
           )
         }
       >
-        { }
+        {}
         <LazyLoadedComponent {...(props as any)} />
       </Suspense>
-    )
-  }
+    );
+  };
 }

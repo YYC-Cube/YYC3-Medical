@@ -1,6 +1,6 @@
-import { PageHeader } from "@/components/page-header"
-import { BarChart } from "lucide-react"
-import { VerificationStatisticsClient } from "@/components/certifications/statistics/verification-statistics-client"
+import { PageHeader } from '@/components/page-header';
+import { BarChart } from 'lucide-react';
+import { VerificationStatisticsClient } from '@/components/certifications/statistics/verification-statistics-client';
 
 export default function VerificationStatisticsPage() {
   return (
@@ -13,5 +13,5 @@ export default function VerificationStatisticsPage() {
 
       <VerificationStatisticsClient />
     </div>
-  )
+  );
 }

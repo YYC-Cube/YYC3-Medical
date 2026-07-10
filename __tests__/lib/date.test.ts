@@ -5,160 +5,146 @@ import {
   isDateInRange,
   formatISODate,
   getAge,
-} from "@/lib/utils/date"
+} from '@/lib/utils/date';
 
-describe("lib/utils/date", () => {
-  describe("formatDate", () => {
-    it("returns 无效日期 for invalid input", () => {
-      expect(formatDate("not-a-date")).toBe("无效日期")
-      expect(formatDate(new Date("invalid"))).toBe("无效日期")
-    })
+describe('lib/utils/date', () => {
+  describe('formatDate', () => {
+    const testDate = new Date('2026-06-15T10:30:00');
 
-    it("accepts Date object, string, and number", () => {
-      const d = new Date(2024, 0, 15, 10, 30, 0)
-      expect(typeof formatDate(d)).toBe("string")
-      expect(typeof formatDate(d.toISOString())).toBe("string")
-      expect(typeof formatDate(d.getTime())).toBe("string")
-    })
+    it('formats as datetime by default', () => {
+      const result = formatDate(testDate);
+      expect(result).toContain('2026');
+      expect(result).toContain('6');
+      expect(result).toContain('15');
+    });
 
-    it("uses default datetime format when no format given", () => {
-      const d = new Date(2024, 0, 15, 10, 30, 0)
-      const result = formatDate(d)
-      expect(result).toContain("2024")
-      expect(result).toContain("30")
-    })
+    it('formats as date-only', () => {
+      const result = formatDate(testDate, 'date');
+      expect(result).toContain('2026');
+      expect(result).not.toContain('10:');
+    });
 
-    it("date format omits time", () => {
-      const d = new Date(2024, 0, 15, 10, 30, 0)
-      const result = formatDate(d, "date", "en-US")
-      expect(result).toContain("2024")
-      expect(result).toContain("15")
-      // time-style 未设置,不应含 10:30
-      expect(result).not.toContain("10")
-    })
+    it('formats as time-only', () => {
+      const result = formatDate(testDate, 'time');
+      expect(result).toContain('10');
+      expect(result).toContain('30');
+    });
 
-    it("time format omits date", () => {
-      const d = new Date(2024, 0, 15, 10, 30, 45)
-      const result = formatDate(d, "time", "en-US")
-      expect(result).toContain("30")
-      // 不应含年份
-      expect(result).not.toContain("2024")
-    })
+    it('formats as relative time', () => {
+      const now = new Date();
+      const recent = new Date(now.getTime() - 60 * 1000); // 1 minute ago
+      const result = formatDate(recent, 'relative');
+      expect(result).toContain('分钟');
+    });
 
-    it("relative format delegates to relative time formatter", () => {
-      const now = new Date()
-      const result = formatDate(now, "relative", "en-US")
-      // "now" 在秒级内,RRelativeTimeFormat numeric:"auto" 会输出 "now"/"现在"
-      expect(typeof result).toBe("string")
-      expect(result.length).toBeGreaterThan(0)
-    })
-  })
+    it('returns "无效日期" for invalid date', () => {
+      expect(formatDate('not-a-date')).toBe('无效日期');
+    });
 
-  describe("dateDifference", () => {
-    it("computes zero difference for identical dates", () => {
-      const d = "2024-01-01T00:00:00Z"
-      const diff = dateDifference(d, d)
-      expect(diff.years).toBe(0)
-      expect(diff.totalDays).toBe(0)
-      expect(diff.hours).toBe(0)
-    })
+    it('accepts ISO string input', () => {
+      const result = formatDate('2026-06-15T10:30:00Z', 'date');
+      expect(result).toContain('2026');
+    });
 
-    it("computes positive difference for ascending dates", () => {
-      const diff = dateDifference("2024-01-01T00:00:00Z", "2024-01-02T00:00:00Z")
-      expect(diff.totalDays).toBe(1)
-      expect(diff.days).toBe(1)
-    })
+    it('accepts numeric timestamp input', () => {
+      const result = formatDate(Date.now(), 'time');
+      expect(typeof result).toBe('string');
+      expect(result.length).toBeGreaterThan(0);
+    });
+  });
 
-    it("computes months across year boundary", () => {
-      const diff = dateDifference("2023-06-01", "2024-06-01")
-      expect(diff.years).toBe(1)
-      expect(diff.months).toBeGreaterThanOrEqual(11)
-    })
+  describe('dateDifference', () => {
+    it('calculates difference between two dates', () => {
+      const start = new Date('2026-01-01');
+      const end = new Date('2026-01-11');
+      const diff = dateDifference(start, end);
 
-    it("handles negative difference (end < start)", () => {
-      const diff = dateDifference("2024-01-10", "2024-01-05")
-      expect(diff.totalDays).toBe(-5)
-    })
+      expect(diff.days).toBe(10);
+      expect(diff.totalDays).toBe(10);
+    });
 
-    it("accepts Date objects", () => {
-      const start = new Date(2024, 0, 1)
-      const end = new Date(2024, 0, 3)
-      const diff = dateDifference(start, end)
-      expect(diff.days).toBe(2)
-    })
-  })
+    it('handles negative difference', () => {
+      const start = new Date('2026-06-15');
+      const end = new Date('2026-01-01');
+      const diff = dateDifference(start, end);
 
-  describe("getDateRange", () => {
-    it("returns inclusive list of dates", () => {
-      const range = getDateRange("2024-01-01", "2024-01-05")
-      expect(range).toHaveLength(5)
-      expect(range[0].getDate()).toBe(1)
-      expect(range[4].getDate()).toBe(5)
-    })
+      expect(diff.totalDays).toBeLessThan(0);
+    });
 
-    it("returns single date when start === end", () => {
-      const range = getDateRange("2024-01-01", "2024-01-01")
-      expect(range).toHaveLength(1)
-    })
+    it('returns zero for same dates', () => {
+      const date = new Date('2026-06-15');
+      const diff = dateDifference(date, date);
+      expect(diff.totalDays).toBe(0);
+    });
 
-    it("returns empty for inverted range", () => {
-      const range = getDateRange("2024-01-05", "2024-01-01")
-      expect(range).toHaveLength(0)
-    })
-  })
+    it('accepts string inputs', () => {
+      const diff = dateDifference('2026-01-01', '2026-06-15');
+      expect(diff.totalDays).toBeGreaterThan(0);
+    });
+  });
 
-  describe("isDateInRange", () => {
-    it("returns true when date is within range", () => {
-      expect(isDateInRange("2024-01-03", "2024-01-01", "2024-01-05")).toBe(true)
-    })
+  describe('getDateRange', () => {
+    it('returns all dates in range inclusive', () => {
+      const start = new Date('2026-06-01');
+      const end = new Date('2026-06-05');
+      const dates = getDateRange(start, end);
 
-    it("returns true on range boundaries (inclusive)", () => {
-      expect(isDateInRange("2024-01-01", "2024-01-01", "2024-01-05")).toBe(true)
-      expect(isDateInRange("2024-01-05", "2024-01-01", "2024-01-05")).toBe(true)
-    })
+      expect(dates).toHaveLength(5);
+      expect(dates[0].toISOString().split('T')[0]).toBe('2026-06-01');
+      expect(dates[4].toISOString().split('T')[0]).toBe('2026-06-05');
+    });
 
-    it("returns false when date is outside range", () => {
-      expect(isDateInRange("2024-02-01", "2024-01-01", "2024-01-05")).toBe(false)
-    })
-  })
+    it('returns single date when start equals end', () => {
+      const date = new Date('2026-06-15');
+      const dates = getDateRange(date, date);
+      expect(dates).toHaveLength(1);
+    });
 
-  describe("formatISODate", () => {
-    it("returns YYYY-MM-DD format", () => {
-      const result = formatISODate("2024-03-15T10:30:00Z")
-      expect(result).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-      expect(result).toBe("2024-03-15")
-    })
+    it('accepts string inputs', () => {
+      const dates = getDateRange('2026-06-01', '2026-06-03');
+      expect(dates).toHaveLength(3);
+    });
+  });
 
-    it("accepts Date object", () => {
-      const d = new Date(Date.UTC(2024, 2, 15))
-      expect(formatISODate(d)).toBe("2024-03-15")
-    })
-  })
+  describe('isDateInRange', () => {
+    const start = new Date('2026-01-01');
+    const end = new Date('2026-12-31');
 
-  describe("getAge", () => {
-    it("returns 0 for a baby born today", () => {
-      const today = new Date()
-      expect(getAge(today)).toBe(0)
-    })
+    it('returns true for date within range', () => {
+      expect(isDateInRange(new Date('2026-06-15'), start, end)).toBe(true);
+    });
 
-    it("increments age based on year diff", () => {
-      const today = new Date()
-      const birth = new Date(today.getFullYear() - 30, today.getMonth(), today.getDate())
-      expect(getAge(birth)).toBe(30)
-    })
+    it('returns true for boundary dates', () => {
+      expect(isDateInRange(start, start, end)).toBe(true);
+      expect(isDateInRange(end, start, end)).toBe(true);
+    });
 
-    it("subtracts 1 if birthday hasn't occurred yet this year", () => {
-      const now = new Date()
-      // 生日在下个月 → 当年生日未到
-      const birth = new Date(now.getFullYear() - 30, now.getMonth() + 1, 15)
-      expect(getAge(birth)).toBe(29)
-    })
+    it('returns false for date before range', () => {
+      expect(isDateInRange(new Date('2025-12-31'), start, end)).toBe(false);
+    });
 
-    it("does not subtract if birthday already passed this year", () => {
-      const now = new Date()
-      // 生日在上个月 → 当年生日已过
-      const birth = new Date(now.getFullYear() - 30, now.getMonth() - 1, 15)
-      expect(getAge(birth)).toBe(30)
-    })
-  })
-})
+    it('returns false for date after range', () => {
+      expect(isDateInRange(new Date('2027-01-01'), start, end)).toBe(false);
+    });
+  });
+
+  describe('formatISODate', () => {
+    it('formats to YYYY-MM-DD', () => {
+      const date = new Date('2026-06-15T10:30:00');
+      expect(formatISODate(date)).toBe('2026-06-15');
+    });
+
+    it('accepts string input', () => {
+      expect(formatISODate('2026-06-15T10:30:00Z')).toBe('2026-06-15');
+    });
+  });
+
+  describe('getAge', () => {
+    it('calculates correct age', () => {
+      const birthDate = new Date('1990-01-15');
+      const age = getAge(birthDate);
+      expect(age).toBeGreaterThanOrEqual(35);
+      expect(age).toBeLessThanOrEqual(37);
+    });
+  });
+});

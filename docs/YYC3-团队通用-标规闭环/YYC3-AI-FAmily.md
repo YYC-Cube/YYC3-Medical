@@ -131,6 +131,7 @@ YYC³ AI Family · 人从众曌众从人 · 永久开源
 
 ```markdown
 ---
+
 <p align="center">
   🌹 <b>YYC³ AI Family</b><br>
   人从众曌众从人 · 亦师亦友亦伯乐<br>
@@ -146,10 +147,15 @@ YYC³ AI Family · 人从众曌众从人 · 永久开源
 
 ```markdown
 <!-- 家族核心 -->
+
 ![YYC3 AI Family](https://img.shields.io/badge/YYC³-AI_Family-🌹?style=for-the-badge&logo=data:image/svg+xml;base64,...)
+
 <!-- 可直译中文 -->
+
 ![人从众曌众从人](https://img.shields.io/badge/人从众曌众从人-永久开源-%235e2c8a?style=flat-square)
+
 <!-- 家训 -->
+
 ![亦师亦友亦伯乐](https://img.shields.io/badge/亦师亦友亦伯乐-一言一语一协同-%231e2b4f?style=flat&labelColor=5e2c8a)
 ```
 
@@ -180,14 +186,14 @@ YYC³ AI Family · 人从众曌众从人 · 永久开源
 
 ### 6.1 推荐响应头字段
 
-| 响应头                          | 值                                                                 |
-|---------------------------------|--------------------------------------------------------------------|
-| `X-Family`                      | `YYC³ AI Family`                                                   |
-| `X-Family-Motto`                | `人从众曌众从人 · 亦师亦友亦伯乐`                                   |
-| `X-Family-Core`                 | `拟人为本，AI为核，纯粹为心`                                        |
-| `X-Powered-By`                  | `YYC³ AI Family · 永久开源` (覆盖原头)                              |
-| `X-Family-Rose`                 | `🌹`                                                               |
-| `X-Content-Generator`           | `YYC³ AI Family Members (see /family)` (可选)                       |
+| 响应头                | 值                                            |
+| --------------------- | --------------------------------------------- |
+| `X-Family`            | `YYC³ AI Family`                              |
+| `X-Family-Motto`      | `人从众曌众从人 · 亦师亦友亦伯乐`             |
+| `X-Family-Core`       | `拟人为本，AI为核，纯粹为心`                  |
+| `X-Powered-By`        | `YYC³ AI Family · 永久开源` (覆盖原头)        |
+| `X-Family-Rose`       | `🌹`                                          |
+| `X-Content-Generator` | `YYC³ AI Family Members (see /family)` (可选) |
 
 ### 6.2 Nginx 注入配置
 
@@ -213,20 +219,32 @@ add_header X-Family-Rose "🌹" always;
 <div id="family-watermark"></div>
 <style>
   #family-watermark {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
     background-image: repeating-linear-gradient(
       -25deg,
-      transparent, transparent 120px,
-      rgba(94,44,138,0.04) 120px, rgba(94,44,138,0.04) 240px
+      transparent,
+      transparent 120px,
+      rgba(94, 44, 138, 0.04) 120px,
+      rgba(94, 44, 138, 0.04) 240px
     );
   }
   #family-watermark::after {
-    content: "人从众曌众从人 · YYC³ AI Family";
-    position: absolute; top: 50%; left: 50%;
+    content: '人从众曌众从人 · YYC³ AI Family';
+    position: absolute;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%) rotate(-20deg);
-    font-size: 42px; font-weight: bold; font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    color: rgba(94,44,138,0.08); white-space: nowrap;
+    font-size: 42px;
+    font-weight: bold;
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: rgba(94, 44, 138, 0.08);
+    white-space: nowrap;
   }
 </style>
 ```
@@ -259,12 +277,16 @@ add_header X-Family-Rose "🌹" always;
   display: inline-block;
 }
 .family-image-guard::after {
-  content: "© YYC³ AI Family · 人从众曌众从人 🌹";
-  position: absolute; bottom: 10px; right: 10px;
-  color: rgba(255,255,255,0.85);
-  background: rgba(30,30,60,0.5);
-  padding: 4px 12px; font-size: 12px;
-  border-radius: 20px; pointer-events: none;
+  content: '© YYC³ AI Family · 人从众曌众从人 🌹';
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(30, 30, 60, 0.5);
+  padding: 4px 12px;
+  font-size: 12px;
+  border-radius: 20px;
+  pointer-events: none;
 }
 ```
 
@@ -291,8 +313,16 @@ add_header X-Family-Rose "🌹" always;
     "url": "https://github.com/YanYuCloudCube/YYC3-FAmily-Pai.git"
   },
   "keywords": [
-    "AI Family", "人从众曌众从人", "MCP", "Agent", "多智能体", "开源",
-    "情感计算", "亦师亦友亦伯乐", "YYC3", "云枢"
+    "AI Family",
+    "人从众曌众从人",
+    "MCP",
+    "Agent",
+    "多智能体",
+    "开源",
+    "情感计算",
+    "亦师亦友亦伯乐",
+    "YYC3",
+    "云枢"
   ],
   "badges": [
     "[![YYC³ AI Family](https://img.shields.io/badge/YYC³-AI_Family-🌹?style=flat)](https://matrix.yyc3.top)"
@@ -393,14 +423,14 @@ https://matrix.yyc3.top | admin@yanyucloud.com
 在项目中建立 `familyCharter.ts`：
 
 ```typescript
-export const FAMILY_MOTTO = "亦师亦友亦伯乐，一言一语一协同";
-export const FAMILY_CORE = "人从众曌众从人";
-export const FAMILY_LICENSE = "Apache-2.0 · 永久开源";
-export const FAMILY_ROSE = "🌹";
+export const FAMILY_MOTTO = '亦师亦友亦伯乐，一言一语一协同';
+export const FAMILY_CORE = '人从众曌众从人';
+export const FAMILY_LICENSE = 'Apache-2.0 · 永久开源';
+export const FAMILY_ROSE = '🌹';
 
 export const MEMBERS = {
-  TianShu: { name: "元启·天枢", role: "总指挥", ext: "0379-0206" },
-  ShouHu: { name: "智云·守护", role: "安全官", ext: "0379-0207" },
+  TianShu: { name: '元启·天枢', role: '总指挥', ext: '0379-0206' },
+  ShouHu: { name: '智云·守护', role: '安全官', ext: '0379-0207' },
   // ... 其余成员
 };
 
@@ -658,11 +688,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm run lint:family   # 自定义检查
+      - run: npm run lint:family # 自定义检查
       - run: npm run build
       - run: python scripts/generate_badges.py
       - run: node scripts/inject-watermark.js
-      - run: node scripts/image-guard.js  # 如果有图片
+      - run: node scripts/image-guard.js # 如果有图片
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -679,7 +709,7 @@ jobs:
 - **成员徽章**逐一现形，
 - **移动端水印**暗嵌家纹，
 - **微博排版**广传家训。
-三脉归元，自此家徽不论荧屏纸墨，家训不论端末社媒，皆可自生自显，人从众曌
+  三脉归元，自此家徽不论荧屏纸墨，家训不论端末社媒，皆可自生自显，人从众曌
 
 ## 🌹 十八、成员专属徽章 · 逐一生成
 
@@ -687,16 +717,16 @@ jobs:
 
 ### 18.1 成员徽章规范
 
-| 成员 | 主题色 | 图标符 | 角色 | 徽章文字 |
-|------|--------|--------|------|----------|
-| 元启·天枢 | `#5e2c8a`（深紫） | 🧠 | 总指挥 | 天枢 · 决策中枢 |
-| 智云·守护 | `#2c3e50`（盾灰） | 🛡️ | 安全官 | 守护 · 免疫长城 |
-| 格物·宗师 | `#2e8b57`（墨绿） | 📚 | 质量官 | 宗师 · 进化导师 |
-| 创想·灵韵 | `#ff8c00`（橙金） | 🎨 | 创意官 | 灵韵 · 灵感引擎 |
-| 言启·千行 | `#0088cc`（湖蓝） | 🧭 | 导航员 | 千行 · 意图之门 |
-| 语枢·万物 | `#c0c0c0`（银白） | 🤔 | 思考者 | 万物 · 数据哲人 |
-| 预见·先知 | `#4b0082`（夜紫） | 🔮 | 预言家 | 先知 · 趋势之眼 |
-| 千里·伯乐 | `#dc143c`（暖红） | 🎯 | 推荐官 | 伯乐 · 潜能发掘 |
+| 成员      | 主题色            | 图标符 | 角色   | 徽章文字        |
+| --------- | ----------------- | ------ | ------ | --------------- |
+| 元启·天枢 | `#5e2c8a`（深紫） | 🧠     | 总指挥 | 天枢 · 决策中枢 |
+| 智云·守护 | `#2c3e50`（盾灰） | 🛡️     | 安全官 | 守护 · 免疫长城 |
+| 格物·宗师 | `#2e8b57`（墨绿） | 📚     | 质量官 | 宗师 · 进化导师 |
+| 创想·灵韵 | `#ff8c00`（橙金） | 🎨     | 创意官 | 灵韵 · 灵感引擎 |
+| 言启·千行 | `#0088cc`（湖蓝） | 🧭     | 导航员 | 千行 · 意图之门 |
+| 语枢·万物 | `#c0c0c0`（银白） | 🤔     | 思考者 | 万物 · 数据哲人 |
+| 预见·先知 | `#4b0082`（夜紫） | 🔮     | 预言家 | 先知 · 趋势之眼 |
+| 千里·伯乐 | `#dc143c`（暖红） | 🎯     | 推荐官 | 伯乐 · 潜能发掘 |
 
 ### 18.2 成员徽章 SVG 示例（元启·天枢）
 
@@ -838,16 +868,18 @@ export default function MobileWatermark() {
 body::after {
   content: '';
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100dvh;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
   pointer-events: none;
   z-index: 9999;
   background-image: repeating-linear-gradient(
     -25deg,
     transparent,
     transparent 10vw,
-    rgba(94,44,138,0.04) 10vw,
-    rgba(94,44,138,0.04) 20vw
+    rgba(94, 44, 138, 0.04) 10vw,
+    rgba(94, 44, 138, 0.04) 20vw
   );
 }
 ```
@@ -953,5 +985,5 @@ Electron · PWA · 赛博朋克视觉
 只需将以上配置纳入仓库，即可享受全链路闭环之便。若需成员专属徽章逐一生成、或为移动端定制水印逻辑，敬请示下。云枢之门，随时为您而开。
 
 **YYC³ AI Family · 天枢代传**
-*万象归元于云枢，深栈智启新纪元*
+_万象归元于云枢，深栈智启新纪元_
 <admin@yanyucloud.com> 🌹

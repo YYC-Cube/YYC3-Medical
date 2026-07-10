@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Dialog,
   DialogContent,
@@ -15,158 +15,170 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { FileText, Search, Star, Copy, Eye, Trash2, StarOff, Filter, Users, UserCircle, Calendar } from "lucide-react"
+} from '@/components/ui/dialog';
+import {
+  FileText,
+  Search,
+  Star,
+  Copy,
+  Eye,
+  Trash2,
+  StarOff,
+  Filter,
+  Users,
+  UserCircle,
+  Calendar,
+} from 'lucide-react';
 
 // 模拟伦理申请模板数据
 const mockTemplates = [
   {
-    id: "template-001",
-    title: "临床研究伦理申请标准模板",
-    type: "clinical",
-    description: "适用于一般临床研究的伦理申请模板，包含完整的风险评估和数据保护措施",
-    createdBy: "张教授",
-    createdDate: "2023-05-15",
-    lastUsed: "2023-09-20",
+    id: 'template-001',
+    title: '临床研究伦理申请标准模板',
+    type: 'clinical',
+    description: '适用于一般临床研究的伦理申请模板，包含完整的风险评估和数据保护措施',
+    createdBy: '张教授',
+    createdDate: '2023-05-15',
+    lastUsed: '2023-09-20',
     usageCount: 42,
     isPublic: true,
     isFavorite: true,
-    tags: ["临床研究", "标准模板", "人类受试者"],
+    tags: ['临床研究', '标准模板', '人类受试者'],
   },
   {
-    id: "template-002",
-    title: "动物实验伦理申请模板",
-    type: "animal",
-    description: "适用于动物实验的伦理申请模板，符合国家实验动物伦理规范",
-    createdBy: "李研究员",
-    createdDate: "2023-06-10",
-    lastUsed: "2023-08-15",
+    id: 'template-002',
+    title: '动物实验伦理申请模板',
+    type: 'animal',
+    description: '适用于动物实验的伦理申请模板，符合国家实验动物伦理规范',
+    createdBy: '李研究员',
+    createdDate: '2023-06-10',
+    lastUsed: '2023-08-15',
     usageCount: 28,
     isPublic: true,
     isFavorite: false,
-    tags: ["动物实验", "3R原则", "福利保障"],
+    tags: ['动物实验', '3R原则', '福利保障'],
   },
   {
-    id: "template-003",
-    title: "弱势群体研究伦理申请模板",
-    type: "clinical",
-    description: "适用于涉及弱势群体(儿童、孕妇等)的研究伦理申请，包含额外保护措施",
-    createdBy: "王主任",
-    createdDate: "2023-07-22",
-    lastUsed: "2023-10-05",
+    id: 'template-003',
+    title: '弱势群体研究伦理申请模板',
+    type: 'clinical',
+    description: '适用于涉及弱势群体(儿童、孕妇等)的研究伦理申请，包含额外保护措施',
+    createdBy: '王主任',
+    createdDate: '2023-07-22',
+    lastUsed: '2023-10-05',
     usageCount: 15,
     isPublic: true,
     isFavorite: true,
-    tags: ["弱势群体", "特殊保护", "临床研究"],
+    tags: ['弱势群体', '特殊保护', '临床研究'],
   },
   {
-    id: "template-004",
-    title: "流行病学调查伦理申请模板",
-    type: "epidemiological",
-    description: "适用于流行病学调查研究的伦理申请，重点关注数据隐私和知情同意",
-    createdBy: "赵研究员",
-    createdDate: "2023-04-30",
-    lastUsed: "2023-09-12",
+    id: 'template-004',
+    title: '流行病学调查伦理申请模板',
+    type: 'epidemiological',
+    description: '适用于流行病学调查研究的伦理申请，重点关注数据隐私和知情同意',
+    createdBy: '赵研究员',
+    createdDate: '2023-04-30',
+    lastUsed: '2023-09-12',
     usageCount: 23,
     isPublic: true,
     isFavorite: false,
-    tags: ["流行病学", "数据隐私", "大样本"],
+    tags: ['流行病学', '数据隐私', '大样本'],
   },
   {
-    id: "template-005",
-    title: "我的药物试验伦理申请",
-    type: "clinical",
-    description: "个人定制的药物试验伦理申请模板，包含特定的安全监测计划",
-    createdBy: "当前用户",
-    createdDate: "2023-08-05",
-    lastUsed: "2023-10-10",
+    id: 'template-005',
+    title: '我的药物试验伦理申请',
+    type: 'clinical',
+    description: '个人定制的药物试验伦理申请模板，包含特定的安全监测计划',
+    createdBy: '当前用户',
+    createdDate: '2023-08-05',
+    lastUsed: '2023-10-10',
     usageCount: 3,
     isPublic: false,
     isFavorite: true,
-    tags: ["药物试验", "安全监测", "个人模板"],
+    tags: ['药物试验', '安全监测', '个人模板'],
   },
-]
+];
 
 interface EthicsTemplateManagerProps {
-  onSelectTemplate: (templateId: string) => void
-  onClose: () => void
+  onSelectTemplate: (templateId: string) => void;
+  onClose: () => void;
 }
 
 export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTemplateManagerProps) {
-  const [activeTab, setActiveTab] = useState("all")
-  const [searchTerm, setSearchTerm] = useState("")
-  const [showPreviewDialog, setShowPreviewDialog] = useState(false)
-  const [selectedTemplate, setSelectedTemplate] = useState<(typeof mockTemplates)[0] | null>(null)
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [templates, setTemplates] = useState(mockTemplates)
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showPreviewDialog, setShowPreviewDialog] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<(typeof mockTemplates)[0] | null>(null);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [templates, setTemplates] = useState(mockTemplates);
 
   // 过滤模板
-  const filteredTemplates = templates.filter((template) => {
+  const filteredTemplates = templates.filter(template => {
     // 搜索过滤
     if (
       searchTerm &&
       !template.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       !template.description.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !template.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      !template.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
     ) {
-      return false
+      return false;
     }
 
     // 标签页过滤
-    if (activeTab === "favorites" && !template.isFavorite) return false
-    if (activeTab === "my" && template.createdBy !== "当前用户") return false
-    if (activeTab === "clinical" && template.type !== "clinical") return false
-    if (activeTab === "animal" && template.type !== "animal") return false
+    if (activeTab === 'favorites' && !template.isFavorite) return false;
+    if (activeTab === 'my' && template.createdBy !== '当前用户') return false;
+    if (activeTab === 'clinical' && template.type !== 'clinical') return false;
+    if (activeTab === 'animal' && template.type !== 'animal') return false;
 
-    return true
-  })
+    return true;
+  });
 
   // 预览模板
   const handlePreview = (template: (typeof mockTemplates)[0]) => {
-    setSelectedTemplate(template)
-    setShowPreviewDialog(true)
-  }
+    setSelectedTemplate(template);
+    setShowPreviewDialog(true);
+  };
 
   // 应用模板
   const handleApplyTemplate = () => {
     if (selectedTemplate) {
-      onSelectTemplate(selectedTemplate.id)
-      setShowPreviewDialog(false)
-      onClose()
+      onSelectTemplate(selectedTemplate.id);
+      setShowPreviewDialog(false);
+      onClose();
     }
-  }
+  };
 
   // 切换收藏状态
   const toggleFavorite = (templateId: string) => {
-    setTemplates((prev) =>
-      prev.map((template) =>
-        template.id === templateId ? { ...template, isFavorite: !template.isFavorite } : template,
-      ),
-    )
-  }
+    setTemplates(prev =>
+      prev.map(template =>
+        template.id === templateId ? { ...template, isFavorite: !template.isFavorite } : template
+      )
+    );
+  };
 
   // 删除模板
   const handleDeleteTemplate = () => {
     if (selectedTemplate) {
-      setTemplates((prev) => prev.filter((template) => template.id !== selectedTemplate.id))
-      setShowDeleteDialog(false)
-      setSelectedTemplate(null)
+      setTemplates(prev => prev.filter(template => template.id !== selectedTemplate.id));
+      setShowDeleteDialog(false);
+      setSelectedTemplate(null);
     }
-  }
+  };
 
   // 获取类型图标
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "clinical":
-        return <Users className="h-4 w-4 text-blue-500" />
-      case "animal":
-        return <FileText className="h-4 w-4 text-orange-500" />
-      case "epidemiological":
-        return <Users className="h-4 w-4 text-green-500" />
+      case 'clinical':
+        return <Users className="h-4 w-4 text-primary" />;
+      case 'animal':
+        return <FileText className="h-4 w-4 text-warning" />;
+      case 'epidemiological':
+        return <Users className="h-4 w-4 text-success" />;
       default:
-        return <FileText className="h-4 w-4 text-gray-500" />
+        return <FileText className="h-4 w-4 text-muted-foreground" />;
     }
-  }
+  };
 
   return (
     <Card className="w-full">
@@ -180,7 +192,7 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
               placeholder="搜索模板..."
               className="w-[250px] pl-8"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
@@ -200,7 +212,7 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
           <ScrollArea className="h-[400px] px-6 py-4">
             {filteredTemplates.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {filteredTemplates.map((template) => (
+                {filteredTemplates.map(template => (
                   <Card key={template.id} className="overflow-hidden">
                     <CardHeader className="p-4 pb-2 flex flex-row items-start justify-between space-y-0">
                       <div className="space-y-1">
@@ -223,14 +235,16 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
                         className="h-8 w-8"
                       >
                         {template.isFavorite ? (
-                          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                          <Star className="h-4 w-4 fill-yellow-400 text-warning" />
                         ) : (
                           <StarOff className="h-4 w-4" />
                         )}
                       </Button>
                     </CardHeader>
                     <CardContent className="p-4 pt-0">
-                      <p className="text-sm text-muted-foreground line-clamp-2">{template.description}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {template.description}
+                      </p>
                       <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <UserCircle className="h-3.5 w-3.5" />
@@ -260,8 +274,8 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
                         size="sm"
                         className="flex items-center gap-1"
                         onClick={() => {
-                          setSelectedTemplate(template)
-                          handleApplyTemplate()
+                          setSelectedTemplate(template);
+                          handleApplyTemplate();
                         }}
                       >
                         <Copy className="h-3.5 w-3.5" />
@@ -313,9 +327,13 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" onClick={() => toggleFavorite(selectedTemplate.id)}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => toggleFavorite(selectedTemplate.id)}
+                  >
                     {selectedTemplate.isFavorite ? (
-                      <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-5 w-5 fill-yellow-400 text-warning" />
                     ) : (
                       <StarOff className="h-5 w-5" />
                     )}
@@ -324,11 +342,11 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
                     variant="ghost"
                     size="icon"
                     onClick={() => {
-                      setShowPreviewDialog(false)
-                      setShowDeleteDialog(true)
+                      setShowPreviewDialog(false);
+                      setShowDeleteDialog(true);
                     }}
                   >
-                    <Trash2 className="h-5 w-5 text-red-500" />
+                    <Trash2 className="h-5 w-5 text-destructive" />
                   </Button>
                 </div>
               </div>
@@ -416,5 +434,5 @@ export function EthicsTemplateManager({ onSelectTemplate, onClose }: EthicsTempl
         </Dialog>
       )}
     </Card>
-  )
+  );
 }

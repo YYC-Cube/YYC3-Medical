@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { PageHeader } from "@/components/page-header"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MedicalButton } from "@/components/ui/medical-button"
+import { useState } from 'react';
+import { PageHeader } from '@/components/page-header';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MedicalButton } from '@/components/ui/medical-button';
 import {
   ClipboardList,
   Plus,
@@ -17,14 +17,20 @@ import {
   CheckCircle,
   AlertCircle,
   Clock,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export function PrescriptionManagementClient() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -42,7 +48,7 @@ export function PrescriptionManagementClient() {
             placeholder="搜索处方或患者..."
             className="pl-8"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -85,7 +91,7 @@ export function PrescriptionManagementClient() {
 
         <TabsContent value="recent" className="space-y-4 mt-4">
           <div className="grid grid-cols-1 gap-4">
-            {prescriptions.map((prescription) => (
+            {prescriptions.map(prescription => (
               <PrescriptionCard key={prescription.id} prescription={prescription} />
             ))}
           </div>
@@ -94,8 +100,8 @@ export function PrescriptionManagementClient() {
         <TabsContent value="pending" className="space-y-4 mt-4">
           <div className="grid grid-cols-1 gap-4">
             {prescriptions
-              .filter((p) => p.status === "pending")
-              .map((prescription) => (
+              .filter(p => p.status === 'pending')
+              .map(prescription => (
                 <PrescriptionCard key={prescription.id} prescription={prescription} />
               ))}
           </div>
@@ -104,8 +110,8 @@ export function PrescriptionManagementClient() {
         <TabsContent value="active" className="space-y-4 mt-4">
           <div className="grid grid-cols-1 gap-4">
             {prescriptions
-              .filter((p) => p.status === "active")
-              .map((prescription) => (
+              .filter(p => p.status === 'active')
+              .map(prescription => (
                 <PrescriptionCard key={prescription.id} prescription={prescription} />
               ))}
           </div>
@@ -113,64 +119,68 @@ export function PrescriptionManagementClient() {
 
         <TabsContent value="templates" className="space-y-4 mt-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {prescriptionTemplates.map((template) => (
+            {prescriptionTemplates.map(template => (
               <TemplateCard key={template.id} template={template} />
             ))}
           </div>
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }
 
 interface Prescription {
-  id: string
-  patientName: string
-  patientId: string
-  patientAvatar?: string
-  doctor: string
-  department: string
-  createdAt: string
-  expiresAt: string
-  medications: { name: string; dosage: string; frequency: string }[]
-  status: "active" | "pending" | "completed" | "cancelled"
-  urgency?: "normal" | "urgent"
-  notes?: string
+  id: string;
+  patientName: string;
+  patientId: string;
+  patientAvatar?: string;
+  doctor: string;
+  department: string;
+  createdAt: string;
+  expiresAt: string;
+  medications: { name: string; dosage: string; frequency: string }[];
+  status: 'active' | 'pending' | 'completed' | 'cancelled';
+  urgency?: 'normal' | 'urgent';
+  notes?: string;
 }
 
 function PrescriptionCard({ prescription }: { prescription: Prescription }) {
   const getStatusInfo = (status: string) => {
     switch (status) {
-      case "active":
+      case 'active':
         return {
-          icon: <CheckCircle className="h-4 w-4 text-green-500" />,
-          text: "有效",
-          color: "text-green-500 bg-green-50",
-        }
-      case "pending":
+          icon: <CheckCircle className="h-4 w-4 text-success" />,
+          text: '有效',
+          color: 'text-success bg-success/5',
+        };
+      case 'pending':
         return {
-          icon: <Clock className="h-4 w-4 text-amber-500" />,
-          text: "待审核",
-          color: "text-amber-500 bg-amber-50",
-        }
-      case "completed":
+          icon: <Clock className="h-4 w-4 text-warning" />,
+          text: '待审核',
+          color: 'text-warning bg-warning',
+        };
+      case 'completed':
         return {
-          icon: <CheckCircle className="h-4 w-4 text-blue-500" />,
-          text: "已完成",
-          color: "text-blue-500 bg-blue-50",
-        }
-      case "cancelled":
+          icon: <CheckCircle className="h-4 w-4 text-primary" />,
+          text: '已完成',
+          color: 'text-primary bg-primary/5',
+        };
+      case 'cancelled':
         return {
-          icon: <AlertCircle className="h-4 w-4 text-red-500" />,
-          text: "已取消",
-          color: "text-red-500 bg-red-50",
-        }
+          icon: <AlertCircle className="h-4 w-4 text-destructive" />,
+          text: '已取消',
+          color: 'text-destructive bg-destructive',
+        };
       default:
-        return { icon: <Clock className="h-4 w-4" />, text: status, color: "text-gray-500 bg-gray-50" }
+        return {
+          icon: <Clock className="h-4 w-4" />,
+          text: status,
+          color: 'text-muted-foreground bg-muted',
+        };
     }
-  }
+  };
 
-  const statusInfo = getStatusInfo(prescription.status)
+  const statusInfo = getStatusInfo(prescription.status);
 
   return (
     <Card>
@@ -178,7 +188,10 @@ function PrescriptionCard({ prescription }: { prescription: Prescription }) {
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={prescription.patientAvatar || "/placeholder.svg"} alt={prescription.patientName} />
+              <AvatarImage
+                src={prescription.patientAvatar || '/placeholder.svg'}
+                alt={prescription.patientName}
+              />
               <AvatarFallback>{prescription.patientName.substring(0, 2)}</AvatarFallback>
             </Avatar>
             <div>
@@ -243,7 +256,7 @@ function PrescriptionCard({ prescription }: { prescription: Prescription }) {
           <MedicalButton variant="outline" size="sm">
             查看详情
           </MedicalButton>
-          {prescription.status === "pending" && (
+          {prescription.status === 'pending' && (
             <>
               <MedicalButton variant="outline" size="sm">
                 拒绝
@@ -251,21 +264,21 @@ function PrescriptionCard({ prescription }: { prescription: Prescription }) {
               <MedicalButton size="sm">审核通过</MedicalButton>
             </>
           )}
-          {prescription.status === "active" && <MedicalButton size="sm">打印处方</MedicalButton>}
+          {prescription.status === 'active' && <MedicalButton size="sm">打印处方</MedicalButton>}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 interface PrescriptionTemplate {
-  id: string
-  title: string
-  description: string
-  category: string
-  medications: { name: string; dosage: string; frequency: string }[]
-  createdBy: string
-  lastUpdated: string
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  medications: { name: string; dosage: string; frequency: string }[];
+  createdBy: string;
+  lastUpdated: string;
 }
 
 function TemplateCard({ template }: { template: PrescriptionTemplate }) {
@@ -304,107 +317,107 @@ function TemplateCard({ template }: { template: PrescriptionTemplate }) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 // 示例数据
 const prescriptions: Prescription[] = [
   {
-    id: "rx1001",
-    patientName: "张明",
-    patientId: "P10045678",
-    doctor: "李医生",
-    department: "内科",
-    createdAt: "2023-12-01",
-    expiresAt: "2023-12-31",
+    id: 'rx1001',
+    patientName: '张明',
+    patientId: 'P10045678',
+    doctor: '李医生',
+    department: '内科',
+    createdAt: '2023-12-01',
+    expiresAt: '2023-12-31',
     medications: [
-      { name: "阿司匹林", dosage: "100mg", frequency: "每日一次" },
-      { name: "氯雷他定", dosage: "10mg", frequency: "每日一次" },
+      { name: '阿司匹林', dosage: '100mg', frequency: '每日一次' },
+      { name: '氯雷他定', dosage: '10mg', frequency: '每日一次' },
     ],
-    status: "active",
+    status: 'active',
   },
   {
-    id: "rx1002",
-    patientName: "王丽",
-    patientId: "P10045679",
-    doctor: "陈医生",
-    department: "心血管科",
-    createdAt: "2023-12-02",
-    expiresAt: "2023-12-16",
+    id: 'rx1002',
+    patientName: '王丽',
+    patientId: 'P10045679',
+    doctor: '陈医生',
+    department: '心血管科',
+    createdAt: '2023-12-02',
+    expiresAt: '2023-12-16',
     medications: [
-      { name: "美托洛尔", dosage: "25mg", frequency: "每日两次" },
-      { name: "氢氯噻嗪", dosage: "12.5mg", frequency: "每日一次" },
+      { name: '美托洛尔', dosage: '25mg', frequency: '每日两次' },
+      { name: '氢氯噻嗪', dosage: '12.5mg', frequency: '每日一次' },
     ],
-    status: "pending",
-    urgency: "urgent",
-    notes: "患者有高血压病史，需密切监测血压变化",
+    status: 'pending',
+    urgency: 'urgent',
+    notes: '患者有高血压病史，需密切监测血压变化',
   },
   {
-    id: "rx1003",
-    patientName: "刘强",
-    patientId: "P10045680",
-    doctor: "张医生",
-    department: "呼吸科",
-    createdAt: "2023-11-25",
-    expiresAt: "2023-12-10",
+    id: 'rx1003',
+    patientName: '刘强',
+    patientId: 'P10045680',
+    doctor: '张医生',
+    department: '呼吸科',
+    createdAt: '2023-11-25',
+    expiresAt: '2023-12-10',
     medications: [
-      { name: "布地奈德", dosage: "200μg", frequency: "每日两次" },
-      { name: "沙丁胺醇", dosage: "100μg", frequency: "需要时使用" },
+      { name: '布地奈德', dosage: '200μg', frequency: '每日两次' },
+      { name: '沙丁胺醇', dosage: '100μg', frequency: '需要时使用' },
     ],
-    status: "completed",
+    status: 'completed',
   },
   {
-    id: "rx1004",
-    patientName: "赵芳",
-    patientId: "P10045681",
-    doctor: "王医生",
-    department: "内分泌科",
-    createdAt: "2023-12-03",
-    expiresAt: "2024-01-03",
+    id: 'rx1004',
+    patientName: '赵芳',
+    patientId: 'P10045681',
+    doctor: '王医生',
+    department: '内分泌科',
+    createdAt: '2023-12-03',
+    expiresAt: '2024-01-03',
     medications: [
-      { name: "二甲双胍", dosage: "500mg", frequency: "每日三次" },
-      { name: "格列美脲", dosage: "2mg", frequency: "每日一次" },
+      { name: '二甲双胍', dosage: '500mg', frequency: '每日三次' },
+      { name: '格列美脲', dosage: '2mg', frequency: '每日一次' },
     ],
-    status: "active",
-    notes: "餐前30分钟服用",
+    status: 'active',
+    notes: '餐前30分钟服用',
   },
-]
+];
 
 const prescriptionTemplates: PrescriptionTemplate[] = [
   {
-    id: "tpl1",
-    title: "高血压标准处方",
-    description: "适用于轻中度高血压患者的标准处方模板",
-    category: "心血管科",
+    id: 'tpl1',
+    title: '高血压标准处方',
+    description: '适用于轻中度高血压患者的标准处方模板',
+    category: '心血管科',
     medications: [
-      { name: "氨氯地平", dosage: "5mg", frequency: "每日一次" },
-      { name: "缬沙坦", dosage: "80mg", frequency: "每日一次" },
+      { name: '氨氯地平', dosage: '5mg', frequency: '每日一次' },
+      { name: '缬沙坦', dosage: '80mg', frequency: '每日一次' },
     ],
-    createdBy: "陈医生",
-    lastUpdated: "2023-10-15",
+    createdBy: '陈医生',
+    lastUpdated: '2023-10-15',
   },
   {
-    id: "tpl2",
-    title: "2型糖尿病处方",
-    description: "适用于2型糖尿病患者的标准处方模板",
-    category: "内分泌科",
+    id: 'tpl2',
+    title: '2型糖尿病处方',
+    description: '适用于2型糖尿病患者的标准处方模板',
+    category: '内分泌科',
     medications: [
-      { name: "二甲双胍", dosage: "500mg", frequency: "每日两次" },
-      { name: "格列美脲", dosage: "2mg", frequency: "每日一次" },
+      { name: '二甲双胍', dosage: '500mg', frequency: '每日两次' },
+      { name: '格列美脲', dosage: '2mg', frequency: '每日一次' },
     ],
-    createdBy: "王医生",
-    lastUpdated: "2023-11-05",
+    createdBy: '王医生',
+    lastUpdated: '2023-11-05',
   },
   {
-    id: "tpl3",
-    title: "支气管哮喘处方",
-    description: "适用于轻中度支气管哮喘患者的处方模板",
-    category: "呼吸科",
+    id: 'tpl3',
+    title: '支气管哮喘处方',
+    description: '适用于轻中度支气管哮喘患者的处方模板',
+    category: '呼吸科',
     medications: [
-      { name: "布地奈德", dosage: "200μg", frequency: "每日两次" },
-      { name: "沙丁胺醇", dosage: "100μg", frequency: "需要时使用" },
+      { name: '布地奈德', dosage: '200μg', frequency: '每日两次' },
+      { name: '沙丁胺醇', dosage: '100μg', frequency: '需要时使用' },
     ],
-    createdBy: "张医生",
-    lastUpdated: "2023-09-20",
+    createdBy: '张医生',
+    lastUpdated: '2023-09-20',
   },
-]
+];

@@ -1,24 +1,30 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Calendar } from "@/components/ui/calendar"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useAutomaticExecution } from "@/contexts/automatic-execution-context"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { CalendarIcon } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useAutomaticExecution } from '@/contexts/automatic-execution-context';
 
 export function TaskScheduler() {
-  const [date, setDate] = useState<Date>()
-  const [activeTab, setActiveTab] = useState("simple")
-  
-  const { consentGiven, requestConsent } = useAutomaticExecution()
+  const [date, setDate] = useState<Date>();
+  const [activeTab, setActiveTab] = useState('simple');
+
+  const { consentGiven, requestConsent } = useAutomaticExecution();
 
   return (
     <div className="space-y-6">
@@ -88,10 +94,13 @@ export function TaskScheduler() {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                        className={cn(
+                          'w-full justify-start text-left font-normal',
+                          !date && 'text-muted-foreground'
+                        )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
-                        {date ? format(date, "yyyy-MM-dd") : "选择日期"}
+                        {date ? format(date, 'yyyy-MM-dd') : '选择日期'}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -109,7 +118,7 @@ export function TaskScheduler() {
                     <SelectContent>
                       {Array.from({ length: 24 }).map((_, hour) => (
                         <SelectItem key={hour} value={`${hour}:00`}>
-                          {`${hour.toString().padStart(2, "0")}:00`}
+                          {`${hour.toString().padStart(2, '0')}:00`}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -199,12 +208,12 @@ export function TaskScheduler() {
                     </label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="option-retry" 
+                    <Checkbox
+                      id="option-retry"
                       checked={consentGiven}
-                      onCheckedChange={(checked) => {
+                      onCheckedChange={checked => {
                         if (checked && !consentGiven) {
-                          requestConsent()
+                          requestConsent();
                         }
                       }}
                     />
@@ -212,7 +221,7 @@ export function TaskScheduler() {
                       htmlFor="option-retry"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                      失败自动重试 {!consentGiven && "(需要启用自动执行)"}
+                      失败自动重试 {!consentGiven && '(需要启用自动执行)'}
                     </label>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -241,7 +250,9 @@ export function TaskScheduler() {
               <div className="space-y-2">
                 <Label>Cron表达式</Label>
                 <Input placeholder="0 0 * * *" />
-                <p className="text-sm text-muted-foreground">使用标准Cron表达式格式 (分 时 日 月 周)</p>
+                <p className="text-sm text-muted-foreground">
+                  使用标准Cron表达式格式 (分 时 日 月 周)
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -384,5 +395,5 @@ export function TaskScheduler() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

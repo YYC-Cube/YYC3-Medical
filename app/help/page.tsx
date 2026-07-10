@@ -1,6 +1,6 @@
-import { PageHeader } from "@/components/page-header"
-import { HelpCircle } from "lucide-react"
-import { HelpClient } from "@/components/help/help-client"
+import { PageHeader } from '@/components/page-header';
+import { HelpCircle } from 'lucide-react';
+import { HelpClient } from '@/components/help/help-client';
 
 export default function HelpPage() {
   return (
@@ -12,5 +12,5 @@ export default function HelpPage() {
       />
       <HelpClient />
     </div>
-  )
+  );
 }

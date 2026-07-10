@@ -1,27 +1,27 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface User {
-  id: string
-  name: string
-  email: string
-  phone: string
-  role: string
-  createdAt: string
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+  createdAt: string;
 }
 
 interface AuthState {
-  user: User | null
-  token: string | null
-  isAuthenticated: boolean
-  isLoading: boolean
-  error: string | null
-  login: (token: string, user: User) => void
-  logout: () => void
-  updateUser: (user: Partial<User>) => void
-  setLoading: (loading: boolean) => void
-  setError: (error: string | null) => void
-  clearError: () => void
+  user: User | null;
+  token: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  login: (token: string, user: User) => void;
+  logout: () => void;
+  updateUser: (user: Partial<User>) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearError: () => void;
   /**
    * 刷新访问令牌。
    *
@@ -29,7 +29,7 @@ interface AuthState {
    * 因此在令牌仍存在时视为已刷新成功，否则返回失败以便调用方登出。
    * 接入真实后端后，将此处替换为 `/auth/refresh` 请求即可。
    */
-  refreshToken: () => Promise<boolean>
+  refreshToken: () => Promise<boolean>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           isLoading: false,
           error: null,
-        })
+        });
       },
 
       logout: () => {
@@ -58,50 +58,50 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
           isLoading: false,
           error: null,
-        })
+        });
         // 清除历史遗留的本地存储键，保持向后兼容
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
-          localStorage.removeItem("isLoggedIn")
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          localStorage.removeItem('isLoggedIn');
         }
       },
 
       updateUser: (userData: Partial<User>) => {
-        const currentUser = get().user
+        const currentUser = get().user;
         if (currentUser) {
           set({
             user: { ...currentUser, ...userData },
-          })
+          });
         }
       },
 
       setLoading: (loading: boolean) => {
-        set({ isLoading: loading })
+        set({ isLoading: loading });
       },
 
       setError: (error: string | null) => {
-        set({ error })
+        set({ error });
       },
 
       clearError: () => {
-        set({ error: null })
+        set({ error: null });
       },
 
       refreshToken: async () => {
-        const { token } = get()
+        const { token } = get();
         // 静态导出模式下没有真实的刷新接口，
         // 只要本地仍持有令牌即视为有效，否则刷新失败。
-        return Boolean(token)
+        return Boolean(token);
       },
     }),
     {
-      name: "auth-storage",
-      partialize: (state) => ({
+      name: 'auth-storage',
+      partialize: state => ({
         user: state.user,
         token: state.token,
         isAuthenticated: state.isAuthenticated,
       }),
-    },
-  ),
-)
+    }
+  )
+);

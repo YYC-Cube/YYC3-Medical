@@ -1,37 +1,21 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
+import { ExperimentFilterDrawer } from '@/components/experiment-filter-drawer';
+import { ExperimentFilterTags } from '@/components/experiment-filter-tags';
+import { ExperimentTemplateManager } from '@/components/experiment-template-manager';
+import { QuickFilterMenu } from '@/components/quick-filter-menu';
+import { SaveAsTemplateDialog } from '@/components/save-as-template-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
-  Microscope,
-  FlaskConical,
-  Beaker,
-  Users,
-  Upload,
-  Download,
-  FileText,
-  Plus,
-  Search,
-  ListFilter,
-  LayoutGrid,
-  ChevronRight,
-  BarChart,
-  Printer,
-  Share2,
-  Edit,
-  X,
-  Trash2,
-} from "lucide-react"
-import type { ExperimentFilters } from "@/components/experiment-filter-drawer"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ExperimentFilterDrawer } from "@/components/experiment-filter-drawer"
-import { ExperimentFilterTags } from "@/components/experiment-filter-tags"
-import { QuickFilterMenu } from "@/components/quick-filter-menu"
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -39,24 +23,65 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { ExperimentTemplateManager } from "@/components/experiment-template-manager"
-import { SaveAsTemplateDialog } from "@/components/save-as-template-dialog"
-import { experimentDesigns, researchTypes, designTypes, defaultFilters, defaultNewDesign } from "./experiment-design-data"
-import { useExperimentFilters } from "./use-experiment-filters"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  BarChart,
+  Beaker,
+  ChevronRight,
+  Download,
+  Edit,
+  FileText,
+  FlaskConical,
+  LayoutGrid,
+  ListFilter,
+  Microscope,
+  Plus,
+  Printer,
+  Search,
+  Share2,
+  Trash2,
+  Upload,
+  Users,
+  X,
+} from 'lucide-react';
+import { useState } from 'react';
+import {
+  defaultNewDesign,
+  designTypes,
+  experimentDesigns,
+  researchTypes
+} from './experiment-design-data';
+import { useExperimentFilters } from './use-experiment-filters';
 
 export function ExperimentDesign() {
-  const [showAddDialog, setShowAddDialog] = useState(false)
-  const [showDesignDetails, setShowDesignDetails] = useState(false)
-  const [selectedDesign, setSelectedDesign] = useState<(typeof experimentDesigns)[0] | null>(null)
-  const [showTemplateManager, setShowTemplateManager] = useState(false)
-  const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false)
-  const [currentDesignData, setCurrentDesignData] = useState<any>(defaultNewDesign)
-  const [isFromTemplate, setIsFromTemplate] = useState(false)
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showDesignDetails, setShowDesignDetails] = useState(false);
+  const [selectedDesign, setSelectedDesign] = useState<(typeof experimentDesigns)[0] | null>(null);
+  const [designDetailTab, setDesignDetailTab] = useState('overview');
+  const [showTemplateManager, setShowTemplateManager] = useState(false);
+  const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false);
+  const [currentDesignData, setCurrentDesignData] = useState<any>(defaultNewDesign);
+  const [isFromTemplate, setIsFromTemplate] = useState(false);
 
   const {
     activeTab,
@@ -71,71 +96,71 @@ export function ExperimentDesign() {
     clearFilters,
     removeFilter,
     applyQuickFilter,
-  } = useExperimentFilters()
+  } = useExperimentFilters();
 
   // 查看设计详情
   const viewDesignDetails = (design: (typeof experimentDesigns)[0]) => {
-    setSelectedDesign(design)
-    setShowDesignDetails(true)
-  }
+    setSelectedDesign(design);
+    setShowDesignDetails(true);
+  };
 
   // 获取研究状态徽章
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case "已批准":
+      case '已批准':
         return (
-          <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+          <Badge variant="outline" className="bg-success/10 text-success border-success/30">
             已批准
           </Badge>
-        )
-      case "进行中":
+        );
+      case '进行中':
         return (
-          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+          <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
             进行中
           </Badge>
-        )
-      case "计划中":
+        );
+      case '计划中':
         return (
-          <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
+          <Badge variant="outline" className="bg-warning/10 text-warning border-warning/30">
             计划中
           </Badge>
-        )
+        );
       default:
-        return <Badge variant="outline">{status}</Badge>
+        return <Badge variant="outline">{status}</Badge>;
     }
-  }
+  };
 
   // 获取研究类型图标
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "临床研究":
-        return <Users className="h-4 w-4 text-blue-500" />
-      case "动物实验":
-        return <Beaker className="h-4 w-4 text-orange-500" />
-      case "方法学研究":
-        return <FlaskConical className="h-4 w-4 text-purple-500" />
+      case '临床研究':
+        return <Users className="h-4 w-4 text-primary" />;
+      case '动物实验':
+        return <Beaker className="h-4 w-4 text-warning" />;
+      case '方法学研究':
+        return <FlaskConical className="h-4 w-4 text-primary" />;
       default:
-        return <Microscope className="h-4 w-4 text-gray-500" />
+        return <Microscope className="h-4 w-4 text-muted-foreground" />;
     }
-  }
+  };
 
   // 应用筛选器
   // (applyFilters, clearFilters, removeFilter, applyQuickFilter 已由 useExperimentFilters 提供)
 
   // 处理保存为模板
   const handleSaveAsTemplate = (templateData: {
-    name: string
-    description: string
-    tags: string[]
-    isPublic: boolean
+    name: string;
+    description: string;
+    tags: string[];
+    isPublic: boolean;
   }) => {
     // 在实际应用中，这里会调用API保存模板
-    debug("保存模板:", { ...templateData, content: selectedDesign })
-    setShowSaveAsTemplate(false)
+    debug('保存模板:', { ...templateData, content: selectedDesign });
+    setShowSaveAsTemplate(false);
 
     // 显示成功消息
-    alert(`模板"${templateData.name}"已成功保存！`)
-  }
+    alert(`模板"${templateData.name}"已成功保存！`);
+  };
 
   // 处理应用模板
   const handleApplyTemplate = (template: any) => {
@@ -151,28 +176,28 @@ export function ExperimentDesign() {
       statisticalAnalysis: template.content.statisticalAnalysis,
       ethicalConsiderations: template.content.ethicalConsiderations,
       tags: [...template.tags],
-    })
+    });
 
     // 标记为来自模板
-    setIsFromTemplate(true)
+    setIsFromTemplate(true);
 
     // 打开添加对话框
-    setShowAddDialog(true)
-  }
+    setShowAddDialog(true);
+  };
 
   // 打开模板管理器
   const openTemplateManager = () => {
-    setShowTemplateManager(true)
-  }
+    setShowTemplateManager(true);
+  };
 
   // 打开保存为模板对话框
   const openSaveAsTemplateDialog = () => {
     if (!selectedDesign) {
-      alert("请先选择一个设计")
-      return
+      alert('请先选择一个设计');
+      return;
     }
-    setShowSaveAsTemplate(true)
-  }
+    setShowSaveAsTemplate(true);
+  };
 
   return (
     <>
@@ -192,15 +217,19 @@ export function ExperimentDesign() {
                 <Download className="h-4 w-4" />
                 导出
               </Button>
-              <Button variant="outline" className="flex items-center gap-1" onClick={openTemplateManager}>
+              <Button
+                variant="outline"
+                className="flex items-center gap-1"
+                onClick={openTemplateManager}
+              >
                 <FileText className="h-4 w-4" />
                 模板
               </Button>
               <Button
                 onClick={() => {
-                  setCurrentDesignData(defaultNewDesign)
-                  setIsFromTemplate(false)
-                  setShowAddDialog(true)
+                  setCurrentDesignData(defaultNewDesign);
+                  setIsFromTemplate(false);
+                  setShowAddDialog(true);
                 }}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -217,28 +246,32 @@ export function ExperimentDesign() {
                 placeholder="搜索设计标题、ID或研究者..."
                 className="pl-8"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={e => setSearchTerm(e.target.value)}
               />
             </div>
 
             <div className="flex gap-2">
               <QuickFilterMenu onApplyFilter={applyQuickFilter} />
-              <ExperimentFilterDrawer filters={filters} onFiltersChange={applyFilters} onClearFilters={clearFilters} />
+              <ExperimentFilterDrawer
+                filters={filters}
+                onFiltersChange={applyFilters}
+                onClearFilters={clearFilters}
+              />
 
               <div className="flex items-center gap-2">
                 <Button
-                  variant={viewMode === "list" ? "default" : "outline"}
+                  variant={viewMode === 'list' ? 'default' : 'outline'}
                   size="icon"
                   className="h-9 w-9"
-                  onClick={() => setViewMode("list")}
+                  onClick={() => setViewMode('list')}
                 >
                   <ListFilter className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={viewMode === "grid" ? "default" : "outline"}
+                  variant={viewMode === 'grid' ? 'default' : 'outline'}
                   size="icon"
                   className="h-9 w-9"
-                  onClick={() => setViewMode("grid")}
+                  onClick={() => setViewMode('grid')}
                 >
                   <LayoutGrid className="h-4 w-4" />
                 </Button>
@@ -246,7 +279,11 @@ export function ExperimentDesign() {
             </div>
           </div>
 
-          <ExperimentFilterTags filters={filters} onRemoveFilter={removeFilter} onClearFilters={clearFilters} />
+          <ExperimentFilterTags
+            filters={filters}
+            onRemoveFilter={removeFilter}
+            onClearFilters={clearFilters}
+          />
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList>
@@ -260,7 +297,7 @@ export function ExperimentDesign() {
             </TabsList>
 
             <TabsContent value={activeTab} className="space-y-4">
-              {viewMode === "list" ? (
+              {viewMode === 'list' ? (
                 <div className="rounded-md border">
                   <Table>
                     <TableHeader>
@@ -276,7 +313,7 @@ export function ExperimentDesign() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredDesigns.map((design) => (
+                      {filteredDesigns.map(design => (
                         <TableRow key={design.id}>
                           <TableCell className="font-medium">{design.id}</TableCell>
                           <TableCell>{design.title}</TableCell>
@@ -292,7 +329,11 @@ export function ExperimentDesign() {
                           <TableCell>{design.createdDate}</TableCell>
                           <TableCell>
                             <div className="flex space-x-2">
-                              <Button variant="ghost" size="sm" onClick={() => viewDesignDetails(design)}>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => viewDesignDetails(design)}
+                              >
                                 详情
                               </Button>
                               <Button variant="ghost" size="sm">
@@ -307,7 +348,7 @@ export function ExperimentDesign() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {filteredDesigns.map((design) => (
+                  {filteredDesigns.map(design => (
                     <Card key={design.id} className="overflow-hidden">
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
@@ -333,14 +374,15 @@ export function ExperimentDesign() {
                             <div>
                               <span className="font-medium">目标：</span>
                               {design.objective.length > 100
-                                ? design.objective.substring(0, 100) + "..."
+                                ? design.objective.substring(0, 100) + '...'
                                 : design.objective}
                             </div>
                           </div>
                           <div className="flex items-start gap-2">
                             <div>
                               <span className="font-medium">研究组：</span>
-                              {design.groups.length} 组，共 {design.groups.reduce((sum, g) => sum + g.size, 0)} 例
+                              {design.groups.length} 组，共{' '}
+                              {design.groups.reduce((sum, g) => sum + g.size, 0)} 例
                             </div>
                           </div>
                           <div className="flex items-start gap-2">
@@ -352,7 +394,12 @@ export function ExperimentDesign() {
                         </div>
                       </CardContent>
                       <CardFooter className="pt-2">
-                        <Button variant="ghost" size="sm" className="w-full" onClick={() => viewDesignDetails(design)}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="w-full"
+                          onClick={() => viewDesignDetails(design)}
+                        >
                           查看详情
                           <ChevronRight className="h-4 w-4 ml-1" />
                         </Button>
@@ -364,7 +411,7 @@ export function ExperimentDesign() {
 
               {filteredDesigns.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-8 text-center">
-                  <FlaskConical className="h-12 w-12 text-gray-300 mb-4" />
+                  <FlaskConical className="h-12 w-12 text-muted-foreground/30 mb-4" />
                   <h3 className="text-lg font-medium mb-2">未找到匹配的试验设计</h3>
                   <p className="text-muted-foreground max-w-md">
                     尝试使用不同的搜索词或筛选条件，或者清除筛选条件查看所有设计
@@ -395,9 +442,9 @@ export function ExperimentDesign() {
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{isFromTemplate ? "基于模板创建试验设计" : "创建新试验设计"}</DialogTitle>
+            <DialogTitle>{isFromTemplate ? '基于模板创建试验设计' : '创建新试验设计'}</DialogTitle>
             <DialogDescription>
-              {isFromTemplate ? "已应用模板内容，您可以根据需要修改" : "填写新试验设计的详细信息"}
+              {isFromTemplate ? '已应用模板内容，您可以根据需要修改' : '填写新试验设计的详细信息'}
             </DialogDescription>
           </DialogHeader>
 
@@ -417,7 +464,9 @@ export function ExperimentDesign() {
                     id="title"
                     placeholder="输入研究标题"
                     value={currentDesignData.title}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, title: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, title: e.target.value })
+                    }
                   />
                 </div>
 
@@ -427,7 +476,9 @@ export function ExperimentDesign() {
                     id="id"
                     placeholder="输入研究ID"
                     value={currentDesignData.id}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, id: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, id: e.target.value })
+                    }
                   />
                 </div>
 
@@ -435,13 +486,15 @@ export function ExperimentDesign() {
                   <Label htmlFor="type">研究类型</Label>
                   <Select
                     value={currentDesignData.type}
-                    onValueChange={(value) => setCurrentDesignData({ ...currentDesignData, type: value })}
+                    onValueChange={value =>
+                      setCurrentDesignData({ ...currentDesignData, type: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="选择研究类型" />
                     </SelectTrigger>
                     <SelectContent>
-                      {researchTypes.map((type) => (
+                      {researchTypes.map(type => (
                         <SelectItem key={type.id} value={type.name}>
                           {type.name}
                         </SelectItem>
@@ -454,13 +507,15 @@ export function ExperimentDesign() {
                   <Label htmlFor="design-type">设计类型</Label>
                   <Select
                     value={currentDesignData.designType}
-                    onValueChange={(value) => setCurrentDesignData({ ...currentDesignData, designType: value })}
+                    onValueChange={value =>
+                      setCurrentDesignData({ ...currentDesignData, designType: value })
+                    }
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="选择设计类型" />
                     </SelectTrigger>
                     <SelectContent>
-                      {designTypes.map((type) => (
+                      {designTypes.map(type => (
                         <SelectItem key={type.id} value={type.name}>
                           {type.name}
                         </SelectItem>
@@ -475,8 +530,11 @@ export function ExperimentDesign() {
                     id="pi"
                     placeholder="输入主要研究者姓名"
                     value={currentDesignData.principalInvestigator}
-                    onChange={(e) =>
-                      setCurrentDesignData({ ...currentDesignData, principalInvestigator: e.target.value })
+                    onChange={e =>
+                      setCurrentDesignData({
+                        ...currentDesignData,
+                        principalInvestigator: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -487,7 +545,9 @@ export function ExperimentDesign() {
                     id="department"
                     placeholder="输入所属部门"
                     value={currentDesignData.department}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, department: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, department: e.target.value })
+                    }
                   />
                 </div>
 
@@ -497,7 +557,9 @@ export function ExperimentDesign() {
                     id="start-date"
                     type="date"
                     value={currentDesignData.startDate}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, startDate: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, startDate: e.target.value })
+                    }
                   />
                 </div>
 
@@ -507,7 +569,9 @@ export function ExperimentDesign() {
                     id="end-date"
                     type="date"
                     value={currentDesignData.endDate}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, endDate: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, endDate: e.target.value })
+                    }
                   />
                 </div>
 
@@ -517,7 +581,9 @@ export function ExperimentDesign() {
                     id="objective"
                     placeholder="输入研究目标"
                     value={currentDesignData.objective}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, objective: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, objective: e.target.value })
+                    }
                   />
                 </div>
 
@@ -527,7 +593,9 @@ export function ExperimentDesign() {
                     id="hypothesis"
                     placeholder="输入研究假设"
                     value={currentDesignData.hypothesis}
-                    onChange={(e) => setCurrentDesignData({ ...currentDesignData, hypothesis: e.target.value })}
+                    onChange={e =>
+                      setCurrentDesignData({ ...currentDesignData, hypothesis: e.target.value })
+                    }
                   />
                 </div>
 
@@ -535,7 +603,9 @@ export function ExperimentDesign() {
                   <Label htmlFor="status">研究状态</Label>
                   <RadioGroup
                     value={currentDesignData.status}
-                    onValueChange={(value) => setCurrentDesignData({ ...currentDesignData, status: value })}
+                    onValueChange={value =>
+                      setCurrentDesignData({ ...currentDesignData, status: value })
+                    }
                     className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
@@ -563,9 +633,13 @@ export function ExperimentDesign() {
                   onClick={() => {
                     const newGroups = [
                       ...currentDesignData.groups,
-                      { name: `研究组 ${currentDesignData.groups.length + 1}`, size: 0, description: "" },
-                    ]
-                    setCurrentDesignData({ ...currentDesignData, groups: newGroups })
+                      {
+                        name: `研究组 ${currentDesignData.groups.length + 1}`,
+                        size: 0,
+                        description: '',
+                      },
+                    ];
+                    setCurrentDesignData({ ...currentDesignData, groups: newGroups });
                   }}
                 >
                   <Plus className="h-4 w-4 mr-2" />
@@ -574,79 +648,86 @@ export function ExperimentDesign() {
               </div>
 
               <div className="space-y-4">
-                {currentDesignData.groups.map((group: { name: string; size: number; description: string }, index: number) => (
-                  <Card key={index}>
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <CardTitle className="text-base">{group.name}</CardTitle>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            const newGroups = [...currentDesignData.groups]
-                            newGroups.splice(index, 1)
-                            setCurrentDesignData({ ...currentDesignData, groups: newGroups })
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor={`group-name-${index}`}>组名</Label>
-                        <Input
-                          id={`group-name-${index}`}
-                          placeholder="输入研究组名称"
-                          value={group.name}
-                          onChange={(e) => {
-                            const newGroups = [...currentDesignData.groups]
-                            newGroups[index].name = e.target.value
-                            setCurrentDesignData({ ...currentDesignData, groups: newGroups })
-                          }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`group-size-${index}`}>样本量</Label>
-                        <Input
-                          id={`group-size-${index}`}
-                          type="number"
-                          placeholder="输入样本量"
-                          value={group.size}
-                          onChange={(e) => {
-                            const newGroups = [...currentDesignData.groups]
-                            newGroups[index].size = Number.parseInt(e.target.value) || 0
-                            setCurrentDesignData({ ...currentDesignData, groups: newGroups })
-                          }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor={`group-desc-${index}`}>描述</Label>
-                        <Textarea
-                          id={`group-desc-${index}`}
-                          placeholder="输入研究组描述"
-                          value={group.description}
-                          onChange={(e) => {
-                            const newGroups = [...currentDesignData.groups]
-                            newGroups[index].description = e.target.value
-                            setCurrentDesignData({ ...currentDesignData, groups: newGroups })
-                          }}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                {currentDesignData.groups.map(
+                  (group: { name: string; size: number; description: string }, index: number) => (
+                    <Card key={index}>
+                      <CardHeader className="pb-2">
+                        <div className="flex justify-between items-center">
+                          <CardTitle className="text-base">{group.name}</CardTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              const newGroups = [...currentDesignData.groups];
+                              newGroups.splice(index, 1);
+                              setCurrentDesignData({ ...currentDesignData, groups: newGroups });
+                            }}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor={`group-name-${index}`}>组名</Label>
+                          <Input
+                            id={`group-name-${index}`}
+                            placeholder="输入研究组名称"
+                            value={group.name}
+                            onChange={e => {
+                              const newGroups = [...currentDesignData.groups];
+                              newGroups[index].name = e.target.value;
+                              setCurrentDesignData({ ...currentDesignData, groups: newGroups });
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor={`group-size-${index}`}>样本量</Label>
+                          <Input
+                            id={`group-size-${index}`}
+                            type="number"
+                            placeholder="输入样本量"
+                            value={group.size}
+                            onChange={e => {
+                              const newGroups = [...currentDesignData.groups];
+                              newGroups[index].size = Number.parseInt(e.target.value) || 0;
+                              setCurrentDesignData({ ...currentDesignData, groups: newGroups });
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor={`group-desc-${index}`}>描述</Label>
+                          <Textarea
+                            id={`group-desc-${index}`}
+                            placeholder="输入研究组描述"
+                            value={group.description}
+                            onChange={e => {
+                              const newGroups = [...currentDesignData.groups];
+                              newGroups[index].description = e.target.value;
+                              setCurrentDesignData({ ...currentDesignData, groups: newGroups });
+                            }}
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )
+                )}
 
                 {currentDesignData.groups.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-8 text-center border rounded-md">
-                    <Beaker className="h-12 w-12 text-gray-300 mb-4" />
+                    <Beaker className="h-12 w-12 text-muted-foreground/30 mb-4" />
                     <h3 className="text-lg font-medium mb-2">尚未添加研究组</h3>
-                    <p className="text-muted-foreground max-w-md mb-4">点击"添加研究组"按钮创建您的第一个研究组</p>
+                    <p className="text-muted-foreground max-w-md mb-4">
+                      点击"添加研究组"按钮创建您的第一个研究组
+                    </p>
                     <Button
                       size="sm"
                       onClick={() => {
-                        const newGroups = [...currentDesignData.groups, { name: "研究组 1", size: 0, description: "" }]
-                        setCurrentDesignData({ ...currentDesignData, groups: newGroups })
+                        const newGroups = [
+                          ...currentDesignData.groups,
+                          { name: '研究组 1', size: 0, description: '' },
+                        ];
+                        setCurrentDesignData({ ...currentDesignData, groups: newGroups });
                       }}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -667,9 +748,9 @@ export function ExperimentDesign() {
                       onClick={() => {
                         const newVariables = [
                           ...currentDesignData.variables,
-                          { name: "", type: "连续变量", unit: "", method: "" },
-                        ]
-                        setCurrentDesignData({ ...currentDesignData, variables: newVariables })
+                          { name: '', type: '连续变量', unit: '', method: '' },
+                        ];
+                        setCurrentDesignData({ ...currentDesignData, variables: newVariables });
                       }}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -678,87 +759,107 @@ export function ExperimentDesign() {
                   </div>
 
                   <div className="space-y-4">
-                    {currentDesignData.variables.map((variable: { name: string; type: string; unit: string; method: string }, index: number) => (
-                      <Card key={index}>
-                        <CardHeader className="pb-2">
-                          <div className="flex justify-between items-center">
-                            <CardTitle className="text-base">变量 {index + 1}</CardTitle>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                const newVariables = [...currentDesignData.variables]
-                                newVariables.splice(index, 1)
-                                setCurrentDesignData({ ...currentDesignData, variables: newVariables })
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="space-y-2">
-                            <Label htmlFor={`var-name-${index}`}>变量名称</Label>
-                            <Input
-                              id={`var-name-${index}`}
-                              placeholder="输入变量名称"
-                              value={variable.name}
-                              onChange={(e) => {
-                                const newVariables = [...currentDesignData.variables]
-                                newVariables[index].name = e.target.value
-                                setCurrentDesignData({ ...currentDesignData, variables: newVariables })
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`var-type-${index}`}>变量类型</Label>
-                            <Select
-                              value={variable.type}
-                              onValueChange={(value) => {
-                                const newVariables = [...currentDesignData.variables]
-                                newVariables[index].type = value
-                                setCurrentDesignData({ ...currentDesignData, variables: newVariables })
-                              }}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="选择变量类型" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="连续变量">连续变量</SelectItem>
-                                <SelectItem value="分类变量">分类变量</SelectItem>
-                                <SelectItem value="序数变量">序数变量</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`var-unit-${index}`}>单位</Label>
-                            <Input
-                              id={`var-unit-${index}`}
-                              placeholder="输入变量单位"
-                              value={variable.unit}
-                              onChange={(e) => {
-                                const newVariables = [...currentDesignData.variables]
-                                newVariables[index].unit = e.target.value
-                                setCurrentDesignData({ ...currentDesignData, variables: newVariables })
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`var-method-${index}`}>测量方法</Label>
-                            <Input
-                              id={`var-method-${index}`}
-                              placeholder="输入测量方法"
-                              value={variable.method}
-                              onChange={(e) => {
-                                const newVariables = [...currentDesignData.variables]
-                                newVariables[index].method = e.target.value
-                                setCurrentDesignData({ ...currentDesignData, variables: newVariables })
-                              }}
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    {currentDesignData.variables.map(
+                      (
+                        variable: { name: string; type: string; unit: string; method: string },
+                        index: number
+                      ) => (
+                        <Card key={index}>
+                          <CardHeader className="pb-2">
+                            <div className="flex justify-between items-center">
+                              <CardTitle className="text-base">变量 {index + 1}</CardTitle>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  const newVariables = [...currentDesignData.variables];
+                                  newVariables.splice(index, 1);
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    variables: newVariables,
+                                  });
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`var-name-${index}`}>变量名称</Label>
+                              <Input
+                                id={`var-name-${index}`}
+                                placeholder="输入变量名称"
+                                value={variable.name}
+                                onChange={e => {
+                                  const newVariables = [...currentDesignData.variables];
+                                  newVariables[index].name = e.target.value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    variables: newVariables,
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`var-type-${index}`}>变量类型</Label>
+                              <Select
+                                value={variable.type}
+                                onValueChange={value => {
+                                  const newVariables = [...currentDesignData.variables];
+                                  newVariables[index].type = value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    variables: newVariables,
+                                  });
+                                }}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="选择变量类型" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="连续变量">连续变量</SelectItem>
+                                  <SelectItem value="分类变量">分类变量</SelectItem>
+                                  <SelectItem value="序数变量">序数变量</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`var-unit-${index}`}>单位</Label>
+                              <Input
+                                id={`var-unit-${index}`}
+                                placeholder="输入变量单位"
+                                value={variable.unit}
+                                onChange={e => {
+                                  const newVariables = [...currentDesignData.variables];
+                                  newVariables[index].unit = e.target.value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    variables: newVariables,
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`var-method-${index}`}>测量方法</Label>
+                              <Input
+                                id={`var-method-${index}`}
+                                placeholder="输入测量方法"
+                                value={variable.method}
+                                onChange={e => {
+                                  const newVariables = [...currentDesignData.variables];
+                                  newVariables[index].method = e.target.value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    variables: newVariables,
+                                  });
+                                }}
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
                   </div>
                 </div>
 
@@ -768,8 +869,11 @@ export function ExperimentDesign() {
                     <Button
                       size="sm"
                       onClick={() => {
-                        const newMethods = [...currentDesignData.methods, { name: "", description: "" }]
-                        setCurrentDesignData({ ...currentDesignData, methods: newMethods })
+                        const newMethods = [
+                          ...currentDesignData.methods,
+                          { name: '', description: '' },
+                        ];
+                        setCurrentDesignData({ ...currentDesignData, methods: newMethods });
                       }}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -778,54 +882,65 @@ export function ExperimentDesign() {
                   </div>
 
                   <div className="space-y-4">
-                    {currentDesignData.methods.map((method: { name: string; description: string }, index: number) => (
-                      <Card key={index}>
-                        <CardHeader className="pb-2">
-                          <div className="flex justify-between items-center">
-                            <CardTitle className="text-base">方法 {index + 1}</CardTitle>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                const newMethods = [...currentDesignData.methods]
-                                newMethods.splice(index, 1)
-                                setCurrentDesignData({ ...currentDesignData, methods: newMethods })
-                              }}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                          <div className="space-y-2">
-                            <Label htmlFor={`method-name-${index}`}>方法名称</Label>
-                            <Input
-                              id={`method-name-${index}`}
-                              placeholder="输入方法名称"
-                              value={method.name}
-                              onChange={(e) => {
-                                const newMethods = [...currentDesignData.methods]
-                                newMethods[index].name = e.target.value
-                                setCurrentDesignData({ ...currentDesignData, methods: newMethods })
-                              }}
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor={`method-desc-${index}`}>方法描述</Label>
-                            <Textarea
-                              id={`method-desc-${index}`}
-                              placeholder="输入方法描述"
-                              value={method.description}
-                              onChange={(e) => {
-                                const newMethods = [...currentDesignData.methods]
-                                newMethods[index].description = e.target.value
-                                setCurrentDesignData({ ...currentDesignData, methods: newMethods })
-                              }}
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                    {currentDesignData.methods.map(
+                      (method: { name: string; description: string }, index: number) => (
+                        <Card key={index}>
+                          <CardHeader className="pb-2">
+                            <div className="flex justify-between items-center">
+                              <CardTitle className="text-base">方法 {index + 1}</CardTitle>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                  const newMethods = [...currentDesignData.methods];
+                                  newMethods.splice(index, 1);
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    methods: newMethods,
+                                  });
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`method-name-${index}`}>方法名称</Label>
+                              <Input
+                                id={`method-name-${index}`}
+                                placeholder="输入方法名称"
+                                value={method.name}
+                                onChange={e => {
+                                  const newMethods = [...currentDesignData.methods];
+                                  newMethods[index].name = e.target.value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    methods: newMethods,
+                                  });
+                                }}
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label htmlFor={`method-desc-${index}`}>方法描述</Label>
+                              <Textarea
+                                id={`method-desc-${index}`}
+                                placeholder="输入方法描述"
+                                value={method.description}
+                                onChange={e => {
+                                  const newMethods = [...currentDesignData.methods];
+                                  newMethods[index].description = e.target.value;
+                                  setCurrentDesignData({
+                                    ...currentDesignData,
+                                    methods: newMethods,
+                                  });
+                                }}
+                              />
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
@@ -836,7 +951,12 @@ export function ExperimentDesign() {
                   id="statistical-analysis"
                   placeholder="输入统计分析方法"
                   value={currentDesignData.statisticalAnalysis}
-                  onChange={(e) => setCurrentDesignData({ ...currentDesignData, statisticalAnalysis: e.target.value })}
+                  onChange={e =>
+                    setCurrentDesignData({
+                      ...currentDesignData,
+                      statisticalAnalysis: e.target.value,
+                    })
+                  }
                 />
               </div>
             </TabsContent>
@@ -849,8 +969,11 @@ export function ExperimentDesign() {
                     id="ethical"
                     placeholder="输入伦理考虑"
                     value={currentDesignData.ethicalConsiderations}
-                    onChange={(e) =>
-                      setCurrentDesignData({ ...currentDesignData, ethicalConsiderations: e.target.value })
+                    onChange={e =>
+                      setCurrentDesignData({
+                        ...currentDesignData,
+                        ethicalConsiderations: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -863,8 +986,11 @@ export function ExperimentDesign() {
                       type="number"
                       placeholder="输入预算金额"
                       value={currentDesignData.budget}
-                      onChange={(e) =>
-                        setCurrentDesignData({ ...currentDesignData, budget: Number.parseInt(e.target.value) || 0 })
+                      onChange={e =>
+                        setCurrentDesignData({
+                          ...currentDesignData,
+                          budget: Number.parseInt(e.target.value) || 0,
+                        })
                       }
                     />
                   </div>
@@ -873,7 +999,9 @@ export function ExperimentDesign() {
                     <Label htmlFor="currency">货币</Label>
                     <Select
                       value={currentDesignData.currency}
-                      onValueChange={(value) => setCurrentDesignData({ ...currentDesignData, currency: value })}
+                      onValueChange={value =>
+                        setCurrentDesignData({ ...currentDesignData, currency: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="选择货币" />
@@ -892,11 +1020,13 @@ export function ExperimentDesign() {
                   <Textarea
                     id="collaborators"
                     placeholder="输入合作者信息，每行一个"
-                    value={currentDesignData.collaborators.join("\n")}
-                    onChange={(e) =>
+                    value={currentDesignData.collaborators.join('\n')}
+                    onChange={e =>
                       setCurrentDesignData({
                         ...currentDesignData,
-                        collaborators: e.target.value.split("\n").filter((line) => line.trim() !== ""),
+                        collaborators: e.target.value
+                          .split('\n')
+                          .filter(line => line.trim() !== ''),
                       })
                     }
                   />
@@ -911,9 +1041,9 @@ export function ExperimentDesign() {
                         <X
                           className="h-3 w-3 cursor-pointer"
                           onClick={() => {
-                            const newTags = [...currentDesignData.tags]
-                            newTags.splice(index, 1)
-                            setCurrentDesignData({ ...currentDesignData, tags: newTags })
+                            const newTags = [...currentDesignData.tags];
+                            newTags.splice(index, 1);
+                            setCurrentDesignData({ ...currentDesignData, tags: newTags });
                           }}
                         />
                       </Badge>
@@ -922,9 +1052,12 @@ export function ExperimentDesign() {
                       variant="outline"
                       className="cursor-pointer hover:bg-secondary"
                       onClick={() => {
-                        const newTag = prompt("请输入标签名称")
+                        const newTag = prompt('请输入标签名称');
                         if (newTag && !currentDesignData.tags.includes(newTag)) {
-                          setCurrentDesignData({ ...currentDesignData, tags: [...currentDesignData.tags, newTag] })
+                          setCurrentDesignData({
+                            ...currentDesignData,
+                            tags: [...currentDesignData.tags, newTag],
+                          });
                         }
                       }}
                     >
@@ -941,7 +1074,9 @@ export function ExperimentDesign() {
                       拖放文件到此处，或者
                       <span className="text-primary font-medium cursor-pointer"> 点击上传</span>
                     </p>
-                    <p className="mt-1 text-xs text-muted-foreground">支持 PDF, DOC, DOCX, XLS, XLSX 格式</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      支持 PDF, DOC, DOCX, XLS, XLSX 格式
+                    </p>
                   </div>
                 </div>
               </div>
@@ -955,11 +1090,11 @@ export function ExperimentDesign() {
             <Button
               onClick={() => {
                 // 在实际应用中，这里会调用API保存设计
-                debug("保存设计:", currentDesignData)
-                setShowAddDialog(false)
+                debug('保存设计:', currentDesignData);
+                setShowAddDialog(false);
 
                 // 显示成功消息
-                alert("设计已成功保存！")
+                alert('设计已成功保存！');
               }}
             >
               保存设计
@@ -978,186 +1113,225 @@ export function ExperimentDesign() {
                 {selectedDesign.title}
               </DialogTitle>
               <DialogDescription className="flex items-center gap-2">
-                {selectedDesign.id} · {selectedDesign.designType} · {getStatusBadge(selectedDesign.status)}
+                {selectedDesign.id} · {selectedDesign.designType} ·{' '}
+                {getStatusBadge(selectedDesign.status)}
               </DialogDescription>
             </DialogHeader>
 
-            <Tabs defaultValue="overview" className="mt-4">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="overview">概览</TabsTrigger>
-                <TabsTrigger value="groups">研究组</TabsTrigger>
-                <TabsTrigger value="methods">方法与变量</TabsTrigger>
-                <TabsTrigger value="other">其他信息</TabsTrigger>
-              </TabsList>
+            <div className="mt-4">
+              <div className="grid w-full grid-cols-4 gap-1 mb-4">
+                {['overview', 'groups', 'methods', 'other'].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setDesignDetailTab(tab)}
+                    className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${designDetailTab === tab
+                      ? 'bg-background text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                  >
+                    {tab === 'overview' ? '概览' : tab === 'groups' ? '研究组' : tab === 'methods' ? '方法与变量' : '其他信息'}
+                  </button>
+                ))}
+              </div>
 
-              <TabsContent value="overview" className="space-y-4 mt-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">主要研究者</div>
-                    <div className="font-medium">{selectedDesign.principalInvestigator}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">所属部门</div>
-                    <div className="font-medium">{selectedDesign.department}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">创建日期</div>
-                    <div className="font-medium">{selectedDesign.createdDate}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">更新日期</div>
-                    <div className="font-medium">{selectedDesign.updatedDate}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">开始日期</div>
-                    <div className="font-medium">{selectedDesign.startDate}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">结束日期</div>
-                    <div className="font-medium">{selectedDesign.endDate}</div>
-                  </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">预算</div>
-                    <div className="font-medium">
-                      {selectedDesign.budget.toLocaleString()} {selectedDesign.currency}
+              {designDetailTab === 'overview' && (
+                <>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">主要研究者</div>
+                      <div className="font-medium">{selectedDesign.principalInvestigator}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">所属部门</div>
+                      <div className="font-medium">{selectedDesign.department}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">创建日期</div>
+                      <div className="font-medium">{selectedDesign.createdDate}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">更新日期</div>
+                      <div className="font-medium">{selectedDesign.updatedDate}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">开始日期</div>
+                      <div className="font-medium">{selectedDesign.startDate}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">结束日期</div>
+                      <div className="font-medium">{selectedDesign.endDate}</div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">预算</div>
+                      <div className="font-medium">
+                        {selectedDesign.budget.toLocaleString()} {selectedDesign.currency}
+                      </div>
+                    </div>
+                    <div className="border rounded-md p-3">
+                      <div className="text-sm text-muted-foreground mb-1">伦理批准</div>
+                      <div className="font-medium">
+                        {selectedDesign.hasEthicalApproval ? '已批准' : '未批准'}
+                      </div>
                     </div>
                   </div>
-                  <div className="border rounded-md p-3">
-                    <div className="text-sm text-muted-foreground mb-1">伦理批准</div>
-                    <div className="font-medium">{selectedDesign.hasEthicalApproval ? "已批准" : "未批准"}</div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-medium mb-2">研究目标</h3>
+                      <p className="text-sm text-muted-foreground">{selectedDesign.objective}</p>
+                    </div>
+
+                    <div>
+                      <h3 className="font-medium mb-2">研究假设</h3>
+                      <p className="text-sm text-muted-foreground">{selectedDesign.hypothesis}</p>
+                    </div>
+
+                    <div>
+                      <h3 className="font-medium mb-2">标签</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedDesign.tags.map((tag: string, index: number) => (
+                          <Badge key={index} variant="outline">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {designDetailTab === 'groups' && (
+                <div className="space-y-4">
+                  <h3 className="font-medium mb-2">研究组设置</h3>
+                  <div className="space-y-4">
+                    {selectedDesign.groups.map(
+                      (group: { name: string; size: number; description: string }, index: number) => (
+                        <Card key={index}>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-base">{group.name}</CardTitle>
+                          </CardHeader>
+                          <CardContent className="space-y-2">
+                            <div className="flex justify-between">
+                              <span className="text-sm text-muted-foreground">样本量:</span>
+                              <span className="font-medium">{group.size} 例</span>
+                            </div>
+                            <div>
+                              <span className="text-sm text-muted-foreground">描述:</span>
+                              <p className="text-sm mt-1">{group.description}</p>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    )}
                   </div>
                 </div>
+              )}
 
-                <div className="space-y-4">
+              {designDetailTab === 'methods' && (
+                <div className="space-y-6">
                   <div>
-                    <h3 className="font-medium mb-2">研究目标</h3>
-                    <p className="text-sm text-muted-foreground">{selectedDesign.objective}</p>
+                    <h3 className="font-medium mb-3">研究变量</h3>
+                    <div className="rounded-md border">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>变量名称</TableHead>
+                            <TableHead>变量类型</TableHead>
+                            <TableHead>单位</TableHead>
+                            <TableHead>测量方法</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {selectedDesign.variables.map(
+                            (
+                              variable: { name: string; type: string; unit: string; method: string },
+                              index: number
+                            ) => (
+                              <TableRow key={index}>
+                                <TableCell className="font-medium">{variable.name}</TableCell>
+                                <TableCell>{variable.type}</TableCell>
+                                <TableCell>{variable.unit}</TableCell>
+                                <TableCell>{variable.method}</TableCell>
+                              </TableRow>
+                            )
+                          )}
+                        </TableBody>
+                      </Table>
+                    </div>
                   </div>
 
                   <div>
-                    <h3 className="font-medium mb-2">研究假设</h3>
-                    <p className="text-sm text-muted-foreground">{selectedDesign.hypothesis}</p>
+                    <h3 className="font-medium mb-3">研究方法</h3>
+                    <div className="space-y-4">
+                      {selectedDesign.methods.map(
+                        (method: { name: string; description: string }, index: number) => (
+                          <div key={index} className="border rounded-md p-4">
+                            <h4 className="font-medium mb-2">{method.name}</h4>
+                            <p className="text-sm text-muted-foreground">{method.description}</p>
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
 
                   <div>
-                    <h3 className="font-medium mb-2">标签</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedDesign.tags.map((tag: string, index: number) => (
-                        <Badge key={index} variant="outline">
-                          {tag}
-                        </Badge>
+                    <h3 className="font-medium mb-2">统计分析方法</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedDesign.statisticalAnalysis}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {designDetailTab === 'other' && (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="font-medium mb-2">伦理考虑</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedDesign.ethicalConsiderations}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">合作者</h3>
+                    <div className="space-y-2">
+                      {selectedDesign.collaborators.map((collaborator, index) => (
+                        <div key={index} className="border rounded-md p-3">
+                          <p className="text-sm">{collaborator}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">附件</h3>
+                    <div className="space-y-2">
+                      {selectedDesign.attachments.map((attachment, index) => (
+                        <div
+                          key={index}
+                          className="border rounded-md p-3 flex justify-between items-center"
+                        >
+                          <div className="flex items-center gap-2">
+                            <FileText className="h-4 w-4 text-muted-foreground" />
+                            <p className="text-sm">{attachment}</p>
+                          </div>
+                          <Button variant="ghost" size="sm">
+                            <Download className="h-4 w-4" />
+                          </Button>
+                        </div>
                       ))}
                     </div>
                   </div>
                 </div>
-              </TabsContent>
-
-              <TabsContent value="groups" className="space-y-4 mt-4">
-                <h3 className="font-medium mb-2">研究组设置</h3>
-                <div className="space-y-4">
-                  {selectedDesign.groups.map((group: { name: string; size: number; description: string }, index: number) => (
-                    <Card key={index}>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base">{group.name}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">样本量:</span>
-                          <span className="font-medium">{group.size} 例</span>
-                        </div>
-                        <div>
-                          <span className="text-sm text-muted-foreground">描述:</span>
-                          <p className="text-sm mt-1">{group.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="methods" className="space-y-6 mt-4">
-                <div>
-                  <h3 className="font-medium mb-3">研究变量</h3>
-                  <div className="rounded-md border">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>变量名称</TableHead>
-                          <TableHead>变量类型</TableHead>
-                          <TableHead>单位</TableHead>
-                          <TableHead>测量方法</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {selectedDesign.variables.map((variable: { name: string; type: string; unit: string; method: string }, index: number) => (
-                          <TableRow key={index}>
-                            <TableCell className="font-medium">{variable.name}</TableCell>
-                            <TableCell>{variable.type}</TableCell>
-                            <TableCell>{variable.unit}</TableCell>
-                            <TableCell>{variable.method}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-medium mb-3">研究方法</h3>
-                  <div className="space-y-4">
-                    {selectedDesign.methods.map((method: { name: string; description: string }, index: number) => (
-                      <div key={index} className="border rounded-md p-4">
-                        <h4 className="font-medium mb-2">{method.name}</h4>
-                        <p className="text-sm text-muted-foreground">{method.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-medium mb-2">统计分析方法</h3>
-                  <p className="text-sm text-muted-foreground">{selectedDesign.statisticalAnalysis}</p>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="other" className="space-y-6 mt-4">
-                <div>
-                  <h3 className="font-medium mb-2">伦理考虑</h3>
-                  <p className="text-sm text-muted-foreground">{selectedDesign.ethicalConsiderations}</p>
-                </div>
-
-                <div>
-                  <h3 className="font-medium mb-2">合作者</h3>
-                  <div className="space-y-2">
-                    {selectedDesign.collaborators.map((collaborator, index) => (
-                      <div key={index} className="border rounded-md p-3">
-                        <p className="text-sm">{collaborator}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="font-medium mb-2">附件</h3>
-                  <div className="space-y-2">
-                    {selectedDesign.attachments.map((attachment, index) => (
-                      <div key={index} className="border rounded-md p-3 flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                          <FileText className="h-4 w-4 text-muted-foreground" />
-                          <p className="text-sm">{attachment}</p>
-                        </div>
-                        <Button variant="ghost" size="sm">
-                          <Download className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent>
-            </Tabs>
+              )}
+            </div>
 
             <DialogFooter className="mt-6 gap-2">
-              <Button variant="outline" className="flex items-center gap-1" onClick={openSaveAsTemplateDialog}>
+              <Button
+                variant="outline"
+                className="flex items-center gap-1"
+                onClick={openSaveAsTemplateDialog}
+              >
                 <FileText className="h-4 w-4" />
                 保存为模板
               </Button>
@@ -1176,8 +1350,9 @@ export function ExperimentDesign() {
               <Button onClick={() => setShowDesignDetails(false)}>关闭</Button>
             </DialogFooter>
           </DialogContent>
-        </Dialog>
-      )}
+        </Dialog >
+      )
+      }
 
       {/* 模板管理器对话框 */}
       <Dialog open={showTemplateManager} onOpenChange={setShowTemplateManager}>
@@ -1197,5 +1372,5 @@ export function ExperimentDesign() {
         experimentData={selectedDesign}
       />
     </>
-  )
+  );
 }

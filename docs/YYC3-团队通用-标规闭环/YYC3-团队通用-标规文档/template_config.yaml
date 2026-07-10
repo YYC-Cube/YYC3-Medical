@@ -3,20 +3,20 @@
 # @version v3.1.0
 # @updated 2026-05-02
 
-version: "3.1.0"
-created: "2026-03-27"
-updated: "2026-05-02"
-description: "YYC³可复用文档模版配置体系"
+version: '3.1.0'
+created: '2026-03-27'
+updated: '2026-05-02'
+description: 'YYC³可复用文档模版配置体系'
 
 global_variables:
-  brand_name: "YanYuCloudCube"
-  brand_slogan_cn: "言启象限 | 语枢未来"
-  brand_slogan_en: "Words Initiate Quadrants, Language Serves as Core for Future"
-  brand_vision_cn: "万象归元于云枢 | 深栈智启新纪元"
-  brand_vision_en: "All things converge in cloud pivot; Deep stacks ignite a new era of intelligence"
-  contact_email: "admin@0379.email"
-  default_author: "YanYuCloudCube Team"
-  default_version: "v3.1.0"
+  brand_name: 'YanYuCloudCube'
+  brand_slogan_cn: '言启象限 | 语枢未来'
+  brand_slogan_en: 'Words Initiate Quadrants, Language Serves as Core for Future'
+  brand_vision_cn: '万象归元于云枢 | 深栈智启新纪元'
+  brand_vision_en: 'All things converge in cloud pivot; Deep stacks ignite a new era of intelligence'
+  contact_email: 'admin@0379.email'
+  default_author: 'YanYuCloudCube Team'
+  default_version: 'v3.1.0'
 
 validation_rules:
   require_brand_header: true
@@ -28,14 +28,14 @@ validation_rules:
 
 templates:
   main_document:
-    name: "主文档模版"
-    version: "v3.1.0"
-    type: "main"
+    name: '主文档模版'
+    version: 'v3.1.0'
+    type: 'main'
     variables:
-      doc_title: ""
-      doc_description: ""
-      doc_category: ""
-      doc_section: ""
+      doc_title: ''
+      doc_description: ''
+      doc_category: ''
+      doc_section: ''
     content: |
       ---
       @file: {{file_name}}
@@ -105,12 +105,12 @@ templates:
       </div>
 
   readme_document:
-    name: "README索引模版"
-    version: "v3.1.0"
-    type: "readme"
+    name: 'README索引模版'
+    version: 'v3.1.0'
+    type: 'readme'
     variables:
-      dir_name: ""
-      dir_description: ""
+      dir_name: ''
+      dir_description: ''
     content: |
       ---
       @file: README.md
@@ -175,11 +175,11 @@ templates:
       </div>
 
   reserved_document:
-    name: "预留文档模版"
-    version: "v3.1.0"
-    type: "reserved"
+    name: '预留文档模版'
+    version: 'v3.1.0'
+    type: 'reserved'
     variables:
-      category: ""
+      category: ''
     content: |
       ---
       @file: RES-DOC-001.md
@@ -221,12 +221,12 @@ templates:
       </div>
 
   architecture_document:
-    name: "架构设计文档模版"
-    version: "v3.1.0"
-    type: "architecture"
+    name: '架构设计文档模版'
+    version: 'v3.1.0'
+    type: 'architecture'
     variables:
-      system_name: ""
-      architecture_type: ""
+      system_name: ''
+      architecture_type: ''
     content: |
       ---
       @file: {{file_name}}
@@ -327,12 +327,12 @@ templates:
       </div>
 
   api_document:
-    name: "API接口文档模版"
-    version: "v3.1.0"
-    type: "api"
+    name: 'API接口文档模版'
+    version: 'v3.1.0'
+    type: 'api'
     variables:
-      api_name: ""
-      api_version: ""
+      api_name: ''
+      api_version: ''
     content: |
       ---
       @file: {{file_name}}
@@ -401,11 +401,11 @@ templates:
       </div>
 
   changelog_document:
-    name: "变更日志模版"
-    version: "v3.1.0"
-    type: "changelog"
+    name: '变更日志模版'
+    version: 'v3.1.0'
+    type: 'changelog'
     variables:
-      release_version: ""
+      release_version: ''
     content: |
       ---
       @file: {{file_name}}

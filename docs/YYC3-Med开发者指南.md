@@ -2,42 +2,54 @@
 
 > 权威源：`package.json` + `AGENTS.md` + 本文件。如三者冲突，以 `package.json` 为准。
 >
-> 最近更新：2026-07-06（对齐 v1.1.0 状态）
+> 最近更新：2026-07-10（对齐终极审核状态）
 
 ## 目录
 
-- [技术栈现状](#技术栈现状)
-- [架构边界（静态导出）](#架构边界静态导出)
-- [环境变量](#环境变量)
-- [本地开发](#本地开发)
-- [质量门禁](#质量门禁)
-- [项目指标](#项目指标)
-- [项目结构](#项目结构)
-- [国际化（i18n）](#国际化i18n)
-- [医疗级设计系统](#医疗级设计系统)
-- [测试约定](#测试约定)
-- [提交与 CI/CD](#提交与-cicd)
-- [引用与扩展阅读](#引用与扩展阅读)
+- [YYC³-Med 开发者指南](#yyc-med-开发者指南)
+  - [目录](#目录)
+  - [技术栈现状](#技术栈现状)
+  - [架构边界（静态导出）](#架构边界静态导出)
+  - [环境变量](#环境变量)
+    - [演示模式（静态导出）](#演示模式静态导出)
+  - [本地开发](#本地开发)
+  - [质量门禁](#质量门禁)
+  - [项目指标](#项目指标)
+  - [项目结构](#项目结构)
+  - [国际化（i18n）](#国际化i18n)
+    - [两套并行系统](#两套并行系统)
+    - [添加翻译](#添加翻译)
+  - [医疗级设计系统](#医疗级设计系统)
+    - [配色原则](#配色原则)
+    - [可用令牌](#可用令牌)
+    - [动画](#动画)
+  - [测试约定](#测试约定)
+  - [无障碍（a11y）](#无障碍a11y)
+    - [关键规则](#关键规则)
+  - [提交与 CI/CD](#提交与-cicd)
+    - [提交规范](#提交规范)
+    - [CI/CD 管线](#cicd-管线)
+  - [引用与扩展阅读](#引用与扩展阅读)
 
 ---
 
 ## 技术栈现状
 
-| 层 | 技术 | 版本 |
-|----|------|------|
-| 框架 | Next.js (App Router) | `^16.2.6` |
-| 运行时 | React | `^18.3.1` |
-| 语言 | TypeScript (strict) | `^5.8.3` |
-| 样式 | Tailwind CSS + shadcn/ui + Radix UI | 3.4 |
-| 状态 | Zustand（全局）+ React Context（cross-tree）+ React Hook Form（表单） | — |
-| 图表 | Recharts、D3.js | — |
-| 3D | Three.js + React Three Fiber | — |
-| 动画 | Framer Motion | — |
-| 字体 | GeistSans（自托管，无需联网） | — |
-| 部署 | GitHub Pages（静态导出 `output: 'export'`） | — |
-| 包管理器 | pnpm | `9.15.4`（`packageManager` 声明） |
-| 测试 | Jest + Testing Library + jsdom | — |
-| Node.js | `>= 18.17.0` | CI 固定 Node 20 |
+| 层       | 技术                                                                  | 版本                              |
+| -------- | --------------------------------------------------------------------- | --------------------------------- |
+| 框架     | Next.js (App Router)                                                  | `^16.2.6`                         |
+| 运行时   | React                                                                 | `^18.3.1`                         |
+| 语言     | TypeScript (strict)                                                   | `^5.8.3`                          |
+| 样式     | Tailwind CSS + shadcn/ui + Radix UI                                   | 3.4                               |
+| 状态     | Zustand（全局）+ React Context（cross-tree）+ React Hook Form（表单） | —                                 |
+| 图表     | Recharts、D3.js                                                       | —                                 |
+| 3D       | Three.js + React Three Fiber                                          | —                                 |
+| 动画     | Framer Motion                                                         | —                                 |
+| 字体     | GeistSans（自托管，无需联网）                                         | —                                 |
+| 部署     | GitHub Pages（静态导出 `output: 'export'`）                           | —                                 |
+| 包管理器 | pnpm                                                                  | `9.15.4`（`packageManager` 声明） |
+| 测试     | Jest + Testing Library + jsdom                                        | —                                 |
+| Node.js  | `>= 18.17.0`                                                          | CI 固定 Node 20                   |
 
 > ⚠️ 历史版本（v1.0.0）曾基于 Next 14 + npm + 在线 Google Fonts，已于阶段二/三迁移至上述栈。
 
@@ -69,15 +81,26 @@
 
 ## 环境变量
 
-定义在 `lib/env.ts`：
+定义在 `lib/env.ts`，参考 `.env.example`：
 
-| 变量 | 用途 |
-|------|------|
-| `DEEPSEEK_API_KEY` | DeepSeek AI API 密钥 |
-| `DEEPSEEK_BASE_URL` | 默认 `https://api.deepseek.com` |
-| `NEXT_PUBLIC_APP_URL` | 应用公开 URL |
-| `NEXT_PUBLIC_APP_VERSION` | 应用版本号 |
-| `NEXT_PUBLIC_SHOW_PERFORMANCE_MONITOR` | 设为 `true` 显示浮动性能监视器 |
+| 变量                                   | 用途                            |
+| -------------------------------------- | ------------------------------- |
+| `DEEPSEEK_API_KEY`                     | DeepSeek AI API 密钥            |
+| `DEEPSEEK_BASE_URL`                    | 默认 `https://api.deepseek.com` |
+| `NEXT_PUBLIC_APP_URL`                  | 应用公开 URL                    |
+| `NEXT_PUBLIC_APP_VERSION`              | 应用版本号                      |
+| `NEXT_PUBLIC_SHOW_PERFORMANCE_MONITOR` | 设为 `true` 显示浮动性能监视器  |
+
+### 演示模式（静态导出）
+
+| 变量                             | 用途                              |
+| -------------------------------- | --------------------------------- |
+| `NEXT_PUBLIC_DEMO_MODE`          | 设为 `true` 启用演示登录          |
+| `NEXT_PUBLIC_DEMO_ADMIN_PWD`     | 演示管理员密码                    |
+| `NEXT_PUBLIC_DEMO_DOCTOR_PWD`    | 演示医生密码                      |
+| `NEXT_PUBLIC_DEMO_NURSE_PWD`     | 演示护士密码                      |
+
+> 生产环境务必设 `NEXT_PUBLIC_DEMO_MODE=false` 并接入后端 `/auth/login`。
 
 ---
 
@@ -102,14 +125,15 @@ pnpm test -- <pattern>  # 运行指定测试文件
 
 ## 质量门禁
 
-提交前必须通过的 4 道门禁：
+提交前必须通过的 5 道门禁：
 
-| 门禁 | 命令 | 要求 |
-|------|------|------|
-| 类型检查 | `pnpm type-check` | 0 errors |
-| Lint | `pnpm lint` | 0 errors（warnings 按情况审查） |
-| 测试 | `pnpm test` | 全部通过 |
-| 构建 | `pnpm build` | 静态导出成功 |
+| 门禁     | 命令              | 要求                            |
+| -------- | ----------------- | ------------------------------- |
+| 类型检查 | `pnpm type-check` | 0 errors                        |
+| Lint     | `pnpm lint`       | **0 errors, 0 warnings**        |
+| 测试     | `pnpm test`       | 全部通过                        |
+| 构建     | `pnpm build`      | 静态导出成功                    |
+| 性能基线 | `node scripts/perf-baseline.mjs` | 评分 ≥ 85/100   |
 
 CI 通过 GitHub Actions 在每次 push/PR 到 `main` 时运行上述门禁（见 [CI/CD](#提交与-cicd)）。
 
@@ -117,19 +141,25 @@ CI 通过 GitHub Actions 在每次 push/PR 到 `main` 时运行上述门禁（�
 
 ## 项目指标
 
-> 以下数据为 2026-07-06 验证结果。
+> 以下数据为 2026-07-10 终极审核验证结果。
 
-| 指标 | 数值 |
-|------|------|
-| 路由数（`page.tsx`） | 112 |
-| 组件数（`components/*.tsx`） | 441 |
-| 自定义 Hooks | 18 |
-| 业务服务（`services/`） | 30 |
-| Zustand 全局 Store | 2 |
-| React Context Provider | 5 |
-| 测试套件 | 16 |
-| 测试用例 | 311（全部通过） |
-| 代码行数（TS/TSX） | ~121,000 |
+| 指标                         | 数值            |
+| ---------------------------- | --------------- |
+| 路由数（`page.tsx`）         | 114             |
+| 组件数（`components/*.tsx`） | 441             |
+| 自定义 Hooks                 | 18              |
+| 业务服务（`services/`）      | 30              |
+| Zustand 全局 Store           | 2               |
+| React Context Provider       | 5               |
+| 测试套件                     | 17              |
+| 测试用例                     | 291（全部通过） |
+| ESLint errors                | 0               |
+| ESLint warnings              | 0               |
+| TypeScript errors            | 0               |
+| 最大 JS Chunk                | 223KB           |
+| 超大 Chunk (>350KB)          | 0               |
+| 性能基线评分                 | 92/100          |
+| 代码行数（TS/TSX）           | ~121,000        |
 
 ---
 
@@ -167,8 +197,8 @@ messages/             next-intl 消息目录（en, zh）
 ### 添加翻译
 
 ```tsx
-const { t } = useTranslation()
-return <h1>{t("patients.title")}</h1>
+const { t } = useTranslation();
+return <h1>{t('patients.title')}</h1>;
 ```
 
 - 新增用户可见文案时，在 `lib/i18n/dictionaries/` 中添加所有 4 种语言的 key
@@ -188,14 +218,14 @@ v1.1.0 引入了完整的医疗级配色系统。
 
 ### 可用令牌
 
-| 令牌 | 用途 |
-|------|------|
-| `medical-50` → `medical-900` | 主色蓝/深蓝梯度 |
-| `success` | 语义成功（绿色） |
-| `warning` | 语义警告（琥珀色） |
-| `info` | 语义信息（蓝色） |
-| `primary` | 品牌主色（CSS 变量） |
-| `destructive` | 错误/危险操作 |
+| 令牌                         | 用途                 |
+| ---------------------------- | -------------------- |
+| `medical-50` → `medical-900` | 主色蓝/深蓝梯度      |
+| `success`                    | 语义成功（绿色）     |
+| `warning`                    | 语义警告（琥珀色）   |
+| `info`                       | 语义信息（蓝色）     |
+| `primary`                    | 品牌主色（CSS 变量） |
+| `destructive`                | 错误/危险操作        |
 
 ### 动画
 
@@ -213,7 +243,24 @@ v1.1.0 引入了完整的医疗级配色系统。
 - **覆盖率**：见 `jest.config.js` 注释（渐进式爬坡，目标 70%）
 - **新代码须配套测试**：新增 service / hook / util 至少需要 happy-path + 边界测试
 - **测试库**：`@testing-library/react` + `@testing-library/user-event`
-- **当前覆盖率**：statements 41.8%, branches 64.6%, functions 42.5%, lines 42.4%
+- **当前覆盖率**：statements 43.09%, branches 63.91%, functions 42.81%, lines 44.15%
+
+---
+
+## 无障碍（a11y）
+
+项目遵循 WCAG 2.1 AA 标准。
+
+### 关键规则
+
+1. **可点击 `div` 必须包含键盘交互**：`role="button"` + `tabIndex={0}` + `onKeyDown(Enter/Space)`
+   - 使用辅助函数：`import { clickableDivProps } from '@/lib/a11y'`
+2. **`target="_blank"` 链接必须添加 `rel="noopener noreferrer"`**
+3. **所有交互元素必须可通过键盘访问**
+4. **图片必须有 `alt` 描述**
+5. **表单字段必须有关联的 `label`**
+
+ESLint 通过 `jsx-a11y/*` 规则集自动检查上述规则。
 
 ---
 
@@ -229,15 +276,15 @@ Pre-commit hook（`.husky/pre-commit`）运行 `lint-staged` → `eslint --fix` 
 
 全部 workflow 统一 **pnpm + Node 20**：
 
-| Workflow | 触发 | 说明 |
-|----------|------|------|
-| `ci.yml` | push/PR to main | lint、type-check、format-check、**build（hard gate）** |
-| `test.yml` | push/PR to main | jest + coverage |
-| `lint.yml` | push/PR to main | 独立 ESLint 检查 |
-| `audit.yml` | push/PR to main | pnpm audit（non-blocking） |
-| `codeql.yml` | 安全扫描 | GitHub CodeQL |
-| `njsscan.yml` | 安全扫描 | njsscan |
-| `deploy.yml` | push to main | GitHub Pages 部署 |
+| Workflow      | 触发            | 说明                                                   |
+| ------------- | --------------- | ------------------------------------------------------ |
+| `ci.yml`      | push/PR to main | lint、type-check、format-check、**build（hard gate）** |
+| `test.yml`    | push/PR to main | jest + coverage                                        |
+| `lint.yml`    | push/PR to main | 独立 ESLint 检查                                       |
+| `audit.yml`   | push/PR to main | pnpm audit（non-blocking）                             |
+| `codeql.yml`  | 安全扫描        | GitHub CodeQL                                          |
+| `njsscan.yml` | 安全扫描        | njsscan                                                |
+| `deploy.yml`  | push to main    | GitHub Pages 部署                                      |
 
 ---
 
@@ -248,8 +295,8 @@ Pre-commit hook（`.husky/pre-commit`）运行 `lint-staged` → `eslint --fix` 
 - [`CHANGELOG.md`](../CHANGELOG.md) — 版本变更记录
 - [`README.md`](../README.md) — 项目概览与徽章
 - [`SECURITY.md`](../SECURITY.md) — 漏洞披露流程
+- [`.env.example`](../.env.example) — 环境变量配置模板
 - [`docs/YYC3-Med系统架构文档.md`](YYC3-Med系统架构文档.md) — 系统架构详解
 - [`docs/naming-conventions.md`](naming-conventions.md) — 命名规范
-- [`docs/tech-debt/any-audit.md`](tech-debt/any-audit.md) — `any` 类型技术债清单
-- [`docs/阶段0-1执行进度报告.md`](阶段0-1执行进度报告.md) — Phase 0/1 执行报告
 - [`docs/后端技术选型分析与实施指导建议.md`](后端技术选型分析与实施指导建议.md) — 后端技术选型
+- [`docs/项目深度分析与提升规划报告.md`](项目深度分析与提升规划报告.md) — 项目深度分析与规划

@@ -1,8 +1,8 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import EHRMappingClient from "@/components/ehr/ehr-mapping-client"
-import { PageHeader } from "@/components/page-header"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import EHRMappingClient from '@/components/ehr/ehr-mapping-client';
+import { PageHeader } from '@/components/page-header';
 
 export default function EHRMappingPage() {
   return (
@@ -11,9 +11,9 @@ export default function EHRMappingPage() {
         title="电子病历数据映射"
         description="配置和管理电子病历系统与平台之间的数据字段映射关系"
         breadcrumbs={[
-          { label: "首页", href: "/" },
-          { label: "电子病历集成", href: "/ehr-integration" },
-          { label: "数据映射", href: "/ehr-integration/mapping" },
+          { label: '首页', href: '/' },
+          { label: '电子病历集成', href: '/ehr-integration' },
+          { label: '数据映射', href: '/ehr-integration/mapping' },
         ]}
       />
 
@@ -23,5 +23,5 @@ export default function EHRMappingPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

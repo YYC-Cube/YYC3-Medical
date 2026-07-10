@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import MobileAppClient from "@/components/mobile-app/mobile-app-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import MobileAppClient from '@/components/mobile-app/mobile-app-client';
 
 export default function MobileAppPage() {
   return (
@@ -14,5 +14,5 @@ export default function MobileAppPage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

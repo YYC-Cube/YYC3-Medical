@@ -1,13 +1,18 @@
-"use client"
+'use client';
 
-import { useTranslation } from "@/hooks/use-translation"
-import { useAutoTranslation } from "@/contexts/auto-translation-context"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Globe, Check, Loader2 } from "lucide-react"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
-import { useState } from "react"
+import { useTranslation } from '@/hooks/use-translation';
+import { useAutoTranslation } from '@/contexts/auto-translation-context';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Globe, Check, Loader2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { useState } from 'react';
 
 export function EnhancedLanguageSwitcher() {
   const {
@@ -18,10 +23,10 @@ export function EnhancedLanguageSwitcher() {
     isTranslating,
     autoTranslateEnabled: isAutoTranslateEnabled,
     setAutoTranslateEnabled,
-  } = useTranslation()
-  const { clearCache: clearTranslatedTexts } = useAutoTranslation()
+  } = useTranslation();
+  const { clearCache: clearTranslatedTexts } = useAutoTranslation();
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -41,11 +46,15 @@ export function EnhancedLanguageSwitcher() {
             <Label htmlFor="auto-translate" className="text-sm">
               自动翻译
             </Label>
-            <Switch id="auto-translate" checked={isAutoTranslateEnabled} onCheckedChange={setAutoTranslateEnabled} />
+            <Switch
+              id="auto-translate"
+              checked={isAutoTranslateEnabled}
+              onCheckedChange={setAutoTranslateEnabled}
+            />
           </div>
 
           <div className="text-xs text-muted-foreground mb-2">
-            {isAutoTranslateEnabled ? "系统将自动翻译缺失的内容" : "仅显示已有的翻译内容"}
+            {isAutoTranslateEnabled ? '系统将自动翻译缺失的内容' : '仅显示已有的翻译内容'}
           </div>
 
           <Button
@@ -53,8 +62,8 @@ export function EnhancedLanguageSwitcher() {
             size="sm"
             className="w-full mb-2"
             onClick={() => {
-              clearTranslatedTexts()
-              setIsOpen(false)
+              clearTranslatedTexts();
+              setIsOpen(false);
             }}
           >
             清除翻译缓存
@@ -63,13 +72,13 @@ export function EnhancedLanguageSwitcher() {
 
         <div className="h-px bg-border my-1" />
 
-        {availableLocales.map((lang) => (
+        {availableLocales.map(lang => (
           <DropdownMenuItem
             key={lang}
             className="flex items-center justify-between"
             onSelect={() => {
-              setLocale(lang)
-              setIsOpen(false)
+              setLocale(lang);
+              setIsOpen(false);
             }}
           >
             <span>{localeName[lang]}</span>
@@ -78,5 +87,5 @@ export function EnhancedLanguageSwitcher() {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface SearchDoc {
-  title: string
+  title: string;
 }
 
 export default function SearchBar() {
@@ -9,7 +9,7 @@ export default function SearchBar() {
 
   const handleSearch = async (query: string) => {
     // STATIC-EXPORT-NOTE: /api/search 不存在于静态导出，这里保留接口契约。
-    setResults([])
+    setResults([]);
   };
 
   return (

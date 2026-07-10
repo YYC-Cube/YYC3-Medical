@@ -1,25 +1,30 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 interface ShieldLogoProps {
-  size?: "xs" | "sm" | "md" | "lg" | "xl"
-  animated?: boolean
-  className?: string
-  showText?: boolean
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  animated?: boolean;
+  className?: string;
+  showText?: boolean;
 }
 
-export function ShieldLogo({ size = "md", animated = true, className = "", showText = true }: ShieldLogoProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+export function ShieldLogo({
+  size = 'md',
+  animated = true,
+  className = '',
+  showText = true,
+}: ShieldLogoProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- 标准 SSR 水合检测模式
-    setIsMounted(true)
-  }, [])
+     
+    setIsMounted(true);
+  }, []);
 
   // 根据尺寸确定宽高
   const dimensions = {
@@ -28,14 +33,14 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
     md: { width: 48, height: 48 },
     lg: { width: 64, height: 64 },
     xl: { width: 96, height: 96 },
-  }
+  };
 
-  const { width, height } = dimensions[size]
+  const { width, height } = dimensions[size];
 
   // 如果不支持客户端动画，则返回静态版本
   if (!isMounted || !animated) {
     return (
-      <div className={cn("relative flex items-center", className)}>
+      <div className={cn('relative flex items-center', className)}>
         <Image
           src="/yyc3-icons/pwa/icon-512x512.png"
           alt="言语云³ Logo"
@@ -43,18 +48,18 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
           height={height}
           className="object-contain"
         />
-        {showText && size !== "xs" && size !== "sm" && (
+        {showText && size !== 'xs' && size !== 'sm' && (
           <span className="ml-2 font-bold text-medical-700 whitespace-nowrap">
             言语云<sup>3</sup>
           </span>
         )}
       </div>
-    )
+    );
   }
 
   return (
     <div
-      className={cn("relative flex items-center", className)}
+      className={cn('relative flex items-center', className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -75,7 +80,7 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
         />
       </motion.div>
 
-      {showText && size !== "xs" && size !== "sm" && (
+      {showText && size !== 'xs' && size !== 'sm' && (
         <motion.span
           className="ml-2 font-bold text-medical-700 whitespace-nowrap"
           initial={{ opacity: 1 }}
@@ -89,5 +94,5 @@ export function ShieldLogo({ size = "md", animated = true, className = "", showT
         </motion.span>
       )}
     </div>
-  )
+  );
 }

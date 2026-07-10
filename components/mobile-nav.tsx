@@ -1,21 +1,21 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Menu, X } from "lucide-react"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { ShieldLogo } from "@/components/brand/shield-logo"
-import { navItems } from "@/config/navigation"
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { Menu, X } from 'lucide-react';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { ShieldLogo } from '@/components/brand/shield-logo';
+import { navItems } from '@/config/navigation';
 
 export function MobileNav() {
-  const [isOpen, setIsOpen] = useState(false)
-  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="md:hidden">
@@ -29,20 +29,20 @@ export function MobileNav() {
       </div>
 
       {isOpen && (
-        <div className="fixed inset-0 top-[64px] z-50 bg-white p-4 overflow-y-auto">
+        <div className="fixed inset-0 top-[64px] z-50 bg-background p-4 overflow-y-auto safe-top">
           <nav className="space-y-6">
-            {navItems.map((item) => (
+            {navItems.map(item => (
               <div key={item.title} className="space-y-2">
                 <div className="font-medium text-lg text-medical-800">{item.title}</div>
                 {item.children ? (
                   <div className="ml-4 space-y-1">
-                    {item.children.map((child) => (
+                    {item.children.map(child => (
                       <Link
                         key={child.href}
                         href={child.href}
                         className={cn(
-                          "block py-2 text-medical-600 hover:text-medical-900",
-                          pathname === child.href && "text-medical-900 font-medium",
+                          'block py-2 text-medical-600 hover:text-medical-900',
+                          pathname === child.href && 'text-medical-900 font-medium'
                         )}
                         onClick={toggleMenu}
                       >
@@ -57,8 +57,8 @@ export function MobileNav() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "block py-2 text-medical-600 hover:text-medical-900",
-                      pathname === item.href && "text-medical-900 font-medium",
+                      'block py-2 text-medical-600 hover:text-medical-900',
+                      pathname === item.href && 'text-medical-900 font-medium'
                     )}
                     onClick={toggleMenu}
                   >
@@ -74,5 +74,5 @@ export function MobileNav() {
         </div>
       )}
     </div>
-  )
+  );
 }

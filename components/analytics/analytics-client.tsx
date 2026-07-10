@@ -1,77 +1,77 @@
-"use client"
+'use client';
 
-import { useState, Suspense } from "react"
-import dynamic from "next/dynamic"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import { useState, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 // 动态导入大型组件并禁用SSR
-const Dashboard = dynamic(() => import("@/components/analytics/dashboard-component"), {
+const Dashboard = dynamic(() => import('@/components/analytics/dashboard-component'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false, // 禁用服务器端渲染以避免window错误
-})
+});
 
-const TrendReports = dynamic(() => import("@/components/analytics/trend-reports"), {
+const TrendReports = dynamic(() => import('@/components/analytics/trend-reports'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false,
-})
+});
 
-const PredictionModels = dynamic(() => import("@/components/analytics/prediction-models"), {
+const PredictionModels = dynamic(() => import('@/components/analytics/prediction-models'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false,
-})
+});
 
-const InteractiveCharts = dynamic(() => import("@/components/analytics/interactive-charts"), {
+const InteractiveCharts = dynamic(() => import('@/components/analytics/interactive-charts'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false,
-})
+});
 
-const AdvancedCharts = dynamic(() => import("@/components/analytics/advanced-charts"), {
+const AdvancedCharts = dynamic(() => import('@/components/analytics/advanced-charts'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false,
-})
+});
 
-const DataComparison = dynamic(() => import("@/components/analytics/data-comparison"), {
+const DataComparison = dynamic(() => import('@/components/analytics/data-comparison'), {
   loading: () => (
     <div className="h-[400px] flex items-center justify-center">
       <LoadingSpinner />
     </div>
   ),
   ssr: false,
-})
+});
 
 export default function AnalyticsClient() {
-  const [activeTab, setActiveTab] = useState("dashboard")
-  const [showDetailedCharts, setShowDetailedCharts] = useState(false)
-  const [showAdvancedCharts, setShowAdvancedCharts] = useState(false)
-  const [showDataComparison, setShowDataComparison] = useState(false)
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [showDetailedCharts, setShowDetailedCharts] = useState(false);
+  const [showAdvancedCharts, setShowAdvancedCharts] = useState(false);
+  const [showDataComparison, setShowDataComparison] = useState(false);
 
   if (showDataComparison) {
     return (
       <Suspense fallback={<LoadingSpinner />}>
         <DataComparison onBack={() => setShowDataComparison(false)} />
       </Suspense>
-    )
+    );
   }
 
   if (showAdvancedCharts) {
@@ -79,7 +79,7 @@ export default function AnalyticsClient() {
       <Suspense fallback={<LoadingSpinner />}>
         <AdvancedCharts onBack={() => setShowAdvancedCharts(false)} />
       </Suspense>
-    )
+    );
   }
 
   if (showDetailedCharts) {
@@ -87,7 +87,7 @@ export default function AnalyticsClient() {
       <Suspense fallback={<LoadingSpinner />}>
         <InteractiveCharts onBack={() => setShowDetailedCharts(false)} />
       </Suspense>
-    )
+    );
   }
 
   return (
@@ -119,14 +119,14 @@ export default function AnalyticsClient() {
       </TabsContent>
       <TabsContent value="advanced" className="pt-4">
         <Suspense fallback={<LoadingSpinner />}>
-          <AdvancedCharts onBack={() => setActiveTab("dashboard")} />
+          <AdvancedCharts onBack={() => setActiveTab('dashboard')} />
         </Suspense>
       </TabsContent>
       <TabsContent value="comparison" className="pt-4">
         <Suspense fallback={<LoadingSpinner />}>
-          <DataComparison onBack={() => setActiveTab("dashboard")} />
+          <DataComparison onBack={() => setActiveTab('dashboard')} />
         </Suspense>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

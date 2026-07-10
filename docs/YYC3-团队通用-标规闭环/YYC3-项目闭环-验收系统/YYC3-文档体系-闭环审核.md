@@ -35,13 +35,13 @@ complexity: intermediate
 
 构建一个**教科书级的文档管理体系**，实现：
 
-| 目标维度 | 具体目标 | 度量方式 |
-|---------|---------|---------|
-| **文档完整度** | 覆盖所有关键模块和功能 | 覆盖率 ≥ 95% |
-| **内容准确度** | 与代码实现保持一致 | 准确性 ≥ 98% |
-| **更新及时性** | 代码变更后文档及时更新 | 滞后时间 ≤ 3天 |
-| **格式规范性** | 统一的文档风格和结构 | 规范符合率 ≥ 95% |
-| **可用易用性** | 方便查阅和理解 | 用户满意度 ≥ 4.5/5 |
+| 目标维度       | 具体目标               | 度量方式           |
+| -------------- | ---------------------- | ------------------ |
+| **文档完整度** | 覆盖所有关键模块和功能 | 覆盖率 ≥ 95%       |
+| **内容准确度** | 与代码实现保持一致     | 准确性 ≥ 98%       |
+| **更新及时性** | 代码变更后文档及时更新 | 滞后时间 ≤ 3天     |
+| **格式规范性** | 统一的文档风格和结构   | 规范符合率 ≥ 95%   |
+| **可用易用性** | 方便查阅和理解         | 用户满意度 ≥ 4.5/5 |
 
 ### 文档分类体系
 
@@ -67,21 +67,21 @@ complexity: intermediate
 
 **关注点**：文档更新频率、审核周期、时效性
 
-| 评估项 | 标准 | P0 | P1 | P2 |
-|-------|------|----|----|----|
-| 代码变更后文档更新 | ≤ 3个工作日 | ✅ | - | - |
-| 文档审核周期 | 每月至少一次 | ✅ | - | - |
-| 过期文档清理 | 季度清理 | - | ✅ | - |
-| 版本发布时文档同步 | 100%同步 | ✅ | - | - |
+| 评估项             | 标准         | P0  | P1  | P2  |
+| ------------------ | ------------ | --- | --- | --- |
+| 代码变更后文档更新 | ≤ 3个工作日  | ✅  | -   | -   |
+| 文档审核周期       | 每月至少一次 | ✅  | -   | -   |
+| 过期文档清理       | 季度清理     | -   | ✅  | -   |
+| 版本发布时文档同步 | 100%同步     | ✅  | -   | -   |
 
 ```typescript
 // src/documentation/metrics/time-dimension.ts
 interface DocumentationTimeMetrics {
   /** 文档更新时效 */
   updateTimeliness: {
-    averageLagDays: number;           // 平均滞后天数
-    maxLagDays: number;               // 最大滞后天数
-    onTimeUpdateRate: number;         // 及时更新率 (%)
+    averageLagDays: number; // 平均滞后天数
+    maxLagDays: number; // 最大滞后天数
+    onTimeUpdateRate: number; // 及时更新率 (%)
   };
 
   /** 审核频率 */
@@ -107,45 +107,45 @@ interface DocumentationTimeMetrics {
 
 **关注点**：文档组织结构、存储位置、访问便捷性
 
-| 评估项 | 标准 | 说明 |
-|-------|------|------|
-| 目录结构清晰 | 符合约定规范 | docs/ 分层组织 |
-| 命名规范统一 | kebab-case | 语义化命名 |
-| 索引完善 | 有导航和搜索 | README + 导航页 |
-| 多格式支持 | Markdown + PDF/HTML | 满足不同场景 |
+| 评估项       | 标准                | 说明            |
+| ------------ | ------------------- | --------------- |
+| 目录结构清晰 | 符合约定规范        | docs/ 分层组织  |
+| 命名规范统一 | kebab-case          | 语义化命名      |
+| 索引完善     | 有导航和搜索        | README + 导航页 |
+| 多格式支持   | Markdown + PDF/HTML | 满足不同场景    |
 
 ### 维度三：属性维（Attribute Dimension）
 
 **关注点**：文档质量属性、可读性、完整性
 
-| 属性类别 | 关键指标 | P0标准 | P1标准 |
-|---------|---------|--------|--------|
-| **完整性** | 必需文档齐全 | 100% | ≥ 95% |
-| **准确性** | 内容与代码一致 | ≥ 98% | ≥ 95% |
-| **可读性** | 语言清晰易懂 | 评分 ≥ 4.0 | 评分 ≥ 3.5 |
-| **规范性** | 格式统一 | 符合率 100% | ≥ 95% |
+| 属性类别   | 关键指标       | P0标准      | P1标准     |
+| ---------- | -------------- | ----------- | ---------- |
+| **完整性** | 必需文档齐全   | 100%        | ≥ 95%      |
+| **准确性** | 内容与代码一致 | ≥ 98%       | ≥ 95%      |
+| **可读性** | 语言清晰易懂   | 评分 ≥ 4.0  | 评分 ≥ 3.5 |
+| **规范性** | 格式统一       | 符合率 100% | ≥ 95%      |
 
 ### 维度四：事件维（Event Dimension）
 
 **关注点**：文档触发更新事件、审核工作流
 
-| 事件类型 | 处理要求 | 自动化程度 |
-|---------|---------|-----------|
-| PR合并 | 自动提示文档更新 | ✅ 完全自动化 |
-| API变更 | 强制更新API文档 | ✅ CI检查 |
-| 功能新增 | 创建/更新设计文档 | ⚠️ 半自动 |
-| Bug修复 | 更新相关文档 | ⚠️ 提示为主 |
+| 事件类型 | 处理要求          | 自动化程度    |
+| -------- | ----------------- | ------------- |
+| PR合并   | 自动提示文档更新  | ✅ 完全自动化 |
+| API变更  | 强制更新API文档   | ✅ CI检查     |
+| 功能新增 | 创建/更新设计文档 | ⚠️ 半自动     |
+| Bug修复  | 更新相关文档      | ⚠️ 提示为主   |
 
 ### 维度五：关联维（Association Dimension）
 
 **关注点**：文档间关联、与代码的追溯关系
 
-| 关联类型 | 评估标准 | 工具/方法 |
-|---------|---------|----------|
-| **代码-文档关联** | 每个模块有对应文档 | JSDoc + docs链接 |
-| **需求-文档追溯** | 需求有对应设计文档 | 需求管理系统 |
-| **文档交叉引用** | 相关文档相互链接 | Markdown链接 |
-| **版本对应** | 文档版本与代码版本一致 | Git Tag |
+| 关联类型          | 评估标准               | 工具/方法        |
+| ----------------- | ---------------------- | ---------------- |
+| **代码-文档关联** | 每个模块有对应文档     | JSDoc + docs链接 |
+| **需求-文档追溯** | 需求有对应设计文档     | 需求管理系统     |
+| **文档交叉引用**  | 相关文档相互链接       | Markdown链接     |
+| **版本对应**      | 文档版本与代码版本一致 | Git Tag          |
 
 ---
 
@@ -155,33 +155,33 @@ interface DocumentationTimeMetrics {
 
 #### 项目级文档（P0 - 必须有）
 
-| 文档名 | 路径 | 内容要求 | 更新频率 |
-|-------|------|---------|---------|
-| README.md | `/` | 项目介绍、快速开始、安装、使用 | 每次重大变更 |
-| CHANGELOG.md | `/` | 版本历史、变更记录 | 每次发布 |
-| CONTRIBUTING.md | `/` | 贡献指南、开发规范 | 按需更新 |
-| LICENSE | `/` | 开源许可证 | 初始化时 |
-| .editorconfig | `/` | 编辑器配置 | 初始化时 |
-| package.json | `/` | 项目元信息和依赖 | 每次依赖变更 |
+| 文档名          | 路径 | 内容要求                       | 更新频率     |
+| --------------- | ---- | ------------------------------ | ------------ |
+| README.md       | `/`  | 项目介绍、快速开始、安装、使用 | 每次重大变更 |
+| CHANGELOG.md    | `/`  | 版本历史、变更记录             | 每次发布     |
+| CONTRIBUTING.md | `/`  | 贡献指南、开发规范             | 按需更新     |
+| LICENSE         | `/`  | 开源许可证                     | 初始化时     |
+| .editorconfig   | `/`  | 编辑器配置                     | 初始化时     |
+| package.json    | `/`  | 项目元信息和依赖               | 每次依赖变更 |
 
 #### 技术文档（P0 - 必须有）
 
-| 文档名 | 路径 | 内容要求 | 更新频率 |
-|-------|------|---------|---------|
-| 架构设计文档 | `docs/architecture/` | 系统架构、技术选型、模块划分 | 重大架构变更 |
-| API接口文档 | `docs/api/` 或 Swagger | 所有API端点说明 | API变更时 |
-| 数据模型文档 | `docs/database/` | ER图、表结构、字段说明 | 数据模型变更 |
-| 部署文档 | `docs/deployment/` | 环境配置、部署步骤、CI/CD | 部署流程变更 |
-| 配置说明 | `docs/configuration/` | 所有配置项说明 | 配置项变更 |
+| 文档名       | 路径                   | 内容要求                     | 更新频率     |
+| ------------ | ---------------------- | ---------------------------- | ------------ |
+| 架构设计文档 | `docs/architecture/`   | 系统架构、技术选型、模块划分 | 重大架构变更 |
+| API接口文档  | `docs/api/` 或 Swagger | 所有API端点说明              | API变更时    |
+| 数据模型文档 | `docs/database/`       | ER图、表结构、字段说明       | 数据模型变更 |
+| 部署文档     | `docs/deployment/`     | 环境配置、部署步骤、CI/CD    | 部署流程变更 |
+| 配置说明     | `docs/configuration/`  | 所有配置项说明               | 配置项变更   |
 
 #### 操作文档（P1 - 应该有）
 
-| 文档名 | 路径 | 内容要求 | 更新频率 |
-|-------|------|---------|---------|
-| 开发环境搭建 | `docs/setup/` | 本地开发环境配置 | 环境变更 |
-| 测试指南 | `docs/testing/` | 测试运行、覆盖率要求 | 测试流程变更 |
-| 故障排查 | `docs/troubleshooting/` | 常见问题及解决方案 | 新增问题时 |
-| 性能优化 | `docs/performance/` | 优化建议、基准数据 | 性能相关变更 |
+| 文档名       | 路径                    | 内容要求             | 更新频率     |
+| ------------ | ----------------------- | -------------------- | ------------ |
+| 开发环境搭建 | `docs/setup/`           | 本地开发环境配置     | 环境变更     |
+| 测试指南     | `docs/testing/`         | 测试运行、覆盖率要求 | 测试流程变更 |
+| 故障排查     | `docs/troubleshooting/` | 常见问题及解决方案   | 新增问题时   |
+| 性能优化     | `docs/performance/`     | 优化建议、基准数据   | 性能相关变更 |
 
 ### 文档模板示例
 
@@ -205,10 +205,13 @@ interface DocumentationTimeMetrics {
 ## 快速开始
 
 \`\`\`bash
+
 # 安装
+
 pnpm add {{PACKAGE_NAME}}
 
 # 使用
+
 import { {{EXPORT_NAME}} } from '{{PACKAGE_NAME}}';
 \`\`\`
 
@@ -222,8 +225,8 @@ import { {{EXPORT_NAME}} } from '{{PACKAGE_NAME}}';
 
 **参数**:
 
-| 参数 | 类型 | 必填 | 说明 |
-|-----|------|------|------|
+| 参数      | 类型     | 必填         | 说明            |
+| --------- | -------- | ------------ | --------------- |
 | {{PARAM}} | {{TYPE}} | {{REQUIRED}} | {{DESCRIPTION}} |
 
 **返回值**: {{RETURN_TYPE}} - {{RETURN_DESCRIPTION}}
@@ -235,8 +238,8 @@ import { {{EXPORT_NAME}} } from '{{PACKAGE_NAME}}';
 
 ## 配置选项
 
-| 选项 | 类型 | 默认值 | 说明 |
-|-----|------|-------|------|
+| 选项       | 类型     | 默认值      | 说明            |
+| ---------- | -------- | ----------- | --------------- |
 | {{OPTION}} | {{TYPE}} | {{DEFAULT}} | {{DESCRIPTION}} |
 
 ## 注意事项
@@ -251,8 +254,8 @@ A: {{ANSWER}}
 
 ## 变更记录
 
-| 版本 | 日期 | 变更内容 | 作者 |
-|-----|------|---------|------|
+| 版本        | 日期     | 变更内容    | 作者       |
+| ----------- | -------- | ----------- | ---------- |
 | {{VERSION}} | {{DATE}} | {{CHANGES}} | {{AUTHOR}} |
 
 ## 相关文档
@@ -319,7 +322,7 @@ async function runCompletenessCheck(projectPath: string): Promise<DocumentationC
   ];
 
   const fileChecks = await Promise.all(
-    requiredFiles.map(async (file) => ({
+    requiredFiles.map(async file => ({
       path: file,
       exists: await fileExists(path.join(projectPath, file)),
       size: await getFileSize(path.join(projectPath, file)),
@@ -419,10 +422,7 @@ async function checkAPIDocumentation(): Promise<DocumentationAccuracyCheck['apiA
     }
 
     // 检查参数是否匹配
-    const paramMismatches = compareParameters(
-      docEndpoint.parameters,
-      actualEndpoint.parameters
-    );
+    const paramMismatches = compareParameters(docEndpoint.parameters, actualEndpoint.parameters);
 
     if (paramMismatches.length > 0) {
       mismatches.push({
@@ -444,29 +444,29 @@ async function checkAPIDocumentation(): Promise<DocumentationAccuracyCheck['apiA
 
 ### 规范性检查
 
-```typescript
+````typescript
 // src/documentation/checks/format-check.ts
 interface DocumentationFormatCheck {
   /** Markdown规范 */
   markdownCompliance: {
-    headingStructure: boolean;          // 标题层级正确
-    linkValidity: boolean;              // 链接有效
-    imageAltText: boolean;              // 图片有alt文本
-    codeBlockLanguage: boolean;         // 代码块有语言标识
-    tableFormat: boolean;               // 表格格式正确
+    headingStructure: boolean; // 标题层级正确
+    linkValidity: boolean; // 链接有效
+    imageAltText: boolean; // 图片有alt文本
+    codeBlockLanguage: boolean; // 代码块有语言标识
+    tableFormat: boolean; // 表格格式正确
   };
 
   /** 元数据完整性 */
   metadataCompleteness: {
-    hasFrontMatter: boolean;            // 有YAML前置元数据
-    requiredFieldsPresent: string[];    // 必需字段
-    optionalFieldsPresent: string[];    // 可选字段
+    hasFrontMatter: boolean; // 有YAML前置元数据
+    requiredFieldsPresent: string[]; // 必需字段
+    optionalFieldsPresent: string[]; // 可选字段
   };
 
   /** 命名规范 */
   namingConvention: {
-    fileNameValid: boolean;             // 文件名符合kebab-case
-    directoryStructureValid: boolean;   // 目录结构符合约定
+    fileNameValid: boolean; // 文件名符合kebab-case
+    directoryStructureValid: boolean; // 目录结构符合约定
   };
 
   formatScore: number;
@@ -521,7 +521,7 @@ async function runFormatCheck(docsPath: string): Promise<DocumentationFormatChec
       } else if (!url.startsWith('#')) {
         // 相对路径链接
         const targetPath = path.resolve(path.dirname(file), url);
-        if (!await fileExists(targetPath)) {
+        if (!(await fileExists(targetPath))) {
           issues.push({
             file,
             rule: 'broken-link',
@@ -555,24 +555,24 @@ async function runFormatCheck(docsPath: string): Promise<DocumentationFormatChec
     markdownCompliance: {
       headingStructure: !issues.some(i => i.rule === 'heading-skip-level'),
       linkValidity: !issues.some(i => i.rule === 'broken-link'),
-      imageAltText: true,  // TODO: 实现
+      imageAltText: true, // TODO: 实现
       codeBlockLanguage: !issues.some(i => i.rule === 'code-block-language'),
-      tableFormat: true,  // TODO: 实现
+      tableFormat: true, // TODO: 实现
     },
     metadataCompleteness: {
-      hasFrontMatter: true,  // TODO: 实现
+      hasFrontMatter: true, // TODO: 实现
       requiredFieldsPresent: [],
       optionalFieldsPresent: [],
     },
     namingConvention: {
-      fileNameValid: true,  // TODO: 实现
-      directoryStructureValid: true,  // TODO: 实现
+      fileNameValid: true, // TODO: 实现
+      directoryStructureValid: true, // TODO: 实现
     },
     formatScore: Math.max(0, score),
     issues,
   };
 }
-```
+````
 
 ---
 
@@ -580,18 +580,18 @@ async function runFormatCheck(docsPath: string): Promise<DocumentationFormatChec
 
 ### 文档验收标准矩阵
 
-| 编号 | 验收项 | 优先级 | 通过标准 | 验证方法 |
-|-----|--------|--------|---------|----------|
-| DOC-001 | README完整 | P0 | 包含所有必需章节 | Template Check |
-| DOC-002 | API文档覆盖 | P0 | 100%公开API有文档 | Coverage Analysis |
-| DOC-003 | 代码注释充分 | P0 | 公开API有JSDoc | Lint Rule |
-| DOC-004 | 架构图清晰 | P1 | 有系统架构图 | Visual Review |
-| DOC-005 | 部署文档可用 | P1 | 能按文档成功部署 | Deployment Test |
-| DOC-006 | 示例代码正确 | P1 | 所有示例可运行 | Code Execution |
-| DOC-007 | 文档格式统一 | P2 | 符合模板规范 | Lint Check |
-| DOC-008 | 无过期内容 | P2 | 无已废弃未标注 | Content Audit |
-| DOC-009 | 交叉引用有效 | P2 | 所有链接可访问 | Link Checker |
-| DOC-010 | 版本同步 | P2 | 文档版本匹配代码 | Version Check |
+| 编号    | 验收项       | 优先级 | 通过标准          | 验证方法          |
+| ------- | ------------ | ------ | ----------------- | ----------------- |
+| DOC-001 | README完整   | P0     | 包含所有必需章节  | Template Check    |
+| DOC-002 | API文档覆盖  | P0     | 100%公开API有文档 | Coverage Analysis |
+| DOC-003 | 代码注释充分 | P0     | 公开API有JSDoc    | Lint Rule         |
+| DOC-004 | 架构图清晰   | P1     | 有系统架构图      | Visual Review     |
+| DOC-005 | 部署文档可用 | P1     | 能按文档成功部署  | Deployment Test   |
+| DOC-006 | 示例代码正确 | P1     | 所有示例可运行    | Code Execution    |
+| DOC-007 | 文档格式统一 | P2     | 符合模板规范      | Lint Check        |
+| DOC-008 | 无过期内容   | P2     | 无已废弃未标注    | Content Audit     |
+| DOC-009 | 交叉引用有效 | P2     | 所有链接可访问    | Link Checker      |
+| DOC-010 | 版本同步     | P2     | 文档版本匹配代码  | Version Check     |
 
 ### 文档评分卡
 
@@ -602,11 +602,11 @@ interface DocumentationScorecard {
   grade: 'A' | 'B' | 'C' | 'D' | 'F';
 
   dimensions: {
-    completeness: number;    // 完整性 (30%)
-    accuracy: number;       // 准确性 (25%)
-    timeliness: number;     // 及时性 (20%)
-    readability: number;    // 可读性 (15%)
-    usability: number;      // 易用性 (10%)
+    completeness: number; // 完整性 (30%)
+    accuracy: number; // 准确性 (25%)
+    timeliness: number; // 及时性 (20%)
+    readability: number; // 可读性 (15%)
+    usability: number; // 易用性 (10%)
   };
 
   criteriaResults: Array<{
@@ -637,17 +637,17 @@ function calculateDocScore(checks: {
   const dimensions = {
     completeness: calculateCompletenessScore(checks.completeness),
     accuracy: calculateAccuracyScore(checks.accuracy),
-    timeliness: calculateTimelinessScore(),  // 基于Git历史
+    timeliness: calculateTimelinessScore(), // 基于Git历史
     readability: calculateReadabilityScore(),
     usability: calculateUsabilityScore(),
   };
 
   const weights = {
-    completeness: 0.30,
+    completeness: 0.3,
     accuracy: 0.25,
-    timeliness: 0.20,
+    timeliness: 0.2,
     readability: 0.15,
-    usability: 0.10,
+    usability: 0.1,
   };
 
   const overallScore = Object.entries(dimensions).reduce(
@@ -666,7 +666,7 @@ function calculateDocScore(checks: {
     overallScore: Math.round(overallScore),
     grade,
     dimensions,
-    criteriaResults: [],  // 基于checks填充
+    criteriaResults: [], // 基于checks填充
     recommendations: generateRecommendations(dimensions),
   };
 }
@@ -690,13 +690,13 @@ generator: YYC³ Documentation Audit System v1.0.0
 
 ## 📊 执行摘要
 
-| 指标 | 结果 | 标准 | 状态 |
-|-----|------|------|------|
-| **总体评分** | {{OVERALL_SCORE}}/100 | ≥ 80 | {{GRADE}} |
-| **文档完整度** | {{COMPLETENESS}}% | ≥ 95% | {{COMPLETENESS_STATUS}} |
-| **内容准确度** | {{ACCURACY}}% | ≥ 98% | {{ACCURACY_STATUS}} |
-| **格式规范率** | {{FORMAT_COMPLIANCE}}% | ≥ 95% | {{FORMAT_STATUS}} |
-| **更新及时性** | {{TIMELINESS}}% | ≥ 90% | {{TIMELINESS_STATUS}} |
+| 指标           | 结果                   | 标准  | 状态                    |
+| -------------- | ---------------------- | ----- | ----------------------- |
+| **总体评分**   | {{OVERALL_SCORE}}/100  | ≥ 80  | {{GRADE}}               |
+| **文档完整度** | {{COMPLETENESS}}%      | ≥ 95% | {{COMPLETENESS_STATUS}} |
+| **内容准确度** | {{ACCURACY}}%          | ≥ 98% | {{ACCURACY_STATUS}}     |
+| **格式规范率** | {{FORMAT_COMPLIANCE}}% | ≥ 95% | {{FORMAT_STATUS}}       |
+| **更新及时性** | {{TIMELINESS}}%        | ≥ 90% | {{TIMELINESS_STATUS}}   |
 
 ### 结论
 
@@ -719,14 +719,16 @@ generator: YYC³ Documentation Audit System v1.0.0
 ### 必需文档（{{COMPLIANT_REQUIRED}}/{{TOTAL_REQUIRED}}）
 
 {{#each compliant_required_docs}}
+
 - ✅ {{path}} ({{size}}, 最后更新: {{last_updated}})
-{{/each}}
+  {{/each}}
 
 ### 可选文档（{{COMPLIANT_OPTIONAL}}/{{TOTAL_OPTIONAL}}）
 
 {{#each compliant_optional_docs}}
+
 - ✅ {{path}}
-{{/each}}
+  {{/each}}
 
 ---
 
@@ -735,6 +737,7 @@ generator: YYC³ Documentation Audit System v1.0.0
 ### 严重问题（必须修复）
 
 {{#each critical_issues}}
+
 #### {{code}} - {{title}}
 
 - **文件**: {{file}}
@@ -748,6 +751,7 @@ generator: YYC³ Documentation Audit System v1.0.0
 ### 一般问题（应该修复）
 
 {{#each major_issues}}
+
 - **{{code}}**: {{file}} - {{summary}}
   - 建议: {{suggestion}}
 
@@ -756,6 +760,7 @@ generator: YYC³ Documentation Audit System v1.0.0
 ### 改进建议（可选优化）
 
 {{#each minor_issues}}
+
 - **{{code}}**: {{summary}}
 
 {{/each}}
@@ -766,26 +771,26 @@ generator: YYC³ Documentation Audit System v1.0.0
 
 ### 文档覆盖率
 
-| 类别 | 已文档化 | 总数 | 覆盖率 |
-|-----|---------|------|--------|
-| 模块文档 | {{modules_doc}} | {{modules_total}} | {{modules_rate}}% |
-| API文档 | {{apis_doc}} | {{apis_total}} | {{apis_rate}}% |
+| 类别     | 已文档化           | 总数                 | 覆盖率               |
+| -------- | ------------------ | -------------------- | -------------------- |
+| 模块文档 | {{modules_doc}}    | {{modules_total}}    | {{modules_rate}}%    |
+| API文档  | {{apis_doc}}       | {{apis_total}}       | {{apis_rate}}%       |
 | 组件文档 | {{components_doc}} | {{components_total}} | {{components_rate}}% |
-| 配置文档 | {{configs_doc}} | {{configs_total}} | {{configs_rate}}% |
+| 配置文档 | {{configs_doc}}    | {{configs_total}}    | {{configs_rate}}%    |
 
 ### 文档时效性
 
-| 时效区间 | 文档数 | 占比 |
-|---------|-------|------|
-| 最近7天 | {{recent_7d}} | {{recent_7d_pct}}% |
-| 7-30天 | {{recent_30d}} | {{recent_30d_pct}}% |
-| 30-90天 | {{recent_90d}} | {{recent_90d_pct}}% |
-| 超过90天 | {{older}} | {{older_pct}}% |
+| 时效区间 | 文档数         | 占比                |
+| -------- | -------------- | ------------------- |
+| 最近7天  | {{recent_7d}}  | {{recent_7d_pct}}%  |
+| 7-30天   | {{recent_30d}} | {{recent_30d_pct}}% |
+| 30-90天  | {{recent_90d}} | {{recent_90d_pct}}% |
+| 超过90天 | {{older}}      | {{older_pct}}%      |
 
 ### 链接健康度
 
-| 类型 | 总数 | 有效 | 断裂 | 有效率 |
-|-----|------|------|------|--------|
+| 类型     | 总数               | 有效               | 断裂                | 有效率             |
+| -------- | ------------------ | ------------------ | ------------------- | ------------------ |
 | 内部链接 | {{internal_links}} | {{internal_valid}} | {{internal_broken}} | {{internal_rate}}% |
 | 外部链接 | {{external_links}} | {{external_valid}} | {{external_broken}} | {{external_rate}}% |
 
@@ -796,20 +801,23 @@ generator: YYC³ Documentation Audit System v1.0.0
 ### 高优先级（本周完成）
 
 {{#each high_priority_actions}}
+
 - [ ] {{action}} (负责人: {{owner}})
-{{/each}}
+      {{/each}}
 
 ### 中优先级（本月完成）
 
 {{#each medium_priority_actions}}
+
 - [ ] {{action}} (负责人: {{owner}})
-{{/each}}
+      {{/each}}
 
 ### 低优先级（下季度完成）
 
 {{#each low_priority_actions}}
+
 - [ ] {{action}}
-{{/each}}
+      {{/each}}
 
 ---
 
@@ -817,21 +825,21 @@ generator: YYC³ Documentation Audit System v1.0.0
 
 ### 历史评分趋势
 
-| 日期 | 评分 | 等级 | 主要改进 |
-|-----|------|------|---------|
-| {{HIST_DATE_1}} | {{SCORE_1}} | {{GRADE_1}} | {{IMPROVEMENT_1}} |
-| {{HIST_DATE_2}} | {{SCORE_2}} | {{GRADE_2}} | {{IMPROVEMENT_2}} |
+| 日期             | 评分              | 等级              | 主要改进               |
+| ---------------- | ----------------- | ----------------- | ---------------------- |
+| {{HIST_DATE_1}}  | {{SCORE_1}}       | {{GRADE_1}}       | {{IMPROVEMENT_1}}      |
+| {{HIST_DATE_2}}  | {{SCORE_2}}       | {{GRADE_2}}       | {{IMPROVEMENT_2}}      |
 | {{CURRENT_DATE}} | {{CURRENT_SCORE}} | {{CURRENT_GRADE}} | {{LATEST_IMPROVEMENT}} |
 
 ---
 
 ## ✍️ 签署确认
 
-| 角色 | 姓名 | 日期 | 签名 |
-|-----|------|------|------|
-| **文档审核员** | _____________ | ____-____-____ | _____________ |
-| **技术负责人** | _____________ | ____-____-____ | _____________ |
-| **项目经理** | _____________ | ____-____-____ | _____________ |
+| 角色           | 姓名               | 日期                   | 签名               |
+| -------------- | ------------------ | ---------------------- | ------------------ |
+| **文档审核员** | **\*\***\_**\*\*** | \_**\_-\_\_**-\_\_\_\_ | **\*\***\_**\*\*** |
+| **技术负责人** | **\*\***\_**\*\*** | \_**\_-\_\_**-\_\_\_\_ | **\*\***\_**\*\*** |
+| **项目经理**   | **\*\***\_**\*\*** | \_**\_-\_\_**-\_\_\_\_ | **\*\***\_**\*\*** |
 
 ---
 
@@ -942,10 +950,10 @@ interface DocumentationQualityGate {
   }>;
 
   thresholds: {
-    minCoverage: number;           // 最小覆盖率
-    maxOutdatedDays: number;       // 最大过期天数
-    maxBrokenLinks: number;        // 最大断链数
-    requiredFiles: string[];       // 必需文件列表
+    minCoverage: number; // 最小覆盖率
+    maxOutdatedDays: number; // 最大过期天数
+    maxBrokenLinks: number; // 最大断链数
+    requiredFiles: string[]; // 必需文件列表
   };
 }
 
@@ -958,8 +966,8 @@ const defaultQualityGate: DocumentationQualityGate = {
       name: 'README 必须存在且完整',
       description: '项目根目录必须有完整的 README.md',
       severity: 'error',
-      check: async () => await fileExists('README.md') &&
-                       await validateReadmeCompleteness('README.md'),
+      check: async () =>
+        (await fileExists('README.md')) && (await validateReadmeCompleteness('README.md')),
       errorMessage: 'README.md 不存在或不完整',
     },
     {
@@ -1046,23 +1054,23 @@ async function runDocumentationQualityGate(
 
 ### 文档生成工具
 
-| 工具 | 用途 | 特点 |
-|-----|------|------|
-| TypeDoc | TypeScript API文档 | 从JSDoc自动生成 |
-| Storybook | 组件文档 | 交互式组件展示 |
-| OpenAPI/Swagger | REST API文档 | 可生成交互式文档 |
-| Docusaurus | 知识库站点 | 支持Markdown、版本化 |
-| VitePress | Vue生态文档 | 轻量快速 |
+| 工具            | 用途               | 特点                 |
+| --------------- | ------------------ | -------------------- |
+| TypeDoc         | TypeScript API文档 | 从JSDoc自动生成      |
+| Storybook       | 组件文档           | 交互式组件展示       |
+| OpenAPI/Swagger | REST API文档       | 可生成交互式文档     |
+| Docusaurus      | 知识库站点         | 支持Markdown、版本化 |
+| VitePress       | Vue生态文档        | 轻量快速             |
 
 ### 文档质量工具
 
-| 工具 | 用途 | 集成方式 |
-|-----|------|---------|
-| markdownlint | Markdown规范检查 | CLI + Editor |
-| remark-lint | Markdown Linter插件 | 可扩展规则 |
-| link-checker | 链接有效性检查 | CI集成 |
-| cspell | 拼写检查 | Pre-commit |
-| write-good | 写作风格检查 | CLI |
+| 工具         | 用途                | 集成方式     |
+| ------------ | ------------------- | ------------ |
+| markdownlint | Markdown规范检查    | CLI + Editor |
+| remark-lint  | Markdown Linter插件 | 可扩展规则   |
+| link-checker | 链接有效性检查      | CI集成       |
+| cspell       | 拼写检查            | Pre-commit   |
+| write-good   | 写作风格检查        | CLI          |
 
 ---
 
@@ -1098,28 +1106,28 @@ async function runDocumentationQualityGate(
 
 ### A. 文档命名规范
 
-| 类型 | 格式 | 示例 |
-|-----|------|------|
+| 类型     | 格式               | 示例                     |
+| -------- | ------------------ | ------------------------ |
 | 模块文档 | `{module-name}.md` | `user-authentication.md` |
-| API文档 | `{resource}.md` | `users-api.md` |
-| 指南文档 | `{topic}-guide.md` | `deployment-guide.md` |
-| FAQ | `faq-{topic}.md` | `faq-troubleshooting.md` |
+| API文档  | `{resource}.md`    | `users-api.md`           |
+| 指南文档 | `{topic}-guide.md` | `deployment-guide.md`    |
+| FAQ      | `faq-{topic}.md`   | `faq-troubleshooting.md` |
 
 ### B. 文档元数据模板
 
 ```yaml
 ---
-title: "{{DOCUMENT_TITLE}}"
-description: "{{ONE_LINE_DESCRIPTION}}"
-author: "{{AUTHOR}}"
-date: "{{YYYY-MM-DD}}"
+title: '{{DOCUMENT_TITLE}}'
+description: '{{ONE_LINE_DESCRIPTION}}'
+author: '{{AUTHOR}}'
+date: '{{YYYY-MM-DD}}'
 version: v2.0.0
 status: draft | review | published | deprecated
-tags: [{{TAG1}}, {{TAG2}}]
-category: {{CATEGORY}}
+tags: [{ { TAG1 } }, { { TAG2 } }]
+category: { { CATEGORY } }
 related:
-  - {{RELATED_DOC_1}}
-  - {{RELATED_DOC_2}}
+  - { { RELATED_DOC_1 } }
+  - { { RELATED_DOC_2 } }
 ---
 ```
 

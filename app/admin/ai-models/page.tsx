@@ -1,6 +1,6 @@
-import { PageHeader } from "@/components/page-header"
-import { Bot } from "lucide-react"
-import { AIProviderManager } from "@/components/admin/ai-models/ai-provider-manager"
+import { PageHeader } from '@/components/page-header';
+import { Bot } from 'lucide-react';
+import { AIProviderManager } from '@/components/admin/ai-models/ai-provider-manager';
 
 export default function AIModelsPage() {
   return (
@@ -13,5 +13,5 @@ export default function AIModelsPage() {
 
       <AIProviderManager />
     </div>
-  )
+  );
 }

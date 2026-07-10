@@ -1,12 +1,18 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Button } from "@/components/ui/button"
-import { BarChart, LineChart, PieChart } from "lucide-react"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { BarChart, LineChart, PieChart } from 'lucide-react';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
   ResponsiveContainer,
   BarChart as RechartsBarChart,
@@ -17,31 +23,31 @@ import {
   Legend,
   LineChart as RechartsLineChart,
   Line,
-} from "recharts"
+} from '@/components/ui/recharts-dynamic';
 
 // 模拟数据
 const comparisonData = [
-  { name: "肺炎", aiAccuracy: 92, humanAccuracy: 88 },
-  { name: "肺结核", aiAccuracy: 89, humanAccuracy: 91 },
-  { name: "肺癌", aiAccuracy: 87, humanAccuracy: 90 },
-  { name: "慢性阻塞性肺疾病", aiAccuracy: 94, humanAccuracy: 89 },
-  { name: "支气管炎", aiAccuracy: 91, humanAccuracy: 87 },
-  { name: "胸腔积液", aiAccuracy: 95, humanAccuracy: 92 },
-]
+  { name: '肺炎', aiAccuracy: 92, humanAccuracy: 88 },
+  { name: '肺结核', aiAccuracy: 89, humanAccuracy: 91 },
+  { name: '肺癌', aiAccuracy: 87, humanAccuracy: 90 },
+  { name: '慢性阻塞性肺疾病', aiAccuracy: 94, humanAccuracy: 89 },
+  { name: '支气管炎', aiAccuracy: 91, humanAccuracy: 87 },
+  { name: '胸腔积液', aiAccuracy: 95, humanAccuracy: 92 },
+];
 
 const timelineData = [
-  { month: "1月", aiAccuracy: 85, humanAccuracy: 87 },
-  { month: "2月", aiAccuracy: 87, humanAccuracy: 87 },
-  { month: "3月", aiAccuracy: 89, humanAccuracy: 88 },
-  { month: "4月", aiAccuracy: 90, humanAccuracy: 88 },
-  { month: "5月", aiAccuracy: 91, humanAccuracy: 89 },
-  { month: "6月", aiAccuracy: 93, humanAccuracy: 89 },
-]
+  { month: '1月', aiAccuracy: 85, humanAccuracy: 87 },
+  { month: '2月', aiAccuracy: 87, humanAccuracy: 87 },
+  { month: '3月', aiAccuracy: 89, humanAccuracy: 88 },
+  { month: '4月', aiAccuracy: 90, humanAccuracy: 88 },
+  { month: '5月', aiAccuracy: 91, humanAccuracy: 89 },
+  { month: '6月', aiAccuracy: 93, humanAccuracy: 89 },
+];
 
 export function DiagnosisComparison() {
-  const [selectedModel, setSelectedModel] = useState("model-1")
-  const [selectedTimeframe, setSelectedTimeframe] = useState("6-months")
-  const [chartType, setChartType] = useState("bar")
+  const [selectedModel, setSelectedModel] = useState('model-1');
+  const [selectedTimeframe, setSelectedTimeframe] = useState('6-months');
+  const [chartType, setChartType] = useState('bar');
 
   return (
     <div className="space-y-6">
@@ -87,23 +93,23 @@ export function DiagnosisComparison() {
               <span className="text-sm font-medium mb-1 block">图表类型</span>
               <div className="flex space-x-2">
                 <Button
-                  variant={chartType === "bar" ? "default" : "outline"}
+                  variant={chartType === 'bar' ? 'default' : 'outline'}
                   size="icon"
-                  onClick={() => setChartType("bar")}
+                  onClick={() => setChartType('bar')}
                 >
                   <BarChart className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={chartType === "line" ? "default" : "outline"}
+                  variant={chartType === 'line' ? 'default' : 'outline'}
                   size="icon"
-                  onClick={() => setChartType("line")}
+                  onClick={() => setChartType('line')}
                 >
                   <LineChart className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={chartType === "pie" ? "default" : "outline"}
+                  variant={chartType === 'pie' ? 'default' : 'outline'}
                   size="icon"
-                  onClick={() => setChartType("pie")}
+                  onClick={() => setChartType('pie')}
                 >
                   <PieChart className="h-4 w-4" />
                 </Button>
@@ -122,28 +128,42 @@ export function DiagnosisComparison() {
                 <ChartContainer
                   config={{
                     aiAccuracy: {
-                      label: "AI诊断准确率",
-                      color: "hsl(var(--chart-1))",
+                      label: 'AI诊断准确率',
+                      color: 'hsl(var(--chart-1))',
                     },
                     humanAccuracy: {
-                      label: "人类医生准确率",
-                      color: "hsl(var(--chart-2))",
+                      label: '人类医生准确率',
+                      color: 'hsl(var(--chart-2))',
                     },
                   }}
                 >
                   <ResponsiveContainer width="100%" height="100%">
-                    {chartType === "bar" ? (
-                      <RechartsBarChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 70 }}>
+                    {chartType === 'bar' ? (
+                      <RechartsBarChart
+                        data={comparisonData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
+                      >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} />
                         <YAxis domain={[0, 100]} />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Legend />
-                        <Bar dataKey="aiAccuracy" name="AI诊断准确率" fill="var(--color-aiAccuracy)" />
-                        <Bar dataKey="humanAccuracy" name="人类医生准确率" fill="var(--color-humanAccuracy)" />
+                        <Bar
+                          dataKey="aiAccuracy"
+                          name="AI诊断准确率"
+                          fill="var(--color-aiAccuracy)"
+                        />
+                        <Bar
+                          dataKey="humanAccuracy"
+                          name="人类医生准确率"
+                          fill="var(--color-humanAccuracy)"
+                        />
                       </RechartsBarChart>
                     ) : (
-                      <RechartsLineChart data={comparisonData} margin={{ top: 20, right: 30, left: 20, bottom: 70 }}>
+                      <RechartsLineChart
+                        data={comparisonData}
+                        margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
+                      >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" angle={-45} textAnchor="end" height={70} />
                         <YAxis domain={[0, 100]} />
@@ -173,23 +193,31 @@ export function DiagnosisComparison() {
                 <ChartContainer
                   config={{
                     aiAccuracy: {
-                      label: "AI诊断准确率",
-                      color: "hsl(var(--chart-1))",
+                      label: 'AI诊断准确率',
+                      color: 'hsl(var(--chart-1))',
                     },
                     humanAccuracy: {
-                      label: "人类医生准确率",
-                      color: "hsl(var(--chart-2))",
+                      label: '人类医生准确率',
+                      color: 'hsl(var(--chart-2))',
                     },
                   }}
                 >
                   <ResponsiveContainer width="100%" height="100%">
-                    <RechartsLineChart data={timelineData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                    <RechartsLineChart
+                      data={timelineData}
+                      margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="month" />
                       <YAxis domain={[80, 100]} />
                       <ChartTooltip content={<ChartTooltipContent />} />
                       <Legend />
-                      <Line type="monotone" dataKey="aiAccuracy" name="AI诊断准确率" stroke="var(--color-aiAccuracy)" />
+                      <Line
+                        type="monotone"
+                        dataKey="aiAccuracy"
+                        name="AI诊断准确率"
+                        stroke="var(--color-aiAccuracy)"
+                      />
                       <Line
                         type="monotone"
                         dataKey="humanAccuracy"
@@ -209,8 +237,8 @@ export function DiagnosisComparison() {
                 <CardTitle className="text-lg">平均诊断准确率</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600">91.3%</div>
-                <p className="text-sm text-gray-500">AI模型较人类医生高出2.1%</p>
+                <div className="text-3xl font-bold text-primary">91.3%</div>
+                <p className="text-sm text-muted-foreground">AI模型较人类医生高出2.1%</p>
               </CardContent>
             </Card>
             <Card>
@@ -218,8 +246,8 @@ export function DiagnosisComparison() {
                 <CardTitle className="text-lg">平均诊断时间</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600">8.2秒</div>
-                <p className="text-sm text-gray-500">较人类医生快87%</p>
+                <div className="text-3xl font-bold text-primary">8.2秒</div>
+                <p className="text-sm text-muted-foreground">较人类医生快87%</p>
               </CardContent>
             </Card>
             <Card>
@@ -227,8 +255,8 @@ export function DiagnosisComparison() {
                 <CardTitle className="text-lg">诊断一致率</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600">83.7%</div>
-                <p className="text-sm text-gray-500">AI与人类医生诊断结果一致性</p>
+                <div className="text-3xl font-bold text-primary">83.7%</div>
+                <p className="text-sm text-muted-foreground">AI与人类医生诊断结果一致性</p>
               </CardContent>
             </Card>
           </div>
@@ -242,13 +270,15 @@ export function DiagnosisComparison() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-gray-600">在诊断结果存在差异的案例中，AI模型在以下疾病类型中表现更优：</p>
+            <p className="text-sm text-muted-foreground">
+              在诊断结果存在差异的案例中，AI模型在以下疾病类型中表现更优：
+            </p>
             <ul className="list-disc pl-5 space-y-1">
               <li>早期肺部感染（准确率高出8.3%）</li>
               <li>慢性阻塞性肺疾病（准确率高出5.1%）</li>
               <li>胸腔积液（准确率高出3.2%）</li>
             </ul>
-            <p className="text-sm text-gray-600 mt-4">人类医生在以下疾病类型中表现更优：</p>
+            <p className="text-sm text-muted-foreground mt-4">人类医生在以下疾病类型中表现更优：</p>
             <ul className="list-disc pl-5 space-y-1">
               <li>非典型肺癌表现（准确率高出4.7%）</li>
               <li>多种疾病共存情况（准确率高出6.2%）</li>
@@ -259,5 +289,5 @@ export function DiagnosisComparison() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -22,11 +22,11 @@ First-time contributor? Read the [README](README.md) for project overview, and [
 
 ## Prerequisites
 
-| Tool | Version | Notes |
-|------|---------|-------|
-| **Node.js** | `>= 18.17.0` | Use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage versions |
-| **pnpm** | `>= 9.0.0` | Declared in `packageManager` field (`pnpm@9.15.4`) |
-| **Git** | any recent version | |
+| Tool        | Version            | Notes                                                                                               |
+| ----------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| **Node.js** | `>= 18.17.0`       | Use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage versions |
+| **pnpm**    | `>= 9.0.0`         | Declared in `packageManager` field (`pnpm@9.15.4`)                                                  |
+| **Git**     | any recent version |                                                                                                     |
 
 ## Getting Started
 
@@ -66,13 +66,13 @@ git checkout -b feature/your-feature-name
 
 Branch naming conventions:
 
-| Prefix | Use case |
-|--------|----------|
-| `feature/` | New functionality |
-| `fix/` | Bug fixes |
-| `docs/` | Documentation changes |
+| Prefix      | Use case                                |
+| ----------- | --------------------------------------- |
+| `feature/`  | New functionality                       |
+| `fix/`      | Bug fixes                               |
+| `docs/`     | Documentation changes                   |
 | `refactor/` | Code restructuring (no behavior change) |
-| `chore/` | Build/tooling/config |
+| `chore/`    | Build/tooling/config                    |
 
 ### 2. Develop
 
@@ -107,12 +107,12 @@ Open a Pull Request against `main`. See [Pull Request Process](#pull-request-pro
 
 All four gates must pass before merge. The `pnpm build` step is the only **hard** CI gate; others are strongly enforced.
 
-| Gate | Command | Requirement |
-|------|---------|-------------|
-| Type check | `pnpm type-check` | 0 errors |
-| Lint | `pnpm lint` | 0 errors (warnings reviewed case-by-case) |
-| Test | `pnpm test` | All tests pass |
-| Build | `pnpm build` | Static export to `out/` succeeds |
+| Gate       | Command           | Requirement                               |
+| ---------- | ----------------- | ----------------------------------------- |
+| Type check | `pnpm type-check` | 0 errors                                  |
+| Lint       | `pnpm lint`       | 0 errors (warnings reviewed case-by-case) |
+| Test       | `pnpm test`       | All tests pass                            |
+| Build      | `pnpm build`      | Static export to `out/` succeeds          |
 
 CI runs these on every push/PR to `main` via GitHub Actions (see `.github/workflows/`).
 
@@ -149,30 +149,31 @@ Pages default to **server components**. The pervasive pattern:
 
 ```tsx
 // app/patients/page.tsx (server component)
-import { PatientsClient } from "@/components/patients/patients-client"
+import { PatientsClient } from '@/components/patients/patients-client';
 
 export const metadata = {
-  title: "患者管理 | YYC³-Med",
-}
+  title: '患者管理 | YYC³-Med',
+};
 
 export default function PatientsPage() {
-  return <PatientsClient />
+  return <PatientsClient />;
 }
 ```
 
 ```tsx
 // components/patients/patients-client.tsx
-"use client"
+'use client';
 
-import { useState } from "react"
+import { useState } from 'react';
 
 export function PatientsClient() {
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('');
   // interactive logic here
 }
 ```
 
 **Rules**:
+
 - `page.tsx` / `layout.tsx` → server component (export `metadata`, render static shell)
 - `*-client.tsx` → client component (handles interactivity)
 - Add `"use client"` only when needed (hooks, browser APIs, event handlers, context consumers)
@@ -203,39 +204,39 @@ Adding a global provider means editing this chain.
 
 ```tsx
 // 1. React / Next.js
-import { useState } from "react"
-import Link from "next/link"
+import { useState } from 'react';
+import Link from 'next/link';
 
 // 2. Third-party libraries
-import { motion } from "framer-motion"
-import { z } from "zod"
+import { motion } from 'framer-motion';
+import { z } from 'zod';
 
 // 3. Internal modules (@/ alias — prefer barrel files)
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks"
-import { formatDate } from "@/lib/utils"
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks';
+import { formatDate } from '@/lib/utils';
 
 // 4. Relative imports (avoid in app/components; use in test files)
-import { PatientCard } from "./patient-card"
+import { PatientCard } from './patient-card';
 
 // 5. Type-only imports
-import type { Patient } from "@/types"
+import type { Patient } from '@/types';
 
 // 6. Styles (if applicable)
-import "./styles.css"
+import './styles.css';
 ```
 
 ### File Naming
 
-| Type | Convention | Example |
-|------|-----------|---------|
-| New components | **kebab-case** `.tsx` | `patient-card.tsx` |
-| Legacy PascalCase components | Keep as-is (do NOT rename) | `AuthGuard.tsx` |
-| Pages / layouts | Next.js convention | `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx` |
-| Hooks | `use-*.ts` / `use-*.tsx` | `use-debounce.ts` |
-| Non-component TS | `camelCase.ts` or `kebab-case.ts` | `patientService.ts` |
-| Types | `PascalCase.ts` in `types/` | `Patient.ts` |
-| Tests | `*.test.ts(x)` in `__tests__/` | `utils.test.ts` |
+| Type                         | Convention                        | Example                                              |
+| ---------------------------- | --------------------------------- | ---------------------------------------------------- |
+| New components               | **kebab-case** `.tsx`             | `patient-card.tsx`                                   |
+| Legacy PascalCase components | Keep as-is (do NOT rename)        | `AuthGuard.tsx`                                      |
+| Pages / layouts              | Next.js convention                | `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx` |
+| Hooks                        | `use-*.ts` / `use-*.tsx`          | `use-debounce.ts`                                    |
+| Non-component TS             | `camelCase.ts` or `kebab-case.ts` | `patientService.ts`                                  |
+| Types                        | `PascalCase.ts` in `types/`       | `Patient.ts`                                         |
+| Tests                        | `*.test.ts(x)` in `__tests__/`    | `utils.test.ts`                                      |
 
 > **Do not mass-rename files.** Match the surrounding directory's existing style.
 
@@ -247,10 +248,10 @@ Barrel files (`index.ts`) exist at: `components/`, `hooks/`, `store/`, `types/`,
 
 ```tsx
 // ✅ Good
-import { useAuth, useDebounce } from "@/hooks"
+import { useAuth, useDebounce } from '@/hooks';
 
 // ⚠️ Acceptable when barrel doesn't export it
-import { useAuth } from "@/hooks/use-auth"
+import { useAuth } from '@/hooks/use-auth';
 ```
 
 > Read barrel file comments before adding new re-exports — `components/index.ts` intentionally skips some modules to avoid `ButtonProps`/`buttonVariants` collisions.
@@ -289,14 +290,14 @@ This project uses a **medical-grade palette**. Never use raw gray/black for cont
 
 **Available tokens** (see `tailwind.config.ts`):
 
-| Token | Purpose |
-|-------|---------|
-| `medical-50` → `medical-900` | Primary navy/blue scale |
-| `success` | Semantic success (green) |
-| `warning` | Semantic warning (amber) |
-| `info` | Semantic info (blue) |
-| `primary` | Brand primary (CSS variable) |
-| `destructive` | Errors / destructive actions |
+| Token                        | Purpose                      |
+| ---------------------------- | ---------------------------- |
+| `medical-50` → `medical-900` | Primary navy/blue scale      |
+| `success`                    | Semantic success (green)     |
+| `warning`                    | Semantic warning (amber)     |
+| `info`                       | Semantic info (blue)         |
+| `primary`                    | Brand primary (CSS variable) |
+| `destructive`                | Errors / destructive actions |
 
 **Animations**: `breathe`, `heartbeat`, `fade-in`, `slide-up`, `scale-in`, `shimmer` are available as Tailwind animation utilities.
 
@@ -327,8 +328,8 @@ When adding user-facing text:
 3. Use `useTranslation()` hook in components — never hardcode strings
 
 ```tsx
-const { t } = useTranslation()
-return <h1>{t("patients.title")}</h1>
+const { t } = useTranslation();
+return <h1>{t('patients.title')}</h1>;
 ```
 
 ---
@@ -367,16 +368,16 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### Types
 
-| Type | Use |
-|------|-----|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation only |
-| `refactor` | Code restructuring (no behavior change) |
-| `test` | Test additions/changes |
-| `chore` | Build, tooling, config |
-| `style` | Formatting, whitespace (no logic change) |
-| `perf` | Performance improvement |
+| Type       | Use                                      |
+| ---------- | ---------------------------------------- |
+| `feat`     | New feature                              |
+| `fix`      | Bug fix                                  |
+| `docs`     | Documentation only                       |
+| `refactor` | Code restructuring (no behavior change)  |
+| `test`     | Test additions/changes                   |
+| `chore`    | Build, tooling, config                   |
+| `style`    | Formatting, whitespace (no logic change) |
+| `perf`     | Performance improvement                  |
 
 ### Format
 

@@ -1,15 +1,15 @@
-import { Suspense } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { MedicalRecordsClient } from "@/components/patients/medical-records-client"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { FileText, ImageIcon, FileSpreadsheet, FilePlus } from "lucide-react"
+import { Suspense } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { MedicalRecordsClient } from '@/components/patients/medical-records-client';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FileText, ImageIcon, FileSpreadsheet, FilePlus } from 'lucide-react';
 
 export const metadata = {
-  title: "病历管理 | MediNexus³",
-  description: "集中管理和查看患者的电子病历",
-}
+  title: '病历管理 | MediNexus³',
+  description: '集中管理和查看患者的电子病历',
+};
 
 export default function PatientRecordsPage() {
   return (
@@ -86,5 +86,5 @@ export default function PatientRecordsPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

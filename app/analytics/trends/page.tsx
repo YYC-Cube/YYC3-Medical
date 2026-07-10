@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import TrendReportsClient from "@/components/analytics/trend-reports-client"
-import { PageHeader } from "@/components/page-header"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import TrendReportsClient from '@/components/analytics/trend-reports-client';
+import { PageHeader } from '@/components/page-header';
 
 export default function TrendsPage() {
   return (
@@ -12,5 +12,5 @@ export default function TrendsPage() {
         <TrendReportsClient />
       </Suspense>
     </div>
-  )
+  );
 }

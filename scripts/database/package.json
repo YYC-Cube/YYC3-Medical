@@ -20,7 +20,13 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
-  "keywords": ["database", "mysql", "medical", "ai", "yyc3-med"],
+  "keywords": [
+    "database",
+    "mysql",
+    "medical",
+    "ai",
+    "yyc3-med"
+  ],
   "author": "YYC³-Med Team",
   "license": "MIT"
 }

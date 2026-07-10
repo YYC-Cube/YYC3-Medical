@@ -1,7 +1,7 @@
 // ...existing content from 混淆产物/LanguageSwitcher.tsx...'use client';
 
-import { useRouter } from 'next-intl/client';
-import { usePathname, useLocale } from 'next-intl';
+import { useRouter } from "next-intl/client";
+import { usePathname, useLocale } from "next-intl";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
@@ -14,16 +14,10 @@ export default function LanguageSwitcher() {
 
   return (
     <div>
-      <button
-        onClick={() => switchLocale('zh')}
-        disabled={locale === 'zh'}
-      >
+      <button onClick={() => switchLocale("zh")} disabled={locale === "zh"}>
         中文
       </button>
-      <button
-        onClick={() => switchLocale('en')}
-        disabled={locale === 'en'}
-      >
+      <button onClick={() => switchLocale("en")} disabled={locale === "en"}>
         English
       </button>
     </div>

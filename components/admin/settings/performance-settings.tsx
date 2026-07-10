@@ -1,22 +1,28 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export function PerformanceSettings() {
-  const [cacheEnabled, setCacheEnabled] = useState(true)
-  const [prefetchEnabled, setPrefetchEnabled] = useState(true)
-  const [imageOptimizationEnabled, setImageOptimizationEnabled] = useState(true)
-  const [maxConcurrentRequests, setMaxConcurrentRequests] = useState(10)
-  const [cpuUsageLimit, setCpuUsageLimit] = useState(80)
-  const [memoryUsageLimit, setMemoryUsageLimit] = useState(70)
+  const [cacheEnabled, setCacheEnabled] = useState(true);
+  const [prefetchEnabled, setPrefetchEnabled] = useState(true);
+  const [imageOptimizationEnabled, setImageOptimizationEnabled] = useState(true);
+  const [maxConcurrentRequests, setMaxConcurrentRequests] = useState(10);
+  const [cpuUsageLimit, setCpuUsageLimit] = useState(80);
+  const [memoryUsageLimit, setMemoryUsageLimit] = useState(70);
 
   return (
     <Card className="w-full">
@@ -38,7 +44,11 @@ export function PerformanceSettings() {
                   <Label htmlFor="cache-enabled">启用缓存</Label>
                   <div className="text-sm text-muted-foreground">提高频繁访问数据的响应速度</div>
                 </div>
-                <Switch id="cache-enabled" checked={cacheEnabled} onCheckedChange={setCacheEnabled} />
+                <Switch
+                  id="cache-enabled"
+                  checked={cacheEnabled}
+                  onCheckedChange={setCacheEnabled}
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -46,7 +56,11 @@ export function PerformanceSettings() {
                   <Label htmlFor="prefetch-enabled">启用预加载</Label>
                   <div className="text-sm text-muted-foreground">预先加载可能需要的数据</div>
                 </div>
-                <Switch id="prefetch-enabled" checked={prefetchEnabled} onCheckedChange={setPrefetchEnabled} />
+                <Switch
+                  id="prefetch-enabled"
+                  checked={prefetchEnabled}
+                  onCheckedChange={setPrefetchEnabled}
+                />
               </div>
 
               <div className="flex items-center justify-between">
@@ -72,7 +86,7 @@ export function PerformanceSettings() {
                     id="max-concurrent-requests"
                     type="number"
                     value={maxConcurrentRequests}
-                    onChange={(e) => setMaxConcurrentRequests(Number.parseInt(e.target.value))}
+                    onChange={e => setMaxConcurrentRequests(Number.parseInt(e.target.value))}
                     min={1}
                     max={50}
                   />
@@ -113,7 +127,7 @@ export function PerformanceSettings() {
                   max={100}
                   step={5}
                   value={[cpuUsageLimit]}
-                  onValueChange={(value) => setCpuUsageLimit(value[0])}
+                  onValueChange={value => setCpuUsageLimit(value[0])}
                 />
               </div>
 
@@ -127,18 +141,30 @@ export function PerformanceSettings() {
                   max={100}
                   step={5}
                   value={[memoryUsageLimit]}
-                  onValueChange={(value) => setMemoryUsageLimit(value[0])}
+                  onValueChange={value => setMemoryUsageLimit(value[0])}
                 />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="disk-cache-size">磁盘缓存大小 (MB)</Label>
-                <Input id="disk-cache-size" type="number" defaultValue="1024" min={128} max={10240} />
+                <Input
+                  id="disk-cache-size"
+                  type="number"
+                  defaultValue="1024"
+                  min={128}
+                  max={10240}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="memory-cache-size">内存缓存大小 (MB)</Label>
-                <Input id="memory-cache-size" type="number" defaultValue="256" min={64} max={2048} />
+                <Input
+                  id="memory-cache-size"
+                  type="number"
+                  defaultValue="256"
+                  min={64}
+                  max={2048}
+                />
               </div>
             </div>
           </TabsContent>
@@ -150,5 +176,5 @@ export function PerformanceSettings() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

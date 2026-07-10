@@ -1,5 +1,5 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
 import { useTranslation } from '@/hooks/use-translation';
 import { PatientCard } from '@/components/patient-card';
@@ -86,7 +86,7 @@ export function PatientsClientPage() {
         ))}
 
         {filteredPatients.length === 0 && (
-          <div className="col-span-full text-center py-12 text-gray-500">
+          <div className="col-span-full text-center py-12 text-muted-foreground">
             {t('patients.no_results')}
           </div>
         )}

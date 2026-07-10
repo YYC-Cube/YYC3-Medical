@@ -1,10 +1,25 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { BarChart2, LineChart, PieChart, Activity, Calendar, Download, Filter, Share2 } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  BarChart2,
+  LineChart,
+  PieChart,
+  Activity,
+  Calendar,
+  Download,
+  Filter,
+  Share2,
+} from 'lucide-react';
 
 export function TrendsAnalysis() {
   return (
@@ -68,7 +83,7 @@ export function TrendsAnalysis() {
               <CardDescription>患者健康状况的整体变化趋势</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <Activity className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">健康状况综合趋势图</h3>
@@ -86,7 +101,7 @@ export function TrendsAnalysis() {
                 <CardTitle className="text-sm font-medium">健康评分趋势</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[200px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+                <div className="h-[200px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                   <div className="text-center">
                     <LineChart className="h-10 w-10 text-medical-600 opacity-50 mx-auto mb-2" />
                     <p className="text-xs text-muted-foreground">健康评分趋势图</p>
@@ -97,7 +112,7 @@ export function TrendsAnalysis() {
                     <span>当前评分</span>
                     <span className="font-medium">85/100</span>
                   </div>
-                  <div className="flex justify-between text-green-600">
+                  <div className="flex justify-between text-success">
                     <span>变化趋势</span>
                     <span>↑ 上升 (+5)</span>
                   </div>
@@ -110,7 +125,7 @@ export function TrendsAnalysis() {
                 <CardTitle className="text-sm font-medium">异常指标趋势</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[200px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+                <div className="h-[200px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                   <div className="text-center">
                     <BarChart2 className="h-10 w-10 text-medical-600 opacity-50 mx-auto mb-2" />
                     <p className="text-xs text-muted-foreground">异常指标趋势图</p>
@@ -119,9 +134,9 @@ export function TrendsAnalysis() {
                 <div className="mt-2 text-sm">
                   <div className="flex justify-between">
                     <span>当前异常指标</span>
-                    <span className="font-medium text-amber-600">3项</span>
+                    <span className="font-medium text-warning">3项</span>
                   </div>
-                  <div className="flex justify-between text-green-600">
+                  <div className="flex justify-between text-success">
                     <span>变化趋势</span>
                     <span>↓ 下降 (-2)</span>
                   </div>
@@ -134,7 +149,7 @@ export function TrendsAnalysis() {
                 <CardTitle className="text-sm font-medium">健康风险趋势</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-[200px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+                <div className="h-[200px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                   <div className="text-center">
                     <PieChart className="h-10 w-10 text-medical-600 opacity-50 mx-auto mb-2" />
                     <p className="text-xs text-muted-foreground">健康风险趋势图</p>
@@ -143,9 +158,9 @@ export function TrendsAnalysis() {
                 <div className="mt-2 text-sm">
                   <div className="flex justify-between">
                     <span>当前风险等级</span>
-                    <span className="font-medium text-amber-600">中等</span>
+                    <span className="font-medium text-warning">中等</span>
                   </div>
-                  <div className="flex justify-between text-amber-600">
+                  <div className="flex justify-between text-warning">
                     <span>变化趋势</span>
                     <span>→ 稳定</span>
                   </div>
@@ -164,33 +179,33 @@ export function TrendsAnalysis() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <div className="font-medium">血压</div>
-                    <div className="text-green-600">稳定在正常范围</div>
+                    <div className="text-success">稳定在正常范围</div>
                   </div>
-                  <div className="h-10 bg-slate-100 rounded-md"></div>
+                  <div className="h-10 bg-medical-50 rounded-md"></div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <div className="font-medium">总胆固醇</div>
-                    <div className="text-amber-600">轻度波动，整体偏高</div>
+                    <div className="text-warning">轻度波动，整体偏高</div>
                   </div>
-                  <div className="h-10 bg-slate-100 rounded-md"></div>
+                  <div className="h-10 bg-medical-100 rounded-md"></div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <div className="font-medium">血糖</div>
-                    <div className="text-green-600">稳定在正常范围</div>
+                    <div className="text-success">稳定在正常范围</div>
                   </div>
-                  <div className="h-10 bg-slate-100 rounded-md"></div>
+                  <div className="h-10 bg-medical-100 rounded-md"></div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <div className="font-medium">体重指数 (BMI)</div>
-                    <div className="text-amber-600">轻度超重，近期有改善</div>
+                    <div className="text-warning">轻度超重，近期有改善</div>
                   </div>
-                  <div className="h-10 bg-slate-100 rounded-md"></div>
+                  <div className="h-10 bg-medical-100 rounded-md"></div>
                 </div>
               </div>
             </CardContent>
@@ -204,7 +219,7 @@ export function TrendsAnalysis() {
               <CardDescription>详细的生命体征长期变化趋势</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <LineChart className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">生命体征趋势分析</h3>
@@ -224,7 +239,7 @@ export function TrendsAnalysis() {
               <CardDescription>详细的检验结果长期变化趋势</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <BarChart2 className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">检验结果趋势分析</h3>
@@ -244,7 +259,7 @@ export function TrendsAnalysis() {
               <CardDescription>不同健康指标之间的相关性分析</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[400px] flex items-center justify-center bg-slate-50 rounded-md border border-dashed">
+              <div className="h-[400px] flex items-center justify-center bg-medical-50 rounded-md border border-dashed">
                 <div className="text-center">
                   <PieChart className="h-16 w-16 text-medical-600 opacity-50 mx-auto mb-4" />
                   <h3 className="text-lg font-medium mb-2">相关性分析</h3>
@@ -258,5 +273,5 @@ export function TrendsAnalysis() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

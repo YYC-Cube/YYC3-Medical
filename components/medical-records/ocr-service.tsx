@@ -1,47 +1,47 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { AlertTriangle } from "lucide-react"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { AlertTriangle } from 'lucide-react';
 
 interface OcrServiceProps {
-  imageUrl?: string
-  prescriptionPath?: string
-  onComplete?: (result: any) => void
-  onCancel?: () => void
+  imageUrl?: string;
+  prescriptionPath?: string;
+  onComplete?: (result: any) => void;
+  onCancel?: () => void;
 }
 
 // 原始组件保持不变
 export function OcrService({ imageUrl, prescriptionPath, onComplete, onCancel }: OcrServiceProps) {
-  const [isProcessing, setIsProcessing] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleStartOcr = () => {
-    setIsProcessing(true)
+    setIsProcessing(true);
 
     // 模拟OCR处理
     setTimeout(() => {
       const mockResult = {
         patientInfo: {
-          name: "张三",
-          id: "P-10045",
+          name: '张三',
+          id: 'P-10045',
         },
         prescriptionInfo: {
-          date: "2024-01-01",
-          doctor: "李医生",
+          date: '2024-01-01',
+          doctor: '李医生',
         },
         medications: [
-          { name: "二甲双胍", dosage: "500mg", frequency: "每日三次", duration: "30天" },
-          { name: "阿托伐他汀", dosage: "20mg", frequency: "每晚一次", duration: "30天" },
+          { name: '二甲双胍', dosage: '500mg', frequency: '每日三次', duration: '30天' },
+          { name: '阿托伐他汀', dosage: '20mg', frequency: '每晚一次', duration: '30天' },
         ],
         warnings: [],
-        rawText: "模拟OCR文本",
-      }
-      onComplete?.(mockResult)
-      setIsProcessing(false)
-    }, 2000)
-  }
+        rawText: '模拟OCR文本',
+      };
+      onComplete?.(mockResult);
+      setIsProcessing(false);
+    }, 2000);
+  };
 
   return (
     <Card>
@@ -58,12 +58,12 @@ export function OcrService({ imageUrl, prescriptionPath, onComplete, onCancel }:
           <>
             {imageUrl ? (
               <img
-                src={imageUrl || "/placeholder.svg"}
+                src={imageUrl || '/placeholder.svg'}
                 alt="Prescription"
                 className="max-w-full max-h-80 mb-4 rounded-md"
               />
             ) : (
-              <AlertTriangle className="h-10 w-10 text-yellow-500 mb-4" />
+              <AlertTriangle className="h-10 w-10 text-warning mb-4" />
             )}
             <Button onClick={handleStartOcr} disabled={isProcessing}>
               开始识别
@@ -75,8 +75,8 @@ export function OcrService({ imageUrl, prescriptionPath, onComplete, onCancel }:
         )}
       </CardContent>
     </Card>
-  )
+  );
 }
 
 // 添加别名导出，以匹配所需的 OCRService 命名
-export const OCRService = OcrService
+export const OCRService = OcrService;

@@ -1,43 +1,43 @@
-"use client"
+'use client';
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { TasksList } from "@/components/admin/tasks/tasks-list"
-import { TaskScheduler } from "@/components/admin/tasks/task-scheduler"
-import { TaskHistory } from "@/components/admin/tasks/task-history"
-import { TaskMonitor } from "@/components/admin/tasks/task-monitor"
-import { Plus, RefreshCw } from "lucide-react"
-import { CreateTaskDialog } from "@/components/admin/tasks/create-task-dialog"
+import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { TasksList } from '@/components/admin/tasks/tasks-list';
+import { TaskScheduler } from '@/components/admin/tasks/task-scheduler';
+import { TaskHistory } from '@/components/admin/tasks/task-history';
+import { TaskMonitor } from '@/components/admin/tasks/task-monitor';
+import { Plus, RefreshCw } from 'lucide-react';
+import { CreateTaskDialog } from '@/components/admin/tasks/create-task-dialog';
 
 export default function TasksClient() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState("active")
-  const [showCreateDialog, setShowCreateDialog] = useState(false)
-  const [refreshTrigger, setRefreshTrigger] = useState(0)
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('active');
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     // 模拟数据加载
     const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+      setIsLoading(false);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [refreshTrigger])
+    return () => clearTimeout(timer);
+  }, [refreshTrigger]);
 
   const handleRefresh = () => {
-    setIsLoading(true)
-    setRefreshTrigger((prev) => prev + 1)
-  }
+    setIsLoading(true);
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   if (isLoading) {
     return (
       <div className="flex h-[400px] w-full items-center justify-center">
         <LoadingSpinner />
       </div>
-    )
+    );
   }
 
   return (
@@ -113,8 +113,12 @@ export default function TasksClient() {
       </TabsContent>
 
       {showCreateDialog && (
-        <CreateTaskDialog open={showCreateDialog} onOpenChange={setShowCreateDialog} onTaskCreated={handleRefresh} />
+        <CreateTaskDialog
+          open={showCreateDialog}
+          onOpenChange={setShowCreateDialog}
+          onTaskCreated={handleRefresh}
+        />
       )}
     </div>
-  )
+  );
 }

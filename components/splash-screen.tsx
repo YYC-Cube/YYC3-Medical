@@ -1,76 +1,80 @@
-"use client"
+'use client';
 
-import React, { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import { useIsMobile } from "@/hooks/use-mobile"
-import { WifiOff } from "lucide-react"
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { WifiOff } from 'lucide-react';
 
 interface SplashScreenProps {
-  onComplete?: () => void
-  duration?: number
-  isOffline?: boolean
+  onComplete?: () => void;
+  duration?: number;
+  isOffline?: boolean;
 }
 
-export function SplashScreen({ onComplete, duration = 3000, isOffline = false }: SplashScreenProps) {
-  const [isVisible, setIsVisible] = useState(true)
-  const isMobile = useIsMobile()
-  const [allowSkip, setAllowSkip] = useState(false)
-  const [progress, setProgress] = useState(0)
+export function SplashScreen({
+  onComplete,
+  duration = 3000,
+  isOffline = false,
+}: SplashScreenProps) {
+  const [isVisible, setIsVisible] = useState(true);
+  const isMobile = useIsMobile();
+  const [allowSkip, setAllowSkip] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   // 处理进度条动画
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((prev) => {
+      setProgress(prev => {
         // 离线状态下进度条最多到95%，表示无法完全加载
-        const maxProgress = isOffline ? 95 : 100
-        const newProgress = prev + (maxProgress - prev) * 0.05
-        return newProgress > maxProgress - 0.5 ? maxProgress : newProgress
-      })
-    }, 100)
+        const maxProgress = isOffline ? 95 : 100;
+        const newProgress = prev + (maxProgress - prev) * 0.05;
+        return newProgress > maxProgress - 0.5 ? maxProgress : newProgress;
+      });
+    }, 100);
 
-    return () => clearInterval(interval)
-  }, [isOffline])
+    return () => clearInterval(interval);
+  }, [isOffline]);
 
   // 允许跳过动画
   useEffect(() => {
     const timer = setTimeout(() => {
-      setAllowSkip(true)
-    }, 1000)
+      setAllowSkip(true);
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   // 处理动画完成
   useEffect(() => {
     // 离线状态下不自动完成，除非用户点击跳过
     if (!isOffline) {
       const timer = setTimeout(() => {
-        setIsVisible(false)
+        setIsVisible(false);
         if (onComplete) {
-          setTimeout(onComplete, 500) // 给退出动画一些时间
+          setTimeout(onComplete, 500); // 给退出动画一些时间
         }
-      }, duration)
+      }, duration);
 
-      return () => clearTimeout(timer)
+      return () => clearTimeout(timer);
     }
-  }, [duration, onComplete, isOffline])
+  }, [duration, onComplete, isOffline]);
 
   // 处理跳过动画
   const handleSkip = () => {
     if (allowSkip) {
-      setIsVisible(false)
+      setIsVisible(false);
       if (onComplete) {
-        setTimeout(onComplete, 300)
+        setTimeout(onComplete, 300);
       }
     }
-  }
+  };
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-blue-500 to-blue-700 overflow-hidden"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-medical-500 to-medical-700 overflow-hidden"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
@@ -79,7 +83,7 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
           {/* 离线状态指示器 */}
           {isOffline && (
             <motion.div
-              className="absolute top-4 right-4 flex items-center px-3 py-1.5 bg-red-500 rounded-full text-white text-sm"
+              className="absolute top-4 right-4 flex items-center px-3 py-1.5 bg-destructive rounded-full text-white text-sm"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
@@ -95,12 +99,12 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+              transition={{ duration: 0.8, type: 'spring', bounce: 0.4 }}
               className="relative mb-4 md:mb-8"
             >
               {/* 光晕效果 */}
               <motion.div
-                className="absolute inset-0 rounded-full bg-blue-400 blur-md md:blur-xl"
+                className="absolute inset-0 rounded-full bg-primary/60 blur-md md:blur-xl"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{
                   opacity: [0, 0.4, 0.2],
@@ -109,7 +113,7 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
                 transition={{
                   duration: isMobile ? 1.5 : 2,
                   repeat: Number.POSITIVE_INFINITY,
-                  repeatType: "reverse",
+                  repeatType: 'reverse',
                 }}
               />
 
@@ -122,7 +126,7 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
                 transition={{
                   duration: isMobile ? 2 : 3,
                   repeat: Number.POSITIVE_INFINITY,
-                  repeatType: "loop",
+                  repeatType: 'loop',
                 }}
               >
                 <Image
@@ -147,12 +151,12 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
               transition={{ delay: 0.5, duration: 0.8 }}
             >
               <motion.h1
-                className={`${isMobile ? "text-3xl" : "text-4xl"} font-bold mb-2`}
+                className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-bold mb-2`}
                 animate={{
                   textShadow: [
-                    "0 0 8px rgba(255,255,255,0.5)",
-                    "0 0 16px rgba(255,255,255,0.8)",
-                    "0 0 8px rgba(255,255,255,0.5)",
+                    '0 0 8px rgba(255,255,255,0.5)',
+                    '0 0 16px rgba(255,255,255,0.8)',
+                    '0 0 8px rgba(255,255,255,0.5)',
                   ],
                 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
@@ -160,12 +164,12 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
                 言语云<sup>3</sup>
               </motion.h1>
               <motion.p
-                className={`${isMobile ? "text-lg" : "text-xl"} opacity-90`}
+                className={`${isMobile ? 'text-lg' : 'text-xl'} opacity-90`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.9 }}
                 transition={{ delay: 0.8 }}
               >
-                {isOffline ? "离线模式 · 部分功能可用" : "智能医疗 · 云端守护"}
+                {isOffline ? '离线模式 · 部分功能可用' : '智能医疗 · 云端守护'}
               </motion.p>
             </motion.div>
 
@@ -179,11 +183,11 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
               <LoadingIndicator isMobile={isMobile} />
 
               {/* 进度条 */}
-              <div className="mt-4 w-full bg-blue-200 bg-opacity-30 rounded-full h-1.5 md:h-2">
+              <div className="mt-4 w-full bg-primary/20 bg-opacity-30 rounded-full h-1.5 md:h-2">
                 <motion.div
-                  className={`h-full rounded-full ${isOffline ? "bg-yellow-300" : "bg-white"}`}
+                  className={`h-full rounded-full ${isOffline ? 'bg-warning' : 'bg-white'}`}
                   style={{ width: `${progress}%` }}
-                  initial={{ width: "0%" }}
+                  initial={{ width: '0%' }}
                   animate={{ width: `${progress}%` }}
                   transition={{ duration: 0.3 }}
                 />
@@ -209,7 +213,7 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  点击屏幕{isOffline ? "进入离线模式" : "跳过"}
+                  点击屏幕{isOffline ? '进入离线模式' : '跳过'}
                 </motion.p>
               )}
             </motion.div>
@@ -235,13 +239,13 @@ export function SplashScreen({ onComplete, duration = 3000, isOffline = false }:
         </motion.div>
       )}
     </AnimatePresence>
-  )
+  );
 }
 
 // 粒子效果组件
 function Particles({ isMobile }: { isMobile: boolean }) {
   // 移动设备上减少粒子数量
-  const particleCount = isMobile ? 6 : 12
+  const particleCount = isMobile ? 6 : 12;
 
   // 预计算粒子随机参数(避免渲染期调用 Math.random 触发 purity 警告)
   const particles = React.useMemo(
@@ -258,15 +262,15 @@ function Particles({ isMobile }: { isMobile: boolean }) {
         leftPct: 50 + (Math.random() - 0.5) * (isMobile ? 15 : 20),
         topPct: 50 + (Math.random() - 0.5) * (isMobile ? 15 : 20),
       })),
-    [particleCount, isMobile],
-  )
+    [particleCount, isMobile]
+  );
 
   return (
     <div className="absolute inset-0 z-0">
       {particles.map((p, i) => (
         <motion.div
           key={i}
-          className={`absolute ${isMobile ? "w-1.5 h-1.5" : "w-2 h-2"} rounded-full bg-blue-200`}
+          className={`absolute ${isMobile ? 'w-1.5 h-1.5' : 'w-2 h-2'} rounded-full bg-primary/20`}
           initial={{
             x: 0,
             y: 0,
@@ -282,7 +286,7 @@ function Particles({ isMobile }: { isMobile: boolean }) {
             duration: p.duration,
             repeat: Number.POSITIVE_INFINITY,
             delay: p.delay,
-            repeatType: "loop",
+            repeatType: 'loop',
           }}
           style={{
             left: `${p.leftPct}%`,
@@ -291,7 +295,7 @@ function Particles({ isMobile }: { isMobile: boolean }) {
         />
       ))}
     </div>
-  )
+  );
 }
 
 // 加载指示器组件
@@ -301,17 +305,17 @@ function LoadingIndicator({ isMobile }: { isMobile: boolean }) {
       {[...Array(3)].map((_, i) => (
         <motion.div
           key={i}
-          className={`${isMobile ? "w-2 h-2" : "w-3 h-3"} bg-white rounded-full`}
+          className={`${isMobile ? 'w-2 h-2' : 'w-3 h-3'} bg-white rounded-full`}
           initial={{ opacity: 0.3 }}
           animate={{ opacity: [0.3, 1, 0.3] }}
           transition={{
             duration: isMobile ? 1 : 1.2,
             repeat: Number.POSITIVE_INFINITY,
             delay: i * 0.2,
-            repeatType: "loop",
+            repeatType: 'loop',
           }}
         />
       ))}
     </div>
-  )
+  );
 }

@@ -1,6 +1,6 @@
 interface UploadResult {
-  accuracy: number
-  recall: number
+  accuracy: number;
+  recall: number;
 }
 
 export default function ModelUploadResult({ result }: { result: UploadResult | null }) {

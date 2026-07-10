@@ -1,19 +1,19 @@
-"use client"
+'use client';
 
-import { Component, type ErrorInfo, type ReactNode } from "react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { AlertCircle, RefreshCw } from "lucide-react"
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { AlertCircle, RefreshCw } from 'lucide-react';
 
 interface Props {
-  children: ReactNode
-  fallback?: ReactNode
+  children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface State {
-  hasError: boolean
-  error: Error | null
-  errorInfo: ErrorInfo | null
+  hasError: boolean;
+  error: Error | null;
+  errorInfo: ErrorInfo | null;
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -21,21 +21,21 @@ export class ErrorBoundary extends Component<Props, State> {
     hasError: false,
     error: null,
     errorInfo: null,
-  }
+  };
 
   public static getDerivedStateFromError(error: Error): State {
     // 更新状态，下次渲染将显示回退UI
-    return { hasError: true, error, errorInfo: null }
+    return { hasError: true, error, errorInfo: null };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       error,
       errorInfo,
-    })
+    });
 
     // 可以在这里记录错误到错误报告服务
-    console.error("组件错误:", error, errorInfo)
+    console.error('组件错误:', error, errorInfo);
   }
 
   private handleReset = () => {
@@ -43,14 +43,14 @@ export class ErrorBoundary extends Component<Props, State> {
       hasError: false,
       error: null,
       errorInfo: null,
-    })
-  }
+    });
+  };
 
   public render() {
     if (this.state.hasError) {
       // 自定义回退UI
       if (this.props.fallback) {
-        return this.props.fallback
+        return this.props.fallback;
       }
 
       return (
@@ -60,7 +60,9 @@ export class ErrorBoundary extends Component<Props, State> {
           <AlertDescription>
             <div className="mt-2">
               <p className="text-sm">组件渲染时发生错误。</p>
-              {this.state.error && <p className="text-xs mt-1 font-mono">{this.state.error.toString()}</p>}
+              {this.state.error && (
+                <p className="text-xs mt-1 font-mono">{this.state.error.toString()}</p>
+              )}
             </div>
             <Button variant="outline" size="sm" className="mt-4" onClick={this.handleReset}>
               <RefreshCw className="mr-2 h-4 w-4" />
@@ -68,9 +70,9 @@ export class ErrorBoundary extends Component<Props, State> {
             </Button>
           </AlertDescription>
         </Alert>
-      )
+      );
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }

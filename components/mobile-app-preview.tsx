@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { Input } from "@/components/ui/input"
+import { Input } from '@/components/ui/input';
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Home,
   User,
@@ -21,17 +21,17 @@ import {
   ChevronLeft,
   MoreVertical,
   Send,
-} from "lucide-react"
+} from 'lucide-react';
 
 // 模拟移动应用界面
 export function MobileAppPreview() {
-  const [activeTab, setActiveTab] = useState("home")
-  const [activePage, setActivePage] = useState("dashboard")
+  const [activeTab, setActiveTab] = useState('home');
+  const [activePage, setActivePage] = useState('dashboard');
 
   // 模拟页面切换
   const navigateTo = (page: string) => {
-    setActivePage(page)
-  }
+    setActivePage(page);
+  };
 
   return (
     <Card className="shadow-md">
@@ -60,7 +60,7 @@ export function MobileAppPreview() {
 
               {/* 应用内容 */}
               <div className="h-[500px] overflow-y-auto">
-                {activePage === "dashboard" && (
+                {activePage === 'dashboard' && (
                   <div className="p-4">
                     <div className="flex justify-between items-center mb-4">
                       <div>
@@ -77,26 +77,31 @@ export function MobileAppPreview() {
                       </div>
                     </div>
 
-                    <div className="bg-emerald-50 rounded-xl p-4 mb-4">
+                    <div className="bg-success rounded-xl p-4 mb-4">
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="font-medium">健康状况</h3>
-                        <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => navigateTo("health")}>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          className="p-0 h-auto"
+                          onClick={() => navigateTo('health')}
+                        >
                           查看详情
                         </Button>
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         <div className="bg-white rounded-lg p-2 text-center">
-                          <Heart className="w-5 h-5 text-red-500 mx-auto mb-1" />
+                          <Heart className="w-5 h-5 text-destructive mx-auto mb-1" />
                           <div className="text-lg font-bold">78</div>
                           <div className="text-xs text-muted-foreground">心率</div>
                         </div>
                         <div className="bg-white rounded-lg p-2 text-center">
-                          <Activity className="w-5 h-5 text-blue-500 mx-auto mb-1" />
+                          <Activity className="w-5 h-5 text-primary mx-auto mb-1" />
                           <div className="text-lg font-bold">120/80</div>
                           <div className="text-xs text-muted-foreground">血压</div>
                         </div>
                         <div className="bg-white rounded-lg p-2 text-center">
-                          <Clock className="w-5 h-5 text-amber-500 mx-auto mb-1" />
+                          <Clock className="w-5 h-5 text-warning mx-auto mb-1" />
                           <div className="text-lg font-bold">6.5h</div>
                           <div className="text-xs text-muted-foreground">睡眠</div>
                         </div>
@@ -110,13 +115,13 @@ export function MobileAppPreview() {
                           variant="link"
                           size="sm"
                           className="p-0 h-auto"
-                          onClick={() => navigateTo("appointments")}
+                          onClick={() => navigateTo('appointments')}
                         >
                           全部预约
                         </Button>
                       </div>
                       <div className="space-y-2">
-                        <div className="bg-gray-50 rounded-lg p-3 border-l-4 border-emerald-500">
+                        <div className="bg-muted rounded-lg p-3 border-l-4 border-success">
                           <div className="flex justify-between items-center">
                             <div>
                               <div className="font-medium">心脏科复诊</div>
@@ -128,7 +133,7 @@ export function MobileAppPreview() {
                             </div>
                           </div>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-500">
+                        <div className="bg-muted rounded-lg p-3 border-l-4 border-primary">
                           <div className="flex justify-between items-center">
                             <div>
                               <div className="font-medium">常规体检</div>
@@ -146,34 +151,43 @@ export function MobileAppPreview() {
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h3 className="font-medium">最近诊断</h3>
-                        <Button variant="link" size="sm" className="p-0 h-auto" onClick={() => navigateTo("diagnoses")}>
+                        <Button
+                          variant="link"
+                          size="sm"
+                          className="p-0 h-auto"
+                          onClick={() => navigateTo('diagnoses')}
+                        >
                           查看全部
                         </Button>
                       </div>
                       <div className="space-y-2">
-                        <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="bg-muted rounded-lg p-3">
                           <div className="flex justify-between items-center">
                             <div className="font-medium">季节性过敏</div>
                             <Badge>轻度</Badge>
                           </div>
-                          <div className="text-sm text-muted-foreground mt-1">诊断日期: 2025-04-15</div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            诊断日期: 2025-04-15
+                          </div>
                         </div>
-                        <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="bg-muted rounded-lg p-3">
                           <div className="flex justify-between items-center">
                             <div className="font-medium">轻度高血压</div>
                             <Badge>需关注</Badge>
                           </div>
-                          <div className="text-sm text-muted-foreground mt-1">诊断日期: 2025-03-22</div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            诊断日期: 2025-03-22
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {activePage === "health" && (
+                {activePage === 'health' && (
                   <div className="p-4">
                     <div className="flex items-center mb-4">
-                      <Button variant="ghost" size="icon" onClick={() => navigateTo("dashboard")}>
+                      <Button variant="ghost" size="icon" onClick={() => navigateTo('dashboard')}>
                         <ChevronLeft className="w-5 h-5" />
                       </Button>
                       <h2 className="text-lg font-bold ml-2">健康状况详情</h2>
@@ -182,9 +196,9 @@ export function MobileAppPreview() {
                     <div className="space-y-4">
                       <div className="bg-white border rounded-xl p-4">
                         <h3 className="font-medium mb-2">心率</h3>
-                        <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="h-40 bg-muted rounded-lg flex items-center justify-center">
                           <div className="text-center">
-                            <div className="text-3xl font-bold text-red-500">78</div>
+                            <div className="text-3xl font-bold text-destructive">78</div>
                             <div className="text-sm text-muted-foreground">BPM</div>
                           </div>
                         </div>
@@ -195,9 +209,9 @@ export function MobileAppPreview() {
 
                       <div className="bg-white border rounded-xl p-4">
                         <h3 className="font-medium mb-2">血压</h3>
-                        <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="h-40 bg-muted rounded-lg flex items-center justify-center">
                           <div className="text-center">
-                            <div className="text-3xl font-bold text-blue-500">120/80</div>
+                            <div className="text-3xl font-bold text-primary">120/80</div>
                             <div className="text-sm text-muted-foreground">mmHg</div>
                           </div>
                         </div>
@@ -208,9 +222,9 @@ export function MobileAppPreview() {
 
                       <div className="bg-white border rounded-xl p-4">
                         <h3 className="font-medium mb-2">睡眠</h3>
-                        <div className="h-40 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div className="h-40 bg-muted rounded-lg flex items-center justify-center">
                           <div className="text-center">
-                            <div className="text-3xl font-bold text-amber-500">6.5h</div>
+                            <div className="text-3xl font-bold text-warning">6.5h</div>
                             <div className="text-sm text-muted-foreground">平均睡眠时间</div>
                           </div>
                         </div>
@@ -226,23 +240,43 @@ export function MobileAppPreview() {
               {/* 底部导航栏 */}
               <div className="border-t bg-white p-2">
                 <div className="flex justify-around">
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <Home className="w-5 h-5" />
                     <span className="text-xs mt-1">首页</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <Calendar className="w-5 h-5" />
                     <span className="text-xs mt-1">预约</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <MessageSquare className="w-5 h-5" />
                     <span className="text-xs mt-1">问诊</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <FileText className="w-5 h-5" />
                     <span className="text-xs mt-1">记录</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <User className="w-5 h-5" />
                     <span className="text-xs mt-1">我的</span>
                   </Button>
@@ -274,7 +308,7 @@ export function MobileAppPreview() {
                   </div>
 
                   <div className="flex gap-2 overflow-x-auto pb-2 mb-4">
-                    <Badge className="bg-emerald-500 px-3 py-1">全部</Badge>
+                    <Badge className="bg-success px-3 py-1">全部</Badge>
                     <Badge variant="outline" className="px-3 py-1">
                       诊断报告
                     </Badge>
@@ -291,12 +325,14 @@ export function MobileAppPreview() {
 
                   <div className="space-y-3">
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-emerald-50 p-3 border-l-4 border-emerald-500">
+                      <div className="bg-success p-3 border-l-4 border-success">
                         <div className="flex justify-between items-center">
                           <div className="font-medium">心脏检查报告</div>
                           <Badge>正常</Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">2025-04-15 · 王医生</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          2025-04-15 · 王医生
+                        </div>
                       </div>
                       <div className="p-3">
                         <p className="text-sm">
@@ -309,12 +345,14 @@ export function MobileAppPreview() {
                     </div>
 
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-blue-50 p-3 border-l-4 border-blue-500">
+                      <div className="bg-primary/5 p-3 border-l-4 border-primary">
                         <div className="flex justify-between items-center">
                           <div className="font-medium">常规体检报告</div>
                           <Badge>需关注</Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">2025-03-22 · 赵医生</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          2025-03-22 · 赵医生
+                        </div>
                       </div>
                       <div className="p-3">
                         <p className="text-sm">
@@ -327,12 +365,14 @@ export function MobileAppPreview() {
                     </div>
 
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-gray-50 p-3 border-l-4 border-gray-500">
+                      <div className="bg-muted p-3 border-l-4 border-border">
                         <div className="flex justify-between items-center">
                           <div className="font-medium">血液检查报告</div>
                           <Badge>正常</Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">2024-12-05 · 张医生</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          2024-12-05 · 张医生
+                        </div>
                       </div>
                       <div className="p-3">
                         <p className="text-sm">
@@ -345,12 +385,14 @@ export function MobileAppPreview() {
                     </div>
 
                     <div className="border rounded-lg overflow-hidden">
-                      <div className="bg-amber-50 p-3 border-l-4 border-amber-500">
+                      <div className="bg-warning p-3 border-l-4 border-warning">
                         <div className="flex justify-between items-center">
                           <div className="font-medium">过敏原检测报告</div>
                           <Badge>轻度</Badge>
                         </div>
-                        <div className="text-sm text-muted-foreground mt-1">2024-10-18 · 李医生</div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          2024-10-18 · 李医生
+                        </div>
                       </div>
                       <div className="p-3">
                         <p className="text-sm">
@@ -368,23 +410,43 @@ export function MobileAppPreview() {
               {/* 底部导航栏 */}
               <div className="border-t bg-white p-2">
                 <div className="flex justify-around">
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <Home className="w-5 h-5" />
                     <span className="text-xs mt-1">首页</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <Calendar className="w-5 h-5" />
                     <span className="text-xs mt-1">预约</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <MessageSquare className="w-5 h-5" />
                     <span className="text-xs mt-1">问诊</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <FileText className="w-5 h-5" />
                     <span className="text-xs mt-1">记录</span>
                   </Button>
-                  <Button variant="ghost" size="icon" className="flex flex-col items-center h-auto py-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex flex-col items-center h-auto py-1"
+                  >
                     <User className="w-5 h-5" />
                     <span className="text-xs mt-1">我的</span>
                   </Button>
@@ -421,19 +483,23 @@ export function MobileAppPreview() {
 
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                   <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
-                      <p className="text-sm">您好，我是您的AI医疗助手。请描述您的症状，我将协助您进行初步诊断。</p>
+                    <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-[80%]">
+                      <p className="text-sm">
+                        您好，我是您的AI医疗助手。请描述您的症状，我将协助您进行初步诊断。
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex justify-end">
-                    <div className="bg-emerald-500 text-white rounded-lg rounded-tr-none p-3 max-w-[80%]">
-                      <p className="text-sm">我最近总是感到头痛，尤其是在早上起床后，有时候还会伴随轻微的头晕。</p>
+                    <div className="bg-success text-white rounded-lg rounded-tr-none p-3 max-w-[80%]">
+                      <p className="text-sm">
+                        我最近总是感到头痛，尤其是在早上起床后，有时候还会伴随轻微的头晕。
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
+                    <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-[80%]">
                       <p className="text-sm">
                         了解了。请问您的头痛是持续性的还是间歇性的？疼痛是在头部的哪个位置？是否有其他症状如恶心、视力模糊等？
                       </p>
@@ -441,7 +507,7 @@ export function MobileAppPreview() {
                   </div>
 
                   <div className="flex justify-end">
-                    <div className="bg-emerald-500 text-white rounded-lg rounded-tr-none p-3 max-w-[80%]">
+                    <div className="bg-success text-white rounded-lg rounded-tr-none p-3 max-w-[80%]">
                       <p className="text-sm">
                         头痛是间歇性的，通常在太阳穴附近，有时候会持续几个小时。没有恶心，但有时候会感到疲劳。
                       </p>
@@ -449,7 +515,7 @@ export function MobileAppPreview() {
                   </div>
 
                   <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
+                    <div className="bg-muted rounded-lg rounded-tl-none p-3 max-w-[80%]">
                       <p className="text-sm">
                         根据您描述的症状，您可能是患有紧张性头痛。这种头痛通常与压力、焦虑或姿势不良有关。我建议您：
                       </p>
@@ -459,7 +525,9 @@ export function MobileAppPreview() {
                         <li>保持良好的姿势，特别是长时间使用电脑时</li>
                         <li>适当饮水，避免脱水</li>
                       </ul>
-                      <p className="text-sm mt-2">如果症状持续或加重，建议您预约医生进行面诊。您需要我帮您预约吗？</p>
+                      <p className="text-sm mt-2">
+                        如果症状持续或加重，建议您预约医生进行面诊。您需要我帮您预约吗？
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -481,5 +549,5 @@ export function MobileAppPreview() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

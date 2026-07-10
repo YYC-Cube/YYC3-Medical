@@ -1,31 +1,31 @@
-"use client"
+'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Plus, Calendar, Users, Target } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { Plus, Calendar, Users, Target } from 'lucide-react';
 
 const mockExperiments = [
   {
-    id: "EXP001",
-    title: "新药临床试验",
-    status: "进行中",
+    id: 'EXP001',
+    title: '新药临床试验',
+    status: '进行中',
     progress: 65,
     participants: 120,
-    startDate: "2024-01-01",
-    endDate: "2024-06-30",
+    startDate: '2024-01-01',
+    endDate: '2024-06-30',
   },
   {
-    id: "EXP002",
-    title: "基因治疗研究",
-    status: "设计中",
+    id: 'EXP002',
+    title: '基因治疗研究',
+    status: '设计中',
     progress: 25,
     participants: 0,
-    startDate: "2024-03-01",
-    endDate: "2024-12-31",
+    startDate: '2024-03-01',
+    endDate: '2024-12-31',
   },
-]
+];
 
 export function ExperimentDesignClient() {
   return (
@@ -42,7 +42,7 @@ export function ExperimentDesignClient() {
       </div>
 
       <div className="grid gap-6">
-        {mockExperiments.map((experiment) => (
+        {mockExperiments.map(experiment => (
           <Card key={experiment.id}>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -50,7 +50,9 @@ export function ExperimentDesignClient() {
                   <CardTitle>{experiment.title}</CardTitle>
                   <CardDescription>实验ID: {experiment.id}</CardDescription>
                 </div>
-                <Badge variant={experiment.status === "进行中" ? "default" : "secondary"}>{experiment.status}</Badge>
+                <Badge variant={experiment.status === '进行中' ? 'default' : 'secondary'}>
+                  {experiment.status}
+                </Badge>
               </div>
             </CardHeader>
             <CardContent>
@@ -83,5 +85,5 @@ export function ExperimentDesignClient() {
         ))}
       </div>
     </div>
-  )
+  );
 }

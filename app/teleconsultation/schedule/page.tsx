@@ -1,7 +1,7 @@
-import { Suspense } from "react"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-import { ErrorBoundary } from "@/components/error-boundary"
-import ScheduleClient from "@/components/teleconsultation/schedule-client"
+import { Suspense } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ErrorBoundary } from '@/components/error-boundary';
+import ScheduleClient from '@/components/teleconsultation/schedule-client';
 
 export default function SchedulePage() {
   return (
@@ -14,5 +14,5 @@ export default function SchedulePage() {
         </Suspense>
       </ErrorBoundary>
     </div>
-  )
+  );
 }

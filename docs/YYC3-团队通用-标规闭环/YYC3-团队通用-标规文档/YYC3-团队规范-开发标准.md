@@ -357,13 +357,7 @@ git commit -m "docs: v2.0.0 重组文档结构"
  * notes: 需要在 App 根组件包裹 I18nProvider
  */
 
-import {
-  useState,
-  useCallback,
-  useMemo,
-  createContext,
-  useContext,
-} from "react";
+import { useState, useCallback, useMemo, createContext, useContext } from 'react';
 ```
 
 ### 2.5 CSS/SCSS 文件标头
@@ -678,35 +672,33 @@ yyc3-{project-name}/
 ### 5.1 标头规范检查脚本
 
 ```javascript
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
 const REQUIRED_FIELDS = [
-  "file",
-  "description",
-  "author",
-  "version",
-  "created",
-  "updated",
-  "status",
-  "tags",
+  'file',
+  'description',
+  'author',
+  'version',
+  'created',
+  'updated',
+  'status',
+  'tags',
 ];
 
 function checkFile(filePath) {
-  const content = fs.readFileSync(filePath, "utf-8");
-  const lines = content.split("\n");
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const lines = content.split('\n');
 
-  if (!lines[0].includes("/**") && !lines[0].includes("---")) {
-    return { valid: false, error: "Missing header" };
+  if (!lines[0].includes('/**') && !lines[0].includes('---')) {
+    return { valid: false, error: 'Missing header' };
   }
 
-  const missingFields = REQUIRED_FIELDS.filter(
-    (field) => !content.includes(field),
-  );
+  const missingFields = REQUIRED_FIELDS.filter(field => !content.includes(field));
   if (missingFields.length > 0) {
     return {
       valid: false,
-      error: `Missing fields: ${missingFields.join(", ")}`,
+      error: `Missing fields: ${missingFields.join(', ')}`,
     };
   }
 
@@ -719,7 +711,7 @@ function checkDirectory(dir) {
   let invalidCount = 0;
   const invalidFiles = [];
 
-  files.forEach((file) => {
+  files.forEach(file => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
 
@@ -742,14 +734,14 @@ function checkDirectory(dir) {
 
   console.log(`Valid: ${validCount}, Invalid: ${invalidCount}`);
   if (invalidFiles.length > 0) {
-    console.log("Invalid files:");
+    console.log('Invalid files:');
     invalidFiles.forEach(({ file, error }) => {
       console.log(`  - ${file}: ${error}`);
     });
   }
 }
 
-checkDirectory("./src");
+checkDirectory('./src');
 ```
 
 ### 5.2 ESLint 规则集成
@@ -757,14 +749,14 @@ checkDirectory("./src");
 ```javascript
 module.exports = {
   rules: {
-    "header/header": [
-      "error",
-      "block",
+    'header/header': [
+      'error',
+      'block',
       [
-        "*",
+        '*',
         {
           pattern:
-            " file: .+\\n description: .+\\n author: .+\\n version: .+\\n created: .+\\n updated: .+\\n status: .+\\n tags: .+",
+            ' file: .+\\n description: .+\\n author: .+\\n version: .+\\n created: .+\\n updated: .+\\n status: .+\\n tags: .+',
           template: `/**
  * file: FILENAME
  * description: DESCRIPTION

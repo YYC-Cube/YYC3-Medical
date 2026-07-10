@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -9,134 +9,149 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Edit, Plus, Settings, Trash2 } from "lucide-react"
-import { useState } from "react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Edit, Plus, Settings, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 type NotificationChannel = {
-  id: number
-  name: string
-  type: string
-  config: Record<string, string | number>
-  active: boolean
-}
+  id: number;
+  name: string;
+  type: string;
+  config: Record<string, string | number>;
+  active: boolean;
+};
 
 // 模拟通知渠道数据
 const initialChannels: NotificationChannel[] = [
   {
     id: 1,
-    name: "系统邮件服务",
-    type: "email",
+    name: '系统邮件服务',
+    type: 'email',
     config: {
-      host: "smtp.example.com",
+      host: 'smtp.example.com',
       port: 587,
-      username: "notifications@example.com",
-      password: "********",
-      from: "YanYu MediNexus <notifications@example.com>",
+      username: 'notifications@example.com',
+      password: '********',
+      from: 'YanYu MediNexus <notifications@example.com>',
     },
     active: true,
   },
   {
     id: 2,
-    name: "短信服务",
-    type: "sms",
+    name: '短信服务',
+    type: 'sms',
     config: {
-      provider: "阿里云",
-      accessKey: "<ALIYUN_ACCESS_KEY>",
-      secretKey: "********",
-      signName: "言语医枢",
+      provider: '阿里云',
+      accessKey: '<ALIYUN_ACCESS_KEY>',
+      secretKey: '********',
+      signName: '言语医枢',
     },
     active: true,
   },
   {
     id: 3,
-    name: "移动应用推送",
-    type: "push",
+    name: '移动应用推送',
+    type: 'push',
     config: {
-      provider: "极光推送",
-      appKey: "<JIGUANG_APP_KEY>",
-      masterSecret: "********",
+      provider: '极光推送',
+      appKey: '<JIGUANG_APP_KEY>',
+      masterSecret: '********',
     },
     active: true,
   },
   {
     id: 4,
-    name: "备用邮件服务",
-    type: "email",
+    name: '备用邮件服务',
+    type: 'email',
     config: {
-      host: "smtp.backup.com",
+      host: 'smtp.backup.com',
       port: 465,
-      username: "backup@example.com",
-      password: "********",
-      from: "YanYu MediNexus <backup@example.com>",
+      username: 'backup@example.com',
+      password: '********',
+      from: 'YanYu MediNexus <backup@example.com>',
     },
     active: false,
   },
-]
+];
 
 export function NotificationChannels() {
-  const [channels, setChannels] = useState(initialChannels)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [currentChannel, setCurrentChannel] = useState<NotificationChannel | null>(null)
-  const [isEditing, setIsEditing] = useState(false)
-  const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false)
+  const [channels, setChannels] = useState(initialChannels);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentChannel, setCurrentChannel] = useState<NotificationChannel | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isConfigDialogOpen, setIsConfigDialogOpen] = useState(false);
 
   const handleToggleActive = (id: number) => {
-    setChannels(channels.map((channel) => (channel.id === id ? { ...channel, active: !channel.active } : channel)))
-  }
+    setChannels(
+      channels.map(channel =>
+        channel.id === id ? { ...channel, active: !channel.active } : channel
+      )
+    );
+  };
 
   const handleAddChannel = () => {
     setCurrentChannel({
       id: channels.length + 1,
-      name: "",
-      type: "email",
+      name: '',
+      type: 'email',
       config: {},
       active: true,
-    })
-    setIsEditing(false)
-    setIsDialogOpen(true)
-  }
+    });
+    setIsEditing(false);
+    setIsDialogOpen(true);
+  };
 
   const handleEditChannel = (channel: NotificationChannel) => {
-    setCurrentChannel(channel)
-    setIsEditing(true)
-    setIsDialogOpen(true)
-  }
+    setCurrentChannel(channel);
+    setIsEditing(true);
+    setIsDialogOpen(true);
+  };
 
   const handleDeleteChannel = (id: number) => {
-    setChannels(channels.filter((channel) => channel.id !== id))
-  }
+    setChannels(channels.filter(channel => channel.id !== id));
+  };
 
   const handleSaveChannel = () => {
-    if (!currentChannel) return
+    if (!currentChannel) return;
     if (isEditing) {
-      setChannels(channels.map((channel) => (channel.id === currentChannel.id ? currentChannel : channel)))
+      setChannels(
+        channels.map(channel => (channel.id === currentChannel.id ? currentChannel : channel))
+      );
     } else {
-      setChannels([...channels, currentChannel])
+      setChannels([...channels, currentChannel]);
     }
-    setIsDialogOpen(false)
-  }
+    setIsDialogOpen(false);
+  };
 
   const handleConfigureChannel = (channel: NotificationChannel) => {
-    setCurrentChannel(channel)
-    setIsConfigDialogOpen(true)
-  }
+    setCurrentChannel(channel);
+    setIsConfigDialogOpen(true);
+  };
 
   const handleSaveConfig = () => {
-    if (!currentChannel) return
-    setChannels(channels.map((channel) => (channel.id === currentChannel.id ? currentChannel : channel)))
-    setIsConfigDialogOpen(false)
-  }
+    if (!currentChannel) return;
+    setChannels(
+      channels.map(channel => (channel.id === currentChannel.id ? currentChannel : channel))
+    );
+    setIsConfigDialogOpen(false);
+  };
 
   const renderConfigFields = () => {
-    if (!currentChannel) return null
+    if (!currentChannel) return null;
 
     switch (currentChannel.type) {
-      case "email":
+      case 'email':
         return (
           <>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -145,8 +160,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="host"
-                value={currentChannel.config.host || ""}
-                onChange={(e) =>
+                value={currentChannel.config.host || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -165,8 +180,8 @@ export function NotificationChannels() {
               <Input
                 id="port"
                 type="number"
-                value={currentChannel.config.port || ""}
-                onChange={(e) =>
+                value={currentChannel.config.port || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -184,8 +199,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="username"
-                value={currentChannel.config.username || ""}
-                onChange={(e) =>
+                value={currentChannel.config.username || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -204,8 +219,8 @@ export function NotificationChannels() {
               <Input
                 id="password"
                 type="password"
-                value={currentChannel.config.password || ""}
-                onChange={(e) =>
+                value={currentChannel.config.password || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -223,8 +238,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="from"
-                value={currentChannel.config.from || ""}
-                onChange={(e) =>
+                value={currentChannel.config.from || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -237,8 +252,8 @@ export function NotificationChannels() {
               />
             </div>
           </>
-        )
-      case "sms":
+        );
+      case 'sms':
         return (
           <>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -247,8 +262,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="provider"
-                value={currentChannel.config.provider || ""}
-                onChange={(e) =>
+                value={currentChannel.config.provider || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -266,8 +281,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="accessKey"
-                value={currentChannel.config.accessKey || ""}
-                onChange={(e) =>
+                value={currentChannel.config.accessKey || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -286,8 +301,8 @@ export function NotificationChannels() {
               <Input
                 id="secretKey"
                 type="password"
-                value={currentChannel.config.secretKey || ""}
-                onChange={(e) =>
+                value={currentChannel.config.secretKey || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -305,8 +320,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="signName"
-                value={currentChannel.config.signName || ""}
-                onChange={(e) =>
+                value={currentChannel.config.signName || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -319,8 +334,8 @@ export function NotificationChannels() {
               />
             </div>
           </>
-        )
-      case "push":
+        );
+      case 'push':
         return (
           <>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -329,8 +344,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="provider"
-                value={currentChannel.config.provider || ""}
-                onChange={(e) =>
+                value={currentChannel.config.provider || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -348,8 +363,8 @@ export function NotificationChannels() {
               </Label>
               <Input
                 id="appKey"
-                value={currentChannel.config.appKey || ""}
-                onChange={(e) =>
+                value={currentChannel.config.appKey || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -368,8 +383,8 @@ export function NotificationChannels() {
               <Input
                 id="masterSecret"
                 type="password"
-                value={currentChannel.config.masterSecret || ""}
-                onChange={(e) =>
+                value={currentChannel.config.masterSecret || ''}
+                onChange={e =>
                   setCurrentChannel({
                     ...currentChannel,
                     config: {
@@ -382,11 +397,11 @@ export function NotificationChannels() {
               />
             </div>
           </>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
 
   return (
     <Card>
@@ -411,22 +426,35 @@ export function NotificationChannels() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {channels.map((channel) => (
+            {channels.map(channel => (
               <TableRow key={channel.id}>
                 <TableCell className="font-medium">{channel.name}</TableCell>
-                <TableCell>{channel.type === "email" ? "邮件" : channel.type === "sms" ? "短信" : "推送"}</TableCell>
                 <TableCell>
-                  <Switch checked={channel.active} onCheckedChange={() => handleToggleActive(channel.id)} />
+                  {channel.type === 'email' ? '邮件' : channel.type === 'sms' ? '短信' : '推送'}
+                </TableCell>
+                <TableCell>
+                  <Switch
+                    checked={channel.active}
+                    onCheckedChange={() => handleToggleActive(channel.id)}
+                  />
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleConfigureChannel(channel)}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleConfigureChannel(channel)}
+                    >
                       <Settings className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => handleEditChannel(channel)}>
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDeleteChannel(channel.id)}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDeleteChannel(channel.id)}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -439,7 +467,7 @@ export function NotificationChannels() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
-              <DialogTitle>{isEditing ? "编辑通知渠道" : "添加通知渠道"}</DialogTitle>
+              <DialogTitle>{isEditing ? '编辑通知渠道' : '添加通知渠道'}</DialogTitle>
               <DialogDescription>配置通知渠道的基本信息</DialogDescription>
             </DialogHeader>
             {currentChannel && (
@@ -451,7 +479,7 @@ export function NotificationChannels() {
                   <Input
                     id="name"
                     value={currentChannel.name}
-                    onChange={(e) => setCurrentChannel({ ...currentChannel, name: e.target.value })}
+                    onChange={e => setCurrentChannel({ ...currentChannel, name: e.target.value })}
                     className="col-span-3"
                   />
                 </div>
@@ -462,7 +490,7 @@ export function NotificationChannels() {
                   <select
                     id="type"
                     value={currentChannel.type}
-                    onChange={(e) => setCurrentChannel({ ...currentChannel, type: e.target.value })}
+                    onChange={e => setCurrentChannel({ ...currentChannel, type: e.target.value })}
                     className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <option value="email">邮件</option>
@@ -478,9 +506,11 @@ export function NotificationChannels() {
                     <Switch
                       id="active"
                       checked={currentChannel.active}
-                      onCheckedChange={(checked) => setCurrentChannel({ ...currentChannel, active: checked })}
+                      onCheckedChange={checked =>
+                        setCurrentChannel({ ...currentChannel, active: checked })
+                      }
                     />
-                    <Label htmlFor="active">{currentChannel.active ? "已启用" : "已禁用"}</Label>
+                    <Label htmlFor="active">{currentChannel.active ? '已启用' : '已禁用'}</Label>
                   </div>
                 </div>
               </div>
@@ -511,5 +541,5 @@ export function NotificationChannels() {
         </Dialog>
       </CardContent>
     </Card>
-  )
+  );
 }

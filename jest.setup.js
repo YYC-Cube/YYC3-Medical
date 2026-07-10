@@ -1,6 +1,12 @@
 // Polyfill for TextEncoder in Node.js
 global.TextEncoder = require('util').TextEncoder;
 
+// 演示模式环境变量 — 测试环境默认启用
+process.env.NEXT_PUBLIC_DEMO_MODE = 'true';
+process.env.NEXT_PUBLIC_DEMO_ADMIN_PWD = 'admin123';
+process.env.NEXT_PUBLIC_DEMO_DOCTOR_PWD = 'doctor123';
+process.env.NEXT_PUBLIC_DEMO_NURSE_PWD = 'nurse123';
+
 import '@testing-library/jest-dom';
 // jest is already mocked below, no need to require it again
 
@@ -50,7 +56,6 @@ jest.mock('next/navigation', () => ({
 jest.mock('next/image', () => ({
   __esModule: true,
   default: props => {
-     
     return <img {...props} />;
   },
 }));

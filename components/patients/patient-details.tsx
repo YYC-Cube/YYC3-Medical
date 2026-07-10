@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Activity,
   Calendar,
@@ -17,181 +17,221 @@ import {
   MapPin,
   AlertCircle,
   Plus,
-} from "lucide-react"
-import { MedicalButton } from "@/components/ui/medical-button"
-import { BarChart, LineChart } from "@/components/ui/chart"
-import { ResponsiveMedicalCard } from "@/components/ui/responsive-medical-card"
+} from 'lucide-react';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { BarChart, LineChart } from '@/components/ui/chart';
+import { ResponsiveMedicalCard } from '@/components/ui/responsive-medical-card';
 
 // 患者基本数据类型
 type Patient = {
-  id: string
-  name: string
-  age: number
-  gender: string
-  phone: string
-  email: string
-  address: string
-  diagnosis: string
-  bloodType: string
-  height: number
-  weight: number
-  allergies: string[]
-  chronicConditions: string[]
-  insuranceProvider: string
-  insuranceNumber: string
-  emergencyContact: string
-  emergencyPhone: string
-}
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  phone: string;
+  email: string;
+  address: string;
+  diagnosis: string;
+  bloodType: string;
+  height: number;
+  weight: number;
+  allergies: string[];
+  chronicConditions: string[];
+  insuranceProvider: string;
+  insuranceNumber: string;
+  emergencyContact: string;
+  emergencyPhone: string;
+};
 
 // 模拟患者数据
 const patientData: Record<string, Patient> = {
-  "P-20240428-001": {
-    id: "P-20240428-001",
-    name: "张伟",
+  'P-20240428-001': {
+    id: 'P-20240428-001',
+    name: '张伟',
     age: 45,
-    gender: "男",
-    phone: "13812341234",
-    email: "zhangwei@example.com",
-    address: "北京市海淀区中关村南路10号",
-    diagnosis: "高血压，2型糖尿病",
-    bloodType: "A型",
+    gender: '男',
+    phone: '13812341234',
+    email: 'zhangwei@example.com',
+    address: '北京市海淀区中关村南路10号',
+    diagnosis: '高血压，2型糖尿病',
+    bloodType: 'A型',
     height: 175,
     weight: 78,
-    allergies: ["青霉素", "海鲜"],
-    chronicConditions: ["高血压", "2型糖尿病"],
-    insuranceProvider: "中国人民健康保险",
-    insuranceNumber: "HEALTH-20240001",
-    emergencyContact: "张丽（妻子）",
-    emergencyPhone: "13987654321",
+    allergies: ['青霉素', '海鲜'],
+    chronicConditions: ['高血压', '2型糖尿病'],
+    insuranceProvider: '中国人民健康保险',
+    insuranceNumber: 'HEALTH-20240001',
+    emergencyContact: '张丽（妻子）',
+    emergencyPhone: '13987654321',
   },
-  "P-20240427-015": {
-    id: "P-20240427-015",
-    name: "李敏",
+  'P-20240427-015': {
+    id: 'P-20240427-015',
+    name: '李敏',
     age: 32,
-    gender: "女",
-    phone: "13956785678",
-    email: "limin@example.com",
-    address: "上海市浦东新区陆家嘴环路1000号",
-    diagnosis: "甲状腺功能亢进",
-    bloodType: "O型",
+    gender: '女',
+    phone: '13956785678',
+    email: 'limin@example.com',
+    address: '上海市浦东新区陆家嘴环路1000号',
+    diagnosis: '甲状腺功能亢进',
+    bloodType: 'O型',
     height: 165,
     weight: 52,
-    allergies: ["磺胺类药物"],
-    chronicConditions: ["甲状腺功能亢进"],
-    insuranceProvider: "平安健康保险",
-    insuranceNumber: "PINGAN-20240056",
-    emergencyContact: "李强（丈夫）",
-    emergencyPhone: "13765432109",
+    allergies: ['磺胺类药物'],
+    chronicConditions: ['甲状腺功能亢进'],
+    insuranceProvider: '平安健康保险',
+    insuranceNumber: 'PINGAN-20240056',
+    emergencyContact: '李强（丈夫）',
+    emergencyPhone: '13765432109',
   },
-  "P-20240426-042": {
-    id: "P-20240426-042",
-    name: "王强",
+  'P-20240426-042': {
+    id: 'P-20240426-042',
+    name: '王强',
     age: 62,
-    gender: "男",
-    phone: "13790129012",
-    email: "wangqiang@example.com",
-    address: "广州市天河区天河路385号",
-    diagnosis: "冠心病，心律失常",
-    bloodType: "B型",
+    gender: '男',
+    phone: '13790129012',
+    email: 'wangqiang@example.com',
+    address: '广州市天河区天河路385号',
+    diagnosis: '冠心病，心律失常',
+    bloodType: 'B型',
     height: 170,
     weight: 75,
-    allergies: ["阿司匹林"],
-    chronicConditions: ["冠心病", "心律失常", "高血压"],
-    insuranceProvider: "太平洋健康保险",
-    insuranceNumber: "CPIC-20231245",
-    emergencyContact: "王明（儿子）",
-    emergencyPhone: "13876543210",
+    allergies: ['阿司匹林'],
+    chronicConditions: ['冠心病', '心律失常', '高血压'],
+    insuranceProvider: '太平洋健康保险',
+    insuranceNumber: 'CPIC-20231245',
+    emergencyContact: '王明（儿子）',
+    emergencyPhone: '13876543210',
   },
-}
+};
 
 // 模拟生命体征数据
 const vitalSigns = [
-  { date: "2024-04-28", systolic: 142, diastolic: 92, pulse: 72, temperature: 36.7, respiration: 16, oxygen: 97 },
-  { date: "2024-04-21", systolic: 138, diastolic: 88, pulse: 74, temperature: 36.5, respiration: 16, oxygen: 98 },
-  { date: "2024-04-14", systolic: 145, diastolic: 95, pulse: 76, temperature: 36.8, respiration: 18, oxygen: 96 },
-  { date: "2024-04-07", systolic: 140, diastolic: 90, pulse: 70, temperature: 36.6, respiration: 16, oxygen: 97 },
-  { date: "2024-03-31", systolic: 136, diastolic: 86, pulse: 68, temperature: 36.5, respiration: 15, oxygen: 98 },
-]
+  {
+    date: '2024-04-28',
+    systolic: 142,
+    diastolic: 92,
+    pulse: 72,
+    temperature: 36.7,
+    respiration: 16,
+    oxygen: 97,
+  },
+  {
+    date: '2024-04-21',
+    systolic: 138,
+    diastolic: 88,
+    pulse: 74,
+    temperature: 36.5,
+    respiration: 16,
+    oxygen: 98,
+  },
+  {
+    date: '2024-04-14',
+    systolic: 145,
+    diastolic: 95,
+    pulse: 76,
+    temperature: 36.8,
+    respiration: 18,
+    oxygen: 96,
+  },
+  {
+    date: '2024-04-07',
+    systolic: 140,
+    diastolic: 90,
+    pulse: 70,
+    temperature: 36.6,
+    respiration: 16,
+    oxygen: 97,
+  },
+  {
+    date: '2024-03-31',
+    systolic: 136,
+    diastolic: 86,
+    pulse: 68,
+    temperature: 36.5,
+    respiration: 15,
+    oxygen: 98,
+  },
+];
 
 // 模拟就诊历史
 const visitHistory = [
   {
-    id: "V20240428",
-    date: "2024-04-28",
-    doctor: "李医生",
-    department: "心内科",
-    chiefComplaint: "胸闷、气短",
-    diagnosis: "冠心病急性发作",
-    treatment: "硝酸甘油舌下含服，阿司匹林肠溶片",
-    followUp: "1周后复诊",
+    id: 'V20240428',
+    date: '2024-04-28',
+    doctor: '李医生',
+    department: '心内科',
+    chiefComplaint: '胸闷、气短',
+    diagnosis: '冠心病急性发作',
+    treatment: '硝酸甘油舌下含服，阿司匹林肠溶片',
+    followUp: '1周后复诊',
   },
   {
-    id: "V20240405",
-    date: "2024-04-05",
-    doctor: "王医生",
-    department: "心内科",
-    chiefComplaint: "定期检查",
-    diagnosis: "冠心病，心律失常",
-    treatment: "继续服用倍他乐克、阿司匹林肠溶片",
-    followUp: "2周后复诊",
+    id: 'V20240405',
+    date: '2024-04-05',
+    doctor: '王医生',
+    department: '心内科',
+    chiefComplaint: '定期检查',
+    diagnosis: '冠心病，心律失常',
+    treatment: '继续服用倍他乐克、阿司匹林肠溶片',
+    followUp: '2周后复诊',
   },
   {
-    id: "V20240315",
-    date: "2024-03-15",
-    doctor: "赵医生",
-    department: "心内科",
-    chiefComplaint: "心悸、胸闷",
-    diagnosis: "心律失常加重",
-    treatment: "调整倍他乐克剂量，增加胺碘酮",
-    followUp: "3周后复诊",
+    id: 'V20240315',
+    date: '2024-03-15',
+    doctor: '赵医生',
+    department: '心内科',
+    chiefComplaint: '心悸、胸闷',
+    diagnosis: '心律失常加重',
+    treatment: '调整倍他乐克剂量，增加胺碘酮',
+    followUp: '3周后复诊',
   },
-]
+];
 
 // 模拟用药��录
 const medications = [
   {
-    id: "M001",
-    name: "硝酸甘油片",
-    dose: "0.5mg",
-    frequency: "舌下含服，疼痛时使用",
-    startDate: "2024-04-28",
-    endDate: "长期",
-    prescribedBy: "李医生",
+    id: 'M001',
+    name: '硝酸甘油片',
+    dose: '0.5mg',
+    frequency: '舌下含服，疼痛时使用',
+    startDate: '2024-04-28',
+    endDate: '长期',
+    prescribedBy: '李医生',
   },
   {
-    id: "M002",
-    name: "阿司匹林肠溶片",
-    dose: "100mg",
-    frequency: "每日1次",
-    startDate: "2024-01-15",
-    endDate: "长期",
-    prescribedBy: "王医生",
+    id: 'M002',
+    name: '阿司匹林肠溶片',
+    dose: '100mg',
+    frequency: '每日1次',
+    startDate: '2024-01-15',
+    endDate: '长期',
+    prescribedBy: '王医生',
   },
   {
-    id: "M003",
-    name: "倍他乐克",
-    dose: "50mg",
-    frequency: "每日2次",
-    startDate: "2023-12-10",
-    endDate: "长期",
-    prescribedBy: "赵医生",
+    id: 'M003',
+    name: '倍他乐克',
+    dose: '50mg',
+    frequency: '每日2次',
+    startDate: '2023-12-10',
+    endDate: '长期',
+    prescribedBy: '赵医生',
   },
   {
-    id: "M004",
-    name: "胺碘酮",
-    dose: "200mg",
-    frequency: "每日1次",
-    startDate: "2024-03-15",
-    endDate: "2024-06-15",
-    prescribedBy: "赵医生",
+    id: 'M004',
+    name: '胺碘酮',
+    dose: '200mg',
+    frequency: '每日1次',
+    startDate: '2024-03-15',
+    endDate: '2024-06-15',
+    prescribedBy: '赵医生',
   },
-]
+];
 
 export function PatientDetails({ patientId }: { patientId: string }) {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview');
 
   // 尝试获取患者数据，如果不存在则使用默认数据
-  const patient = patientData[patientId] || patientData["P-20240428-001"]
+  const patient = patientData[patientId] || patientData['P-20240428-001'];
 
   return (
     <div className="space-y-6">
@@ -248,7 +288,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 </div>
                 <div className="flex items-center col-span-2">
                   <span className="text-medical-600">BMI:</span>
-                  <span className="ml-1 font-medium">{(patient.weight / (patient.height / 100) ** 2).toFixed(1)}</span>
+                  <span className="ml-1 font-medium">
+                    {(patient.weight / (patient.height / 100) ** 2).toFixed(1)}
+                  </span>
                 </div>
               </div>
 
@@ -269,7 +311,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 {patient.allergies.map((allergy, index) => (
                   <span
                     key={index}
-                    className="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded-full flex items-center"
+                    className="px-2 py-1 text-xs font-medium bg-destructive text-destructive rounded-full flex items-center"
                   >
                     <AlertCircle className="h-3 w-3 mr-1" />
                     {allergy}
@@ -345,23 +387,23 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 <CardDescription>最近5次检测数据</CardDescription>
               </CardHeader>
               <CardContent className="h-80">
-                { }
+                {}
                 <LineChart
                   {...({
                     data: vitalSigns,
                     categories: [
                       {
-                        name: "收缩压",
-                        key: "systolic",
-                        stroke: "#ef4444",
+                        name: '收缩压',
+                        key: 'systolic',
+                        stroke: 'var(--destructive)',
                       },
                       {
-                        name: "舒张压",
-                        key: "diastolic",
-                        stroke: "#3b82f6",
+                        name: '舒张压',
+                        key: 'diastolic',
+                        stroke: 'var(--primary)',
                       },
                     ],
-                    xAxisKey: "date",
+                    xAxisKey: 'date',
                   } as any)}
                 />
               </CardContent>
@@ -377,49 +419,55 @@ export function PatientDetails({ patientId }: { patientId: string }) {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <ResponsiveMedicalCard className="bg-red-50 border-red-100">
+                  <ResponsiveMedicalCard className="bg-destructive border-destructive">
                     <div className="p-4">
                       <div className="text-sm text-medical-600 mb-1">血压</div>
                       <div className="flex items-end gap-2">
-                        <div className="text-2xl font-bold text-red-600">
+                        <div className="text-2xl font-bold text-destructive">
                           {vitalSigns[0].systolic}/{vitalSigns[0].diastolic}
                         </div>
                         <div className="text-sm text-medical-600 mb-1">mmHg</div>
                       </div>
-                      <div className="mt-1 text-xs text-red-500">高于正常值</div>
+                      <div className="mt-1 text-xs text-destructive">高于正常值</div>
                     </div>
                   </ResponsiveMedicalCard>
 
-                  <ResponsiveMedicalCard className="bg-blue-50 border-blue-100">
+                  <ResponsiveMedicalCard className="bg-primary/5 border-primary/20">
                     <div className="p-4">
                       <div className="text-sm text-medical-600 mb-1">脉搏</div>
                       <div className="flex items-end gap-2">
-                        <div className="text-2xl font-bold text-blue-600">{vitalSigns[0].pulse}</div>
+                        <div className="text-2xl font-bold text-primary">
+                          {vitalSigns[0].pulse}
+                        </div>
                         <div className="text-sm text-medical-600 mb-1">次/分钟</div>
                       </div>
-                      <div className="mt-1 text-xs text-blue-500">正常范围</div>
+                      <div className="mt-1 text-xs text-primary">正常范围</div>
                     </div>
                   </ResponsiveMedicalCard>
 
-                  <ResponsiveMedicalCard className="bg-amber-50 border-amber-100">
+                  <ResponsiveMedicalCard className="bg-warning border-warning">
                     <div className="p-4">
                       <div className="text-sm text-medical-600 mb-1">体温</div>
                       <div className="flex items-end gap-2">
-                        <div className="text-2xl font-bold text-amber-600">{vitalSigns[0].temperature}</div>
+                        <div className="text-2xl font-bold text-warning">
+                          {vitalSigns[0].temperature}
+                        </div>
                         <div className="text-sm text-medical-600 mb-1">°C</div>
                       </div>
-                      <div className="mt-1 text-xs text-amber-500">正常范围</div>
+                      <div className="mt-1 text-xs text-warning">正常范围</div>
                     </div>
                   </ResponsiveMedicalCard>
 
-                  <ResponsiveMedicalCard className="bg-green-50 border-green-100">
+                  <ResponsiveMedicalCard className="bg-success/5 border-success">
                     <div className="p-4">
                       <div className="text-sm text-medical-600 mb-1">血氧饱和度</div>
                       <div className="flex items-end gap-2">
-                        <div className="text-2xl font-bold text-green-600">{vitalSigns[0].oxygen}</div>
+                        <div className="text-2xl font-bold text-success">
+                          {vitalSigns[0].oxygen}
+                        </div>
                         <div className="text-sm text-medical-600 mb-1">%</div>
                       </div>
-                      <div className="mt-1 text-xs text-green-500">正常范围</div>
+                      <div className="mt-1 text-xs text-success">正常范围</div>
                     </div>
                   </ResponsiveMedicalCard>
                 </div>
@@ -442,7 +490,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 {visitHistory.map((visit, index) => (
                   <div
                     key={visit.id}
-                    className={`pb-6 ${index !== visitHistory.length - 1 ? "border-b border-medical-100" : ""}`}
+                    className={`pb-6 ${index !== visitHistory.length - 1 ? 'border-b border-medical-100' : ''}`}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center">
@@ -513,9 +561,11 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-medical-100">
-                    {medications.map((medication) => (
+                    {medications.map(medication => (
                       <tr key={medication.id} className="hover:bg-medical-50 transition-colors">
-                        <td className="px-4 py-3 font-medium text-medical-900">{medication.name}</td>
+                        <td className="px-4 py-3 font-medium text-medical-900">
+                          {medication.name}
+                        </td>
                         <td className="px-4 py-3 text-medical-700">{medication.dose}</td>
                         <td className="px-4 py-3 text-medical-700">{medication.frequency}</td>
                         <td className="px-4 py-3 text-medical-700">{medication.startDate}</td>
@@ -530,27 +580,27 @@ export function PatientDetails({ patientId }: { patientId: string }) {
               <div className="mt-6">
                 <div className="font-medium mb-3 text-medical-700">用药依从性分析</div>
                 <div className="h-64">
-                  { }
+                  {}
                   <BarChart
                     {...({
                       data: [
-                        { month: "1月", adherence: 90 },
-                        { month: "2月", adherence: 95 },
-                        { month: "3月", adherence: 88 },
-                        { month: "4月", adherence: 92 },
+                        { month: '1月', adherence: 90 },
+                        { month: '2月', adherence: 95 },
+                        { month: '3月', adherence: 88 },
+                        { month: '4月', adherence: 92 },
                       ],
                       categories: [
                         {
-                          name: "依从性",
-                          key: "adherence",
-                          color: "hsl(var(--chart-1))",
+                          name: '依从性',
+                          key: 'adherence',
+                          color: 'hsl(var(--chart-1))',
                         },
                       ],
-                      xAxisKey: "month",
+                      xAxisKey: 'month',
                       yAxisConfig: {
                         min: 0,
                         max: 100,
-                        unit: "%",
+                        unit: '%',
                       },
                     } as any)}
                   />
@@ -572,9 +622,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
             <CardContent>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <Card className="bg-blue-50 border-blue-100 hover:shadow-md transition-shadow cursor-pointer">
+                  <Card className="bg-primary/5 border-primary/20 hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4 flex items-center">
-                      <FileText className="h-10 w-10 text-blue-600 mr-3" />
+                      <FileText className="h-10 w-10 text-primary mr-3" />
                       <div>
                         <div className="font-medium">初诊记录</div>
                         <div className="text-xs text-medical-600">2023-12-05</div>
@@ -582,9 +632,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-green-50 border-green-100 hover:shadow-md transition-shadow cursor-pointer">
+                  <Card className="bg-success/5 border-success hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4 flex items-center">
-                      <Activity className="h-10 w-10 text-green-600 mr-3" />
+                      <Activity className="h-10 w-10 text-success mr-3" />
                       <div>
                         <div className="font-medium">心电图检查报告</div>
                         <div className="text-xs text-medical-600">2024-01-15</div>
@@ -592,9 +642,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-amber-50 border-amber-100 hover:shadow-md transition-shadow cursor-pointer">
+                  <Card className="bg-warning border-warning hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4 flex items-center">
-                      <Stethoscope className="h-10 w-10 text-amber-600 mr-3" />
+                      <Stethoscope className="h-10 w-10 text-warning mr-3" />
                       <div>
                         <div className="font-medium">心内科专家会诊</div>
                         <div className="text-xs text-medical-600">2024-02-20</div>
@@ -602,9 +652,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-purple-50 border-purple-100 hover:shadow-md transition-shadow cursor-pointer">
+                  <Card className="bg-primary border-primary hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4 flex items-center">
-                      <Heart className="h-10 w-10 text-purple-600 mr-3" />
+                      <Heart className="h-10 w-10 text-primary mr-3" />
                       <div>
                         <div className="font-medium">冠状动脉造影</div>
                         <div className="text-xs text-medical-600">2024-03-10</div>
@@ -612,9 +662,9 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-pink-50 border-pink-100 hover:shadow-md transition-shadow cursor-pointer">
+                  <Card className="bg-primary border-primary hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4 flex items-center">
-                      <FileText className="h-10 w-10 text-pink-600 mr-3" />
+                      <FileText className="h-10 w-10 text-primary mr-3" />
                       <div>
                         <div className="font-medium">住院记录</div>
                         <div className="text-xs text-medical-600">2024-03-15 至 2024-03-22</div>
@@ -637,5 +687,5 @@ export function PatientDetails({ patientId }: { patientId: string }) {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

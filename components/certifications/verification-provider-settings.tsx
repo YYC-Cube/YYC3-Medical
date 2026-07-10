@@ -1,46 +1,46 @@
-"use client"
-import { debug } from "@/lib/logger"
+'use client';
+import { debug } from '@/lib/logger';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Switch } from "@/components/ui/switch"
-import { Settings, Shield, Clock, AlertTriangle, Save } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
-import { useToast } from "@/hooks/use-toast"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Switch } from '@/components/ui/switch';
+import { Settings, Shield, Clock, AlertTriangle, Save } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/hooks/use-toast';
 
 export function VerificationProviderSettings() {
-  const { toast } = useToast()
-  const [defaultProvider, setDefaultProvider] = useState("nhc")
+  const { toast } = useToast();
+  const [defaultProvider, setDefaultProvider] = useState('nhc');
   const [settings, setSettings] = useState({
     autoVerify: true,
     notifyOnExpiry: true,
     useExpressVerification: false,
     storeVerificationHistory: true,
-  })
+  });
 
   const handleSettingChange = (setting: string, value: boolean) => {
-    setSettings((prev) => ({
+    setSettings(prev => ({
       ...prev,
       [setting]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSaveSettings = () => {
-    debug("保存设置:", { defaultProvider, ...settings })
+    debug('保存设置:', { defaultProvider, ...settings });
     toast({
-      title: "设置已保存",
-      description: "您的资质验证设置已成功更新",
-    })
-  }
+      title: '设置已保存',
+      description: '您的资质验证设置已成功更新',
+    });
+  };
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
-          <Settings className="h-5 w-5 mr-2 text-blue-500" />
+          <Settings className="h-5 w-5 mr-2 text-primary" />
           验证机构设置
         </CardTitle>
         <CardDescription>配置默认验证机构和验证选项</CardDescription>
@@ -48,7 +48,11 @@ export function VerificationProviderSettings() {
       <CardContent className="space-y-6">
         <div className="space-y-4">
           <h3 className="text-sm font-medium">默认验证机构</h3>
-          <RadioGroup value={defaultProvider} onValueChange={setDefaultProvider} className="space-y-3">
+          <RadioGroup
+            value={defaultProvider}
+            onValueChange={setDefaultProvider}
+            className="space-y-3"
+          >
             <div className="flex items-center space-x-2 rounded-md border p-3">
               <RadioGroupItem value="nhc" id="nhc" />
               <Label htmlFor="nhc" className="flex-1 cursor-pointer">
@@ -107,7 +111,7 @@ export function VerificationProviderSettings() {
               <Switch
                 id="auto-verify"
                 checked={settings.autoVerify}
-                onCheckedChange={(checked) => handleSettingChange("autoVerify", checked)}
+                onCheckedChange={checked => handleSettingChange('autoVerify', checked)}
               />
             </div>
 
@@ -121,7 +125,7 @@ export function VerificationProviderSettings() {
               <Switch
                 id="notify-expiry"
                 checked={settings.notifyOnExpiry}
-                onCheckedChange={(checked) => handleSettingChange("notifyOnExpiry", checked)}
+                onCheckedChange={checked => handleSettingChange('notifyOnExpiry', checked)}
               />
             </div>
 
@@ -130,12 +134,14 @@ export function VerificationProviderSettings() {
                 <Label htmlFor="express-verification" className="font-medium">
                   使用快速验证
                 </Label>
-                <p className="text-sm text-muted-foreground">优先使用快速验证服务（可能产生额外费用）</p>
+                <p className="text-sm text-muted-foreground">
+                  优先使用快速验证服务（可能产生额外费用）
+                </p>
               </div>
               <Switch
                 id="express-verification"
                 checked={settings.useExpressVerification}
-                onCheckedChange={(checked) => handleSettingChange("useExpressVerification", checked)}
+                onCheckedChange={checked => handleSettingChange('useExpressVerification', checked)}
               />
             </div>
 
@@ -149,7 +155,9 @@ export function VerificationProviderSettings() {
               <Switch
                 id="store-history"
                 checked={settings.storeVerificationHistory}
-                onCheckedChange={(checked) => handleSettingChange("storeVerificationHistory", checked)}
+                onCheckedChange={checked =>
+                  handleSettingChange('storeVerificationHistory', checked)
+                }
               />
             </div>
           </div>
@@ -162,12 +170,12 @@ export function VerificationProviderSettings() {
           </Button>
         </div>
 
-        <div className="rounded-md bg-yellow-50 border border-yellow-200 p-4">
+        <div className="rounded-md bg-warning border border-warning p-4">
           <div className="flex items-start">
-            <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5 mr-3" />
+            <AlertTriangle className="h-5 w-5 text-warning mt-0.5 mr-3" />
             <div>
-              <h4 className="font-medium text-yellow-800">重要提示</h4>
-              <p className="text-sm text-yellow-700 mt-1">
+              <h4 className="font-medium text-warning">重要提示</h4>
+              <p className="text-sm text-warning mt-1">
                 更改默认验证机构不会影响已提交的验证请求。新的设置将应用于之后提交的所有资质验证。
                 某些验证机构可能收取额外费用，请在选择前查看各机构的收费标准。
               </p>
@@ -176,5 +184,5 @@ export function VerificationProviderSettings() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

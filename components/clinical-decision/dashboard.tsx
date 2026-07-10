@@ -1,74 +1,74 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Search, Brain, Stethoscope, FileText, PlusCircle } from "lucide-react"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Search, Brain, Stethoscope, FileText, PlusCircle } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 // 模拟诊断数据
 const diagnosticData = [
   {
-    id: "DIAG-001",
-    patientName: "张三",
-    patientId: "P-10045",
-    symptoms: ["持续性头痛", "视力模糊", "恶心"],
-    aiDiagnosis: "偏头痛",
+    id: 'DIAG-001',
+    patientName: '张三',
+    patientId: 'P-10045',
+    symptoms: ['持续性头痛', '视力模糊', '恶心'],
+    aiDiagnosis: '偏头痛',
     confidence: 92,
     alternativeDiagnoses: [
-      { name: "紧张性头痛", probability: 45 },
-      { name: "高血压性头痛", probability: 30 },
-      { name: "眼部疾病", probability: 15 },
+      { name: '紧张性头痛', probability: 45 },
+      { name: '高血压性头痛', probability: 30 },
+      { name: '眼部疾病', probability: 15 },
     ],
-    recommendedTests: ["血压检测", "眼底检查", "头部CT扫描"],
-    date: "2023-05-15",
+    recommendedTests: ['血压检测', '眼底检查', '头部CT扫描'],
+    date: '2023-05-15',
   },
   {
-    id: "DIAG-002",
-    patientName: "李四",
-    patientId: "P-10078",
-    symptoms: ["胸痛", "呼吸急促", "心悸"],
-    aiDiagnosis: "心绞痛",
+    id: 'DIAG-002',
+    patientName: '李四',
+    patientId: 'P-10078',
+    symptoms: ['胸痛', '呼吸急促', '心悸'],
+    aiDiagnosis: '心绞痛',
     confidence: 88,
     alternativeDiagnoses: [
-      { name: "胃食管反流", probability: 40 },
-      { name: "肋间神经痛", probability: 25 },
-      { name: "焦虑发作", probability: 20 },
+      { name: '胃食管反流', probability: 40 },
+      { name: '肋间神经痛', probability: 25 },
+      { name: '焦虑发作', probability: 20 },
     ],
-    recommendedTests: ["心电图", "心脏酶学检查", "运动负荷试验"],
-    date: "2023-05-16",
+    recommendedTests: ['心电图', '心脏酶学检查', '运动负荷试验'],
+    date: '2023-05-16',
   },
   {
-    id: "DIAG-003",
-    patientName: "王五",
-    patientId: "P-10103",
-    symptoms: ["咳嗽", "发热", "胸痛", "呼吸困难"],
-    aiDiagnosis: "社区获得性肺炎",
+    id: 'DIAG-003',
+    patientName: '王五',
+    patientId: 'P-10103',
+    symptoms: ['咳嗽', '发热', '胸痛', '呼吸困难'],
+    aiDiagnosis: '社区获得性肺炎',
     confidence: 95,
     alternativeDiagnoses: [
-      { name: "支气管炎", probability: 35 },
-      { name: "流感", probability: 30 },
-      { name: "COVID-19", probability: 25 },
+      { name: '支气管炎', probability: 35 },
+      { name: '流感', probability: 30 },
+      { name: 'COVID-19', probability: 25 },
     ],
-    recommendedTests: ["胸部X光", "血常规", "痰培养", "核酸检测"],
-    date: "2023-05-17",
+    recommendedTests: ['胸部X光', '血常规', '痰培养', '核酸检测'],
+    date: '2023-05-17',
   },
-]
+];
 
 export function ClinicalDashboard() {
-  const [activeTab, setActiveTab] = useState("recent")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [activeTab, setActiveTab] = useState('recent');
+  const [searchTerm, setSearchTerm] = useState('');
 
   // 过滤诊断数据
   const filteredDiagnostics = diagnosticData.filter(
-    (diag) =>
+    diag =>
       diag.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       diag.patientId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      diag.aiDiagnosis.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      diag.aiDiagnosis.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Card>
@@ -84,7 +84,7 @@ export function ClinicalDashboard() {
               placeholder="搜索患者、诊断或症状..."
               className="pl-8"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={e => setSearchTerm(e.target.value)}
             />
           </div>
           <Button className="w-full md:w-auto">
@@ -101,7 +101,7 @@ export function ClinicalDashboard() {
           </TabsList>
 
           <TabsContent value="recent" className="space-y-4">
-            {filteredDiagnostics.map((diagnostic) => (
+            {filteredDiagnostics.map(diagnostic => (
               <Card key={diagnostic.id} className="overflow-hidden">
                 <CardHeader className="pb-2">
                   <div className="flex items-center justify-between">
@@ -119,7 +119,7 @@ export function ClinicalDashboard() {
                     </div>
                     <Badge
                       className="flex items-center gap-1"
-                      variant={diagnostic.confidence >= 90 ? "default" : "secondary"}
+                      variant={diagnostic.confidence >= 90 ? 'default' : 'secondary'}
                     >
                       <Brain className="h-3 w-3" />
                       AI 置信度: {diagnostic.confidence}%
@@ -201,7 +201,7 @@ export function ClinicalDashboard() {
                 <CardContent>
                   <div className="text-2xl font-bold">128</div>
                   <p className="text-xs text-muted-foreground">
-                    较上月 <span className="text-green-500">↑ 12%</span>
+                    较上月 <span className="text-success">↑ 12%</span>
                   </p>
                 </CardContent>
               </Card>
@@ -212,7 +212,7 @@ export function ClinicalDashboard() {
                 <CardContent>
                   <div className="text-2xl font-bold">87%</div>
                   <p className="text-xs text-muted-foreground">
-                    较上月 <span className="text-green-500">↑ 3%</span>
+                    较上月 <span className="text-success">↑ 3%</span>
                   </p>
                 </CardContent>
               </Card>
@@ -223,7 +223,7 @@ export function ClinicalDashboard() {
                 <CardContent>
                   <div className="text-2xl font-bold">92%</div>
                   <p className="text-xs text-muted-foreground">
-                    较上月 <span className="text-green-500">↑ 5%</span>
+                    较上月 <span className="text-success">↑ 5%</span>
                   </p>
                 </CardContent>
               </Card>
@@ -232,5 +232,5 @@ export function ClinicalDashboard() {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

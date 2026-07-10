@@ -1,99 +1,109 @@
-"use client"
+'use client';
 
-import { CardFooter } from "@/components/ui/card"
+import { CardFooter } from '@/components/ui/card';
 
-import { TableCell } from "@/components/ui/table"
+import { TableCell } from '@/components/ui/table';
 
-import { TableBody } from "@/components/ui/table"
+import { TableBody } from '@/components/ui/table';
 
-import { TableHead } from "@/components/ui/table"
+import { TableHead } from '@/components/ui/table';
 
-import { TableRow } from "@/components/ui/table"
+import { TableRow } from '@/components/ui/table';
 
-import { TableHeader } from "@/components/ui/table"
+import { TableHeader } from '@/components/ui/table';
 
-import { Table } from "@/components/ui/table"
+import { Table } from '@/components/ui/table';
 
-import { CardDescription } from "@/components/ui/card"
+import { CardDescription } from '@/components/ui/card';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Download, Eye, MoreHorizontal, Trash2 } from "lucide-react"
-import { useState } from "react"
-import { CertificationStatusBadge } from "./certification-status-badge"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Download, Eye, MoreHorizontal, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { CertificationStatusBadge } from './certification-status-badge';
 
 // 模拟资质数据
 const mockCertifications = [
   {
-    id: "cert-001",
-    type: "doctor-license",
-    licenseNumber: "1102023001001",
-    name: "张三",
-    institution: "北京协和医院",
-    issueDate: "2018-07-01",
-    expiryDate: "2028-06-30",
-    status: "active",
+    id: 'cert-001',
+    type: 'doctor-license',
+    licenseNumber: '1102023001001',
+    name: '张三',
+    institution: '北京协和医院',
+    issueDate: '2018-07-01',
+    expiryDate: '2028-06-30',
+    status: 'active',
   },
   {
-    id: "cert-002",
-    type: "specialist-certificate",
-    licenseNumber: "2202023002002",
-    name: "张三",
-    specialty: "心血管内科",
-    institution: "卫生部",
-    issueDate: "2019-09-15",
-    expiryDate: "2027-09-14",
-    status: "active",
+    id: 'cert-002',
+    type: 'specialist-certificate',
+    licenseNumber: '2202023002002',
+    name: '张三',
+    specialty: '心血管内科',
+    institution: '卫生部',
+    issueDate: '2019-09-15',
+    expiryDate: '2027-09-14',
+    status: 'active',
   },
   {
-    id: "cert-003",
-    type: "doctor-license",
-    licenseNumber: "1234567890123",
-    name: "李四",
-    institution: "上海市第一人民医院",
-    issueDate: "2019-05-20",
-    expiryDate: "2029-05-19",
-    status: "expired",
+    id: 'cert-003',
+    type: 'doctor-license',
+    licenseNumber: '1234567890123',
+    name: '李四',
+    institution: '上海市第一人民医院',
+    issueDate: '2019-05-20',
+    expiryDate: '2029-05-19',
+    status: 'expired',
   },
   {
-    id: "cert-004",
-    type: "specialist-certificate",
-    licenseNumber: "9876543210987",
-    name: "王五",
-    specialty: "神经内科",
-    institution: "北京大学第一医院",
-    issueDate: "2020-02-10",
-    expiryDate: "2028-02-09",
-    status: "pending",
+    id: 'cert-004',
+    type: 'specialist-certificate',
+    licenseNumber: '9876543210987',
+    name: '王五',
+    specialty: '神经内科',
+    institution: '北京大学第一医院',
+    issueDate: '2020-02-10',
+    expiryDate: '2028-02-09',
+    status: 'pending',
   },
-]
+];
 
 interface CertificationListProps {
-  onViewDetail?: (certificationId: string) => void
-  isManagement?: boolean
-  limit?: number
-  filter?: string
-  status?: string
+  onViewDetail?: (certificationId: string) => void;
+  isManagement?: boolean;
+  limit?: number;
+  filter?: string;
+  status?: string;
 }
 
-export function CertificationList({ onViewDetail, limit, filter: filterProp, status: statusProp }: CertificationListProps) {
-  const [certifications, setCertifications] = useState(mockCertifications)
+export function CertificationList({
+  onViewDetail,
+  limit,
+  filter: filterProp,
+  status: statusProp,
+}: CertificationListProps) {
+  const [certifications, setCertifications] = useState(mockCertifications);
   const displayedCertifications = certifications
-    .filter((cert) => {
-      if (statusProp) return cert.status === statusProp
-      if (!filterProp || filterProp === "all") return true
-      if (filterProp === "expiring") return cert.status === "pending" || cert.status === "active"
-      if (filterProp === "archived") return cert.status === "expired"
-      return true
+    .filter(cert => {
+      if (statusProp) return cert.status === statusProp;
+      if (!filterProp || filterProp === 'all') return true;
+      if (filterProp === 'expiring') return cert.status === 'pending' || cert.status === 'active';
+      if (filterProp === 'archived') return cert.status === 'expired';
+      return true;
     })
-    .slice(0, limit ?? certifications.length)
+    .slice(0, limit ?? certifications.length);
 
   // 删除资质
   const handleDeleteCertification = (id: string) => {
-    setCertifications(certifications.filter((cert) => cert.id !== id))
-  }
+    setCertifications(certifications.filter(cert => cert.id !== id));
+  };
 
   return (
     <Card className="h-full">
@@ -117,7 +127,7 @@ export function CertificationList({ onViewDetail, limit, filter: filterProp, sta
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {displayedCertifications.map((cert) => (
+                {displayedCertifications.map(cert => (
                   <TableRow key={cert.id}>
                     <TableCell className="font-medium">{cert.type}</TableCell>
                     <TableCell>{cert.licenseNumber}</TableCell>
@@ -144,7 +154,7 @@ export function CertificationList({ onViewDetail, limit, filter: filterProp, sta
                               下载证书
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              className="text-red-600"
+                              className="text-destructive"
                               onClick={() => handleDeleteCertification(cert.id)}
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
@@ -167,5 +177,5 @@ export function CertificationList({ onViewDetail, limit, filter: filterProp, sta
         </Button>
       </CardFooter>
     </Card>
-  )
+  );
 }

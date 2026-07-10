@@ -1,95 +1,94 @@
-"use client"
+'use client';
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 // 支持的语言
-export type Locale = "zh-CN" | "en-US" | "ja-JP" | "ko-KR"
+export type Locale = 'zh-CN' | 'en-US' | 'ja-JP' | 'ko-KR';
 
 // 语言名称映射
 const localeNames: Record<Locale, string> = {
-  "zh-CN": "简体中文",
-  "en-US": "English",
-  "ja-JP": "日本語",
-  "ko-KR": "한국어",
-}
+  'zh-CN': '简体中文',
+  'en-US': 'English',
+  'ja-JP': '日本語',
+  'ko-KR': '한국어',
+};
 
-import zhCN from "@/lib/i18n/flat/zh-CN.json"
-import enUS from "@/lib/i18n/flat/en-US.json"
-import jaJP from "@/lib/i18n/flat/ja-JP.json"
-import koKR from "@/lib/i18n/flat/ko-KR.json"
+import zhCN from '@/lib/i18n/flat/zh-CN.json';
+import enUS from '@/lib/i18n/flat/en-US.json';
+import jaJP from '@/lib/i18n/flat/ja-JP.json';
+import koKR from '@/lib/i18n/flat/ko-KR.json';
 
 // 翻译数据统一来源（从 lib/i18n/flat/*.json 加载）
 const translations: Record<Locale, Record<string, string>> = {
-  "zh-CN": zhCN,
-  "en-US": enUS,
-  "ja-JP": jaJP,
-  "ko-KR": koKR,
-}
-
+  'zh-CN': zhCN,
+  'en-US': enUS,
+  'ja-JP': jaJP,
+  'ko-KR': koKR,
+};
 
 // 语言上下文类型
 interface LanguageContextType {
-  t: (key: string, fallback?: string) => string
-  locale: Locale
-  setLocale: (locale: Locale) => void
-  availableLocales: Locale[]
-  localeName: Record<Locale, string>
+  t: (key: string, fallback?: string) => string;
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+  availableLocales: Locale[];
+  localeName: Record<Locale, string>;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const availableLocales: Locale[] = ["zh-CN", "en-US", "ja-JP", "ko-KR"]
+const availableLocales: Locale[] = ['zh-CN', 'en-US', 'ja-JP', 'ko-KR'];
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("zh-CN")
+  const [locale, setLocale] = useState<Locale>('zh-CN');
 
   // 从本地存储加载语言设置
   useEffect(() => {
-    const savedLocale = localStorage.getItem("locale") as Locale
+    const savedLocale = localStorage.getItem('locale') as Locale;
     if (savedLocale && availableLocales.includes(savedLocale)) {
-      setLocale(savedLocale)
+      setLocale(savedLocale);
     } else {
       // 尝试从浏览器语言设置获取
-      const browserLocale = navigator.language
+      const browserLocale = navigator.language;
 
-      if (browserLocale.startsWith("zh")) {
-        setLocale("zh-CN")
-      } else if (browserLocale.startsWith("ja")) {
-        setLocale("ja-JP")
-      } else if (browserLocale.startsWith("ko")) {
-        setLocale("ko-KR")
+      if (browserLocale.startsWith('zh')) {
+        setLocale('zh-CN');
+      } else if (browserLocale.startsWith('ja')) {
+        setLocale('ja-JP');
+      } else if (browserLocale.startsWith('ko')) {
+        setLocale('ko-KR');
       } else {
-        setLocale("en-US") // 默认英语
+        setLocale('en-US'); // 默认英语
       }
     }
-  }, [])
+  }, []);
 
   // 保存语言设置到本地存储
   useEffect(() => {
-    localStorage.setItem("locale", locale)
-    document.documentElement.lang = locale
-  }, [locale])
+    localStorage.setItem('locale', locale);
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   // 翻译函数
   const t = (key: string, fallback?: string): string => {
     // 尝试从当前语言获取翻译
     if (translations[locale] && translations[locale][key]) {
-      return translations[locale][key]
+      return translations[locale][key];
     }
 
     // 如果当前语言没有翻译，尝试从英语获取
-    if (locale !== "en-US" && translations["en-US"] && translations["en-US"][key]) {
-      return translations["en-US"][key]
+    if (locale !== 'en-US' && translations['en-US'] && translations['en-US'][key]) {
+      return translations['en-US'][key];
     }
 
     // 如果英语也没有，尝试从中文获取
-    if (locale !== "zh-CN" && translations["zh-CN"] && translations["zh-CN"][key]) {
-      return translations["zh-CN"][key]
+    if (locale !== 'zh-CN' && translations['zh-CN'] && translations['zh-CN'][key]) {
+      return translations['zh-CN'][key];
     }
 
     // 如果都没有，返回回退值或键名
-    return fallback || key
-  }
+    return fallback || key;
+  };
 
   return (
     <LanguageContext.Provider
@@ -103,13 +102,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </LanguageContext.Provider>
-  )
+  );
 }
 
 export function useLanguage() {
-  const context = useContext(LanguageContext)
+  const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider")
+    throw new Error('useLanguage must be used within a LanguageProvider');
   }
-  return context
+  return context;
 }

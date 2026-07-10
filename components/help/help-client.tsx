@@ -1,28 +1,33 @@
-"use client"
+'use client';
 
-import { SelectItem } from "@/components/ui/select"
+import { SelectItem } from '@/components/ui/select';
 
-import { SelectContent } from "@/components/ui/select"
+import { SelectContent } from '@/components/ui/select';
 
-import { SelectValue } from "@/components/ui/select"
+import { SelectValue } from '@/components/ui/select';
 
-import { SelectTrigger } from "@/components/ui/select"
+import { SelectTrigger } from '@/components/ui/select';
 
-import { Select } from "@/components/ui/select"
+import { Select } from '@/components/ui/select';
 
-import { Label } from "@/components/ui/label"
+import { Label } from '@/components/ui/label';
 
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Search, FileText, MessageSquare, Video, BookOpen, Mail, Phone } from "lucide-react"
+import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Search, FileText, MessageSquare, Video, BookOpen, Mail, Phone } from 'lucide-react';
 
 export function HelpClient() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <Tabs defaultValue="faq" className="space-y-4">
@@ -38,7 +43,7 @@ export function HelpClient() {
         <Input
           placeholder="搜索帮助内容..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           className="flex-1"
         />
       </div>
@@ -63,7 +68,9 @@ export function HelpClient() {
                     <li>点击"验证资质"按钮，系统将自动验证证书真实性</li>
                     <li>验证成功后，点击"保存"完成上传</li>
                   </ol>
-                  <p className="mt-2">验证结果通常在1-3个工作日内完成，您可以在"验证状态"页面查看进度。</p>
+                  <p className="mt-2">
+                    验证结果通常在1-3个工作日内完成，您可以在"验证状态"页面查看进度。
+                  </p>
                 </AccordionContent>
               </AccordionItem>
 
@@ -79,7 +86,9 @@ export function HelpClient() {
                     <li>您可以查看详细的分析结果和参考资料</li>
                     <li>根据需要保存或导出诊断报告</li>
                   </ol>
-                  <p className="mt-2">请注意，AI辅助诊断仅作为参考，最终诊断决策应由专业医师做出。</p>
+                  <p className="mt-2">
+                    请注意，AI辅助诊断仅作为参考，最终诊断决策应由专业医师做出。
+                  </p>
                 </AccordionContent>
               </AccordionItem>
 
@@ -112,7 +121,9 @@ export function HelpClient() {
                     <li>发送会诊邀请</li>
                     <li>在预定时间进入会诊室参与会诊</li>
                   </ol>
-                  <p className="mt-2">会诊结束后，系统会自动生成会诊记录，您可以在"会诊记录"中查看。</p>
+                  <p className="mt-2">
+                    会诊结束后，系统会自动生成会诊记录，您可以在"会诊记录"中查看。
+                  </p>
                 </AccordionContent>
               </AccordionItem>
 
@@ -128,7 +139,9 @@ export function HelpClient() {
                     <li>选择导出格式（如PDF、Excel、Word等）</li>
                     <li>根据提示完成导出操作</li>
                   </ol>
-                  <p className="mt-2">您也可以使用批量导出功能，选择多个数据条目后点击页面上方的"导出"按钮。</p>
+                  <p className="mt-2">
+                    您也可以使用批量导出功能，选择多个数据条目后点击页面上方的"导出"按钮。
+                  </p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -283,7 +296,9 @@ export function HelpClient() {
                     <Phone className="h-5 w-5 mr-3 text-medical-500" />
                     <div>
                       <p className="font-medium">客服热线</p>
-                      <p className="text-sm text-muted-foreground">400-888-9999（工作日 9:00-18:00）</p>
+                      <p className="text-sm text-muted-foreground">
+                        400-888-9999（工作日 9:00-18:00）
+                      </p>
                     </div>
                   </div>
 
@@ -356,5 +371,5 @@ export function HelpClient() {
         </Card>
       </TabsContent>
     </Tabs>
-  )
+  );
 }

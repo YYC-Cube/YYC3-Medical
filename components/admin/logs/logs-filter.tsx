@@ -1,28 +1,28 @@
-"use client"
+'use client';
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Card } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { format } from "date-fns"
-import { zhCN } from "date-fns/locale"
-import { CalendarIcon, Search, X } from "lucide-react"
-import React from "react"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { format } from 'date-fns';
+import { zhCN } from 'date-fns/locale';
+import { CalendarIcon, Search, X } from 'lucide-react';
+import React from 'react';
 
 interface LogsFilterProps {
-  searchQuery: string
-  setSearchQuery: (query: string) => void
-  dateRange: { from: Date | undefined; to: Date | undefined }
-  setDateRange: (range: { from: Date | undefined; to: Date | undefined }) => void
-  logLevel: string[]
-  setLogLevel: React.Dispatch<React.SetStateAction<string[]>>
-  userFilter: string[]
-  setUserFilter: React.Dispatch<React.SetStateAction<string[]>>
-  moduleFilter: string[]
-  setModuleFilter: React.Dispatch<React.SetStateAction<string[]>>
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  dateRange: { from: Date | undefined; to: Date | undefined };
+  setDateRange: (range: { from: Date | undefined; to: Date | undefined }) => void;
+  logLevel: string[];
+  setLogLevel: React.Dispatch<React.SetStateAction<string[]>>;
+  userFilter: string[];
+  setUserFilter: React.Dispatch<React.SetStateAction<string[]>>;
+  moduleFilter: string[];
+  setModuleFilter: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export function LogsFilter({
@@ -38,53 +38,57 @@ export function LogsFilter({
   setModuleFilter,
 }: LogsFilterProps) {
   // 模拟的用户和模块列表
-  const availableUsers = ["系统", "zhang.wei@example.com", "li.na@example.com", "system_api"]
+  const availableUsers = ['系统', 'zhang.wei@example.com', 'li.na@example.com', 'system_api'];
 
   const availableModules = [
-    { value: "auth", label: "认证" },
-    { value: "system", label: "系统" },
-    { value: "database", label: "数据库" },
-    { value: "api", label: "API" },
-    { value: "medical_records", label: "病历" },
-    { value: "scheduler", label: "计划任务" },
-    { value: "security", label: "安全" },
-    { value: "user", label: "用户" },
-  ]
+    { value: 'auth', label: '认证' },
+    { value: 'system', label: '系统' },
+    { value: 'database', label: '数据库' },
+    { value: 'api', label: 'API' },
+    { value: 'medical_records', label: '病历' },
+    { value: 'scheduler', label: '计划任务' },
+    { value: 'security', label: '安全' },
+    { value: 'user', label: '用户' },
+  ];
 
   const logLevels = [
-    { value: "debug", label: "调试", color: "bg-gray-100 text-gray-800" },
-    { value: "info", label: "信息", color: "bg-blue-100 text-blue-800" },
-    { value: "warning", label: "警告", color: "bg-yellow-100 text-yellow-800" },
-    { value: "error", label: "错误", color: "bg-red-100 text-red-800" },
-    { value: "critical", label: "严重", color: "bg-red-200 text-red-900" },
-    { value: "success", label: "成功", color: "bg-green-100 text-green-800" },
-  ]
+    { value: 'debug', label: '调试', color: 'bg-muted text-foreground' },
+    { value: 'info', label: '信息', color: 'bg-primary/10 text-primary' },
+    { value: 'warning', label: '警告', color: 'bg-warning text-warning' },
+    { value: 'error', label: '错误', color: 'bg-destructive text-destructive' },
+    { value: 'critical', label: '严重', color: 'bg-destructive text-destructive' },
+    { value: 'success', label: '成功', color: 'bg-success/10 text-success' },
+  ];
 
   const handleLevelChange = (value: string) => {
-    setLogLevel((prevLevels) =>
-      prevLevels.includes(value) ? prevLevels.filter((level) => level !== value) : [...prevLevels, value],
-    )
-  }
+    setLogLevel(prevLevels =>
+      prevLevels.includes(value)
+        ? prevLevels.filter(level => level !== value)
+        : [...prevLevels, value]
+    );
+  };
 
   const handleUserChange = (value: string) => {
-    setUserFilter((prevUsers) =>
-      prevUsers.includes(value) ? prevUsers.filter((user) => user !== value) : [...prevUsers, value],
-    )
-  }
+    setUserFilter(prevUsers =>
+      prevUsers.includes(value) ? prevUsers.filter(user => user !== value) : [...prevUsers, value]
+    );
+  };
 
   const handleModuleChange = (value: string) => {
-    setModuleFilter((prevModules) =>
-      prevModules.includes(value) ? prevModules.filter((module) => module !== value) : [...prevModules, value],
-    )
-  }
+    setModuleFilter(prevModules =>
+      prevModules.includes(value)
+        ? prevModules.filter(module => module !== value)
+        : [...prevModules, value]
+    );
+  };
 
   const clearFilters = () => {
-    setSearchQuery("")
-    setDateRange({ from: undefined, to: undefined })
-    setLogLevel([])
-    setUserFilter([])
-    setModuleFilter([])
-  }
+    setSearchQuery('');
+    setDateRange({ from: undefined, to: undefined });
+    setLogLevel([]);
+    setUserFilter([]);
+    setModuleFilter([]);
+  };
 
   // 计算活跃的筛选器数量
   const activeFilterCount =
@@ -92,17 +96,17 @@ export function LogsFilter({
     (dateRange.from || dateRange.to ? 1 : 0) +
     (logLevel.length > 0 ? 1 : 0) +
     (userFilter.length > 0 ? 1 : 0) +
-    (moduleFilter.length > 0 ? 1 : 0)
+    (moduleFilter.length > 0 ? 1 : 0);
 
   return (
     <Card className="p-4 space-y-4">
       <div className="flex flex-col lg:flex-row gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="搜索日志内容、用户或详情..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
             className="pl-9"
           />
           {searchQuery && (
@@ -110,7 +114,7 @@ export function LogsFilter({
               variant="ghost"
               size="sm"
               className="absolute right-0 top-0 h-full px-3"
-              onClick={() => setSearchQuery("")}
+              onClick={() => setSearchQuery('')}
             >
               <X className="h-4 w-4" />
               <span className="sr-only">清除搜索</span>
@@ -123,21 +127,21 @@ export function LogsFilter({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={dateRange.from || dateRange.to ? "default" : "outline"}
+                variant={dateRange.from || dateRange.to ? 'default' : 'outline'}
                 className="justify-start text-left font-normal"
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {dateRange.from ? (
                   dateRange.to ? (
                     <>
-                      {format(dateRange.from, "yyyy/MM/dd", { locale: zhCN })} -{" "}
-                      {format(dateRange.to, "yyyy/MM/dd", { locale: zhCN })}
+                      {format(dateRange.from, 'yyyy/MM/dd', { locale: zhCN })} -{' '}
+                      {format(dateRange.to, 'yyyy/MM/dd', { locale: zhCN })}
                     </>
                   ) : (
-                    format(dateRange.from, "yyyy/MM/dd", { locale: zhCN })
+                    format(dateRange.from, 'yyyy/MM/dd', { locale: zhCN })
                   )
                 ) : (
-                  "日期范围"
+                  '日期范围'
                 )}
               </Button>
             </PopoverTrigger>
@@ -150,7 +154,7 @@ export function LogsFilter({
                   from: dateRange.from,
                   to: dateRange.to,
                 }}
-                onSelect={(range) =>
+                onSelect={range =>
                   setDateRange({
                     from: range?.from,
                     to: range?.to,
@@ -159,17 +163,21 @@ export function LogsFilter({
                 numberOfMonths={2}
               />
               <div className="flex items-center justify-between p-3 border-t">
-                <Button variant="ghost" size="sm" onClick={() => setDateRange({ from: undefined, to: undefined })}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setDateRange({ from: undefined, to: undefined })}
+                >
                   清除
                 </Button>
                 <Button
                   size="sm"
                   onClick={() => {
                     // 设置为最近7天
-                    const to = new Date()
-                    const from = new Date()
-                    from.setDate(from.getDate() - 7)
-                    setDateRange({ from, to })
+                    const to = new Date();
+                    const from = new Date();
+                    from.setDate(from.getDate() - 7);
+                    setDateRange({ from, to });
                   }}
                 >
                   最近7天
@@ -182,15 +190,15 @@ export function LogsFilter({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={logLevel.length > 0 ? "default" : "outline"}
+                variant={logLevel.length > 0 ? 'default' : 'outline'}
                 className="justify-start text-left font-normal"
               >
-                {logLevel.length > 0 ? `级别: ${logLevel.length}项已选择` : "日志级别"}
+                {logLevel.length > 0 ? `级别: ${logLevel.length}项已选择` : '日志级别'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-3" align="start">
               <div className="space-y-2">
-                {logLevels.map((level) => (
+                {logLevels.map(level => (
                   <div key={level.value} className="flex items-center space-x-2">
                     <Checkbox
                       id={`level-${level.value}`}
@@ -206,7 +214,12 @@ export function LogsFilter({
                   </div>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={() => setLogLevel([])}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-3 w-full"
+                onClick={() => setLogLevel([])}
+              >
                 清除
               </Button>
             </PopoverContent>
@@ -216,15 +229,15 @@ export function LogsFilter({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={userFilter.length > 0 ? "default" : "outline"}
+                variant={userFilter.length > 0 ? 'default' : 'outline'}
                 className="justify-start text-left font-normal"
               >
-                {userFilter.length > 0 ? `用户: ${userFilter.length}项已选择` : "用户筛选"}
+                {userFilter.length > 0 ? `用户: ${userFilter.length}项已选择` : '用户筛选'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[220px] p-3" align="start">
               <div className="space-y-2">
-                {availableUsers.map((user) => (
+                {availableUsers.map(user => (
                   <div key={user} className="flex items-center space-x-2">
                     <Checkbox
                       id={`user-${user}`}
@@ -240,7 +253,12 @@ export function LogsFilter({
                   </div>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={() => setUserFilter([])}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-3 w-full"
+                onClick={() => setUserFilter([])}
+              >
                 清除
               </Button>
             </PopoverContent>
@@ -250,15 +268,15 @@ export function LogsFilter({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={moduleFilter.length > 0 ? "default" : "outline"}
+                variant={moduleFilter.length > 0 ? 'default' : 'outline'}
                 className="justify-start text-left font-normal"
               >
-                {moduleFilter.length > 0 ? `模块: ${moduleFilter.length}项已选择` : "模块筛选"}
+                {moduleFilter.length > 0 ? `模块: ${moduleFilter.length}项已选择` : '模块筛选'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-3" align="start">
               <div className="space-y-2">
-                {availableModules.map((module) => (
+                {availableModules.map(module => (
                   <div key={module.value} className="flex items-center space-x-2">
                     <Checkbox
                       id={`module-${module.value}`}
@@ -274,7 +292,12 @@ export function LogsFilter({
                   </div>
                 ))}
               </div>
-              <Button variant="ghost" size="sm" className="mt-3 w-full" onClick={() => setModuleFilter([])}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-3 w-full"
+                onClick={() => setModuleFilter([])}
+              >
                 清除
               </Button>
             </PopoverContent>
@@ -297,7 +320,11 @@ export function LogsFilter({
       {activeFilterCount > 0 && (
         <div className="flex flex-wrap gap-2">
           {searchQuery && (
-            <Badge variant="secondary" className="flex items-center gap-1" onClick={() => setSearchQuery("")}>
+            <Badge
+              variant="secondary"
+              className="flex items-center gap-1"
+              onClick={() => setSearchQuery('')}
+            >
               搜索: {searchQuery}
               <X className="h-3 w-3 cursor-pointer" />
             </Badge>
@@ -309,14 +336,14 @@ export function LogsFilter({
               className="flex items-center gap-1"
               onClick={() => setDateRange({ from: undefined, to: undefined })}
             >
-              日期: {dateRange.from ? format(dateRange.from, "yyyy/MM/dd", { locale: zhCN }) : ""}
-              {dateRange.to ? ` - ${format(dateRange.to, "yyyy/MM/dd", { locale: zhCN })}` : ""}
+              日期: {dateRange.from ? format(dateRange.from, 'yyyy/MM/dd', { locale: zhCN }) : ''}
+              {dateRange.to ? ` - ${format(dateRange.to, 'yyyy/MM/dd', { locale: zhCN })}` : ''}
               <X className="h-3 w-3 cursor-pointer" />
             </Badge>
           )}
 
-          {logLevel.map((level) => {
-            const levelInfo = logLevels.find((l) => l.value === level)
+          {logLevel.map(level => {
+            const levelInfo = logLevels.find(l => l.value === level);
             return (
               <Badge
                 key={level}
@@ -327,10 +354,10 @@ export function LogsFilter({
                 级别: {levelInfo?.label || level}
                 <X className="h-3 w-3 cursor-pointer" />
               </Badge>
-            )
+            );
           })}
 
-          {userFilter.map((user) => (
+          {userFilter.map(user => (
             <Badge
               key={user}
               variant="secondary"
@@ -342,8 +369,8 @@ export function LogsFilter({
             </Badge>
           ))}
 
-          {moduleFilter.map((module) => {
-            const moduleInfo = availableModules.find((m) => m.value === module)
+          {moduleFilter.map(module => {
+            const moduleInfo = availableModules.find(m => m.value === module);
             return (
               <Badge
                 key={module}
@@ -354,10 +381,10 @@ export function LogsFilter({
                 模块: {moduleInfo?.label || module}
                 <X className="h-3 w-3 cursor-pointer" />
               </Badge>
-            )
+            );
           })}
         </div>
       )}
     </Card>
-  )
+  );
 }
