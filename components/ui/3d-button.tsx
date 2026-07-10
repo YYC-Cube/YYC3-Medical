@@ -41,7 +41,7 @@ const button3dVariants = cva(
         none: '',
         bounce: 'active:animate-button-press hover:animate-none',
         scale: 'hover:scale-105 active:scale-95 transition-transform',
-        glow: 'hover:shadow-[0_0_15px_rgba(12,138,237,0.5)]',
+        glow: 'hover:shadow-lg hover:shadow-primary/30',
       },
     },
     defaultVariants: {

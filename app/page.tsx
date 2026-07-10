@@ -53,42 +53,42 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-sky-50 via-white to-blue-50/30 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/20">
+      <section className="py-16 md:py-20 px-4 bg-gradient-to-b from-primary/5 via-background to-primary/5">
         <div className="container mx-auto text-center">
           <div className="max-w-4xl mx-auto">
             <Logo size="xl" className="mx-auto mb-8" animated />
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6">
-              <span className="text-blue-600 dark:text-blue-400">言语云³</span>
+              <span className="text-primary">言语云³</span>
               <br />
-              <span className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-500 dark:text-slate-400">
+              <span className="text-xl sm:text-2xl md:text-3xl font-medium text-muted-foreground">
                 AI-Powered Intelligent Medical System
               </span>
             </h1>
             <Slogan size="lg" className="mb-8 max-w-3xl mx-auto" />
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="text-lg px-8 bg-blue-600 hover:bg-blue-700 text-white" asChild>
+              <Button size="lg" className="text-lg px-8" asChild>
                 <Link href="/admin">
                   开始使用 <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 border-blue-200 text-blue-700 hover:bg-blue-50 dark:border-blue-800 dark:text-blue-300 dark:hover:bg-blue-950" asChild>
+              <Button variant="outline" size="lg" className="text-lg px-8" asChild>
                 <Link href="/ui-showcase">查看演示</Link>
               </Button>
             </div>
             <div className="flex flex-wrap justify-center gap-2 mb-8">
-              <Badge className="text-sm bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="info" className="text-sm">
                 AI诊断辅助
               </Badge>
-              <Badge className="text-sm bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="info" className="text-sm">
                 病例分析
               </Badge>
-              <Badge className="text-sm bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="info" className="text-sm">
                 知识图谱
               </Badge>
-              <Badge className="text-sm bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="info" className="text-sm">
                 智能问诊
               </Badge>
-              <Badge className="text-sm bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:border-blue-800">
+              <Badge variant="info" className="text-sm">
                 多模态分析
               </Badge>
             </div>

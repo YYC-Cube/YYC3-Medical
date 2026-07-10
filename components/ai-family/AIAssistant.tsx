@@ -14,13 +14,13 @@
  *   <AIAssistant />               ← 浮动按钮+面板 (默认)
  *   <AIAssistant mode="inline" /> ← 内嵌面板 (嵌入 AI Family 页面等)
  */
-import React, { useState, useCallback } from "react";
-import { Sparkles, X, Minimize2, Maximize2, Trash2, MessageSquare, Zap, Star, Code, Box, Grid3x3, BookOpen, Sliders } from "lucide-react";
-import type { AIAssistantProps, TabKey, ChatMessage, AISkill, AIPlugin, AIModule } from "./types";
-import { FAMILY_PERSONAS, PERSONAS_MAP, DEFAULT_MODELS, AI_SKILLS, AI_PLUGINS, AI_MODULES, PROMPT_PRESETS, INITIAL_TIMESTAMP, moodEmoji, generateMessageId, getCurrentTimestamp, ALL_TABS } from "./data";
-import { getPersonaResponse, getPersonaGreeting } from "./mock";
+import { Maximize2, Minimize2, Sparkles, Trash2, X } from "lucide-react";
+import { useCallback, useState } from "react";
 import { AILogo } from "./components";
-import { ChatPanel, CommandsPanel, PeoplePanel, SkillsPanel, PluginsPanel, ModulesPanel, PromptsPanel, SettingsPanel } from "./panels";
+import { AI_MODULES, AI_PLUGINS, AI_SKILLS, ALL_TABS, DEFAULT_MODELS, FAMILY_PERSONAS, INITIAL_TIMESTAMP, PERSONAS_MAP, PROMPT_PRESETS, generateMessageId, getCurrentTimestamp, moodEmoji } from "./data";
+import { getPersonaGreeting, getPersonaResponse } from "./mock";
+import { ChatPanel, CommandsPanel, ModulesPanel, PeoplePanel, PluginsPanel, PromptsPanel, SettingsPanel, SkillsPanel } from "./panels";
+import type { AIAssistantProps, AIModule, AIPlugin, AISkill, ChatMessage, TabKey } from "./types";
 
 export { AIAssistantProps };
 
@@ -49,7 +49,7 @@ export function AIAssistant({
   const [localTemperature, setLocalTemperature] = useState(() => { try { return parseFloat(localStorage.getItem("ai_assistant_temperature") ?? "0.7"); } catch { return 0.7; } });
   const [localTopP, setLocalTopP] = useState(() => { try { return parseFloat(localStorage.getItem("ai_assistant_top_p") ?? "0.9"); } catch { return 0.9; } });
   const [localMaxTokens, setLocalMaxTokens] = useState(() => { try { return parseInt(localStorage.getItem("ai_assistant_max_tokens") ?? "2048"); } catch { return 2048; } });
-  const persist = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch {} };
+  const persist = (key: string, value: string) => { try { localStorage.setItem(key, value); } catch { } };
 
   // ---- Chat state ----
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -94,7 +94,7 @@ export function AIAssistant({
   };
 
   const copyToClipboard = (text: string, id: string) => {
-    navigator.clipboard.writeText(text).catch(() => {});
+    navigator.clipboard.writeText(text).catch(() => { });
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2000);
   };
@@ -134,7 +134,7 @@ export function AIAssistant({
 
   // ---- Panel class (floating vs inline) ----
   const panelClass = mode === "inline"
-    ? "w-full h-full rounded-2xl bg-[rgba(8,25,55,0.95)] backdrop-blur-2xl border border-[rgba(0,180,255,0.2)] shadow-[0_0_60px_rgba(0,180,255,0.12)] flex flex-col overflow-hidden"
+    ? "w-full h-full rounded-2xl bg-card/95 backdrop-blur-2xl border border-primary/20 shadow-2xl flex flex-col overflow-hidden"
     : isMaximized
       ? "fixed inset-4 md:inset-8 z-[60]"
       : isMobile
@@ -146,18 +146,18 @@ export function AIAssistant({
     return (
       <button onClick={() => setIsOpen(true)} data-testid="ai-assistant-float-btn"
         className="fixed z-[60] group" style={{ bottom: isMobile ? 80 : 24, right: isMobile ? 16 : 24 }}>
-        <div className="relative rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] flex items-center justify-center shadow-[0_0_30px_rgba(0,180,255,0.4)] hover:shadow-[0_0_40px_rgba(0,180,255,0.6)] transition-all hover:scale-105 active:scale-95"
+        <div className="relative rounded-2xl bg-gradient-to-br from-primary to-accent-primary flex items-center justify-center shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
           style={{ width: isMobile ? 48 : 56, height: isMobile ? 48 : 56 }}>
           {currentPersona
             ? <PersonaIcon className="text-white" size={isMobile ? 22 : 26} style={{ color: currentPersona.color }} />
             : <AILogo size={isMobile ? 24 : 28} />}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#00d4ff] to-[#7b2ff7] animate-ping opacity-20" />
-          <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#00ff88] flex items-center justify-center shadow-[0_0_8px_rgba(0,255,136,0.5)]">
-            <Sparkles className="w-3 h-3 text-[#060e1f]" />
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary to-accent-primary animate-ping opacity-20" />
+          <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-success flex items-center justify-center shadow-sm">
+            <Sparkles className="w-3 h-3 text-primary-foreground" />
           </div>
         </div>
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg bg-[rgba(8,25,55,0.95)] border border-[rgba(0,180,255,0.2)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-          <span className="text-[#00d4ff]" style={{ fontSize: "0.72rem" }}>{currentPersona?.shortName ?? "AI"} 智能助理</span>
+        <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 rounded-lg bg-card/95 border border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+          <span className="text-primary" style={{ fontSize: "0.72rem" }}>{currentPersona?.shortName ?? "AI"} 智能助理</span>
         </div>
       </button>
     );
@@ -166,24 +166,24 @@ export function AIAssistant({
   // ========== MAIN PANEL ==========
   return (
     <div className={mode === "floating" ? panelClass : ""}>
-      <div className={mode === "floating" ? panelClass : "w-full h-full rounded-2xl bg-[rgba(8,25,55,0.95)] backdrop-blur-2xl border border-[rgba(0,180,255,0.2)] shadow-[0_0_60px_rgba(0,180,255,0.12)] flex flex-col overflow-hidden"}>
+      <div className={mode === "floating" ? panelClass : "w-full h-full rounded-2xl bg-card/95 backdrop-blur-2xl border border-primary/20 shadow-2xl flex flex-col overflow-hidden"}>
         {/* ===== HEADER + Persona Bar ===== */}
-        <div className="shrink-0 border-b border-[rgba(0,180,255,0.12)] bg-[rgba(0,40,80,0.2)]">
+        <div className="shrink-0 border-b border-primary/10 bg-muted/30">
           <div className="flex items-center justify-between px-4 py-2.5">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(0,180,255,0.3)] overflow-hidden"
-                style={{ background: `linear-gradient(135deg, ${currentPersona?.color ?? "#00d4ff"}, ${currentPersona?.color ? `${currentPersona.color}88` : "#7b2ff7"})` }}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-md overflow-hidden"
+                style={{ background: `linear-gradient(135deg, ${currentPersona?.color ?? "var(--ai-accent)"}, ${currentPersona?.color ? `${currentPersona.color}88` : "var(--ai-accent-secondary)"})` }}>
                 {currentPersona ? <PersonaIcon className="text-white" size={18} /> : <AILogo size={20} />}
               </div>
               <div>
-                <h3 className="text-[#e0f0ff] flex items-center gap-1.5" style={{ fontSize: "0.85rem" }}>
+                <h3 className="text-foreground flex items-center gap-1.5" style={{ fontSize: "0.85rem" }}>
                   {currentPersona?.shortName ?? "AI"}
-                  <span className="text-[rgba(0,212,255,0.3)]" style={{ fontSize: "0.55rem" }}>{currentPersona?.enTitle ?? "Assistant"}</span>
+                  <span className="text-muted-foreground" style={{ fontSize: "0.55rem" }}>{currentPersona?.enTitle ?? "Assistant"}</span>
                   {currentPersona?.mood && <span className="text-xs">{moodEmoji[currentPersona.mood] ?? "✨"}</span>}
                 </h3>
                 <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-pulse" />
-                  <span className="text-[rgba(0,212,255,0.35)] truncate" style={{ fontSize: "0.6rem" }}>
+                  <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                  <span className="text-muted-foreground/80 truncate" style={{ fontSize: "0.6rem" }}>
                     {currentPersona?.expertise[0] ?? (availableModels.find(m => m.id === selectedModel)?.name ?? "就绪")}
                   </span>
                 </div>
@@ -234,7 +234,7 @@ export function AIAssistant({
         <div className="shrink-0 flex items-center gap-0.5 px-2 py-1.5 border-b border-[rgba(0,180,255,0.08)] bg-[rgba(0,40,80,0.1)] overflow-x-auto hide-scrollbar">
           {ALL_TABS.map(tab => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all shrink-0 ${activeTab === tab.key ? "bg-[rgba(0,212,255,0.12)] text-[#00d4ff] border border-[rgba(0,212,255,0.25)]" : "text-[rgba(0,212,255,0.4)] hover:text-[#00d4ff] border border-transparent"}`}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all shrink-0 ${activeTab === tab.key ? "bg-[rgba(0,212,255,0.12)] text-primary border border-[rgba(0,212,255,0.25)]" : "text-[rgba(0,212,255,0.4)] hover:text-primary border border-transparent"}`}
               style={{ fontSize: "0.68rem" }}>
               <tab.icon className="w-3 h-3" /> {tab.label}
             </button>
@@ -243,13 +243,13 @@ export function AIAssistant({
 
         {/* ===== Content Area (Tab Switch) ===== */}
         <div className="flex-1 overflow-hidden flex flex-col">
-          {activeTab === "chat"     && <ChatPanel {...panelProps} />}
+          {activeTab === "chat" && <ChatPanel {...panelProps} />}
           {activeTab === "commands" && <CommandsPanel {...panelProps} />}
-          {activeTab === "people"   && <PeoplePanel {...panelProps} />}
-          {activeTab === "skills"   && <SkillsPanel {...panelProps} />}
-          {activeTab === "plugins"  && <PluginsPanel {...panelProps} />}
-          {activeTab === "modules"  && <ModulesPanel {...panelProps} />}
-          {activeTab === "prompts"  && <PromptsPanel {...panelProps} />}
+          {activeTab === "people" && <PeoplePanel {...panelProps} />}
+          {activeTab === "skills" && <SkillsPanel {...panelProps} />}
+          {activeTab === "plugins" && <PluginsPanel {...panelProps} />}
+          {activeTab === "modules" && <ModulesPanel {...panelProps} />}
+          {activeTab === "prompts" && <PromptsPanel {...panelProps} />}
           {activeTab === "settings" && <SettingsPanel {...panelProps} />}
         </div>
       </div>

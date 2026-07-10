@@ -46,11 +46,17 @@ import { useKnowledgeGraph } from './use-knowledge-graph';
 // 导入D3.js
 import * as d3 from 'd3';
 
-// 医疗蓝色系D3色板 — 替代 d3.schemeCategory10（禁用黑色/深色，统一蓝色系）
-const medicalColorScheme: string[] = [
-  '#2b6cb0', '#4a8dc7', '#0d9488', '#6366f1', '#3b76b0',
-  '#6093c4', '#1e5694', '#93b8d8', '#2dd4bf', '#818cf8',
-];
+// 医疗蓝色系D3色板 — 从 CSS 变量读取（运行时解析）
+function getMedicalColorScheme(): string[] {
+  if (typeof window === 'undefined') {
+    return ['#2b6cb0', '#4a8dc7', '#0d9488', '#6366f1', '#3b76b0', '#6093c4', '#1e5694', '#93b8d8', '#2dd4bf', '#818cf8'];
+  }
+  const vars = ['--medical-600', '--medical-400', '--ai-oracle', '--ai-accent-secondary', '--medical-500', '--medical-300', '--medical-700', '--medical-200', '--medical-secondary', '--ai-thinker'];
+  return vars.map(v => {
+    const hsl = getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+    return hsl ? `hsl(${hsl})` : '#2b6cb0';
+  });
+}
 
 // 获取CSS变量HSL值的辅助函数（D3中无法直接使用hsl(var(--xxx))语法）
 function getCSSVar(name: string): string {
@@ -199,7 +205,7 @@ export function KnowledgeGraphVisualization({
       .attr('d', 'M0,-5L10,0L0,5');
 
     // 定义颜色比例尺（医疗蓝色系）
-    const colorScale = d3.scaleOrdinal(medicalColorScheme);
+    const colorScale = d3.scaleOrdinal(getMedicalColorScheme());
 
     // 绘制连接线
     const link = g
@@ -804,7 +810,7 @@ export function KnowledgeGraphVisualization({
                           className="w-3 h-3 rounded-full mr-2"
                           style={{
                             backgroundColor:
-                              medicalColorScheme[availableNodeTypes.indexOf(type) % 10],
+                              getMedicalColorScheme()[availableNodeTypes.indexOf(type) % 10],
                           }}
                         ></span>
                         <span>{type}</span>
@@ -893,7 +899,7 @@ export function KnowledgeGraphVisualization({
                                     className="w-3 h-3 rounded-full mr-2"
                                     style={{
                                       backgroundColor:
-                                        medicalColorScheme[
+                                        getMedicalColorScheme()[
                                         availableNodeTypes.indexOf(relatedNode.type) % 10
                                         ],
                                     }}

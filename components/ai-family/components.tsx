@@ -11,15 +11,15 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 export function AILogo({ size = 28, className = "" }: { size?: number; className?: string }) {
   return (
     <div className={`flex items-center justify-center ${className}`} style={{ width: size, height: size }}>
-      <svg width={size * 0.7} height={size * 0.7} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "#ffffff" }}>
-        <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" fill="rgba(0,212,255,0.3)" />
+      <svg width={size * 0.7} height={size * 0.7} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--primary-foreground)" }}>
+        <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" fill="hsl(var(--primary) / 0.3)" />
         <path d="M8 14a4 4 0 0 0 8 0" fill="none" />
-        <circle cx="12" cy="17" r="5" fill="rgba(0,212,255,0.15)" />
-        <path d="M12 12v3" stroke="rgba(0,212,255,0.6)" />
-        <path d="M10 13l2 2 2-2" stroke="rgba(0,212,255,0.6)" />
-        <circle cx="18" cy="5" r="1" fill="#00d4ff" />
-        <circle cx="20" cy="9" r="0.7" fill="#7b2ff7" />
-        <circle cx="5" cy="7" r="0.7" fill="#00ff88" />
+        <circle cx="12" cy="17" r="5" fill="hsl(var(--primary) / 0.15)" />
+        <path d="M12 12v3" stroke="hsl(var(--primary) / 0.6)" />
+        <path d="M10 13l2 2 2-2" stroke="hsl(var(--primary) / 0.6)" />
+        <circle cx="18" cy="5" r="1" fill="var(--ai-accent)" />
+        <circle cx="20" cy="9" r="0.7" fill="var(--ai-accent-secondary)" />
+        <circle cx="5" cy="7" r="0.7" fill="hsl(var(--success))" />
       </svg>
     </div>
   );

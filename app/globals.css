@@ -51,7 +51,19 @@
   --medical-800: #1a4d7a;
   --medical-900: #163a5c;
 
-  /* 语义功能色 v3.0 — 医疗专业可视性标准 */
+  /* AI Family 人格色系 v1.0 — 医疗蓝色调统一 */
+  --ai-navigator: #2b6cb0; /* 聆听翻译 — 医疗蓝 */
+  --ai-thinker: #6366f1; /* 分析洞察 — 靛蓝 */
+  --ai-prophet: #0ea5e9; /* 预测预警 — 天蓝 */
+  --ai-bolero: #94a3b8; /* 推荐发掘 — 银灰蓝 */
+  --ai-oracle: #14b8a6; /* 调度决策 — 青蓝 */
+  --ai-sentinel: #8b5cf6; /* 安全防护 — 紫蓝 */
+  --ai-master: #64748b; /* 质量架构 — 石板蓝 */
+  --ai-creative: #f97316; /* 创意设计 — 暖橙（唯一非蓝色，用于区分创意域） */
+
+  /* AI Family 交互色 */
+  --ai-accent: #2b6cb0; /* 默认强调色 — 医疗蓝 */
+  --ai-accent-secondary: #6366f1; /* 次要强调 — 靛蓝 */
   --success: 152 55% 42%;
   --success-foreground: 0 0% 100%;
   --warning: 38 80% 48%;
@@ -160,6 +172,18 @@
   --medical-700: #93b8d8;
   --medical-800: #bfd4e8;
   --medical-900: #dce8f3;
+
+  /* AI Family 人格色系（暗色模式：提亮对比度） */
+  --ai-navigator: #4a8dc7;
+  --ai-thinker: #818cf8;
+  --ai-prophet: #38bdf8;
+  --ai-bolero: #cbd5e1;
+  --ai-oracle: #2dd4bf;
+  --ai-sentinel: #a78bfa;
+  --ai-master: #94a3b8;
+  --ai-creative: #fb923c;
+  --ai-accent: #4a8dc7;
+  --ai-accent-secondary: #818cf8;
 
   /* 语义功能色 v3.0（暗色模式提亮） */
   --success: 152 55% 48%;
