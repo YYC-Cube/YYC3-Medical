@@ -3,7 +3,7 @@ import { LogsClient } from '@/components/admin/logs/logs-client';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata: Metadata = {
-  title: '系统日志管理 | YanYuCloud',
+  title: '系统日志管理',
   description: '查看和管理系统日志',
 };
 

@@ -117,7 +117,7 @@ export function CaseLabResults({ labTests }: CaseLabResultsProps) {
   // 准备图表数据
   const prepareChartData = () => {
     // 按日期分组
-    const dateGroups: { [key: string]: { date: string; [key: string]: any } } = {};
+    const dateGroups: { [key: string]: { date: string; [key: string]: unknown } } = {};
 
     filteredTests.forEach(test => {
       const date = new Date(test.date).toLocaleDateString();

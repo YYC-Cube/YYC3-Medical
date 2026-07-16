@@ -2,7 +2,7 @@
 
 interface PerformanceData {
   metric_name: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export default function PerformanceChart({

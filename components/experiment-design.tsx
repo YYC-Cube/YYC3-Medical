@@ -1,12 +1,13 @@
 'use client';
 import { debug } from '@/lib/logger';
 
-import { useState } from 'react';
-import { useExperimentFilters } from './use-experiment-filters';
+import { EthicsApplicationIntegration } from '@/components/ethics-application-integration';
+import type { ExperimentFilters } from '@/components/experiment-filter-drawer';
+import { ExperimentFilterDrawer } from '@/components/experiment-filter-drawer';
+import { ExperimentFilterTags } from '@/components/experiment-filter-tags';
+import { QuickFilterMenu } from '@/components/quick-filter-menu';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Card,
   CardContent,
@@ -18,31 +19,30 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Microscope,
-  FlaskConical,
   Beaker,
-  Users,
-  Search,
-  Plus,
+  FileText,
   Filter,
+  FlaskConical,
   Grid3X3,
   List,
+  Microscope,
+  Plus,
   Save,
-  FileText,
+  Search,
   Star,
+  Users,
 } from 'lucide-react';
-import { ExperimentFilterDrawer } from '@/components/experiment-filter-drawer';
-import { ExperimentFilterTags } from '@/components/experiment-filter-tags';
-import { QuickFilterMenu } from '@/components/quick-filter-menu';
-import { EthicsApplicationIntegration } from '@/components/ethics-application-integration';
-import type { ExperimentFilters } from '@/components/experiment-filter-drawer';
-import { Label } from '@/components/ui/label';
+import { useState } from 'react';
+import { useExperimentFilters } from './use-experiment-filters';
 
 // 模拟试验设计数据
 const experimentDesigns = [
@@ -254,16 +254,16 @@ const defaultNewDesign = {
   department: '',
   objective: '',
   hypothesis: '',
-  groups: [],
-  variables: [],
-  methods: [],
+  groups: [] as Record<string, unknown>[],
+  variables: [] as Record<string, unknown>[],
+  methods: [] as Record<string, unknown>[],
   statisticalAnalysis: '',
   ethicalConsiderations: '',
   budget: 0,
   currency: 'CNY',
-  collaborators: [],
-  attachments: [],
-  tags: [],
+  collaborators: [] as string[],
+  attachments: [] as string[],
+  tags: [] as string[],
   hasEthicalApproval: false,
 };
 
@@ -342,7 +342,7 @@ export function ExperimentDesign() {
   const [selectedDesign, setSelectedDesign] = useState<(typeof experimentDesigns)[0] | null>(null);
   const [showTemplateManager, setShowTemplateManager] = useState(false);
   const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false);
-  const [currentDesignData, setCurrentDesignData] = useState<any>(defaultNewDesign);
+  const [currentDesignData, setCurrentDesignData] = useState<typeof defaultNewDesign>(defaultNewDesign);
   const [isFromTemplate, setIsFromTemplate] = useState(false);
 
   const {
@@ -442,7 +442,7 @@ export function ExperimentDesign() {
   };
 
   // 处理模板保存
-  const handleTemplateSave = (templateData: any) => {
+  const handleTemplateSave = (templateData: Record<string, unknown>) => {
     debug('保存模板', templateData);
     // 这里可以添加保存模板到后端的逻辑
     setShowSaveAsTemplate(false);
@@ -731,7 +731,7 @@ export function ExperimentDesign() {
                     placeholder="输入研究标题"
                     value={currentDesignData.title}
                     onChange={e =>
-                      setCurrentDesignData((prev: any) => ({ ...prev, title: e.target.value }))
+                      setCurrentDesignData((prev: typeof defaultNewDesign) => ({ ...prev, title: e.target.value }))
                     }
                   />
                 </div>
@@ -742,7 +742,7 @@ export function ExperimentDesign() {
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={currentDesignData.type}
                     onChange={e =>
-                      setCurrentDesignData((prev: any) => ({ ...prev, type: e.target.value }))
+                      setCurrentDesignData((prev: typeof defaultNewDesign) => ({ ...prev, type: e.target.value }))
                     }
                   >
                     <option value="">选择研究类型</option>
@@ -760,7 +760,7 @@ export function ExperimentDesign() {
                     className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                     value={currentDesignData.designType}
                     onChange={e =>
-                      setCurrentDesignData((prev: any) => ({ ...prev, designType: e.target.value }))
+                      setCurrentDesignData((prev: typeof defaultNewDesign) => ({ ...prev, designType: e.target.value }))
                     }
                   >
                     <option value="">选择研究设计类型</option>
@@ -778,7 +778,7 @@ export function ExperimentDesign() {
                     placeholder="输入主要研究者姓名"
                     value={currentDesignData.principalInvestigator}
                     onChange={e =>
-                      setCurrentDesignData((prev: any) => ({
+                      setCurrentDesignData((prev: typeof defaultNewDesign) => ({
                         ...prev,
                         principalInvestigator: e.target.value,
                       }))
@@ -795,7 +795,7 @@ export function ExperimentDesign() {
                   placeholder="描述研究目标"
                   value={currentDesignData.objective}
                   onChange={e =>
-                    setCurrentDesignData((prev: any) => ({ ...prev, objective: e.target.value }))
+                    setCurrentDesignData((prev: typeof defaultNewDesign) => ({ ...prev, objective: e.target.value }))
                   }
                 />
               </div>

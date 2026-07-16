@@ -4,8 +4,8 @@ import { TreatmentRecommendations } from '@/components/clinical-decision/treatme
 import { RecentCases } from '@/components/clinical-decision/recent-cases';
 
 export const metadata: Metadata = {
-  title: '临床决策支持 | 言语医枢³智能诊疗系统',
-  description: '言语医枢³AI驱动的临床决策支持系统，提供诊断建议和治疗方案推荐',
+  title: '临床决策支持',
+  description: 'AI驱动的临床决策支持系统，提供诊断建议和治疗方案推荐',
 };
 
 export default function ClinicalDecisionPage() {

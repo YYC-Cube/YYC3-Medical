@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { CertificationUploadClient } from '@/components/certifications/certification-upload-client';
 
 export const metadata: Metadata = {
-  title: '资质上传 | YanYuCloud',
+  title: '资质上传',
   description: '上传医疗专业人员资质证书',
 };
 

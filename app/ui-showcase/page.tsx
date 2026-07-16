@@ -2,26 +2,26 @@
 
 import type React from 'react';
 
-import { useState } from 'react';
 import { Button3d } from '@/components/ui/3d-button';
 import { Card3d, Card3dContent, Card3dHeader, Card3dTitle } from '@/components/ui/3d-card';
+import { DynamicLoading } from '@/components/ui/dynamic-loading';
 import { EnhancedForm, EnhancedInput, FormField } from '@/components/ui/enhanced-form';
 import { InteractiveCard } from '@/components/ui/interactive-card';
-import { DynamicLoading } from '@/components/ui/dynamic-loading';
-import { ResponsiveTable } from '@/components/ui/responsive-table';
 import { PageTransition } from '@/components/ui/page-transition';
+import { ResponsiveTable } from '@/components/ui/responsive-table';
 import {
-  Brain,
-  Heart,
-  User,
-  Mail,
-  Lock,
-  Calendar,
   Activity,
-  Stethoscope,
-  Pill,
+  Brain,
+  Calendar,
   FileText,
+  Heart,
+  Lock,
+  Mail,
+  Pill,
+  Stethoscope,
+  User,
 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function UIShowcasePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -60,9 +60,8 @@ export default function UIShowcasePage() {
       accessorKey: 'status' as const,
       cell: (item: (typeof tableData)[0]) => (
         <span
-          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-            item.status === '在线' ? 'bg-success/10 text-success' : 'bg-muted/10 text-foreground'
-          }`}
+          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${item.status === '在线' ? 'bg-success/10 text-success' : 'bg-muted/10 text-foreground'
+            }`}
         >
           <span
             className={`mr-1 h-1.5 w-1.5 rounded-full ${item.status === '在线' ? 'bg-success' : 'bg-muted/50'}`}
@@ -77,7 +76,7 @@ export default function UIShowcasePage() {
     <PageTransition animation="slide-up">
       <div className="container mx-auto p-4 md:p-6 space-y-8 pb-20 md:pb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-medical-800 mb-6">
-          MediNexus³ UI组件展示
+          YanYuCloud UI组件展示
         </h1>
 
         {/* 按钮展示 */}

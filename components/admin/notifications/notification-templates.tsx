@@ -1,19 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -22,8 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -31,10 +22,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
 import { AlertCircle, Check, Copy, Edit, Plus, Search, Trash2, Variable } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useState } from 'react';
 
 // 模拟通知模板数据
 const templateData = [
@@ -102,12 +102,22 @@ const availableVariables = [
   '支付截止日期',
 ];
 
+interface NotificationTemplate {
+  id: string;
+  name: string;
+  type: string;
+  subject: string;
+  content: string;
+  variables: string[];
+  lastUpdated: string;
+}
+
 export function NotificationTemplates() {
   const { toast } = useToast();
-  const [templates, setTemplates] = useState(templateData);
+  const [templates, setTemplates] = useState<NotificationTemplate[]>(templateData as NotificationTemplate[]);
   const [searchQuery, setSearchQuery] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [currentTemplate, setCurrentTemplate] = useState<any>(null);
+  const [currentTemplate, setCurrentTemplate] = useState<NotificationTemplate | null>(null);
   const [isNewTemplate, setIsNewTemplate] = useState(false);
   const [newVariable, setNewVariable] = useState('');
   const [previewData, setPreviewData] = useState<Record<string, string>>({});
@@ -120,7 +130,7 @@ export function NotificationTemplates() {
       template.subject.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleOpenDialog = (template?: any) => {
+  const handleOpenDialog = (template?: NotificationTemplate) => {
     if (template) {
       setCurrentTemplate({ ...template });
       setIsNewTemplate(false);
@@ -151,6 +161,8 @@ export function NotificationTemplates() {
   };
 
   const handleSaveTemplate = () => {
+    if (!currentTemplate) return;
+
     // 验证必填字段
     if (!currentTemplate.name || !currentTemplate.subject || !currentTemplate.content) {
       toast({
@@ -187,7 +199,7 @@ export function NotificationTemplates() {
     });
   };
 
-  const handleDuplicateTemplate = (template: any) => {
+  const handleDuplicateTemplate = (template: NotificationTemplate) => {
     const newTemplate = {
       ...template,
       id: `tpl-${Math.floor(Math.random() * 1000)}`,
@@ -204,11 +216,11 @@ export function NotificationTemplates() {
   const handleAddVariable = (variable: string) => {
     if (!variable) return;
 
-    if (!currentTemplate.variables.includes(variable)) {
+    if (!currentTemplate!.variables.includes(variable)) {
       const updatedTemplate = {
-        ...currentTemplate,
-        variables: [...currentTemplate.variables, variable],
-        content: currentTemplate.content + ` {{${variable}}}`,
+        ...currentTemplate!,
+        variables: [...currentTemplate!.variables, variable],
+        content: currentTemplate!.content + ` {{${variable}}}`,
       };
       setCurrentTemplate(updatedTemplate);
 
@@ -229,11 +241,11 @@ export function NotificationTemplates() {
   };
 
   const handleRemoveVariable = (variable: string) => {
-    const updatedVariables = currentTemplate.variables.filter((v: string) => v !== variable);
-    const updatedContent = currentTemplate.content.replace(new RegExp(`{{${variable}}}`, 'g'), '');
+    const updatedVariables = currentTemplate!.variables.filter((v: string) => v !== variable);
+    const updatedContent = currentTemplate!.content.replace(new RegExp(`{{${variable}}}`, 'g'), '');
 
     setCurrentTemplate({
-      ...currentTemplate,
+      ...currentTemplate!,
       variables: updatedVariables,
       content: updatedContent,
     });
@@ -252,7 +264,7 @@ export function NotificationTemplates() {
   };
 
   const getPreviewContent = () => {
-    let previewContent = currentTemplate.content;
+    let previewContent = currentTemplate?.content ?? '';
     Object.entries(previewData).forEach(([variable, value]) => {
       previewContent = previewContent.replace(new RegExp(`{{${variable}}}`, 'g'), value);
     });
@@ -407,7 +419,7 @@ export function NotificationTemplates() {
                       id="name"
                       value={currentTemplate?.name || ''}
                       onChange={e =>
-                        setCurrentTemplate({ ...currentTemplate, name: e.target.value })
+                        setCurrentTemplate({ ...currentTemplate as NotificationTemplate, name: e.target.value })
                       }
                       className="col-span-3"
                     />
@@ -420,7 +432,7 @@ export function NotificationTemplates() {
                     <Select
                       value={currentTemplate?.type || '短信'}
                       onValueChange={value =>
-                        setCurrentTemplate({ ...currentTemplate, type: value })
+                        setCurrentTemplate({ ...currentTemplate as NotificationTemplate, type: value })
                       }
                     >
                       <SelectTrigger className="col-span-3">
@@ -443,7 +455,7 @@ export function NotificationTemplates() {
                       id="subject"
                       value={currentTemplate?.subject || ''}
                       onChange={e =>
-                        setCurrentTemplate({ ...currentTemplate, subject: e.target.value })
+                        setCurrentTemplate({ ...currentTemplate as NotificationTemplate, subject: e.target.value })
                       }
                       className="col-span-3"
                     />
@@ -458,7 +470,7 @@ export function NotificationTemplates() {
                         id="content"
                         value={currentTemplate?.content || ''}
                         onChange={e =>
-                          setCurrentTemplate({ ...currentTemplate, content: e.target.value })
+                          setCurrentTemplate({ ...currentTemplate as NotificationTemplate, content: e.target.value })
                         }
                         rows={6}
                       />
@@ -494,11 +506,11 @@ export function NotificationTemplates() {
                         </Button>
                       </div>
 
-                      {currentTemplate?.variables?.length > 0 ? (
+                      {currentTemplate?.variables && currentTemplate.variables.length > 0 ? (
                         <div className="border rounded-md p-3 bg-muted">
                           <div className="text-sm font-medium mb-2">已使用的变量：</div>
                           <div className="flex flex-wrap gap-2">
-                            {currentTemplate.variables.map((variable: string) => (
+                            {currentTemplate!.variables.map((variable: string) => (
                               <Badge key={variable} className="flex items-center gap-1 bg-white">
                                 <Variable className="h-3 w-3" />
                                 {variable}
@@ -544,11 +556,11 @@ export function NotificationTemplates() {
                     <div className="whitespace-pre-line">{getPreviewContent()}</div>
                   </div>
 
-                  {currentTemplate?.variables?.length > 0 && (
+                  {currentTemplate?.variables && currentTemplate.variables.length > 0 && (
                     <div className="space-y-3">
                       <h4 className="text-sm font-medium">变量值设置（仅用于预览）</h4>
                       <div className="grid gap-3">
-                        {currentTemplate.variables.map((variable: string) => (
+                        {currentTemplate!.variables.map((variable: string) => (
                           <div key={variable} className="grid grid-cols-4 items-center gap-4">
                             <Label className="text-right">{variable}</Label>
                             <Input

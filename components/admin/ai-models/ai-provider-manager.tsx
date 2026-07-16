@@ -1,14 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -17,6 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import {
   Select,
   SelectContent,
@@ -24,26 +21,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { aiProviderService } from '@/services/ai-provider-service';
-import type { AIProvider, AIProviderConfig, AIModel, AIUsageStats } from '@/types/ai-models';
+import type { AIModel, AIProvider, AIProviderConfig, AIUsageStats } from '@/types/ai-models';
 import {
+  Activity,
   Bot,
-  Settings,
-  TestTube,
-  Plus,
-  Edit,
-  Trash2,
   CheckCircle,
-  XCircle,
   Clock,
   DollarSign,
-  Activity,
-  Zap,
+  Edit,
   Globe,
   Key,
   Loader2,
+  Plus,
+  Settings,
+  TestTube,
+  Trash2,
+  XCircle,
+  Zap,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export function AIProviderManager() {
   const { toast } = useToast();
@@ -168,7 +169,7 @@ export function AIProviderManager() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <LoadingSpinner size="sm" />
       </div>
     );
   }

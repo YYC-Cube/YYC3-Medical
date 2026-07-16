@@ -69,7 +69,11 @@ import {
   defaultNewDesign,
   designTypes,
   experimentDesigns,
-  researchTypes
+  researchTypes,
+  type ExperimentDesign as ExperimentDesignType,
+  type ExperimentGroup,
+  type ExperimentVariable,
+  type ExperimentMethod,
 } from './experiment-design-data';
 import { useExperimentFilters } from './use-experiment-filters';
 
@@ -80,7 +84,7 @@ export function ExperimentDesign() {
   const [designDetailTab, setDesignDetailTab] = useState('overview');
   const [showTemplateManager, setShowTemplateManager] = useState(false);
   const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false);
-  const [currentDesignData, setCurrentDesignData] = useState<any>(defaultNewDesign);
+  const [currentDesignData, setCurrentDesignData] = useState<ExperimentDesignType>(defaultNewDesign);
   const [isFromTemplate, setIsFromTemplate] = useState(false);
 
   const {
@@ -163,19 +167,20 @@ export function ExperimentDesign() {
   };
 
   // 处理应用模板
-  const handleApplyTemplate = (template: any) => {
+  const handleApplyTemplate = (template: Record<string, unknown>) => {
+    const tpl = template as { name: string; type: string; designType: string; content: { groups: ExperimentGroup[]; variables: ExperimentVariable[]; methods: ExperimentMethod[]; statisticalAnalysis: string; ethicalConsiderations: string }; tags: string[] };
     // 将模板内容应用到当前设计
     setCurrentDesignData({
       ...defaultNewDesign,
-      title: `基于"${template.name}"的新设计`,
-      type: template.type,
-      designType: template.designType,
-      groups: [...template.content.groups],
-      variables: [...template.content.variables],
-      methods: [...template.content.methods],
-      statisticalAnalysis: template.content.statisticalAnalysis,
-      ethicalConsiderations: template.content.ethicalConsiderations,
-      tags: [...template.tags],
+      title: `基于"${tpl.name}"的新设计`,
+      type: tpl.type,
+      designType: tpl.designType,
+      groups: [...tpl.content.groups],
+      variables: [...tpl.content.variables],
+      methods: [...tpl.content.methods],
+      statisticalAnalysis: tpl.content.statisticalAnalysis,
+      ethicalConsiderations: tpl.content.ethicalConsiderations,
+      tags: [...tpl.tags],
     });
 
     // 标记为来自模板
@@ -1369,7 +1374,7 @@ export function ExperimentDesign() {
         open={showSaveAsTemplate}
         onOpenChange={setShowSaveAsTemplate}
         onSave={handleSaveAsTemplate}
-        experimentData={selectedDesign}
+        experimentData={selectedDesign as Record<string, unknown> | null}
       />
     </>
   );

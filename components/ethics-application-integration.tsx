@@ -1,16 +1,17 @@
 'use client';
 import { debug } from '@/lib/logger';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { EthicsApplicationForm } from '@/components/ethics-application-form';
 import { EthicsTemplateManager } from '@/components/ethics-template-manager';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import type { ExperimentData } from '@/components/use-ethics-form';
 import { FileText, Plus } from 'lucide-react';
+import { useState } from 'react';
 
 interface EthicsApplicationIntegrationProps {
   experimentId: string;
-  experimentData?: any;
+  experimentData?: ExperimentData;
 }
 
 export function EthicsApplicationIntegration({
@@ -22,14 +23,14 @@ export function EthicsApplicationIntegration({
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
 
   // 处理表单提交
-  const handleSubmit = (data: any) => {
+  const handleSubmit = (data: unknown) => {
     debug('提交伦理申请:', data);
     // 这里可以添加提交到后端的逻辑
     setShowForm(false);
   };
 
   // 处理保存草稿
-  const handleSaveDraft = (data: any) => {
+  const handleSaveDraft = (data: unknown) => {
     debug('保存草稿:', data);
     // 这里可以添加保存草稿到后端的逻辑
   };

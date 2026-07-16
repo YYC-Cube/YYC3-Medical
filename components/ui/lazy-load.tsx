@@ -2,12 +2,12 @@
 
 import type React from 'react';
 
-import { Suspense, lazy, type ComponentType, useState, useEffect } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Suspense, lazy, useEffect, useState, type ComponentType } from 'react';
 
 interface LazyComponentProps {
-  component: () => Promise<{ default: ComponentType<any> }>;
-  props?: any;
+  component: () => Promise<{ default: ComponentType<unknown> }>;
+  props?: Record<string, unknown>;
   fallback?: React.ReactNode;
   onLoad?: () => void;
 }
@@ -22,7 +22,7 @@ export function LazyComponent({
   ),
   onLoad,
 }: LazyComponentProps) {
-  const [Component, setComponent] = useState<ComponentType<any> | null>(null);
+  const [Component, setComponent] = useState<ComponentType<Record<string, unknown>> | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -62,7 +62,7 @@ export function createLazyComponent<T extends Record<string, unknown>>(
   importFunc: () => Promise<{ default: ComponentType<T> }>,
   fallback?: React.ReactNode
 ) {
-  const LazyLoadedComponent = lazy(importFunc);
+  const LazyLoadedComponent = lazy(importFunc) as unknown as ComponentType<T>;
 
   return function LazyWrapper(props: T) {
     return (
@@ -75,8 +75,8 @@ export function createLazyComponent<T extends Record<string, unknown>>(
           )
         }
       >
-        {}
-        <LazyLoadedComponent {...(props as any)} />
+        { }
+        <LazyLoadedComponent {...props} />
       </Suspense>
     );
   };

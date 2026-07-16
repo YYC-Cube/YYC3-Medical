@@ -1,29 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
-  usePerformanceMonitor,
-  type PerformanceMetric,
-  type CustomEvent,
-} from '@/services/performance-monitoring-service';
-import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
   Line,
   LineChart,
-  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
 } from '@/components/ui/recharts-dynamic';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Button } from '@/components/ui/button';
-import { Download, RefreshCw, Play, Pause, X } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
@@ -33,6 +25,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  usePerformanceMonitor,
+  type CustomEvent,
+  type PerformanceMetric,
+} from '@/services/performance-monitoring-service';
+import { Download, Pause, Play, RefreshCw, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function PerformanceDashboard() {
   const { report, trackEvent, clearData } = usePerformanceMonitor({
@@ -45,7 +45,7 @@ export default function PerformanceDashboard() {
 
   const [isMonitoring, setIsMonitoring] = useState(true);
   const [activeTab, setActiveTab] = useState('metrics');
-  const [metricsData, setMetricsData] = useState<Record<string, any[]>>({});
+  const [metricsData, setMetricsData] = useState<Record<string, unknown[]>>({});
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
   const [eventsFiltered, setEventsFiltered] = useState<CustomEvent[]>([]);
   const [filterText, setFilterText] = useState('');
@@ -64,7 +64,7 @@ export default function PerformanceDashboard() {
     });
 
     // 转换为图表数据格式
-    const chartData: Record<string, any[]> = {};
+    const chartData: Record<string, unknown[]> = {};
     Object.entries(groupedMetrics).forEach(([name, metrics]) => {
       chartData[name] = metrics.map(m => ({
         timestamp: new Date(m.timestamp).toLocaleTimeString(),
@@ -84,10 +84,10 @@ export default function PerformanceDashboard() {
     if (report.events.length > 0) {
       const filtered = filterText
         ? report.events.filter(
-            e =>
-              e.name.toLowerCase().includes(filterText.toLowerCase()) ||
-              JSON.stringify(e.data).toLowerCase().includes(filterText.toLowerCase())
-          )
+          e =>
+            e.name.toLowerCase().includes(filterText.toLowerCase()) ||
+            JSON.stringify(e.data).toLowerCase().includes(filterText.toLowerCase())
+        )
         : report.events;
       setEventsFiltered(filtered);
     }

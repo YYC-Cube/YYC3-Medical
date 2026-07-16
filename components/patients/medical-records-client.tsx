@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
 import { DatePicker } from '@/components/ui/date-picker';
-import { FileText, Download, Eye, Search, Calendar } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { MedicalButton } from '@/components/ui/medical-button';
+import { Select } from '@/components/ui/select';
+import { Calendar, Download, Eye, FileText, Search } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟病历数据
 const medicalRecords = [
@@ -69,7 +69,7 @@ const medicalRecords = [
 ];
 
 // 根据记录类型过滤数据
-const filterRecordsByType = (records: any[], type: string) => {
+const filterRecordsByType = (records: typeof medicalRecords, type: string) => {
   if (type === 'all') return records;
   if (type === 'images') return records.filter(record => record.recordType.includes('影像'));
   if (type === 'lab') return records.filter(record => record.recordType.includes('检验'));

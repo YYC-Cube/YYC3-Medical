@@ -1,8 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
+  Treemap,
+  XAxis,
+  YAxis,
+} from '@/components/ui/recharts-dynamic';
 import {
   Select,
   SelectContent,
@@ -10,29 +30,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ChevronLeft, Download, HelpCircle } from 'lucide-react';
-import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  Treemap,
-  ResponsiveContainer,
-  Cell,
-  Legend,
-  Tooltip,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  AreaChart,
-  Area,
-} from '@/components/ui/recharts-dynamic';
+import { useState } from 'react';
 
 // 饼图数据 - 患者来源分布
 const patientSourceData = [
@@ -104,36 +104,45 @@ const treatmentCostData = [
 ];
 
 // 自定义树形图内容
-const CustomTreemapContent = ({
-  root,
-  depth,
-  x,
-  y,
-  width,
-  height,
-  index,
-  colors,
-  name,
-  value,
-}: any) => {
+const CustomTreemapContent = (props: {
+  root?: { children?: unknown[] };
+  depth?: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  index?: number;
+  colors?: string[];
+  name?: string;
+  value?: number;
+}) => {
+  const { root, depth, x, y, width, height, index, colors, name, value } = props;
+  const d = depth ?? 0;
+  const i = index ?? 0;
+  const c = colors ?? [];
+  const rc = root?.children ?? [];
+  const xPos = x ?? 0;
+  const yPos = y ?? 0;
+  const w = width ?? 0;
+  const h = height ?? 0;
   return (
     <g>
       <rect
-        x={x}
-        y={y}
-        width={width}
-        height={height}
+        x={xPos}
+        y={yPos}
+        width={w}
+        height={h}
         style={{
-          fill: depth < 2 ? colors[Math.floor((index / root.children.length) * 6)] : 'var(--background)',
+          fill: d < 2 ? c[Math.floor((i / rc.length) * 6)] : 'var(--background)',
           stroke: 'var(--background)',
-          strokeWidth: 2 / (depth + 1e-10),
-          strokeOpacity: 1 / (depth + 1e-10),
+          strokeWidth: 2 / (d + 1e-10),
+          strokeOpacity: 1 / (d + 1e-10),
         }}
       />
-      {depth === 1 && (
+      {d === 1 && (
         <text
-          x={x + width / 2}
-          y={y + height / 2 + 7}
+          x={xPos + w / 2}
+          y={yPos + h / 2 + 7}
           textAnchor="middle"
           fill="var(--background)"
           fontSize={12}
@@ -141,10 +150,10 @@ const CustomTreemapContent = ({
           {name}
         </text>
       )}
-      {depth === 1 && (
+      {d === 1 && (
         <text
-          x={x + width / 2}
-          y={y + height / 2 - 7}
+          x={xPos + w / 2}
+          y={yPos + h / 2 - 7}
           textAnchor="middle"
           fill="var(--background)"
           fontSize={14}

@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DatePicker } from '@/components/ui/date-picker';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from '@/components/ui/recharts-dynamic';
 import {
   Select,
   SelectContent,
@@ -12,20 +23,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ChevronLeft, Download, ArrowUpRight, ArrowDownRight, HelpCircle } from 'lucide-react';
-import {
-  BarChart,
-  Bar,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  ComposedChart,
-} from '@/components/ui/recharts-dynamic';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ArrowDownRight, ArrowUpRight, ChevronLeft, Download, HelpCircle } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟数据 - 患者就诊数据对比
 const patientVisitsData = [
@@ -76,19 +76,19 @@ const financialMetricsData = [
 ];
 
 // 自定义工具提示
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Array<{ color: string; name: string; value: number; payload: Record<string, unknown> }>; label?: string }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-3 border rounded shadow-md">
         <p className="font-medium">{label}</p>
-        {payload.map((entry: any, index: number) => (
+        {payload.map((entry, index: number) => (
           <p key={`item-${index}`} style={{ color: entry.color }}>
             {entry.name}: {entry.value.toLocaleString()}
           </p>
         ))}
-        {payload[0].payload.增长率 !== undefined && (
-          <p className={payload[0].payload.增长率 >= 0 ? 'text-success' : 'text-destructive'}>
-            增长率: {payload[0].payload.增长率}%
+        {payload[0]?.payload?.增长率 !== undefined && (
+          <p className={(payload[0].payload.增长率 as number) >= 0 ? 'text-success' : 'text-destructive'}>
+            增长率: {payload[0].payload.增长率 as React.ReactNode}%
           </p>
         )}
       </div>
@@ -111,9 +111,9 @@ export default function DataComparison({ onBack }: DataComparisonProps) {
   const [compareEndDate, setCompareEndDate] = useState<Date | undefined>(new Date(2022, 11, 31)); // 2022年12月31日
 
   // 计算总体变化
-  const calculateOverallChange = (data: any[], currentKey: string, compareKey: string) => {
-    const currentTotal = data.reduce((sum, item) => sum + item[currentKey], 0);
-    const compareTotal = data.reduce((sum, item) => sum + item[compareKey], 0);
+  const calculateOverallChange = (data: Array<Record<string, number | string>>, currentKey: string, compareKey: string) => {
+    const currentTotal = data.reduce((sum, item) => sum + (item[currentKey] as number), 0);
+    const compareTotal = data.reduce((sum, item) => sum + (item[compareKey] as number), 0);
     const change = ((currentTotal - compareTotal) / compareTotal) * 100;
     return {
       currentTotal,
@@ -228,9 +228,8 @@ export default function DataComparison({ onBack }: DataComparisonProps) {
               </div>
               <div className="ml-2 flex items-center">
                 <div
-                  className={`text-sm font-medium ${
-                    patientVisitsChange.change >= 0 ? 'text-success' : 'text-destructive'
-                  }`}
+                  className={`text-sm font-medium ${patientVisitsChange.change >= 0 ? 'text-success' : 'text-destructive'
+                    }`}
                 >
                   {patientVisitsChange.change >= 0 ? (
                     <ArrowUpRight className="inline h-4 w-4 mr-1" />

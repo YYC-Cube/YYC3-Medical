@@ -1,7 +1,7 @@
 import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 type ExportFormat = 'csv' | 'xlsx' | 'json' | 'pdf' | 'xml';
 
@@ -19,12 +19,12 @@ interface ExportColumn {
   key: string;
   label: string;
   width?: number;
-  format?: (value: any) => string;
+  format?: (value: unknown) => string;
 }
 
 export class DataExportService {
   static async exportData(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     options: ExportOptions
   ): Promise<void> {
@@ -52,7 +52,7 @@ export class DataExportService {
   }
 
   private static async exportCSV(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     fileName: string
   ): Promise<void> {
@@ -91,7 +91,7 @@ export class DataExportService {
   }
 
   private static async exportXLSX(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     fileName: string,
     options: ExportOptions
@@ -115,7 +115,7 @@ export class DataExportService {
 
     // Prepare data for Excel
     const excelData = data.map(item => {
-      const row: Record<string, any> = {};
+      const row: Record<string, unknown> = {};
       columns.forEach(col => {
         const value = item[col.key];
         row[col.label] = col.format ? col.format(value) : value;
@@ -135,7 +135,7 @@ export class DataExportService {
 
     // Add title and subtitle if provided
     if (title || subtitle) {
-      const titleRows: any[] = [];
+      const titleRows: Record<string, unknown>[] = [];
       if (title) {
         titleRows.push({ [columns[0].label]: title });
       }
@@ -173,7 +173,7 @@ export class DataExportService {
   }
 
   private static async exportJSON(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     fileName: string,
     options: ExportOptions
@@ -182,7 +182,7 @@ export class DataExportService {
 
     // Format data according to columns
     const formattedData = data.map(item => {
-      const formatted: Record<string, any> = {};
+      const formatted: Record<string, unknown> = {};
       columns.forEach(col => {
         const value = item[col.key];
         formatted[col.key] = col.format ? col.format(value) : value;
@@ -215,7 +215,7 @@ export class DataExportService {
   }
 
   private static async exportPDF(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     fileName: string,
     options: ExportOptions
@@ -253,7 +253,7 @@ export class DataExportService {
     );
 
     // Add table
-    (doc as any).autoTable({
+    (doc as unknown as { autoTable: (config: Record<string, unknown>) => void }).autoTable({
       head: [tableHeaders],
       body: tableData,
       startY: subtitle ? 50 : 40,
@@ -275,7 +275,7 @@ export class DataExportService {
   }
 
   private static async exportXML(
-    data: any[],
+    data: Record<string, unknown>[],
     columns: ExportColumn[],
     fileName: string,
     options: ExportOptions
@@ -339,7 +339,7 @@ export class DataExportService {
   static async exportMultipleDatasets(
     datasets: Array<{
       name: string;
-      data: any[];
+      data: Record<string, unknown>[];
       columns: ExportColumn[];
     }>,
     options: ExportOptions
@@ -352,7 +352,7 @@ export class DataExportService {
 
       datasets.forEach(dataset => {
         const excelData = dataset.data.map(item => {
-          const row: Record<string, any> = {};
+          const row: Record<string, unknown> = {};
           dataset.columns.forEach(col => {
             const value = item[col.key];
             row[col.label] = col.format ? col.format(value) : value;

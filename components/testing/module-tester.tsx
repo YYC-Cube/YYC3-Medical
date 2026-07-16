@@ -27,13 +27,15 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+import type { LucideIcon } from 'lucide-react';
+
 interface TestResult {
   module: string;
   status: 'pending' | 'testing' | 'success' | 'error' | 'warning';
   message: string;
   details?: string;
   route: string;
-  icon: any;
+  icon: LucideIcon;
   category: string;
 }
 

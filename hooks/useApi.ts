@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import { api, type ApiRequestConfig, type ApiResponse } from '@/lib/api/client';
+import { useCallback, useState } from 'react';
 
 interface UseApiOptions<T> {
   onSuccess?: (data: T) => void;
@@ -9,7 +9,7 @@ interface UseApiOptions<T> {
   initialData?: T | null;
 }
 
-export function useApi<T = any>(options: UseApiOptions<T> = {}) {
+export function useApi<T = unknown>(options: UseApiOptions<T> = {}) {
   const [data, setData] = useState<T | null>(options.initialData || null);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<number | null>(null);
@@ -81,22 +81,22 @@ export function useApi<T = any>(options: UseApiOptions<T> = {}) {
   );
 
   const post = useCallback(
-    <R = T>(endpoint: string, data?: any, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
-      return request<R>(endpoint, { ...config, method: 'POST', body: data });
+    <R = T>(endpoint: string, data?: unknown, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
+      return request<R>(endpoint, { ...config, method: 'POST', body: data != null ? JSON.stringify(data) : undefined });
     },
     [request]
   );
 
   const put = useCallback(
-    <R = T>(endpoint: string, data?: any, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
-      return request<R>(endpoint, { ...config, method: 'PUT', body: data });
+    <R = T>(endpoint: string, data?: unknown, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
+      return request<R>(endpoint, { ...config, method: 'PUT', body: data != null ? JSON.stringify(data) : undefined });
     },
     [request]
   );
 
   const patch = useCallback(
-    <R = T>(endpoint: string, data?: any, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
-      return request<R>(endpoint, { ...config, method: 'PATCH', body: data });
+    <R = T>(endpoint: string, data?: unknown, config?: Omit<ApiRequestConfig, 'method' | 'body'>) => {
+      return request<R>(endpoint, { ...config, method: 'PATCH', body: data != null ? JSON.stringify(data) : undefined });
     },
     [request]
   );

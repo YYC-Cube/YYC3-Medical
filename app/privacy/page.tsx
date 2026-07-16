@@ -1,10 +1,10 @@
 import { PageHeader } from '@/components/page-header';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: '隐私政策 - MediNexus³',
-  description: 'MediNexus³ 智能诊疗系统隐私政策',
+  title: '隐私政策',
+  description: 'YanYuCloud 智能诊疗系统隐私政策',
 };
 
 export default function PrivacyPage() {
@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="prose max-w-none">
           <h2>1. 引言</h2>
           <p>
-            YanYuCloud科技有限公司（以下简称"我们"）尊重并保护用户隐私。本隐私政策说明我们如何收集、使用、披露、处理和保护您通过MediNexus³智能诊疗系统（以下简称"本系统"）提供给我们的个人信息。
+            YanYuCloud科技有限公司（以下简称"我们"）尊重并保护用户隐私。本隐私政策说明我们如何收集、使用、披露、处理和保护您通过YanYuCloud智能诊疗系统（以下简称"本系统"）提供给我们的个人信息。
           </p>
 
           <h2>2. 我们收集的信息</h2>

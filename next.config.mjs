@@ -59,7 +59,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: placeholder.svg",
       "font-src 'self' data:",
-      "connect-src 'self' https://api.deepseek.com",
+      "connect-src 'self' https://api.deepseek.com http://localhost:11434 http://127.0.0.1:11434",
       "frame-ancestors 'none'",
       "form-action 'self'",
       "base-uri 'self'",

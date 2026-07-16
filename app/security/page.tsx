@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '数据安全与访问控制 | YYC³-Med',
-  description:
-    'YYC³-Med AI-Powered Intelligent Medical System. 言启立方于万象，语枢智云守健康. Words Initiate Cube Amid Vast Scenarios, Language Serves as Core, Smart Cloud Guards Health',
+  title: '数据安全与访问控制',
+  description: 'YanYuCloud智能诊疗系统数据安全与访问控制',
 };
 
 import { Suspense } from 'react';

@@ -9,7 +9,7 @@ export interface CertificationVerificationResult {
   verificationId?: string;
   verificationDate?: string;
   verificationProvider?: string;
-  details?: any;
+  details?: unknown;
 }
 
 // 验证机构类型

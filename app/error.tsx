@@ -39,7 +39,7 @@ export default function Error({
           <p className="text-sm text-muted-foreground mb-4">
             我们已经记录了这个错误，并将尽快修复。您可以尝试重新加载页面或返回首页。
           </p>
-          {error.message && (
+          {process.env.NODE_ENV !== 'production' && error.message && (
             <div className="bg-muted p-3 rounded-md">
               <p className="text-xs font-mono">{error.message}</p>
             </div>

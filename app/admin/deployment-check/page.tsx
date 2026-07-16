@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { DeploymentCheckClient } from '@/components/admin/deployment-check/deployment-check-client';
 
 export const metadata: Metadata = {
-  title: '部署前深度检查 | 医枢³管理平台',
+  title: '部署前深度检查',
   description: '全面检查系统配置、性能、安全性和兼容性，确保系统可以安全部署',
 };
 

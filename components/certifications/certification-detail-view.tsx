@@ -3,18 +3,34 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
+  AlertTriangle,
+  Calendar,
   CheckCircle,
   Clock,
   Download,
   FileText,
-  AlertTriangle,
-  X,
-  Calendar,
   Info,
+  X,
 } from 'lucide-react';
 
+interface Certification {
+  id?: string;
+  name?: string;
+  status?: string;
+  type?: string;
+  licenseNumber?: string;
+  institution?: string;
+  specialty?: string;
+  issueDate?: string;
+  expiryDate?: string;
+  verificationDate?: string;
+  verificationProvider?: string;
+  rejectionReason?: string;
+  [key: string]: unknown;
+}
+
 interface CertificationDetailViewProps {
-  certification: any | null;
+  certification: Certification | null;
 }
 
 export function CertificationDetailView({ certification }: CertificationDetailViewProps) {
@@ -79,11 +95,11 @@ export function CertificationDetailView({ certification }: CertificationDetailVi
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <FileText className="h-5 w-5 text-primary" />
-          <h3 className="text-lg font-medium">{getTypeName(certification.type)}</h3>
+          <h3 className="text-lg font-medium">{getTypeName(certification.type ?? '')}</h3>
         </div>
         <div className="flex items-center space-x-2">
-          {getStatusIcon(certification.status)}
-          {getStatusBadge(certification.status)}
+          {getStatusIcon(certification.status ?? '')}
+          {getStatusBadge(certification.status ?? '')}
         </div>
       </div>
 
@@ -120,7 +136,7 @@ export function CertificationDetailView({ certification }: CertificationDetailVi
           <div className="flex items-center">
             <Calendar className="h-4 w-4 mr-1 text-muted-foreground" />
             <p>{certification.expiryDate}</p>
-            {new Date(certification.expiryDate) < new Date() && (
+            {certification.expiryDate && new Date(certification.expiryDate) < new Date() && (
               <AlertTriangle className="h-4 w-4 text-destructive ml-1" />
             )}
           </div>

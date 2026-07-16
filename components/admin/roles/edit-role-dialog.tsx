@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,17 +11,25 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import { Switch } from '@/components/ui/switch';
+import { useEffect, useState } from 'react';
+
+interface Role {
+  id?: string;
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  isSystem?: boolean;
+}
 
 interface EditRoleDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  role: any;
+  role: Role | null;
 }
 
 export function EditRoleDialog({ open, onOpenChange, role }: EditRoleDialogProps) {

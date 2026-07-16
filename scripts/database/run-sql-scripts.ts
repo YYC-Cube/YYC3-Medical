@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { readFileSync, existsSync } from "fs";
-import { join, resolve } from "path";
 import * as dotenv from "dotenv";
+import { existsSync, readFileSync } from "fs";
 import mysql from "mysql2/promise";
+import { join, resolve } from "path";
 
 dotenv.config();
 
@@ -114,14 +114,14 @@ class MySQLScriptRunner {
       `SELECT table_name FROM information_schema.tables WHERE table_schema = ?`,
       [this.config.database],
     );
-    return (rows as any[]).map((row) => row.table_name);
+    return (rows as Record<string, unknown>[]).map((row) => row.table_name as string);
   }
 
   async getTableRowCount(tableName: string): Promise<number> {
     const [rows] = await this.connection.query(
       `SELECT COUNT(*) AS count FROM \`${tableName}\``,
     );
-    return Number((rows as any[])[0].count);
+    return Number((rows as Record<string, unknown>[])[0].count);
   }
 
   generateReport(results: ScriptResult[]): void {
@@ -282,7 +282,7 @@ async function createDatabaseIfNotExists(
     [config.database],
   );
 
-  if ((rows as any[]).length === 0) {
+  if ((rows as Record<string, unknown>[]).length === 0) {
     console.log(`🔨 创建数据库: ${config.database}`);
     await connection.query(
       `CREATE DATABASE \`${config.database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`,

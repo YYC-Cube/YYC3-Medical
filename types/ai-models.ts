@@ -46,7 +46,7 @@ export interface AIProvider {
   description: string;
   website: string;
   apiBaseUrl: string;
-  authType: 'api-key' | 'oauth' | 'bearer-token';
+  authType: 'api-key' | 'oauth' | 'bearer-token' | 'none';
   requiredFields: ProviderField[];
   supportedModels: string[];
   isActive: boolean;

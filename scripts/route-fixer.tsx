@@ -13,7 +13,7 @@ interface FixAction {
 export class RouteFixer {
   private actions: FixAction[] = [];
 
-  constructor(private analyzer: RouteAnalyzer) {}
+  constructor(private analyzer: RouteAnalyzer) { }
 
   generateFixes(): FixAction[] {
     this.actions = [];
@@ -36,7 +36,7 @@ export class RouteFixer {
     return this.actions;
   }
 
-  private fixHighSeverityConflicts(conflict: any) {
+  private fixHighSeverityConflicts(conflict: RouteConflict) {
     // 处理多个page.tsx文件冲突
     if (conflict.description.includes("Multiple page.tsx files")) {
       const routes = conflict.conflicts;
@@ -56,7 +56,7 @@ export class RouteFixer {
     }
   }
 
-  private fixMediumSeverityConflicts(conflict: any) {
+  private fixMediumSeverityConflicts(conflict: RouteConflict) {
     // 处理动态/静态路由冲突
     if (conflict.description.includes("dynamic/static route conflict")) {
       this.actions.push({
@@ -67,7 +67,7 @@ export class RouteFixer {
     }
   }
 
-  private fixLowSeverityConflicts(conflict: any) {
+  private fixLowSeverityConflicts(conflict: RouteConflict) {
     // 创建缺失的layout文件
     if (conflict.description.includes("Missing layout.tsx")) {
       const route = conflict.conflicts[0];

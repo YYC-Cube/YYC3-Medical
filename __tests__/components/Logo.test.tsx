@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/react';
 import { Logo } from '@/components/brand/logo';
+import { render, screen } from '@testing-library/react';
 
 describe('Logo Component', () => {
   it('renders logo with default props (no text)', () => {
     render(<Logo />);
 
-    const logoImage = screen.getByAltText('YYC³-Med Logo');
+    const logoImage = screen.getByAltText('YanYuCloud Logo');
     expect(logoImage).toBeInTheDocument();
 
     // 默认 showText=false，不应渲染文字
@@ -16,20 +16,20 @@ describe('Logo Component', () => {
   it('renders text when showText is true', () => {
     render(<Logo showText={true} />);
 
-    const logoImage = screen.getByAltText('YYC³-Med Logo');
+    const logoImage = screen.getByAltText('YanYuCloud Logo');
     expect(logoImage).toBeInTheDocument();
 
     const chineseText = screen.getByText('YanYuCloud');
     expect(chineseText).toBeInTheDocument();
 
-    const englishText = screen.getByText('YYC³-Med');
+    const englishText = screen.getByText('Medical AI');
     expect(englishText).toBeInTheDocument();
   });
 
   it('applies correct size (lg = 64x64)', () => {
     render(<Logo size="lg" />);
 
-    const logoImage = screen.getByAltText('YYC³-Med Logo');
+    const logoImage = screen.getByAltText('YanYuCloud Logo');
     expect(logoImage).toHaveAttribute('width', '64');
     expect(logoImage).toHaveAttribute('height', '64');
   });
@@ -46,7 +46,7 @@ describe('Logo Component', () => {
     const { container } = render(<Logo animated={true} />);
 
     // animated 在图片上添加 hover:scale-110，并在外层 div 添加 animate-pulse
-    const logoImage = screen.getByAltText('YYC³-Med Logo');
+    const logoImage = screen.getByAltText('YanYuCloud Logo');
     expect(logoImage.className).toContain('hover:scale-110');
 
     const pulseWrapper = container.querySelector('.animate-pulse');

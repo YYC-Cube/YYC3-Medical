@@ -204,6 +204,27 @@ const PREDEFINED_PROVIDERS: AIProvider[] = [
     isActive: true,
     logo: '/logos/moonshot.svg',
   },
+  {
+    id: 'ollama',
+    name: 'ollama',
+    displayName: 'Ollama (本地模型)',
+    description: 'Ollama 本地部署的开源大模型服务，支持 Llama、Qwen、DeepSeek-R1 等模型',
+    website: 'https://ollama.ai',
+    apiBaseUrl: 'http://localhost:11434',
+    authType: 'none',
+    requiredFields: [
+      {
+        key: 'baseUrl',
+        label: '服务地址（可选）',
+        type: 'text',
+        required: false,
+        placeholder: 'http://localhost:11434',
+      },
+    ],
+    supportedModels: ['llama3.2', 'qwen2.5', 'deepseek-r1', 'gemma2', 'mistral'],
+    isActive: true,
+    logo: '/logos/ollama.svg',
+  },
 ];
 
 // 预定义的AI模型配置
@@ -368,7 +389,7 @@ export const aiProviderService = {
     providerId: string;
     modelId: string;
     prompt: string;
-    options?: Record<string, any>;
+    options?: Record<string, unknown>;
   }): Promise<AIRequest> => {
     await new Promise(resolve => setTimeout(resolve, 1500));
 

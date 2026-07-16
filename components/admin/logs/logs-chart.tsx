@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import {
   Bar,
   BarChart,
@@ -13,10 +14,9 @@ import {
   XAxis,
   YAxis,
 } from '@/components/ui/recharts-dynamic';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useEffect, useState } from 'react';
 
 interface LogsChartProps {
   type: string;
@@ -26,9 +26,20 @@ interface LogsChartProps {
   moduleFilter: string[];
 }
 
+interface LogChartDataPoint {
+  date: string;
+  total: number;
+  [key: string]: string | number;
+}
+
+interface ModuleDataPoint {
+  name: string;
+  value: number;
+}
+
 // 模拟日期范围内的日志统计数据
-const generateMockData = (days: number) => {
-  const data = [];
+const generateMockData = (days: number): LogChartDataPoint[] => {
+  const data: LogChartDataPoint[] = [];
   const now = new Date();
   const levels = ['debug', 'info', 'warning', 'error', 'critical'];
 
@@ -36,7 +47,7 @@ const generateMockData = (days: number) => {
     const date = new Date(now);
     date.setDate(date.getDate() - i);
 
-    const entry: any = {
+    const entry: LogChartDataPoint = {
       date: date.toISOString().split('T')[0],
       total: Math.floor(Math.random() * 200) + 50,
     };
@@ -73,7 +84,7 @@ const generateMockData = (days: number) => {
 };
 
 // 模拟模块分布数据
-const generateModuleData = () => {
+const generateModuleData = (): ModuleDataPoint[] => {
   return [
     { name: '认证', value: 254 },
     { name: '系统', value: 187 },
@@ -87,8 +98,8 @@ const generateModuleData = () => {
 };
 
 export function LogsChart({ type, dateRange, logLevel, userFilter, moduleFilter }: LogsChartProps) {
-  const [chartData, setChartData] = useState<any[]>([]);
-  const [moduleData, setModuleData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<LogChartDataPoint[]>([]);
+  const [moduleData, setModuleData] = useState<ModuleDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartType, setChartType] = useState('trend');
 

@@ -1,7 +1,8 @@
 'use client';
 import { debug } from '@/lib/logger';
 
-import { useState, useEffect } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,21 +13,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-import { AlertCircle, CheckCircle, RefreshCw, Shield, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import {
   certificationVerificationService,
   type VerificationProvider,
 } from '@/services/certification-verification-service';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, CheckCircle, Clock, RefreshCw, Shield } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { FileUpload } from './file-upload';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 
 interface CertificationUploadFormProps {
-  onSave: (data: any) => void;
+  onSave: (data: unknown) => void;
   onCancel: () => void;
+}
+
+interface VerificationResult {
+  isValid: boolean;
+  message?: string;
+  name?: string;
+  institution?: string;
+  specialty?: string;
+  validUntil?: string;
+  verificationProvider?: string;
 }
 
 export function CertificationUploadForm({ onSave, onCancel }: CertificationUploadFormProps) {
@@ -45,7 +55,7 @@ export function CertificationUploadForm({ onSave, onCancel }: CertificationUploa
   const [certificateFile, setCertificateFile] = useState<File | null>(null);
   const [additionalFile, setAdditionalFile] = useState<File | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationResult, setVerificationResult] = useState<any | null>(null);
+  const [verificationResult, setVerificationResult] = useState<VerificationResult | null>(null);
   const [activeTab, setActiveTab] = useState('basic');
   const [availableProviders, setAvailableProviders] = useState<VerificationProvider[]>([]);
 
@@ -64,7 +74,7 @@ export function CertificationUploadForm({ onSave, onCancel }: CertificationUploa
   }, [formData.type]);
 
   // 处理表单变更
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setFormData(prev => ({
       ...prev,
       [field]: value,

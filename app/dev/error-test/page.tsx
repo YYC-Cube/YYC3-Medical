@@ -1,8 +1,8 @@
 import { ErrorTester } from '@/components/dev/error-tester';
 
 export const metadata = {
-  title: '错误测试 - 医枢³开发工具',
-  description: '测试医枢³系统的错误处理机制',
+  title: '错误测试',
+  description: '测试系统错误处理机制',
 };
 
 export default function ErrorTestPage() {

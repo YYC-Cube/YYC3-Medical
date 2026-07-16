@@ -182,7 +182,7 @@ export function simulateMemoryError(options: ErrorSimulationOptions = {}): void 
   const message = options.message || '内存溢出错误';
 
   try {
-    const arr: any[] = [];
+    const arr: unknown[] = [];
     while (true) {
       arr.push(new Array(1000000).fill('x'));
     }

@@ -12,7 +12,7 @@ export function CertificationUploadClient() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSave = (data: any) => {
+  const handleSave = (data: unknown) => {
     setIsSubmitting(true);
     // 模拟保存操作
     setTimeout(() => {

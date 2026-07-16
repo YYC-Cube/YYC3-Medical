@@ -178,7 +178,7 @@ export const caseSimilarityService = {
         return (
           0.3 +
           (0.3 * commonDifferentials.length) /
-            Math.max(case1.diagnosis.differential.length, case2.diagnosis.differential.length || 1)
+          Math.max(case1.diagnosis.differential.length, case2.diagnosis.differential.length || 1)
         );
       }
     }
@@ -406,9 +406,14 @@ export const caseSimilarityService = {
       return 0.1; // 一方没有治疗方案
     }
 
+    interface Treatment {
+      type: string;
+      name: string;
+    }
+
     // 按类型分组治疗方案
-    const getTypeGroups = (treatments: any[]) => {
-      const groups: Record<string, any[]> = {};
+    const getTypeGroups = (treatments: Treatment[]) => {
+      const groups: Record<string, Treatment[]> = {};
       treatments.forEach(treatment => {
         if (!groups[treatment.type]) {
           groups[treatment.type] = [];

@@ -2,7 +2,7 @@
  * @file: components.tsx
  * @description: AIAssistant 子组件 + 自定义 Hooks
  */
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // ============================================================
 // AILogo - SVG 脑波图标
@@ -47,17 +47,19 @@ export function useSpeechRecognition() {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [supported] = useState(() => typeof window !== "undefined" && ("webkitSpeechRecognition" in window || "SpeechRecognition" in window));
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<{ stop: () => void; lang: string; continuous: boolean; interimResults: boolean; onresult: (event: unknown) => void; onerror: () => void; onend: () => void; start: () => void } | null>(null);
 
   const startListening = useCallback(() => {
     if (!supported) return;
-    const Recognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const SpeechRecognitionAPI = (window as unknown as Record<string, unknown>).webkitSpeechRecognition || (window as unknown as Record<string, unknown>).SpeechRecognition;
+    const Recognition = SpeechRecognitionAPI as new () => { lang: string; continuous: boolean; interimResults: boolean; onresult: (event: unknown) => void; onerror: () => void; onend: () => void; start: () => void; stop: () => void; };
     const recog = new Recognition();
     recog.lang = "zh-CN";
     recog.continuous = false;
     recog.interimResults = false;
-    recog.onresult = (event: any) => {
-      setTranscript(event.results[0][0].transcript);
+    recog.onresult = (event: unknown) => {
+      const e = event as { results: Array<Array<{ transcript: string }>> };
+      setTranscript(e.results[0][0].transcript);
       setIsListening(false);
     };
     recog.onerror = () => setIsListening(false);
@@ -73,7 +75,7 @@ export function useSpeechRecognition() {
   }, []);
 
   useEffect(() => {
-    return () => { recognitionRef.current?.abort(); };
+    return () => { recognitionRef.current?.stop(); };
   }, []);
 
   return { isListening, transcript, supported, startListening, stopListening };

@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 import type React from 'react';
 
 export const metadata: Metadata = {
-  title: '管理平台 | YanYuCloud',
+  title: '管理平台',
   description: '医疗系统管理平台',
 };
 

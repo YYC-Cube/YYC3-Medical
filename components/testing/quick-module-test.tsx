@@ -140,7 +140,7 @@ export function QuickModuleTest() {
 
       setTests(prev =>
         prev.map((test, index) =>
-          index === i ? { ...test, status: outcome.status as any, message: outcome.message } : test
+          index === i ? { ...test, status: outcome.status as QuickTestResult['status'], message: outcome.message } : test
         )
       );
 
@@ -248,8 +248,8 @@ export function QuickModuleTest() {
             <div
               key={test.module}
               className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-300 ${currentTestIndex === index
-                  ? 'bg-primary/10 border-primary/30 shadow-sm'
-                  : 'hover:bg-muted'
+                ? 'bg-primary/10 border-primary/30 shadow-sm'
+                : 'hover:bg-muted'
                 }`}
             >
               <div className="flex items-center gap-3">

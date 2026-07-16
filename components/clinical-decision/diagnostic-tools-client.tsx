@@ -1,20 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -22,33 +21,75 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Brain,
-  Stethoscope,
-  FileText,
-  AlertTriangle,
-  CheckCircle,
-  RefreshCw,
-  ChevronRight,
-  Lightbulb,
-  Calculator,
-  BarChart,
-  Thermometer,
-  Heart,
-  Droplet,
-  Clipboard,
-  Filter,
-  Search,
-} from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
 import { Switch } from '@/components/ui/switch';
-import { commonSymptoms, commonDiagnoses, riskAssessmentTools } from './diagnostic-tools-data';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import {
-  useSymptomAnalyzer,
+  AlertTriangle,
+  BarChart,
+  Brain,
+  Calculator,
+  CheckCircle,
+  ChevronRight,
+  Clipboard,
+  FileText,
+  Filter,
+  Lightbulb,
+  RefreshCw,
+  Search,
+  Stethoscope
+} from 'lucide-react';
+import { useState } from 'react';
+import { commonDiagnoses, commonSymptoms, riskAssessmentTools } from './diagnostic-tools-data';
+import {
   useDifferentialDiagnosis,
   useRiskAssessment,
+  useSymptomAnalyzer,
 } from './use-diagnostic-tools';
+
+interface DiagnosisItem {
+  name: string;
+  probability?: number;
+  urgencyLevel?: string;
+  description?: string;
+  symptoms?: string[];
+  recommendedTests?: string[];
+  similarity?: number;
+  keyDifferences?: string[];
+  diagnosticCriteria?: string[];
+}
+
+interface RiskFactorItem {
+  factor: string;
+  risk: string;
+  description: string;
+}
+
+interface DifferentialDiagnosisItem {
+  name: string;
+  similarity: string;
+  keyDifferences: string[];
+}
+
+interface RecommendedTestItem {
+  name: string;
+  testType?: string;
+  description?: string;
+  priority: string;
+  purpose: string;
+}
+
+interface AnalysisResult {
+  possibleDiagnoses: DiagnosisItem[];
+  riskFactors: RiskFactorItem[];
+  urgencyAssessment: {
+    level: string;
+    description: string;
+    recommendedAction: string;
+    timeWindow: string;
+  };
+  differentialPoints: string[];
+}
 
 export function DiagnosticToolsClient() {
   const [activeTab, setActiveTab] = useState('symptom-analyzer');
@@ -243,14 +284,14 @@ export function DiagnosticToolsClient() {
                           可能的诊断
                         </h3>
                         <div className="space-y-4">
-                          {analysisResult.possibleDiagnoses.map((diagnosis: any, index: number) => (
+                          {analysisResult.possibleDiagnoses.map((diagnosis: DiagnosisItem, index: number) => (
                             <Card key={index} className="overflow-hidden">
                               <CardHeader className="pb-2 bg-muted">
                                 <div className="flex justify-between items-center">
                                   <div className="flex items-center">
                                     <span className="font-medium">{diagnosis.name}</span>
                                     <Badge className="ml-2 bg-primary/10 text-primary">
-                                      {Math.round(diagnosis.probability * 100)}%
+                                      {Math.round((diagnosis.probability ?? 0) * 100)}%
                                     </Badge>
                                   </div>
                                   <Badge
@@ -275,7 +316,7 @@ export function DiagnosticToolsClient() {
                                     典型症状：
                                   </h4>
                                   <div className="flex flex-wrap gap-1">
-                                    {diagnosis.symptoms.map((symptom: string, i: number) => (
+                                    {(diagnosis.symptoms ?? []).map((symptom: string, i: number) => (
                                       <Badge
                                         key={i}
                                         variant="outline"
@@ -299,7 +340,7 @@ export function DiagnosticToolsClient() {
                                     建议检查：
                                   </h4>
                                   <div className="flex flex-wrap gap-1">
-                                    {diagnosis.recommendedTests.map((test: string, i: number) => (
+                                    {(diagnosis.recommendedTests ?? []).map((test: string, i: number) => (
                                       <Badge key={i} variant="secondary">
                                         {test}
                                       </Badge>
@@ -327,7 +368,7 @@ export function DiagnosticToolsClient() {
                         <Card>
                           <CardContent className="pt-4">
                             <div className="space-y-3">
-                              {analysisResult.riskFactors.map((factor: any, index: number) => (
+                              {analysisResult.riskFactors.map((factor: RiskFactorItem, index: number) => (
                                 <div key={index} className="flex justify-between items-center">
                                   <div>
                                     <span className="font-medium">{factor.factor}</span>
@@ -577,14 +618,14 @@ export function DiagnosticToolsClient() {
                           </Card>
 
                           <div className="space-y-4">
-                            {differentialResults.differentialDiagnoses.map(
-                              (diagnosis: any, index: number) => (
+                            {(differentialResults.differentialDiagnoses ?? []).map(
+                              (diagnosis: DiagnosisItem, index: number) => (
                                 <Card key={index}>
                                   <CardHeader className="pb-2">
                                     <div className="flex justify-between items-center">
                                       <h4 className="font-medium">{diagnosis.name}</h4>
                                       <Badge className="bg-primary/10 text-primary">
-                                        相似度 {Math.round(diagnosis.similarity * 100)}%
+                                        相似度 {Math.round((diagnosis.similarity ?? 0) * 100)}%
                                       </Badge>
                                     </div>
                                   </CardHeader>
@@ -595,7 +636,7 @@ export function DiagnosticToolsClient() {
                                           关键区别：
                                         </h5>
                                         <ul className="list-disc list-inside space-y-1">
-                                          {diagnosis.keyDifferences.map(
+                                          {diagnosis.keyDifferences?.map(
                                             (diff: string, i: number) => (
                                               <li key={i} className="text-sm">
                                                 {diff}
@@ -610,7 +651,7 @@ export function DiagnosticToolsClient() {
                                           诊断标准：
                                         </h5>
                                         <ul className="list-disc list-inside space-y-1">
-                                          {diagnosis.diagnosticCriteria.map(
+                                          {diagnosis.diagnosticCriteria?.map(
                                             (criteria: string, i: number) => (
                                               <li key={i} className="text-sm">
                                                 {criteria}
@@ -635,8 +676,8 @@ export function DiagnosticToolsClient() {
                           <Card>
                             <CardContent className="pt-4">
                               <div className="space-y-3">
-                                {differentialResults.recommendedTests.map(
-                                  (test: any, index: number) => (
+                                {(differentialResults.recommendedTests ?? []).map(
+                                  (test: RecommendedTestItem, index: number) => (
                                     <div key={index} className="flex items-start">
                                       <Badge
                                         variant="outline"
@@ -670,7 +711,7 @@ export function DiagnosticToolsClient() {
                           <Card>
                             <CardContent className="pt-4">
                               <ul className="list-disc list-inside space-y-2">
-                                {differentialResults.clinicalPearls.map(
+                                {(differentialResults.clinicalPearls ?? []).map(
                                   (pearl: string, index: number) => (
                                     <li key={index} className="text-sm">
                                       {pearl}
@@ -715,11 +756,10 @@ export function DiagnosticToolsClient() {
                         {riskAssessmentTools.map(tool => (
                           <Card
                             key={tool.id}
-                            className={`cursor-pointer transition-all ${
-                              selectedRiskTool === tool.id
-                                ? 'border-primary bg-primary/5'
-                                : 'hover:border-border hover:bg-muted'
-                            }`}
+                            className={`cursor-pointer transition-all ${selectedRiskTool === tool.id
+                              ? 'border-primary bg-primary/5'
+                              : 'hover:border-border hover:bg-muted'
+                              }`}
                             onClick={() => {
                               setSelectedRiskTool(tool.id);
                               setRiskFactors({});
@@ -728,9 +768,8 @@ export function DiagnosticToolsClient() {
                           >
                             <CardContent className="p-4 flex items-center gap-3">
                               <div
-                                className={`p-2 rounded-full ${
-                                  selectedRiskTool === tool.id ? 'bg-primary/10' : 'bg-muted'
-                                }`}
+                                className={`p-2 rounded-full ${selectedRiskTool === tool.id ? 'bg-primary/10' : 'bg-muted'
+                                  }`}
                               >
                                 {tool.icon}
                               </div>
@@ -739,9 +778,8 @@ export function DiagnosticToolsClient() {
                                 <p className="text-sm text-muted-foreground">{tool.description}</p>
                               </div>
                               <ChevronRight
-                                className={`h-5 w-5 ${
-                                  selectedRiskTool === tool.id ? 'text-primary' : 'text-muted-foreground/30'
-                                }`}
+                                className={`h-5 w-5 ${selectedRiskTool === tool.id ? 'text-primary' : 'text-muted-foreground/30'
+                                  }`}
                               />
                             </CardContent>
                           </Card>
@@ -766,7 +804,7 @@ export function DiagnosticToolsClient() {
                                       id={factor.id}
                                       type="number"
                                       placeholder={`输入${factor.name}`}
-                                      value={riskFactors[factor.id] || ''}
+                                      value={(riskFactors[factor.id] as string) || ''}
                                       onChange={e =>
                                         handleRiskFactorChange(
                                           factor.id,
@@ -781,7 +819,7 @@ export function DiagnosticToolsClient() {
                                 )}
                                 {factor.type === 'select' && (
                                   <Select
-                                    value={riskFactors[factor.id] || ''}
+                                    value={(riskFactors[factor.id] as string) || ''}
                                     onValueChange={value =>
                                       handleRiskFactorChange(factor.id, value)
                                     }
@@ -802,7 +840,7 @@ export function DiagnosticToolsClient() {
                                   <div className="flex items-center space-x-2">
                                     <Switch
                                       id={factor.id}
-                                      checked={riskFactors[factor.id] || false}
+                                      checked={(riskFactors[factor.id] as boolean) || false}
                                       onCheckedChange={checked =>
                                         handleRiskFactorChange(factor.id, checked)
                                       }

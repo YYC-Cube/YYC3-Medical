@@ -1,6 +1,5 @@
-import type { Metadata } from 'next';
-import { Logo as BrandLogo } from '@/components/brand/logo';
 import { BrandFormula } from '@/components/brand/formula';
+import { Logo as BrandLogo } from '@/components/brand/logo';
 import { Slogan as BrandSlogan } from '@/components/brand/slogan';
 import {
   MedicalCard,
@@ -8,16 +7,17 @@ import {
   MedicalCardHeader,
   MedicalCardTitle,
 } from '@/components/ui/medical-card';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '关于我们 | 言语医枢³智能诊疗系统',
-  description: '了解言语医枢³智能诊疗系统的品牌理念、技术优势和行业适配策略',
+  title: '关于我们',
+  description: '了解YanYuCloud智能诊疗系统的品牌理念、技术优势和行业适配策略',
 };
 
 export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">关于言语「 医枢³」</h1>
+      <h1 className="text-2xl font-bold mb-6">关于 YanYuCloud</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <MedicalCard>
@@ -31,15 +31,15 @@ export default function AboutPage() {
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium text-lg mb-2">中文全称</h3>
-                <p className="text-medical-800">言语「 医枢³」智能诊疗系统</p>
+                <p className="text-medical-800">YanYuCloud 智能诊疗系统</p>
               </div>
               <div>
                 <h3 className="font-medium text-lg mb-2">英文全称</h3>
-                <p className="text-medical-800">YanYu MediNexus³ AI Diagnostic System</p>
+                <p className="text-medical-800">YanYuCloud AI Diagnostic System</p>
               </div>
               <div>
                 <h3 className="font-medium text-lg mb-2">缩写</h3>
-                <p className="text-medical-800">YY³-MNDS</p>
+                <p className="text-medical-800">YYC³-Med</p>
               </div>
             </div>
           </MedicalCardContent>

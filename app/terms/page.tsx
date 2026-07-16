@@ -1,10 +1,10 @@
 import { PageHeader } from '@/components/page-header';
-import Link from 'next/link';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: '服务条款 - MediNexus³',
-  description: 'MediNexus³ 智能诊疗系统服务条款',
+  title: '服务条款',
+  description: 'YanYuCloud 智能诊疗系统服务条款',
 };
 
 export default function TermsPage() {
@@ -19,7 +19,7 @@ export default function TermsPage() {
         <div className="prose max-w-none">
           <h2>1. 服务使用条款</h2>
           <p>
-            欢迎使用MediNexus³智能诊疗系统（以下简称"本系统"）。本系统由YanYuCloud科技有限公司（以下简称"我们"）提供。通过访问或使用我们的服务，您同意受本服务条款的约束。
+            欢迎使用YanYuCloud智能诊疗系统（以下简称"本系统"）。本系统由YanYuCloud科技有限公司（以下简称"我们"）提供。通过访问或使用我们的服务，您同意受本服务条款的约束。
           </p>
 
           <h2>2. 账户注册与安全</h2>

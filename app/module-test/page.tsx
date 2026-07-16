@@ -1,7 +1,7 @@
 import { ModuleTester } from '@/components/testing/module-tester';
 
 export const metadata = {
-  title: '模块测试 | 言语医枢³智能诊疗系统',
+  title: '模块测试',
   description: '逐一测试各个医疗功能模块的运行状态',
 };
 

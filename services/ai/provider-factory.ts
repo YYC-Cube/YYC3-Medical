@@ -2,6 +2,7 @@ import type { AIProviderStrategy, AIProviderRegistration } from './types';
 import { DeepSeekProvider } from './providers/deepseek-provider';
 import { OpenAIProvider } from './providers/openai-provider';
 import { AnthropicProvider } from './providers/anthropic-provider';
+import { OllamaProvider } from './providers/ollama-provider';
 
 /**
  * AI 提供商工厂
@@ -76,6 +77,7 @@ export class AIProviderFactory {
     this.register(new DeepSeekProvider(), 'https://api.deepseek.com');
     this.register(new OpenAIProvider(), 'https://api.openai.com/v1');
     this.register(new AnthropicProvider(), 'https://api.anthropic.com/v1');
+    this.register(new OllamaProvider(), 'http://localhost:11434');
   }
 }
 

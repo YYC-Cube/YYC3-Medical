@@ -1,9 +1,8 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Table,
   TableBody,
@@ -12,26 +11,61 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Download,
-  Heart,
-  Share2,
-  Copy,
-  FileText,
-  Users,
-  Calendar,
-  Star,
-  ArrowLeft,
-  Clipboard,
-  CheckCircle2,
   AlertCircle,
+  ArrowLeft,
+  Calendar,
+  CheckCircle2,
+  Clipboard,
+  Copy,
+  Download,
+  FileText,
+  Heart,
   Info,
+  Share2,
+  Star,
+  Users,
 } from 'lucide-react';
 
+interface TemplateContent {
+  objective: string;
+  hypothesis: string;
+  groups: { name: string; size: string; description: string }[];
+  variables: { name: string; type: string; unit: string; method: string }[];
+  methods: { name: string; description: string }[];
+  sampleSizeCalculation?: string;
+  statisticalAnalysis?: string;
+}
+
+interface TemplateReview {
+  reviewer: string;
+  institution: string;
+  rating: number;
+  comment: string;
+  date: string;
+}
+
+export interface SpecializedTemplate {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  lastUpdated: string;
+  type?: string;
+  designType?: string;
+  author?: string;
+  institution?: string;
+  tags?: string[];
+  popularity?: number | string;
+  content?: TemplateContent;
+  reviews?: TemplateReview[];
+}
+
 interface TemplateDetailProps {
-  template: any;
+  template: SpecializedTemplate;
   onBack: () => void;
-  onUseTemplate: (template: any) => void;
+  onUseTemplate: (template: SpecializedTemplate) => void;
 }
 
 export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDetailProps) {
@@ -164,7 +198,7 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
               <div className="space-y-2">
                 <div className="font-medium">标签</div>
                 <div className="flex flex-wrap gap-2">
-                  {template.tags.map((tag: string) => (
+                  {(template.tags ?? []).map((tag: string) => (
                     <Badge key={tag} variant="outline">
                       {tag}
                     </Badge>
@@ -209,7 +243,7 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {templateDetail.content.groups.map((group: any, index: number) => (
+                    {templateDetail.content.groups.map((group, index: number) => (
                       <div key={index} className="border rounded-md p-3">
                         <div className="flex justify-between">
                           <div className="font-medium">{group.name}</div>
@@ -251,7 +285,7 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {templateDetail.content.variables.map((variable: any, index: number) => (
+                        {templateDetail.content.variables.map((variable, index: number) => (
                           <TableRow key={index}>
                             <TableCell className="font-medium">{variable.name}</TableCell>
                             <TableCell>{variable.type}</TableCell>
@@ -271,7 +305,7 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {templateDetail.content.methods.map((method: any, index: number) => (
+                    {templateDetail.content.methods.map((method, index: number) => (
                       <div key={index} className="border rounded-md p-3">
                         <div className="font-medium mb-1">{method.name}</div>
                         <p className="text-sm text-muted-foreground">{method.description}</p>
@@ -403,7 +437,7 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {templateDetail.reviews.map((review: any, index: number) => (
+                    {templateDetail.reviews.map((review, index: number) => (
                       <div key={index} className="border rounded-md p-4">
                         <div className="flex justify-between items-start mb-2">
                           <div>
@@ -416,11 +450,10 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                             {Array.from({ length: 5 }).map((_, i) => (
                               <Star
                                 key={i}
-                                className={`h-4 w-4 ${
-                                  i < review.rating
-                                    ? 'fill-yellow-400 text-warning'
-                                    : 'text-muted-foreground/30'
-                                }`}
+                                className={`h-4 w-4 ${i < review.rating
+                                  ? 'fill-yellow-400 text-warning'
+                                  : 'text-muted-foreground/30'
+                                  }`}
                               />
                             ))}
                           </div>
@@ -508,13 +541,12 @@ export function TemplateDetail({ template, onBack, onUseTemplate }: TemplateDeta
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-3 w-3 ${
-                          i < Math.floor(template.popularity)
-                            ? 'fill-yellow-400 text-warning'
-                            : i < template.popularity
-                              ? 'fill-yellow-400 text-warning opacity-50'
-                              : 'text-muted-foreground/30'
-                        }`}
+                        className={`h-3 w-3 ${i < Math.floor(Number(template.popularity) || 0)
+                          ? 'fill-yellow-400 text-warning'
+                          : i < Number(template.popularity) || 0
+                            ? 'fill-yellow-400 text-warning opacity-50'
+                            : 'text-muted-foreground/30'
+                          }`}
                       />
                     ))}
                   </div>

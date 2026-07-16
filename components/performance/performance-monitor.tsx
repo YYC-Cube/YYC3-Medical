@@ -105,8 +105,8 @@ export function PerformanceMonitor() {
           let clsValue = 0;
           new PerformanceObserver(entryList => {
             for (const entry of entryList.getEntries()) {
-              if (!(entry as any).hadRecentInput) {
-                clsValue += (entry as any).value;
+              if (!(entry as unknown as { hadRecentInput: boolean }).hadRecentInput) {
+                clsValue += (entry as unknown as { value: number }).value;
               }
             }
             setMetrics(prev => ({

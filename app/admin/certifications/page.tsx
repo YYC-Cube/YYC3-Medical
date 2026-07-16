@@ -2,7 +2,7 @@ import { AdminCertificationClient } from '@/components/admin/certifications/admi
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '资质审核 - MediNexus³',
+  title: '资质审核',
   description: '审核医生上传的资质认证信息',
 };
 

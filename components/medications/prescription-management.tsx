@@ -1,16 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, Filter, FileText, CheckCircle, XCircle, Clock } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,6 +12,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -28,17 +26,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import React from 'react';
+import { CheckCircle, Clock, FileText, Filter, Search, XCircle } from 'lucide-react';
+import React, { useState } from 'react';
 
 // 模拟处方据
 const prescriptions = [
@@ -269,7 +268,7 @@ export function PrescriptionManagement() {
                       <TableCell>
                         <Badge
                           variant={
-                            statusMap[prescription.status as keyof typeof statusMap]?.color as any
+                            statusMap[prescription.status as keyof typeof statusMap]?.color as 'default' | 'warning' | 'success' | 'destructive' | 'outline' | 'secondary' | 'info'
                           }
                           className="flex w-fit items-center gap-1"
                         >
@@ -353,9 +352,9 @@ export function PrescriptionManagement() {
                     <h4 className="text-sm font-medium text-muted-foreground">状态</h4>
                     <Badge
                       variant={
-                        statusMap[selectedPrescription.status as keyof typeof statusMap]
-                          ?.color as any
-                      }
+                          statusMap[selectedPrescription.status as keyof typeof statusMap]
+                            ?.color as 'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info' | undefined
+                        }
                       className="mt-1 flex w-fit items-center gap-1"
                     >
                       {statusMap[selectedPrescription.status as keyof typeof statusMap]?.icon &&

@@ -2,14 +2,11 @@
 
 import React from 'react';
 
-import { useState } from 'react';
-import { Search, Calendar, Activity, FileText } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -18,6 +15,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Activity, Calendar, FileText, Search } from 'lucide-react';
+import { useState } from 'react';
 
 // 模拟患者数据
 const patients = [
@@ -210,7 +210,7 @@ export function PatientDataViewer() {
                         <Badge
                           variant={
                             conditionMap[patient.condition as keyof typeof conditionMap]
-                              ?.color as any
+                              ?.color as 'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info' | undefined
                           }
                           className="flex w-fit items-center gap-1"
                         >

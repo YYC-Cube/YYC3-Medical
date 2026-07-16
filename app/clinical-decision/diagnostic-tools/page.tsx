@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { DiagnosticToolsClient } from '@/components/clinical-decision/diagnostic-tools-client';
 
 export const metadata: Metadata = {
-  title: '诊断辅助工具 | 言语医枢³智能诊疗系统',
+  title: '诊断辅助工具',
   description: '基于AI的诊断辅助工具，提供症状分析、鉴别诊断和风险评估',
 };
 

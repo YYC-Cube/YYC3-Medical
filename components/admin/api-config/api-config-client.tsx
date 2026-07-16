@@ -1,18 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { ApiKeyManager } from './api-key-manager';
-import { EndpointConfig } from './endpoint-config';
-import { apiConfigService } from '@/services/api-config-service';
-import type { ProviderApiConfig, ApiKeyConfig, ApiEndpointConfig } from '@/types/api-config';
-import { useToast } from '@/hooks/use-toast';
-import { Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import {
   Select,
   SelectContent,
@@ -20,7 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
+import { apiConfigService } from '@/services/api-config-service';
 import { certificationVerificationService } from '@/services/certification-verification-service';
+import type { ApiEndpointConfig, ApiKeyConfig, ProviderApiConfig } from '@/types/api-config';
+import { AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ApiKeyManager } from './api-key-manager';
+import { EndpointConfig } from './endpoint-config';
 
 export function ApiConfigClient() {
   const { toast } = useToast();
@@ -225,7 +226,7 @@ export function ApiConfigClient() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <LoadingSpinner size="sm" />
       </div>
     );
   }
@@ -277,11 +278,10 @@ export function ApiConfigClient() {
               <>
                 {selectedProvider.testStatus && (
                   <div
-                    className={`flex items-center p-3 rounded-md ${
-                      selectedProvider.testStatus === 'success'
+                    className={`flex items-center p-3 rounded-md ${selectedProvider.testStatus === 'success'
                         ? 'bg-success/5 text-success border border-success/30'
                         : 'bg-destructive text-destructive border border-destructive'
-                    }`}
+                      }`}
                   >
                     {selectedProvider.testStatus === 'success' ? (
                       <CheckCircle className="h-5 w-5 mr-2 text-success" />

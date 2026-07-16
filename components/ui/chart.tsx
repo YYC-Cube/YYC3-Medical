@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { LineChart, BarChart } from './recharts-dynamic';
+import { BarChart, LineChart } from './recharts-dynamic';
 
 import { cn } from '@/lib/utils';
 
@@ -35,9 +35,15 @@ export function ChartContainer({ children, config, className, ...props }: ChartC
   );
 }
 
+interface ChartTooltipPayloadEntry {
+  color: string;
+  name: string;
+  value: number;
+}
+
 interface ChartTooltipProps {
   active?: boolean;
-  payload?: any[];
+  payload?: ChartTooltipPayloadEntry[];
   label?: string;
   content?: React.ReactNode;
 }

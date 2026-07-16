@@ -3,7 +3,7 @@ import { RolesClient } from '@/components/admin/roles/roles-client';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata: Metadata = {
-  title: '角色权限管理 | YanYuCloud',
+  title: '角色权限管理',
   description: '管理用户角色和权限',
 };
 

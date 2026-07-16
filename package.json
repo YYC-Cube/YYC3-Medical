@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "description": "YYC³-Med YanYuCloud医疗AI智能诊疗系统",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=18.17.0",

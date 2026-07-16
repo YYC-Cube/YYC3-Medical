@@ -1,17 +1,10 @@
 'use client';
 
-import type React from 'react';
 
-import { useState } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -20,28 +13,34 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import {
   AlertCircle,
-  FileText,
-  Save,
-  Eye,
-  Send,
+  AlertTriangle,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Upload,
+  Eye,
+  FileText,
+  Save,
+  Send,
   Trash2,
-  CheckCircle2,
+  Upload,
   XCircle,
-  AlertTriangle,
 } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import type { ExperimentData } from './use-ethics-form';
 import { useEthicsForm } from './use-ethics-form';
 
 interface EthicsApplicationFormProps {
   experimentId: string;
-  experimentData?: any;
-  onSubmit: (data: any) => void;
-  onSaveDraft: (data: any) => void;
+  experimentData?: ExperimentData;
+  onSubmit: (data: unknown) => void;
+  onSaveDraft: (data: unknown) => void;
   onCancel: () => void;
 }
 

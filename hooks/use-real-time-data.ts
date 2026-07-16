@@ -26,6 +26,7 @@ export function useRealTimeData<T>(
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const retryCountRef = useRef(0);
+  const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMountedRef = useRef(true);
 
   const fetchData = async () => {
@@ -54,7 +55,7 @@ export function useRealTimeData<T>(
         // 重试逻辑
         if (retryCountRef.current < retryCount) {
           retryCountRef.current += 1;
-          setTimeout(fetchData, retryDelay);
+          retryTimerRef.current = setTimeout(fetchData, retryDelay);
         }
       }
     } finally {
@@ -76,6 +77,11 @@ export function useRealTimeData<T>(
     return () => {
       isMountedRef.current = false;
       clearInterval(timerId);
+      // 清理未完成的重试计时器，防止卸载后仍触发 setState
+      if (retryTimerRef.current) {
+        clearTimeout(retryTimerRef.current);
+        retryTimerRef.current = null;
+      }
     };
   }, [interval, enabled]);
 

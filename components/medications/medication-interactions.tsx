@@ -1,11 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, AlertCircle, Info, CheckCircle, XCircle, Plus, Trash2 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 import {
   Table,
   TableBody,
@@ -16,24 +24,23 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { medicationInteractionService } from '@/services/medication-interaction-service';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import type { DrugInteraction, Medication } from '@/types/knowledge-base';
+import { AlertCircle, CheckCircle, Info, Plus, Search, Trash2, XCircle } from 'lucide-react';
+import { useState } from 'react';
+
+interface InteractionResult {
+  medication1: Medication;
+  medication2: Medication;
+  interaction: DrugInteraction;
+}
 
 export function MedicationInteractions() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMedications, setSelectedMedications] = useState<string[]>([]);
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [interactions, setInteractions] = useState<any[]>([]);
+  const [searchResults, setSearchResults] = useState<Medication[]>([]);
+  const [interactions, setInteractions] = useState<InteractionResult[]>([]);
   const [activeTab, setActiveTab] = useState('checker');
-  const [selectedInteraction, setSelectedInteraction] = useState<any | null>(null);
+  const [selectedInteraction, setSelectedInteraction] = useState<InteractionResult | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
   // 搜索药物
@@ -65,7 +72,7 @@ export function MedicationInteractions() {
   };
 
   // 查看相互作用详情
-  const viewInteractionDetail = (interaction: any) => {
+  const viewInteractionDetail = (interaction: InteractionResult) => {
     setSelectedInteraction(interaction);
     setIsDetailOpen(true);
   };
@@ -108,7 +115,7 @@ export function MedicationInteractions() {
   // 获取选中的药物详情
   const selectedMedicationDetails = selectedMedications
     .map(id => allMedications.find(med => med.id === id))
-    .filter(Boolean);
+    .filter((med): med is Medication => med !== undefined);
 
   return (
     <div className="space-y-6">
@@ -186,7 +193,7 @@ export function MedicationInteractions() {
                   <h3 className="text-sm font-medium mb-2">已选择的药物</h3>
                   {selectedMedicationDetails.length > 0 ? (
                     <div className="space-y-2">
-                      {selectedMedicationDetails.map((medication: any) => (
+                      {selectedMedicationDetails.map((medication: Medication) => (
                         <div
                           key={medication.id}
                           className="flex items-center justify-between p-3 bg-medical-50 rounded-md"
@@ -235,7 +242,7 @@ export function MedicationInteractions() {
                             key={index}
                             variant={
                               interaction.interaction.severity === '严重' ||
-                              interaction.interaction.severity === '禁忌'
+                                interaction.interaction.severity === '禁忌'
                                 ? 'destructive'
                                 : interaction.interaction.severity === '中度'
                                   ? 'warning'

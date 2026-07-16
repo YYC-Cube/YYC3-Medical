@@ -1,34 +1,35 @@
 'use client';
 
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Loader2,
+  Activity,
   Brain,
   CheckCircle,
-  Layers,
-  Activity,
-  ImageIcon,
-  Radio,
-  Zap,
-  Search,
-  Grid,
-  Video,
   Download,
-  Share2,
   FileText,
+  Grid,
+  ImageIcon,
+  Layers,
+  Loader2,
+  Radio,
+  Search,
+  Share2,
+  Video,
+  Zap,
 } from 'lucide-react';
-import { ModalitySpecificAnalysis } from './modality-specific-analysis';
-import { CrossModalAnalysis } from './cross-modal-analysis';
-import { AIModelSelector } from './ai-model-selector';
+import { useState } from 'react';
 import {
-  availableModalities,
   availableAIModels,
+  availableModalities,
   multiModalAIService,
 } from '../../services/multi-modal-ai-service';
-import type { ModalityAnalysisResult, CrossModalAnalysisResult } from '../../types/medical-records';
+import type { CrossModalAnalysisResult, ModalityAnalysisResult } from '../../types/medical-records';
+import { AIModelSelector } from './ai-model-selector';
+import { CrossModalAnalysis } from './cross-modal-analysis';
+import { ModalitySpecificAnalysis } from './modality-specific-analysis';
 
 interface MultiModalAIDiagnosisProps {
   patientId?: string;
@@ -47,7 +48,7 @@ export function MultiModalAIDiagnosis({ patientId }: MultiModalAIDiagnosisProps)
   );
 
   // 模态图标映射
-  const modalityIcons: { [key: string]: any } = {
+  const modalityIcons: { [key: string]: React.ComponentType<{ className?: string }> } = {
     layers: Layers,
     activity: Activity,
     image: ImageIcon,
@@ -212,20 +213,18 @@ export function MultiModalAIDiagnosis({ patientId }: MultiModalAIDiagnosisProps)
                 return (
                   <Card
                     key={modality.id}
-                    className={`cursor-pointer transition-all ${
-                      selectedModalities.includes(modality.id)
-                        ? 'border-primary bg-primary/5'
-                        : 'hover:border-border'
-                    } ${!modality.isAvailable ? 'opacity-50' : ''}`}
+                    className={`cursor-pointer transition-all ${selectedModalities.includes(modality.id)
+                      ? 'border-primary bg-primary/5'
+                      : 'hover:border-border'
+                      } ${!modality.isAvailable ? 'opacity-50' : ''}`}
                     onClick={() => modality.isAvailable && handleModalitySelection(modality.id)}
                   >
                     <CardContent className="p-4 flex flex-col items-center text-center">
                       <div
-                        className={`p-3 rounded-full ${
-                          selectedModalities.includes(modality.id)
-                            ? 'bg-primary/10 text-primary'
-                            : 'bg-muted text-muted-foreground'
-                        } mb-3`}
+                        className={`p-3 rounded-full ${selectedModalities.includes(modality.id)
+                          ? 'bg-primary/10 text-primary'
+                          : 'bg-muted text-muted-foreground'
+                          } mb-3`}
                       >
                         <IconComponent className="h-6 w-6" />
                       </div>
@@ -458,7 +457,7 @@ export function MultiModalAIDiagnosis({ patientId }: MultiModalAIDiagnosisProps)
 
             {analysisInProgress && (
               <div className="p-6 text-center border rounded-lg">
-                <Loader2 className="h-12 w-12 animate-spin mx-auto text-primary" />
+                <LoadingSpinner />
                 <p className="mt-4 text-lg font-medium">AI正在分析多模态影像，请稍候...</p>
                 <p className="text-sm text-muted-foreground">多模态分析通常需要1-3分钟</p>
 
@@ -538,7 +537,7 @@ export function MultiModalAIDiagnosis({ patientId }: MultiModalAIDiagnosisProps)
                         <CrossModalAnalysis result={crossModalResult} />
                       ) : (
                         <div className="text-center py-12">
-                          <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
+                          <LoadingSpinner size="sm" />
                           <p className="mt-4">正在生成跨模态分析结果...</p>
                         </div>
                       )}

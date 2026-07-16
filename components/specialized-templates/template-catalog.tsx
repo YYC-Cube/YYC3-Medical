@@ -323,8 +323,10 @@ const TemplateCard = ({ template, onSelect }: TemplateCardProps) => {
   );
 };
 
+import type { SpecializedTemplate } from './template-detail';
+
 interface TemplateCatalogProps {
-  onSelectTemplate: (template: any) => void;
+  onSelectTemplate: (template: SpecializedTemplate) => void;
 }
 
 export function TemplateCatalog({ onSelectTemplate }: TemplateCatalogProps) {

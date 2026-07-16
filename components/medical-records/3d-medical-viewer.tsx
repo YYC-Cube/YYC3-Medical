@@ -1,21 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import {
-  OrbitControls,
-  Environment,
-  PerspectiveCamera,
-  Grid,
-  GizmoHelper,
-  GizmoViewport,
-  Bounds,
-  useBounds,
-  useGLTF,
-  useTexture,
-} from '@react-three/drei';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import {
   Select,
   SelectContent,
@@ -23,31 +10,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  CuboidIcon as Cube,
-  Maximize,
-  Minimize,
-  Ruler,
-  Pencil,
-  Download,
-  Scissors,
-  Sliders,
-  Crosshair,
-  Boxes,
+  Bounds,
+  Environment,
+  GizmoHelper,
+  GizmoViewport,
+  Grid,
+  OrbitControls,
+  PerspectiveCamera
+} from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import {
+  Bone,
   Box,
-  Scan,
+  Boxes,
   Brain,
+  Crosshair,
+  CuboidIcon as Cube,
+  Download,
   Heart,
   AirVentIcon as Lung,
-  Bone,
+  Maximize,
+  Minimize,
+  Pencil,
+  Ruler,
+  Scan,
+  Scissors,
+  Sliders,
 } from 'lucide-react';
-import * as THREE from 'three';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { ModelViewer, VolumeRenderer } from './medical-viewer-subcomponents';
 import { mockVolumeData, type MedicalVolumeData } from './medical-volume-data';
-import { ModelViewer, BoxHelper, VolumeRenderer } from './medical-viewer-subcomponents';
 
 // 模拟3D医学影像数据
 // 渲染模式
@@ -57,6 +53,22 @@ type RenderMode = '体积渲染' | '表面渲染' | '最大密度投影' | '切�
 interface MedicalViewer3DProps {
   volumeId?: string;
   onClose?: () => void;
+}
+
+interface Annotation {
+  id: string;
+  label: string;
+  position: [number, number, number];
+  color?: string;
+}
+
+interface Measurement {
+  id: string;
+  label: string;
+  value: number;
+  unit: string;
+  startPoint: [number, number, number];
+  endPoint: [number, number, number];
 }
 
 // 主组件
@@ -80,8 +92,8 @@ export function MedicalViewer3D({ volumeId = 'volume-1', onClose }: MedicalViewe
   const [rotationSpeed, setRotationSpeed] = useState(0);
   const [autoRotate, setAutoRotate] = useState(false);
   const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([0, 0, 5]);
-  const [annotations, setAnnotations] = useState<any[]>([]);
-  const [measurements, setMeasurements] = useState<any[]>([]);
+  const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [viewMode, setViewMode] = useState<'single' | 'multi'>('single');
   const [selectedVolumes, setSelectedVolumes] = useState<string[]>([volumeId]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -798,11 +810,10 @@ export function MedicalViewer3D({ volumeId = 'volume-1', onClose }: MedicalViewe
                       key={vol.id}
                       variant="outline"
                       size="sm"
-                      className={`w-full h-auto py-2 text-xs text-left justify-start ${
-                        selectedVolumes.includes(vol.id)
-                          ? 'bg-medical-900 border-medical-400'
-                          : 'bg-medical-700 border-medical-600'
-                      }`}
+                      className={`w-full h-auto py-2 text-xs text-left justify-start ${selectedVolumes.includes(vol.id)
+                        ? 'bg-medical-900 border-medical-400'
+                        : 'bg-medical-700 border-medical-600'
+                        }`}
                       onClick={() => handleVolumeSelect(vol.id)}
                     >
                       {vol.type === 'CT' && <Scan className="h-3 w-3 mr-2 shrink-0" />}

@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FileText, ImageIcon, FileSpreadsheet, FilePlus } from 'lucide-react';
 
 export const metadata = {
-  title: '病历管理 | MediNexus³',
+  title: '病历管理',
   description: '集中管理和查看患者的电子病历',
 };
 

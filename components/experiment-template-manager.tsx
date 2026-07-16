@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Table,
   TableBody,
@@ -14,21 +14,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Search,
-  Plus,
-  FileText,
+  Beaker,
   Clock,
+  Copy,
+  Download,
+  FileText,
+  FlaskConical,
+  Plus,
+  Search,
   Star,
   StarHalf,
   Users,
-  Beaker,
-  FlaskConical,
-  Download,
-  Copy,
 } from 'lucide-react';
+import { useState } from 'react';
+
+type ExperimentTemplate = (typeof templates)[0];
 
 // 模拟模板数据
 const templates = [
@@ -280,7 +282,7 @@ const myTemplates = [
 ];
 
 interface ExperimentTemplateManagerProps {
-  onSelectTemplate: (template: any) => void;
+  onSelectTemplate: (template: ExperimentTemplate) => void;
   onClose: () => void;
 }
 
@@ -290,7 +292,7 @@ export function ExperimentTemplateManager({
 }: ExperimentTemplateManagerProps) {
   const [activeTab, setActiveTab] = useState('public');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTemplate, setSelectedTemplate] = useState<any | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<ExperimentTemplate | null>(null);
 
   // 过滤模板
   const filteredTemplates = (activeTab === 'public' ? templates : myTemplates).filter(
@@ -364,9 +366,8 @@ export function ExperimentTemplateManager({
                 {filteredTemplates.map(template => (
                   <Card
                     key={template.id}
-                    className={`cursor-pointer hover:bg-accent/50 ${
-                      selectedTemplate?.id === template.id ? 'border-primary' : ''
-                    }`}
+                    className={`cursor-pointer hover:bg-accent/50 ${selectedTemplate?.id === template.id ? 'border-primary' : ''
+                      }`}
                     onClick={() => setSelectedTemplate(template)}
                   >
                     <CardHeader className="p-4">

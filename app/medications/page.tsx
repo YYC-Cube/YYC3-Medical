@@ -10,8 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Pill, ClipboardList, AlertTriangle, Package } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: '药物管理 | 言语医枢³智能诊疗系统',
-  description: '言语医枢³全面的药物管理系统，包括药物目录、库存管理、处方管理和药物相互作用检查',
+  title: '药物管理',
+  description: '全面的药物管理系统，包括药物目录、库存管理、处方管理和药物相互作用检查',
 };
 
 export default function MedicationsPage() {

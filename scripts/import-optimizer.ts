@@ -235,7 +235,7 @@ export class ImportOptimizer {
   }
 
   generateReport(): string {
-    const { optimizations, totalFiles, totalSavings } = this.optimize() as any;
+    const { optimizations, totalFiles, totalSavings } = this.optimize() as { optimizations: unknown[]; totalFiles: number; totalSavings: number };
 
     let report = "# 导入优化报告\n\n";
     report += `## 📊 统计信息\n\n`;

@@ -1,24 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
 import { DatePicker } from '@/components/ui/date-picker';
+import { Input } from '@/components/ui/input';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { Select } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 import {
+  AlertCircle,
   Calendar,
-  Search,
-  Phone,
-  Mail,
-  MessageSquare,
   CheckCircle,
   Clock,
-  AlertCircle,
+  Mail,
+  MessageSquare,
+  Phone,
+  Search,
   User,
 } from 'lucide-react';
-import { MedicalButton } from '@/components/ui/medical-button';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 // 模拟随访数据
 const followupData = [
@@ -85,7 +85,7 @@ const followupData = [
 ];
 
 // 根据状态过滤数据
-const filterFollowupsByStatus = (followups: any[], status: string) => {
+const filterFollowupsByStatus = (followups: typeof followupData, status: string) => {
   if (status === 'all') return followups;
   return followups.filter(followup => followup.status === status);
 };

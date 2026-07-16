@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Select,
@@ -16,7 +17,7 @@ import { verificationStatisticsService } from '@/services/verification-statistic
 import type { VerificationStatistics } from '@/types/verification-statistics';
 import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import { CalendarIcon, Download, Loader2 } from 'lucide-react';
+import { CalendarIcon, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ApiUsageChart } from './api-usage-chart';
 import { CertificationTypesChart } from './certification-types-chart';
@@ -220,7 +221,7 @@ export function VerificationStatisticsClient() {
         <CardContent>
           {loading ? (
             <div className="flex justify-center items-center h-64">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <LoadingSpinner size="sm" />
             </div>
           ) : statistics ? (
             <div className="space-y-8">

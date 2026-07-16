@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,10 +11,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -23,12 +21,23 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
+import { useEffect, useState } from 'react';
+
+interface Permission {
+  id?: string;
+  name?: string;
+  code?: string;
+  description?: string;
+  module?: string;
+  isActive?: boolean;
+}
 
 interface EditPermissionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  permission: any;
+  permission: Permission | null;
   availableModules: string[];
 }
 

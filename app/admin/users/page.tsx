@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { UserManagement } from '@/components/admin/user-management';
 
 export const metadata: Metadata = {
-  title: '用户管理 | 管理平台',
+  title: '用户管理',
   description: '管理系统用户、角色和权限',
 };
 

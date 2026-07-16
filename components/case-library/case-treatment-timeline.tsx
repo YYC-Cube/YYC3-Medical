@@ -149,7 +149,7 @@ export function CaseTreatmentTimeline({ treatments, followUps }: CaseTreatmentTi
           <CardTitle className="text-lg">治疗方案与随访</CardTitle>
           <Tabs
             value={activeTab}
-            onValueChange={value => setActiveTab(value as any)}
+            onValueChange={value => setActiveTab(value as 'timeline' | 'treatments' | 'followups')}
             className="w-[300px]"
           >
             <TabsList className="grid grid-cols-3">

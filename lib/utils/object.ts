@@ -15,7 +15,7 @@ export function deepMerge<T extends object = object, U extends object = T>(
         if (!(key in target)) {
           Object.assign(output, { [key]: source[key as keyof U] });
         } else {
-          (output as any)[key] = deepMerge((target as any)[key], (source as any)[key]);
+          (output as Record<string, unknown>)[key] = deepMerge((target as Record<string, unknown>)[key] as object, (source as Record<string, unknown>)[key] as object);
         }
       } else {
         Object.assign(output, { [key]: source[key as keyof U] });
@@ -29,8 +29,8 @@ export function deepMerge<T extends object = object, U extends object = T>(
 /**
  * 检查值是否为对象
  */
-export function isObject(item: any): item is object {
-  return item && typeof item === 'object' && !Array.isArray(item);
+export function isObject(item: unknown): item is Record<string, unknown> {
+  return typeof item === 'object' && item !== null && !Array.isArray(item);
 }
 
 /**

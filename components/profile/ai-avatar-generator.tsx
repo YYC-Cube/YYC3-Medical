@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogContent,
@@ -8,10 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -19,12 +20,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Sparkles, Loader2, RefreshCw, Wand2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { mockGenerateAIAvatar, type AvatarGenerationParams } from '@/services/ai-avatar-service';
-import { useToast } from '@/components/ui/use-toast';
+import { Loader2, RefreshCw, Sparkles, Wand2 } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
 interface AIAvatarGeneratorProps {
   onSelect: (avatarUrl: string) => void;
@@ -163,7 +164,7 @@ export function AIAvatarGenerator({ onSelect, className }: AIAvatarGeneratorProp
                   <Label>性别</Label>
                   <RadioGroup
                     value={gender}
-                    onValueChange={value => setGender(value as any)}
+                    onValueChange={value => setGender(value as 'male' | 'female' | 'other')}
                     className="flex space-x-4"
                   >
                     <div className="flex items-center space-x-2">
@@ -183,7 +184,7 @@ export function AIAvatarGenerator({ onSelect, className }: AIAvatarGeneratorProp
 
                 <div className="space-y-2">
                   <Label>年龄段</Label>
-                  <Select value={ageRange} onValueChange={value => setAgeRange(value as any)}>
+                  <Select value={ageRange} onValueChange={value => setAgeRange(value as 'young' | 'middle' | 'senior')}>
                     <SelectTrigger>
                       <SelectValue placeholder="选择年龄段" />
                     </SelectTrigger>
@@ -229,7 +230,7 @@ export function AIAvatarGenerator({ onSelect, className }: AIAvatarGeneratorProp
 
                 <div className="space-y-2">
                   <Label>风格</Label>
-                  <Select value={style} onValueChange={value => setStyle(value as any)}>
+                  <Select value={style} onValueChange={value => setStyle(value as 'realistic' | 'cartoon' | 'artistic' | 'minimalist')}>
                     <SelectTrigger>
                       <SelectValue placeholder="选择风格" />
                     </SelectTrigger>
@@ -448,7 +449,7 @@ export function AIAvatarGenerator({ onSelect, className }: AIAvatarGeneratorProp
               <div className="flex flex-col items-center justify-center h-full space-y-4 text-center">
                 {isGenerating ? (
                   <>
-                    <Loader2 className="h-16 w-16 text-primary/50 animate-spin" />
+                    <LoadingSpinner />
                     <p className="text-muted-foreground">AI正在创建您的专业医疗头像...</p>
                   </>
                 ) : (

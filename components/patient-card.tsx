@@ -1,10 +1,11 @@
 'use client';
 
-import { useTranslation } from '@/hooks/use-translation';
-import { useMedicalTerms } from '@/hooks/use-medical-terms';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Eye, Edit, Trash2 } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useMedicalTerms } from '@/hooks/use-medical-terms';
+import type { MedicalTermKey } from '@/i18n/medical-terms';
+import { useTranslation } from '@/hooks/use-translation';
+import { Edit, Eye, Trash2 } from 'lucide-react';
 
 interface PatientCardProps {
   id: string;
@@ -62,7 +63,7 @@ export function PatientCard({
             {diagnosis.map((d, i) => (
               <span key={i}>
                 {i > 0 && ', '}
-                {mt(`diagnosis.${d}` as any) || d}
+                {mt(`diagnosis.${d}` as `diagnosis.${string}` & MedicalTermKey) || d}
               </span>
             ))}
           </p>

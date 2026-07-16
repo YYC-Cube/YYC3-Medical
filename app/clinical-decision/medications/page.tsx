@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { DrugReferenceClient } from '@/components/clinical-decision/drug-reference-client';
 
 export const metadata: Metadata = {
-  title: '药物参考 | 言语医枢³智能诊疗系统',
+  title: '药物参考',
   description: '查询药物信息、相互作用和用药指导',
 };
 

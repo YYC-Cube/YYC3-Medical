@@ -183,7 +183,7 @@ export function RolePermissionMatrix() {
   const [searchQuery, setSearchQuery] = useState('');
   const [moduleFilter, setModuleFilter] = useState<string[]>([]);
   const [matrix, setMatrix] = useState<Record<string, string[]>>({});
-  const [filteredPermissions, setFilteredPermissions] = useState<any[]>([]);
+  const [filteredPermissions, setFilteredPermissions] = useState<typeof mockPermissions>([]);
   const [changed, setChanged] = useState(false);
 
   // 提取所有可用模块

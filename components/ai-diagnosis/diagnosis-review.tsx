@@ -287,9 +287,8 @@ export function DiagnosisReview() {
 
     toast({
       title: '已更改优先级',
-      description: `已将患者 ${diagnosis?.patientName} 的诊断优先级更改为 ${
-        priority === 'high' ? '高' : priority === 'medium' ? '中' : '低'
-      }`,
+      description: `已将患者 ${diagnosis?.patientName} 的诊断优先级更改为 ${priority === 'high' ? '高' : priority === 'medium' ? '中' : '低'
+        }`,
     });
   };
 
@@ -440,13 +439,12 @@ export function DiagnosisReview() {
                                 </TableCell>
                                 <TableCell>
                                   <div
-                                    className={`font-medium ${
-                                      diagnosis.confidence > 0.9
+                                    className={`font-medium ${diagnosis.confidence > 0.9
                                         ? 'text-success'
                                         : diagnosis.confidence > 0.8
                                           ? 'text-warning'
                                           : 'text-destructive'
-                                    }`}
+                                      }`}
                                   >
                                     {Math.round(diagnosis.confidence * 100)}%
                                   </div>
@@ -649,13 +647,12 @@ export function DiagnosisReview() {
                                   <div className="flex justify-between">
                                     <span className="text-muted-foreground">置信度:</span>
                                     <span
-                                      className={`font-medium ${
-                                        diagnosis.confidence > 0.9
+                                      className={`font-medium ${diagnosis.confidence > 0.9
                                           ? 'text-success'
                                           : diagnosis.confidence > 0.8
                                             ? 'text-warning'
                                             : 'text-destructive'
-                                      }`}
+                                        }`}
                                     >
                                       {Math.round(diagnosis.confidence * 100)}%
                                     </span>
@@ -776,7 +773,7 @@ export function DiagnosisReview() {
                         <div className="flex gap-2">
                           {getSelectedDiagnosis() &&
                             'assignedTo' in getSelectedDiagnosis()! &&
-                            !(getSelectedDiagnosis() as any).assignedTo && (
+                            !(getSelectedDiagnosis() as Record<string, unknown>).assignedTo && (
                               <Button variant="outline" onClick={() => setAssignDialogOpen(true)}>
                                 分配医生
                               </Button>
@@ -857,13 +854,12 @@ export function DiagnosisReview() {
               <div className="flex items-center gap-2">
                 <span className="text-lg font-medium">{getSelectedDiagnosis()?.diagnosis}</span>
                 <span
-                  className={`text-sm font-medium px-2 py-0.5 rounded-full ${
-                    (getSelectedDiagnosis()?.confidence || 0) > 0.9
+                  className={`text-sm font-medium px-2 py-0.5 rounded-full ${(getSelectedDiagnosis()?.confidence || 0) > 0.9
                       ? 'bg-success/10 text-success'
                       : (getSelectedDiagnosis()?.confidence || 0) > 0.8
                         ? 'bg-warning text-warning'
                         : 'bg-destructive text-destructive'
-                  }`}
+                    }`}
                 >
                   {Math.round((getSelectedDiagnosis()?.confidence || 0) * 100)}%
                 </span>

@@ -10,7 +10,8 @@
  *   AIProviderFactory (单例工厂)
  *     ├─ DeepSeekProvider   (deepseek)
  *     ├─ OpenAIProvider     (openai)
- *     └─ AnthropicProvider  (anthropic)
+ *     ├─ AnthropicProvider  (anthropic)
+ *     └─ OllamaProvider     (ollama, 本地模型)
  *       └─ (更多可扩展...)
  */
 
@@ -24,3 +25,4 @@ export type {
 export { DeepSeekProvider } from './providers/deepseek-provider';
 export { OpenAIProvider } from './providers/openai-provider';
 export { AnthropicProvider } from './providers/anthropic-provider';
+export { OllamaProvider } from './providers/ollama-provider';

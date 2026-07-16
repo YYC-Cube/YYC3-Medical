@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
 
 interface OcrServiceProps {
   imageUrl?: string;
   prescriptionPath?: string;
-  onComplete?: (result: any) => void;
+  onComplete?: (result: Record<string, unknown>) => void;
   onCancel?: () => void;
 }
 

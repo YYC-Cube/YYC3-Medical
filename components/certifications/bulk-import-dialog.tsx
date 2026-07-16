@@ -1,21 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileUpload } from '../profile/certifications/file-upload';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import {
-  Download,
-  Upload,
-  AlertCircle,
-  CheckCircle,
-  FileSpreadsheet,
-  RefreshCw,
-  X,
-} from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import {
   Table,
   TableBody,
@@ -24,6 +11,31 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
+import {
+  AlertCircle,
+  CheckCircle,
+  Download,
+  FileSpreadsheet,
+  RefreshCw,
+  Upload,
+  X,
+} from 'lucide-react';
+import { useState } from 'react';
+import { FileUpload } from '../profile/certifications/file-upload';
+
+interface PreviewDataItem {
+  licenseNumber: string;
+  name: string;
+  type?: string;
+  specialty?: string;
+  institution?: string;
+  issueDate?: string;
+  expiryDate?: string;
+  status: string;
+  reason?: string;
+}
 
 interface BulkImportDialogProps {
   onClose: () => void;
@@ -36,8 +48,14 @@ export function BulkImportDialog({ onClose }: BulkImportDialogProps) {
   const [templateFile, setTemplateFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadResult, setUploadResult] = useState<any | null>(null);
-  const [previewData, setPreviewData] = useState<any[] | null>(null);
+  const [uploadResult, setUploadResult] = useState<{
+    success: boolean;
+    total: number;
+    successful: number;
+    failed: number;
+    details: Array<{ licenseNumber: string; name: string; status: string; reason?: string }>;
+  } | null>(null);
+  const [previewData, setPreviewData] = useState<PreviewDataItem[] | null>(null);
 
   // 处理文件上传
   const handleFileChange = (selectedFile: File | null) => {
@@ -58,6 +76,7 @@ export function BulkImportDialog({ onClose }: BulkImportDialogProps) {
             institution: '北京协和医院',
             issueDate: '2023-01-15',
             expiryDate: '2028-01-14',
+            status: 'valid',
           },
           {
             type: 'specialist-certificate',
@@ -67,6 +86,7 @@ export function BulkImportDialog({ onClose }: BulkImportDialogProps) {
             institution: '卫生部',
             issueDate: '2022-09-15',
             expiryDate: '2027-09-14',
+            status: 'valid',
           },
           {
             type: 'doctor-license',
@@ -75,6 +95,7 @@ export function BulkImportDialog({ onClose }: BulkImportDialogProps) {
             institution: '上海交通大学医学院附属瑞金医院',
             issueDate: '2021-05-20',
             expiryDate: '2026-05-19',
+            status: 'valid',
           },
         ]);
       }, 1000);
@@ -283,7 +304,7 @@ export function BulkImportDialog({ onClose }: BulkImportDialogProps) {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {uploadResult.details.map((item: any, index: number) => (
+                      {uploadResult.details.map((item, index) => (
                         <TableRow key={index}>
                           <TableCell>{item.licenseNumber}</TableCell>
                           <TableCell>{item.name}</TableCell>

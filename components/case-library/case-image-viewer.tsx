@@ -318,7 +318,7 @@ export function CaseImageViewer({ images }: CaseImageViewerProps) {
                 <RotateCw className="h-4 w-4" />
               </Button>
             </div>
-            <Select value={activeTool} onValueChange={value => setActiveTool(value as any)}>
+            <Select value={activeTool} onValueChange={value => setActiveTool(value as 'pan' | 'zoom' | 'window' | 'measure' | 'annotate')}>
               <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="选择工具" />
               </SelectTrigger>

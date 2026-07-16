@@ -206,7 +206,7 @@ export function CommandsPanel(p: PanelProps) {
       </div>
       <div className="flex items-center gap-1 mb-3 flex-wrap">
         <span className="text-muted-foreground/50" style={{ fontSize: "0.6rem" }}>按家人:</span>
-        {[{ id: "all", shortName: "全部", color: "rgba(0,212,255,0.4)" } as any, ...FAMILY_PERSONAS.map(p => ({ id: p.id, shortName: p.shortName, color: p.color }))].map(f => (
+        {[{ id: "all", shortName: "全部", color: "rgba(0,212,255,0.4)" } as { id: string; shortName: string; color: string }, ...FAMILY_PERSONAS.map(p => ({ id: p.id, shortName: p.shortName, color: p.color }))].map(f => (
           <button key={f.id} onClick={() => p.setPersonaFilter(f.id)}
             className={`px-2 py-0.5 rounded transition-all ${p.personaFilter === f.id ? "border" : "border border-transparent hover:border"}`}
             style={{ fontSize: "0.6rem", background: p.personaFilter === f.id ? `${f.color}18` : "transparent", borderColor: p.personaFilter === f.id ? f.color : "transparent", color: p.personaFilter === f.id ? f.color : "rgba(0,212,255,0.3)" }}

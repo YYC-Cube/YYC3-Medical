@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ClinicalPathwaysClient } from '@/components/clinical-decision/clinical-pathways-client';
 
 export const metadata: Metadata = {
-  title: '临床路径管理 | 言语医枢³智能诊疗系统',
+  title: '临床路径管理',
   description: '管理和定制临床路径，规范诊疗流程，提高医疗质量',
 };
 

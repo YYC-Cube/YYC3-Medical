@@ -172,8 +172,8 @@ export default ${name}Service
     console.log("🎉 骨架文件生成完成！");
   }
 
-  private async generateSkeleton(module: any): Promise<void> {
-    const template = this.templates.get(module.type);
+  private async generateSkeleton(module: Record<string, unknown>): Promise<void> {
+    const template = this.templates.get(module.type as string);
     if (!template) {
       console.warn(`⚠️ 未找到 ${module.type} 类型的模板`);
       return;

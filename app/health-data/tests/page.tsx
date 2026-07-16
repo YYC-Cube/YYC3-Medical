@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { TestResultsClient } from '@/components/health-data/test-results-client';
 
 export const metadata: Metadata = {
-  title: '检测结果 | YanYu MediNexus³',
+  title: '检测结果',
   description: '患者检测结果管理与分析',
 };
 

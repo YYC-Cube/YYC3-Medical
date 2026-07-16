@@ -4,7 +4,7 @@ import { LoadingFallback } from '@/components/ui/loading-fallback';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata = {
-  title: '模型性能分析 | MediNexus³',
+  title: '模型性能分析',
   description: '分析和评估AI诊断模型的性能',
 };
 

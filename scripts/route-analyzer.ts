@@ -7,7 +7,7 @@ interface RouteInfo {
   fullPath: string;
 }
 
-interface RouteConflict {
+export interface RouteConflict {
   route: string;
   conflicts: RouteInfo[];
   severity: "high" | "medium" | "low";

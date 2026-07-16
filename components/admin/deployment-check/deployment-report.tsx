@@ -1,19 +1,30 @@
 'use client';
 
-import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MedicalButton } from '@/components/ui/medical-button';
 import {
-  CheckCircle,
   AlertTriangle,
-  XCircle,
-  Download,
+  CheckCircle,
   ChevronDown,
   ChevronUp,
+  Download,
+  XCircle,
 } from 'lucide-react';
+import { useState } from 'react';
+
+interface DeploymentCheckItem {
+  name: string;
+  status: string;
+  message: string;
+  category?: string;
+}
+
+interface DeploymentCheckResult {
+  items: DeploymentCheckItem[];
+}
 
 interface DeploymentReportProps {
-  results: Record<string, any>;
+  results: Record<string, DeploymentCheckResult>;
   overallStatus: string;
 }
 
@@ -22,10 +33,10 @@ export function DeploymentReport({ results, overallStatus }: DeploymentReportPro
 
   // 获取所有检查项
   const getAllItems = () => {
-    const allItems: any[] = [];
+    const allItems: DeploymentCheckItem[] = [];
 
     Object.entries(results).forEach(([category, result]) => {
-      result.items.forEach((item: any) => {
+      result.items.forEach((item) => {
         allItems.push({
           ...item,
           category,

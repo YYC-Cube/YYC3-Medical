@@ -14,7 +14,7 @@ import { DataExportService } from '@/services/data-export-service';
 import { useTranslation } from '@/hooks/use-translation';
 
 interface ExportButtonProps {
-  data: any[];
+  data: Record<string, unknown>[];
   fileName: string;
   disabled?: boolean;
 }

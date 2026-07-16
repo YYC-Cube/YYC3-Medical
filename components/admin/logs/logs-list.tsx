@@ -148,7 +148,7 @@ export function LogsList({
   setUserFilter,
   setModuleFilter,
 }: LogsListProps) {
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<typeof mockLogs>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);

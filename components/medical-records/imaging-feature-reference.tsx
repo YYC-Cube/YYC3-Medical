@@ -1,40 +1,40 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  ImageIcon,
-  Scan,
-  Layers,
-  Waves,
   Activity,
-  Microscope,
   AlertTriangle,
-  Info,
-  Search,
-  Stethoscope,
   BookOpen,
   Crosshair,
-  ZoomIn,
-  ZoomOut,
-  RotateCw,
+  ImageIcon,
+  Info,
+  Layers,
+  Microscope,
   PanelLeft,
   PanelRight,
+  RotateCw,
+  Scan,
+  Search,
+  Stethoscope,
+  Waves,
+  ZoomIn,
+  ZoomOut,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { imagingFeatureService } from '../../services/imaging-feature-service';
 import type {
-  ImagingFeature,
-  ModalityType,
   AnatomicalRegion,
   CTFeature,
+  ImagingFeature,
   MRIFeature,
-  XRayFeature,
+  ModalityType,
   UltrasoundFeature,
+  XRayFeature,
 } from '../../types/imaging-features';
 import type { DiagnosticFinding } from '../../types/medical-records';
 
@@ -55,9 +55,17 @@ export function ImagingFeatureReference({
 }: ImagingFeatureReferenceProps) {
   const [features, setFeatures] = useState<ImagingFeature[]>([]);
   const [selectedFeature, setSelectedFeature] = useState<ImagingFeature | null>(null);
-  const [relatedDiseases, setRelatedDiseases] = useState<{ disease: any; confidence: number }[]>(
-    []
-  );
+  const [relatedDiseases, setRelatedDiseases] = useState<{
+    disease: {
+      name: string;
+      id?: string;
+      icd10Code?: string;
+      description?: string;
+      symptoms?: string[];
+      differentialDiagnosis?: string[];
+    };
+    confidence: number;
+  }[]>([]);
   const [activeTab, setActiveTab] = useState('features');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -481,13 +489,12 @@ export function ImagingFeatureReference({
                   <div className="space-y-2">
                     {features.map(feature => (
                       <div
-                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.currentTarget.click(); } }}
                         key={feature.id}
-                        className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                          selectedFeature?.id === feature.id
-                            ? 'bg-primary/10 border-l-4 border-primary'
-                            : 'hover:bg-muted border-l-4 border-transparent'
-                        }`}
+                        className={`p-3 rounded-lg cursor-pointer transition-colors ${selectedFeature?.id === feature.id
+                          ? 'bg-primary/10 border-l-4 border-primary'
+                          : 'hover:bg-muted border-l-4 border-transparent'
+                          }`}
                         onClick={() => handleFeatureSelect(feature)}
                       >
                         <h4 className="font-medium">{feature.name}</h4>
@@ -611,13 +618,13 @@ export function ImagingFeatureReference({
                                 </h4>
                                 <ul className="list-disc pl-5 space-y-1">
                                   {disease.symptoms
-                                    .slice(0, 3)
+                                    ?.slice(0, 3)
                                     .map((symptom: string, index: number) => (
                                       <li key={index} className="text-foreground">
                                         {symptom}
                                       </li>
                                     ))}
-                                  {disease.symptoms.length > 3 && (
+                                  {(disease.symptoms?.length ?? 0) > 3 && (
                                     <li className="text-primary cursor-pointer">查看更多...</li>
                                   )}
                                 </ul>
@@ -630,7 +637,7 @@ export function ImagingFeatureReference({
                                 </h4>
                                 <ul className="list-disc pl-5 space-y-1">
                                   {disease.differentialDiagnosis
-                                    .slice(0, 3)
+                                    ?.slice(0, 3)
                                     .map((diagnosis: string, index: number) => (
                                       <li key={index} className="text-foreground">
                                         {diagnosis}

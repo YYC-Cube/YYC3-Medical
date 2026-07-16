@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 
 export default function CiStatus({ ciRunId }: { ciRunId: string }) {
-  const [status, setStatus] = useState<any>(null);
+  const [status, setStatus] = useState<{
+    runId: string;
+    commitHash: string;
+    timestamp: string;
+    passed: boolean;
+  } | null>(null);
 
   useEffect(() => {
     fetch(`/api/ci-status?runId=${ciRunId}`)

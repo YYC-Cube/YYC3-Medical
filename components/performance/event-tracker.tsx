@@ -8,7 +8,7 @@ import { performanceMonitor, markUserInteraction } from '@/services/performance-
 type EventTrackerProps = {
   children: React.ReactNode;
   eventName: string;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   trackMount?: boolean;
   trackUnmount?: boolean;
   trackClick?: boolean;

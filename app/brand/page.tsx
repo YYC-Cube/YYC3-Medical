@@ -10,8 +10,8 @@ import { AssetManagement } from '@/components/brand/asset-management';
 import { Logo as BrandLogo } from '@/components/brand/logo';
 
 export const metadata: Metadata = {
-  title: '品牌系统 | 言语医枢³智能诊疗系统',
-  description: '言语医枢³智能诊疗系统的完整品牌系统，包括视觉系统、语音设计、品牌故事和资产管理',
+  title: '品牌系统',
+  description: 'YanYuCloud智能诊疗系统的完整品牌系统，包括视觉系统、语音设计、品牌故事和资产管理',
 };
 
 export default function BrandPage() {
@@ -19,7 +19,7 @@ export default function BrandPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row items-center md:items-start justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-bold mb-2">言语「 医枢³」品牌系统</h1>
+          <h1 className="text-2xl font-bold mb-2">YanYuCloud 品牌系统</h1>
           <p className="text-medical-600">完整的品牌视觉系统、语音设计、品牌故事和资产管理</p>
         </div>
         <BrandLogo variant="compact" />

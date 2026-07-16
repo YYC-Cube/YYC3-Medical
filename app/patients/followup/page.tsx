@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar, Clock, CheckCircle, AlertCircle, Plus } from 'lucide-react';
 
 export const metadata = {
-  title: '随访计划 | MediNexus³',
+  title: '随访计划',
   description: '管理患者随访计划和提醒',
 };
 

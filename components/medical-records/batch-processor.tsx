@@ -2,23 +2,10 @@
 
 import type React from 'react';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import {
   Dialog,
   DialogContent,
@@ -27,6 +14,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { Progress } from '@/components/ui/progress';
 import {
   Select,
   SelectContent,
@@ -35,22 +25,32 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Upload,
-  FileText,
-  CheckCircle2,
-  XCircle,
-  Trash2,
-  Download,
-  Play,
-  Pause,
-  Filter,
-  Settings,
-  Save,
-  Eye,
-  Layers,
-  Clock,
-} from 'lucide-react';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAutomaticExecution } from '@/contexts/automatic-execution-context';
+import {
+  CheckCircle2,
+  Clock,
+  Download,
+  Eye,
+  FileText,
+  Filter,
+  Layers,
+  Pause,
+  Play,
+  Save,
+  Settings,
+  Trash2,
+  Upload,
+  XCircle,
+} from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // 模拟批处理任务
 const mockBatchTasks = [
@@ -82,8 +82,23 @@ const mockBatchTasks = [
   },
 ];
 
+interface BatchFile {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  uploadedAt: string;
+  status: string;
+  result: string | null;
+  thumbnailUrl: string;
+  patientName: string | null;
+  patientId: string | null;
+  isSelected: boolean;
+  preview?: string;
+}
+
 // 模拟批处理文件
-const mockBatchFiles = [
+const mockBatchFiles: BatchFile[] = [
   {
     id: 'file-001',
     name: '处方-张三-20240415.jpg',
@@ -153,7 +168,7 @@ const mockBatchFiles = [
 
 export function BatchProcessor() {
   const [activeTab, setActiveTab] = useState('upload');
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<BatchFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [batchName, setBatchName] = useState('');
@@ -220,6 +235,12 @@ export function BatchProcessor() {
               type: file.type.includes('image') ? '图片' : '文档',
               size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
               uploadedAt: new Date().toLocaleString(),
+              status: 'pending',
+              result: null,
+              thumbnailUrl: '',
+              patientName: null,
+              patientId: null,
+              isSelected: false,
               preview: URL.createObjectURL(file),
             }));
             setFiles(prev => [...prev, ...newFiles]);
@@ -305,15 +326,15 @@ export function BatchProcessor() {
         });
 
         // 更新文件状态
-        setBatchFiles((prev: typeof batchFiles) =>
+        setBatchFiles(prev =>
           prev.map((file, i) => {
             const isFailure = i % 10 === 9; // 10% 失败率
             return {
               ...file,
               status: '已处理' as const,
-              result: (isFailure ? '失败' : '成功') as any,
-              patientName: (isFailure ? null : `患者${i + 1}`) as any,
-              patientId: (isFailure ? null : `P-${10000 + i}`) as any,
+              result: isFailure ? '失败' : '成功',
+              patientName: isFailure ? null : `患者${i + 1}`,
+              patientId: isFailure ? null : `P-${10000 + i}`,
             };
           })
         );
@@ -349,9 +370,9 @@ export function BatchProcessor() {
           newFiles[fileIndex] = {
             ...newFiles[fileIndex],
             status: '已处理' as const,
-            result: (isFailure ? '失败' : '成功') as any,
-            patientName: (isFailure ? null : `患者${processed}`) as any,
-            patientId: (isFailure ? null : `P-${10000 + fileIndex}`) as any,
+            result: isFailure ? '失败' : '成功',
+            patientName: isFailure ? null : `患者${processed}`,
+            patientId: isFailure ? null : `P-${10000 + fileIndex}`,
           };
         }
         return newFiles;

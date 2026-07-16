@@ -4,7 +4,7 @@ import { LoadingFallback } from '@/components/ui/loading-fallback';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata = {
-  title: '诊断记录 | MediNexus³',
+  title: '诊断记录',
   description: '查看和管理AI辅助诊断的历史记录',
 };
 

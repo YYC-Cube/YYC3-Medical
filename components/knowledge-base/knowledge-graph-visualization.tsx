@@ -35,6 +35,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { knowledgeGraphService } from '../../services/knowledge-graph-service';
 import type {
+  GraphLayoutOptions,
   GraphNode,
   GraphRelation,
   NodeType,
@@ -45,6 +46,24 @@ import { useKnowledgeGraph } from './use-knowledge-graph';
 
 // 导入D3.js
 import * as d3 from 'd3';
+
+// D3 simulation node type (adds x, y, vx, vy, fx, fy to GraphNode)
+type SimNode = GraphNode & d3.SimulationNodeDatum;
+type SimLink = Omit<GraphRelation, 'source' | 'target'> & {
+  source: SimNode;
+  target: SimNode;
+};
+
+// D3 drag event type
+type D3DragEvent = d3.D3DragEvent<SVGGElement, SimNode, SimNode | undefined>;
+
+// 自定义力类型
+interface ClusterForce {
+  (alpha: number): void;
+  initialize: (nodes: SimNode[]) => void;
+  strength: (s: number) => ClusterForce;
+  centers: (c: ((d: SimNode) => { x: number; y: number }) | null) => ClusterForce;
+}
 
 // 医疗蓝色系D3色板 — 从 CSS 变量读取（运行时解析）
 function getMedicalColorScheme(): string[] {
@@ -130,27 +149,27 @@ export function KnowledgeGraphVisualization({
 
     // 创建缩放行为
     const zoom = d3
-      .zoom()
+      .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.1, 4])
       .on('zoom', event => {
         g.attr('transform', event.transform);
         setZoomLevel(event.transform.k);
       });
 
-    svg.call(zoom as any);
-    zoomRef.current = zoom as unknown as d3.ZoomBehavior<SVGSVGElement, unknown>;
+    svg.call(zoom);
+    zoomRef.current = zoom;
 
     // 创建主容器
     const g = svg.append('g');
 
     // 设置力导向模拟
     const simulation = d3
-      .forceSimulation(filteredGraph.nodes as any)
+      .forceSimulation<SimNode>(filteredGraph.nodes as SimNode[])
       .force(
         'link',
         d3
-          .forceLink(filteredGraph.relations as any)
-          .id((d: any) => d.id)
+          .forceLink<SimNode, SimLink>(filteredGraph.relations as unknown as SimLink[])
+          .id(d => d.id)
           .distance(layoutOptions.nodeSpacing)
       )
       .force('charge', d3.forceManyBody().strength(-200))
@@ -163,7 +182,7 @@ export function KnowledgeGraphVisualization({
       simulation.force(
         'cluster',
         forceCluster()
-          .centers((d: any) => {
+          .centers((d: SimNode) => {
             // 根据节点类型分组
             switch (d.type) {
               case '疾病':
@@ -219,10 +238,11 @@ export function KnowledgeGraphVisualization({
       .attr('stroke-opacity', 0.6)
       .attr('fill', 'none')
       .attr('marker-end', 'url(#arrow-end)')
-      .attr('stroke-width', d => {
+      .attr('stroke-width', (d) => {
+        const rel = d as GraphRelation;
         if (layoutOptions.linkWidth === 'strength') {
           const [min, max] = layoutOptions.linkWidthRange;
-          return min + ((d.strength - 1) / 9) * (max - min);
+          return min + ((rel.strength - 1) / 9) * (max - min);
         }
         return layoutOptions.linkWidthRange[0];
       })
@@ -235,11 +255,12 @@ export function KnowledgeGraphVisualization({
       .on('mouseover', function () {
         d3.select(this)
           .attr('stroke', getCSSVar('--primary'))
-          .attr('stroke-width', (d: any) => {
+          .attr('stroke-width', (d: unknown) => {
+            const rel = d as GraphRelation;
             const width =
               layoutOptions.linkWidth === 'strength'
                 ? layoutOptions.linkWidthRange[0] +
-                ((d.strength - 1) / 9) *
+                ((rel.strength - 1) / 9) *
                 (layoutOptions.linkWidthRange[1] - layoutOptions.linkWidthRange[0])
                 : layoutOptions.linkWidthRange[0];
             return width + 1;
@@ -248,10 +269,11 @@ export function KnowledgeGraphVisualization({
       .on('mouseout', function () {
         d3.select(this)
           .attr('stroke', getCSSVar('--muted-foreground'))
-          .attr('stroke-width', (d: any) => {
+          .attr('stroke-width', (d: unknown) => {
+            const rel = d as GraphRelation;
             if (layoutOptions.linkWidth === 'strength') {
               const [min, max] = layoutOptions.linkWidthRange;
-              return min + ((d.strength - 1) / 9) * (max - min);
+              return min + ((rel.strength - 1) / 9) * (max - min);
             }
             return layoutOptions.linkWidthRange[0];
           });
@@ -281,7 +303,7 @@ export function KnowledgeGraphVisualization({
       .data(filteredGraph.nodes)
       .enter()
       .append('g')
-      .call(d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended) as any)
+      .call(d3.drag<SVGGElement, SimNode>().on('start', dragstarted).on('drag', dragged).on('end', dragended))
       .on('click', (event, d) => {
         event.stopPropagation();
         setSelectedNode(d);
@@ -331,64 +353,64 @@ export function KnowledgeGraphVisualization({
     // 更新模拟
     simulation.on('tick', () => {
       // 更新连接线路径
-      link.attr('d', (d: any) => {
-        const dx = d.target.x - d.source.x;
-        const dy = d.target.y - d.source.y;
+      link.attr('d', (d: unknown) => {
+        const link = d as SimLink;
+        const dx = (link.target.x ?? 0) - (link.source.x ?? 0);
+        const dy = (link.target.y ?? 0) - (link.source.y ?? 0);
         const dr = Math.sqrt(dx * dx + dy * dy);
-        // 使用曲线路径以便更好地显示方向和避免重叠
-        return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+        return `M${link.source.x},${link.source.y}A${dr},${dr} 0 0,1 ${link.target.x},${link.target.y}`;
       });
 
       // 更新关系标签位置
-      linkLabel.attr('transform', (d: any) => {
-        const dx = d.target.x - d.source.x;
-        const dy = d.target.y - d.source.y;
+      linkLabel.attr('transform', (d: unknown) => {
+        const link = d as SimLink;
+        const dx = (link.target.x ?? 0) - (link.source.x ?? 0);
+        const dy = (link.target.y ?? 0) - (link.source.y ?? 0);
         const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-        const midX = (d.source.x + d.target.x) / 2;
-        const midY = (d.source.y + d.target.y) / 2;
+        const midX = ((link.source.x ?? 0) + (link.target.x ?? 0)) / 2;
+        const midY = ((link.source.y ?? 0) + (link.target.y ?? 0)) / 2;
         return `translate(${midX},${midY}) rotate(${angle})`;
       });
 
       // 更新节点位置
-      node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
+      node.attr('transform', (d: SimNode) => `translate(${d.x},${d.y})`);
     });
 
     // 拖拽函数
-    function dragstarted(event: any, d: any) {
+    function dragstarted(event: D3DragEvent, d: SimNode) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
 
-    function dragged(event: any, d: any) {
+    function dragged(event: D3DragEvent, d: SimNode) {
       d.fx = event.x;
       d.fy = event.y;
     }
 
-    function dragended(event: any, d: any) {
+    function dragended(event: D3DragEvent, d: SimNode) {
       if (!event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
     }
 
     // 自定义力函数，用于按类型聚类
-    function forceCluster() {
-      let nodes: any[] = [];
+    function forceCluster(): ClusterForce {
+      let nodes: SimNode[] = [];
       let strength = 0.1;
-      let centers: ((d: any) => { x: number; y: number }) | null = null;
+      let centers: ((d: SimNode) => { x: number; y: number }) | null = null;
 
       function force(alpha: number) {
-        // 对每个节点应用力
         nodes.forEach(d => {
-          if (centers) {
+          if (centers && d.vx !== undefined && d.vy !== undefined) {
             const center = centers(d);
-            d.vx += (center.x - d.x) * strength * alpha;
-            d.vy += (center.y - d.y) * strength * alpha;
+            d.vx += (center.x - (d.x ?? 0)) * strength * alpha;
+            d.vy += (center.y - (d.y ?? 0)) * strength * alpha;
           }
         });
       }
 
-      force.initialize = (_nodes: any[]) => {
+      force.initialize = (_nodes: SimNode[]) => {
         nodes = _nodes;
       };
 
@@ -397,7 +419,7 @@ export function KnowledgeGraphVisualization({
         return force;
       };
 
-      force.centers = (_centers: ((d: any) => { x: number; y: number }) | null) => {
+      force.centers = (_centers: ((d: SimNode) => { x: number; y: number }) | null) => {
         centers = _centers;
         return force;
       };
@@ -660,7 +682,7 @@ export function KnowledgeGraphVisualization({
                           <SelectValue placeholder="选择焦点节点" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value={undefined as any}>无焦点</SelectItem>
+                          <SelectItem value="">无焦点</SelectItem>
                           {graph?.nodes.map(node => (
                             <SelectItem key={node.id} value={node.id}>
                               {node.name} ({node.type})
@@ -695,7 +717,7 @@ export function KnowledgeGraphVisualization({
                           <Select
                             value={layoutOptions.layout}
                             onValueChange={value =>
-                              setLayoutOptions({ ...layoutOptions, layout: value as any })
+                              setLayoutOptions({ ...layoutOptions, layout: value as GraphLayoutOptions['layout'] })
                             }
                           >
                             <SelectTrigger id="layout-type">

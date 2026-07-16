@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, MessageSquare, Search } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: '使用指南 | YanYuCloud管理后台',
+  title: '使用指南',
   description: '管理后台使用指南和智能科普助手',
 };
 

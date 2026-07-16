@@ -97,8 +97,8 @@ export function chunk<T>(array: T[], size: number): T[][] {
  * @param count 要选择的元素数量，默认为 1
  * @returns 随机选择的元素或元素数组
  */
-export function sample<T>(array: T[], count = 1): T | T[] {
-  if (array.length === 0) return count === 1 ? (undefined as any) : [];
+export function sample<T>(array: T[], count = 1): T | T[] | undefined {
+  if (array.length === 0) return count === 1 ? undefined : [];
 
   if (count === 1) {
     const index = Math.floor(Math.random() * array.length);

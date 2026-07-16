@@ -2,25 +2,25 @@
 
 import { useState } from 'react';
 import { TemplateCatalog } from './template-catalog';
-import { TemplateDetail } from './template-detail';
+import { TemplateDetail, type SpecializedTemplate } from './template-detail';
 
 interface TemplateManagerProps {
-  onSelectTemplate: (template: any) => void;
+  onSelectTemplate: (template: unknown) => void;
   onClose: () => void;
 }
 
 export function TemplateManager({ onSelectTemplate, onClose }: TemplateManagerProps) {
-  const [selectedTemplate, setSelectedTemplate] = useState<any | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<SpecializedTemplate | null>(null);
 
-  const handleSelectTemplate = (template: any) => {
-    setSelectedTemplate(template);
+  const handleSelectTemplate = (template: unknown) => {
+    setSelectedTemplate(template as SpecializedTemplate);
   };
 
   const handleBack = () => {
     setSelectedTemplate(null);
   };
 
-  const handleUseTemplate = (template: any) => {
+  const handleUseTemplate = (template: unknown) => {
     onSelectTemplate(template);
     onClose();
   };

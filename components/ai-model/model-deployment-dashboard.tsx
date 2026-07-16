@@ -46,7 +46,7 @@ interface ModelData {
     status: string;
     accuracy: number;
   }>;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ModelDeploymentProps {

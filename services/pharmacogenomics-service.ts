@@ -160,7 +160,7 @@ export const pharmacogenomicsService = {
   // 分析药物基因相互作用
   analyzeDrugGeneInteraction: async (
     drugId: string,
-    geneVariants: any[]
+    geneVariants: Array<{ gene: string; variant: string }>
   ): Promise<{
     recommendation: string;
     dosageAdjustment?: string;

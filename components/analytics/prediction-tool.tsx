@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,9 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from '@/components/ui/recharts-dynamic';
 import {
   Select,
   SelectContent,
@@ -20,24 +29,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from '@/components/ui/recharts-dynamic';
 import { useTranslation } from '@/hooks/use-translation';
+import { useState } from 'react';
+
+interface PredictionDataPoint {
+  date: string;
+  value: number;
+  prediction: boolean;
+}
 
 // 模拟预测数据
 const generatePredictionData = (
   months: number,
   trend: 'up' | 'down' | 'stable',
   volatility: number
-) => {
+): PredictionDataPoint[] => {
   const data = [];
   let value = 100;
 
@@ -96,7 +102,7 @@ export function PredictionTool({ className = '' }: PredictionToolProps) {
   const [predictionMonths, setPredictionMonths] = useState<number>(6);
   const [predictionTrend, setPredictionTrend] = useState<'up' | 'down' | 'stable'>('up');
   const [volatility, setVolatility] = useState<number>(5);
-  const [predictionData, setPredictionData] = useState<any[]>([]);
+  const [predictionData, setPredictionData] = useState<PredictionDataPoint[]>([]);
   const [activeTab, setActiveTab] = useState<string>('chart');
   const { t } = useTranslation();
 
@@ -182,7 +188,7 @@ export function PredictionTool({ className = '' }: PredictionToolProps) {
                 <Label htmlFor="trend">{t('trend')}</Label>
                 <Select
                   value={predictionTrend}
-                  onValueChange={(value: any) => setPredictionTrend(value)}
+                  onValueChange={(value: string) => setPredictionTrend(value as 'up' | 'down' | 'stable')}
                 >
                   <SelectTrigger id="trend">
                     <SelectValue placeholder={t('selectTrend')} />

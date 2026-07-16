@@ -1,6 +1,99 @@
 // 统一AI服务接口
 import type { AIProviderConfig } from '@/types/ai-models';
 
+// ---------------------------------------------------------------------------
+// LRU 缓存 — 避免相同 prompt 重复调用 API
+// ---------------------------------------------------------------------------
+class LRUCache<K, V> {
+  private map = new Map<K, V>();
+  constructor(private readonly maxSize: number) { }
+
+  get(key: K): V | undefined {
+    const value = this.map.get(key);
+    if (value !== undefined) {
+      // 移到末尾（最近使用）
+      this.map.delete(key);
+      this.map.set(key, value);
+    }
+    return value;
+  }
+
+  set(key: K, value: V): void {
+    if (this.map.has(key)) {
+      this.map.delete(key);
+    } else if (this.map.size >= this.maxSize) {
+      // 删除最旧条目
+      const oldestKey = this.map.keys().next().value;
+      if (oldestKey !== undefined) this.map.delete(oldestKey);
+    }
+    this.map.set(key, value);
+  }
+
+  clear(): void {
+    this.map.clear();
+  }
+
+  get size(): number {
+    return this.map.size;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 令牌桶限流器 — 控制每个提供商的请求频率
+// ---------------------------------------------------------------------------
+class RateLimiter {
+  private tokens: number;
+  private lastRefill: number;
+  private queue: Array<() => void> = [];
+
+  constructor(
+    private readonly maxTokens: number,
+    private readonly refillIntervalMs: number
+  ) {
+    this.tokens = maxTokens;
+    this.lastRefill = Date.now();
+  }
+
+  private refill(): void {
+    const now = Date.now();
+    const elapsed = now - this.lastRefill;
+    const refilled = Math.floor(elapsed / this.refillIntervalMs);
+    if (refilled > 0) {
+      this.tokens = Math.min(this.maxTokens, this.tokens + refilled);
+      this.lastRefill += refilled * this.refillIntervalMs;
+    }
+  }
+
+  private drainQueue(): void {
+    this.refill();
+    while (this.tokens > 0 && this.queue.length > 0) {
+      this.tokens -= 1;
+      const resolve = this.queue.shift()!;
+      resolve();
+    }
+  }
+
+  /** 等待直到获取一个令牌 */
+  async acquire(): Promise<void> {
+    this.refill();
+    if (this.tokens > 0) {
+      this.tokens -= 1;
+      return;
+    }
+    // 排队等待
+    return new Promise<void>(resolve => {
+      this.queue.push(resolve);
+      // 定时检查
+      if (this.queue.length === 1) {
+        const timer = setInterval(() => {
+          this.drainQueue();
+          if (this.queue.length === 0) clearInterval(timer);
+        }, this.refillIntervalMs);
+      }
+    });
+  }
+}
+
 export interface UnifiedAIRequest {
   provider: string;
   model: string;
@@ -34,6 +127,53 @@ export interface UnifiedAIResponse {
 // 统一AI调用服务
 export class UnifiedAIService {
   private configs: Map<string, AIProviderConfig> = new Map();
+  private responseCache = new LRUCache<string, UnifiedAIResponse>(100);
+  private rateLimiters = new Map<string, RateLimiter>();
+  private cacheEnabled = true;
+  private fallbackChain: string[] = [];
+
+  /** 配置缓存与限流 */
+  configure(options: {
+    cacheEnabled?: boolean;
+    cacheMaxSize?: number;
+    rateLimit?: { maxRequests: number; intervalMs: number };
+    fallbackProviders?: string[];
+  }): void {
+    if (options.cacheEnabled !== undefined) {
+      this.cacheEnabled = options.cacheEnabled;
+    }
+    if (options.cacheMaxSize && options.cacheMaxSize !== this.responseCache['maxSize']) {
+      this.responseCache = new LRUCache<string, UnifiedAIResponse>(options.cacheMaxSize);
+    }
+    if (options.rateLimit) {
+      this.rateLimiters.clear();
+    }
+    if (options.fallbackProviders) {
+      this.fallbackChain = options.fallbackProviders;
+    }
+  }
+
+  /** 设置故障降级链 */
+  setFallbackChain(providers: string[]): void {
+    this.fallbackChain = providers;
+  }
+
+  /** 获取或创建指定提供商的限流器 */
+  private getRateLimiter(providerId: string): RateLimiter {
+    let limiter = this.rateLimiters.get(providerId);
+    if (!limiter) {
+      // 默认：每秒最多 5 个请求
+      limiter = new RateLimiter(5, 1000);
+      this.rateLimiters.set(providerId, limiter);
+    }
+    return limiter;
+  }
+
+  /** 生成请求缓存键 */
+  private getCacheKey(request: UnifiedAIRequest): string {
+    const { provider, model, messages, options } = request;
+    return JSON.stringify({ provider, model, messages, options });
+  }
 
   // 注册提供商配置
   registerProvider(config: AIProviderConfig) {
@@ -47,6 +187,19 @@ export class UnifiedAIService {
       throw new Error(`未找到提供商配置: ${request.provider}`);
     }
 
+    // 1. 检查缓存（stream 请求不缓存）
+    if (this.cacheEnabled && !request.options?.stream) {
+      const cacheKey = this.getCacheKey(request);
+      const cached = this.responseCache.get(cacheKey);
+      if (cached) {
+        return { ...cached, duration: 0 };
+      }
+    }
+
+    // 2. 限流等待
+    const limiter = this.getRateLimiter(request.provider);
+    await limiter.acquire();
+
     const startTime = Date.now();
 
     try {
@@ -54,13 +207,48 @@ export class UnifiedAIService {
       const response = await this.callProviderAPI(request, config);
       const duration = Date.now() - startTime;
 
-      return {
+      const result: UnifiedAIResponse = {
         ...response,
         duration,
         provider: request.provider,
       };
+
+      // 3. 写入缓存（stream 请求不缓存）
+      if (this.cacheEnabled && !request.options?.stream) {
+        const cacheKey = this.getCacheKey(request);
+        this.responseCache.set(cacheKey, result);
+      }
+
+      return result;
     } catch (error) {
-      throw new Error(`AI调用失败: ${error instanceof Error ? error.message : '未知错误'}`);
+      // 故障降级：尝试 fallback 链中的下一个提供商
+      const errorMsg = error instanceof Error ? error.message : '未知错误';
+
+      // 构建候选降级列表（排除已尝试的主提供商）
+      const candidates = this.fallbackChain.filter(p => p !== request.provider);
+      for (const fallbackProvider of candidates) {
+        const fallbackConfig = this.configs.get(fallbackProvider);
+        if (!fallbackConfig) continue;
+
+        try {
+          const fallbackRequest: UnifiedAIRequest = {
+            ...request,
+            provider: fallbackProvider,
+          };
+          const fallbackResponse = await this.callProviderAPI(fallbackRequest, fallbackConfig);
+          const duration = Date.now() - startTime;
+
+          return {
+            ...fallbackResponse,
+            duration,
+            provider: fallbackProvider,
+          };
+        } catch {
+          // 继续尝试下一个 fallback
+        }
+      }
+
+      throw new Error(`AI调用失败（已尝试降级）: ${errorMsg}`);
     }
   }
 
@@ -80,6 +268,8 @@ export class UnifiedAIService {
         return this.callBaidu(request, config);
       case 'alibaba':
         return this.callAlibaba(request, config);
+      case 'ollama':
+        return this.callOllama(request, config);
       default:
         throw new Error(`不支持的提供商: ${config.providerId}`);
     }
@@ -324,6 +514,47 @@ export class UnifiedAIService {
       model: request.model,
       finishReason: data.output.finish_reason,
       cost: this.calculateCost('alibaba', request.model, data.usage.total_tokens),
+    };
+  }
+
+  // Ollama 本地模型 API 调用
+  private async callOllama(
+    request: UnifiedAIRequest,
+    config: AIProviderConfig
+  ): Promise<Omit<UnifiedAIResponse, 'duration' | 'provider'>> {
+    const baseUrl = config.credentials?.baseUrl || 'http://localhost:11434';
+
+    const response = await fetch(`${baseUrl}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: request.model,
+        messages: request.messages,
+        stream: false,
+        options: {
+          temperature: request.options?.temperature || 0.7,
+          top_p: request.options?.topP || 0.9,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Ollama API错误: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    return {
+      id: `ollama-${Date.now()}`,
+      content: data.message?.content ?? '',
+      usage: {
+        promptTokens: data.prompt_eval_count ?? 0,
+        completionTokens: data.eval_count ?? 0,
+        totalTokens: (data.prompt_eval_count ?? 0) + (data.eval_count ?? 0),
+      },
+      model: data.model || request.model,
+      finishReason: data.done ? 'stop' : 'length',
+      cost: 0, // 本地模型无 API 费用
     };
   }
 

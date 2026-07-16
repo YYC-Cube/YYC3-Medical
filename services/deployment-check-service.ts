@@ -13,7 +13,7 @@ export interface CheckItem {
   name: string;
   status: CheckStatus;
   message: string;
-  details?: any;
+  details?: unknown;
 }
 
 export interface CheckResult {

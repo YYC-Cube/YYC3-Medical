@@ -1,12 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -15,7 +10,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { X, Plus } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { Plus, X } from 'lucide-react';
+import { useState } from 'react';
 
 interface SaveAsTemplateDialogProps {
   open: boolean;
@@ -26,7 +26,7 @@ interface SaveAsTemplateDialogProps {
     tags: string[];
     isPublic: boolean;
   }) => void;
-  experimentData: any | null;
+  experimentData: { title?: string; tags?: string[];[key: string]: unknown } | null;
 }
 
 export function SaveAsTemplateDialog({
@@ -42,7 +42,7 @@ export function SaveAsTemplateDialog({
     experimentData ? `基于"${experimentData.title}"创建的模板` : ''
   );
   const [isPublic, setIsPublic] = useState(false);
-  const [tags, setTags] = useState<string[]>(experimentData ? [...experimentData.tags] : []);
+  const [tags, setTags] = useState<string[]>(experimentData?.tags ? [...experimentData.tags] : []);
   const [newTag, setNewTag] = useState('');
 
   // 添加标签

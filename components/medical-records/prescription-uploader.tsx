@@ -2,7 +2,8 @@
 
 import type React from 'react';
 
-import { useState, useRef } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,11 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +19,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import {
   Select,
@@ -39,17 +37,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Upload,
-  FileText,
-  Search,
   Download,
-  Trash2,
-  FilePlus2,
   Eye,
+  FilePlus2,
+  FileText,
   Printer,
   ScanText,
+  Search,
+  Trash2,
+  Upload,
 } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { OcrService } from './ocr-service';
 
 // 模拟药方数据
@@ -247,30 +247,51 @@ export function PrescriptionUploader({
     }
   };
 
+  interface OcrResult {
+    patientInfo: {
+      name: string;
+      id: string;
+    };
+    prescriptionInfo: {
+      date: string;
+      doctor: string;
+      department: string;
+      diagnosis: string;
+    };
+    medications: Array<{
+      name: string;
+      dosage: string;
+      frequency: string;
+      duration: string;
+    }>;
+    additionalNotes?: string;
+  }
+
   // 处理OCR结果
-  const handleOcrComplete = (result: any) => {
+  const handleOcrComplete = (result: Record<string, unknown>) => {
+    const ocrResult = result as unknown as OcrResult;
     const now = new Date();
     const dateStr = now.toISOString().split('T')[0];
     const timeStr = now.toTimeString().split(' ')[0];
 
     const newPrescription = {
       id: `rx-ocr-${Date.now()}`,
-      fileName: `处方-${result.patientInfo.name}-${result.prescriptionInfo.date}.pdf`,
+      fileName: `处方-${ocrResult.patientInfo.name}-${ocrResult.prescriptionInfo.date}.pdf`,
       thumbnailUrl: '/placeholder.svg?key=ce9uh',
       fileUrl: ocrImageUrl,
-      patientName: result.patientInfo.name,
-      patientId: result.patientInfo.id,
-      issueDate: result.prescriptionInfo.date,
-      doctor: result.prescriptionInfo.doctor,
-      department: result.prescriptionInfo.department,
-      diagnosis: result.prescriptionInfo.diagnosis,
-      medications: result.medications.map((med: any) => ({
+      patientName: ocrResult.patientInfo.name,
+      patientId: ocrResult.patientInfo.id,
+      issueDate: ocrResult.prescriptionInfo.date,
+      doctor: ocrResult.prescriptionInfo.doctor,
+      department: ocrResult.prescriptionInfo.department,
+      diagnosis: ocrResult.prescriptionInfo.diagnosis,
+      medications: ocrResult.medications.map((med) => ({
         name: med.name,
         dosage: med.dosage,
         frequency: med.frequency,
         duration: med.duration,
       })),
-      notes: result.additionalNotes,
+      notes: ocrResult.additionalNotes ?? '',
       status: '待审核',
       uploadedBy: '当前用户(OCR)',
       uploadedAt: `${dateStr} ${timeStr}`,
@@ -373,7 +394,7 @@ export function PrescriptionUploader({
                         <TableCell>
                           <Badge
                             variant={
-                              statusMap[prescription.status as keyof typeof statusMap]?.color as any
+                              statusMap[prescription.status as keyof typeof statusMap]?.color as 'default' | 'secondary' | 'destructive' | 'outline' | 'success' | 'warning' | 'info' | undefined
                             }
                           >
                             {prescription.status}

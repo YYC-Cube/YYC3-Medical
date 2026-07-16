@@ -15,7 +15,7 @@ export default function NavigationTestPage() {
             </Card3dHeader>
             <Card3dContent>
               <p className="text-medical-700">
-                此页面用于测试MediNexus³系统中的所有导航链接，确保它们能正常工作。测试工具将检查每个链接，并提供详细的测试结果。
+                此页面用于测试YanYuCloud系统中的所有导航链接，确保它们能正常工作。测试工具将检查每个链接，并提供详细的测试结果。
               </p>
             </Card3dContent>
           </Card3d>

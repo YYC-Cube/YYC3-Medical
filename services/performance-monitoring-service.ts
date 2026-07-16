@@ -12,10 +12,28 @@ export type PerformanceMetric = {
   timestamp: number;
 };
 
+// 资源计时条目类型
+export type ResourceTimingEntry = {
+  name: string;
+  initiatorType: string;
+  duration: number;
+  transferSize: number;
+  decodedBodySize: number;
+  startTime: number;
+};
+
+// 用户计时条目类型
+export type UserTimingEntry = {
+  name: string;
+  entryType: string;
+  startTime: number;
+  duration: number;
+};
+
 // 自定义事件类型
 export type CustomEvent = {
   name: string;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   timestamp: number;
 };
 
@@ -24,8 +42,8 @@ export type PerformanceReport = {
   metrics: PerformanceMetric[];
   events: CustomEvent[];
   navigationTiming: Record<string, number>;
-  resourceTiming: Array<Record<string, any>>;
-  userTiming: Array<Record<string, any>>;
+  resourceTiming: ResourceTimingEntry[];
+  userTiming: UserTimingEntry[];
 };
 
 class PerformanceMonitoringService {
@@ -114,7 +132,7 @@ class PerformanceMonitoringService {
   }
 
   // 跟踪自定义事件
-  trackEvent(name: string, data: Record<string, any> = {}) {
+  trackEvent(name: string, data: Record<string, unknown> = {}) {
     if (!this.isMonitoring) return this;
 
     this.events.push({
@@ -241,7 +259,7 @@ class PerformanceMonitoringService {
   private collectPeriodicMetrics() {
     // 收集内存使用情况
     if (this.config.trackMemory && 'memory' in performance) {
-      const memory = (performance as any).memory;
+      const memory = (performance as unknown as { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number } }).memory;
       if (memory) {
         this.addMetric('内存-已用堆大小', memory.usedJSHeapSize / (1024 * 1024), 'MB');
         this.addMetric('内存-堆大小限制', memory.jsHeapSizeLimit / (1024 * 1024), 'MB');
@@ -314,12 +332,12 @@ class PerformanceMonitoringService {
   }
 
   // 获取资源计时数据
-  private getResourceTiming(): Array<Record<string, any>> {
+  private getResourceTiming(): ResourceTimingEntry[] {
     if (typeof window === 'undefined' || !window.performance || !this.config.trackResourceTiming) {
       return [];
     }
 
-    const result: Array<Record<string, any>> = [];
+    const result: ResourceTimingEntry[] = [];
 
     if ('getEntriesByType' in performance) {
       const resourceEntries = performance.getEntriesByType('resource');
@@ -340,12 +358,12 @@ class PerformanceMonitoringService {
   }
 
   // 获取用户计时数据
-  private getUserTiming(): Array<Record<string, any>> {
+  private getUserTiming(): UserTimingEntry[] {
     if (typeof window === 'undefined' || !window.performance || !this.config.trackUserTiming) {
       return [];
     }
 
-    const result: Array<Record<string, any>> = [];
+    const result: UserTimingEntry[] = [];
 
     if ('getEntriesByType' in performance) {
       const markEntries = performance.getEntriesByType('mark');
@@ -426,7 +444,7 @@ export function markUserInteraction(name: string) {
       });
     };
   }
-  return () => {};
+  return () => { };
 }
 
 // 用于测量组件渲染时间的HOC

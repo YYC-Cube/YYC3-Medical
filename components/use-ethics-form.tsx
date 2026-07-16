@@ -1,13 +1,57 @@
 'use client';
 
-import { useState, useCallback } from 'react';
 import type React from 'react';
+import { useCallback, useState } from 'react';
+
+export interface ExperimentData {
+  title?: string;
+  principalInvestigator?: string;
+  department?: string;
+  objective?: string;
+  methods?: Array<{ description: string }>;
+  groups?: Array<{ name: string; description: string; size: number }>;
+  startDate?: string;
+  endDate?: string;
+}
+
+interface EthicsFormData {
+  projectTitle: string;
+  principalInvestigator: string;
+  department: string;
+  applicationDate: string;
+  contactEmail: string;
+  contactPhone: string;
+  researchObjective: string;
+  researchBackground: string;
+  methodology: string;
+  participantSelection: string;
+  sampleSize: number;
+  studyDuration: string;
+  potentialRisks: string;
+  riskManagement: string;
+  anticipatedBenefits: string;
+  informedConsent: string;
+  consentProcess: string;
+  dataProtection: string;
+  confidentiality: string;
+  compensationDetails: string;
+  conflictOfInterest: string;
+  conflictDetails: string;
+  declarationAccuracy: boolean;
+  declarationCompliance: boolean;
+  declarationReporting: boolean;
+  declarationResponsibility: boolean;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  experimentId: string;
+}
 
 interface UseEthicsFormOptions {
   experimentId: string;
-  experimentData?: any;
-  onSubmit: (data: any) => void;
-  onSaveDraft: (data: any) => void;
+  experimentData?: ExperimentData;
+  onSubmit: (data: EthicsFormData) => void;
+  onSaveDraft: (data: EthicsFormData) => void;
 }
 
 /**
@@ -35,12 +79,12 @@ export function useEthicsForm({
     contactPhone: '',
     researchObjective: experimentData?.objective || '',
     researchBackground: '',
-    methodology: experimentData?.methods?.map((m: any) => m.description).join('\n\n') || '',
+    methodology: experimentData?.methods?.map((m) => m.description).join('\n\n') || '',
     participantSelection:
       experimentData?.groups
-        ?.map((g: any) => `${g.name}: ${g.description} (n=${g.size})`)
+        ?.map((g) => `${g.name}: ${g.description} (n=${g.size})`)
         .join('\n') || '',
-    sampleSize: experimentData?.groups?.reduce((sum: number, g: any) => sum + g.size, 0) || 0,
+    sampleSize: experimentData?.groups?.reduce((sum: number, g) => sum + g.size, 0) || 0,
     studyDuration:
       experimentData?.startDate && experimentData?.endDate
         ? `${experimentData.startDate} 至 ${experimentData.endDate}`
@@ -66,7 +110,7 @@ export function useEthicsForm({
   });
 
   const handleChange = useCallback(
-    (field: string, value: any) => {
+    (field: string, value: unknown) => {
       setFormData(prev => ({ ...prev, [field]: value }));
       if (formErrors[field]) {
         setFormErrors(prev => {

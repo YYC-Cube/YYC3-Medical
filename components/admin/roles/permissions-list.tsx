@@ -1,6 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -9,18 +19,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Search, Shield, Check, X, Eye, FileText } from 'lucide-react';
+import { Check, Eye, FileText, MoreHorizontal, Search, Shield, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { CreatePermissionDialog } from './create-permission-dialog';
 import { EditPermissionDialog } from './edit-permission-dialog';
 
@@ -184,13 +184,13 @@ const moduleColors: Record<string, string> = {
 };
 
 export function PermissionsList() {
-  const [permissions, setPermissions] = useState<any[]>([]);
+  const [permissions, setPermissions] = useState<typeof mockPermissions>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [moduleFilter, setModuleFilter] = useState<string[]>([]);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editingPermission, setEditingPermission] = useState<any>(null);
+  const [editingPermission, setEditingPermission] = useState<Record<string, unknown> | null>(null);
 
   // 提取所有可用模块
   const availableModules = Array.from(new Set(mockPermissions.map(p => p.module)));
@@ -237,7 +237,7 @@ export function PermissionsList() {
     setModuleFilter([]);
   };
 
-  const handleEdit = (permission: any) => {
+  const handleEdit = (permission: typeof mockPermissions[0]) => {
     setEditingPermission(permission);
     setEditDialogOpen(true);
   };

@@ -2,11 +2,13 @@
 
 import type React from 'react';
 
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Select,
   SelectContent,
@@ -14,10 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Checkbox } from '@/components/ui/checkbox';
-import { DatePicker } from '@/components/ui/date-picker';
-import { Search, Filter, X } from 'lucide-react';
+import { Filter, Search, X } from 'lucide-react';
+import { useState } from 'react';
 
 interface AdvancedSearchProps {
   onSearch: (criteria: SearchCriteria) => void;
@@ -27,9 +27,7 @@ interface AdvancedSearchProps {
 
 export interface SearchCriteria {
   keyword: string;
-  filters: {
-    [key: string]: any;
-  };
+  filters: Record<string, string | boolean | Date | undefined>;
 }
 
 export function AdvancedSearch({
@@ -39,7 +37,7 @@ export function AdvancedSearch({
 }: AdvancedSearchProps) {
   const [keyword, setKeyword] = useState('');
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-  const [filters, setFilters] = useState<{ [key: string]: any }>({});
+  const [filters, setFilters] = useState<Record<string, string | boolean | Date | undefined>>({});
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   // 在组件顶部添加搜索历史状态
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -57,7 +55,7 @@ export function AdvancedSearch({
   };
 
   // 添加或更新过滤器
-  const updateFilter = (key: string, value: any) => {
+  const updateFilter = (key: string, value: string | boolean | Date | undefined) => {
     setFilters(prev => ({ ...prev, [key]: value }));
     if (!activeFilters.includes(key)) {
       setActiveFilters(prev => [...prev, key]);
@@ -129,7 +127,7 @@ export function AdvancedSearch({
                       <div>
                         <Label className="text-xs">患者状态</Label>
                         <Select
-                          value={filters.status || ''}
+                          value={(filters.status as string) || ''}
                           onValueChange={value => updateFilter('status', value)}
                         >
                           <SelectTrigger className="h-8 mt-1">
@@ -152,7 +150,7 @@ export function AdvancedSearch({
                           <div className="flex items-center space-x-2">
                             <Checkbox
                               id="risk-high"
-                              checked={filters.riskHigh}
+                              checked={filters.riskHigh as boolean | undefined}
                               onCheckedChange={checked => updateFilter('riskHigh', checked)}
                             />
                             <label htmlFor="risk-high" className="text-xs">
@@ -162,7 +160,7 @@ export function AdvancedSearch({
                           <div className="flex items-center space-x-2">
                             <Checkbox
                               id="risk-medium"
-                              checked={filters.riskMedium}
+                              checked={filters.riskMedium as boolean | undefined}
                               onCheckedChange={checked => updateFilter('riskMedium', checked)}
                             />
                             <label htmlFor="risk-medium" className="text-xs">
@@ -172,7 +170,7 @@ export function AdvancedSearch({
                           <div className="flex items-center space-x-2">
                             <Checkbox
                               id="risk-low"
-                              checked={filters.riskLow}
+                              checked={filters.riskLow as boolean | undefined}
                               onCheckedChange={checked => updateFilter('riskLow', checked)}
                             />
                             <label htmlFor="risk-low" className="text-xs">
@@ -188,12 +186,12 @@ export function AdvancedSearch({
                         <div className="grid grid-cols-2 gap-2 mt-1">
                           <DatePicker
                             placeholder="开始日期"
-                            value={filters.visitFrom}
+                            value={filters.visitFrom as Date | undefined}
                             onChange={date => updateFilter('visitFrom', date)}
                           />
                           <DatePicker
                             placeholder="结束日期"
-                            value={filters.visitTo}
+                            value={filters.visitTo as Date | undefined}
                             onChange={date => updateFilter('visitTo', date)}
                           />
                         </div>
@@ -207,14 +205,14 @@ export function AdvancedSearch({
                             type="number"
                             placeholder="最小年龄"
                             className="h-8"
-                            value={filters.ageMin || ''}
+                            value={(filters.ageMin as string) || ''}
                             onChange={e => updateFilter('ageMin', e.target.value)}
                           />
                           <Input
                             type="number"
                             placeholder="最大年龄"
                             className="h-8"
-                            value={filters.ageMax || ''}
+                            value={(filters.ageMax as string) || ''}
                             onChange={e => updateFilter('ageMax', e.target.value)}
                           />
                         </div>
@@ -224,7 +222,7 @@ export function AdvancedSearch({
                       <div>
                         <Label className="text-xs">性别</Label>
                         <Select
-                          value={filters.gender || ''}
+                          value={(filters.gender as string) || ''}
                           onValueChange={value => updateFilter('gender', value)}
                         >
                           <SelectTrigger className="h-8 mt-1">
@@ -334,6 +332,8 @@ export function AdvancedSearch({
       {activeFilters.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-2">
           {activeFilters.map(key => {
+            const filterValue = filters[key];
+            const stringValue = filterValue as string;
             let label = '';
             let value = '';
 
@@ -341,15 +341,15 @@ export function AdvancedSearch({
               case 'status':
                 label = '状态';
                 value =
-                  filters[key] === 'active'
+                  stringValue === 'active'
                     ? '跟踪中'
-                    : filters[key] === 'pending'
+                    : stringValue === 'pending'
                       ? '待复诊'
-                      : filters[key] === 'urgent'
+                      : stringValue === 'urgent'
                         ? '紧急'
-                        : filters[key] === 'stable'
+                        : stringValue === 'stable'
                           ? '稳定'
-                          : filters[key];
+                          : stringValue;
                 break;
               case 'riskHigh':
                 label = '风险';
@@ -365,28 +365,27 @@ export function AdvancedSearch({
                 break;
               case 'visitFrom':
                 label = '就诊自';
-                value = filters[key].toLocaleDateString();
+                value = (filterValue as Date).toLocaleDateString();
                 break;
               case 'visitTo':
                 label = '就诊至';
-                value = filters[key].toLocaleDateString();
+                value = (filterValue as Date).toLocaleDateString();
                 break;
               case 'ageMin':
                 label = '年龄自';
-                value = filters[key];
+                value = stringValue;
                 break;
               case 'ageMax':
                 label = '年龄至';
-                value = filters[key];
+                value = stringValue;
                 break;
               case 'gender':
                 label = '性别';
-                value =
-                  filters[key] === 'male' ? '男' : filters[key] === 'female' ? '女' : filters[key];
+                value = stringValue === 'male' ? '男' : stringValue === 'female' ? '女' : stringValue;
                 break;
               default:
                 label = key;
-                value = filters[key];
+                value = stringValue;
             }
 
             return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { EditTaskDialog } from '@/components/admin/tasks/edit-task-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -13,10 +13,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Calendar, Clock, Edit, MoreHorizontal, Pause, Play, Trash2 } from 'lucide-react';
-import { EditTaskDialog } from '@/components/admin/tasks/edit-task-dialog';
+import { useState } from 'react';
 
 // 模拟数据
-const tasks = [
+const tasks: Array<{ id: string; name: string; type: string; schedule: string; status: string; lastRun: string; nextRun: string; duration: string; description: string }> = [
   {
     id: 'task-1',
     name: '数据库备份',
@@ -26,6 +26,7 @@ const tasks = [
     lastRun: '2025-05-18 00:00:12',
     nextRun: '2025-05-19 00:00:00',
     duration: '2分32秒',
+    description: '自动备份数据库',
   },
   {
     id: 'task-2',
@@ -36,6 +37,7 @@ const tasks = [
     lastRun: '2025-05-12 02:00:05',
     nextRun: '2025-05-19 02:00:00',
     duration: '5分17秒',
+    description: '清理系统日志',
   },
   {
     id: 'task-3',
@@ -46,6 +48,7 @@ const tasks = [
     lastRun: '2025-05-18 06:00:03',
     nextRun: '2025-05-19 06:00:00',
     duration: '3分45秒',
+    description: '统计患者数据',
   },
   {
     id: 'task-4',
@@ -56,6 +59,7 @@ const tasks = [
     lastRun: '2025-05-11 04:00:00',
     nextRun: '暂停中',
     duration: '1小时23分',
+    description: '训练诊断模型',
   },
   {
     id: 'task-5',
@@ -66,6 +70,7 @@ const tasks = [
     lastRun: '2025-05-18 08:00:07',
     nextRun: '2025-05-19 08:00:00',
     duration: '1分12秒',
+    description: '生成系统性能报告',
   },
   {
     id: 'task-6',
@@ -76,6 +81,7 @@ const tasks = [
     lastRun: '2025-05-18 07:00:02',
     nextRun: '2025-05-19 07:00:00',
     duration: '2分56秒',
+    description: '分析用户活动',
   },
   {
     id: 'task-7',
@@ -86,12 +92,13 @@ const tasks = [
     lastRun: '2025-05-01 03:00:04',
     nextRun: '2025-06-01 03:00:00',
     duration: '15分23秒',
+    description: '预测资源使用情况',
   },
 ];
 
 export function TasksList() {
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
-  const [editTask, setEditTask] = useState<any>(null);
+  const [editTask, setEditTask] = useState<typeof tasks[0] | null>(null);
 
   const toggleTaskSelection = (taskId: string) => {
     setSelectedTasks(prev =>

@@ -1,10 +1,11 @@
 'use client';
 import { debug } from '@/lib/logger';
 
-import { useState } from 'react';
 import { PageHeader } from '@/components/page-header';
-import { UserCheck, Plus, Download, Upload } from 'lucide-react';
+import { CertificationList } from '@/components/profile/certifications/certification-list';
+import { CertificationUploadForm } from '@/components/profile/certifications/certification-upload-form';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -13,8 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CertificationUploadForm } from '@/components/profile/certifications/certification-upload-form';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -22,17 +22,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Download, Plus, Upload, UserCheck } from 'lucide-react';
+import { useState } from 'react';
 import { BulkImportDialog } from './bulk-import-dialog';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { CertificationList } from '@/components/profile/certifications/certification-list';
 
 export function CertificationManagementClient() {
   const [bulkAction, setBulkAction] = useState('');
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [showBulkImportDialog, setShowBulkImportDialog] = useState(false);
 
-  const handleSaveCertification = (data: any) => {
+  const handleSaveCertification = (data: unknown) => {
     debug('保存资质:', data);
     setShowUploadDialog(false);
   };

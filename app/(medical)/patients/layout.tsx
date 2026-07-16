@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { PatientNavigation } from '@/components/patients/patient-navigation';
 
 export const metadata: Metadata = {
-  title: '患者管理 | YanYuCloud',
+  title: '患者管理',
   description: '患者信息管理系统',
 };
 

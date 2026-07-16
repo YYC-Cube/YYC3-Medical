@@ -1,9 +1,14 @@
 // ...existing content from 混淆产物/SearchBar.tsx...import { useState } from 'react';
 import { useLocale } from "next-intl";
 
+interface SearchResult {
+  title: string;
+  [key: string]: unknown;
+}
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<SearchResult[]>([]);
   const locale = useLocale();
 
   const handleSearch = async (q: string) => {

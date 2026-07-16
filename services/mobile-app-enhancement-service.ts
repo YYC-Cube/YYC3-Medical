@@ -133,7 +133,7 @@ class MobileAppEnhancementService {
       const metrics: MobilePerformanceMetrics = {
         loadTime: Math.random() * 3000 + 1000, // 1-4秒
         memoryUsage: Math.random() * 200 + 50, // 50-250MB
-        batteryImpact: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as any,
+        batteryImpact: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as 'low' | 'medium' | 'high',
         networkUsage: Math.random() * 100 + 10, // 10-110MB
         crashRate: Math.random() * 0.05, // 0-5%
       };

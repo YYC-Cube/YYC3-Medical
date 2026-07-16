@@ -19,7 +19,7 @@ interface Message {
 
 interface CertificationChatProps {
   currentStep: number;
-  certificationSteps: any[];
+  certificationSteps: ReadonlyArray<{ id: string; title: string; status?: string }>;
   onStepChange: (step: number) => void;
 }
 

@@ -1,39 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Input } from '@/components/ui/input';
-import { EditRoleDialog } from './edit-role-dialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  MoreHorizontal,
-  Search,
-  Shield,
-  Users,
-  User,
-  Lock,
-  Eye,
-  PenSquare,
-  Trash2,
-  FileText,
-} from 'lucide-react';
-import { toast } from '@/components/ui/use-toast';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,6 +10,40 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { toast } from '@/components/ui/use-toast';
+import {
+  Eye,
+  FileText,
+  Lock,
+  MoreHorizontal,
+  PenSquare,
+  Search,
+  Shield,
+  Trash2,
+  User,
+  Users,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { EditRoleDialog } from './edit-role-dialog';
 
 // 模拟角色数据
 const mockRoles = [
@@ -122,13 +122,13 @@ const mockRoles = [
 ];
 
 export function RolesList() {
-  const [roles, setRoles] = useState<any[]>([]);
+  const [roles, setRoles] = useState<typeof mockRoles>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [editingRole, setEditingRole] = useState<any>(null);
+  const [editingRole, setEditingRole] = useState<typeof mockRoles[0] | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deletingRole, setDeletingRole] = useState<any>(null);
+  const [deletingRole, setDeletingRole] = useState<typeof mockRoles[0] | null>(null);
 
   // 模拟加载角色数据
   useEffect(() => {
@@ -155,12 +155,12 @@ export function RolesList() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  const handleEdit = (role: any) => {
+  const handleEdit = (role: typeof mockRoles[0]) => {
     setEditingRole(role);
     setEditDialogOpen(true);
   };
 
-  const handleDelete = (role: any) => {
+  const handleDelete = (role: typeof mockRoles[0]) => {
     setDeletingRole(role);
     setDeleteDialogOpen(true);
   };
@@ -283,15 +283,15 @@ export function RolesList() {
                             <PenSquare className="h-4 w-4 mr-2" />
                             编辑角色
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => {}}>
+                          <DropdownMenuItem onClick={() => { }}>
                             <Eye className="h-4 w-4 mr-2" />
                             查看权限
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => {}}>
+                          <DropdownMenuItem onClick={() => { }}>
                             <User className="h-4 w-4 mr-2" />
                             管理用户
                           </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => {}}>
+                          <DropdownMenuItem onClick={() => { }}>
                             <FileText className="h-4 w-4 mr-2" />
                             导出详情
                           </DropdownMenuItem>

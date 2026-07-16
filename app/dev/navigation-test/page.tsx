@@ -1,8 +1,8 @@
 import { NavigationTester } from '@/components/dev/navigation-tester';
 
 export const metadata = {
-  title: '导航测试 - 医枢³开发工具',
-  description: '测试医枢³系统的导航链接和侧边栏功能',
+  title: '导航测试',
+  description: '测试系统导航链接和侧边栏功能',
 };
 
 export default function NavigationTestPage() {

@@ -21,7 +21,7 @@ export function SimplePerformanceMonitor() {
     if (!isVisible) return;
 
     const updateMetrics = () => {
-      const memory = (performance as any).memory?.usedJSHeapSize || 0;
+      const memory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0;
       const loadTime = performance.now();
 
       setMetrics({

@@ -1,17 +1,12 @@
 'use client';
 import { debug } from '@/lib/logger';
 
-import { useState } from 'react';
-import { PageHeader } from '@/components/page-header';
-import { ShieldCheck, Plus, ExternalLink, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { VerificationProvidersList } from '@/components/certifications/verification-providers-list';
 import { VerificationProcessGuide } from '@/components/certifications/verification-process-guide';
 import { VerificationProviderSettings } from '@/components/certifications/verification-provider-settings';
+import { VerificationProvidersList } from '@/components/certifications/verification-providers-list';
+import { PageHeader } from '@/components/page-header';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -21,6 +16,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -28,9 +25,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { ExternalLink, Plus, RefreshCw, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
 
 export function VerificationProvidersClient() {
   const [activeTab, setActiveTab] = useState('providers');
@@ -38,7 +38,7 @@ export function VerificationProvidersClient() {
   const { toast } = useToast();
 
   // 模拟添加验证机构
-  const handleAddProvider = (data: any) => {
+  const handleAddProvider = (data: unknown) => {
     debug('添加验证机构:', data);
     setShowAddProviderDialog(false);
     toast({

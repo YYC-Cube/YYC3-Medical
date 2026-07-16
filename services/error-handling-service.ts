@@ -16,7 +16,7 @@ export interface ErrorDetails {
   code?: string;
   path?: string;
   timestamp?: number;
-  data?: any;
+  data?: unknown;
 }
 
 type ErrorListener = (errorDetails: ErrorDetails) => void;
@@ -50,7 +50,7 @@ class ErrorHandlingService {
   public handleError(
     error: Error,
     type: ErrorType = ErrorType.UNKNOWN,
-    additionalData: any = {}
+    additionalData: Record<string, unknown> = {}
   ): void {
     const errorDetails: ErrorDetails = {
       message: error.message || '未知错误',

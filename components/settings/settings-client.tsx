@@ -42,7 +42,7 @@ export function SettingsClient() {
   const { consentGiven, setConsentGiven, showConsentDialog, setShowConsentDialog, requestConsent } =
     useAutomaticExecution();
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setSettings(prev => ({ ...prev, [field]: value }));
   };
 

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { AIDiagnosisNavigation } from '@/components/ai-diagnosis/ai-diagnosis-navigation';
 
 export const metadata: Metadata = {
-  title: 'AI诊断 | YanYuCloud',
+  title: 'AI诊断',
   description: 'AI智能诊断系统',
 };
 

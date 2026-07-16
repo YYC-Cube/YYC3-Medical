@@ -13,10 +13,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useTranslation } from '@/hooks/use-translation';
+import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 import { CalendarIcon, Filter, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
 
 export interface FilterField {
   id: string;
@@ -27,7 +27,7 @@ export interface FilterField {
 
 interface FilterValue {
   fieldId: string;
-  value: any;
+  value: string | number | boolean | Date;
   operator?: string;
 }
 
@@ -40,7 +40,7 @@ interface DataFilterProps {
 export function DataFilter({ fields, onFilterChange, className = '' }: DataFilterProps) {
   const [filters, setFilters] = useState<FilterValue[]>([]);
   const [currentField, setCurrentField] = useState<string>('');
-  const [currentValue, setCurrentValue] = useState<any>('');
+  const [currentValue, setCurrentValue] = useState<string | number | boolean | Date>('');
   const [currentOperator, setCurrentOperator] = useState<string>('eq');
   const { tSync } = useTranslation();
 
@@ -110,7 +110,7 @@ export function DataFilter({ fields, onFilterChange, className = '' }: DataFilte
     switch (field.type) {
       case 'select':
         return (
-          <Select value={currentValue} onValueChange={setCurrentValue}>
+          <Select value={currentValue as string} onValueChange={v => setCurrentValue(v)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={tSync('selectValue')} />
             </SelectTrigger>
@@ -129,14 +129,14 @@ export function DataFilter({ fields, onFilterChange, className = '' }: DataFilte
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {currentValue ? format(currentValue, 'PPP', { locale: zhCN }) : tSync('selectDate')}
+                {currentValue ? format(currentValue as Date, 'PPP', { locale: zhCN }) : tSync('selectDate')}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar
                 mode="single"
-                selected={currentValue}
-                onSelect={setCurrentValue}
+                selected={currentValue as Date}
+                onSelect={v => setCurrentValue(v ?? '')}
                 initialFocus
               />
             </PopoverContent>
@@ -146,14 +146,14 @@ export function DataFilter({ fields, onFilterChange, className = '' }: DataFilte
         return (
           <Input
             type="number"
-            value={currentValue}
+            value={currentValue as string}
             onChange={e => setCurrentValue(e.target.value)}
             placeholder={tSync('enterValue')}
           />
         );
       case 'boolean':
         return (
-          <Select value={currentValue} onValueChange={setCurrentValue}>
+          <Select value={currentValue as string} onValueChange={v => setCurrentValue(v)}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={tSync('selectValue')} />
             </SelectTrigger>
@@ -167,7 +167,7 @@ export function DataFilter({ fields, onFilterChange, className = '' }: DataFilte
         return (
           <Input
             type="text"
-            value={currentValue}
+            value={currentValue as string}
             onChange={e => setCurrentValue(e.target.value)}
             placeholder={tSync('enterValue')}
           />
@@ -203,7 +203,7 @@ export function DataFilter({ fields, onFilterChange, className = '' }: DataFilte
             >
               <span className="font-medium">{field.label}</span>
               <span className="text-muted-foreground">{operatorLabel}</span>
-              <span>{valueDisplay}</span>
+              <span>{String(valueDisplay)}</span>
               <Button
                 variant="ghost"
                 size="sm"

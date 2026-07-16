@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '无权限访问 - MediNexus³',
+  title: '无权限访问',
   description: '您没有权限访问此页面',
 };
 

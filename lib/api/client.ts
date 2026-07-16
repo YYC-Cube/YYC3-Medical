@@ -9,7 +9,7 @@ export interface ApiRequestConfig extends RequestInit {
 }
 
 // API 响应类型
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T | null;
   error: string | null;
   status: number;
@@ -18,9 +18,9 @@ export interface ApiResponse<T = any> {
 // API 错误类型
 export class ApiError extends Error {
   status: number;
-  data: any;
+  data: unknown;
 
-  constructor(message: string, status: number, data?: any) {
+  constructor(message: string, status: number, data?: unknown) {
     super(message);
     this.name = 'ApiError';
     this.status = status;
@@ -53,7 +53,7 @@ function buildUrl(
 }
 
 // 主要 API 客户端函数
-export async function apiClient<T = any>(
+export async function apiClient<T = unknown>(
   endpoint: string,
   { params, requiresAuth = true, ...config }: ApiRequestConfig = {}
 ): Promise<ApiResponse<T>> {
@@ -155,30 +155,30 @@ export async function apiClient<T = any>(
 
 // 便捷方法
 export const api = {
-  get: <T = any>(endpoint: string, config?: ApiRequestConfig) =>
+  get: <T = unknown>(endpoint: string, config?: ApiRequestConfig) =>
     apiClient<T>(endpoint, { ...config, method: 'GET' }),
 
-  post: <T = any>(endpoint: string, data?: any, config?: ApiRequestConfig) =>
+  post: <T = unknown>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient<T>(endpoint, {
       ...config,
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  put: <T = any>(endpoint: string, data?: any, config?: ApiRequestConfig) =>
+  put: <T = unknown>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient<T>(endpoint, {
       ...config,
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  patch: <T = any>(endpoint: string, data?: any, config?: ApiRequestConfig) =>
+  patch: <T = unknown>(endpoint: string, data?: unknown, config?: ApiRequestConfig) =>
     apiClient<T>(endpoint, {
       ...config,
       method: 'PATCH',
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  delete: <T = any>(endpoint: string, config?: ApiRequestConfig) =>
+  delete: <T = unknown>(endpoint: string, config?: ApiRequestConfig) =>
     apiClient<T>(endpoint, { ...config, method: 'DELETE' }),
 };

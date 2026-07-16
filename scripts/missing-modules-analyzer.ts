@@ -239,7 +239,7 @@ export class MissingModulesAnalyzer {
 
   generateReport(): string {
     const { missingModules, totalFiles, totalImports, criticalMissing } =
-      this.analyze() as any;
+      this.analyze() as { missingModules: unknown[]; totalFiles: number; totalImports: number; criticalMissing: unknown[] };
 
     let report = "# 缺失模块分析报告\n\n";
     report += `## 📊 统计信息\n\n`;

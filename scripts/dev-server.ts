@@ -10,7 +10,7 @@ interface DevServerConfig {
 
 class DevServer {
   private config: DevServerConfig;
-  private processes: any[] = [];
+  private processes: Array<{ pid: number; name: string; kill: () => void }> = [];
 
   constructor(config: Partial<DevServerConfig> = {}) {
     this.config = {

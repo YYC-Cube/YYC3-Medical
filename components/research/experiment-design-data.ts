@@ -3,7 +3,52 @@
 
 import type { ExperimentFilters } from '@/components/experiment-filter-drawer';
 
-export const experimentDesigns = [
+export interface ExperimentGroup {
+  name: string;
+  size: number;
+  description: string;
+}
+
+export interface ExperimentVariable {
+  name: string;
+  type: string;
+  unit: string;
+  method: string;
+}
+
+export interface ExperimentMethod {
+  name: string;
+  description: string;
+}
+
+export interface ExperimentDesign {
+  id: string;
+  title: string;
+  type: string;
+  status: string;
+  designType: string;
+  createdDate: string;
+  updatedDate: string;
+  startDate: string;
+  endDate: string;
+  principalInvestigator: string;
+  department: string;
+  objective: string;
+  hypothesis: string;
+  groups: ExperimentGroup[];
+  variables: ExperimentVariable[];
+  methods: ExperimentMethod[];
+  statisticalAnalysis: string;
+  ethicalConsiderations: string;
+  budget: number;
+  currency: string;
+  collaborators: string[];
+  attachments: string[];
+  tags: string[];
+  hasEthicalApproval: boolean;
+}
+
+export const experimentDesigns: ExperimentDesign[] = [
   {
     id: 'EXP-001',
     title: '糖尿病患者血清生物标志物分析',
@@ -198,7 +243,7 @@ export const defaultFilters: ExperimentFilters = {
 };
 
 // 新建设计的默认数据
-export const defaultNewDesign = {
+export const defaultNewDesign: ExperimentDesign = {
   id: '',
   title: '',
   type: '',

@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '审计日志 | YYC³-Med',
-  description:
-    'YYC³-Med AI-Powered Intelligent Medical System. 言启立方于万象，语枢智云守健康. Words Initiate Cube Amid Vast Scenarios, Language Serves as Core, Smart Cloud Guards Health',
+  title: '审计日志',
+  description: 'YanYuCloud智能诊疗系统审计日志管理',
 };
 
 import { Suspense } from 'react';

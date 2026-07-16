@@ -31,7 +31,18 @@ export function EnhancedSystemMonitor() {
   const [metrics, setMetrics] = useState<SystemMetrics | null>(null);
   const [alerts, setAlerts] = useState<SystemAlert[]>([]);
   const [alertRules, setAlertRules] = useState<AlertRule[]>([]);
-  const [healthReport, setHealthReport] = useState<any>(null);
+  interface HealthReport {
+    timestamp: Date;
+    overallStatus: string;
+    overallHealth?: string;
+    metrics: Record<string, unknown>;
+    activeAlerts: number;
+    totalAlerts: number;
+    recommendations: string[];
+    performanceSummary?: Array<{ metric: string; value: string; status: string; deviation?: number; current?: number; baseline?: number }>;
+  }
+
+  const [healthReport, setHealthReport] = useState<HealthReport | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
 
@@ -56,7 +67,7 @@ export function EnhancedSystemMonitor() {
       setMetrics(metricsData);
       setAlerts(alertsData);
       setAlertRules(rulesData);
-      setHealthReport(reportData);
+      setHealthReport(reportData as unknown as HealthReport);
     } catch (error) {
       console.error('加载监控数据失败:', error);
     } finally {
@@ -165,7 +176,7 @@ export function EnhancedSystemMonitor() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="text-center">
                 <div
-                  className={`text-3xl font-bold ${getHealthStatusColor(healthReport.overallHealth)}`}
+                  className={`text-3xl font-bold ${getHealthStatusColor(healthReport.overallHealth ?? healthReport.overallStatus)}`}
                 >
                   {healthReport.overallHealth === 'good' && '良好'}
                   {healthReport.overallHealth === 'warning' && '警告'}
@@ -175,19 +186,19 @@ export function EnhancedSystemMonitor() {
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-destructive">
-                  {healthReport.activeAlerts.length}
+                  {healthReport.activeAlerts}
                 </div>
                 <p className="text-sm text-muted-foreground">活跃告警</p>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-primary">
-                  {healthReport.metrics.application.activeUsers}
+                  {(healthReport.metrics as Record<string, Record<string, number>>)?.application?.activeUsers ?? 0}
                 </div>
                 <p className="text-sm text-muted-foreground">在线用户</p>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-success">
-                  {healthReport.metrics.application.requestsPerSecond}
+                  {(healthReport.metrics as Record<string, Record<string, number>>)?.application?.requestsPerSecond ?? 0}
                 </div>
                 <p className="text-sm text-muted-foreground">请求/秒</p>
               </div>
@@ -542,29 +553,29 @@ export function EnhancedSystemMonitor() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {healthReport.performanceSummary.map((item: any, index: number) => (
+                  {healthReport.performanceSummary?.map((item, index) => (
                     <div key={index} className="p-4 border rounded-lg">
                       <div className="flex items-center justify-between mb-3">
                         <h4 className="font-medium">{item.metric}</h4>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm">当前: {item.current.toFixed(2)}</span>
+                          <span className="text-sm">当前: {(item.current ?? 0).toFixed(2)}</span>
                           <span className="text-sm text-muted-foreground">
-                            基线: {item.baseline.toFixed(2)}
+                            基线: {(item.baseline ?? 0).toFixed(2)}
                           </span>
                           <Badge
-                            variant={Math.abs(item.deviation) > 30 ? 'destructive' : 'default'}
+                            variant={Math.abs(item.deviation ?? 0) > 30 ? 'destructive' : 'default'}
                           >
-                            {item.deviation > 0 ? '+' : ''}
-                            {item.deviation.toFixed(1)}%
+                            {(item.deviation ?? 0) > 0 ? '+' : ''}
+                            {(item.deviation ?? 0).toFixed(1)}%
                           </Badge>
                         </div>
                       </div>
                       <Progress
-                        value={Math.min(100, (item.current / (item.baseline * 2)) * 100)}
+                        value={Math.min(100, ((item.current ?? 0) / ((item.baseline ?? 1) * 2)) * 100)}
                         className="mb-2"
                       />
                       <p className="text-xs text-muted-foreground">
-                        {Math.abs(item.deviation) > 30
+                        {Math.abs(item.deviation ?? 0) > 30
                           ? '性能偏离基线较大，建议关注'
                           : '性能表现正常'}
                       </p>

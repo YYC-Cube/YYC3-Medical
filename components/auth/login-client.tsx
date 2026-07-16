@@ -27,7 +27,7 @@ export function LoginClient() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

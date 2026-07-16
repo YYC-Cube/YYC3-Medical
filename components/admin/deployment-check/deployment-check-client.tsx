@@ -1,26 +1,32 @@
 'use client';
 
-import { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { MedicalButton } from '@/components/ui/medical-button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { SystemCheck } from './system-check';
-import { PerformanceCheck } from './performance-check';
-import { SecurityCheck } from './security-check';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { Clock, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
+import { ApiCheck } from './api-check';
 import { CompatibilityCheck } from './compatibility-check';
 import { ConfigurationCheck } from './configuration-check';
 import { DatabaseCheck } from './database-check';
-import { ApiCheck } from './api-check';
-import { UiCheck } from './ui-check';
 import { DeploymentReport } from './deployment-report';
-import { MedicalButton } from '@/components/ui/medical-button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, RefreshCw } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/hooks/useAuth';
+import { PerformanceCheck } from './performance-check';
+import { SecurityCheck } from './security-check';
+import { SystemCheck } from './system-check';
+import { UiCheck } from './ui-check';
+
+interface DeploymentCheckResult {
+  status: string;
+  timestamp: string;
+  items: { name: string; status: string; message: string }[];
+}
 
 export function DeploymentCheckClient() {
   const [activeTab, setActiveTab] = useState('system');
   const [isRunningCheck, setIsRunningCheck] = useState(false);
-  const [checkResults, setCheckResults] = useState<Record<string, any>>({});
+  const [checkResults, setCheckResults] = useState<Record<string, DeploymentCheckResult>>({});
   const [overallStatus, setOverallStatus] = useState<
     'idle' | 'running' | 'success' | 'warning' | 'error'
   >('idle');
@@ -289,7 +295,7 @@ export function DeploymentCheckClient() {
   };
 
   // 确定整体状态
-  const determineOverallStatus = (results: Record<string, any>) => {
+  const determineOverallStatus = (results: Record<string, DeploymentCheckResult>) => {
     const statuses = Object.values(results).map(result => result.status);
 
     if (statuses.includes('error')) {
@@ -365,17 +371,16 @@ export function DeploymentCheckClient() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
               <div
-                className={`w-3 h-3 rounded-full ${
-                  overallStatus === 'success'
-                    ? 'bg-success/50'
-                    : overallStatus === 'warning'
-                      ? 'bg-warning'
-                      : overallStatus === 'error'
-                        ? 'bg-destructive'
-                        : overallStatus === 'running'
-                          ? 'bg-primary/50 animate-pulse'
-                          : 'bg-muted'
-                }`}
+                className={`w-3 h-3 rounded-full ${overallStatus === 'success'
+                  ? 'bg-success/50'
+                  : overallStatus === 'warning'
+                    ? 'bg-warning'
+                    : overallStatus === 'error'
+                      ? 'bg-destructive'
+                      : overallStatus === 'running'
+                        ? 'bg-primary/50 animate-pulse'
+                        : 'bg-muted'
+                  }`}
               />
               <span className="font-medium">
                 状态:{' '}

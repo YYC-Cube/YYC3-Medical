@@ -1,5 +1,5 @@
-import type { AIAnnotationSuggestion } from '../types/knowledge-graph';
 import type { ImageMarker } from '../types/imaging-features';
+import type { AIAnnotationSuggestion } from '../types/knowledge-graph';
 
 // 模拟AI标注建议数据
 const mockAnnotationSuggestions: Record<string, AIAnnotationSuggestion[]> = {
@@ -159,8 +159,15 @@ export const aiAnnotationService = {
     const feedback: string[] = [];
     let matchCount = 0;
 
+    interface BoundingBox {
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }
+
     // 简单的IoU计算函数
-    const calculateIoU = (box1: any, box2: any) => {
+    const calculateIoU = (box1: BoundingBox, box2: BoundingBox) => {
       const x1 = Math.max(box1.x, box2.x);
       const y1 = Math.max(box1.y, box2.y);
       const x2 = Math.min(box1.x + box1.width, box2.x + box2.width);
@@ -179,7 +186,7 @@ export const aiAnnotationService = {
     // 检查每个AI建议是否有匹配的用户标注
     aiSuggestions.forEach(suggestion => {
       const matchingMarkers = userMarkers.filter(
-        marker => calculateIoU(marker.coordinates, suggestion.boundingBox) > 0.5
+        marker => calculateIoU(marker.coordinates as BoundingBox, suggestion.boundingBox as BoundingBox) > 0.5
       );
 
       if (matchingMarkers.length > 0) {
@@ -195,7 +202,7 @@ export const aiAnnotationService = {
     // 检查用户是否标注了AI未建议的区域
     userMarkers.forEach(marker => {
       const matchingAI = aiSuggestions.some(
-        suggestion => calculateIoU(marker.coordinates, suggestion.boundingBox) > 0.5
+        suggestion => calculateIoU(marker.coordinates as BoundingBox, suggestion.boundingBox as BoundingBox) > 0.5
       );
 
       if (!matchingAI) {

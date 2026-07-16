@@ -4,7 +4,7 @@ import { LoadingFallback } from '@/components/ui/loading-fallback';
 import { PageHeader } from '@/components/page-header';
 
 export const metadata = {
-  title: '模型训练 | MediNexus³',
+  title: '模型训练',
   description: '医疗AI模型训练与管理平台',
 };
 

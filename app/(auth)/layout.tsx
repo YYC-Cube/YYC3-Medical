@@ -2,8 +2,8 @@ import type React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '认证 - YanYuCloud 医疗AI系统',
-  description: 'YanYuCloud 医疗AI智能诊疗系统 - 安全登录',
+  title: '认证',
+  description: 'YanYuCloud医疗AI智能诊疗系统 - 安全登录',
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

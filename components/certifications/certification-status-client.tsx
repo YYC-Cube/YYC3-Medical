@@ -114,12 +114,12 @@ export function CertificationStatusClient() {
   });
 
   // 获取选中的资质详情
-  const getSelectedCertification = () => {
-    return mockCertifications.find(cert => cert.id === selectedCertification) || null;
+  const getSelectedCertification = (): Record<string, unknown> | null => {
+    return (mockCertifications.find(cert => cert.id === selectedCertification) || null) as Record<string, unknown> | null;
   };
 
   // 根据状态过滤资质
-  const filterByStatus = (certifications: any[]) => {
+  const filterByStatus = (certifications: typeof mockCertifications) => {
     if (activeTab === 'all') return certifications;
     return certifications.filter(cert => cert.status === activeTab);
   };
@@ -222,10 +222,10 @@ export function CertificationStatusClient() {
                       filters.institution ||
                       filters.startDate ||
                       filters.endDate) && (
-                      <Badge className="ml-2 bg-primary" variant="secondary">
-                        !
-                      </Badge>
-                    )}
+                        <Badge className="ml-2 bg-primary" variant="secondary">
+                          !
+                        </Badge>
+                      )}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-80">
@@ -377,7 +377,7 @@ export function CertificationStatusClient() {
                               )}
                               {new Date(cert.expiryDate) > new Date() &&
                                 new Date(cert.expiryDate) <
-                                  new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) && (
+                                new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) && (
                                   <Clock className="h-4 w-4 text-warning ml-1" />
                                 )}
                             </div>

@@ -1,26 +1,26 @@
 'use client';
 
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart, LineChart } from '@/components/ui/chart';
+import { MedicalButton } from '@/components/ui/medical-button';
+import { ResponsiveMedicalCard } from '@/components/ui/responsive-medical-card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Activity,
+  AlertCircle,
   Calendar,
   Clock,
   FileText,
   Heart,
-  Pill,
-  Stethoscope,
-  User,
-  Phone,
   Mail,
   MapPin,
-  AlertCircle,
+  Phone,
+  Pill,
   Plus,
+  Stethoscope,
+  User,
 } from 'lucide-react';
-import { MedicalButton } from '@/components/ui/medical-button';
-import { BarChart, LineChart } from '@/components/ui/chart';
-import { ResponsiveMedicalCard } from '@/components/ui/responsive-medical-card';
+import { useState } from 'react';
 
 // 患者基本数据类型
 type Patient = {
@@ -387,7 +387,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                 <CardDescription>最近5次检测数据</CardDescription>
               </CardHeader>
               <CardContent className="h-80">
-                {}
+                { }
                 <LineChart
                   {...({
                     data: vitalSigns,
@@ -404,7 +404,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                       },
                     ],
                     xAxisKey: 'date',
-                  } as any)}
+                  } as Record<string, unknown>)}
                 />
               </CardContent>
             </Card>
@@ -580,7 +580,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
               <div className="mt-6">
                 <div className="font-medium mb-3 text-medical-700">用药依从性分析</div>
                 <div className="h-64">
-                  {}
+                  { }
                   <BarChart
                     {...({
                       data: [
@@ -602,7 +602,7 @@ export function PatientDetails({ patientId }: { patientId: string }) {
                         max: 100,
                         unit: '%',
                       },
-                    } as any)}
+                    } as Record<string, unknown>)}
                   />
                 </div>
               </div>

@@ -26,7 +26,18 @@ import { Clock, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
 // 模拟备份计划数据
-const scheduleData = [
+interface BackupSchedule {
+  id: string;
+  name: string;
+  frequency: string;
+  time: string;
+  retention: string;
+  status: string;
+  lastRun: string;
+  nextRun: string;
+}
+
+const scheduleData: BackupSchedule[] = [
   {
     id: 'sch-001',
     name: '每日备份',
@@ -63,7 +74,7 @@ export function BackupSchedule() {
   const { toast } = useToast();
   const [schedules, setSchedules] = useState(scheduleData);
   const [isEditing, setIsEditing] = useState(false);
-  const [editingSchedule, setEditingSchedule] = useState<any>(null);
+  const [editingSchedule, setEditingSchedule] = useState<BackupSchedule | null>(null);
 
   const handleToggleStatus = (id: string) => {
     setSchedules(
@@ -82,7 +93,7 @@ export function BackupSchedule() {
     });
   };
 
-  const handleEditSchedule = (schedule: any) => {
+  const handleEditSchedule = (schedule: typeof scheduleData[0]) => {
     setEditingSchedule({ ...schedule });
     setIsEditing(true);
   };
@@ -140,7 +151,7 @@ export function BackupSchedule() {
         </div>
       </CardHeader>
       <CardContent>
-        {isEditing ? (
+        {isEditing && editingSchedule ? (
           <div className="space-y-4 border rounded-md p-4">
             <h3 className="text-lg font-medium">
               {editingSchedule.id.includes('sch-') ? '编辑备份计划' : '新建备份计划'}

@@ -6,7 +6,7 @@ import { PatientGroupsClient } from '@/components/patients/patient-groups-client
 import { Plus } from 'lucide-react';
 
 export const metadata = {
-  title: '患者分组 | MediNexus³',
+  title: '患者分组',
   description: '创建和管理患者分组，优化工作流程',
 };
 

@@ -1,7 +1,61 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { riskAssessmentTools } from './diagnostic-tools-data';
+
+export interface RiskResult {
+  toolName: string;
+  score: number;
+  interpretation: string;
+  riskLevel: string;
+  riskPercentage: number;
+  recommendations: string[];
+  followUp?: string;
+}
+
+export interface DifferentialResult {
+  conditions?: Array<{
+    name: string;
+    probability: number;
+    matchingSymptoms: string[];
+    additionalTests: string[];
+  }>;
+  initialDiagnosis?: string;
+  differentialDiagnoses?: Array<{
+    name: string;
+    similarity: number;
+    keyDifferences: string[];
+    diagnosticCriteria: string[];
+  }>;
+  recommendedTests?: Array<{
+    name: string;
+    purpose: string;
+    priority: string;
+  }>;
+  clinicalPearls?: string[];
+}
+
+export interface AnalysisResult {
+  possibleDiagnoses: Array<{
+    name: string;
+    probability: number;
+    description: string;
+    symptoms: string[];
+    recommendedTests: string[];
+    urgencyLevel: string;
+  }>;
+  riskFactors: Array<{
+    factor: string;
+    risk: string;
+    description: string;
+  }>;
+  urgencyAssessment: {
+    level: string;
+    recommendation: string;
+    warningSigns: string[];
+  };
+  differentialPoints: string[];
+}
 
 /**
  * 症状分析器逻辑 Hook
@@ -12,7 +66,7 @@ export function useSymptomAnalyzer() {
   const [patientAge, setPatientAge] = useState<number | null>(null);
   const [patientGender, setPatientGender] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<any | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
   const addSymptom = useCallback(
     (symptom: string) => {
@@ -123,7 +177,7 @@ export function useSymptomAnalyzer() {
 export function useDifferentialDiagnosis() {
   const [initialDiagnosis, setInitialDiagnosis] = useState<string | null>(null);
   const [differentialSymptoms, setDifferentialSymptoms] = useState<string[]>([]);
-  const [differentialResults, setDifferentialResults] = useState<any | null>(null);
+  const [differentialResults, setDifferentialResults] = useState<DifferentialResult | null>(null);
   const [differentialLoading, setDifferentialLoading] = useState(false);
 
   const addDifferentialSymptom = useCallback(
@@ -229,11 +283,11 @@ export function useDifferentialDiagnosis() {
  */
 export function useRiskAssessment() {
   const [selectedRiskTool, setSelectedRiskTool] = useState<string | null>(null);
-  const [riskFactors, setRiskFactors] = useState<Record<string, any>>({});
-  const [riskResult, setRiskResult] = useState<any | null>(null);
+  const [riskFactors, setRiskFactors] = useState<Record<string, string | number | boolean>>({});
+  const [riskResult, setRiskResult] = useState<RiskResult | null>(null);
   const [calculatingRisk, setCalculatingRisk] = useState(false);
 
-  const handleRiskFactorChange = useCallback((id: string, value: any) => {
+  const handleRiskFactorChange = useCallback((id: string, value: string | number | boolean) => {
     setRiskFactors(prev => ({ ...prev, [id]: value }));
   }, []);
 
@@ -244,13 +298,13 @@ export function useRiskAssessment() {
     setRiskResult(null);
 
     setTimeout(() => {
-      let result: any;
+      let result: RiskResult;
       const tool = riskAssessmentTools.find(t => t.id === selectedRiskTool);
 
       if (selectedRiskTool === 'cvd-risk') {
         const riskScore = Math.round(Math.random() * 30);
         result = {
-          toolName: tool?.name,
+          toolName: tool?.name ?? '',
           score: riskScore,
           interpretation: riskScore < 10 ? '低风险' : riskScore < 20 ? '中等风险' : '高风险',
           riskLevel: riskScore < 10 ? '低' : riskScore < 20 ? '中' : '高',
@@ -286,7 +340,7 @@ export function useRiskAssessment() {
         const annualRisk = [0, 1.3, 2.2, 3.2, 4.0, 6.7, 9.8, 9.6, 6.7, 15.2][score] || 15.2;
 
         result = {
-          toolName: tool?.name,
+          toolName: tool?.name ?? '',
           score,
           interpretation:
             score === 0
@@ -324,7 +378,7 @@ export function useRiskAssessment() {
         if (riskFactors.alcohol) score += 1;
 
         result = {
-          toolName: tool?.name,
+          toolName: tool?.name ?? '',
           score,
           interpretation: score < 3 ? '低出血风险' : score === 3 ? '中等出血风险' : '高出血风险',
           riskLevel: score < 3 ? '低' : score === 3 ? '中' : '高',
@@ -353,7 +407,7 @@ export function useRiskAssessment() {
         else mortality = '27.8%';
 
         result = {
-          toolName: tool?.name,
+          toolName: tool?.name ?? '',
           score,
           interpretation:
             score === 0 || score === 1
@@ -376,6 +430,15 @@ export function useRiskAssessment() {
             score >= 3 ? '考虑呼吸支持治疗' : '',
           ].filter(Boolean),
           followUp: score < 2 ? '24-48小时复查' : '密切监测病情变化',
+        };
+      } else {
+        result = {
+          toolName: tool?.name ?? '',
+          score: 0,
+          interpretation: '未知',
+          riskLevel: '未知',
+          riskPercentage: 0,
+          recommendations: [],
         };
       }
 

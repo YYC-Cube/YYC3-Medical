@@ -48,7 +48,7 @@ interface ModelData {
   name: string;
   version: string;
   versions: ModelVersion[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ModelVersionHistoryProps {

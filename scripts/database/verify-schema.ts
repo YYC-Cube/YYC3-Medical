@@ -34,7 +34,7 @@ async function verifySchema() {
     [process.env.DB_NAME || "yyc3_med"],
   );
 
-  const actualTables = (rows as any[]).map((r) => r.table_name);
+  const actualTables = (rows as Record<string, unknown>[]).map((r) => r.table_name as string);
   const missing = expectedTables.filter((t) => !actualTables.includes(t));
   const extra = actualTables.filter((t) => !expectedTables.includes(t));
 
